@@ -3,87 +3,218 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>شطرنج — ملعب</title>
+<title>Chess — Mal3ab</title>
 <link rel="stylesheet" href="../shared/style.css">
 <style>
-  .board { grid-template-columns: repeat(8, 1fr); width: min(95vw, 560px); gap: 0; padding: 6px; direction: ltr; background: #5c3b1e; }
-  .cell { aspect-ratio: 1; border-radius: 0; font-size: clamp(26px, 7vw, 46px); }
+  .board { grid-template-columns: repeat(8, 1fr); width: min(95vw, 520px); gap: 0; padding: 6px; direction: ltr; background: #5c3b1e; }
+  .cell { aspect-ratio: 1; border-radius: 0; font-size: clamp(26px, 7vw, 44px); position: relative; }
   .cell.light { background: #f0d9b5; } .cell.dark { background: #b58863; }
   .cell.light:hover, .cell.dark:hover { filter: brightness(1.08); }
   .cell.w { color: #fff; text-shadow: 0 0 3px #000, 0 0 2px #000; } .cell.b { color: #111; }
   .cell.sel { outline: 4px solid var(--accent); outline-offset: -4px; }
   .cell.dot::after { content: ''; width: 22%; height: 22%; border-radius: 50%; background: rgba(0,0,0,.35); position: absolute; }
   .cell.cap { outline: 4px solid var(--p1); outline-offset: -4px; }
-  .cell { position: relative; }
   .cell.check { background: #ff6b6b !important; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="../shared/i18n.js"></script>
 <script src="../shared/net.js"></script>
 <script src="../shared/shell.js"></script>
 </head>
 <body>
-<div class="center"><div class="board" id="board"></div></div>
+<div class="chess-wrap">
+  <div class="boardbox">
+    <div class="board" id="board"></div>
+    <svg class="arrows" id="arrows" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs><marker id="head" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 z" fill="rgba(58,134,255,.85)"/></marker></defs>
+    </svg>
+  </div>
+  <div class="side">
+    <div class="clockbox" id="clockTop"></div>
+    <div class="movelist" id="moves"></div>
+    <div class="clockbox" id="clockBottom"></div>
+    <div id="drawbox"></div>
+    <div class="hint" id="hint"></div>
+  </div>
+</div>
 <script>
 const PIECES = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛', k: '♚' };
 const FILES = 'abcdefgh';
-const board = document.getElementById('board');
+const board = document.getElementById('board'), svg = document.getElementById('arrows');
 const chess = new Chess();
-let sel = null, moves = [];
+let sel = null, moves = [], premove = null, arrows = [], marks = new Set(), rightFrom = null;
+const urlTc = +(new URLSearchParams(location.search).get('tc') || 0);
 
-function sync() { chess.load(S.state.fen); }
+const sync = () => chess.load(S.state.fen);
+const other = (p) => p === 1 ? 2 : 1;
+const sideOf = (p) => p === 1 ? 'w' : 'b';
+const flipped = () => S.mode === 'online' && S.me === 2;
+const now = () => Date.now();
+
+function newState() {
+  const tc = (window.S && S.state && S.state.tc != null) ? S.state.tc : urlTc;
+  return { fen: new Chess().fen(), turn: 1, winner: null, reason: null, moves: [], last: null,
+           tc, clock: tc ? { w: tc * 60000, b: tc * 60000, ts: null } : null, drawOffer: null };
+}
+
+// ---------- moves ----------
+function applyMove(from, to) {
+  const st = S.state;
+  sync();
+  const m = chess.move({ from, to, promotion: 'q' });
+  if (!m) return false;
+  if (st.clock) {
+    if (st.clock.ts) st.clock[sideOf(st.turn)] -= now() - st.clock.ts;
+    st.clock.ts = now();
+  }
+  st.fen = chess.fen(); st.last = [from, to]; st.moves.push(m.san); st.drawOffer = null;
+  if (chess.in_checkmate()) { st.winner = st.turn; st.reason = t('checkmate'); }
+  else if (chess.in_stalemate()) { st.winner = 'draw'; st.reason = t('stalemate'); }
+  else if (chess.in_draw()) { st.winner = 'draw'; }
+  else st.turn = other(st.turn);
+  sel = null; moves = []; premove = null; arrows = []; marks.clear();
+  S.commit();
+  return true;
+}
 
 function tap(sq) {
   const st = S.state;
-  if (st.winner || !S.myTurn()) return;
-  if (S.mode === 'online' && S.players < 2) return;
+  if (st.winner || !S.ready()) return;
   sync();
-  const mv = moves.find(m => m.to === sq);
-  if (sel && mv) {
-    chess.move({ from: sel, to: sq, promotion: 'q' });
-    st.fen = chess.fen();
-    st.last = [sel, sq];
-    sel = null; moves = [];
-    if (chess.in_checkmate()) st.winner = st.turn;
-    else if (chess.game_over()) st.winner = 'draw';
-    else st.turn = st.turn === 1 ? 2 : 1;
-    S.commit();
-    return;
+  arrows = []; marks.clear(); drawArrows();
+  if (!S.myTurn()) {                     // premove
+    const p = chess.get(sq);
+    if (sel && sel !== sq) { premove = { from: sel, to: sq }; sel = null; }
+    else if (p && p.color === sideOf(S.me)) { sel = sq; premove = null; }
+    else { sel = null; premove = null; }
+    render(); return;
   }
+  const mv = moves.find(m => m.to === sq);
+  if (sel && mv) { applyMove(sel, sq); return; }
   const piece = chess.get(sq);
   if (piece && piece.color === chess.turn()) { sel = sq; moves = chess.moves({ square: sq, verbose: true }); }
   else { sel = null; moves = []; }
   render();
 }
 
-function render() {
+function tryPremove() {
+  if (!premove || !S.myTurn() || S.state.winner) return;
+  const pm = premove; premove = null;
   sync();
-  const flip = S.mode === 'online' && S.me === 2;
-  const inCheck = chess.in_check();
+  if (chess.moves({ square: pm.from, verbose: true }).some(m => m.to === pm.to)) applyMove(pm.from, pm.to);
+  else render();
+}
+
+// ---------- draw / resign ----------
+function offerDraw() { const st = S.state; if (st.winner) return; st.drawOffer = S.mode === 'local' ? st.turn : S.me; S.commit(); }
+function acceptDraw() { const st = S.state; st.winner = 'draw'; st.reason = null; st.drawOffer = null; S.commit(); }
+function declineDraw() { S.state.drawOffer = null; S.commit(); }
+function resign() {
+  const st = S.state; if (st.winner) return;
+  const loser = S.mode === 'local' ? st.turn : S.me;
+  st.winner = other(loser); st.reason = `${S.name(loser)} ${t('resigned')}`; S.commit();
+}
+
+// ---------- clock ----------
+function remaining(side) {
+  const c = S.state.clock; if (!c) return null;
+  let ms = c[side];
+  if (c.ts && !S.state.winner && sideOf(S.state.turn) === side) ms -= now() - c.ts;
+  return Math.max(0, ms);
+}
+const fmt = (ms) => { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+function tickClock() {
+  if (!window.S || !S.state) return;
+  const st = S.state;
+  const bottomP = flipped() ? 2 : 1, topP = other(bottomP);
+  for (const [id, p] of [['clockTop', topP], ['clockBottom', bottomP]]) {
+    const el = document.getElementById(id), r = remaining(sideOf(p));
+    el.innerHTML = `<span>${p === 1 ? '⬜' : '⬛'} ${S.name(p)}</span><span>${r == null ? '' : fmt(r)}</span>`;
+    el.classList.toggle('active', !st.winner && st.turn === p && !!(st.clock && st.clock.ts));
+    el.classList.toggle('low', r != null && r < 20000);
+  }
+  if (st.clock && st.clock.ts && !st.winner && remaining(sideOf(st.turn)) <= 0 && S.ready()) {
+    st.winner = other(st.turn); st.reason = t('timeout'); S.commit();
+  }
+}
+setInterval(tickClock, 250);
+
+// ---------- arrows (right-click drag) ----------
+board.addEventListener('contextmenu', e => e.preventDefault());
+board.addEventListener('mousedown', e => { if (e.button === 2) rightFrom = e.target.dataset.sq || null; });
+board.addEventListener('mouseup', e => {
+  if (e.button !== 2 || !rightFrom) return;
+  const to = e.target.dataset.sq;
+  if (to === rightFrom) { marks.has(to) ? marks.delete(to) : marks.add(to); }
+  else if (to) { const i = arrows.findIndex(a => a.from === rightFrom && a.to === to); i >= 0 ? arrows.splice(i, 1) : arrows.push({ from: rightFrom, to }); }
+  rightFrom = null; render();
+});
+function center(sq) {
+  const f = FILES.indexOf(sq[0]), r = +sq[1] - 1;
+  const col = flipped() ? 7 - f : f, row = flipped() ? r : 7 - r;
+  return [(col + 0.5) * 12.5, (row + 0.5) * 12.5];
+}
+function drawArrows() {
+  svg.querySelectorAll('line').forEach(l => l.remove());
+  for (const a of arrows) {
+    const [x1, y1] = center(a.from), [x2, y2] = center(a.to);
+    const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    l.setAttribute('x1', x1); l.setAttribute('y1', y1); l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    l.setAttribute('stroke', 'rgba(58,134,255,.85)'); l.setAttribute('stroke-width', '2.2'); l.setAttribute('stroke-linecap', 'round'); l.setAttribute('marker-end', 'url(#head)');
+    svg.appendChild(l);
+  }
+}
+
+// ---------- render ----------
+function render() {
+  const st = S.state;
+  sync();
+  const flip = flipped(), inCheck = chess.in_check();
   let html = '';
   for (let i = 0; i < 64; i++) {
-    const r = flip ? i >> 3 : 7 - (i >> 3);            // rank index 0..7 (0 = rank 1)
-    const f = flip ? 7 - (i & 7) : (i & 7);
-    const sq = FILES[f] + (r + 1);
-    const p = chess.get(sq);
+    const r = flip ? i >> 3 : 7 - (i >> 3), f = flip ? 7 - (i & 7) : (i & 7);
+    const sq = FILES[f] + (r + 1), p = chess.get(sq);
     const cls = ['cell', (r + f) % 2 ? 'light' : 'dark'];
     if (p) cls.push(p.color);
     if (sel === sq) cls.push('sel');
+    if (st.last && st.last.includes(sq)) cls.push('lastmove');
+    if (premove && (premove.from === sq || premove.to === sq)) cls.push('pre');
+    if (marks.has(sq)) cls.push('mark');
     const m = moves.find(m => m.to === sq);
-    if (m) cls.push(p ? 'cap' : 'dot');
+    if (m && S.myTurn()) cls.push(p ? 'cap' : 'dot');
     if (inCheck && p && p.type === 'k' && p.color === chess.turn()) cls.push('check');
-    html += `<div class="${cls.join(' ')}" onclick="tap('${sq}')">${p ? PIECES[p.type] : ''}</div>`;
+    html += `<div class="${cls.join(' ')}" data-sq="${sq}" onclick="tap('${sq}')">${p ? PIECES[p.type] : ''}</div>`;
   }
   board.innerHTML = html;
-  const extra = S.state.winner ? '' : (inCheck ? 'كش!' : (chess.turn() === 'w' ? 'الأبيض يلعب' : 'الأسود يلعب'));
-  Shell.status(extra);
+  drawArrows();
+
+  // move list
+  const ml = document.getElementById('moves');
+  let rows = '';
+  for (let i = 0; i < st.moves.length; i += 2) {
+    const a = st.moves[i], b = st.moves[i + 1];
+    const la = i === st.moves.length - 1, lb = i + 1 === st.moves.length - 1;
+    rows += `<div class="row"><span class="num">${i / 2 + 1}.</span><span class="${la ? 'last' : ''}">${a}</span><span class="${lb ? 'last' : ''}">${b || ''}</span></div>`;
+  }
+  ml.innerHTML = rows; ml.scrollTop = ml.scrollHeight;
+
+  // draw / resign box
+  const db = document.getElementById('drawbox');
+  const me = S.mode === 'local' ? st.turn : S.me;
+  if (st.winner) db.innerHTML = '';
+  else if (st.drawOffer && st.drawOffer !== me)
+    db.innerHTML = `<div class="drawbox"><b>${t('opponentOffersDraw', { p: S.name(st.drawOffer) })}</b>
+      <button class="btn small" onclick="acceptDraw()">${t('acceptDraw')}</button><button class="btn small secondary" onclick="declineDraw()">${t('declineDraw')}</button></div>`;
+  else if (st.drawOffer === me) db.innerHTML = `<div class="drawbox">${t('drawOffered')}</div>`;
+  else db.innerHTML = `<div class="drawbox"><button class="btn small secondary" onclick="offerDraw()">${t('offerDraw')}</button><button class="btn small secondary" onclick="resign()">🏳️ ${t('resign')}</button></div>`;
+  document.getElementById('hint').textContent = t('arrowsHint') + (premove ? ` · ${t('premove')}: ${premove.from}→${premove.to}` : '');
+
+  tickClock();
+  Shell.status(st.winner ? '' : (inCheck ? t('check') : (chess.turn() === 'w' ? t('whitePlays') : t('blackPlays'))));
 }
 
-Shell.start({
-  title: 'شطرنج',
-  newState: () => ({ fen: new Chess().fen(), turn: 1, winner: null, last: null }),
-  render
-});
+Shell.start({ title: 'chess', newState, render, onUpdate: tryPremove });
 </script>
 </body>
 </html>

@@ -1,66 +1,72 @@
-// Mal3ab — shared game shell: handles local vs online mode, turns, status bar.
-// Usage in a game page:
-//   Shell.start({ newState(){...}, render(){...}, title:'X-O' })
-// Then use S.state, S.me, S.myTurn(), S.commit(), S.reset()
+// Mal3ab — shared game shell: local vs online mode, turns, names, status bar, result recording.
+// Usage: Shell.start({ title:'chess', newState(){...}, render(){...}, extraButtons:'<html>' })
+// Then use S.state, S.me, S.myTurn(), S.commit(), S.reset(), S.names
 window.Shell = {
   async start(opts) {
+    await Auth.init();
     const q = new URLSearchParams(location.search);
     const S = {
       mode: q.get('code') ? 'online' : 'local',
       code: (q.get('code') || '').toUpperCase(),
-      me: +(q.get('p') || 1),          // 1 or 2
-      players: 1,
-      state: null,
-      opts
+      me: +(q.get('p') || 1),
+      players: 1, state: null, names: { 1: '', 2: '' }, opts, recorded: false, gameNo: 1
     };
     window.S = S;
 
     S.myTurn = () => S.mode === 'local' || S.state.turn === S.me;
+    S.ready = () => S.mode === 'local' || S.players >= 2;
+    S.name = (p) => S.names[p] || t('player', { n: p });
     S.commit = async () => {
-      opts.render();
-      Shell.status();
+      opts.render(); Shell.status(); Shell.maybeRecord();
       if (S.mode === 'online') await Net.push(S.code, S.state);
     };
-    S.reset = () => { S.state = opts.newState(); S.commit(); };
+    S.reset = () => { S.gameNo++; S.state = opts.newState(); S.state.gameNo = S.gameNo; S.recorded = false; S.commit(); };
 
     if (S.mode === 'online') {
       const room = await Net.get(S.code);
-      if (!room) { alert('الغرفة مش موجودة'); location.href = '../index.html'; return; }
+      if (!room) { alert(t('roomMissing')); location.href = '../index.html'; return; }
       S.players = room.players;
+      S.names = { 1: room.p1_name || '', 2: room.p2_name || '' };
       S.state = room.state && room.state.turn ? room.state : null;
-      if (!S.state) {           // room was just created: player 1 writes the first state
-        S.state = opts.newState();
-        await Net.push(S.code, S.state);
-      }
+      if (!S.state) { S.state = opts.newState(); await Net.push(S.code, S.state); }
       Net.watch(S.code, (r) => {
         S.players = r.players;
-        if (r.state && r.state.turn) S.state = r.state;
-        opts.render();
-        Shell.status();
+        S.names = { 1: r.p1_name || '', 2: r.p2_name || '' };
+        if (r.state && r.state.turn) { S.state = r.state; if (r.state.gameNo && r.state.gameNo !== S.gameNo) { S.gameNo = r.state.gameNo; S.recorded = false; } }
+        opts.render(); Shell.status(); Shell.maybeRecord();
+        if (opts.onUpdate) opts.onUpdate();
       });
     } else {
       S.state = opts.newState();
+      S.names = { 1: t('player', { n: 1 }), 2: t('player', { n: 2 }) };
     }
 
-    Shell.buildBar(opts.title);
+    Shell.buildBar(opts);
     opts.render();
     Shell.status();
+    document.addEventListener('langchange', () => { Shell.buildBar(opts); opts.render(); Shell.status(); });
     return S;
   },
 
-  buildBar(title) {
+  buildBar(opts) {
+    document.querySelectorAll('.topbar, #status').forEach(e => e.remove());
     const bar = document.createElement('div');
     bar.className = 'topbar';
     bar.innerHTML = `
-      <a class="back" href="../index.html">← الرئيسية</a>
-      <div class="title">${title}</div>
+      <a class="back" href="../index.html">${t('home')}</a>
+      <div class="title">${t(opts.title)}</div>
       <div class="room"></div>
-      <button class="btn small" onclick="S.reset()">لعبة جديدة</button>`;
+      ${opts.extraButtons || ''}
+      <button class="btn small" onclick="S.reset()">${t('newGame')}</button>
+      ${langButton()}`;
     document.body.prepend(bar);
     const st = document.createElement('div');
-    st.className = 'status';
-    st.id = 'status';
+    st.className = 'status'; st.id = 'status';
     bar.after(st);
+  },
+
+  copy(text, btn) {
+    navigator.clipboard.writeText(text).then(() => { const o = btn.textContent; btn.textContent = t('copied'); setTimeout(() => btn.textContent = o, 1200); });
   },
 
   status(extra) {
@@ -69,16 +75,38 @@ window.Shell = {
     const S = window.S, st = document.getElementById('status'), room = document.querySelector('.topbar .room');
     if (!st || !S.state) return;
     if (S.mode === 'online') {
-      room.innerHTML = `كود الغرفة: <b>${S.code}</b> <button class="btn tiny" onclick="navigator.clipboard.writeText('${S.code}')">نسخ</button>`;
-    } else room.textContent = 'لعب على نفس الجهاز';
+      room.innerHTML = `${t('roomCode')}: <b>${S.code}</b>
+        <button class="btn tiny" onclick="Shell.copy('${S.code}', this)">${t('copy')}</button>
+        <button class="btn tiny" onclick="Shell.copy(Net.inviteLink('${S.code}'), this)">🔗 ${t('inviteLink')}</button>`;
+    } else room.textContent = t('localPlay');
 
-    const w = S.state.winner;
+    const w = S.state.winner, other = S.me === 1 ? 2 : 1;
     let text;
-    if (w === 'draw') text = '🤝 تعادل!';
-    else if (w) text = (S.mode === 'local' || w === S.me) ? `🏆 اللاعب ${w} كسب!` : `😅 اللاعب ${w} كسب`;
-    else if (S.mode === 'online' && S.players < 2) text = '⏳ مستني اللاعب التاني يدخل بالكود…';
-    else if (S.mode === 'online') text = S.myTurn() ? '🟢 دورك إنت' : '🔴 دور الخصم…';
-    else text = `دور اللاعب ${S.state.turn}`;
+    if (w === 'draw') text = t('draw');
+    else if (w) text = (S.mode === 'online' && w === S.me) ? t('youWon') : (S.mode === 'online' ? t('lost', { p: S.name(w) }) : t('won', { p: S.name(w) }));
+    else if (!S.ready()) text = t('waiting');
+    else if (S.mode === 'online') text = S.myTurn() ? t('yourTurn') : t('theirTurn', { p: S.name(other) });
+    else text = t('turnOf', { p: S.name(S.state.turn) });
+    if (S.state.reason) text += ` (${S.state.reason})`;
     st.textContent = extra ? `${text} — ${extra}` : text;
+    if (w) {
+      const b = document.createElement('button');
+      b.className = 'btn tryagain'; b.textContent = t('tryAgain'); b.onclick = () => S.reset();
+      st.append(document.createElement('br'), b);
+    }
+  },
+
+  maybeRecord() {
+    const S = window.S;
+    if (!S.state.winner || S.recorded) return;
+    S.recorded = true;
+    const w = S.state.winner;
+    const row = {
+      code: S.mode === 'online' ? S.code : 'local-' + Date.now(), game_no: S.gameNo, game: S.opts.title, mode: S.mode,
+      p1_name: S.name(1), p2_name: S.name(2), winner: String(w), reason: S.state.reason || null,
+      moves: S.state.moves || null, finished_at: new Date().toISOString()
+    };
+    if (S.mode === 'online') Auth.record(w === 'draw' ? 'draw' : (w === S.me ? 'win' : 'loss'));
+    History.save(row);
   }
 };

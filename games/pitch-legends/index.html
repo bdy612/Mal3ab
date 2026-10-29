@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Pitch Legends — Football Card Arcade</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">⚽ <span>Pitch Legends</span></div>
+    <div class="wallet">
+      <span class="pill" id="hud-tokens" title="Tokens — earned from matches and challenges">🪙 <b>0</b></span>
+      <span class="pill" id="hud-shards" title="Shards — from duplicate pulls, used for upgrades">💎 <b>0</b></span>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav">
+    <button class="nav-btn active" data-screen="home">🏠 <span>Home</span></button>
+    <button class="nav-btn" data-screen="arena">🏟️ <span>Match</span></button>
+    <button class="nav-btn" data-screen="lineup">📋 <span>Lineup</span></button>
+    <button class="nav-btn" data-screen="gacha">🎁 <span>Gacha</span></button>
+    <button class="nav-btn" data-screen="inventory">🃏 <span>Squad</span></button>
+    <button class="nav-btn" data-screen="powers">⚡ <span>Powers</span></button>
+    <button class="nav-btn" data-screen="challenges">🏆 <span>Challenges</span></button>
+  </nav>
+
+  <main id="app">
+    <section class="screen active" id="screen-home"></section>
+    <section class="screen" id="screen-arena"></section>
+    <section class="screen" id="screen-lineup"></section>
+    <section class="screen" id="screen-gacha"></section>
+    <section class="screen" id="screen-inventory"></section>
+    <section class="screen" id="screen-powers"></section>
+    <section class="screen" id="screen-challenges"></section>
+  </main>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="modal-root" class="modal-root hidden"></div>
+
+  <script src="script.js"></script>
+
+<!-- Mal3ab: try again / home -->
+<button onclick="location.reload()" style="position:fixed;bottom:14px;right:14px;z-index:9999;background:#ffb703;color:#1a1200;border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;font-family:inherit" title="Try again">🔄</button>
+<a href="../../index.html" style="position:fixed;bottom:14px;left:14px;z-index:9999;background:#232a48;color:#eef0ff;border-radius:10px;padding:8px 14px;font-weight:700;text-decoration:none;font-family:inherit" title="Home">🏠</a>
+</body>
+</html>

@@ -48,3 +48,41 @@ input {
 .cell:hover { background: #2c355c; }
 .cell.p1 { color: var(--p1); } .cell.p2 { color: var(--p2); }
 .cell.win { outline: 4px solid var(--ok); }
+
+/* sections / hub extras */
+.section { text-align: center; color: var(--muted); font-size: 18px; margin: 20px 0 0; }
+.card .clock { font-size: 14px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.card select { font-family: inherit; background: var(--card2); color: var(--text); border: 0; border-radius: 8px; padding: 4px 8px; }
+input.text { letter-spacing: 0; text-transform: none; width: 100%; text-align: start; font-size: 16px; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.modal[hidden] { display: none; }
+.modal .box { background: var(--card); border-radius: 18px; padding: 24px; width: min(92vw, 380px); display: flex; flex-direction: column; gap: 10px; position: relative; }
+.modal .close { position: absolute; top: 10px; inset-inline-end: 10px; }
+.tabs { display: flex; gap: 6px; }
+.tab { flex: 1; background: var(--card2); color: var(--muted); border: 0; border-radius: 10px; padding: 8px; font-family: inherit; font-size: 15px; cursor: pointer; }
+.tab.active { background: var(--accent); color: #1a1200; font-weight: 700; }
+.guest { display: flex; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); }
+.guest input { flex: 1; }
+hr { border: 0; border-top: 1px solid var(--card2); width: 100%; }
+
+/* chess layout */
+.chess-wrap { display: flex; gap: 18px; justify-content: center; align-items: flex-start; flex-wrap: wrap; padding: 10px 16px 40px; }
+.boardbox { position: relative; }
+.boardbox svg.arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.side { width: min(95vw, 260px); display: flex; flex-direction: column; gap: 10px; }
+.clockbox { background: var(--card); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.clockbox.active { outline: 3px solid var(--ok); }
+.clockbox.low { color: var(--p1); }
+.clockbox small { font-size: 13px; color: var(--muted); font-weight: 400; }
+.movelist { background: var(--card); border-radius: 12px; padding: 10px; height: 240px; overflow-y: auto; direction: ltr; font-family: Consolas, monospace; font-size: 14px; }
+.movelist .row { display: grid; grid-template-columns: 32px 1fr 1fr; padding: 2px 4px; }
+.movelist .row:nth-child(odd) { background: var(--card2); }
+.movelist .num { color: var(--muted); }
+.movelist .last { color: var(--accent); font-weight: 700; }
+.side .btn { width: 100%; }
+.drawbox { background: var(--card2); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 6px; text-align: center; }
+.hint { color: var(--muted); font-size: 12px; text-align: center; }
+.cell.pre { outline: 4px solid var(--accent2); outline-offset: -4px; }
+.cell.lastmove { box-shadow: inset 0 0 0 100px rgba(255,183,3,.35); }
+.cell.mark { box-shadow: inset 0 0 0 100px rgba(255,93,115,.45); }
+.tryagain { margin-top: 10px; font-size: 18px; padding: 10px 26px; }

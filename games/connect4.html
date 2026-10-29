@@ -12,6 +12,7 @@
   .cell.p1 { background: var(--p1); } .cell.p2 { background: #ffd60a; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../shared/i18n.js"></script>
 <script src="../shared/net.js"></script>
 <script src="../shared/shell.js"></script>
 </head>
@@ -37,7 +38,7 @@ function check(b, r, c) {
 function drop(c) {
   const st = S.state;
   if (st.winner || !S.myTurn()) return;
-  if (S.mode === 'online' && S.players < 2) return;
+  if (!S.ready()) return;
   let r = R - 1;
   while (r >= 0 && st.board[r][c]) r--;
   if (r < 0) return;
@@ -50,7 +51,7 @@ function drop(c) {
 }
 
 Shell.start({
-  title: 'كونكت ٤',
+  title: 'connect4',
   newState: () => ({ board: Array.from({ length: R }, () => Array(C).fill(0)), turn: 1, winner: null, line: [] }),
   render() {
     const st = S.state;

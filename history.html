@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>History — Mal3ab</title>
+<link rel="stylesheet" href="shared/style.css">
+<style>
+  table { width: min(96vw, 900px); margin: 16px auto; border-collapse: collapse; background: var(--card); border-radius: 14px; overflow: hidden; }
+  th, td { padding: 10px 12px; text-align: start; border-bottom: 1px solid var(--card2); font-size: 15px; }
+  th { color: var(--muted); font-weight: 600; }
+  .w { color: var(--ok); font-weight: 700; } .l { color: var(--p1); } .d { color: var(--muted); }
+  .moves { font-family: Consolas, monospace; font-size: 12px; color: var(--muted); direction: ltr; max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .empty { text-align: center; color: var(--muted); padding: 40px; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="shared/i18n.js"></script>
+<script src="shared/net.js"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html" data-i18n="home"></a>
+  <div class="title" data-i18n="history"></div>
+  <div class="room" id="who"></div>
+  <span id="langslot"></span>
+</div>
+<div id="out"></div>
+<script>
+const GAME_KEY = { tictactoe: 'tictactoe', connect4: 'connect4', chess: 'chess' };
+async function draw() {
+  document.getElementById('langslot').innerHTML = langButton();
+  document.getElementById('who').textContent = Auth.profile ? '👤 ' + Auth.profile.username : (Auth.name() ? '👤 ' + Auth.name() + ' (' + t('guest') + ')' : '');
+  const rows = await History.mine();
+  const out = document.getElementById('out');
+  if (!rows.length) { out.innerHTML = `<div class="empty">${t('noHistory')}</div>`; applyLang(); return; }
+  const me = Auth.user ? Auth.user.id : null, myName = Auth.name();
+  out.innerHTML = `<table><tr><th>${t('date')}</th><th>${t('games')}</th><th>${t('player', { n: 1 })} ${t('vs')} ${t('player', { n: 2 })}</th><th>${t('result')}</th><th>${t('moves')}</th></tr>` +
+    rows.map(r => {
+      const mySide = me ? (r.p1_id === me ? 1 : r.p2_id === me ? 2 : 0) : (r.p1_name === myName ? 1 : r.p2_name === myName ? 2 : 0);
+      let res, cls;
+      if (r.winner === 'draw') { res = t('draw'); cls = 'd'; }
+      else if (r.mode === 'local' || !mySide) { res = t('won', { p: r.winner === '1' ? r.p1_name : r.p2_name }); cls = 'd'; }
+      else if (String(mySide) === r.winner) { res = t('youWon'); cls = 'w'; }
+      else { res = t('lost', { p: r.winner === '1' ? r.p1_name : r.p2_name }); cls = 'l'; }
+      const d = new Date(r.finished_at);
+      return `<tr><td>${d.toLocaleDateString(getLang() === 'ar' ? 'ar-EG' : 'en-GB')} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+        <td>${t(GAME_KEY[r.game] || r.game)}${r.mode === 'local' ? ' · ' + t('local') : ''}</td>
+        <td>${r.p1_name || '?'} ${t('vs')} ${r.p2_name || '?'}</td>
+        <td class="${cls}">${res}${r.reason ? ' (' + r.reason + ')' : ''}</td>
+        <td class="moves" title="${(r.moves || []).join(' ')}">${(r.moves || []).join(' ')}</td></tr>`;
+    }).join('') + '</table>';
+  applyLang();
+}
+document.addEventListener('langchange', draw);
+Auth.init().then(draw);
+</script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>City Hall — Mayor Simulator</title>
+<style>
+  :root{--bg:#0f1419;--panel:#1b232c;--panel2:#242f3a;--ink:#e8edf2;--quiet:#93a1b0;--accent:#4fb3ff;--good:#52c97a;--warn:#f0b445;--bad:#ef5b5b;--r:#58c26a;--c:#4f9bff;--i:#e6b84a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,Segoe UI,Roboto,sans-serif;overflow:hidden;user-select:none}
+  #game{position:relative;width:100vw;height:100vh}
+  canvas{display:block;position:absolute;inset:0;cursor:crosshair}
+  .panel{position:absolute;background:rgba(27,35,44,.94);border:1px solid #2f3b48;border-radius:10px;padding:10px 12px;backdrop-filter:blur(4px)}
+  #top{top:10px;left:10px;right:10px;display:flex;gap:18px;align-items:center;height:52px;padding:0 16px}
+  #top .stat{display:flex;flex-direction:column;cursor:pointer;min-width:90px}
+  #top .stat b{font-size:16px}
+  #top .stat span{font-size:11px;color:var(--quiet)}
+  #top .spacer{flex:1}
+  #top button{background:var(--panel2);color:var(--ink);border:1px solid #3a4856;border-radius:6px;padding:4px 10px;cursor:pointer}
+  #top button.on{background:var(--accent);color:#061320;border-color:var(--accent)}
+  #left{top:72px;left:10px;width:170px}
+  #right{top:72px;right:10px;width:190px}
+  #bottom{bottom:10px;left:10px;right:10px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .tool{background:var(--panel2);border:1px solid #3a4856;border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--ink);font-size:13px;position:relative}
+  .tool:hover{border-color:var(--accent)}
+  .tool.on{background:var(--accent);color:#061320;border-color:var(--accent)}
+  .tool.locked{opacity:.4;cursor:not-allowed}
+  .tool small{display:block;font-size:10px;color:inherit;opacity:.75}
+  .sep{width:1px;height:34px;background:#3a4856;margin:0 4px}
+  h4{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--quiet);margin-bottom:6px}
+  .meter{display:flex;justify-content:space-between;align-items:center;margin:3px 0;cursor:pointer;font-size:13px}
+  .meter .bar{width:70px;height:6px;background:#0f1419;border-radius:3px;overflow:hidden}
+  .meter .bar i{display:block;height:100%;background:var(--good)}
+  .demand{display:flex;gap:10px;align-items:flex-end;height:60px;margin-top:4px}
+  .demand div{flex:1;background:#0f1419;border-radius:4px;position:relative;height:100%}
+  .demand div i{position:absolute;bottom:0;left:0;right:0;border-radius:4px;transition:height .4s}
+  .demand div b{position:absolute;top:-16px;left:0;right:0;text-align:center;font-size:11px}
+  #alerts{margin-top:10px;max-height:150px;overflow:auto;font-size:12px}
+  #alerts div{padding:4px 6px;border-radius:5px;margin:3px 0;background:#0f1419;cursor:pointer;border-left:3px solid var(--quiet)}
+  #alerts div.bad{border-left-color:var(--bad)} #alerts div.warn{border-left-color:var(--warn)} #alerts div.good{border-left-color:var(--good)}
+  #advisor{margin-top:10px;border:1px solid var(--accent);border-radius:8px;padding:8px;font-size:12px;background:rgba(79,179,255,.08)}
+  #advisor b{color:var(--accent);display:block;font-size:11px;margin-bottom:2px}
+  .modal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:460px;max-height:80vh;overflow:auto;z-index:20;display:none}
+  .modal.show{display:block}
+  .modal h3{margin-bottom:8px}
+  .modal .close{position:absolute;top:8px;right:10px;cursor:pointer;color:var(--quiet)}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #2f3b48;font-size:13px}
+  .row input[type=range]{width:160px}
+  .row .pol{background:var(--panel2);border:1px solid #3a4856;color:var(--ink);border-radius:6px;padding:3px 10px;cursor:pointer}
+  .row .pol.on{background:var(--good);color:#06200f;border-color:var(--good)}
+  .btn{background:var(--accent);color:#061320;border:0;border-radius:6px;padding:7px 14px;cursor:pointer;font-weight:600;margin-top:10px}
+  .btn.alt{background:var(--panel2);color:var(--ink);border:1px solid #3a4856}
+  #toast{position:absolute;left:50%;top:80px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--accent);border-radius:8px;padding:10px 16px;display:none;z-index:30;max-width:520px;text-align:center}
+  #tip{position:absolute;pointer-events:none;background:rgba(15,20,25,.95);border:1px solid #3a4856;border-radius:6px;padding:6px 8px;font-size:12px;display:none;z-index:15;max-width:220px}
+  .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+  @media (max-width:800px){#left,#right{display:none}#top .stat{min-width:60px}#top .stat b{font-size:13px}}
+</style>
+</head>
+<body>
+<div id="game">
+  <canvas id="cv"></canvas>
+
+  <div id="top" class="panel">
+    <div class="stat" onclick="openBudget()"><b id="sTreasury">$0</b><span id="sNet">+$0/mo · Budget</span></div>
+    <div class="stat"><b id="sPop">0</b><span>Population</span></div>
+    <div class="stat" onclick="openNeeds()"><b id="sHappy">50</b><span>Happiness</span></div>
+    <div class="stat"><b id="sAppr">50%</b><span>Approval</span></div>
+    <div class="stat"><b id="sTier">Village</b><span id="sNext">next: 500 pop</span></div>
+    <div class="spacer"></div>
+    <div class="stat"><b id="sDate">Jan 2030</b><span>Date</span></div>
+    <button id="spd0" onclick="setSpeed(0)">⏸</button>
+    <button id="spd1" class="on" onclick="setSpeed(1)">1×</button>
+    <button id="spd2" onclick="setSpeed(2)">2×</button>
+    <button id="spd3" onclick="setSpeed(3)">3×</button>
+    <button onclick="saveGame()">Save</button>
+    <button onclick="openHelp()">?</button>
+  </div>
+
+  <div id="left" class="panel">
+    <h4>Demand</h4>
+    <div class="demand">
+      <div><b style="color:var(--r)">R</b><i id="dR" style="background:var(--r)"></i></div>
+      <div><b style="color:var(--c)">C</b><i id="dC" style="background:var(--c)"></i></div>
+      <div><b style="color:var(--i)">I</b><i id="dI" style="background:var(--i)"></i></div>
+    </div>
+    <h4 style="margin-top:12px">Alerts</h4>
+    <div id="alerts"></div>
+  </div>
+
+  <div id="right" class="panel">
+    <h4>City health</h4>
+    <div id="meters"></div>
+    <div id="advisor"><b>Advisor</b><span id="advText">Welcome, Mayor. Lay a road from City Hall and zone some houses.</span></div>
+  </div>
+
+  <div id="bottom" class="panel"></div>
+
+  <div id="budget" class="panel modal"><span class="close" onclick="closeModals()">✕</span><h3>Budget</h3><div id="budgetBody"></div></div>
+  <div id="needs" class="panel modal"><span class="close" onclick="closeModals()">✕</span><h3>Citizen needs</h3><div id="needsBody"></div></div>
+  <div id="help" class="panel modal"><span class="close" onclick="closeModals()">✕</span><h3>How to play</h3>
+    <p>You are the mayor. Build roads from City Hall, then paint <b style="color:var(--r)">Residential</b>, <b style="color:var(--c)">Commercial</b> and <b style="color:var(--i)">Industrial</b> zones next to roads. Buildings grow on their own when a zone is connected, powered and watered, and demand is there.</p>
+    <p style="margin-top:8px">Every month taxes come in and services cost money. Watch Happiness: it drives Approval, and Approval below 30% for too long triggers a recall election.</p>
+    <p style="margin-top:8px"><b>Controls:</b> left-drag paints · right-drag or Bulldoze removes · middle-drag / WASD pans · wheel zooms · hover a tile for info · click a meter on the right to see its overlay.</p>
+    <p style="margin-top:8px">Milestones at 500 / 2,000 / 10,000 / 50,000 population unlock new buildings and pay a grant.</p>
+    <button class="btn" onclick="closeModals()">Got it</button>
+    <button class="btn alt" onclick="newGame()">New city</button>
+  </div>
+  <div id="toast"></div>
+  <div id="tip"></div>
+</div>
+
+<script>
+'use strict';
+// ───────────────────────── Config ─────────────────────────
+const N = 34;                 // grid size
+const TW = 64, TH = 32;       // iso tile size
+const T = {GRASS:0, ROAD:1, R:2, C:3, I:4, POWER:5, WATER:6, FIRE:7, POLICE:8, CLINIC:9, SCHOOL:10, PARK:11, HALL:12, TREE:13};
+const BUILD = {
+  road:  {t:T.ROAD,  name:'Road',        cost:10,  upkeep:1,  tier:0, key:'1', hint:'Connects everything to City Hall'},
+  R:     {t:T.R,     name:'Residential', cost:20,  upkeep:0,  tier:0, key:'2', hint:'Homes. Needs jobs, power, water'},
+  C:     {t:T.C,     name:'Commercial',  cost:20,  upkeep:0,  tier:0, key:'3', hint:'Shops & offices. Needs customers'},
+  I:     {t:T.I,     name:'Industrial',  cost:20,  upkeep:0,  tier:0, key:'4', hint:'Factories. Jobs, but pollution'},
+  power: {t:T.POWER, name:'Power plant', cost:1500,upkeep:120,tier:0, key:'5', hint:'Powers 60 buildings. Polluting', cap:60},
+  water: {t:T.WATER, name:'Water tower', cost:800, upkeep:60, tier:0, key:'6', hint:'Water for 60 buildings', cap:60},
+  fire:  {t:T.FIRE,  name:'Fire station',cost:900, upkeep:90, tier:0, key:'7', hint:'Puts out fires in radius 7', radius:7},
+  police:{t:T.POLICE,name:'Police',      cost:900, upkeep:90, tier:1, key:'8', hint:'Lowers crime in radius 7', radius:7},
+  clinic:{t:T.CLINIC,name:'Clinic',      cost:1200,upkeep:110,tier:0, key:'9', hint:'Health in radius 7', radius:7},
+  school:{t:T.SCHOOL,name:'School',      cost:1400,upkeep:120,tier:0, key:'0', hint:'Education in radius 9', radius:9},
+  park:  {t:T.PARK,  name:'Park',        cost:150, upkeep:8,  tier:1, key:'p', hint:'Leisure + land value, radius 3', radius:3},
+  bull:  {t:-1,      name:'Bulldoze',    cost:5,   upkeep:0,  tier:0, key:'x', hint:'Remove anything'},
+};
+const TIERS = [
+  {name:'Village',   pop:0,      grant:0,    unlock:''},
+  {name:'Hamlet',    pop:500,    grant:3000, unlock:'Police, Parks, Loans'},
+  {name:'Town',      pop:2000,   grant:8000, unlock:'Medium density, Policies'},
+  {name:'City',      pop:10000,  grant:25000,unlock:'High density'},
+  {name:'Metropolis',pop:50000,  grant:80000,unlock:'Legacy mode'},
+];
+const POLICIES = {
+  taxRelief:   {name:'Tax Relief',          cost:400, desc:'+8 happiness, costs $400/mo'},
+  curfew:      {name:'Night Curfew',        cost:0,   desc:'Crime −30%, commerce income −15%'},
+  cleanEnergy: {name:'Clean Energy Grant',  cost:300, desc:'Pollution −30%, $300/mo'},
+  recycling:   {name:'Recycling Mandate',   cost:200, desc:'Garbage/pollution −20%, $200/mo'},
+  freeTransit: {name:'Free Public Transit', cost:600, desc:'Traffic −25%, $600/mo'},
+  festival:    {name:'Festival Week',       cost:2000,desc:'One-off: +15 happiness for 1 month', oneoff:true},
+};
+const COL = {grass:'#4a7f3f', grass2:'#4f8743', road:'#4a4f57', roadLine:'#8e939b', R:'#58c26a', C:'#4f9bff', I:'#e6b84a', water:'#2b7fb0'};
+
+// ───────────────────────── State ─────────────────────────
+let S;                     // game state
+const G = {tool:'road', speed:1, cam:{x:0,y:0,z:1}, hover:null, overlay:null, drag:null, acc:0};
+function newState(){
+  const map = []; const lvl = []; const data=[];
+  for(let y=0;y<N;y++){map.push(new Array(N).fill(T.GRASS)); lvl.push(new Array(N).fill(0));}
+  // scatter trees
+  for(let k=0;k<110;k++){const x=rnd(N),y=rnd(N); map[y][x]=T.TREE;}
+  const cx=Math.floor(N/2), cy=Math.floor(N/2);
+  map[cy][cx]=T.HALL; map[cy][cx+1]=T.ROAD; map[cy][cx+2]=T.ROAD; map[cy+1][cx]=T.ROAD;
+  return {
+    map, lvl, month:0, money:20000, tax:{R:10,C:12,I:14}, budget:{fire:100,police:100,clinic:100,school:100},
+    policies:{}, loans:0, tier:0, happy:55, approval:55, hist:[], fires:[], protests:[], recession:0, festival:0,
+    lowApprovalMonths:0, alerts:[], seed:1, stats:{}, lastGrant:-1
+  };
+}
+function rnd(n){return Math.floor(Math.random()*n)}
+function inb(x,y){return x>=0&&y>=0&&x<N&&y<N}
+function isZone(t){return t===T.R||t===T.C||t===T.I}
+function isBuilding(t){return t>=T.POWER && t<=T.HALL}
+function tierOf(pop){let t=0;for(let i=0;i<TIERS.length;i++) if(pop>=TIERS[i].pop) t=i;return t}
+
+// ───────────────────────── Simulation ─────────────────────────
+function simulate(){
+  const m=S.map, L=S.lvl, st={};
+  // 1. connectivity (BFS over roads from City Hall)
+  const conn = Array.from({length:N},()=>new Uint8Array(N));
+  const q=[]; for(let y=0;y<N;y++)for(let x=0;x<N;x++) if(m[y][x]===T.HALL){q.push([x,y]);conn[y][x]=1;}
+  while(q.length){const [x,y]=q.pop(); for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy; if(inb(nx,ny)&&!conn[ny][nx]&&(m[ny][nx]===T.ROAD||m[ny][nx]===T.HALL)){conn[ny][nx]=1;q.push([nx,ny]);}}}
+  const served = (x,y)=>{for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy; if(inb(nx,ny)&&conn[ny][nx]) return true;} return false;};
+  // 2. counts
+  let powerCap=0, waterCap=0, buildings=0, roads=0, upkeep=0;
+  const svc={fire:[],police:[],clinic:[],school:[],park:[]};
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const t=m[y][x];
+    if(t===T.ROAD){roads++;}
+    if(t===T.POWER&&served(x,y)){powerCap+=BUILD.power.cap;upkeep+=BUILD.power.upkeep;}
+    if(t===T.WATER&&served(x,y)){waterCap+=BUILD.water.cap;upkeep+=BUILD.water.upkeep;}
+    if(t===T.FIRE&&served(x,y)){svc.fire.push([x,y]);upkeep+=BUILD.fire.upkeep*S.budget.fire/100;}
+    if(t===T.POLICE&&served(x,y)){svc.police.push([x,y]);upkeep+=BUILD.police.upkeep*S.budget.police/100;}
+    if(t===T.CLINIC&&served(x,y)){svc.clinic.push([x,y]);upkeep+=BUILD.clinic.upkeep*S.budget.clinic/100;}
+    if(t===T.SCHOOL&&served(x,y)){svc.school.push([x,y]);upkeep+=BUILD.school.upkeep*S.budget.school/100;}
+    if(t===T.PARK){svc.park.push([x,y]);upkeep+=BUILD.park.upkeep;}
+    if(isZone(t)&&L[y][x]>0) buildings++;
+  }
+  upkeep+=roads*BUILD.road.upkeep;
+  const powered = powerCap>=buildings, watered = waterCap>=buildings;
+  st.powerCap=powerCap; st.waterCap=waterCap; st.buildings=buildings; st.powered=powered; st.watered=watered;
+  // 3. coverage maps
+  const cover = {}; for(const k in svc){ cover[k]=Array.from({length:N},()=>new Uint8Array(N)); const r=(BUILD[k]||{radius:3}).radius; const eff = k==='park'?1:(S.budget[k]/100);
+    for(const [sx,sy] of svc[k]){const rr=Math.max(2,Math.round(r*Math.min(1.3,eff))); for(let y=sy-rr;y<=sy+rr;y++)for(let x=sx-rr;x<=sx+rr;x++) if(inb(x,y)&&Math.abs(x-sx)+Math.abs(y-sy)<=rr) cover[k][y][x]=1;}}
+  // 4. pollution map (industry + power)
+  const pol = Array.from({length:N},()=>new Float32Array(N));
+  const polMul = (S.policies.cleanEnergy?0.7:1)*(S.policies.recycling?0.8:1);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){let e=0; if(m[y][x]===T.I) e=10+L[y][x]*8; if(m[y][x]===T.POWER) e=40; if(!e) continue;
+    for(let yy=y-5;yy<=y+5;yy++)for(let xx=x-5;xx<=x+5;xx++) if(inb(xx,yy)){const d=Math.abs(xx-x)+Math.abs(yy-y); if(d<=5) pol[yy][xx]+=e*(1-d/6)*polMul;}}
+  // 5. population & jobs
+  let pop=0, jobs=0, cnt={R:0,C:0,I:0}, zoned={R:0,C:0,I:0};
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const t=m[y][x],l=L[y][x];
+    if(t===T.R){zoned.R++; if(l){cnt.R++; pop+=l*l*12;}}
+    if(t===T.C){zoned.C++; if(l){cnt.C++; jobs+=l*l*8;}}
+    if(t===T.I){zoned.I++; if(l){cnt.I++; jobs+=l*l*14;}}
+  }
+  const workers = pop*0.5; const unemployment = pop? Math.max(0,(workers-jobs)/Math.max(1,workers)):0;
+  // 6. demand
+  const taxPen = k=>Math.max(0,(S.tax[k]-12))*4;
+  let dR = 40 + (jobs-workers)/Math.max(30,workers)*60 - taxPen('R') + (S.recession?-20:0);
+  let dC = 30 + (workers*0.4 - cnt.C*20)/Math.max(30,workers)*60 - taxPen('C') + (S.recession?-25:0);
+  let dI = 35 + (workers*0.6 - cnt.I*30)/Math.max(30,workers)*60 - taxPen('I') + (S.recession?-30:0);
+  if(pop<60){dR=60;dC=20;dI=40;}
+  const dem={R:clamp(dR,-50,100),C:clamp(dC,-50,100),I:clamp(dI,-50,100)}; st.dem=dem;
+  // 7. zone growth / decay
+  const maxLvl = S.tier>=3?3:(S.tier>=2?2:1);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const t=m[y][x]; if(!isZone(t)) continue;
+    const k=t===T.R?'R':t===T.C?'C':'I'; const ok = served(x,y)&&powered&&watered;
+    const l=L[y][x];
+    if(ok && dem[k]>0 && Math.random()<dem[k]/100*0.5 && l<maxLvl) {
+      // residential dislikes pollution; education gates level 2+
+      if(k==='R' && pol[y][x]>25 && Math.random()<0.6) continue;
+      if(l>=1 && k!=='I' && !cover.school[y][x] && Math.random()<0.7) continue;
+      L[y][x]=l+1;
+    } else if((!ok || dem[k]<-20) && l>0 && Math.random()<0.25) L[y][x]=l-1;
+  }
+  // 8. meters
+  const zoneTiles=[]; for(let y=0;y<N;y++)for(let x=0;x<N;x++) if(isZone(m[y][x])&&L[y][x]) zoneTiles.push([x,y]);
+  const avg = k=> zoneTiles.length? zoneTiles.reduce((a,[x,y])=>a+cover[k][y][x],0)/zoneTiles.length : 0;
+  const polAvg = zoneTiles.length? zoneTiles.reduce((a,[x,y])=>a+pol[y][x],0)/zoneTiles.length : 0;
+  const crimeBase = 12 + cnt.C*0.6 - avg('police')*22; const crime = clamp(crimeBase*(S.policies.curfew?0.7:1), 0, 100);
+  const health = clamp(55 + avg('clinic')*40 - polAvg*0.5, 0, 100);
+  const edu = clamp(45 + avg('school')*50, 0, 100);
+  const traffic = clamp((buildings*1.6 - roads*0.8)*(S.policies.freeTransit?0.75:1), 0, 100);
+  const leisure = clamp(40 + avg('park')*45 + cnt.C*1.5, 0, 100);
+  const safety = clamp(100 - crime - (avg('fire')<1? (1-avg('fire'))*30:0), 0, 100);
+  const jobsScore = clamp(100 - unemployment*160, 0, 100);
+  const housing = clamp(50 + dem.R*0.4, 0, 100);
+  const needs = {Housing:housing, Jobs:jobsScore, Safety:safety, Health:health, Education:edu, Leisure:leisure};
+  // small villages don't expect a hospital or a university yet
+  const grace = pop<300?60:pop<1000?50:0; for(const k of ['Safety','Health','Education','Leisure']) needs[k]=Math.max(needs[k],grace);
+  let happy = Object.values(needs).reduce((a,b)=>a+b,0)/6;
+  happy -= Math.max(0,S.tax.R-15)*1.5; happy -= polAvg*0.3; happy -= traffic*0.15;
+  if(!powered&&buildings) happy-=15; if(!watered&&buildings) happy-=15;
+  if(S.policies.taxRelief) happy+=8; if(S.festival>0) {happy+=15; S.festival--;}
+  if(S.recession) happy-=5; if(S.protests.length) happy-=5*S.protests.length;
+  happy=clamp(happy,0,100);
+  S.happy = S.happy*0.6 + happy*0.4;
+  S.approval = S.approval*0.9 + S.happy*0.1;
+  Object.assign(st,{pop,jobs,cnt,zoned,unemployment,crime,health,edu,traffic,leisure,pollution:clamp(polAvg,0,100),needs,cover,pol,conn,roads,upkeep});
+  // 9. money
+  const recMul = S.recession?0.75:1;
+  const incR = pop*S.tax.R*0.9*recMul, incC = cnt.C*S.tax.C*16*recMul*(S.policies.curfew?0.85:1)*(S.protests.length?0.7:1), incI = cnt.I*S.tax.I*18*recMul;
+  let polCost=0; for(const k in S.policies) if(S.policies[k]&&!POLICIES[k].oneoff) polCost+=POLICIES[k].cost;
+  const loanPay = S.loans>0? Math.min(S.loans, 600):0; S.loans-=loanPay;
+  const net = incR+incC+incI - upkeep - polCost - loanPay;
+  S.money += net; st.income={R:incR,C:incC,I:incI}; st.polCost=polCost; st.loanPay=loanPay; st.net=net;
+  // 10. events
+  events(st);
+  // 11. milestones
+  const nt = tierOf(pop);
+  if(nt>S.tier && S.approval>=40){S.tier=nt; S.money+=TIERS[nt].grant; toast(`🏙️ Milestone: ${TIERS[nt].name}! Grant $${fmt(TIERS[nt].grant)}. Unlocked: ${TIERS[nt].unlock}`); alert_('good',`Reached ${TIERS[nt].name}`);}
+  else if(nt>S.tier) S.advisorOverride=`Population qualifies for ${TIERS[nt].name}, but approval must be ≥ 40% first.`;
+  if(S.money<-5000 && !S.bankrupt){S.bankrupt=12; S.approval-=20; toast('💸 Bankruptcy. The state froze building for 12 months and approval fell 20 points.'); alert_('bad','Bankruptcy: building frozen');}
+  if(S.bankrupt){S.bankrupt--; if(S.money<0) S.money+=Math.min(-S.money,800); if(!S.bankrupt) toast('State control ended. Building is allowed again.');}
+  // approval / recall
+  if(S.approval<30) S.lowApprovalMonths++; else S.lowApprovalMonths=0;
+  if(S.lowApprovalMonths===4) alert_('warn','Recall petition: approval under 30% for 4 months');
+  if(S.lowApprovalMonths>=7){ if(S.approval<35){toast('🗳️ You lost the recall election. A new mayor takes over — same city, treasury reset to $10,000.'); S.money=10000; S.approval=50; S.happy=55; S.lowApprovalMonths=0; S.policies={};} else {toast('🗳️ You survived the recall vote!'); S.lowApprovalMonths=0;} }
+  S.hist.push({pop,money:S.money,happy:S.happy}); if(S.hist.length>24) S.hist.shift();
+  S.stats=st; S.month++;
+  advisor(st);
+}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+
+function events(st){
+  const m=S.map;
+  // fires
+  const fireCov = st.cover.fire;
+  for(let i=S.fires.length-1;i>=0;i--){const f=S.fires[i]; f.t++;
+    if(fireCov[f.y][f.x] && Math.random()<0.7*(S.budget.fire/100)){S.fires.splice(i,1); continue;}
+    if(f.t>=3){ // burns down
+      if(isZone(m[f.y][f.x])) S.lvl[f.y][f.x]=0; else if(isBuilding(m[f.y][f.x])&&m[f.y][f.x]!==T.HALL) m[f.y][f.x]=T.GRASS;
+      S.fires.splice(i,1);
+      // spread
+      for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=f.x+dx,ny=f.y+dy; if(inb(nx,ny)&&(isZone(m[ny][nx])&&S.lvl[ny][nx]||isBuilding(m[ny][nx])||m[ny][nx]===T.TREE)&&Math.random()<0.4&&!S.fires.some(o=>o.x===nx&&o.y===ny)) S.fires.push({x:nx,y:ny,t:0});}
+    }
+  }
+  if(st.buildings>5 && Math.random()<0.06+st.cnt.I*0.004){const cand=[];for(let y=0;y<N;y++)for(let x=0;x<N;x++) if(isZone(m[y][x])&&S.lvl[y][x]) cand.push([x,y]); if(cand.length){const [x,y]=cand[rnd(cand.length)]; S.fires.push({x,y,t:0}); alert_('bad',`Fire at (${x},${y})`,x,y);}}
+  // protests: unhappy for a while
+  if(S.happy<40){S.unhappyMonths=(S.unhappyMonths||0)+1;} else S.unhappyMonths=0;
+  if(S.unhappyMonths===2) alert_('warn','Citizens are angry. Protest in 1 month unless happiness rises');
+  if(S.unhappyMonths>=3 && !S.protests.length){const low=Object.entries(st.needs).sort((a,b)=>a[1]-b[1])[0]; S.protests.push({need:low[0],t:0}); alert_('bad',`Protest: citizens demand better ${low[0]}`); toast(`✊ Protest! Citizens demand better ${low[0]}. Commercial income −30% until it improves.`);}
+  for(let i=S.protests.length-1;i>=0;i--){const p=S.protests[i]; p.t++; if(st.needs[p.need]>55||p.t>8){S.protests.splice(i,1); alert_('good','Protest ended');}}
+  // recession
+  if(S.recession){S.recession--; if(!S.recession){toast('📈 The recession is over. Demand recovers.'); alert_('good','Recession ended');}}
+  else if(S.month>36 && Math.random()<0.012){S.recession=12; toast('📉 Economic recession: tax income −25% and demand falls for 12 months.'); alert_('bad','Recession: income −25%');}
+}
+function advisor(st){
+  let msg='';
+  if(S.advisorOverride){msg=S.advisorOverride; S.advisorOverride=null;}
+  else if(S.bankrupt) msg=`State control for ${S.bankrupt} more months. Cut budgets and raise taxes carefully.`;
+  else if(st.buildings&&!st.powered) msg='Buildings have no power. Build a power plant next to a connected road.';
+  else if(st.buildings&&!st.watered) msg='Water shortage. Build a water tower.';
+  else if(!st.zoned.R) msg='Zone residential land next to a road so people can move in.';
+  else if(st.pop>80&&st.unemployment>0.3) msg='Unemployment is high. Zone commercial or industrial for jobs.';
+  else if(st.net<0&&S.money<5000) msg='You are losing money each month. Raise taxes a little or cut a service budget.';
+  else if(S.fires.length) msg=`${S.fires.length} fire${S.fires.length>1?'s':''} burning! Fire stations cover a radius of 7.`;
+  else if(st.needs.Health<45) msg='People are getting sick. Build a clinic near homes and keep industry away.';
+  else if(st.needs.Education<45&&st.pop>150) msg='A school lets zones grow past level 1.';
+  else if(st.needs.Safety<45) msg= S.tier>=1?'Crime is rising. Build a police station.':'Reach Hamlet (500 pop) to unlock police.';
+  else if(st.needs.Leisure<45&&S.tier>=1) msg='Citizens want leisure. Parks are cheap and raise land value.';
+  else if(st.traffic>60) msg='Traffic is heavy. Add more roads or enable Free Public Transit.';
+  else if(S.tax.R>15) msg='Residential tax above 15% costs happiness every month.';
+  else msg='The city is doing well. Expand carefully and keep the treasury positive.';
+  document.getElementById('advText').textContent=msg;
+}
+function alert_(kind,text,x,y){S.alerts.unshift({kind,text,x,y,m:S.month}); if(S.alerts.length>8) S.alerts.pop();}
+
+// ───────────────────────── Building ─────────────────────────
+function canAfford(c){return S.money>=c}
+function place(x,y,tool){
+  if(!inb(x,y)) return; const b=BUILD[tool]; const m=S.map;
+  if(S.bankrupt&&tool!=='bull'){toast('Building is frozen during state control.');return;}
+  if(b.tier>S.tier){toast(`${b.name} unlocks at ${TIERS[b.tier].name}`);return;}
+  if(tool==='bull'){ if(m[y][x]===T.HALL||m[y][x]===T.GRASS) return; if(!canAfford(b.cost)) return; m[y][x]=T.GRASS; S.lvl[y][x]=0; S.money-=b.cost; return; }
+  if(m[y][x]===b.t) return;
+  if(m[y][x]!==T.GRASS&&m[y][x]!==T.TREE){ if(isZone(m[y][x])&&isZone(b.t)&&S.lvl[y][x]===0){} else return; }
+  if(!canAfford(b.cost)){toast('Not enough money');return;}
+  m[y][x]=b.t; S.lvl[y][x]=0; S.money-=b.cost;
+}
+
+// ───────────────────────── Rendering ─────────────────────────
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+function resize(){cv.width=innerWidth*devicePixelRatio; cv.height=innerHeight*devicePixelRatio; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px';}
+addEventListener('resize',resize); resize();
+function isoToScreen(x,y){return [(x-y)*TW/2, (x+y)*TH/2]}
+function screenToIso(sx,sy){const z=G.cam.z; const px=(sx-innerWidth/2)/z-G.cam.x, py=(sy-innerHeight/2)/z-G.cam.y; const x=(px/(TW/2)+py/(TH/2))/2, y=(py/(TH/2)-px/(TW/2))/2; return [Math.floor(x),Math.floor(y)];}
+function shade(hex,f){const n=parseInt(hex.slice(1),16); let r=(n>>16)&255,g=(n>>8)&255,b=n&255; r=clamp(r*f,0,255);g=clamp(g*f,0,255);b=clamp(b*f,0,255); return `rgb(${r|0},${g|0},${b|0})`;}
+function diamond(px,py,fill,stroke){ctx.beginPath();ctx.moveTo(px,py-TH/2);ctx.lineTo(px+TW/2,py);ctx.lineTo(px,py+TH/2);ctx.lineTo(px-TW/2,py);ctx.closePath();ctx.fillStyle=fill;ctx.fill(); if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}}
+function box(px,py,h,col,w=0.8){ // extruded box centred on tile
+  const hw=TW/2*w, hh=TH/2*w; const top=py-h;
+  ctx.fillStyle=shade(col,0.75); ctx.beginPath(); ctx.moveTo(px-hw,py); ctx.lineTo(px,py+hh); ctx.lineTo(px,top+hh); ctx.lineTo(px-hw,top); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=shade(col,0.55); ctx.beginPath(); ctx.moveTo(px+hw,py); ctx.lineTo(px,py+hh); ctx.lineTo(px,top+hh); ctx.lineTo(px+hw,top); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=shade(col,1.05); ctx.beginPath(); ctx.moveTo(px,top-hh); ctx.lineTo(px+hw,top); ctx.lineTo(px,top+hh); ctx.lineTo(px-hw,top); ctx.closePath(); ctx.fill();
+}
+function draw(){
+  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  ctx.fillStyle='#0b1a24'; ctx.fillRect(0,0,innerWidth,innerHeight);
+  ctx.translate(innerWidth/2,innerHeight/2); ctx.scale(G.cam.z,G.cam.z); ctx.translate(G.cam.x,G.cam.y);
+  const m=S.map, L=S.lvl, st=S.stats, ov=G.overlay;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+    const [px,py]=isoToScreen(x,y); const t=m[y][x];
+    let base=((x+y)&1)?COL.grass:COL.grass2;
+    if(t===T.ROAD) base=COL.road; else if(t===T.R) base=shade(COL.R,0.55); else if(t===T.C) base=shade(COL.C,0.55); else if(t===T.I) base=shade(COL.I,0.55);
+    diamond(px,py,base,'rgba(0,0,0,.18)');
+    if(t===T.ROAD){ctx.strokeStyle=COL.roadLine;ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.beginPath();
+      const has=(dx,dy)=>inb(x+dx,y+dy)&&(m[y+dy][x+dx]===T.ROAD||m[y+dy][x+dx]===T.HALL);
+      if(has(1,0)||has(-1,0)){ctx.moveTo(px-TW/4,py-TH/4);ctx.lineTo(px+TW/4,py+TH/4);} if(has(0,1)||has(0,-1)){ctx.moveTo(px+TW/4,py-TH/4);ctx.lineTo(px-TW/4,py+TH/4);} ctx.stroke();ctx.setLineDash([]);}
+    // overlays
+    if(ov&&st.cover){let a=0,c='#4fb3ff';
+      if(ov==='pollution'){a=Math.min(.7,(st.pol[y][x]||0)/60);c='#8b5cf6';}
+      else if(ov==='power'){a=st.conn&&isZone(t)&&L[y][x]?(st.powered?.35:.5):0;c=st.powered?'#52c97a':'#ef5b5b';}
+      else if(st.cover[ov]){a=st.cover[ov][y][x]?.35:0;}
+      if(a){diamond(px,py,c.replace(')',`,${a})`).replace('#','rgba(').replace(/rgba\((..)(..)(..)/,(s,r,g,b)=>`rgba(${parseInt(r,16)},${parseInt(g,16)},${parseInt(b,16)}`));}
+    }
+    // objects
+    if(t===T.TREE){ctx.fillStyle='#2f6b2a';ctx.beginPath();ctx.arc(px,py-8,7,0,7);ctx.fill();ctx.fillStyle='#5a3b1e';ctx.fillRect(px-1.5,py-4,3,8);}
+    else if(isZone(t)){const l=L[y][x]; const col=t===T.R?COL.R:t===T.C?COL.C:COL.I; if(l>0){ if(t===T.R&&l===1){box(px-10,py+2,12,col,0.35);box(px+8,py-6,14,col,0.35);} else box(px,py,10+l*14,col,0.7-l*0.05); if(l>=2){ctx.fillStyle='rgba(255,255,200,.5)';for(let k=0;k<l*2;k++) ctx.fillRect(px-8+(k%3)*7,py-12-l*8-Math.floor(k/3)*8,3,3);} } else {ctx.fillStyle='rgba(255,255,255,.08)';ctx.fillRect(px-6,py-3,12,6);} }
+    else if(t===T.HALL){box(px,py,34,'#d9c27a',0.9);ctx.fillStyle='#fff';ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.fillText('CITY HALL',px,py-40);}
+    else if(t===T.POWER){box(px,py,22,'#6b7280',0.85);ctx.fillStyle='#374151';ctx.fillRect(px+4,py-48,8,30);ctx.fillStyle='rgba(200,200,200,.4)';ctx.beginPath();ctx.arc(px+8,py-54,7,0,7);ctx.fill();}
+    else if(t===T.WATER){ctx.fillStyle='#7c8a98';ctx.fillRect(px-2,py-30,4,30);box(px,py-28,12,'#2b7fb0',0.5);}
+    else if(t===T.FIRE){box(px,py,18,'#d94848',0.8);}
+    else if(t===T.POLICE){box(px,py,18,'#3b5bdb',0.8);}
+    else if(t===T.CLINIC){box(px,py,20,'#f1f5f9',0.8);ctx.fillStyle='#ef4444';ctx.fillRect(px-5,py-26,10,3);ctx.fillRect(px-1.5,py-29.5,3,10);}
+    else if(t===T.SCHOOL){box(px,py,16,'#c47a3a',0.85);}
+    else if(t===T.PARK){ctx.fillStyle='#2f6b2a';for(const [ox,oy] of [[-10,0],[8,-4],[0,6]]){ctx.beginPath();ctx.arc(px+ox,py+oy-6,5,0,7);ctx.fill();}}
+    // unserved marker
+    if(isZone(t)&&st.conn&&!(st.conn[y][x]||[[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>inb(x+dx,y+dy)&&st.conn[y+dy][x+dx]))){ctx.fillStyle='#ef5b5b';ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText('!',px,py-2);}
+  }
+  // fires
+  for(const f of S.fires){const [px,py]=isoToScreen(f.x,f.y);ctx.fillStyle=`rgba(255,${120+rnd(80)},0,.85)`;ctx.beginPath();ctx.moveTo(px-8,py);ctx.lineTo(px,py-24-rnd(6));ctx.lineTo(px+8,py);ctx.closePath();ctx.fill();}
+  // hover
+  if(G.hover){const [x,y]=G.hover; if(inb(x,y)){const [px,py]=isoToScreen(x,y); diamond(px,py,'rgba(255,255,255,.18)','#fff');}}
+}
+
+// ───────────────────────── UI ─────────────────────────
+function fmt(n){n=Math.round(n); return Math.abs(n)>=1e6?(n/1e6).toFixed(2)+'M':Math.abs(n)>=1e4?(n/1e3).toFixed(1)+'k':n.toLocaleString();}
+function monthName(m){return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m%12]+' '+(2030+Math.floor(m/12));}
+function colorFor(v,inv){const g=inv?100-v:v; return g>=50?'var(--good)':g>=30?'var(--warn)':'var(--bad)';}
+function updateHUD(){
+  const st=S.stats; if(!st.needs) return;
+  const $=id=>document.getElementById(id);
+  $('sTreasury').textContent='$'+fmt(S.money); $('sTreasury').style.color=S.money<0?'var(--bad)':'';
+  $('sNet').innerHTML=`<span class="${st.net>=0?'good':'bad'}">${st.net>=0?'+':'−'}$${fmt(Math.abs(st.net))}/mo</span> · Budget`;
+  $('sPop').textContent=fmt(st.pop); $('sHappy').textContent=Math.round(S.happy); $('sHappy').style.color=colorFor(S.happy);
+  $('sAppr').textContent=Math.round(S.approval)+'%'; $('sAppr').style.color=colorFor(S.approval);
+  $('sTier').textContent=TIERS[S.tier].name; $('sNext').textContent=S.tier<TIERS.length-1?`next: ${fmt(TIERS[S.tier+1].pop)} pop`:'max tier';
+  $('sDate').textContent=monthName(S.month);
+  const d=st.dem; $('dR').style.height=clamp(d.R,0,100)+'%'; $('dC').style.height=clamp(d.C,0,100)+'%'; $('dI').style.height=clamp(d.I,0,100)+'%';
+  const meters=[['Pollution',st.pollution,true,'pollution'],['Traffic',st.traffic,true,null],['Crime',st.crime,true,'police'],['Health',st.health,false,'clinic'],['Education',st.edu,false,'school'],['Fire cover',st.cover?Math.round(st.needs.Safety):0,false,'fire'],['Jobs',st.needs.Jobs,false,null],['Power',st.buildings?Math.round(Math.min(100,st.powerCap/Math.max(1,st.buildings)*100)):100,false,'power']];
+  $('meters').innerHTML=meters.map(([n,v,inv,ov])=>`<div class="meter" onclick="toggleOverlay('${ov}')" title="${ov?'Click to toggle overlay':''}"><span>${n}${G.overlay&&G.overlay===ov?' 👁':''}</span><span style="display:flex;gap:6px;align-items:center"><b style="color:${colorFor(v,inv)}">${Math.round(v)}</b><span class="bar"><i style="width:${clamp(v,0,100)}%;background:${colorFor(v,inv)}"></i></span></span></div>`).join('');
+  $('alerts').innerHTML=S.alerts.map(a=>`<div class="${a.kind}" onclick="${a.x!=null?`goTo(${a.x},${a.y})`:''}">${a.text}<br><span style="color:var(--quiet)">${monthName(a.m)}</span></div>`).join('')||'<div style="color:var(--quiet)">No alerts</div>';
+}
+function toggleOverlay(ov){G.overlay=(ov==='null'||!ov)?null:(G.overlay===ov?null:ov); updateHUD();}
+function goTo(x,y){const [px,py]=isoToScreen(x,y); G.cam.x=-px; G.cam.y=-py;}
+function buildBar(){
+  const bar=document.getElementById('bottom'); bar.innerHTML='';
+  const order=['road','R','C','I','sep','power','water','fire','police','clinic','school','park','sep','bull','sep'];
+  for(const k of order){ if(k==='sep'){const s=document.createElement('div');s.className='sep';bar.appendChild(s);continue;}
+    const b=BUILD[k]; const el=document.createElement('div'); el.className='tool'+(G.tool===k?' on':'')+(b.tier>S.tier?' locked':''); el.innerHTML=`${b.name}<small>$${b.cost}${b.upkeep?' · $'+b.upkeep+'/mo':''}${b.tier>S.tier?' · '+TIERS[b.tier].name:''} [${b.key}]</small>`; el.title=b.hint; el.onclick=()=>{if(b.tier>S.tier){toast(`${b.name} unlocks at ${TIERS[b.tier].name}`);return;} G.tool=k; buildBar();}; bar.appendChild(el);}
+  const pol=document.createElement('div'); pol.className='tool'+(S.tier<2?' locked':''); pol.innerHTML='Policies<small>'+(S.tier<2?'Town':'city-wide rules')+'</small>'; pol.onclick=()=>{if(S.tier<2){toast('Policies unlock at Town (2,000 pop)');return;} openPolicies();}; bar.appendChild(pol);
+  const bud=document.createElement('div'); bud.className='tool'; bud.innerHTML='Budget<small>taxes & loans</small>'; bud.onclick=openBudget; bar.appendChild(bud);
+}
+function openBudget(){closeModals(); const st=S.stats; const inc=st.income||{R:0,C:0,I:0};
+  let h=`<div class="row"><span>Income: R $${fmt(inc.R)} · C $${fmt(inc.C)} · I $${fmt(inc.I)}</span></div>
+  <div class="row"><span>Expenses: services $${fmt(st.upkeep||0)} · policies $${fmt(st.polCost||0)} · loan $${fmt(st.loanPay||0)}</span></div>
+  <div class="row"><b>Net per month</b><b class="${(st.net||0)>=0?'good':'bad'}">$${fmt(st.net||0)}</b></div><h4 style="margin-top:10px">Taxes</h4>`;
+  for(const k of ['R','C','I']) h+=`<div class="row"><span>${k==='R'?'Residential':k==='C'?'Commercial':'Industrial'} tax <b id="tx${k}">${S.tax[k]}%</b></span><input type="range" min="0" max="30" value="${S.tax[k]}" oninput="S.tax.${k}=+this.value;document.getElementById('tx${k}').textContent=this.value+'%'"></div>`;
+  h+='<h4 style="margin-top:10px">Service budgets</h4>';
+  for(const k of ['fire','police','clinic','school']) h+=`<div class="row"><span>${BUILD[k].name} <b id="bg${k}">${S.budget[k]}%</b></span><input type="range" min="50" max="150" value="${S.budget[k]}" oninput="S.budget.${k}=+this.value;document.getElementById('bg${k}').textContent=this.value+'%'"></div>`;
+  h+=`<h4 style="margin-top:10px">Loans</h4><div class="row"><span>Outstanding: $${fmt(S.loans)} (repaid $600/mo)</span>${S.tier>=1?`<button class="pol" onclick="takeLoan()">Borrow $10,000</button>`:'<span style="color:var(--quiet)">unlocks at Hamlet</span>'}</div>`;
+  document.getElementById('budgetBody').innerHTML=h; document.getElementById('budget').classList.add('show');
+}
+function takeLoan(){if(S.loans>=30000){toast('Loan limit reached');return;} S.loans+=11000; S.money+=10000; toast('Borrowed $10,000 (repay $11,000 at $600/mo)'); openBudget();}
+function openNeeds(){closeModals(); const n=S.stats.needs||{}; let h='<p style="color:var(--quiet);font-size:12px;margin-bottom:8px">Happiness is the average of six needs, minus tax, pollution and traffic penalties.</p>';
+  const words={Housing:'"Where can my family live?"',Jobs:'"There is no work here."',Safety:'"I don\'t feel safe at night."',Health:'"The air makes my kids sick."',Education:'"There is no school for my children."',Leisure:'"There is nothing to do on weekends."'};
+  for(const k in n) h+=`<div class="row"><span>${k}<br><span style="color:var(--quiet);font-size:11px">${n[k]<50?words[k]:''}</span></span><span style="display:flex;gap:8px;align-items:center"><b style="color:${colorFor(n[k])}">${Math.round(n[k])}</b><span class="bar" style="width:120px;height:8px;background:#0f1419;border-radius:4px;display:inline-block;overflow:hidden"><i style="display:block;height:100%;width:${n[k]}%;background:${colorFor(n[k])}"></i></span></span></div>`;
+  document.getElementById('needsBody').innerHTML=h; document.getElementById('needs').classList.add('show');
+}
+function openPolicies(){closeModals(); let h='';
+  for(const k in POLICIES){const p=POLICIES[k]; h+=`<div class="row"><span>${p.name}<br><span style="color:var(--quiet);font-size:11px">${p.desc}</span></span><button class="pol ${S.policies[k]?'on':''}" onclick="togglePolicy('${k}')">${p.oneoff?'Run':(S.policies[k]?'On':'Off')}</button></div>`;}
+  document.getElementById('needsBody').innerHTML=h; document.querySelector('#needs h3').textContent='Policies'; document.getElementById('needs').classList.add('show');
+}
+function togglePolicy(k){const p=POLICIES[k]; if(p.oneoff){ if(S.money<p.cost){toast('Not enough money');return;} S.money-=p.cost; S.festival=1; toast('🎉 Festival Week! +15 happiness this month.'); } else S.policies[k]=!S.policies[k]; openPolicies();}
+function openHelp(){closeModals(); document.getElementById('help').classList.add('show');}
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show')); document.querySelector('#needs h3').textContent='Citizen needs';}
+let toastT; function toast(msg){const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(toastT); toastT=setTimeout(()=>t.style.display='none',4500);}
+function setSpeed(s){G.speed=s; for(let i=0;i<4;i++) document.getElementById('spd'+i).classList.toggle('on',i===s);}
+
+// ───────────────────────── Input ─────────────────────────
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('mousedown',e=>{ if(e.button===1||(e.button===0&&e.shiftKey)){G.drag={px:e.clientX,py:e.clientY,cx:G.cam.x,cy:G.cam.y};return;}
+  const [x,y]=screenToIso(e.clientX,e.clientY); G.paint=e.button===2?'bull':G.tool; place(x,y,G.paint); G.last=[x,y]; });
+addEventListener('mousemove',e=>{ if(G.drag){G.cam.x=G.drag.cx+(e.clientX-G.drag.px)/G.cam.z; G.cam.y=G.drag.cy+(e.clientY-G.drag.py)/G.cam.z; return;}
+  const [x,y]=screenToIso(e.clientX,e.clientY); G.hover=[x,y];
+  if(G.paint&&(x!==G.last[0]||y!==G.last[1])){ if(BUILD[G.paint].t===T.ROAD||isZone(BUILD[G.paint].t)||G.paint==='bull') place(x,y,G.paint); G.last=[x,y]; }
+  showTip(e.clientX,e.clientY,x,y); });
+addEventListener('mouseup',()=>{G.paint=null;G.drag=null;});
+cv.addEventListener('wheel',e=>{e.preventDefault(); G.cam.z=clamp(G.cam.z*(e.deltaY<0?1.1:0.9),0.4,2.5);},{passive:false});
+addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT') return; const k=e.key.toLowerCase(); const sp=20/G.cam.z;
+  if(k==='w'||k==='arrowup') G.cam.y+=sp; if(k==='s'||k==='arrowdown') G.cam.y-=sp; if(k==='a'||k==='arrowleft') G.cam.x+=sp; if(k==='d'||k==='arrowright') G.cam.x-=sp;
+  if(k===' '){setSpeed(G.speed?0:1);e.preventDefault();} if(k==='escape'){closeModals();G.overlay=null;}
+  for(const t in BUILD) if(BUILD[t].key===k){G.tool=t;buildBar();} });
+// touch: one finger paints, two fingers pan/zoom
+let touches={};
+cv.addEventListener('touchstart',e=>{e.preventDefault(); if(e.touches.length===1){const t=e.touches[0]; const [x,y]=screenToIso(t.clientX,t.clientY); G.paint=G.tool; place(x,y,G.tool); G.last=[x,y];} else {G.paint=null; const a=e.touches[0],b=e.touches[1]; touches={d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),mx:(a.clientX+b.clientX)/2,my:(a.clientY+b.clientY)/2,cx:G.cam.x,cy:G.cam.y,z:G.cam.z};}},{passive:false});
+cv.addEventListener('touchmove',e=>{e.preventDefault(); if(e.touches.length===1&&G.paint){const t=e.touches[0]; const [x,y]=screenToIso(t.clientX,t.clientY); if(x!==G.last[0]||y!==G.last[1]){if(BUILD[G.paint].t===T.ROAD||isZone(BUILD[G.paint].t)||G.paint==='bull') place(x,y,G.paint); G.last=[x,y];}}
+  else if(e.touches.length===2){const a=e.touches[0],b=e.touches[1]; const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY), mx=(a.clientX+b.clientX)/2,my=(a.clientY+b.clientY)/2; G.cam.z=clamp(touches.z*d/touches.d,0.4,2.5); G.cam.x=touches.cx+(mx-touches.mx)/G.cam.z; G.cam.y=touches.cy+(my-touches.my)/G.cam.z;}},{passive:false});
+cv.addEventListener('touchend',()=>{G.paint=null;});
+function showTip(sx,sy,x,y){const tip=document.getElementById('tip'); if(!inb(x,y)||G.paint){tip.style.display='none';return;}
+  const t=S.map[y][x], l=S.lvl[y][x], st=S.stats; const names={0:'Grass',1:'Road',2:'Residential',3:'Commercial',4:'Industrial',5:'Power plant',6:'Water tower',7:'Fire station',8:'Police',9:'Clinic',10:'School',11:'Park',12:'City Hall',13:'Trees'};
+  let h=`<b>${names[t]}</b>`; if(isZone(t)) h+=` · level ${l}/3`+(l?`<br>${t===T.R?'Residents '+l*l*12:'Jobs '+(t===T.C?l*l*8:l*l*14)}`:'<br><span class="warn">Empty lot</span>');
+  if(st.pol&&st.pol[y][x]>5) h+=`<br>Pollution ${Math.round(st.pol[y][x])}`;
+  if(st.cover&&isZone(t)){const c=['fire','police','clinic','school','park'].filter(k=>st.cover[k][y][x]); h+=`<br><span style="color:var(--quiet)">Covered: ${c.length?c.join(', '):'nothing'}</span>`;}
+  if(S.fires.some(f=>f.x===x&&f.y===y)) h+='<br><span class="bad">🔥 ON FIRE</span>';
+  tip.innerHTML=h; tip.style.display='block'; tip.style.left=(sx+14)+'px'; tip.style.top=(sy+14)+'px';}
+
+// ───────────────────────── Save / load / loop ─────────────────────────
+function saveGame(){try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));toast('City saved.');}catch(e){toast('Could not save (browser storage blocked).');}}
+function loadGame(){try{const s=localStorage.getItem('cityhall-save'); if(!s) return false; S=JSON.parse(s); S.stats={}; return true;}catch(e){return false;}}
+function newGame(){S=newState(); closeModals(); goTo(Math.floor(N/2),Math.floor(N/2)); simulate(); buildBar(); updateHUD(); toast('New city founded. Build roads from City Hall and zone homes.');}
+if(!loadGame()) S=newState();
+goTo(Math.floor(N/2),Math.floor(N/2)); G.cam.z=1.15;
+simulate(); buildBar(); updateHUD(); setSpeed(1);
+if(!localStorage.getItem('cityhall-save')) setTimeout(openHelp,400);
+let last=performance.now();
+function loop(now){const dt=now-last; last=now; if(G.speed){G.acc+=dt*G.speed; const per=2500; while(G.acc>=per){G.acc-=per; simulate(); buildBar(); updateHUD();}} draw(); requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+setInterval(()=>{ if(S.month%12===0 && S.month>0) {/* autosave yearly */ try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));}catch(e){} } },30000);
+</script>
+
+<!-- Mal3ab: try again / home -->
+<button onclick="location.reload()" style="position:fixed;bottom:14px;right:14px;z-index:9999;background:#ffb703;color:#1a1200;border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;font-family:inherit" title="Try again">🔄</button>
+<a href="../../index.html" style="position:fixed;bottom:14px;left:14px;z-index:9999;background:#232a48;color:#eef0ff;border-radius:10px;padding:8px 14px;font-weight:700;text-decoration:none;font-family:inherit" title="Home">🏠</a>
+</body>
+</html>

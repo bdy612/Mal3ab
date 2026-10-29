@@ -10,6 +10,7 @@
   .cell { aspect-ratio: 1; font-size: 64px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../shared/i18n.js"></script>
 <script src="../shared/net.js"></script>
 <script src="../shared/shell.js"></script>
 </head>
@@ -28,7 +29,7 @@ function winner(b) {
 function play(i) {
   const st = S.state;
   if (st.winner || st.board[i] || !S.myTurn()) return;
-  if (S.mode === 'online' && S.players < 2) return;
+  if (!S.ready()) return;
   st.board[i] = st.turn;
   const w = winner(st.board);
   if (w) { st.winner = w.who; st.line = w.line; } else st.turn = st.turn === 1 ? 2 : 1;
@@ -36,7 +37,7 @@ function play(i) {
 }
 
 Shell.start({
-  title: 'إكس أو',
+  title: 'tictactoe',
   newState: () => ({ board: Array(9).fill(0), turn: 1, winner: null, line: [] }),
   render() {
     const st = S.state;
