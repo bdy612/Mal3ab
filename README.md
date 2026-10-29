@@ -10,7 +10,7 @@ Live: https://bdy612.github.io/Mal3ab/
 - Arabic / English (button in the top bar, remembered). The layout never flips — only the text direction changes.
 - Online rooms: 4-letter code or an invite link (`index.html?join=CODE`).
 - Accounts: player name + password (email optional), bcrypt-hashed in the database, no email confirmation. Log in with name or email. Sessions last 3 hours of inactivity, or 7 days with "keep me signed in"; while the site is open a heartbeat keeps you logged in. Wins/losses/draws on the profile. Or play as a guest.
-- Friends: add by name, accept requests, see who is online; **Fast connect** invites an online friend straight into a game (chess, Connect 4, X-O, Turf Rush) — they get a popup on the site and accept, no code or link needed.
+- Friends: add by name, accept requests, see who is online; **Fast connect** invites an online friend straight into a game (chess, Connect 4, X-O, Turf Rush, Voxel Sandbox — pick one of your worlds, the friend lands in it) — they get a popup on the site and accept, no code or link needed.
 - Match history (`history.html`): online games are saved to the database; guests see their local history.
 - "Play again" at the end of every game.
 

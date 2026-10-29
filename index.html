@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793264767">
+<link rel="stylesheet" href="shared/style.css?v=1793265197">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793264767"></script>
-<script src="shared/net.js?v=1793264767"></script>
+<script src="shared/i18n.js?v=1793265197"></script>
+<script src="shared/net.js?v=1793265197"></script>
 </head>
 <body>
 <div class="topbar">
@@ -155,7 +155,7 @@ async function joinRoom(code) {
 }
 // ---------- friends + fast connect ----------
 const fmodal = document.getElementById('fmodal');
-const FAST = ['chess', 'connect4', 'tictactoe', 'turfrush'];
+const FAST = ['chess', 'connect4', 'tictactoe', 'turfrush', 'voxel'];
 let fTimer = null, waiting = null;
 function openFriends() { fmodal.hidden = false; drawFriends(); clearInterval(fTimer); fTimer = setInterval(() => { if (!fmodal.hidden && !waiting) drawFriends(); else if (fmodal.hidden) clearInterval(fTimer); }, 10000); }
 async function drawFriends() {
@@ -177,16 +177,41 @@ async function addFriend() { const m = document.getElementById('fmsg'); try { aw
 async function respondFriend(id, ok) { try { await Friends.respond(id, ok); } catch (e) {} drawFriends(); }
 async function removeFriend(id) { try { await Friends.remove(id); } catch (e) {} drawFriends(); }
 const randTurf = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+async function voxelData() {
+  const saves = await Auth.loadSaves('voxel');
+  const parse = (v) => typeof v === 'string' ? JSON.parse(v) : v;
+  let worlds = saves['voxel-worlds'], profile = saves['voxel-profile'];
+  try { if (!worlds) worlds = JSON.parse(localStorage.getItem('voxel-worlds') || 'null'); if (!profile) profile = JSON.parse(localStorage.getItem('voxel-profile') || 'null'); } catch (e) {}
+  return { worlds: parse(worlds) || [], code: profile && parse(profile).code };
+}
 async function fastConnect(id, name) {
   const game = document.getElementById('g-' + id).value, m = document.getElementById('fmsg');
   try {
-    const code = game === 'turfrush' ? randTurf() : await Net.create(game, {});
+    let voxel = null;
+    if (game === 'voxel') {
+      const vd = await voxelData();
+      if (!vd.code || !vd.worlds.length) { m.textContent = t('voxelFirst'); return; }
+      const b = document.getElementById('fbody');
+      const chosen = await new Promise(res => {
+        b.innerHTML = `<h4>${t('pickWorld')}</h4>` + vd.worlds.map(w => `<div class="frow"><span>🧱 ${w.name} <small>${w.mode || ''}</small></span><button class="btn tiny" data-w="${w.id}">${t('fastConnect')}</button></div>`).join('') +
+          `<button class="btn secondary small" id="w-cancel">${t('decline')}</button>`;
+        b.querySelectorAll('button[data-w]').forEach(x => x.onclick = () => res(x.dataset.w));
+        b.querySelector('#w-cancel').onclick = () => res(null);
+      });
+      if (!chosen) { drawFriends(); return; }
+      voxel = { world: chosen, myCode: vd.code, friendCode: await Friends.voxelCodeOf(id) };
+    }
+    const code = game === 'turfrush' ? randTurf() : game === 'voxel' ? voxel.myCode : await Net.create(game, {});
     const invId = await Friends.invite(id, game, code);
     waiting = { id: invId, name, game, code }; drawFriends();
     const poll = setInterval(async () => {
       if (!waiting) { clearInterval(poll); return; }
       const st = await Friends.inviteStatus(waiting.id);
-      if (st === 'accepted') { clearInterval(poll); location.href = Invites.gameUrl(game, code, 1) + (game === 'chess' ? '&tc=10' : ''); }
+      if (st === 'accepted') {
+        clearInterval(poll);
+        if (game === 'voxel') location.href = `games/voxel/index.html?world=${encodeURIComponent(voxel.world)}&friend=${encodeURIComponent(voxel.friendCode || '')}&fname=${encodeURIComponent(name)}`;
+        else location.href = Invites.gameUrl(game, code, 1) + (game === 'chess' ? '&tc=10' : '');
+      }
       else if (st === 'declined') { clearInterval(poll); m.textContent = t('declined', { p: name }); waiting = null; drawFriends(); }
     }, 2500);
   } catch (e) { m.textContent = e.message; }

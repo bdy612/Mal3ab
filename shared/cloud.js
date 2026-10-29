@@ -80,6 +80,15 @@
       if (changed) { location.reload(); return; }
     }
 
+    // 1b) upload keys that exist here but not yet in the cloud (e.g. a profile written before this script ran)
+    try {
+      const saves = await Auth.loadSaves(GAME);
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (keyMatch(k) && saves[k] == null) { let d; try { d = JSON.parse(localStorage.getItem(k)); } catch (e) { d = localStorage.getItem(k); } Auth.saveGame(GAME, k, d); }
+      }
+    } catch (e) {}
+
     // 2) mirror every later localStorage write of those keys to the cloud (debounced)
     const timers = {};
     const orig = Storage.prototype.setItem;
