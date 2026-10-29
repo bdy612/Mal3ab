@@ -1,0 +1,28 @@
+/* Mal3ab look applied to the standalone games (City Hall, Turf Rush, Pitch Legends, Voxel).
+   Only colours, fonts and radii are touched — game logic and layout are untouched. */
+:root {
+  /* generic Mal3ab palette */
+  --bg: #0f1220 !important; --bg-2: #1a1f35 !important;
+  --panel: #1a1f35 !important; --panel2: #232a48 !important; --panel-strong: #232a48 !important;
+  --board: #1a1f35 !important; --tile: #232a48 !important; --tile-2: #283055 !important;
+  --wall: #2c355c !important; --wall-top: #3a86ff !important; --line: #2c355c !important; --scrim: rgba(15,18,32,.78) !important;
+  --ink: #eef0ff !important; --text: #eef0ff !important; --quiet: #9aa3c7 !important; --muted: #9aa3c7 !important;
+  --accent: #ffb703 !important; --gold: #ffb703 !important; --gold-2: #c98f00 !important; --gold-deep: #c98f00 !important;
+  --good: #80ed99 !important; --ok: #80ed99 !important; --warn: #ffb703 !important; --bad: #ff5d73 !important; --danger: #ff5d73 !important;
+  --font: 'Segoe UI', Tahoma, Arial, sans-serif !important; --font-body: 'Segoe UI', Tahoma, Arial, sans-serif !important;
+}
+/* City Hall: blue accent -> Mal3ab yellow, dark panels */
+#top button.on, .tool.on { color: #1a1200 !important; }
+.btn:not(.alt) { color: #1a1200 !important; }
+.panel { border-color: #2c355c !important; background: rgba(26,31,53,.94) !important; }
+#advisor { background: rgba(255,183,3,.08) !important; }
+/* Pitch Legends: green pitch background -> Mal3ab dark */
+body.pitch, body[data-mal3ab="pitch"] { background: radial-gradient(1200px 600px at 50% -10%, #232a48 0%, transparent 60%), linear-gradient(180deg, #1a1f35, #0f1220) !important; }
+/* Voxel: black HUD -> Mal3ab dark, yellow buttons */
+body[data-mal3ab="voxel"] { background: #0f1220 !important; font-family: 'Segoe UI', Tahoma, Arial, sans-serif !important; }
+body[data-mal3ab="voxel"] button { background: #ffb703 !important; color: #1a1200 !important; border: 0 !important; border-radius: 8px !important; font-weight: 700 !important; padding: 6px 12px !important; }
+body[data-mal3ab="voxel"] button:hover { filter: brightness(1.1); }
+body[data-mal3ab="voxel"] input { background: #232a48 !important; color: #eef0ff !important; border: 1px solid #2c355c !important; border-radius: 8px !important; padding: 4px 8px !important; }
+/* Mal3ab badge (mayor / player name) */
+.mal3ab-badge { position: fixed; top: 10px; right: 120px; z-index: 9999; background: rgba(26,31,53,.94); color: #ffb703; border: 1px solid #2c355c; border-radius: 10px; padding: 6px 12px; font: 700 14px 'Segoe UI', Tahoma, Arial, sans-serif; pointer-events: none; }
+body[data-mal3ab="cityhall"] .mal3ab-badge { top: 72px; right: 210px; }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,8 +44,8 @@
       <button class="tab active" onclick="tab('login')" data-i18n="login"></button>
       <button class="tab" onclick="tab('signup')" data-i18n="signup"></button>
     </div>
-    <input id="username" class="text" data-i18n-ph="username" hidden>
-    <input id="email" class="text" type="email" data-i18n-ph="email">
+    <input id="username" class="text" data-i18n-ph="username">
+    <input id="email" class="text" type="email" data-i18n-ph="emailOptional" hidden>
     <input id="password" class="text" type="password" data-i18n-ph="password">
     <button class="btn" id="submit" onclick="submitAuth()"></button>
     <div class="msg" id="amsg"></div>
@@ -80,8 +80,7 @@ function draw() {
       ${g.clock ? `<label class="clock">${t('timeControl')}:
         <select id="tc-${g.id}"><option value="0">${t('noClock')}</option><option value="3">3 ${t('min')}</option><option value="5">5 ${t('min')}</option><option value="10" selected>10 ${t('min')}</option><option value="15">15 ${t('min')}</option></select></label>` : ''}
       <div class="actions">
-        <a class="btn secondary" href="games/${g.id}.html${g.clock ? '?tc=10' : ''}" onclick="${g.clock ? `this.href='games/${g.id}.html?tc='+document.getElementById('tc-${g.id}').value` : ''}">${t('sameDevice')}</a>
-        <button class="btn" onclick="createRoom('${g.id}', ${!!g.clock})">${t('online')}</button>
+        <button class="btn" onclick="createRoom('${g.id}', ${!!g.clock})">🌐 ${t('online')}</button>
       </div>
     </div>`).join('');
   document.getElementById('grid2').innerHTML = MINE.map(g => `
@@ -109,7 +108,8 @@ function openModal() { modal.hidden = false; tab('login'); document.getElementBy
 function tab(m) {
   mode = m;
   document.querySelectorAll('.tab').forEach((b, i) => b.classList.toggle('active', (i === 0) === (m === 'login')));
-  document.getElementById('username').hidden = m !== 'signup';
+  document.getElementById('email').hidden = m !== 'signup';
+  document.getElementById('username').placeholder = t(m === 'signup' ? 'username' : 'usernameOrEmail');
   document.getElementById('submit').textContent = t(m);
   document.getElementById('amsg').textContent = '';
 }
@@ -117,10 +117,8 @@ async function submitAuth() {
   const email = document.getElementById('email').value.trim(), pw = document.getElementById('password').value, un = document.getElementById('username').value.trim();
   const am = document.getElementById('amsg');
   try {
-    if (mode === 'signup') {
-      const session = await Auth.signUp(email, pw, un);
-      if (!session) { am.textContent = t('checkEmail'); return; }
-    } else await Auth.signIn(email, pw);
+    if (mode === 'signup') await Auth.signUp(un, pw, email);
+    else await Auth.signIn(un, pw);
     modal.hidden = true;
   } catch (e) { am.textContent = e.message; }
 }

@@ -8,43 +8,55 @@
   const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const randCode = () => Array.from({ length: 4 }, () => ALPHA[Math.floor(Math.random() * ALPHA.length)]).join('');
 
-  // ---------- accounts ----------
+  // ---------- accounts (own table, bcrypt-hashed passwords, no email confirmation) ----------
+  const TOKEN_KEY = 'mal3ab_token';
   const Auth = {
-    user: null, profile: null,
+    user: null, profile: null, token: null,
     async init() {
-      const { data } = await sb.auth.getSession();
-      await Auth._set(data.session);
-      sb.auth.onAuthStateChange((_e, s) => Auth._set(s).then(() => document.dispatchEvent(new Event('authchange'))));
+      try { Auth.token = localStorage.getItem(TOKEN_KEY); } catch (e) {}
+      if (Auth.token) {
+        const { data } = await sb.rpc('me', { p_token: Auth.token });
+        Auth._set(data);
+      }
       return Auth.user;
     },
-    async _set(session) {
-      Auth.user = session ? session.user : null;
-      Auth.profile = null;
-      if (Auth.user) {
-        const { data } = await sb.from('profiles').select('*').eq('id', Auth.user.id).maybeSingle();
-        Auth.profile = data;
-      }
+    _set(profile) {
+      Auth.profile = profile || null;
+      Auth.user = profile ? { id: profile.id } : null;
+      document.dispatchEvent(new Event('authchange'));
+    },
+    _session(res) {
+      Auth.token = res.token; try { localStorage.setItem(TOKEN_KEY, res.token); } catch (e) {}
+      Auth._set(res.profile);
     },
     name() {
       if (Auth.profile) return Auth.profile.username;
       try { return localStorage.getItem('mal3ab_guest') || ''; } catch (e) { return ''; }
     },
     setGuestName(n) { try { localStorage.setItem('mal3ab_guest', n); } catch (e) {} },
-    async signUp(email, password, username) {
-      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { username } } });
-      if (error) throw error;
-      return data.session;        // null => email confirmation required
+    async signUp(username, password, email) {
+      const { data, error } = await sb.rpc('signup', { p_username: username, p_password: password, p_email: email || null });
+      if (error) throw new Error(error.message);
+      Auth._session(data);
     },
-    async signIn(email, password) {
-      const { error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) throw error;
+    async signIn(identifier, password) {
+      const { data, error } = await sb.rpc('login', { p_identifier: identifier, p_password: password });
+      if (error) throw new Error(error.message);
+      Auth._session(data);
     },
-    async signOut() { await sb.auth.signOut(); },
-    async record(result) {         // 'win' | 'loss' | 'draw'
-      if (!Auth.user) return;
-      await sb.rpc('record_result', { result });
-      await Auth._set((await sb.auth.getSession()).data.session);
-    }
+    async signOut() {
+      if (Auth.token) await sb.rpc('logout', { p_token: Auth.token });
+      Auth.token = null; try { localStorage.removeItem(TOKEN_KEY); } catch (e) {}
+      Auth._set(null);
+    },
+    async record(result) {
+      if (!Auth.token) return;
+      const { data } = await sb.rpc('record_result', { p_token: Auth.token, result });
+      if (data) Auth._set(data);
+    },
+    // cloud saves for single-player games
+    async saveGame(game, key, data) { if (Auth.token) await sb.rpc('save_game', { p_token: Auth.token, p_game: game, p_key: key, p_data: data }); },
+    async loadSaves(game) { if (!Auth.token) return {}; const { data } = await sb.rpc('load_saves', { p_token: Auth.token, p_game: game }); return data || {}; }
   };
   window.Auth = Auth;
 

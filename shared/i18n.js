@@ -2,7 +2,7 @@
 (function () {
   const STR = {
     ar: {
-      app: 'ملعب', tagline: 'العب مع صاحبك على نفس الجهاز أو أونلاين بكود غرفة',
+      app: 'ملعب', tagline: 'العب مع صاحبك أونلاين بكود غرفة أو لينك دعوة',
       haveCode: 'عندك كود؟', enterRoom: 'ادخل الغرفة', codeHint: 'اكتب الكود المكوّن من ٤ حروف',
       creating: 'بعمل الغرفة…', joining: 'بدخل…', sameDevice: 'نفس الجهاز', online: 'أونلاين', play: 'العب',
       history: '📜 سجل المباريات', tryAgain: '🔄 العب تاني', noHistory: 'لسه مفيش مباريات', vs: 'ضد', result: 'النتيجة', date: 'التاريخ', local: 'محلي', home: '← الرئيسية', newGame: 'لعبة جديدة',
@@ -11,7 +11,7 @@
       waiting: '⏳ مستني اللاعب التاني… ابعتله اللينك أو الكود', yourTurn: '🟢 دورك إنت', theirTurn: '🔴 دور {p}…', turnOf: 'دور {p}',
       player: 'اللاعب {n}', guest: 'ضيف', opponent: 'الخصم',
       login: 'تسجيل الدخول', signup: 'حساب جديد', logout: 'خروج', email: 'الإيميل', password: 'كلمة السر',
-      username: 'اسم اللاعب', orGuest: 'أو العب كضيف', checkEmail: 'اتبعتلك إيميل تأكيد — افتحه وبعدين سجّل دخول',
+      username: 'اسم اللاعب', usernameOrEmail: 'اسم اللاعب أو الإيميل', emailOptional: 'الإيميل (اختياري)', mayor: 'العمدة', orGuest: 'أو العب كضيف', checkEmail: 'اتبعتلك إيميل تأكيد — افتحه وبعدين سجّل دخول',
       wins: 'فوز', losses: 'خسارة', draws: 'تعادل', account: 'حسابي',
       // chess
       white: 'الأبيض', black: 'الأسود', whitePlays: 'الأبيض يلعب', blackPlays: 'الأسود يلعب', check: 'كش!',
@@ -31,7 +31,7 @@
       roomMissing: 'الغرفة مش موجودة', roomFull: 'الغرفة مليانة', codeMissing: 'الكود ده مش موجود', roomFail: 'مقدرتش أعمل غرفة، جرّب تاني',
     },
     en: {
-      app: 'Mal3ab', tagline: 'Play with a friend on the same device or online with a room code',
+      app: 'Mal3ab', tagline: 'Play with a friend online with a room code or an invite link',
       haveCode: 'Have a code?', enterRoom: 'Join room', codeHint: 'Enter the 4-letter code',
       creating: 'Creating room…', joining: 'Joining…', sameDevice: 'Same device', online: 'Online', play: 'Play',
       history: '📜 Match history', tryAgain: '🔄 Play again', noHistory: 'No matches yet', vs: 'vs', result: 'Result', date: 'Date', local: 'local', home: '← Home', newGame: 'New game',
@@ -40,7 +40,7 @@
       waiting: '⏳ Waiting for the other player… send them the link or code', yourTurn: '🟢 Your turn', theirTurn: '🔴 {p}\'s turn…', turnOf: '{p}\'s turn',
       player: 'Player {n}', guest: 'Guest', opponent: 'Opponent',
       login: 'Log in', signup: 'Sign up', logout: 'Log out', email: 'Email', password: 'Password',
-      username: 'Player name', orGuest: 'or play as guest', checkEmail: 'Confirmation email sent — open it, then log in',
+      username: 'Player name', usernameOrEmail: 'Player name or email', emailOptional: 'Email (optional)', mayor: 'Mayor', orGuest: 'or play as guest', checkEmail: 'Confirmation email sent — open it, then log in',
       wins: 'wins', losses: 'losses', draws: 'draws', account: 'My account',
       white: 'White', black: 'Black', whitePlays: 'White to move', blackPlays: 'Black to move', check: 'Check!',
       moves: 'Moves', offerDraw: 'Offer draw', drawOffered: 'Draw offered…', acceptDraw: 'Accept draw', declineDraw: 'Decline',
@@ -77,7 +77,8 @@
   };
   window.applyLang = () => {
     document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = 'ltr';           // layout never flips; only text direction does
+    document.body && document.body.classList.toggle('ar', lang === 'ar');
     document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
     document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
     document.querySelectorAll('.langbtn').forEach(b => b.textContent = lang === 'ar' ? 'English' : 'العربية');

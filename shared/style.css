@@ -5,7 +5,7 @@
 * { box-sizing: border-box; }
 body {
   margin: 0; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: var(--bg); color: var(--text);
-  direction: rtl; min-height: 100vh;
+  direction: ltr; min-height: 100vh;
 }
 a { color: var(--accent2); text-decoration: none; }
 .btn {
@@ -24,7 +24,8 @@ input {
   display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--card); flex-wrap: wrap;
 }
 .topbar .title { font-size: 22px; font-weight: 800; color: var(--accent); }
-.topbar .room { color: var(--muted); margin-inline-start: auto; }
+.topbar .room { color: var(--muted); margin-left: auto; }
+.topbar { direction: ltr; }
 .status { text-align: center; padding: 14px; font-size: 20px; font-weight: 700; }
 .center { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 10px 16px 40px; }
 
@@ -86,3 +87,9 @@ hr { border: 0; border-top: 1px solid var(--card2); width: 100%; }
 .cell.lastmove { box-shadow: inset 0 0 0 100px rgba(255,183,3,.35); }
 .cell.mark { box-shadow: inset 0 0 0 100px rgba(255,93,115,.45); }
 .tryagain { margin-top: 10px; font-size: 18px; padding: 10px 26px; }
+
+/* Arabic: text runs right-to-left inside blocks, but the page layout stays the same */
+.ar .hero, .ar .card h2, .ar .card p, .ar .card .clock, .ar .status, .ar .join, .ar .msg, .ar .modal .box, .ar .section,
+.ar .drawbox, .ar .hint, .ar .topbar .room, .ar .topbar .title, .ar table, .ar .empty, .ar .guest { direction: rtl; }
+.ar .topbar .room { text-align: right; }
+.ar th, .ar td { text-align: right; }
