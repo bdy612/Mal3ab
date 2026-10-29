@@ -22,6 +22,7 @@
       // heartbeat: while the site is open the session never expires (3 h idle, or 7 days with "keep me signed in")
       setInterval(() => { if (Auth.token) sb.rpc('touch', { p_token: Auth.token }).then(({ data }) => { if (data === false) Auth.signOut(); }); }, 30 * 1000);
       Invites.listen();
+      if (Auth.user) History.sync();
       return Auth.user;
     },
     _set(profile) {
@@ -32,6 +33,7 @@
     _session(res) {
       Auth.token = res.token; try { localStorage.setItem(TOKEN_KEY, res.token); } catch (e) {}
       Auth._set(res.profile);
+      History.sync();
     },
     name() {
       if (Auth.profile) return Auth.profile.username;
@@ -73,11 +75,26 @@
         const r = Object.assign({}, row);
         if (row.mode === 'online') { const room = await Net.get(row.code); if (room) { r.p1_id = room.p1_id; r.p2_id = room.p2_id; } }
         else r.p1_id = Auth.user ? Auth.user.id : null;
-        await sb.from('matches').insert(r);   // duplicate (code, game_no) from the other player is ignored
+        await sb.from('matches').upsert(History.clean(r), { onConflict: 'code,game_no', ignoreDuplicates: true });   // the other player's copy is ignored
       }
+    },
+    clean(r) { const o = {}; for (const k of ['code', 'game_no', 'game', 'mode', 'p1_name', 'p2_name', 'p1_id', 'p2_id', 'winner', 'reason', 'moves', 'finished_at']) if (r[k] !== undefined) o[k] = r[k]; return o; },
+    // upload every match kept in this browser that the database doesn't have yet (also recovers lost history)
+    async sync() {
+      if (!Auth.user || History._syncing) return; History._syncing = true;
+      try {
+        const me = Auth.user.id, name = Auth.name();
+        const rows = History.local().filter(r => r && r.code && r.game).map(r => {
+          const o = History.clean(Object.assign({ game_no: 1, mode: 'local', finished_at: new Date().toISOString() }, r));
+          if (!o.p1_id && !o.p2_id) { if (o.p2_name === name && o.p1_name !== name) o.p2_id = me; else o.p1_id = me; }
+          return o;
+        });
+        for (let i = 0; i < rows.length; i += 50) await sb.from('matches').upsert(rows.slice(i, i + 50), { onConflict: 'code,game_no', ignoreDuplicates: true });
+      } catch (e) {} finally { History._syncing = false; }
     },
     async mine() {
       if (!Auth.user) return History.local();
+      await History.sync();
       const { data } = await sb.from('matches').select('*').or(`p1_id.eq.${Auth.user.id},p2_id.eq.${Auth.user.id}`).order('finished_at', { ascending: false }).limit(200);
       return data || [];
     }

@@ -13,7 +13,7 @@ const DIFF_INFO={
   normal:'Monsters do regular damage. Starving can take you down to half a heart.',
   hard:'Monsters hit about 1.5× harder. Starving can kill you.',
   hardcore:'Hard difficulty and only one life. When you die, the world can only be spectated.'};
-const RULE_DEFAULTS={daylight:true,keepInv:false,mobSpawn:true};
+const RULE_DEFAULTS={daylight:true,keepInv:false,mobSpawn:true,pvp:true};
 const RULE_NAMES={daylight:'Daylight cycle',keepInv:'Keep inventory',mobSpawn:'Mob spawning'};
 
 const lsGet=(k,d)=>{ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } };

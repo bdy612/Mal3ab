@@ -99,6 +99,7 @@ function createScreen(){
         field('Time',seg([[true,'Day & night'],[false,'Always day']],true,v=>{ o.rules.daylight=v; })),
         field('Keep inventory after death',toggle(false,v=>o.rules.keepInv=v)),
         field('Mob spawning',toggle(true,v=>o.rules.mobSpawn=v)),
+        field('Player vs player (friends can hit each other)',toggle(true,v=>o.rules.pvp=v)),
         field('Bonus chest',toggle(false,v=>o.bonus=v),'A chest with tools and food next to you at the start.'))),
     E('div',{class:'btnrow'},btn('Create New World',create),btn('Cancel',()=>show(worldsScreen())))); }
 
@@ -114,7 +115,8 @@ function editScreen(m){
     E('div',{class:'two'},
       field('Time',seg([[true,'Day & night'],[false,'Always day']],ed.rules.daylight,v=>ed.rules.daylight=v)),
       field('Keep inventory',toggle(ed.rules.keepInv,v=>ed.rules.keepInv=v)),
-      field('Mob spawning',toggle(ed.rules.mobSpawn,v=>ed.rules.mobSpawn=v))),
+      field('Mob spawning',toggle(ed.rules.mobSpawn,v=>ed.rules.mobSpawn=v)),
+      field('Player vs player',toggle(ed.rules.pvp!==false,v=>ed.rules.pvp=v))),
     E('div',{class:'btnrow'},btn('Export world file',()=>{ exportWorld(m); msg.textContent='Saved a backup file to your downloads. Import it from the world list any time.'; }),
       btn('Copy seed',()=>{ try{navigator.clipboard.writeText(String(m.seed));msg.textContent='Seed copied.';}catch(e){msg.textContent='Seed: '+m.seed;} })),msg,
     E('div',{class:'btnrow'},btn('Save',save),btn('Cancel',()=>show(worldsScreen())))); }

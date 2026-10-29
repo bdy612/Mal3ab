@@ -17,8 +17,8 @@
   (async () => {
     try {
       await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      await load(depth + 'shared/i18n.js?v=1793266162');
-      await load(depth + 'shared/net.js?v=1793266162');
+      await load(depth + 'shared/i18n.js?v=1793277552');
+      await load(depth + 'shared/net.js?v=1793277552');
       await Auth.init();
     } catch (e) { return; }
     const name = Auth.name();
