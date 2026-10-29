@@ -20,7 +20,8 @@
         if (!data) { Auth.token = null; try { localStorage.removeItem(TOKEN_KEY); } catch (e) {} }   // expired
       }
       // heartbeat: while the site is open the session never expires (3 h idle, or 7 days with "keep me signed in")
-      setInterval(() => { if (Auth.token) sb.rpc('touch', { p_token: Auth.token }).then(({ data }) => { if (data === false) Auth.signOut(); }); }, 5 * 60 * 1000);
+      setInterval(() => { if (Auth.token) sb.rpc('touch', { p_token: Auth.token }).then(({ data }) => { if (data === false) Auth.signOut(); }); }, 30 * 1000);
+      Invites.listen();
       return Auth.user;
     },
     _set(profile) {
@@ -79,6 +80,50 @@
       if (!Auth.user) return History.local();
       const { data } = await sb.from('matches').select('*').or(`p1_id.eq.${Auth.user.id},p2_id.eq.${Auth.user.id}`).order('finished_at', { ascending: false }).limit(200);
       return data || [];
+    }
+  };
+
+  // ---------- friends + fast connect ----------
+  const rpc = async (fn, args) => { const { data, error } = await sb.rpc(fn, Object.assign({ p_token: Auth.token }, args || {})); if (error) throw new Error(error.message); return data; };
+  window.Friends = {
+    list: () => rpc('friends'),
+    request: (username) => rpc('friend_request', { p_username: username }),
+    respond: (id, accept) => rpc('friend_respond', { p_id: id, p_accept: accept }),
+    remove: (id) => rpc('friend_remove', { p_friend: id }),
+    invite: (toId, game, code) => rpc('send_invite', { p_to: toId, p_game: game, p_code: code }),
+    inviteStatus: (id) => rpc('invite_status', { p_id: id })
+  };
+  const ROOT = () => location.href.replace(/games\/.*$/, '').replace(/[^/]*$/, '');
+  window.Invites = {
+    gameUrl(game, code, p) { return game === 'turfrush' ? `${ROOT()}games/turf-rush.html?join=${code}` : `${ROOT()}games/${game}.html?code=${code}&p=${p}`; },
+    _shown: new Set(),
+    listen() {
+      if (Invites._timer) return;
+      Invites._timer = setInterval(async () => {
+        if (!Auth.token) return;
+        let list = []; try { list = await rpc('my_invites'); } catch (e) { return; }
+        for (const inv of list) if (!Invites._shown.has(inv.id)) { Invites._shown.add(inv.id); Invites.toast(inv); }
+      }, 4000);
+    },
+    toast(inv) {
+      const el = document.createElement('div');
+      el.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:99999;background:#1a1f35;color:#eef0ff;border:2px solid #ffb703;border-radius:14px;padding:14px 16px;font:700 15px Segoe UI,Tahoma,Arial,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.5);max-width:320px';
+      const names = { chess: t('chess'), connect4: t('connect4'), tictactoe: t('tictactoe'), turfrush: t('turfrush') };
+      el.innerHTML = `⚡ <b style="color:#ffb703">${inv.from}</b> ${t('invitesYou')} <b>${names[inv.game] || inv.game}</b>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button style="flex:1;background:#80ed99;color:#062b12;border:0;border-radius:8px;padding:8px;font-weight:700;cursor:pointer">✅ ${t('accept')}</button>
+          <button style="flex:1;background:#232a48;color:#eef0ff;border:0;border-radius:8px;padding:8px;font-weight:700;cursor:pointer">✖ ${t('decline')}</button></div>`;
+      const [ok, no] = el.querySelectorAll('button');
+      ok.onclick = async () => {
+        try {
+          await rpc('respond_invite', { p_id: inv.id, p_accept: true });
+          if (inv.game !== 'turfrush') await Net.join(inv.code);
+          location.href = Invites.gameUrl(inv.game, inv.code, 2);
+        } catch (e) { el.textContent = e.message; setTimeout(() => el.remove(), 3000); }
+      };
+      no.onclick = async () => { try { await rpc('respond_invite', { p_id: inv.id, p_accept: false }); } catch (e) {} el.remove(); };
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 110000);
     }
   };
 

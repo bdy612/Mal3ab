@@ -25,7 +25,7 @@
       cityhall: 'City Hall', cityhallDesc: 'إنت العمدة: ابني مدينتك وأدِر الميزانية.',
       turfrush: 'Turf Rush', turfrushDesc: 'سباق سيطرة على الأرض، سريع ومتعدد اللاعبين.',
       pitch: 'Pitch Legends', pitchDesc: 'أركيد كورة بكروت على طريقة UNO.',
-      games: 'الألعاب', remember: 'خليني مسجّل لمدة أسبوع (من غيرها بتخرج بعد ٣ ساعات من غير لعب)',
+      games: 'الألعاب', friends: '👥 الأصحاب', addFriend: 'ضيف صاحب باسمه', send: 'إرسال', requests: 'طلبات صداقة', noFriends: 'لسه مفيش أصحاب — ضيف حد باسمه', online: 'أونلاين', offline: 'مش أونلاين', fastConnect: '⚡ العب معاه', invitesYou: 'بيدعوك تلعب', accept: 'قبول', decline: 'رفض', waitingFor: '⏳ مستني {p} يقبل…', declined: '{p} رفض الدعوة', loginForFriends: 'سجّل دخول عشان تضيف أصحاب', remove: 'حذف', sent: 'اتبعت', remember: 'خليني مسجّل لمدة أسبوع (من غيرها بتخرج بعد ٣ ساعات من غير لعب)',
       
       roomMissing: 'الغرفة مش موجودة', roomFull: 'الغرفة مليانة', codeMissing: 'الكود ده مش موجود', roomFail: 'مقدرتش أعمل غرفة، جرّب تاني',
     },
@@ -52,7 +52,7 @@
       cityhall: 'City Hall', cityhallDesc: 'You are the mayor: build your city and manage the budget.',
       turfrush: 'Turf Rush', turfrushDesc: 'Fast multiplayer territory race.',
       pitch: 'Pitch Legends', pitchDesc: 'Football card arcade, UNO style.',
-      games: 'Games', remember: 'Keep me signed in for a week (otherwise you are signed out after 3 idle hours)',
+      games: 'Games', friends: '👥 Friends', addFriend: 'Add a friend by name', send: 'Send', requests: 'Friend requests', noFriends: 'No friends yet — add someone by name', online: 'online', offline: 'offline', fastConnect: '⚡ Play together', invitesYou: 'invites you to play', accept: 'Accept', decline: 'Decline', waitingFor: '⏳ Waiting for {p} to accept…', declined: '{p} declined', loginForFriends: 'Log in to add friends', remove: 'Remove', sent: 'Sent', remember: 'Keep me signed in for a week (otherwise you are signed out after 3 idle hours)',
       
       roomMissing: 'Room not found', roomFull: 'Room is full', codeMissing: 'That code does not exist', roomFail: 'Could not create a room, try again',
     }

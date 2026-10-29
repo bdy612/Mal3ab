@@ -13,6 +13,7 @@
 <div class="topbar">
   <div class="title">🎮 <span data-i18n="app"></span></div>
   <div class="room" id="who"></div>
+  <button class="btn small secondary" onclick="openFriends()" data-i18n="friends"></button>
   <span id="langslot"></span>
 </div>
 
@@ -33,6 +34,16 @@
 
 <div style="text-align:center;padding:30px">
   <a class="btn secondary" href="history.html" data-i18n="history"></a>
+</div>
+
+<!-- friends panel -->
+<div class="modal" id="fmodal" hidden>
+  <div class="box friends">
+    <h3 data-i18n="friends"></h3>
+    <div id="fbody"></div>
+    <div class="msg" id="fmsg"></div>
+    <button class="btn tiny secondary close" onclick="fmodal.hidden=true">✕</button>
+  </div>
 </div>
 
 <!-- account modal -->
@@ -141,6 +152,46 @@ async function joinRoom(code) {
     location.href = `games/${room.game}.html?code=${room.code}&p=2`;
   } catch (e) { msg.textContent = e.message; }
 }
+// ---------- friends + fast connect ----------
+const fmodal = document.getElementById('fmodal');
+const FAST = ['chess', 'connect4', 'tictactoe', 'turfrush'];
+let fTimer = null, waiting = null;
+function openFriends() { fmodal.hidden = false; drawFriends(); clearInterval(fTimer); fTimer = setInterval(() => { if (!fmodal.hidden && !waiting) drawFriends(); else if (fmodal.hidden) clearInterval(fTimer); }, 10000); }
+async function drawFriends() {
+  const b = document.getElementById('fbody'), m = document.getElementById('fmsg');
+  if (!Auth.user) { b.innerHTML = `<p class="hint">${t('loginForFriends')}</p><button class="btn" onclick="fmodal.hidden=true;openModal()">${t('login')}</button>`; return; }
+  if (waiting) { b.innerHTML = `<p class="waiting">${t('waitingFor', { p: waiting.name })}</p><button class="btn secondary small" onclick="cancelWait()">${t('decline')}</button>`; return; }
+  let d; try { d = await Friends.list(); } catch (e) { m.textContent = e.message; return; }
+  const opts = FAST.map(g => `<option value="${g}">${t(g)}</option>`).join('');
+  b.innerHTML = `
+    <div class="frow add"><input id="fname" class="text" placeholder="${t('addFriend')}"><button class="btn small" onclick="addFriend()">${t('send')}</button></div>
+    ${d.incoming.length ? `<h4>${t('requests')}</h4>` + d.incoming.map(r => `<div class="frow"><span>👤 ${r.username}</span>
+        <button class="btn tiny" onclick="respondFriend(${r.req_id}, true)">✅ ${t('accept')}</button><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('') : ''}
+    ${d.outgoing.map(r => `<div class="frow muted"><span>👤 ${r.username} · ${t('sent')}…</span><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('')}
+    ${d.friends.length ? d.friends.map(f => `<div class="frow"><span><i class="dot ${f.online ? 'on' : ''}"></i> ${f.username} <small>${f.online ? t('online') : t('offline')}</small></span>
+        ${f.online ? `<select id="g-${f.id}">${opts}</select><button class="btn tiny" onclick="fastConnect('${f.id}', '${f.username.replace(/'/g, '')}')">${t('fastConnect')}</button>` : ''}
+        <button class="btn tiny secondary" title="${t('remove')}" onclick="removeFriend('${f.id}')">🗑</button></div>`).join('') : `<p class="hint">${t('noFriends')}</p>`}`;
+}
+async function addFriend() { const m = document.getElementById('fmsg'); try { await Friends.request(document.getElementById('fname').value); m.textContent = t('sent') + ' ✅'; drawFriends(); } catch (e) { m.textContent = e.message; } }
+async function respondFriend(id, ok) { try { await Friends.respond(id, ok); } catch (e) {} drawFriends(); }
+async function removeFriend(id) { try { await Friends.remove(id); } catch (e) {} drawFriends(); }
+const randTurf = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+async function fastConnect(id, name) {
+  const game = document.getElementById('g-' + id).value, m = document.getElementById('fmsg');
+  try {
+    const code = game === 'turfrush' ? randTurf() : await Net.create(game, {});
+    const invId = await Friends.invite(id, game, code);
+    waiting = { id: invId, name, game, code }; drawFriends();
+    const poll = setInterval(async () => {
+      if (!waiting) { clearInterval(poll); return; }
+      const st = await Friends.inviteStatus(waiting.id);
+      if (st === 'accepted') { clearInterval(poll); location.href = Invites.gameUrl(game, code, 1) + (game === 'chess' ? '&tc=10' : ''); }
+      else if (st === 'declined') { clearInterval(poll); m.textContent = t('declined', { p: name }); waiting = null; drawFriends(); }
+    }, 2500);
+  } catch (e) { m.textContent = e.message; }
+}
+function cancelWait() { waiting = null; drawFriends(); }
+
 document.getElementById('code').addEventListener('keydown', e => { if (e.key === 'Enter') joinRoom(); });
 document.addEventListener('langchange', draw);
 document.addEventListener('authchange', drawWho);

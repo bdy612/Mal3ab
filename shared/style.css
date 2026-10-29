@@ -95,3 +95,16 @@ hr { border: 0; border-top: 1px solid var(--card2); width: 100%; }
 .ar th, .ar td { text-align: right; }
 .remember { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--muted); }
 .remember input { width: auto; margin-top: 3px; }
+
+/* friends panel */
+.box.friends { width: min(94vw, 440px); }
+.box.friends h3 { margin: 0; color: var(--accent); }
+.box.friends h4 { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+.frow { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--card2); }
+.frow > span { flex: 1; } .frow.muted { color: var(--muted); }
+.frow small { color: var(--muted); font-size: 12px; }
+.frow select { font-family: inherit; background: var(--card2); color: var(--text); border: 0; border-radius: 8px; padding: 4px 6px; }
+.frow.add input { flex: 1; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #555; margin-inline-end: 4px; }
+.dot.on { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
+.waiting { text-align: center; font-size: 18px; padding: 20px 0; }
