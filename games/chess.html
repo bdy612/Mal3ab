@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chess — Mal3ab</title>
-<link rel="stylesheet" href="../shared/style.css?v=1793279811">
+<link rel="stylesheet" href="../shared/style.css?v=1793280263">
 <style>
   .board { grid-template-columns: repeat(8, 1fr); width: min(95vw, 520px); gap: 0; padding: 6px; direction: ltr; background: #5c3b1e; }
   .cell { aspect-ratio: 1; border-radius: 0; font-size: clamp(26px, 7vw, 44px); position: relative; }
@@ -18,9 +18,9 @@
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-<script src="../shared/i18n.js?v=1793279811"></script>
-<script src="../shared/net.js?v=1793279811"></script>
-<script src="../shared/shell.js?v=1793279811"></script>
+<script src="../shared/i18n.js?v=1793280263"></script>
+<script src="../shared/net.js?v=1793280263"></script>
+<script src="../shared/shell.js?v=1793280263"></script>
 </head>
 <body>
 <div class="chess-wrap">
@@ -217,7 +217,48 @@ function render() {
   Shell.status(st.winner ? '' : (inCheck ? t('check') : (chess.turn() === 'w' ? t('whitePlays') : t('blackPlays'))));
 }
 
-Shell.start({ title: 'chess', newState, render, onUpdate: tryPremove });
+// ---- computer player (black) ----
+const VAL = { p: 100, n: 320, b: 330, r: 500, q: 900, k: 0 };
+const CENTER = [0, 1, 2, 3, 3, 2, 1, 0];
+function evaluate() {                          // + good for black (the computer)
+  if (chess.in_checkmate()) return chess.turn() === 'b' ? -1e6 : 1e6;
+  if (chess.in_draw() || chess.in_stalemate()) return 0;
+  let s = 0; const B = chess.board();
+  for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) { const p = B[r][f]; if (!p) continue;
+    let v = VAL[p.type];
+    if (p.type === 'n' || p.type === 'b') v += (CENTER[r] + CENTER[f]) * 4;
+    if (p.type === 'p') v += (p.color === 'w' ? 6 - r : r - 1) * 6 + (CENTER[f] >= 2 ? 6 : 0);
+    s += p.color === 'b' ? v : -v; }
+  return s;
+}
+function ordered() { return chess.moves({ verbose: true }).sort((a, b) => (b.captured ? VAL[b.captured] - VAL[b.piece] / 10 : -1) - (a.captured ? VAL[a.captured] - VAL[a.piece] / 10 : -1)); }
+function negamax(depth, alpha, beta, sign) {
+  if (depth === 0 || chess.game_over()) return sign * evaluate();
+  let best = -Infinity;
+  for (const m of ordered()) {
+    chess.move(m); const v = -negamax(depth - 1, -beta, -alpha, -sign); chess.undo();
+    if (v > best) best = v; if (best > alpha) alpha = best; if (alpha >= beta) break;
+  }
+  return best;
+}
+function botMove(level) {
+  sync();
+  const list = ordered(); if (!list.length) return;
+  let pick;
+  if (level === 'easy') pick = Math.random() < 0.6 ? list[Math.floor(Math.random() * list.length)] : list[0];
+  else {
+    const depth = level === 'hard' ? 3 : 2; let best = -Infinity, ties = [];
+    for (const m of list) {
+      chess.move(m); const v = -negamax(depth - 1, -Infinity, Infinity, -1); chess.undo();
+      if (v > best) { best = v; ties = [m]; } else if (v === best) ties.push(m);
+    }
+    pick = ties[Math.floor(Math.random() * ties.length)];
+  }
+  applyMove(pick.from, pick.to);
+  setTimeout(tryPremove, 50);      // a premove made while the computer was thinking
+}
+
+Shell.start({ title: 'chess', newState, render, onUpdate: tryPremove, botMove });
 </script>
 </body>
 </html>

@@ -142,8 +142,8 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--ink);outline-o
   .bar i{transition:none}
 }
 </style>
-<link rel="stylesheet" href="../shared/theme.css?v=1793279811">
-<script src="../shared/cloud.js?v=1793279811" data-game="turfrush" data-keys="turf-rush" data-name-input="#myName"></script>
+<link rel="stylesheet" href="../shared/theme.css?v=1793280263">
+<script src="../shared/cloud.js?v=1793280263" data-game="turfrush" data-keys="turf-rush" data-name-input="#myName"></script>
 
 
 <div class="app">
@@ -443,7 +443,10 @@ function stickVec(sets, t) {
 }
 // in online games either key set drives your own painter
 const myVec = () => stickVec([KEYS[1], KEYS[2]], touch[mode === 'guest' ? 2 : 1]);
+// Mal3ab hooks: lets the add-on computer opponent (turf-online.js) read the game and steer a painter
+window.TurfAPI = { get mode() { return mode; }, get state() { return state; }, P, owner, COLS, ROWS, get pickups() { return pickups; }, KEYS, touch, stickVec, dashNow: p => dashNow(p) };
 function inputVec(p) {
+  if (window.TurfBot) { const v = window.TurfBot.vec(p); if (v) return v; }
   if (state === 'menu') return { x: p.ax, y: p.ay, l: 1 };
   if (mode === 'host') {
     if (p.id === 2) { const l = Math.hypot(guestIn.x, guestIn.y); return l > 1 ? { x: guestIn.x / l, y: guestIn.y / l, l: 1 } : { ...guestIn, l }; }
@@ -452,6 +455,7 @@ function inputVec(p) {
   return stickVec([KEYS[p.id]], touch[p.id]);
 }
 function dashNow(p) {
+  if (window.TurfBot) p = window.TurfBot.dash(p) || p;
   if (p.dashCd > 0 || p.stun > 0 || p.frozen > 0) return;
   const v = inputVec(p);
   if (v.l > 0.2) { const l = Math.hypot(v.x, v.y); p.fx = v.x / l; p.fy = v.y / l; }
@@ -1288,4 +1292,4 @@ if (document.fonts && document.fonts.load) document.fonts.load(`20px ${FONT}`).c
 })();
 </script>
 
-<script src="turf-online.js?v=1793279811"></script>
+<script src="turf-online.js?v=1793280263"></script>

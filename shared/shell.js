@@ -6,7 +6,8 @@ window.Shell = {
     await Auth.init();
     const q = new URLSearchParams(location.search);
     const S = {
-      mode: q.get('code') ? 'online' : 'local',
+      mode: q.get('bot') ? 'bot' : q.get('code') ? 'online' : 'local',
+      bot: q.get('bot') || null,                 // easy | medium | hard (you are player 1, the computer is player 2)
       code: (q.get('code') || '').toUpperCase(),
       me: +(q.get('p') || 1),
       players: 1, state: null, names: { 1: '', 2: '' }, opts, recorded: false, gameNo: 1
@@ -14,10 +15,17 @@ window.Shell = {
     window.S = S;
 
     S.myTurn = () => S.mode === 'local' || S.state.turn === S.me;
-    S.ready = () => S.mode === 'local' || S.players >= 2;
+    S.ready = () => S.mode !== 'online' || S.players >= 2;
+    S.versus = () => S.mode !== 'local';         // "your turn / their turn" wording
+    // the computer answers after a short pause
+    S.botTurn = () => {
+      if (S.mode !== 'bot' || !S.state || S.state.winner || S.state.turn !== 2 || !opts.botMove || S._thinking) return;
+      S._thinking = true;
+      setTimeout(() => { S._thinking = false; if (S.state.turn === 2 && !S.state.winner) opts.botMove(S.bot); }, 450);
+    };
     S.name = (p) => S.names[p] || t('player', { n: p });
     S.commit = async () => {
-      opts.render(); Shell.status(); Shell.maybeRecord();
+      opts.render(); Shell.status(); Shell.maybeRecord(); S.botTurn();
       if (S.mode === 'online') await Net.push(S.code, S.state);
     };
     S.reset = () => { S.gameNo++; S.state = opts.newState(); S.state.gameNo = S.gameNo; S.recorded = false; S.commit(); };
@@ -36,6 +44,9 @@ window.Shell = {
         opts.render(); Shell.status(); Shell.maybeRecord();
         if (opts.onUpdate) opts.onUpdate();
       });
+    } else if (S.mode === 'bot') {
+      S.state = opts.newState();
+      S.names = { 1: Auth.name() || t('player', { n: 1 }), 2: '🤖 ' + t('botName') + ' (' + t(S.bot) + ')' };
     } else {
       S.state = opts.newState();
       S.names = { 1: t('player', { n: 1 }), 2: t('player', { n: 2 }) };
@@ -78,14 +89,14 @@ window.Shell = {
       room.innerHTML = `${t('roomCode')}: <b>${S.code}</b>
         <button class="btn tiny" onclick="Shell.copy('${S.code}', this)">${t('copy')}</button>
         <button class="btn tiny" onclick="Shell.copy(Net.inviteLink('${S.code}'), this)">🔗 ${t('inviteLink')}</button>`;
-    } else room.textContent = t('localPlay');
+    } else room.textContent = S.mode === 'bot' ? `🤖 ${t('vsBot')} · ${t(S.bot)}` : t('localPlay');
 
     const w = S.state.winner, other = S.me === 1 ? 2 : 1;
     let text;
     if (w === 'draw') text = t('draw');
-    else if (w) text = (S.mode === 'online' && w === S.me) ? t('youWon') : (S.mode === 'online' ? t('lost', { p: S.name(w) }) : t('won', { p: S.name(w) }));
+    else if (w) text = (S.versus() && w === S.me) ? t('youWon') : (S.versus() ? t('lost', { p: S.name(w) }) : t('won', { p: S.name(w) }));
     else if (!S.ready()) text = t('waiting');
-    else if (S.mode === 'online') text = S.myTurn() ? t('yourTurn') : t('theirTurn', { p: S.name(other) });
+    else if (S.versus()) text = S.myTurn() ? t('yourTurn') : t('theirTurn', { p: S.name(other) });
     else text = t('turnOf', { p: S.name(S.state.turn) });
     if (S.state.reason) text += ` (${S.state.reason})`;
     st.textContent = extra ? `${text} — ${extra}` : text;

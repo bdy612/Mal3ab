@@ -126,3 +126,4 @@ a.me { color: var(--text); display: inline-flex; align-items: center; gap: 6px; 
 .badge.admin { background: rgba(255,183,3,.18); color: var(--accent); } .badge.banned { background: rgba(255,93,115,.18); color: var(--p1); }
 .users .acts { display: flex; gap: 6px; flex-wrap: wrap; }
 .ar .page, .ar .users td, .ar .users th { direction: rtl; text-align: right; }
+.card .botrow { align-items: center; } .card .botrow select { flex: 0 0 auto; font-family: inherit; background: var(--card2); color: var(--text); border: 0; border-radius: 8px; padding: 9px 8px; }

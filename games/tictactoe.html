@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>إكس أو — ملعب</title>
-<link rel="stylesheet" href="../shared/style.css?v=1793279811">
+<link rel="stylesheet" href="../shared/style.css?v=1793280263">
 <style>
   .board { grid-template-columns: repeat(3, 1fr); width: min(90vw, 360px); }
   .cell { aspect-ratio: 1; font-size: 64px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../shared/i18n.js?v=1793279811"></script>
-<script src="../shared/net.js?v=1793279811"></script>
-<script src="../shared/shell.js?v=1793279811"></script>
+<script src="../shared/i18n.js?v=1793280263"></script>
+<script src="../shared/net.js?v=1793280263"></script>
+<script src="../shared/shell.js?v=1793280263"></script>
 </head>
 <body>
 <div class="center"><div class="board" id="board"></div></div>
@@ -26,9 +26,9 @@ function winner(b) {
   return null;
 }
 
-function play(i) {
+function play(i, bot) {
   const st = S.state;
-  if (st.winner || st.board[i] || !S.myTurn()) return;
+  if (st.winner || st.board[i] || (!bot && !S.myTurn())) return;
   if (!S.ready()) return;
   st.board[i] = st.turn;
   const w = winner(st.board);
@@ -36,7 +36,29 @@ function play(i) {
   S.commit();
 }
 
+// ---- computer player (O) ----
+function minimax(b, p) {                       // perfect play: +1 O wins, -1 X wins
+  const w = winner(b); if (w) return { s: w.who === 2 ? 1 : w.who === 1 ? -1 : 0 };
+  let best = { s: p === 2 ? -2 : 2, i: -1 };
+  for (let i = 0; i < 9; i++) if (!b[i]) {
+    b[i] = p; const r = minimax(b, p === 2 ? 1 : 2); b[i] = 0;
+    if (p === 2 ? r.s > best.s : r.s < best.s) best = { s: r.s, i };
+  }
+  return best;
+}
+function botMove(level) {
+  const b = S.state.board, free = b.map((v, i) => v ? -1 : i).filter(i => i >= 0);
+  const winning = (p) => free.find(i => { const c = b.slice(); c[i] = p; const w = winner(c); return w && w.who === p; });
+  let pick;
+  if (level === 'hard') pick = minimax(b.slice(), 2).i;
+  else if (level === 'medium') pick = winning(2) ?? winning(1) ?? (b[4] ? undefined : 4);
+  else if (Math.random() < 0.4) pick = winning(2) ?? winning(1);
+  if (pick == null || pick < 0) pick = free[Math.floor(Math.random() * free.length)];
+  play(pick, true);
+}
+
 Shell.start({
+  botMove,
   title: 'tictactoe',
   newState: () => ({ board: Array(9).fill(0), turn: 1, winner: null, line: [] }),
   render() {

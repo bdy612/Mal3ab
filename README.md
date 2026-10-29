@@ -14,6 +14,10 @@ Live: https://bdy612.github.io/Mal3ab/
 - Match history (`history.html`): online games are saved to the database; guests see their local history.
 - "Play again" at the end of every game.
 
+## Playing against the computer
+- Chess, Connect 4, X-O: "🤖 vs Computer" on the hub with Easy / Medium / Hard (`?bot=easy|medium|hard`). X-O Hard plays perfectly, Connect 4 uses alpha-beta search (depth 3/6), chess uses a material + position evaluation (depth 1–3).
+- Turf Rush: "Opponent" picker in the local menu (or `turf-rush.html?bot=hard`). The computer steers the blue painter via the small `TurfAPI`/`TurfBot` hooks; you can use either key set.
+
 ## Accounts & admin
 - `account.html`: change username, password, profile picture (shrunk to 128×128 and stored in the database) and preferred language (saved on the account and applied on every page/game after login).
 - `history.html`: delete a game from *your* history (the other player keeps theirs).
