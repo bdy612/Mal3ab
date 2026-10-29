@@ -28,6 +28,8 @@
     _set(profile) {
       Auth.profile = profile || null;
       Auth.user = profile ? { id: profile.id } : null;
+      // the account's saved language wins on every page and in every game
+      if (profile && profile.lang && window.setLang && window.getLang && getLang() !== profile.lang) setLang(profile.lang);
       document.dispatchEvent(new Event('authchange'));
     },
     _session(res) {
@@ -59,6 +61,17 @@
       if (!Auth.token) return;
       const { data } = await sb.rpc('record_result', { p_token: Auth.token, result });
       if (data) Auth._set(data);
+    },
+    // account page
+    async update(fields) {
+      const { data, error } = await sb.rpc('update_account', { p_token: Auth.token, p_username: fields.username || null, p_lang: fields.lang || null,
+        p_avatar: fields.avatar || null, p_clear_avatar: !!fields.clearAvatar });
+      if (error) throw new Error(error.message);
+      Auth._set(data); return data;
+    },
+    async changePassword(oldPw, newPw) {
+      const { error } = await sb.rpc('change_password', { p_token: Auth.token, p_old: oldPw, p_new: newPw });
+      if (error) throw new Error(error.message);
     },
     // cloud saves for single-player games
     async saveGame(game, key, data) { if (Auth.token) await sb.rpc('save_game', { p_token: Auth.token, p_game: game, p_key: key, p_data: data }); },
@@ -95,10 +108,26 @@
     async mine() {
       if (!Auth.user) return History.local();
       await History.sync();
-      const { data } = await sb.from('matches').select('*').or(`p1_id.eq.${Auth.user.id},p2_id.eq.${Auth.user.id}`).order('finished_at', { ascending: false }).limit(200);
+      const { data } = await sb.from('matches').select('*').or(`p1_id.eq.${Auth.user.id},p2_id.eq.${Auth.user.id}`).not('hidden_by', 'cs', `{${Auth.user.id}}`).order('finished_at', { ascending: false }).limit(200);
       return data || [];
+    },
+    // delete a game from my history (the other player keeps theirs)
+    async remove(row) {
+      const list = History.local().filter(r => !(r.code === row.code && (r.game_no || 1) === (row.game_no || 1)));
+      try { localStorage.setItem('mal3ab_history', JSON.stringify(list)); } catch (e) {}
+      if (Auth.user && row.id) { const { error } = await sb.rpc('hide_match', { p_token: Auth.token, p_id: row.id }); if (error) throw new Error(error.message); }
     }
   };
+
+  // ---------- admin panel ----------
+  window.Admin = {
+    async users() { const { data, error } = await sb.rpc('admin_users', { p_token: Auth.token }); if (error) throw new Error(error.message); return data || []; },
+    async act(target, action, reason) { const { error } = await sb.rpc('admin_action', { p_token: Auth.token, p_target: target, p_action: action, p_reason: reason || null }); if (error) throw new Error(error.message); }
+  };
+  // when a logged-in player switches language, remember it on the account
+  document.addEventListener('langchange', () => {
+    if (Auth.token && Auth.profile && window.getLang && Auth.profile.lang !== getLang()) { Auth.profile.lang = getLang(); sb.rpc('update_account', { p_token: Auth.token, p_lang: getLang() }); }
+  });
 
   // ---------- friends + fast connect ----------
   const rpc = async (fn, args) => { const { data, error } = await sb.rpc(fn, Object.assign({ p_token: Auth.token }, args || {})); if (error) throw new Error(error.message); return data; };

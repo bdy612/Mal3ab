@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Mal3ab</title>
+<link rel="stylesheet" href="shared/style.css?v=1793279811">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="shared/i18n.js?v=1793279811"></script>
+<script src="shared/net.js?v=1793279811"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html" data-i18n="home"></a>
+  <div class="title" data-i18n="admin"></div>
+  <div class="room" id="count"></div>
+  <span id="langslot"></span>
+</div>
+<div class="page" style="max-width:1100px">
+  <div class="panel2">
+    <div class="row2"><h2 data-i18n="users"></h2><input class="text" id="q" data-i18n-ph="searchUsers" style="max-width:320px;margin-inline-start:auto"></div>
+    <div class="err" id="err"></div>
+    <div style="overflow-x:auto"><table class="users" id="tbl"></table></div>
+  </div>
+</div>
+<script>
+let USERS = [];
+const fmtDate = (d) => d ? new Date(d).toLocaleString(getLang() === 'ar' ? 'ar-EG' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : t('never');
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+async function load() {
+  document.getElementById('langslot').innerHTML = langButton(); applyLang();
+  const err = document.getElementById('err');
+  if (!Auth.profile || !Auth.profile.is_admin) { document.getElementById('tbl').innerHTML = ''; err.textContent = Auth.profile ? t('adminsOnly') : t('loginFirst'); return; }
+  try { USERS = await Admin.users(); err.textContent = ''; } catch (e) { err.textContent = e.message; return; }
+  draw();
+}
+function draw() {
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const list = USERS.filter(u => !q || u.username.toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q));
+  document.getElementById('count').textContent = `${USERS.length} ${t('users')}`;
+  const me = Auth.user.id;
+  document.getElementById('tbl').innerHTML = `<tr><th></th><th>${t('username')}</th><th>${t('email')}</th><th>${t('stats')}</th><th>${t('joined')}</th><th>${t('lastSeen')}</th><th></th></tr>` +
+    list.map(u => `<tr>
+      <td>${avatarHtml(u, 34)}</td>
+      <td><b>${esc(u.username)}</b>${u.id === me ? ` <small>(${t('you')})</small>` : ''}${u.is_admin ? `<span class="badge admin">${t('adminBadge')}</span>` : ''}${u.banned ? `<span class="badge banned" title="${esc(u.ban_reason)}">${t('bannedBadge')}: ${esc(u.ban_reason)}</span>` : ''}</td>
+      <td>${esc(u.email || '—')}</td>
+      <td>${u.wins ?? 0} / ${u.losses ?? 0} / ${u.draws ?? 0}</td>
+      <td>${fmtDate(u.created_at)}</td>
+      <td>${fmtDate(u.last_seen)}</td>
+      <td><div class="acts">${u.id === me ? '' : `
+        ${u.banned ? `<button class="btn tiny secondary" onclick="act('${u.id}','unban')">${t('unban')}</button>` : `<button class="btn tiny" style="background:var(--p1);color:#fff" onclick="ban('${u.id}')">${t('ban')}</button>`}
+        ${u.is_admin ? `<button class="btn tiny secondary" onclick="act('${u.id}','remove_admin')">${t('removeAdmin')}</button>` : `<button class="btn tiny" onclick="act('${u.id}','make_admin')">${t('makeAdmin')}</button>`}
+        <button class="btn tiny secondary" onclick="del('${u.id}')">${t('deleteUser')}</button>`}</div></td>
+    </tr>`).join('');
+}
+async function act(id, action, reason) {
+  try { await Admin.act(id, action, reason); await load(); } catch (e) { document.getElementById('err').textContent = e.message; }
+}
+function ban(id) { const r = prompt(t('banReason'), getLang() === 'ar' ? 'غش' : 'cheating'); if (r !== null) act(id, 'ban', r); }
+function del(id) { const u = USERS.find(x => x.id === id); if (confirm(t('confirmDeleteUser', { p: u ? u.username : '' }))) act(id, 'delete'); }
+document.getElementById('q').addEventListener('input', draw);
+document.addEventListener('langchange', () => { load(); });
+Auth.init().then(load);
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account — Mal3ab</title>
+<link rel="stylesheet" href="shared/style.css?v=1793279811">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="shared/i18n.js?v=1793279811"></script>
+<script src="shared/net.js?v=1793279811"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html" data-i18n="home"></a>
+  <div class="title" data-i18n="myAccount"></div>
+  <div class="room"></div>
+  <span id="langslot"></span>
+</div>
+<div class="page" id="page"></div>
+<input type="file" id="file" accept="image/*" hidden>
+<script>
+const page = document.getElementById('page');
+function msg(id, text, bad) { const el = document.getElementById(id); el.className = bad ? 'err' : 'ok'; el.textContent = text; }
+
+function draw() {
+  document.getElementById('langslot').innerHTML = langButton();
+  applyLang();
+  const p = Auth.profile;
+  if (!p) { page.innerHTML = `<div class="panel2"><p>${t('loginFirst')}</p><a class="btn" href="index.html">${t('home')}</a></div>`; return; }
+  page.innerHTML = `
+    <div class="panel2">
+      <h2>${t('picture')}</h2>
+      <div class="row2">${avatarHtml(p, 96)}
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn small" onclick="document.getElementById('file').click()">${t('changePicture')}</button>
+          ${p.avatar ? `<button class="btn small secondary" onclick="removePic()">${t('removePicture')}</button>` : ''}
+          <small style="color:var(--muted)">${t('pictureHint')}</small>
+        </div></div>
+      <div id="m-pic"></div>
+    </div>
+    <div class="panel2">
+      <h2>${t('username')}</h2>
+      <div class="row2"><input class="text" id="uname" value="${p.username}" maxlength="20"><button class="btn small" onclick="saveName()">${t('save')}</button></div>
+      <div id="m-name"></div>
+    </div>
+    <div class="panel2">
+      <h2>${t('language')}</h2>
+      <div class="row2"><select id="lang"><option value="ar"${getLang() === 'ar' ? ' selected' : ''}>${t('arabic')}</option><option value="en"${getLang() === 'en' ? ' selected' : ''}>${t('english')}</option></select></div>
+      <div id="m-lang"></div>
+    </div>
+    <div class="panel2">
+      <h2>${t('changePassword')}</h2>
+      <input class="text" type="password" id="pw0" placeholder="${t('currentPassword')}">
+      <input class="text" type="password" id="pw1" placeholder="${t('newPassword')}">
+      <input class="text" type="password" id="pw2" placeholder="${t('confirmPassword')}">
+      <div class="row2"><button class="btn small" onclick="savePw()">${t('save')}</button></div>
+      <div id="m-pw"></div>
+    </div>
+    <div class="panel2">
+      <h2>${t('stats')}</h2>
+      <div class="row2"><b>${p.wins}</b> ${t('wins')} · <b>${p.losses}</b> ${t('losses')} · <b>${p.draws}</b> ${t('draws')}
+        <a class="btn small secondary" href="history.html" style="margin-inline-start:auto">${t('history')}</a>
+        ${p.is_admin ? `<a class="btn small" href="admin.html">${t('admin')}</a>` : ''}</div>
+    </div>`;
+  document.getElementById('lang').onchange = async (e) => {
+    try { await Auth.update({ lang: e.target.value }); setLang(e.target.value); } catch (err) { msg('m-lang', err.message, true); }
+  };
+}
+
+async function saveName() {
+  try { await Auth.update({ username: document.getElementById('uname').value.trim() }); draw(); msg('m-name', t('saved')); }
+  catch (e) { msg('m-name', e.message, true); }
+}
+async function savePw() {
+  const a = document.getElementById('pw0').value, b = document.getElementById('pw1').value, c = document.getElementById('pw2').value;
+  if (b !== c) { msg('m-pw', t('passwordsDontMatch'), true); return; }
+  try { await Auth.changePassword(a, b); ['pw0', 'pw1', 'pw2'].forEach(id => document.getElementById(id).value = ''); msg('m-pw', t('passwordChanged')); }
+  catch (e) { msg('m-pw', e.message, true); }
+}
+async function removePic() { try { await Auth.update({ clearAvatar: true }); draw(); } catch (e) { msg('m-pic', e.message, true); } }
+
+// shrink the picture to a 128×128 square (center crop) before saving it on the account
+document.getElementById('file').onchange = (e) => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  const img = new Image();
+  img.onload = async () => {
+    const S = 128, c = document.createElement('canvas'); c.width = c.height = S;
+    const side = Math.min(img.width, img.height);
+    c.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, S, S);
+    URL.revokeObjectURL(img.src);
+    try { await Auth.update({ avatar: c.toDataURL('image/jpeg', 0.85) }); draw(); msg('m-pic', t('saved')); } catch (err) { msg('m-pic', err.message, true); }
+  };
+  img.onerror = () => msg('m-pic', 'Not an image', true);
+  img.src = URL.createObjectURL(f);
+};
+document.addEventListener('langchange', draw);
+Auth.init().then(draw);
+</script>
+</body>
+</html>

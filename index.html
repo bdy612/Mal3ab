@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793277552">
+<link rel="stylesheet" href="shared/style.css?v=1793279811">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793277552"></script>
-<script src="shared/net.js?v=1793277552"></script>
+<script src="shared/i18n.js?v=1793279811"></script>
+<script src="shared/net.js?v=1793279811"></script>
 </head>
 <body>
 <div class="topbar">
@@ -99,7 +99,8 @@ function drawWho() {
   const w = document.getElementById('who');
   if (Auth.profile) {
     const p = Auth.profile;
-    w.innerHTML = `👤 <b>${p.username}</b> · ${p.wins} ${t('wins')} · ${p.losses} ${t('losses')} · ${p.draws} ${t('draws')}
+    w.innerHTML = `<a class="me" href="account.html" title="${t('myAccount')}">${avatarHtml(p, 28)} <b>${p.username}</b></a> · ${p.wins} ${t('wins')} · ${p.losses} ${t('losses')} · ${p.draws} ${t('draws')}
+      ${p.is_admin ? `<a class="btn tiny" href="admin.html">${t('admin')}</a>` : ''}
       <button class="btn tiny secondary" onclick="Auth.signOut()">${t('logout')}</button>`;
   } else {
     const g = Auth.name();

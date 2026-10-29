@@ -108,3 +108,21 @@ hr { border: 0; border-top: 1px solid var(--card2); width: 100%; }
 .fdot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #555; margin-inline-end: 4px; }
 .fdot.on { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
 .waiting { text-align: center; font-size: 18px; padding: 20px 0; }
+
+/* avatars, account + admin pages */
+.avatar { border-radius: 50%; object-fit: cover; vertical-align: middle; display: inline-flex; align-items: center; justify-content: center; background: var(--card2); color: var(--accent); font-weight: 800; flex: none; }
+a.me { color: var(--text); display: inline-flex; align-items: center; gap: 6px; }
+.page { max-width: 760px; margin: 0 auto; padding: 18px 16px 50px; display: flex; flex-direction: column; gap: 16px; }
+.panel2 { background: var(--card); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.panel2 h2 { margin: 0; font-size: 18px; color: var(--accent); }
+.panel2 .row2 { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.panel2 input.text, .panel2 select { flex: 1; min-width: 180px; }
+.panel2 select { font-family: inherit; font-size: 16px; background: var(--card2); color: var(--text); border: 2px solid var(--card2); border-radius: 10px; padding: 9px 12px; }
+.ok { color: var(--ok); min-height: 20px; } .err { color: var(--p1); min-height: 20px; }
+.users { width: 100%; border-collapse: collapse; }
+.users td, .users th { padding: 9px 8px; border-bottom: 1px solid var(--card2); text-align: start; font-size: 14px; vertical-align: middle; }
+.users th { color: var(--muted); font-weight: 600; }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; font-weight: 700; margin-inline-start: 4px; }
+.badge.admin { background: rgba(255,183,3,.18); color: var(--accent); } .badge.banned { background: rgba(255,93,115,.18); color: var(--p1); }
+.users .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+.ar .page, .ar .users td, .ar .users th { direction: rtl; text-align: right; }

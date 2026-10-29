@@ -14,6 +14,11 @@ Live: https://bdy612.github.io/Mal3ab/
 - Match history (`history.html`): online games are saved to the database; guests see their local history.
 - "Play again" at the end of every game.
 
+## Accounts & admin
+- `account.html`: change username, password, profile picture (shrunk to 128×128 and stored in the database) and preferred language (saved on the account and applied on every page/game after login).
+- `history.html`: delete a game from *your* history (the other player keeps theirs).
+- `admin.html` (admins only): every user, with ban (with a reason — banned players are signed out and can't log in), unban, make/remove admin and delete. Admins can't ban/delete themselves.
+
 ## Files
 ```
 index.html            hub: games, join by code, account
