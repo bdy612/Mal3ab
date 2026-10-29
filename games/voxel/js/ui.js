@@ -21,7 +21,7 @@ function updateBars(){ const gm=gameMode(); document.getElementById('cross').sty
 
 // --- container UI (inventory / crafting table / furnace / chest / enchanting / trading) ---
 let uiOpen=false;const cursorEl=document.getElementById('cursorStack');const ui={type:null,tile:null,grid:[],gw:0,ench:[],opts:null};
-function openUI(type,tile){if(type==='creative'){ui.cgrid=null;}ui.type=type;ui.tile=tile||null;ui.gw=type==='table'?3:type==='inventory'?2:0;ui.grid=Array.from({length:ui.gw*ui.gw},empty);ui.ench=[empty()];ui.opts=null;uiOpen=true;invEl.classList.remove('hidden');refreshUI();document.exitPointerLock();}
+function openUI(type,tile){if(type==='creative'){ui.cgrid=null;}ui.type=type;ui.tile=tile||null;ui.gw=type==='table'?3:type==='inventory'?2:0;ui.grid=Array.from({length:ui.gw*ui.gw},empty);ui.ench=[empty()];ui.opts=null;uiOpen=true;invEl.classList.remove('hidden');refreshUI();document.exitPointerLock();if(tile&&typeof net!=='undefined')net.requestTile(tile);}
 function closeUI(relock=true){uiOpen=false;invEl.classList.add('hidden');for(const s of ui.grid.concat(ui.ench))if(s.count){const l=invAdd(s.id,s.count,s.dur,s.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],s.id,l,s.dur,null,s.ench);clearStack(s);}
   const c=inventory.cursor;if(c.count){const l=invAdd(c.id,c.count,c.dur,c.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],c.id,l,c.dur,null,c.ench);clearStack(c);}cursorEl.classList.add('hidden');buildHotbar();scheduleSave();if(relock&&!player.dead)resumeGame();}
 function moveStack(s,target){
@@ -37,7 +37,7 @@ function slotClick(arr,i,opt,e){ const s=arr[i],c=inventory.cursor,right=e.butto
   else if(!s.count){setStack(s,c);clearStack(c);}
   else if(s.id===c.id&&ITEMS[s.id].stack>1){const n=Math.min(c.count,ITEMS[s.id].stack-s.count);s.count+=n;c.count-=n;if(!c.count)clearStack(c);}
   else{const t={};setStack(t,s);setStack(s,c);setStack(c,t);} }
-function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;refreshUI();buildHotbar();scheduleSave();};d.oncontextmenu=e=>e.preventDefault();return d;}
+function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;refreshUI();buildHotbar();scheduleSave();if(ui.tile&&typeof net!=='undefined')net.sendTile(ui.tile);};d.oncontextmenu=e=>e.preventDefault();return d;}
 function recRow(iconId,title,sub,ok,onclick){const d=document.createElement('div');d.className='rec'+(ok?' ok':'');d.innerHTML=`<div class="ic" style="background-image:url(${iconURL(iconId)})"></div><div>${title}<small>${sub}</small></div>`;if(onclick)d.onclick=()=>{if(ok)onclick();};else d.style.cursor='default';return d;}
 function refreshUI(){
   const main=document.getElementById('uiMain'),side=document.getElementById('uiSide');main.innerHTML='';side.innerHTML='';
@@ -133,9 +133,9 @@ function creativeUI(main,side,h,invQuick){
 function refreshCursor(){ const c=inventory.cursor;cursorEl.classList.toggle('hidden',c.count===0);if(c.count){cursorEl.style.backgroundImage=`url(${iconURL(c.id)})`;cursorEl.firstElementChild.textContent=c.count>1?c.count:'';} }
 function updateFurnaceUI(){if(uiOpen&&ui.type==='brew'){const t=ui.tile,e=document.getElementById('brewP');if(e)e.textContent=(t.t>0?Math.round(t.t/BREW_TIME*100)+'% ':'')+'→'+(t.fuelLeft?' ('+t.fuelLeft+')':'');return;}if(!uiOpen||ui.type!=='furnace')return;const t=ui.tile,f=document.getElementById('fireP'),c=document.getElementById('cookP');if(f)f.textContent=t.burnT>0?'🔥 '+Math.round(t.burnT/t.burnMax*100)+'%':'—';if(c)c.textContent=t.cookT>0?Math.round(t.cookT/SMELT_TIME*100)+'% →':'→';}
 function fillRecipe(rc){ for(const s of ui.grid)if(s.count){invAdd(s.id,s.count,s.dur,s.ench);clearStack(s);}
-  const r=rc.r,gw=ui.gw;const take=id=>{if(inventory.creative)return true;if(invCount(id)<1)return false;invRemove(id,1);return true;};
-  if(r.pat){for(let y=0;y<r.pat.length;y++)for(let x=0;x<r.pat[0].length;x++){const ch=r.pat[y][x];if(ch===' ')continue;const id=r.key[ch];if(take(id)){const cell=ui.grid[y*gw+x];cell.id=id;cell.count=1;}}}
-  else{r.in.forEach((id,i)=>{if(take(id)){const cell=ui.grid[i];cell.id=id;cell.count=1;}});} }
+  const r=rc.r,gw=ui.gw;const take=id=>{if(inventory.creative)return id;for(const v of plankVariants(id))if(invCount(v)>=1){invRemove(v,1);return v;}return 0;};
+  if(r.pat){for(let y=0;y<r.pat.length;y++)for(let x=0;x<r.pat[0].length;x++){const ch=r.pat[y][x];if(ch===' ')continue;const got=take(r.key[ch]);if(got){const cell=ui.grid[y*gw+x];cell.id=got;cell.count=1;}}}
+  else{r.in.forEach((id,i)=>{const got=take(id);if(got){const cell=ui.grid[i];cell.id=got;cell.count=1;}});} }
 document.addEventListener('mousemove',e=>{if(uiOpen){cursorEl.style.left=(e.clientX-18)+'px';cursorEl.style.top=(e.clientY-18)+'px';}});
 
 // --- input ---

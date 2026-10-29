@@ -201,6 +201,7 @@ paint(T.FIRE,(x,y,r)=>{ const f=hash3(x,0,93)*10+4+Math.sin(x*1.3)*2; if(y<16-f)
 paint(T.IRON_BLOCK,(x,y,r)=>vary(border(x,y)?[180,180,180]:[225,225,225],r,12)); paint(T.EMERALD_BLOCK,(x,y,r)=>vary(border(x,y)?[30,160,70]:[70,220,110],r,16)); paint(T.COAL_BLOCK,(x,y,r)=>vary([25,25,28],r,16));
 paint(T.SPRUCE_LOG,(x,y,r)=>vary([70,48,28],r,14).map(v=>v+((x*7)%5<2?-12:6))); paint(T.SPRUCE_TOP,(x,y,r)=>{const d=Math.hypot(x-7.5,y-7.5);return d>7?vary([70,48,28],r,14):vary(Math.floor(d)%2?[140,105,65]:[110,80,48],r,10);});
 paint(T.SPRUCE_LEAVES,(x,y,r)=>vary([45,90,55],r,40)); paint(T.JUNGLE_LOG,(x,y,r)=>vary([95,75,35],r,16).map(v=>v+((y*3+x)%6<2?-15:5))); paint(T.JUNGLE_LEAVES,(x,y,r)=>vary([45,140,35],r,50));
+paint(T.SPRUCE_PLANKS,(x,y,r)=>vary(y%4===3?[92,66,36]:[118,86,48],r,14)); paint(T.JUNGLE_PLANKS,(x,y,r)=>vary(y%4===3?[150,100,70]:[180,124,88],r,14));
 paint(T.VINE,(x,y,r)=>((x+Math.floor(y/3))%5===0||(x*3+y)%11===0)?A(vary([50,120,30],r,30)):CLEAR); paint(T.LILY,(x,y,r)=>{const d=Math.hypot(x-7.5,y-7.5);return d<7&&!(x>7&&Math.abs(y-7.5)<1)?A(vary([40,110,35],r,24)):CLEAR;});
 // --- new item icons ---
 const DYEM=['','','','      dd        ','     dddd  d    ','    dddddddd    ','   ddddddddd    ','   dddddddddd   ','    dddddddd    ','     dddddd     ','       dd       '];

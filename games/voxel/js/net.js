@@ -29,6 +29,12 @@ const net={
   publicMeta(){ const m=game.meta||{}; return {name:m.name,mode:m.mode,diff:m.diff,cheats:!!m.cheats,type:m.type,rules:m.rules}; },
   sendMeta(){ if(this.role==='host')this.broadcast({t:'meta',meta:this.publicMeta()}); },
   chat(text){ addChat(`<${this.name}> ${text}`); if(this.role)this.broadcast({t:'chat',name:this.name,text}); },
+  // containers (chests, furnaces, brewing stands) are shared: whoever changes one sends its full content
+  sendTile(t){ if(!this.role||!t||!t.pos)return; this.broadcast({t:'tile',dim:world.dim,x:t.pos[0],y:t.pos[1],z:t.pos[2],data:t}); },
+  requestTile(t){ if(this.role!=='guest'||!t||!t.pos)return; this.broadcast({t:'tilereq',dim:world.dim,x:t.pos[0],y:t.pos[1],z:t.pos[2]}); },
+  applyTile(m){ const w=dims[m.dim]; if(!w||!m.data)return; const k=m.x+','+m.y+','+m.z; let t=w.tiles.get(k);
+    if(t){ for(const key of Object.keys(t))if(!(key in m.data))delete t[key]; Object.assign(t,m.data); } else { t=m.data; w.tiles.set(k,t); }
+    t.pos=[m.x,m.y,m.z]; if(typeof uiOpen!=='undefined'&&uiOpen&&ui.tile===t&&typeof refreshUI==='function')refreshUI(); },
   applyBlock(dim,x,y,z,v){ const w=dims[dim]; if(!w)return; const ck=w.key(x>>4,z>>4),c=w.chunks.get(ck);
     if(c&&c.generated){ this.applyKey=dim+','+x+','+y+','+z+','+v; const prev=world; world=w; try{ w.setBlock(x,y,z,v&255,true,v>>8); } finally { world=prev; this.applyKey=null; } }
     else { if(!w.edits.has(ck))w.edits.set(ck,new Map()); w.edits.get(ck).set(idx(x&15,y,z&15),v); } },
@@ -71,6 +77,8 @@ const net={
       if(!peer.welcomed)return;
       if(m.t==='pos'){ m.id=peer.id; m.skin=peer.skin; this.updateRemote(m); this.broadcast(m,peer); return; }
       if(m.t==='blk'){ this.applyBlock(m.dim,m.x,m.y,m.z,m.v); this.broadcast(m,peer); return; }
+      if(m.t==='tile'){ this.applyTile(m); this.broadcast(m,peer); return; }
+      if(m.t==='tilereq'){ const w=dims[m.dim],t=w&&w.tiles.get(m.x+','+m.y+','+m.z); if(t)this.send(peer,{t:'tile',dim:m.dim,x:m.x,y:m.y,z:m.z,data:t}); return; }
       if(m.t==='chat'){ m.name=peer.name; addChat(`<${m.name}> ${m.text}`); this.broadcast(m,peer); return; }
       return; }
     // guest
@@ -83,6 +91,7 @@ const net={
     if(m.t==='meta'){ if(game.meta)Object.assign(game.meta,m.meta,{remote:true}); return; }
     if(m.t==='pos'){ if(m.id!==this.myId)this.updateRemote(m); return; }
     if(m.t==='blk'){ this.applyBlock(m.dim,m.x,m.y,m.z,m.v); return; }
+    if(m.t==='tile'){ this.applyTile(m); return; }
     if(m.t==='chat'){ addChat(`<${m.name}> ${m.text}`); return; }
     if(m.t==='time'){ dayTime=m.dayTime; return; }
     if(m.t==='weather'){ if(dims.over)dims.over.flags.weather=m.w; return; }

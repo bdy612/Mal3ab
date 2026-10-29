@@ -148,15 +148,17 @@ function craftResult(grid,w){
   for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(grid[y*w+x].count){minx=Math.min(minx,x);maxx=Math.max(maxx,x);miny=Math.min(miny,y);maxy=Math.max(maxy,y);}
   if(maxx<0)return null; const bw=maxx-minx+1,bh=maxy-miny+1;
   for(const r of SHAPED){ if(r.pat[0].length!==bw||r.pat.length!==bh)continue;
-    for(const mirror of [false,true]){ let ok=true; for(let y=0;y<bh&&ok;y++)for(let x=0;x<bw;x++){const ch=r.pat[y][mirror?bw-1-x:x],want=ch===' '?0:r.key[ch],cell=grid[(miny+y)*w+minx+x];if(want!==(cell.count?cell.id:0)){ok=false;break;}} if(ok)return r.out; } }
-  const ids=grid.filter(s=>s.count).map(s=>s.id).sort((a,b)=>a-b).join(',');
+    for(const mirror of [false,true]){ let ok=true; for(let y=0;y<bh&&ok;y++)for(let x=0;x<bw;x++){const ch=r.pat[y][mirror?bw-1-x:x],want=ch===' '?0:r.key[ch],cell=grid[(miny+y)*w+minx+x];if(want!==(cell.count?(PLANK_ALIAS[cell.id]||cell.id):0)){ok=false;break;}} if(ok)return r.out; } }
+  const ids=grid.filter(s=>s.count).map(s=>PLANK_ALIAS[s.id]||s.id).sort((a,b)=>a-b).join(',');
   for(const r of SHAPELESS)if(r.in.slice().sort((a,b)=>a-b).join(',')===ids)return r.out;
   return null;
 }
 function allRecipes(){return SHAPED.map(r=>({out:r.out,cells:r.pat.join('').split('').filter(c=>c!==' ').map(c=>r.key[c]),size:Math.max(r.pat.length,r.pat[0].length),r}))
   .concat(SHAPELESS.map(r=>({out:r.out,cells:r.in,size:Math.ceil(Math.sqrt(r.in.length)),r})));}
 function recipeNeeds(rc){const m={};for(const id of rc.cells)m[id]=(m[id]||0)+1;return m;}
-function canFill(rc,gw){if(rc.size>gw)return false;if(inventory.creative)return true;const n=recipeNeeds(rc);return Object.entries(n).every(([id,c])=>invCount(+id)>=c);}
+function plankVariants(id){return id===PLANKS?[PLANKS,...Object.keys(PLANK_ALIAS).map(Number)]:[id];}
+function invCountAny(id){return plankVariants(id).reduce((n,v)=>n+invCount(v),0);}
+function canFill(rc,gw){if(rc.size>gw)return false;if(inventory.creative)return true;const n=recipeNeeds(rc);return Object.entries(n).every(([id,c])=>invCountAny(+id)>=c);}
 // more bookshelves around the table = pricier but stronger enchantments (0-15 shelves)
 function enchOptions(s,shelves=0){ const I=ITEMS[s.id],kind=itemKind(I); if(!kind)return []; const names=Object.keys(ENCH).filter(n=>ENCH[n].kinds.includes(kind)); if(!names.length)return [];
   return [Math.max(1,Math.round(1+shelves/3)),Math.round(2+shelves*0.6),Math.round(3+shelves)].map(cost=>{const name=names[Math.floor(Math.random()*names.length)];const cur=s.ench&&s.ench[name]||0;
@@ -217,7 +219,7 @@ function getTile(x,y,z,b){ const k=tkey(x,y,z); let t=world.tiles.get(k); if(!t)
     if(b===CHEST)t={type:'chest',slots:Array.from({length:27},empty)};
     else if(b===FURNACE||b===FURNACE_LIT)t={type:'furnace',inp:empty(),fuel:empty(),out:empty(),burnT:0,burnMax:1,cookT:0};
     else if(b===BREWING_STAND)t={type:'brew',bottles:[empty(),empty(),empty()],ing:empty(),fuel:empty(),fuelLeft:0,t:0};
-    else return null; world.tiles.set(k,t); } return t; }
+    else return null; world.tiles.set(k,t); } t.pos=[x,y,z]; return t; }
 function fillLoot(t,table){ for(const [id,a,b,ch] of LOOT[table]){ if(ch!==undefined&&Math.random()>ch)continue; const n=rint(a,b); if(!n)continue; const s=t.slots[rint(0,26)]; if(!s.count){s.id=id;s.count=Math.min(n,ITEMS[id].stack);} } }
 function brewTarget(t){ if(!t.ing.count||!BREW[t.ing.id])return null; const map=BREW[t.ing.id]; return t.bottles.some(b=>b.count&&map[b.id])?map:null; }
 function tickTiles(dt){ for(const [k,t] of world.tiles){ const [x,y,z]=k.split(',').map(Number);
