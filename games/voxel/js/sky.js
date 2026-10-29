@@ -57,6 +57,7 @@ function lightning(x,z,real){ const w=dims.over; if(!w.loaded(x,z))return; const
   if(!real)return; if(net.role==='host')net.broadcast({t:'bolt',x,z});
   if(world===w){ if(d<3.5&&Math.abs(player.pos[1]-y)<4&&!player.spectator&&!inventory.creative){ player.invuln=0; damagePlayer(5,false,'lightning'); player.burnT=Math.max(player.burnT||0,4); }
     for(const m of w.mobs)if(Math.hypot(m.pos[0]-x,m.pos[2]-z)<3.5&&!m.def.boss)hurtMob(w,m,6,null); }
+  if(net.role==='host')for(const rp of net.remotesIn('over'))if(!rp.spec&&!rp.cr&&Math.hypot(rp.pos[0]-x,rp.pos[2]-z)<3.5&&Math.abs(rp.pos[1]-y)<4)net.sendTo(rp.id,{t:'hurt',dmg:5,kind:'lightning',burn:4,inv0:1});
   if(rod)return; if(!LIQ[w.getBlock(x,y,z)]&&w.getBlock(x,y+1,z)===AIR&&difficulty()!=='peaceful'){ const prev=world; world=w; w.setBlock(x,y+1,z,FIRE); world=prev; } }
 
 // --- particles ---

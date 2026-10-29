@@ -50,7 +50,7 @@ function damagePlayer(amount,ignoreArmor,kind){ if(player.dead||inventory.creati
 function applyEffect(name){ if(name==='water')return; if(name==='heal'){player.hp=Math.min(20,player.hp+8);return;} player.effects[name]=EFFECTS[name].time; }
 function updatePlayer(world,dt){
   const p=player,v=p.vel;if(p.dead)return;
-  if(p.riding){ const b=p.riding; if(b.hp<=0||!world.mobs.includes(b)||keys['ShiftLeft']){ dismount(); } else { p.pos=[b.pos[0],b.pos[1]+0.2,b.pos[2]]; v[0]=v[1]=v[2]=0; p.fallPeak=p.pos[1]; p.onGround=true; p.inWater=false; p.inLava=false; p.air=15; return; } }
+  if(p.riding){ const b=p.riding; if(b.hp<=0||!world.mobs.includes(b)||keys['ShiftLeft']){ dismount(); } else { p.pos=[b.pos[0],b.pos[1]+(b.def.seat??0.2),b.pos[2]]; v[0]=v[1]=v[2]=0; p.fallPeak=p.pos[1]; p.onGround=true; p.inWater=false; p.inLava=false; p.air=15; return; } }
   if(p.spectator){ const f=forwardVec(),r=[Math.cos(p.yaw),0,-Math.sin(p.yaw)]; let mv=[0,0,0];
     if(keys['KeyW'])mv=mv.map((a,i)=>a+f[i]); if(keys['KeyS'])mv=mv.map((a,i)=>a-f[i]); if(keys['KeyD'])mv=mv.map((a,i)=>a+r[i]); if(keys['KeyA'])mv=mv.map((a,i)=>a-r[i]);
     if(keys['Space'])mv[1]+=1; if(keys['ShiftLeft'])mv[1]-=1; const l=Math.hypot(...mv)||1, sp=(keys['ControlLeft']?FLY*2.2:FLY)/l, k=Math.min(1,dt*10);
@@ -62,6 +62,7 @@ function updatePlayer(world,dt){
   p.sneak=!!keys['ShiftLeft']&&!p.fly; if(!keys['KeyW']||p.food<=6||p.sneak)p.sprint=false; const sprint=p.sprint&&len>0;
   for(const k in p.effects){p.effects[k]-=dt;if(p.effects[k]<=0)delete p.effects[k];}
   if(hasFx('regen')){p.regenFx+=dt;if(p.regenFx>=2.5){p.regenFx=0;p.hp=Math.min(20,p.hp+1);}}
+  if(hasFx('poison')&&!inventory.creative){p.poisonT=(p.poisonT||0)+dt;if(p.poisonT>=1.25){p.poisonT=0;if(p.hp>1){p.hp-=1;sfx.hurt();}}}
   if(p.fly&&inventory.creative){const speed=keys['ControlLeft']?FLY*2:FLY,ty=(keys['Space']?1:0)-(keys['ShiftLeft']?1:0),k=Math.min(1,dt*12);v[0]+=(wx*speed-v[0])*k;v[2]+=(wz*speed-v[2])*k;v[1]+=(ty*speed-v[1])*k;p.fallPeak=p.pos[1];}
   else{ p.fly=false;const icy=below===ICE||below===PACKED_ICE,speed=(blockingNow()?0.35:1)*(sprint?SPRINT:p.sneak?SNEAK:WALK)*(hasFx('speed')?1.3:1)*(p.inLava&&!p.inWater?0.35:p.inWater?0.55:below===SOUL_SAND?0.4:icy?1.15:1),accel=(p.onGround?(icy?1.2:10):2.5)*dt;
     v[0]+=(wx*speed-v[0])*Math.min(1,accel);v[2]+=(wz*speed-v[2])*Math.min(1,accel);
@@ -75,6 +76,7 @@ function updatePlayer(world,dt){
         if(SOLID[world.getBlock(Math.floor(ax),by-1,Math.floor(az))]||SOLID[world.getBlock(Math.floor(ax),by,Math.floor(az))])v[1]=Math.max(v[1],10.4); } }
     else{if(keys['Space']&&p.onGround){v[1]=JUMP_V;p.onGround=false;p.exhaust+=0.05;}v[1]=Math.max(v[1]+GRAVITY*dt,-78);} }
   const lb=blockAt(world,p,0.2),lh=blockAt(world,p,1.0);
+  if(lb===COBWEB||lh===COBWEB){ v[0]*=0.15; v[2]*=0.15; v[1]=clamp(v[1],-0.8,0.8); p.fallPeak=p.pos[1]; p.sprint=false; }
   if(!p.fly&&(lb===LADDER||lb===VINE||lh===LADDER||lh===VINE)){ // climb by walking into the ladder (or holding jump); sneak to hold on
     if((len>0&&p.hitWall)||keys['Space'])v[1]=2.6; else if(p.sneak)v[1]=Math.max(v[1],0); else v[1]=Math.max(v[1],-2.4); p.fallPeak=p.pos[1]; }
   const wasGround=p.onGround;if(p.pos[1]>p.fallPeak)p.fallPeak=p.pos[1];
@@ -168,10 +170,12 @@ function applyEnchant(s,o){ s.ench={...(s.ench||{}),[o.name]:Math.max(o.lvl,s.en
 // ---------------------------------------------------------------------
 // ITEM DROPS, XP ORBS, FALLING BLOCKS, PROJECTILES, PRIMED TNT
 // ---------------------------------------------------------------------
-function spawnItem(x,y,z,id,count,dur,vel,ench){ if(!id||!count)return; if(!ench)for(const it of world.items){ if(it.id===id&&!it.ench&&ITEMS[id].stack>1&&it.count+count<=64&&Math.hypot(it.pos[0]-x,it.pos[1]-y,it.pos[2]-z)<1){it.count+=count;return;} }
+function spawnItem(x,y,z,id,count,dur,vel,ench){ if(!id||!count)return;
+  if(net.shared()){ if(blockFx===0)net.dropItem(x,y,z,id,count,dur,vel,ench); return; }   // the host owns dropped items (and drops spilled chests itself) if(!ench)for(const it of world.items){ if(it.id===id&&!it.ench&&ITEMS[id].stack>1&&it.count+count<=64&&Math.hypot(it.pos[0]-x,it.pos[1]-y,it.pos[2]-z)<1){it.count+=count;return;} }
   world.items.push({id,count,dur:dur||0,ench,pos:[x,y,z],vel:vel||[rand(-2,2),rand(3,5),rand(-2,2)],w:0.125,h:0.25,onGround:false,age:0,spin:Math.random()*6}); }
 function spawnOrbs(x,y,z,total){ while(total>0){const v=Math.min(total,rint(3,10));total-=v;world.orbs.push({value:v,pos:[x,y,z],vel:[rand(-2,2),rand(2,4),rand(-2,2)],w:0.1,h:0.2,onGround:false,age:0});} }
 function dropBlockLoot(b,x,y,z){ const B=BLOCKS[b]; let id=b,n=1; const s=selected(),fortune=s.ench&&s.ench.Fortune||0; const drop=(i,c)=>spawnItem(x+0.5,y+0.3,z+0.5,i,c,0);
+  if(b===COBWEB){ const t=s.count?ITEMS[s.id]:null; if(t&&(t.tool==='sword'||t.shears))drop(STRING,1); return; }
   if(b===LEAVES){ if(Math.random()<0.06)drop(SAPLING,1); if(Math.random()<0.02)drop(APPLE,1); return; }
   if(b===TALL_GRASS){ if(Math.random()<0.15)drop(SEEDS,1); return; }
   if(b===WHEAT3){ drop(WHEAT,1); drop(SEEDS,rint(1,3)); return; }
@@ -179,7 +183,7 @@ function dropBlockLoot(b,x,y,z){ const B=BLOCKS[b]; let id=b,n=1; const s=select
   else if(B.drop){ if(!B.drop[0])return; id=B.drop[0];n=rint(B.drop[1],B.drop[2]); if(fortune&&!ITEMS[id].block)n*=rint(1,1+fortune); }
   drop(id,n); if(B.xp)spawnOrbs(x+0.5,y+0.5,z+0.5,B.xp); }
 function updateItems(world,dt){
-  for(let i=world.items.length-1;i>=0;i--){ const it=world.items[i]; it.age+=dt; it.spin+=dt*2;
+  if(!net.shared())for(let i=world.items.length-1;i>=0;i--){ const it=world.items[i]; it.age+=dt; it.spin+=dt*2;
     if(it.age>300||it.pos[1]<-10||!world.getChunk(Math.floor(it.pos[0]/CX),Math.floor(it.pos[2]/CZ))){world.items.splice(i,1);continue;}
     const at=blockAt(world,it,0.1); if(isLava(at)){world.items.splice(i,1);continue;}
     it.vel[1]=isWater(at)?Math.min(it.vel[1]+10*dt,1.5):Math.max(it.vel[1]+GRAVITY*dt,-40); if(it.onGround){it.vel[0]*=0.7;it.vel[2]*=0.7;}
@@ -199,15 +203,19 @@ function updateFalling(world,dt){ for(let i=world.falling.length-1;i>=0;i--){ co
 function primeTNT(x,y,z,fuse=4){ world.tnt.push({pos:[x+0.5,y,z+0.5],vel:[rand(-0.5,0.5),3,rand(-0.5,0.5)],w:0.49,h:0.98,onGround:false,fuse}); sfx.hiss(); }
 function updateTNT(world,dt){ for(let i=world.tnt.length-1;i>=0;i--){ const t=world.tnt[i]; t.fuse-=dt; t.vel[1]=Math.max(t.vel[1]+GRAVITY*dt,-40); if(t.onGround){t.vel[0]*=0.8;t.vel[2]*=0.8;} stepEntity(world,t,dt);
   if(t.fuse<=0){ world.tnt.splice(i,1); explodeAt(Math.floor(t.pos[0]),Math.floor(t.pos[1]+0.5),Math.floor(t.pos[2]),4,true,0.6); } } }
-function shootArrow(from,dir,speed,fromPlayer,o={}){ world.arrows.push({pos:[...from],vel:[dir[0]*speed,dir[1]*speed,dir[2]*speed],age:0,fromPlayer,stuck:false,dmg:o.dmg??(fromPlayer?5:3),fire:!!o.fire,kind:o.kind}); sfx.bow(); }
+function shootArrow(from,dir,speed,fromPlayer,o={}){ const a={pos:[...from],vel:[dir[0]*speed,dir[1]*speed,dir[2]*speed],age:0,fromPlayer,stuck:false,dmg:o.dmg??(fromPlayer?5:3),fire:!!o.fire,kind:o.kind,splash:o.splash}; world.arrows.push(a); sfx.bow(); if(net.role)net.shareArrow(a,fromPlayer); }
 function updateArrows(world,dt){
   for(let i=world.arrows.length-1;i>=0;i--){ const a=world.arrows[i]; a.age+=dt; if(a.age>20||a.pos[1]<-10){world.arrows.splice(i,1);continue;} if(a.stuck)continue;
     if(!a.fire&&a.kind!=='wind')a.vel[1]+=GRAVITY*0.6*dt; const nx=a.pos[0]+a.vel[0]*dt,ny=a.pos[1]+a.vel[1]*dt,nz=a.pos[2]+a.vel[2]*dt;
     const hb=world.getBlock(Math.floor(nx),Math.floor(ny),Math.floor(nz));
     if(SOLID[hb]){ if(a.fire||a.kind){ if(a.kind)projectileLanded(a); world.arrows.splice(i,1);continue;} a.stuck=true;a.age=Math.max(a.age,15);continue;}
     a.pos=[nx,ny,nz];
+    const inside=(p,w)=>nx>p[0]-w&&nx<p[0]+w&&ny>p[1]&&ny<p[1]+1.8&&nz>p[2]-w&&nz<p[2]+w;
+    // someone else's projectile shown here: it only stops on (and blows wind at) this player; the damage comes from its owner's game
+    if(a.visual){ if(a.mob&&!player.dead&&!player.spectator&&inside(player.pos,0.4)){ if(a.kind)projectileLanded(a); world.arrows.splice(i,1); } continue; }
     if(a.fromPlayer){ for(const m of world.mobs){ if(m.def.vehicle&&player.riding===m)continue; if(nx>m.pos[0]-m.w&&nx<m.pos[0]+m.w&&ny>m.pos[1]&&ny<m.pos[1]+m.h&&nz>m.pos[2]-m.w&&nz<m.pos[2]+m.w){hurtMob(world,m,a.kind==='snow'&&m.def.fire?3:a.dmg,[a.vel[0]*0.2,3,a.vel[2]*0.2]);if(a.kind)projectileLanded(a);else if(!m.tame)petsDefend(world,m);world.arrows.splice(i,1);break;} } }
     else if(!player.dead&&nx>player.pos[0]-0.4&&nx<player.pos[0]+0.4&&ny>player.pos[1]&&ny<player.pos[1]+1.8&&nz>player.pos[2]-0.4&&nz<player.pos[2]+0.4){ if(!player.spectator){ if(a.kind==='wind'){ windBurst(a.pos,false); } damagePlayer(a.dmg,false,a.fire?'mobfire':'mob'); world.arrows.splice(i,1); } }
+    else if(net.role==='host'){ const rp=net.remotesIn(world.dim).find(r=>!r.spec&&!r.cr&&!r.dead&&inside(r.pos,0.4)); if(rp){ net.sendTo(rp.id,{t:'hurt',dmg:a.dmg,kind:a.fire?'mobfire':'mob'}); if(a.kind==='wind')windBurst(a.pos,false); world.arrows.splice(i,1); } }
   }
 }
 
@@ -215,14 +223,18 @@ function updateArrows(world,dt){
 // TILES: chests, furnaces, brewing stands, monster spawners
 // ---------------------------------------------------------------------
 const tkey=(x,y,z)=>x+','+y+','+z;
-function getTile(x,y,z,b){ const k=tkey(x,y,z); let t=world.tiles.get(k); if(!t){
+const TILE_TYPES=new Set(['chest','furnace','brew','hopper','dropper','dispenser']);
+function getTile(x,y,z,b){ const k=tkey(x,y,z); let t=world.tiles.get(k); if(t&&!t.pos&&TILE_TYPES.has(t.type))t.pos=[x,y,z]; if(!t){
     if(b===CHEST)t={type:'chest',slots:Array.from({length:27},empty)};
     else if(b===FURNACE||b===FURNACE_LIT)t={type:'furnace',inp:empty(),fuel:empty(),out:empty(),burnT:0,burnMax:1,cookT:0};
     else if(b===BREWING_STAND)t={type:'brew',bottles:[empty(),empty(),empty()],ing:empty(),fuel:empty(),fuelLeft:0,t:0};
-    else return null; world.tiles.set(k,t); } t.pos=[x,y,z]; return t; }
+    else if(b===HOPPER)t={type:'hopper',slots:Array.from({length:5},empty),cd:0};
+    else if(b===DROPPER||b===DISPENSER)t={type:b===DROPPER?'dropper':'dispenser',slots:Array.from({length:9},empty),powered:false};
+    else return null; t.pos=[x,y,z]; world.tiles.set(k,t); } return t; }
 function fillLoot(t,table){ for(const [id,a,b,ch] of LOOT[table]){ if(ch!==undefined&&Math.random()>ch)continue; const n=rint(a,b); if(!n)continue; const s=t.slots[rint(0,26)]; if(!s.count){s.id=id;s.count=Math.min(n,ITEMS[id].stack);} } }
 function brewTarget(t){ if(!t.ing.count||!BREW[t.ing.id])return null; const map=BREW[t.ing.id]; return t.bottles.some(b=>b.count&&map[b.id])?map:null; }
-function tickTiles(dt){ for(const [k,t] of world.tiles){ const [x,y,z]=k.split(',').map(Number);
+function tickTiles(dt){ if(net.shared())return;   // the host runs furnaces, hoppers and spawners in a shared world
+  for(const [k,t] of world.tiles){ const [x,y,z]=k.split(',').map(Number);
   if(t.type==='furnace'){ const prod=t.inp.count?SMELT[t.inp.id]:null, can=prod&&(t.out.count===0||(t.out.id===prod&&t.out.count<64));
     if(t.burnT<=0&&can&&t.fuel.count&&FUEL[t.fuel.id]){t.burnT=t.burnMax=FUEL[t.fuel.id];if(t.fuel.id===LAVA_BUCKET){t.fuel.id=BUCKET;}else{t.fuel.count--;if(!t.fuel.count)clearStack(t.fuel);}}
     if(t.burnT>0){t.burnT-=dt;if(can){t.cookT+=dt;if(t.cookT>=SMELT_TIME){t.cookT=0;t.out.id=prod;t.out.count++;t.inp.count--;if(!t.inp.count)clearStack(t.inp);}}else t.cookT=Math.max(0,t.cookT-dt*2);} else t.cookT=Math.max(0,t.cookT-dt*2);
@@ -230,6 +242,8 @@ function tickTiles(dt){ for(const [k,t] of world.tiles){ const [x,y,z]=k.split('
   else if(t.type==='brew'){ const map=brewTarget(t); if(!map){t.t=0;continue;}
     if(t.fuelLeft<=0){ if(t.fuel.count&&t.fuel.id===BLAZE_POWDER){t.fuel.count--;if(!t.fuel.count)clearStack(t.fuel);t.fuelLeft=20;} else {t.t=0;continue;} }
     t.t+=dt; if(t.t>=BREW_TIME){ t.t=0; for(const b of t.bottles)if(b.count&&map[b.id])b.id=map[b.id]; t.ing.count--; if(!t.ing.count)clearStack(t.ing); t.fuelLeft--; sfx.enchant(); } }
-  else if(t.type==='spawner'){ const d=Math.hypot(player.pos[0]-x,player.pos[1]-y,player.pos[2]-z); if(d>16||player.dead||inventory.creative||player.spectator||difficulty()==='peaceful')continue; t.t-=dt; if(t.t>0)continue; t.t=rand(4,9);
+  else if(t.type==='trial'){ if(net.guest)continue; tickTrial(k,t,x,y,z,dt); }
+  else if(t.type==='hopper'){ if(net.guest)continue; tickHopper(k,t,x,y,z,dt); }
+  else if(t.type==='spawner'){ if(!playersNear(x+0.5,y,z+0.5,16).length||difficulty()==='peaceful')continue; t.t-=dt; if(t.t>0)continue; t.t=rand(4,9);
     if(world.getBlock(x,y,z)!==SPAWNER){world.tiles.delete(k);continue;} if(effectiveLight(world,x+0.5,y+1,z+0.5,sunFactor())>=(t.mob==='ember'?12:9))continue; const near=world.mobs.filter(m=>m.type===t.mob&&Math.hypot(m.pos[0]-x,m.pos[2]-z)<10).length; if(near>=6)continue;
     for(let tries=0;tries<8;tries++){ const sx=x+rint(-4,4),sz=z+rint(-4,4),sy=y+rint(-1,1); if(world.getBlock(sx,sy,sz)===AIR&&world.getBlock(sx,sy+1,sz)===AIR&&(SOLID[world.getBlock(sx,sy-1,sz)]||t.mob==='ember')){spawnMob(world,t.mob,sx+0.5,sy,sz+0.5);break;} } } } }

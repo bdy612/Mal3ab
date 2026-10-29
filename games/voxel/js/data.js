@@ -19,7 +19,9 @@ const AIR=0,GRASS=1,DIRT=2,STONE=3,SAND=4,WATER=5,LOG=6,LEAVES=7,SNOW=8,PLANKS=9
       FENCE=99,FENCE_GATE=100,GLASS_PANE=101,LADDER=102,CACTUS=103,SANDSTONE=104,CLAY=105,MOSSY_COBBLE=106,LAPIS_ORE=107,LAPIS_BLOCK=108,PUMPKIN=109,JACK_O_LANTERN=110,
       MELON=111,HAY=112,BOOKSHELF=113,ICE=114,DEAD_BUSH=115,CARROTS0=116,CARROTS1=117,POTATOES0=118,POTATOES1=119,PUMPKIN_STEM=120,MELON_STEM=121,FIRE=122,
       IRON_BLOCK=123,WOOL_C=124,CARPET=139,EMERALD_BLOCK=155,COAL_BLOCK=156,SNOW_BLOCK=157,PACKED_ICE=158,SPRUCE_LOG=159,SPRUCE_LEAVES=160,JUNGLE_LOG=161,JUNGLE_LEAVES=162,VINE=163,LILY=164,
-      COPPER_ORE=165,COPPER_BLOCK=166,COPPER_EXPOSED=167,COPPER_WEATHERED=168,COPPER_OXIDIZED=169,LIGHTNING_ROD=170,COPPER_TORCH=171,COPPER_BARS=172,SPRUCE_PLANKS=173,JUNGLE_PLANKS=174;
+      COPPER_ORE=165,COPPER_BLOCK=166,COPPER_EXPOSED=167,COPPER_WEATHERED=168,COPPER_OXIDIZED=169,LIGHTNING_ROD=170,COPPER_TORCH=171,COPPER_BARS=172,
+      RAIL=173,POWERED_RAIL=174,POWERED_RAIL_ON=175,DETECTOR_RAIL=176,DETECTOR_RAIL_ON=177,COBWEB=178,HOPPER=179,DROPPER=180,DISPENSER=181,COMPARATOR_OFF=182,COMPARATOR_ON=183,
+      OBSERVER=184,OBSERVER_ON=185,TUFF_BRICKS=186,TRIAL_SPAWNER=187,VAULT=188,TUFF=189;
 // colours: index 0 = white (plain), 1-15 used for wool, carpets and dyes (multiplied in the shader)
 const COLOR_NAMES=['White','Orange','Magenta','Light blue','Yellow','Lime','Pink','Gray','Light gray','Cyan','Purple','Blue','Brown','Green','Red','Black'];
 const TINT_RGB=[[1,1,1],[1.04,0.55,0.13],[0.83,0.33,0.79],[0.25,0.73,0.89],[1.06,0.88,0.25],[0.52,0.8,0.13],[1.0,0.58,0.71],[0.3,0.33,0.35],[0.65,0.65,0.63],[0.09,0.63,0.63],[0.57,0.21,0.76],[0.25,0.29,0.71],[0.55,0.36,0.21],[0.39,0.52,0.09],[0.74,0.2,0.16],[0.13,0.13,0.15],
@@ -28,7 +30,7 @@ const TINT_RGB=[[1,1,1],[1.04,0.55,0.13],[0.83,0.33,0.79],[0.25,0.73,0.89],[1.06
 const LAPIS=332,DYE=333,CARROT=348,POTATO=349,BAKED_POTATO=350,PUMPKIN_SEEDS=351,MELON_SLICE=352,MELON_SEEDS=353,PUMPKIN_PIE=354,EGG=355,FEATHER=356,CHICKEN=357,CHICKEN_C=358,
       STRING=359,SPIDER_EYE=360,SLIMEBALL=361,LEATHER=362,FISHING_ROD=363,FISH=364,FISH_C=365,COMPASS=366,CLOCK=367,SHIELD=368,HELM_L=369,CHEST_L=370,LEGS_L=371,BOOTS_L=372,
       HELM_G=373,CHEST_G=374,LEGS_G=375,BOOTS_G=376,BOOK=377,PAPER=378,CLAY_BALL=379,BRICK_ITEM=380,SNOWBALL=381,BOAT=382,RAW_COPPER=383,COPPER_INGOT=384,
-      PICK_C=385,AXE_C=386,SHOVEL_C=387,SWORD_C=388,HOE_C=389,HELM_C=390,CHEST_C=391,LEGS_C=392,BOOTS_C=393,MACE=394,HEAVY_CORE=395,GUST_ROD=396,WIND_CHARGE=397;
+      PICK_C=385,AXE_C=386,SHOVEL_C=387,SWORD_C=388,HOE_C=389,HELM_C=390,CHEST_C=391,LEGS_C=392,BOOTS_C=393,MACE=394,HEAVY_CORE=395,GUST_ROD=396,WIND_CHARGE=397,MINECART=398,SADDLE=399,TRIAL_KEY=400,COMPARATOR=401,POT_POISON=402,SPLASH=403;   // SPLASH..SPLASH+6
 const dyeOf=c=>c===0?312:DYE+c-1;   // 312 = bone meal (white dye)
 let layerCount=0; const T={}; const L=n=>{T[n]=layerCount++;};
 ['GRASS_TOP','GRASS_SIDE','DIRT','STONE','SAND','WATER','LOG_SIDE','LOG_TOP','LEAVES','SNOW','PLANKS','COAL','IRON','BEDROCK','GLASS','BRICK','GRAVEL','SNOW_SIDE',
@@ -51,6 +53,9 @@ let layerCount=0; const T={}; const L=n=>{T[n]=layerCount++;};
  'I_SLIMEBALL','I_LEATHER','I_FISHING_ROD','I_FISH','I_FISH_C','I_COMPASS','I_CLOCK','I_SHIELD','I_HELM_L','I_CHEST_L','I_LEGS_L','I_BOOTS_L','I_HELM_G','I_CHEST_G','I_LEGS_G','I_BOOTS_G',
  'I_BOOK','I_PAPER','I_FENCE','I_GATE','I_PANE','I_CLAY_BALL','I_BRICK','I_SNOWBALL','I_BOAT','I_CAKE',
  'COPPER_ORE','COPPER0','COPPER1','COPPER2','COPPER3','LIGHTNING_ROD','I_RAW_COPPER','I_COPPER_INGOT','I_LIGHTNING_ROD',
+ 'RAIL','RAIL_CURVE','POWERED_RAIL','POWERED_RAIL_ON','DETECTOR_RAIL','DETECTOR_RAIL_ON','COBWEB','HOPPER_OUT','HOPPER_TOP','DROPPER_FRONT','DISPENSER_FRONT','COMPARATOR_OFF','COMPARATOR_ON',
+ 'OBSERVER_FRONT','OBSERVER_BACK','OBSERVER_BACK_ON','OBSERVER_SIDE','TUFF_BRICKS','TUFF','TRIAL_SPAWNER','TRIAL_SPAWNER_ON','VAULT_FRONT','VAULT_SIDE',
+ 'I_MINECART','I_SADDLE','I_TRIAL_KEY','I_COMPARATOR','I_HOPPER','I_POT_POISON','I_SPLASH_HEAL','I_SPLASH_REGEN','I_SPLASH_STRENGTH','I_SPLASH_SPEED','I_SPLASH_FIRE','I_SPLASH_NIGHT','I_SPLASH_POISON',
  'COPPER_TORCH','COPPER_BARS','I_PICK_C','I_AXE_C','I_SHOVEL_C','I_SWORD_C','I_HOE_C','I_HELM_C','I_CHEST_C','I_LEGS_C','I_BOOTS_C','I_MACE','I_HEAVY_CORE','I_GUST_ROD','I_WIND_CHARGE'].forEach(L);
 const NUM_LAYERS=layerCount;
 
@@ -187,8 +192,9 @@ def(IRON_BLOCK,'Iron block',T.IRON_BLOCK,T.IRON_BLOCK,T.IRON_BLOCK,{hardness:5,t
 def(COAL_BLOCK,'Coal block',T.COAL_BLOCK,T.COAL_BLOCK,T.COAL_BLOCK,{hardness:5,tier:1,tool:'pick',flam:1}); def(SNOW_BLOCK,'Snow block',T.SNOW,T.SNOW,T.SNOW,{hardness:0.2,tool:'shovel',drop:[SNOWBALL,4,4]});
 def(PACKED_ICE,'Packed ice',T.PACKED_ICE,T.PACKED_ICE,T.PACKED_ICE,{hardness:0.5,tool:'pick',drop:[0,0,0]});
 def(SPRUCE_LOG,'Spruce log',T.SPRUCE_TOP,T.SPRUCE_LOG,T.SPRUCE_TOP,{hardness:2,tool:'axe',flam:1}); def(SPRUCE_LEAVES,'Spruce leaves',T.SPRUCE_LEAVES,T.SPRUCE_LEAVES,T.SPRUCE_LEAVES,{hardness:0.2,drop:[0,0,0],flam:1});
-def(JUNGLE_LOG,'Jungle log',T.LOG_TOP,T.JUNGLE_LOG,T.LOG_TOP,{hardness:2,tool:'axe',flam:1});
-def(SPRUCE_PLANKS,'Spruce planks',T.SPRUCE_PLANKS,T.SPRUCE_PLANKS,T.SPRUCE_PLANKS,{hardness:2,tool:'axe',flam:1}); def(JUNGLE_PLANKS,'Jungle planks',T.JUNGLE_PLANKS,T.JUNGLE_PLANKS,T.JUNGLE_PLANKS,{hardness:2,tool:'axe',flam:1}); def(JUNGLE_LEAVES,'Jungle leaves',T.JUNGLE_LEAVES,T.JUNGLE_LEAVES,T.JUNGLE_LEAVES,{hardness:0.2,drop:[0,0,0],flam:1});
+const SPRUCE_PLANKS=190,JUNGLE_PLANKS=191;
+def(SPRUCE_PLANKS,'Spruce planks',T.SPRUCE_PLANKS,T.SPRUCE_PLANKS,T.SPRUCE_PLANKS,{hardness:2,tool:'axe',flam:1}); def(JUNGLE_PLANKS,'Jungle planks',T.JUNGLE_PLANKS,T.JUNGLE_PLANKS,T.JUNGLE_PLANKS,{hardness:2,tool:'axe',flam:1});
+def(JUNGLE_LOG,'Jungle log',T.LOG_TOP,T.JUNGLE_LOG,T.LOG_TOP,{hardness:2,tool:'axe',flam:1}); def(JUNGLE_LEAVES,'Jungle leaves',T.JUNGLE_LEAVES,T.JUNGLE_LEAVES,T.JUNGLE_LEAVES,{hardness:0.2,drop:[0,0,0],flam:1});
 def(VINE,'Vines',T.VINE,T.VINE,T.VINE,{solid:false,decal:true,hardness:0.2,support:2,flam:1,drop:[0,0,0],replace:true}); WASHABLE[VINE]=0;
 def(LILY,'Lily pad',T.LILY,T.LILY,T.LILY,{solid:false,decal:true,hardness:0,drop:[0,0,0]}); WASHABLE[LILY]=0;
 for(let c=1;c<16;c++)def(WOOL_C+c-1,COLOR_NAMES[c]+' wool',T.WOOL,T.WOOL,T.WOOL,{hardness:0.8,tint:c,flam:1});
@@ -200,6 +206,26 @@ def(COPPER_ORE,'Copper ore',T.COPPER_ORE,T.COPPER_ORE,T.COPPER_ORE,{hardness:3,t
 def(COPPER_TORCH,'Copper torch',T.COPPER_TORCH,T.COPPER_TORCH,T.COPPER_TORCH,{solid:false,plant:true,emit:14,hardness:0,support:1});
 def(COPPER_BARS,'Copper bars',T.COPPER_BARS,T.COPPER_BARS,T.COPPER_BARS,{shape:4,hardness:3,tier:1,tool:'pick'});
 def(LIGHTNING_ROD,'Lightning rod',T.LIGHTNING_ROD,T.LIGHTNING_ROD,T.LIGHTNING_ROD,{shape:8,hardness:3,tier:2,tool:'pick'});
+// rails (shape kept in meta), cobweb, item handling + redstone parts, trial chambers
+const RAILS=new Set([RAIL,POWERED_RAIL,POWERED_RAIL_ON,DETECTOR_RAIL,DETECTOR_RAIL_ON]);
+def(RAIL,'Rail',T.RAIL,T.RAIL,T.RAIL,{solid:false,decal:true,hardness:0.7,tool:'pick',support:1});
+def(POWERED_RAIL,'Powered rail',T.POWERED_RAIL,T.POWERED_RAIL,T.POWERED_RAIL,{solid:false,decal:true,hardness:0.7,tool:'pick',support:1,rs:true});
+def(POWERED_RAIL_ON,'Powered rail',T.POWERED_RAIL_ON,T.POWERED_RAIL_ON,T.POWERED_RAIL_ON,{solid:false,decal:true,hardness:0.7,tool:'pick',support:1,rs:true,noItem:true,drop:[POWERED_RAIL,1,1]});
+def(DETECTOR_RAIL,'Detector rail',T.DETECTOR_RAIL,T.DETECTOR_RAIL,T.DETECTOR_RAIL,{solid:false,decal:true,hardness:0.7,tool:'pick',support:1,rs:true});
+def(DETECTOR_RAIL_ON,'Detector rail',T.DETECTOR_RAIL_ON,T.DETECTOR_RAIL_ON,T.DETECTOR_RAIL_ON,{solid:false,decal:true,hardness:0.7,tool:'pick',support:1,rs:true,noItem:true,drop:[DETECTOR_RAIL,1,1]});
+for(const r of RAILS)WASHABLE[r]=0;
+def(COBWEB,'Cobweb',T.COBWEB,T.COBWEB,T.COBWEB,{solid:false,plant:true,hardness:4,tool:'sword',drop:[STRING,1,1]}); WASHABLE[COBWEB]=0;
+def(HOPPER,'Hopper',T.HOPPER_TOP,T.HOPPER_OUT,T.HOPPER_OUT,{shape:9,hardness:3,tier:1,tool:'pick',tile:true});
+def(DROPPER,'Dropper',T.FURNACE_TOP,T.COBBLE,T.FURNACE_TOP,{dir:'all',front:T.DROPPER_FRONT,hardness:3,tier:1,tool:'pick',tile:true,rs:true});
+def(DISPENSER,'Dispenser',T.FURNACE_TOP,T.COBBLE,T.FURNACE_TOP,{dir:'all',front:T.DISPENSER_FRONT,hardness:3,tier:1,tool:'pick',tile:true,rs:true});
+def(COMPARATOR_OFF,'Comparator',T.COMPARATOR_OFF,T.COMPARATOR_OFF,T.COMPARATOR_OFF,{solid:false,decal:true,hardness:0,support:1,rs:true,noItem:true,drop:[COMPARATOR,1,1]});
+def(COMPARATOR_ON,'Comparator',T.COMPARATOR_ON,T.COMPARATOR_ON,T.COMPARATOR_ON,{solid:false,decal:true,hardness:0,support:1,rs:true,noItem:true,drop:[COMPARATOR,1,1],emit:4});
+WASHABLE[COMPARATOR_OFF]=WASHABLE[COMPARATOR_ON]=1;
+def(OBSERVER,'Observer',T.OBSERVER_SIDE,T.OBSERVER_SIDE,T.OBSERVER_SIDE,{dir:'all',front:T.OBSERVER_FRONT,back:T.OBSERVER_BACK,hardness:3,tier:1,tool:'pick',rs:true});
+def(OBSERVER_ON,'Observer',T.OBSERVER_SIDE,T.OBSERVER_SIDE,T.OBSERVER_SIDE,{dir:'all',front:T.OBSERVER_FRONT,back:T.OBSERVER_BACK_ON,hardness:3,tier:1,tool:'pick',rs:true,noItem:true,drop:[OBSERVER,1,1]});
+def(TUFF,'Tuff',T.TUFF,T.TUFF,T.TUFF,{hardness:1.5,tier:1,tool:'pick'}); def(TUFF_BRICKS,'Tuff bricks',T.TUFF_BRICKS,T.TUFF_BRICKS,T.TUFF_BRICKS,{hardness:1.5,tier:1,tool:'pick'});
+def(TRIAL_SPAWNER,'Trial spawner',T.TRIAL_SPAWNER,T.TRIAL_SPAWNER,T.TRIAL_SPAWNER,{hardness:50,transparent:true,drop:[0,0,0],emit:6});
+def(VAULT,'Vault',T.VAULT_SIDE,T.VAULT_SIDE,T.VAULT_SIDE,{dir:'h',front:T.VAULT_FRONT,hardness:50,drop:[0,0,0],emit:6});
 const SLAB_FULL={[SLAB_OAK]:PLANKS,[SLAB_COBBLE]:COBBLE,[SLAB_STONE]:STONE,[SLAB_BRICK]:STONE_BRICK,[SLAB_SAND]:SANDSTONE};
 const woolOf=c=>c===0?WOOL:WOOL_C+c-1, colorOfWool=b=>b===WOOL?0:b>=WOOL_C&&b<WOOL_C+15?b-WOOL_C+1:-1;
 const PISTON_BODY=new Set([PISTON,PISTON_EXT,STICKY,STICKY_EXT]), PISTON_HEADS=new Set([PISTON_HEAD,STICKY_HEAD]);
@@ -269,8 +295,13 @@ item(HOE_C,'Copper hoe',T.I_HOE_C,{stack:1,tool:'hoe',tier:2,speed:1,maxDur:190,
 item(HELM_C,'Copper helmet',T.I_HELM_C,{stack:1,armor:{slot:0,pts:2}}); item(CHEST_C,'Copper chestplate',T.I_CHEST_C,{stack:1,armor:{slot:1,pts:4}}); item(LEGS_C,'Copper leggings',T.I_LEGS_C,{stack:1,armor:{slot:2,pts:3}}); item(BOOTS_C,'Copper boots',T.I_BOOTS_C,{stack:1,armor:{slot:3,pts:1}});
 // the mace: the further you fall before hitting, the harder it smashes
 item(MACE,'Mace',T.I_MACE,{stack:1,tool:'mace',tier:0,speed:1,maxDur:500,dmg:6}); item(HEAVY_CORE,'Heavy core',T.I_HEAVY_CORE,{stack:1}); item(GUST_ROD,'Gust rod',T.I_GUST_ROD);
-item(WIND_CHARGE,'Wind charge',T.I_WIND_CHARGE,{stack:64,throw:'wind'}); item(COPPER_INGOT,'Copper ingot',T.I_COPPER_INGOT); ITEMS[LIGHTNING_ROD].icon=T.I_LIGHTNING_ROD;
-const EFFECTS={heal:{name:'Healing'},regen:{name:'Regeneration',time:45,col:'#f7a'},strength:{name:'Strength',time:180,col:'#f84'},speed:{name:'Swiftness',time:180,col:'#8cf'},fire:{name:'Fire Resistance',time:180,col:'#fa4'},night:{name:'Night Vision',time:180,col:'#99f'}};
+item(WIND_CHARGE,'Wind charge',T.I_WIND_CHARGE,{stack:64,throw:'wind'});
+item(MINECART,'Minecart',T.I_MINECART,{stack:1,cart:true}); item(SADDLE,'Saddle',T.I_SADDLE,{stack:1}); item(TRIAL_KEY,'Trial key',T.I_TRIAL_KEY); item(COMPARATOR,'Comparator',T.I_COMPARATOR,{places:COMPARATOR_OFF});
+ITEMS[HOPPER].icon=T.I_HOPPER; ITEMS[RAIL].icon=T.RAIL; ITEMS[POWERED_RAIL].icon=T.POWERED_RAIL; ITEMS[DETECTOR_RAIL].icon=T.DETECTOR_RAIL; ITEMS[DROPPER].icon=T.DROPPER_FRONT; ITEMS[DISPENSER].icon=T.DISPENSER_FRONT; ITEMS[OBSERVER].icon=T.OBSERVER_FRONT;
+item(POT_POISON,'Potion of Poison',T.I_POT_POISON,{stack:1,drink:'poison'});
+const SPLASH_OF={}; [['heal','Healing','I_SPLASH_HEAL',POT_HEAL],['regen','Regeneration','I_SPLASH_REGEN',POT_REGEN],['strength','Strength','I_SPLASH_STRENGTH',POT_STRENGTH],['speed','Swiftness','I_SPLASH_SPEED',POT_SPEED],
+  ['fire','Fire Resistance','I_SPLASH_FIRE',POT_FIRE],['night','Night Vision','I_SPLASH_NIGHT',POT_NIGHT],['poison','Poison','I_SPLASH_POISON',POT_POISON]].forEach(([fx,n,ic,pot],i)=>{ item(SPLASH+i,'Splash Potion of '+n,T[ic],{stack:1,throw:'potion',splash:fx}); SPLASH_OF[pot]=SPLASH+i; }); item(COPPER_INGOT,'Copper ingot',T.I_COPPER_INGOT); ITEMS[LIGHTNING_ROD].icon=T.I_LIGHTNING_ROD;
+const EFFECTS={poison:{name:'Poison',time:20,col:'#7c4'},heal:{name:'Healing'},regen:{name:'Regeneration',time:45,col:'#f7a'},strength:{name:'Strength',time:180,col:'#f84'},speed:{name:'Swiftness',time:180,col:'#8cf'},fire:{name:'Fire Resistance',time:180,col:'#fa4'},night:{name:'Night Vision',time:180,col:'#99f'}};
 
 // RECIPES — shaped patterns (any position, mirrored allowed) + shapeless
 const SHAPED=[], SHAPELESS=[];
@@ -293,7 +324,11 @@ for(const [it,bl] of [[COPPER_INGOT,COPPER_BLOCK],[LAPIS,LAPIS_BLOCK],[IRON_INGO
 sh(['###','bbb','###'],{'#':PLANKS,b:BOOK},BOOKSHELF); sh(['#','#','#'],{'#':COPPER_INGOT},LIGHTNING_ROD); sh(['h','r'],{h:HEAVY_CORE,r:GUST_ROD},MACE); sh(['c','k','|'],{c:COPPER_INGOT,k:COAL,'|':STICK},COPPER_TORCH,4); sh(['###','###'],{'#':COPPER_INGOT},COPPER_BARS,16);
 { const k={'#':COPPER_INGOT,'|':STICK}; sh(['###',' | ',' | '],k,PICK_C); sh(['##','#|',' |'],k,AXE_C); sh(['#','|','|'],k,SHOVEL_C); sh(['#','#','|'],k,SWORD_C); sh(['##',' |',' |'],k,HOE_C);
   const a={'#':COPPER_INGOT}; sh(['###','# #'],a,HELM_C); sh(['# #','###','###'],a,CHEST_C); sh(['###','# #','# #'],a,LEGS_C); sh(['# #','# #'],a,BOOTS_C); }
-SHAPELESS.push({in:[GUST_ROD],out:[WIND_CHARGE,4]}); sh(['ccc'],{c:CANE},PAPER,3); sh(['  |',' |s','| s'],{'|':STICK,s:STRING},FISHING_ROD);
+SHAPELESS.push({in:[GUST_ROD],out:[WIND_CHARGE,4]});
+sh(['i i','i|i','i i'],{i:IRON_INGOT,'|':STICK},RAIL,16); sh(['g g','g|g','grg'],{g:GOLD_INGOT,'|':STICK,r:REDSTONE},POWERED_RAIL,6); sh(['i i','ipi','iri'],{i:IRON_INGOT,p:PLATE,r:REDSTONE},DETECTOR_RAIL,6);
+sh(['i i','iii'],{i:IRON_INGOT},MINECART); sh(['ici',' i '],{i:IRON_INGOT,c:CHEST},HOPPER); sh(['ccc','c c','crc'],{c:COBBLE,r:REDSTONE},DROPPER); sh(['ccc','cbc','crc'],{c:COBBLE,b:BOW,r:REDSTONE},DISPENSER);
+sh([' t ','tqt','sss'],{t:RTORCH_ON,q:QUARTZ,s:STONE},COMPARATOR); sh(['ccc','rrq','ccc'],{c:COBBLE,r:REDSTONE,q:QUARTZ},OBSERVER); sh(['s s','sss',' i '],{s:LEATHER,i:IRON_INGOT},SADDLE);
+sh(['##','##'],{'#':TUFF},TUFF_BRICKS,4); sh(['ccc'],{c:CANE},PAPER,3); sh(['  |',' |s','| s'],{'|':STICK,s:STRING},FISHING_ROD);
 sh([' i ','iri',' i '],{i:IRON_INGOT,r:REDSTONE},COMPASS); sh([' g ','grg',' g '],{g:GOLD_INGOT,r:REDSTONE},CLOCK); sh(['pip','ppp',' p '],{p:PLANKS,i:IRON_INGOT},SHIELD); sh(['p p','ppp'],{p:PLANKS},BOAT);
 SHAPELESS.push({in:[PUMPKIN,TORCH],out:[JACK_O_LANTERN,1]},{in:[PUMPKIN],out:[PUMPKIN_SEEDS,4]},{in:[MELON_SLICE],out:[MELON_SEEDS,1]},{in:[PUMPKIN,SUGAR,EGG],out:[PUMPKIN_PIE,1]},
   {in:[PAPER,PAPER,PAPER,LEATHER],out:[BOOK,1]},{in:[FLOWER_RED],out:[dyeOf(14),1]},{in:[FLOWER_YELLOW],out:[dyeOf(4),1]},{in:[LAPIS],out:[dyeOf(11),1]});
@@ -309,7 +344,7 @@ SHAPELESS.push({in:[LOG],out:[PLANKS,4]},{in:[SPRUCE_LOG],out:[SPRUCE_PLANKS,4]}
   {in:[BLAZE_ROD],out:[BLAZE_POWDER,2]},{in:[ENDER_PEARL,BLAZE_POWDER],out:[ENDER_EYE,1]},{in:[BONE],out:[BONE_MEAL,3]},{in:[CANE],out:[SUGAR,1]},
   {in:[STONE],out:[BUTTON,1]},{in:[REDSTONE_BLOCK],out:[REDSTONE,9]},{in:[WHEAT],out:[SEEDS,1]});
 const PLANK_ALIAS={[SPRUCE_PLANKS]:PLANKS,[JUNGLE_PLANKS]:PLANKS};   // any planks work wherever a recipe asks for planks
-const SMELT={[IRON_ORE]:IRON_INGOT,[GOLD_ORE]:GOLD_INGOT,[COBBLE]:STONE,[SAND]:GLASS,[PORK]:PORK_C,[BEEF]:BEEF_C,[MUTTON]:MUTTON_C,[LOG]:COAL,[SPRUCE_LOG]:COAL,[JUNGLE_LOG]:COAL,[NETHERRACK]:NETHER_BRICK,[REDSTONE_ORE]:REDSTONE};
+const SMELT={[IRON_ORE]:IRON_INGOT,[GOLD_ORE]:GOLD_INGOT,[COBBLE]:STONE,[SAND]:GLASS,[PORK]:PORK_C,[BEEF]:BEEF_C,[MUTTON]:MUTTON_C,[LOG]:COAL,[NETHERRACK]:NETHER_BRICK,[REDSTONE_ORE]:REDSTONE};
 const FUEL={[COAL]:80,[LOG]:15,[PLANKS]:15,[STICK]:5,[CRAFTING_TABLE]:15,[CHEST]:15,[WOOL]:5,[BED]:15,[BLAZE_ROD]:120,[LAVA_BUCKET]:200,[SAPLING]:5,[DOOR]:10};
 Object.assign(SMELT,{[RAW_COPPER]:COPPER_INGOT,[COPPER_ORE]:COPPER_INGOT,[POTATO]:BAKED_POTATO,[CHICKEN]:CHICKEN_C,[FISH]:FISH_C,[CACTUS]:dyeOf(13),[CLAY_BALL]:BRICK_ITEM,[LAPIS_ORE]:LAPIS,[SANDSTONE]:SANDSTONE});
 delete SMELT[SANDSTONE];
@@ -318,6 +353,7 @@ const SMELT_TIME=10;
 // brewing: ingredient -> {base potion: result}
 const BREW={[WART]:{[WATER_BOTTLE]:AWKWARD},[GOLD_INGOT]:{[AWKWARD]:POT_HEAL},[APPLE]:{[AWKWARD]:POT_REGEN},[BLAZE_POWDER]:{[AWKWARD]:POT_STRENGTH},
   [SUGAR]:{[AWKWARD]:POT_SPEED},[QUARTZ]:{[AWKWARD]:POT_FIRE},[GLOWSTONE]:{[AWKWARD]:POT_NIGHT}};
+BREW[SPIDER_EYE]={[AWKWARD]:POT_POISON}; BREW[GUNPOWDER]=SPLASH_OF;
 const BREW_TIME=10;
 // enchantments: which item kinds, max level
 const ENCH={Sharpness:{kinds:['sword'],max:5},Efficiency:{kinds:['pick','axe','shovel'],max:5},Unbreaking:{kinds:['pick','axe','shovel','sword','bow','armor','hoe'],max:3},

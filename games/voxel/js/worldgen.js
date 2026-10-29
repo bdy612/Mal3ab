@@ -4,7 +4,11 @@
 // ---------------------------------------------------------------------
 const BIOME={PLAINS:{surface:GRASS,trees:0.004,grass:0.12,pumpkins:0.0015},FOREST:{surface:GRASS,trees:0.03,grass:0.07,lily:0.03},DESERT:{surface:SAND,trees:0,grass:0,cactus:0.006,bush:0.006,temple:true},
   SNOW:{surface:SNOW,trees:0.012,grass:0,tree:'spruce',ice:true},TAIGA:{surface:GRASS,trees:0.035,grass:0.06,tree:'spruce'},JUNGLE:{surface:GRASS,trees:0.07,grass:0.25,tree:'jungle',melons:0.006,lily:0.05}};
-const LOOT={temple:[[GOLD_INGOT,1,5],[EMERALD,0,3],[DIAMOND,0,2],[IRON_INGOT,1,4],[BONE,2,6],[ROTTEN,2,6],[GUNPOWDER,1,4],[ENDER_PEARL,0,1],[BOOK,0,2],[HEAVY_CORE,1,1,0.08]],dungeon:[[HEAVY_CORE,1,1,0.15],[COPPER_INGOT,0,4],[WIND_CHARGE,0,3],[IRON_INGOT,1,4],[COAL,2,6],[APPLE,1,3],[ARROW,2,8],[GOLD_INGOT,1,2],[DIAMOND,0,1],[ENDER_PEARL,0,1],[EMERALD,0,2],[BOW,0,1],[REDSTONE,0,4],[BONE,0,3],[GUNPOWDER,0,3],[BUCKET,0,1],[SEEDS,0,4]],
+const LOOT={mineshaft:[[RAIL,4,8],[TORCH,3,8],[IRON_INGOT,1,3],[GOLD_INGOT,0,2],[BREAD,1,3],[COAL,2,6],[REDSTONE,0,5],[LAPIS,0,6],[DIAMOND,1,1,0.25],[SADDLE,1,1,0.1],[MELON_SEEDS,0,3],[PUMPKIN_SEEDS,0,3],[MINECART,1,1,0.15],[POWERED_RAIL,1,3,0.3]],
+  trial:[[ARROW,4,10],[BREAD,2,4],[IRON_INGOT,1,3],[WIND_CHARGE,2,5],[EMERALD,1,3],[COPPER_INGOT,2,6],[TRIAL_KEY,1,1,0.4]],
+  trialReward:[[EMERALD,1,3],[ARROW,4,8],[IRON_INGOT,1,2],[BREAD,1,3],[WIND_CHARGE,1,3],[BAKED_POTATO,1,3]],
+  vault:[[EMERALD,2,5],[DIAMOND,1,2,0.35],[IRON_INGOT,2,4],[WIND_CHARGE,3,6],[GOLD_INGOT,1,3],[SADDLE,1,1,0.15],[HEAVY_CORE,1,1,0.1],[SHIELD,1,1,0.2],[BOW,1,1,0.2]],
+  temple:[[GOLD_INGOT,1,5],[EMERALD,0,3],[DIAMOND,0,2],[IRON_INGOT,1,4],[BONE,2,6],[ROTTEN,2,6],[GUNPOWDER,1,4],[ENDER_PEARL,0,1],[BOOK,0,2],[HEAVY_CORE,1,1,0.08],[SADDLE,1,1,0.2]],dungeon:[[HEAVY_CORE,1,1,0.15],[SADDLE,1,1,0.3],[POT_POISON,1,1,0.2],[COPPER_INGOT,0,4],[WIND_CHARGE,0,3],[IRON_INGOT,1,4],[COAL,2,6],[APPLE,1,3],[ARROW,2,8],[GOLD_INGOT,1,2],[DIAMOND,0,1],[ENDER_PEARL,0,1],[EMERALD,0,2],[BOW,0,1],[REDSTONE,0,4],[BONE,0,3],[GUNPOWDER,0,3],[BUCKET,0,1],[SEEDS,0,4]],
   stronghold:[[HEAVY_CORE,1,1,0.25],[ENDER_PEARL,1,2],[DIAMOND,1,3],[IRON_INGOT,2,5],[EMERALD,1,3],[APPLE,2,4],[GOLD_INGOT,1,3],[REDSTONE,1,5],[BREAD,1,3]],
   village:[[APPLE,1,4],[WOOL,1,3],[EMERALD,0,2],[IRON_INGOT,0,2],[COAL,1,4],[BREAD,1,3],[SEEDS,1,4],[WHEAT,1,5]],
   fortress:[[WART,2,5],[GOLD_INGOT,1,3],[IRON_INGOT,1,4],[DIAMOND,0,2],[FLINT_STEEL,0,1],[OBSIDIAN,0,3],[BLAZE_ROD,0,2]]};
@@ -56,9 +60,42 @@ class OverGen{
       if(c.biome.lily&&h<SEA_LEVEL&&h>=SEA_LEVEL-3&&B[idx(x,SEA_LEVEL,z)]===WATER&&B[idx(x,SEA_LEVEL+1,z)]===AIR&&hash3(wx,16,wz)<c.biome.lily)B[idx(x,SEA_LEVEL+1,z)]=LILY;
       if((top===SAND||top===GRASS)&&h===SEA_LEVEL&&x>0&&x<15&&z>0&&z<15&&hash3(wx,12,wz)<0.3){
         if(B[idx(x+1,h,z)]===WATER||B[idx(x-1,h,z)]===WATER||B[idx(x,h,z+1)]===WATER||B[idx(x,h,z-1)]===WATER){ const n=1+Math.floor(hash3(wx,13,wz)*3); for(let i=1;i<=n;i++)B[idx(x,h+i,z)]=SUGAR_CANE; } } }
-    ch.generated=true; this.structures(ch,cols);
+    ch.generated=true; this.mineshaft(ch,cols); this.trialChamber(ch,cols); this.structures(ch,cols);
   }
   // ---- structures (each piece is built fully inside its own chunk) ----
+  // mineshafts: networks of 3×3 tunnels (6×6-chunk regions), wooden supports, rails, cobwebs and loot chests
+  mineshaftAt(rx,rz){ return hash3(rx,rz,401)<0.4; }
+  mineshaft(ch,cols){ const cx=ch.cx,cz=ch.cz,rx=Math.floor(cx/6),rz=Math.floor(cz/6); if(!this.mineshaftAt(rx,rz))return;
+    const y0=16+Math.floor(hash3(rx,rz,402)*14), inR=(a,b)=>Math.floor(a/6)===rx&&Math.floor(b/6)===rz;
+    const ex=(a,b)=>inR(a,b)&&inR(a+1,b)&&hash3(a,b,403)<0.6, ez=(a,b)=>inR(a,b)&&inR(a,b+1)&&hash3(a,b,404)<0.6;
+    const E=ex(cx,cz),W=ex(cx-1,cz),S=ez(cx,cz),N=ez(cx,cz-1); if(!(E||W||S||N))return;
+    const B=ch.blocks,M=ch.meta,get=(x,y,z)=>B[idx(x,y,z)],set=(x,y,z,b,m=0)=>{B[idx(x,y,z)]=b;M[idx(x,y,z)]=m;}, safe=(x,z)=>cols[z*CX+x].h>y0+6;
+    const carve=(x,y,z)=>{ if(!safe(x,z))return; const b=get(x,y,z); if(b!==BEDROCK&&!LIQ[b])set(x,y,z,AIR); };
+    const floor=(x,z)=>{ if(!safe(x,z))return; const b=get(x,y0-1,z); if(!SOLID[b]||LIQ[b])set(x,y0-1,z,PLANKS); };
+    const rails=hash3(cx,cz,405)<0.65, corridor=(axis,a0,a1)=>{ for(let t=a0;t<=a1;t++){ for(let w=7;w<=9;w++)for(let y=y0;y<=y0+2;y++){ const x=axis?w:t,z=axis?t:w; carve(x,y,z); } for(let w=7;w<=9;w++)floor(axis?w:t,axis?t:w);
+        const wx=(axis?8:t)+cx*16,wz=(axis?t:8)+cz*16,along=axis?wz:wx;
+        if(((along%4)+4)%4===0){ for(const w of [7,9]){ const x=axis?w:t,z=axis?t:w; if(!safe(x,z))continue; set(x,y0,z,FENCE); set(x,y0+1,z,FENCE); } for(let w=7;w<=9;w++){ const x=axis?w:t,z=axis?t:w; if(safe(x,z))set(x,y0+2,z,PLANKS); }
+          if(hash3(wx,y0,wz)<0.3&&safe(axis?8:t,axis?t:8))set(axis?8:t,y0+1,axis?t:8,AIR); }
+        if(rails&&safe(axis?8:t,axis?t:8)&&get(axis?8:t,y0,axis?t:8)===AIR)set(axis?8:t,y0,axis?t:8,RAIL,axis?0:1);
+        for(const w of [7,9]){ const x=axis?w:t,z=axis?t:w; if(safe(x,z)&&get(x,y0+2,z)===AIR&&hash3(wx+w,y0+2,wz)<0.07)set(x,y0+2,z,COBWEB); }
+        if(hash3(wx,y0+9,wz)<0.025){ const x=axis?10:t,z=axis?t:10; if(safe(x,z)){ set(x,y0,z,CHEST); (ch.lootChests=ch.lootChests||[]).push([x,y0,z,'mineshaft']); } } } };
+    if(E)corridor(0,8,15); if(W)corridor(0,0,8); if(S)corridor(1,8,15); if(N)corridor(1,0,8);
+    for(let x=6;x<=10;x++)for(let z=6;z<=10;z++){ for(let y=y0;y<=y0+3;y++)carve(x,y,z); floor(x,z); }   // crossing room
+    if(safe(8,8))set(8,y0+3,8,TORCH,0); }
+  // trial chambers: a tuff-and-copper hall deep underground with trial spawners and vaults
+  trialAt(cx,cz){ return hash3(cx,cz,501)<0.006; }
+  trialChamber(ch,cols){ if(!this.trialAt(ch.cx,ch.cz))return; let minH=999; for(const c of cols)minH=Math.min(minH,c.h); if(minH<36)return;
+    const y0=10+Math.floor(hash3(ch.cx,ch.cz,502)*6),B=ch.blocks,M=ch.meta,set=(x,y,z,b,m=0)=>{B[idx(x,y,z)]=b;M[idx(x,y,z)]=m;};
+    for(let x=0;x<=15;x++)for(let z=0;z<=15;z++)for(let y=y0-1;y<=y0+8;y++){ const edge=x===0||x===15||z===0||z===15||y===y0-1||y===y0+8;
+      set(x,y,z,edge?(y===y0-1?((x+z)%2?TUFF_BRICKS:[COPPER_BLOCK,COPPER_EXPOSED,COPPER_WEATHERED][Math.floor(hash3(x,y,z)*3)]):y===y0+8&&x%5===2&&z%5===2?GLOWSTONE:TUFF_BRICKS):AIR); }
+    for(const [x,z] of [[3,3],[12,3],[3,12],[12,12]])for(let y=y0;y<y0+8;y++)set(x,y,z,y===y0+3?COPPER_BLOCK:TUFF);
+    for(const [x,z] of [[3,3],[12,3],[3,12],[12,12]])for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]])set(x+dx,y0+4,z+dz,COPPER_TORCH);
+    const mobs=['zombie','skeleton','spider','gust','slime'],m1=mobs[Math.floor(hash3(ch.cx,ch.cz,503)*5)],m2=mobs[Math.floor(hash3(ch.cx,ch.cz,504)*5)];
+    set(7,y0,7,COPPER_BLOCK); set(7,y0+1,7,TRIAL_SPAWNER); set(8,y0,8,COPPER_BLOCK); set(8,y0+1,8,AIR);
+    set(7,y0,3,COPPER_BLOCK); set(7,y0+1,3,TRIAL_SPAWNER); ch.trials=[[7,y0+1,7,m1],[7,y0+1,3,m2]];
+    set(5,y0,13,COPPER_BLOCK); set(5,y0+1,13,VAULT,5); set(10,y0,13,COPPER_BLOCK); set(10,y0+1,13,VAULT,5);
+    for(const [x,z] of [[1,1],[14,1],[1,14],[14,14],[2,1],[1,2]])set(x,y0+6,z,COBWEB);
+    set(14,y0+1,7,CHEST); (ch.lootChests=ch.lootChests||[]).push([14,y0+1,7,'trial']); }
   structures(ch,cols){
     const B=ch.blocks,M=ch.meta,cx=ch.cx,cz=ch.cz,set=(x,y,z,b,m=0)=>{if(y>=0&&y<CY){B[idx(x,y,z)]=b;M[idx(x,y,z)]=m;}};
     // desert temple: sandstone hall over a hidden treasure room (watch the pressure plate!)

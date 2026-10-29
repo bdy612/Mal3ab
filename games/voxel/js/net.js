@@ -29,18 +29,12 @@ const net={
   publicMeta(){ const m=game.meta||{}; return {name:m.name,mode:m.mode,diff:m.diff,cheats:!!m.cheats,type:m.type,rules:m.rules}; },
   sendMeta(){ if(this.role==='host')this.broadcast({t:'meta',meta:this.publicMeta()}); },
   chat(text){ addChat(`<${this.name}> ${text}`); if(this.role)this.broadcast({t:'chat',name:this.name,text}); },
-  // containers (chests, furnaces, brewing stands) are shared: whoever changes one sends its full content
-  sendTile(t){ if(!this.role||!t||!t.pos)return; this.broadcast({t:'tile',dim:world.dim,x:t.pos[0],y:t.pos[1],z:t.pos[2],data:t}); },
-  requestTile(t){ if(this.role!=='guest'||!t||!t.pos)return; this.broadcast({t:'tilereq',dim:world.dim,x:t.pos[0],y:t.pos[1],z:t.pos[2]}); },
-  applyTile(m){ const w=dims[m.dim]; if(!w||!m.data)return; const k=m.x+','+m.y+','+m.z; let t=w.tiles.get(k);
-    if(t){ for(const key of Object.keys(t))if(!(key in m.data))delete t[key]; Object.assign(t,m.data); } else { t=m.data; w.tiles.set(k,t); }
-    t.pos=[m.x,m.y,m.z]; if(typeof uiOpen!=='undefined'&&uiOpen&&ui.tile===t&&typeof refreshUI==='function')refreshUI(); },
   applyBlock(dim,x,y,z,v){ const w=dims[dim]; if(!w)return; const ck=w.key(x>>4,z>>4),c=w.chunks.get(ck);
     if(c&&c.generated){ this.applyKey=dim+','+x+','+y+','+z+','+v; const prev=world; world=w; try{ w.setBlock(x,y,z,v&255,true,v>>8); } finally { world=prev; this.applyKey=null; } }
     else { if(!w.edits.has(ck))w.edits.set(ck,new Map()); w.edits.get(ck).set(idx(x&15,y,z&15),v); } },
   // close every connection and forget all players
   reset(){ this.leaving=true; for(const p of this.peers.concat(this.pending?[this.pending]:[])){ try{p.dc&&p.dc.close&&p.dc.close();}catch(e){} try{p.pc&&p.pc.close();}catch(e){} }
-    this.peers=[]; this.pending=null; this.remotes.clear(); this.role=null; this.guest=false; this.myId=0; this.hostName=''; this.helloT=0; this.leaving=false;
+    this.peers=[]; this.pending=null; this.remotes.clear(); this.role=null; this.guest=false; this.myId=0; this.hostName=''; this.helloT=0; this.leaving=false; if(this.resetShare)this.resetShare();
     if(typeof clearNameTags==='function')clearNameTags(); },
   // --- host side, manual codes ---
   async hostInvite(){ if(game.state!=='playing'||!game.meta||game.meta.remote)throw new Error('open one of your own worlds first'); if(this.role==='guest')throw new Error('you are a guest in another world');
@@ -61,24 +55,23 @@ const net={
     dc.onopen=()=>{ if(this.role==='guest'&&!this.guest)this.send(peer,{t:'hello',name:this.name,skin:PROFILE.skin,code:PROFILE.code}); };
     dc.onclose=()=>{ if(!this.peers.includes(peer))return; this.peers=this.peers.filter(p=>p!==peer); if(this.leaving)return;
       if(this.role==='guest'){ const was=this.guest; this.reset(); onGuestDisconnected(peer.kicked?'You were removed from the world by the host.':was?'Lost connection to the host. They may have closed the world.':'Could not reach the host.'); }
-      else { const r=this.remotes.get(peer.id); if(r)addChat(r.name+' left the game','#ff8'); this.remotes.delete(peer.id); this.broadcast({t:'leave',id:peer.id}); if(typeof friends!=='undefined')friends.changed(); } };
+      else { if(this.peerGone)this.peerGone(peer); if(this.watch!==undefined)peer.watch=null; const r=this.remotes.get(peer.id); if(r)addChat(r.name+' left the game','#ff8'); this.remotes.delete(peer.id); this.broadcast({t:'leave',id:peer.id}); if(typeof friends!=='undefined')friends.changed(); } };
     dc.onmessage=e=>{ let m; try{m=JSON.parse(e.data);}catch(err){return;} this.onMsg(peer,m); };
     if(dc.readyState==='open')dc.onopen(); },
   onMsg(peer,m){
+    if(this.shareMsg&&this.shareMsg(peer,m))return;
     if(this.role==='host'){
       if(m.t==='hello'){ if(peer.welcomed)return; if(game.state!=='playing'||!game.meta){ this.send(peer,{t:'denied',why:'The host is not in a world right now.'}); return; }
-        peer.welcomed=true; peer.name=cleanName(m.name||peer.name); peer.skin=(m.skin|0)%PLAYER_COLS.length; addChat(peer.name+' joined the game','#ff8');
+        peer.welcomed=true; peer.code=m.code||peer.code; peer.name=cleanName(m.name||peer.name); peer.skin=(m.skin|0)%PLAYER_COLS.length; addChat(peer.name+' joined the game','#ff8');
         const players=[{id:0,name:this.name,skin:PROFILE.skin}].concat([...this.remotes.values()].map(r=>({id:r.id,name:r.name,skin:r.skin})));
         this.send(peer,{t:'welcome',id:peer.id,seed:SEED,dayTime,dim:world.dim,at:player.pos,players,meta:this.publicMeta(),hostName:this.name});
         for(const [k,w] of Object.entries(dims)){ const flat=[]; for(const [ck,mp] of w.edits){const [cx,cz]=ck.split(',').map(Number);for(const [i,v] of mp)flat.push(cx,cz,i,v);}
           for(let i=0;i<flat.length;i+=8000)this.send(peer,{t:'edits',dim:k,data:flat.slice(i,i+8000)}); }
-        this.send(peer,{t:'weather',w:weatherState()}); this.send(peer,{t:'ready'}); this.remotes.set(peer.id,{id:peer.id,name:peer.name,skin:peer.skin,dim:null,pos:null}); this.broadcast({t:'join',id:peer.id,name:peer.name,skin:peer.skin},peer);
+        this.send(peer,{t:'weather',w:weatherState()}); this.send(peer,{t:'ready'}); this.remotes.set(peer.id,{id:peer.id,name:peer.name,skin:peer.skin,code:peer.code,dim:null,pos:null}); this.broadcast({t:'join',id:peer.id,name:peer.name,skin:peer.skin},peer);
         if(typeof friends!=='undefined')friends.changed(); return; }
       if(!peer.welcomed)return;
       if(m.t==='pos'){ m.id=peer.id; m.skin=peer.skin; this.updateRemote(m); this.broadcast(m,peer); return; }
       if(m.t==='blk'){ this.applyBlock(m.dim,m.x,m.y,m.z,m.v); this.broadcast(m,peer); return; }
-      if(m.t==='tile'){ this.applyTile(m); this.broadcast(m,peer); return; }
-      if(m.t==='tilereq'){ const w=dims[m.dim],t=w&&w.tiles.get(m.x+','+m.y+','+m.z); if(t)this.send(peer,{t:'tile',dim:m.dim,x:m.x,y:m.y,z:m.z,data:t}); return; }
       if(m.t==='chat'){ m.name=peer.name; addChat(`<${m.name}> ${m.text}`); this.broadcast(m,peer); return; }
       return; }
     // guest
@@ -91,7 +84,6 @@ const net={
     if(m.t==='meta'){ if(game.meta)Object.assign(game.meta,m.meta,{remote:true}); return; }
     if(m.t==='pos'){ if(m.id!==this.myId)this.updateRemote(m); return; }
     if(m.t==='blk'){ this.applyBlock(m.dim,m.x,m.y,m.z,m.v); return; }
-    if(m.t==='tile'){ this.applyTile(m); return; }
     if(m.t==='chat'){ addChat(`<${m.name}> ${m.text}`); return; }
     if(m.t==='time'){ dayTime=m.dayTime; return; }
     if(m.t==='weather'){ if(dims.over)dims.over.flags.weather=m.w; return; }
@@ -100,11 +92,12 @@ const net={
     if(m.t==='leave'){ const r=this.remotes.get(m.id); if(r)addChat(r.name+' left the game','#ff8'); this.remotes.delete(m.id); return; }
   },
   updateRemote(m){ let r=this.remotes.get(m.id); if(!r){r={id:m.id,name:m.name||'player'};this.remotes.set(m.id,r);} if(m.name)r.name=m.name; if(m.skin!==undefined)r.skin=m.skin|0;
-    if(!r.pos||r.dim!==m.dim){r.pos=[...m.p];} r.dim=m.dim; r.tpos=m.p; r.yaw=m.yaw; r.pitch=m.pitch; r.sneak=m.sneak; r.spec=!!m.spec; r.w=0.3; r.h=1.8; },
+    if(!r.pos||r.dim!==m.dim){r.pos=[...m.p];} r.dim=m.dim; r.tpos=m.p; r.yaw=m.yaw; r.pitch=m.pitch; r.sneak=m.sneak; r.spec=!!m.spec; r.cr=!!m.cr; r.dead=!!m.dead; r.held=m.held|0; r.w=0.3; r.h=1.8; },
   update(dt){ if(!this.role)return;
     if(this.role==='guest'&&!this.guest){ this.helloT=(this.helloT||0)+dt; if(this.helloT>1){ this.helloT=0; for(const p of this.peers)this.send(p,{t:'hello',name:this.name,skin:PROFILE.skin,code:PROFILE.code}); } return; }
     if(game.state!=='playing')return;
-    this.posT+=dt; if(this.posT>=0.1){ this.posT=0; this.broadcast({t:'pos',id:this.myId,name:this.name,skin:PROFILE.skin,dim:world.dim,p:player.pos.map(v=>Math.round(v*100)/100),yaw:player.yaw,pitch:player.pitch,sneak:player.sneak,spec:!!player.spectator}); }
+    this.posT+=dt; if(this.posT>=0.1){ this.posT=0; this.broadcast({t:'pos',id:this.myId,name:this.name,skin:PROFILE.skin,dim:world.dim,p:player.pos.map(v=>Math.round(v*100)/100),yaw:player.yaw,pitch:player.pitch,sneak:player.sneak,spec:!!player.spectator,cr:inventory.creative?1:0,dead:player.dead?1:0,held:selected().id}); }
     if(this.role==='host'){ this.timeT+=dt; if(this.timeT>10){this.timeT=0;this.sendTime();} }
+    if(this.shareUpdate)this.shareUpdate(dt);
     for(const r of this.remotes.values()){ if(!r.pos||!r.tpos)continue; const k=Math.min(1,dt*12),ox=r.pos[0],oz=r.pos[2]; for(let a=0;a<3;a++)r.pos[a]+=(r.tpos[a]-r.pos[a])*k; r.phase=(r.phase||0)+Math.hypot(r.pos[0]-ox,r.pos[2]-oz)*4; } },
 };

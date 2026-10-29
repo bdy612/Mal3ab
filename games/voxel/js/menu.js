@@ -229,6 +229,8 @@ function helpScreen(){ const K=(k,t)=>[E('b',null,k),E('span',null,t)];
     E('p',{class:'note'},'Wood → crafting table → pickaxe → stone → copper & iron → diamonds → enchanting (bookshelves make it stronger) → Nether fortress → brewing → eyes of ender → the End.'),
     E('p',{class:'note'},'Mace: Heavy core (rare in dungeon, temple and stronghold chests) + Gust rod (from Gusts, underground). Hit while falling for a smash. Throw a wind charge at your feet to launch up first!'),
     E('p',{class:'note'},'Wolves: right-click with bones to tame, right-click to sit/follow. Boats: place on water, right-click to ride, Shift to get out. Fishing rod: cast, wait for the splash, right-click to reel in. Shield: hold right click to block.'),
+    E('p',{class:'note'},'Horses: plains herds. Right-click to climb on a wild horse until it trusts you (feeding wheat, apples or sugar helps), then add a saddle to ride. Minecarts: place on rails, W to push, powered rails speed you up. Hoppers move items into chests and furnaces; a comparator reads how full a container is. Splash potions: brew a potion with gunpowder, then throw it.'),
+    E('p',{class:'note'},'Multiplayer: when you are in the same dimension as the host, everyone shares the same mobs, dropped items, chests and furnaces. Your tamed wolves follow you, and only one player can ride a horse, boat or minecart at a time.'),
     btn('Back',()=>showPauseMain(),'wide')); }
 
 // ---------------------------------------------------------------------

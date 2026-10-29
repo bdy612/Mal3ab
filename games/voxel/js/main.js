@@ -129,7 +129,8 @@ function frame(now){
     if(!player.dead&&rule('daylight'))dayTime=(dayTime+dt/DAY_LENGTH)%1; attackCd=Math.max(0,attackCd-dt);bowCd=Math.max(0,bowCd-dt);
     if(locked&&!uiOpen){updatePlayer(world,dt); if(!player.spectator){updateMining(world,dt,mouseDown[0]&&!mobHit(world));if(mouseDown[0])attack(world);if(mouseDown[2]&&now>nextPlace){useItem(world);nextPlace=now+200;}}}
     else{updateMining(world,dt,false);if(!player.dead)updatePlayer(world,dt);}
-    if(!player.dead){updateMobs(world,dt,sun);spawnTimer+=dt;if(spawnTimer>1){spawnTimer=0;trySpawn(world,sun);}}
+    if(net.shared())net.updateShared(world,dt,sun);   // a guest in the host's dimension: mobs and items come from the host
+    else if(!player.dead||net.role==='host'){updateMobs(world,dt,sun);spawnTimer+=dt;if(spawnTimer>1){spawnTimer=0;trySpawn(world,sun);}}
     world.time+=dt; plateT+=dt; if(plateT>0.1){plateT=0;updatePlates(world);} updateTimers(world);
     updateLiquids(world); updateRedstone(world); updateGrowth(world,dt); updateTNT(world,dt);
     updateItems(world,dt);updateFalling(world,dt);updateArrows(world,dt);tickTiles(dt);updateWeather(dt);updateParticles(dt);updateBobber(dt);

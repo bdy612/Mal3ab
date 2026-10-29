@@ -255,6 +255,30 @@ maskTex(T.I_HEAVY_CORE,['','','','     hhhhhh     ','    hkhhhhkh    ','    hhhk
 maskTex(T.I_GUST_ROD,['','            gg  ','           ggg  ','          ggg   ','       w ggg    ','        ggg     ','       ggg w    ','      ggg       ','     ggg        ','  w ggg         ','   ggg          ','  gg            '],{g:[150,210,230],w:[230,250,255]});
 maskTex(T.I_WIND_CHARGE,['','','     wwwww      ','    wbbbbbw     ','   wbbwwwbbw    ','   wbwbbbwbw    ','   wbwbwbwbw    ','   wbbwwwbbw    ','    wbbbbbw     ','     wwwww      '],{w:[230,250,255],b:[150,200,235]}); maskTex(T.I_RAW_COPPER,LUMP,{p:[200,115,75]}); maskTex(T.I_COPPER_INGOT,INGOT,{h:[215,120,80]});
 maskTex(T.I_LIGHTNING_ROD,['','      cccc      ','      cccc      ','       cc       ','       cc       ','       cc       ','       cc       ','       cc       ','       cc       ','       cc       ','       cc       ','       cc       ','       cc       ','       cc       '],{c:[215,120,80]});
+// --- rails, item handling, redstone parts, trial chambers ---
+const railTex=(tie,rail)=>(x,y,r)=>{ if(x===3||x===12)return A(rail||vary([150,150,155],r,10)); if(y%4===1||y%4===2){ if(x>=1&&x<=14)return A(vary(tie,r,14)); } return CLEAR; };
+paint(T.RAIL,railTex([110,80,45])); paint(T.POWERED_RAIL,railTex([110,80,45],[200,170,60])); paint(T.POWERED_RAIL_ON,(x,y,r)=>{ const c=railTex([110,80,45],[230,200,70])(x,y,r); return (x===7||x===8)&&y%4===3?A([255,60,40]):c; });
+paint(T.DETECTOR_RAIL,(x,y,r)=>{ const c=railTex([110,110,110])(x,y,r); return (x>=6&&x<=9&&y>=6&&y<=9)?A([110,30,30]):c; }); paint(T.DETECTOR_RAIL_ON,(x,y,r)=>{ const c=railTex([110,110,110])(x,y,r); return (x>=6&&x<=9&&y>=6&&y<=9)?A([255,60,40]):c; });
+paint(T.RAIL_CURVE,(x,y,r)=>{ const d=Math.hypot(x-15.5,y-15.5); if(Math.abs(d-12.5)<0.8||Math.abs(d-3.5)<0.8)return A(vary([150,150,155],r,10)); const a=Math.atan2(15.5-y,15.5-x); if(d>2&&d<14&&Math.round(a/(Math.PI/2)*5)%2===0&&Math.abs(a/(Math.PI/2)*5-Math.round(a/(Math.PI/2)*5))<0.25)return A(vary([110,80,45],r,14)); return CLEAR; });
+paint(T.COBWEB,(x,y,r)=>{ const cx=x-7.5,cy=y-7.5,d=Math.hypot(cx,cy); return (Math.abs(cx)<0.6||Math.abs(cy)<0.6||Math.abs(cx-cy)<0.7||Math.abs(cx+cy)<0.7||Math.abs(d-3)<0.5||Math.abs(d-6)<0.5)&&d<7.6?[235,235,240,220]:CLEAR; });
+paint(T.HOPPER_OUT,(x,y,r)=>vary(border(x,y)?[45,45,48]:[75,75,80],r,12)); paint(T.HOPPER_TOP,(x,y,r)=>(x>=2&&x<=13&&y>=2&&y<=13)?vary([30,30,32],r,8):vary([80,80,85],r,12));
+paint(T.DROPPER_FRONT,(x,y,r)=>(x>=5&&x<=10&&y>=5&&y<=10)?[25,25,25,255]:cobbleC(x,y,r)); paint(T.DISPENSER_FRONT,(x,y,r)=>Math.hypot(x-7.5,y-7.5)<3?[25,25,25,255]:Math.hypot(x-7.5,y-7.5)<4?vary([90,90,90],r,10):cobbleC(x,y,r));
+const comp=(on)=>(x,y,r)=>{ if(Math.hypot(x-4.5,y-3.5)<1.6||Math.hypot(x-11.5,y-3.5)<1.6||Math.hypot(x-8,y-12)<1.6)return A(on?[255,60,40]:[100,30,30]); if((x===7||x===8)&&y>=4&&y<=10)return A(on?[200,40,30]:[90,25,20]); return A(vary([165,165,165],r,12)); };
+paint(T.COMPARATOR_OFF,comp(false)); paint(T.COMPARATOR_ON,comp(true)); paint(T.I_COMPARATOR,comp(false));
+paint(T.OBSERVER_FRONT,(x,y,r)=>{ if(y>=6&&y<=9&&(x%4===1||x%4===2))return vary([40,40,40],r,8); return vary(y%5===0?[95,95,95]:[120,120,120],r,10); });
+paint(T.OBSERVER_BACK,(x,y,r)=>Math.hypot(x-7.5,y-7.5)<2?[90,30,30]:vary([110,110,110],r,12)); paint(T.OBSERVER_BACK_ON,(x,y,r)=>Math.hypot(x-7.5,y-7.5)<2?[255,50,40]:vary([110,110,110],r,12));
+paint(T.OBSERVER_SIDE,(x,y,r)=>vary((x===7||x===8)?[80,80,80]:[115,115,115],r,12));
+paint(T.TUFF,(x,y,r)=>vary(hash3(x>>1,y>>1,301)>0.7?[90,95,85]:[110,112,102],r,16)); paint(T.TUFF_BRICKS,(x,y,r)=>{const row=y>>3,mortar=y%8===7||((x+(row%2?4:0))%8===7);return mortar?vary([70,72,66],r,8):vary([112,115,104],r,14);});
+paint(T.TRIAL_SPAWNER,(x,y,r)=>((x&3)===0||(y&3)===0)?vary([60,55,50],r,10):border(x,y)?[200,120,40,255]:[0,0,0,0]); paint(T.TRIAL_SPAWNER_ON,(x,y,r)=>((x&3)===0||(y&3)===0)?vary([255,150,50],r,20):[0,0,0,0]);
+paint(T.VAULT_SIDE,(x,y,r)=>vary(border(x,y)||y===7?[50,50,55]:[85,85,90],r,12)); paint(T.VAULT_FRONT,(x,y,r)=>(x>=6&&x<=9&&y>=5&&y<=10)?((x===7||x===8)&&y>=7&&y<=9?[20,20,20]:[220,170,60]):vary(border(x,y)?[50,50,55]:[85,85,90],r,12));
+maskTex(T.I_MINECART,['','','','','  hhhhhhhhhhhh  ','  hwwwwwwwwwwh  ','  hwwwwwwwwwwh  ','  hhhhhhhhhhhh  ','   kk      kk   ','   kk      kk   '],{h:[150,150,155],w:[90,90,95],k:[40,40,40]});
+maskTex(T.I_SADDLE,['','','','     bbbbbb     ','   bbbbbbbbbb   ','  bbbbbbbbbbbb  ','  bb  bbbb  bb  ','  i    bb    i  ','  i          i  ','  i          i  '],{b:[140,75,40],i:[170,170,175]});
+maskTex(T.I_TRIAL_KEY,['','','     ggg        ','    g   g       ','    g   g       ','     ggg        ','      g         ','      gggg      ','      g         ','      ggg       ','      g         '],{g:[230,180,70]});
+maskTex(T.I_HOPPER,['','','  hhhhhhhhhhhh  ','  hkkkkkkkkkkh  ','  hkkkkkkkkkkh  ','  hhhhhhhhhhhh  ','    hhhhhhhh    ','     hhhhhh     ','      hhhh      ','       hh       ','       hh       '],{h:[80,80,85],k:[30,30,32]});
+bottle(T.I_POT_POISON,[90,140,40]);
+const SPLASHM=['','       cc       ','      gggg      ','      g  g      ','      g  g      ','    ggffffgg    ','   gffffffffg   ','  gffffffffffg  ','  gffffffffffg  ','  gffffffffffg  ','   gffffffffg   ','    gggggggg    '];
+for(const [ly,c] of [['I_SPLASH_HEAL',[240,60,90]],['I_SPLASH_REGEN',[230,110,200]],['I_SPLASH_STRENGTH',[170,40,40]],['I_SPLASH_SPEED',[120,195,235]],['I_SPLASH_FIRE',[245,150,50]],['I_SPLASH_NIGHT',[45,45,170]],['I_SPLASH_POISON',[90,140,40]]])
+  maskTex(T[ly],SPLASHM,{c:[130,95,55],g:[215,230,245],f:c});
 const texArray=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D_ARRAY,texArray);
 gl.texImage3D(gl.TEXTURE_2D_ARRAY,0,gl.RGBA,TEX_SIZE,TEX_SIZE,NUM_LAYERS,0,gl.RGBA,gl.UNSIGNED_BYTE,texData);gl.generateMipmap(gl.TEXTURE_2D_ARRAY);
 gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MIN_FILTER,gl.NEAREST_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_S,gl.REPEAT);gl.texParameteri(gl.TEXTURE_2D_ARRAY,gl.TEXTURE_WRAP_T,gl.REPEAT);
@@ -332,6 +356,10 @@ const MOB_TYPES={
     parts:[{box:[-3,10,-3,3,16,3],col:[170,215,240]},{box:[-2,12,-3.4,-0.5,14,-3],col:[30,60,90]},{box:[0.5,12,-3.4,2,14,-3],col:[30,60,90]},{box:[-4,16,-4,4,18,4],col:[200,235,250]},
       {box:[-8,4,-1,-6,9,1],col:[150,200,230],spin:true},{box:[6,6,-1,8,11,1],col:[150,200,230],spin:true},{box:[-1,2,6,1,7,8],col:[150,200,230],spin:true},{box:[-1,0,-8,1,5,-6],col:[150,200,230],spin:true},
       {box:[-1.5,2,-1.5,1.5,10,1.5],col:[130,190,225]}]},
+  potion:{parts:[{box:[-1.5,-2,-1.5,1.5,1.5,1.5],col:[200,90,150]},{box:[-0.7,1.5,-0.7,0.7,2.5,0.7],col:[200,200,210]}]},
+  minecart:{name:'Minecart',w:0.49,h:0.7,hp:4,speed:0,vehicle:true,cart:true,seat:0.3,drops:[[MINECART,1,1]],
+    parts:[{box:[-7,2,-9,7,3,9],col:[110,110,115]},{box:[-8,3,-10,-6,10,10],col:[140,140,148]},{box:[6,3,-10,8,10,10],col:[140,140,148]},{box:[-6,3,-10,6,10,-8],col:[130,130,138]},{box:[-6,3,8,6,10,10],col:[130,130,138]},
+      {box:[-7,0,-7,-5,3,-4],col:[40,40,40]},{box:[5,0,-7,7,3,-4],col:[40,40,40]},{box:[-7,0,4,-5,3,7],col:[40,40,40]},{box:[5,0,4,7,3,7],col:[40,40,40]}]},
   windcharge:{parts:[{box:[-2,-2,-2,2,2,2],col:[200,235,250]},{box:[-3,-1,-1,3,1,1],col:[150,200,235]},{box:[-1,-1,-3,1,1,3],col:[150,200,235]}]},
   bobber:{parts:[{box:[-1.5,0,-1.5,1.5,1.5,1.5],col:[220,30,30]},{box:[-1.5,1.5,-1.5,1.5,3,1.5],col:[240,240,240]}]},
   snowball:{parts:[{box:[-1.5,-1.5,-1.5,1.5,1.5,1.5],col:[245,250,255]}]},
@@ -350,5 +378,12 @@ function buildMobGeom(def){ const v=[],i=[];let n=0;def.ranges=[];
 // remote players in multiplayer: original look, one colour per player slot
 const PLAYER_COLS=[[230,120,40],[60,160,90],[150,80,200],[220,200,60],[60,140,220],[220,70,90],[40,170,170],[235,235,235]];
 PLAYER_COLS.forEach((c,i)=>{MOB_TYPES['player'+i]={parts:humanoid([60,55,70],c,[215,175,135],[215,175,135],[40,30,30]).concat([{box:[-4,31,-4,4,33,4],col:[70,45,30]}])};});
+// horses: original look, three coat colours
+function horseDef(name,body,mane,leg){ return {name,w:0.6,h:1.6,hp:20,speed:2.2,passive:true,horse:true,seat:1.05,food:[WHEAT,APPLE,SUGAR],xp:1,drops:[[LEATHER,0,2]],
+  parts:[{box:[-5,12,-10,5,22,10],col:body},{box:[-2.5,18,-15,2.5,30,-8],col:body},{box:[-3,26,-21,3,32,-13],col:body},{box:[-2,26,-23,2,30,-21],col:body.map(v=>v*0.85)},
+    {box:[-2,32,-15,-1,35,-13],col:body},{box:[1,32,-15,2,35,-13],col:body},{box:[-1,22,-14,1,33,-8],col:mane},{box:[-3,29,-21.2,-1.5,30.5,-20.9],col:[20,20,20]},{box:[1.5,29,-21.2,3,30.5,-20.9],col:[20,20,20]},
+    {box:[-1.5,12,10,1.5,21,13],col:mane},{box:[-5.5,21.5,-4,5.5,23,4],col:[120,65,35],saddle:true},{box:[-6,15,-1,-5.5,21.5,1],col:[160,160,165],saddle:true},{box:[5.5,15,-1,6,21.5,1],col:[160,160,165],saddle:true},
+    ...legs4(12,1.5,6,3.5,3.5,leg)]}; }
+MOB_TYPES.horse=horseDef('Horse',[140,90,55],[60,40,25],[120,78,48]); MOB_TYPES.horse_white=horseDef('Horse',[225,225,220],[180,180,175],[205,205,200]); MOB_TYPES.horse_black=horseDef('Horse',[50,45,45],[25,22,22],[45,40,40]);
 for(const d of Object.values(MOB_TYPES))buildMobGeom(d);
 

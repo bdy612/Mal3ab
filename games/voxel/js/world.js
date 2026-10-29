@@ -85,6 +85,7 @@ function shapeBoxes(b,m,nb,coll){ const s=SHAPE[b];
     return P.concat(ax?[[9,6,0,15,9,2],[9,12,0,15,15,2],[9,6,14,15,9,16],[9,12,14,15,15,16]]:[[0,6,9,2,9,15],[0,12,9,2,15,15],[14,6,9,16,9,15],[14,12,9,16,15,15]]); }
   if(s===6)return coll?[[1,0,1,15,15,15]]:[[1,0,1,15,16,15]];
   if(s===7)return [[0,0,0,16,1,16]];
+  if(s===9){ const f=m&7,sp=f===3?[6,0,6,10,4,10]:f===0?[12,4,6,16,8,10]:f===1?[0,4,6,4,8,10]:f===4?[6,4,12,10,8,16]:[6,4,0,10,8,4]; return [[0,10,0,16,16,16],[4,4,4,12,10,12],sp]; }
   if(s===8)return coll?[[6,0,6,10,16,10]]:[[7,0,7,9,13,9],[6,13,6,10,16,10]];
   return [[0,0,0,16,16,16]]; }
 function liquidHeight(b,m,above){ if(LIQ[above]===LIQ[b])return 16; if(b===WATER||b===LAVA||(m&8))return 14; return Math.max(2,14-(m&7)*2); }
@@ -134,6 +135,7 @@ function meshChunk(world,ch){
     op.i.push(base,base+1,base+2,base,base+2,base+3,base,base+2,base+1,base,base+3,base+2); op.n+=4; };
   for(let y=0;y<CY;y++)for(let z=0;z<CZ;z++)for(let x=0;x<CX;x++){ const i=(y*CZ+z)*CX+x,b=B[i]; if(!PLANT[b]&&!DECAL[b]&&!LIQ[b]&&!SHAPE[b])continue; const lt=Lt[i],layer=BLOCKS[b].tex[2];
     if(PLANT[b]){ quad([[x,y,z],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z]],0,layer,lt,0,0,TINT[b]); quad([[x+1,y,z],[x,y,z+1],[x,y+1,z+1],[x+1,y+1,z]],0,layer,lt,0,0,TINT[b]); continue; }
+    if(DECAL[b]&&RAILS.has(b)){ railQuad(quad,x,y,z,b,Mt[i],lt); continue; }
     if(DECAL[b]){ const meta=Mt[i],a=decalAttach(b,meta),f=CUBE_FACES[a],rot=(b===REPEATER_OFF||b===REPEATER_ON)?REP_ROT[meta&7]||0:0;
       quad(f.map(p=>[p[0]+x,p[1]+y,p[2]+z]),OPP[a],layer,lt,OPP[a]+1,rot,TINT[b]); continue; }
     const meta=Mt[i], nb=dd=>get(x+DIRV[dd][0],y+DIRV[dd][1],z+DIRV[dd][2]);

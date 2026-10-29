@@ -5,7 +5,7 @@
 const REACH=5,mining={target:null,progress:0,cool:0,stage:0,hit:null};
 function currentHit(world,liquids){const f=forwardVec();return raycast(world,player.pos[0],player.pos[1]+EYE,player.pos[2],f[0],f[1],f[2],REACH,liquids);}
 function mobHit(world){const f=forwardVec(),o=[player.pos[0],player.pos[1]+EYE,player.pos[2]];let best=null,bt=4.5;for(const m of world.mobs){const t=rayAABB(o[0],o[1],o[2],f[0],f[1],f[2],m.pos[0]-m.w,m.pos[1],m.pos[2]-m.w,m.pos[0]+m.w,m.pos[1]+m.h,m.pos[2]+m.w);if(t>=0&&t<bt){bt=t;best=m;}}return best;}
-function miningTime(b){ const B=BLOCKS[b];if(!isFinite(B.hardness))return Infinity;if(inventory.creative)return 0; const s=selected(),tool=heldItem(),match=tool&&tool.tool===B.tool,tier=match?tool.tier:0,speed=match?tool.speed*(1+0.3*(s.ench&&s.ench.Efficiency||0)):1;
+function miningTime(b){ const B=BLOCKS[b];if(!isFinite(B.hardness))return Infinity;if(inventory.creative)return 0; if(b===COBWEB){ const t=heldItem(); return t&&(t.tool==='sword'||t.shears)?0.4:4; } const s=selected(),tool=heldItem(),match=tool&&tool.tool===B.tool,tier=match?tool.tier:0,speed=match?tool.speed*(1+0.3*(s.ench&&s.ench.Efficiency||0)):1;
   if(B.tool==='pick'&&B.tier>tier)return B.hardness*1.5*5; if(match)return B.hardness*1.5/speed; return B.hardness*1.5; }
 function canDrop(b){const B=BLOCKS[b];if(B.tool!=='pick'||B.tier===0)return true;const tool=heldItem();return !!tool&&tool.tool==='pick'&&tool.tier>=B.tier;}
 function updateMining(world,dt,active){
@@ -44,6 +44,7 @@ function placeMeta(id,h){ const dt=DIRTYPE[id];
   if(SHAPE[id]===1)return upperHalf(h)?8:0;
   if(SHAPE[id]===2)return lookDirH()|(upperHalf(h)?8:0);
   if(SHAPE[id]===5)return lookDirH()<2?1:0;
+  if(id===HOPPER)return h.ny!==0?3:DIRV.findIndex(d=>d[0]===-h.nx&&d[1]===-h.ny&&d[2]===-h.nz);
   if(id===LADDER||id===VINE){ const n=[h.nx,h.ny,h.nz]; return DIRV.findIndex(d=>d[0]===-n[0]&&d[1]===-n[1]&&d[2]===-n[2]); }
   if(id===REPEATER_OFF)return lookDirH();
   if(isDoor(id))return lookDirH();
@@ -91,22 +92,31 @@ function interactBlock(h){ const b=h.block,x=h.x,y=h.y,z=h.z,m=world.getMeta(x,y
   if(b===FENCE_GATE){ world.setBlock(x,y,z,b,true,m&4?m&~4:(m&~1)|4|(lookDirH()<2?1:0)); sfx.place(); return true; }
   if(b===REPEATER_OFF||b===REPEATER_ON){ const d=((m>>3)+1)&3; world.setBlock(x,y,z,b,true,(m&7)|d<<3); showMsg('Repeater delay: '+(d+1)+' tick'+(d?'s':'')); return true; }
   if(isDoor(b)){ toggleDoor(x,y,z); return true; }
+  if(b===VAULT){ openVault(x,y,z); return true; }
+  if(b===HOPPER){ openUI('hopper',getTile(x,y,z,b)); return true; } if(b===DROPPER||b===DISPENSER){ openUI('dropper',getTile(x,y,z,b)); return true; }
+  if(b===COMPARATOR_OFF||b===COMPARATOR_ON){ world.setBlock(x,y,z,b,true,m^8); showMsg((m&8)?'Comparator: compare mode':'Comparator: subtract mode'); rsSchedule(x,y,z,0); return true; }
   return false; }
 
 let bowCd=0;
+// right-click on a mob: trade, shear, breed, tame, saddle, ride...
+function useOnMob(m,s,it){
+    if(m.def.trader){openUI('trade',m);return true;}
+    if(it&&it.shears&&m.type==='sheep'&&!m.sheared){m.sheared=true;m.regrow=90;spawnItem(m.pos[0],m.pos[1]+0.8,m.pos[2],WOOL,rint(1,3),0);damageTool(s,1);player.swing=1;return true;}
+    if(it&&(m.def.food||[WHEAT]).includes(s.id)&&m.def.passive&&!m.def.trader&&!m.def.swim&&!(m.love>0)&&!(m.loveCd>0)){m.love=12;if(!inventory.creative)consumeHeld();updateHotbar();player.swing=1;showMsg('♥');return true;}
+    if(m.def.vehicle&&!player.riding){ mountVehicle(m); return true; }
+    if(m.def.horse){ if(s.id===SADDLE&&m.tame&&!m.saddle){ m.saddle=true; if(!inventory.creative)consumeHeld(); updateHotbar(); showMsg('Saddled! Right-click to ride.'); sfx.place(); return true; }
+      if([WHEAT,APPLE,SUGAR].includes(s.id)&&(m.hp<m.def.hp||!m.tame)){ m.hp=Math.min(m.def.hp,m.hp+3); m.temper=(m.temper||0)+5; if(!inventory.creative)consumeHeld(); updateHotbar(); showMsg('♥'); return true; }
+      if(!player.riding){ mountVehicle(m); return true; } }
+    if(m.def.wolf&&!m.tame&&s.id===BONE&&!(m.angry>0)){ if(!inventory.creative)consumeHeld(); updateHotbar(); player.swing=1;
+      if(Math.random()<0.34){ m.tame=true; m.owner=PROFILE.code; m.hp=20; m.sit=true; m.target=null; showMsg('♥ The wolf is now your pet! Right-click it to make it sit or follow.'); sfx.bark(); } else showMsg('The wolf sniffs the bone...'); return true; }
+    if(m.def.wolf&&m.tame&&m.owner&&m.owner!==PROFILE.code){ showMsg('This wolf belongs to someone else.'); return true; }
+    if(m.def.wolf&&m.tame){ if([BEEF,BEEF_C,PORK,PORK_C,CHICKEN,CHICKEN_C,MUTTON,MUTTON_C,ROTTEN].includes(s.id)&&m.hp<20){ m.hp=Math.min(20,m.hp+6); if(!inventory.creative)consumeHeld(); updateHotbar(); showMsg('♥'); return true; }
+      m.sit=!m.sit; m.target=null; showMsg(m.sit?'Your wolf sits and waits.':'Your wolf follows you.'); return true; }
+  return false; }
 function useItem(world){
   const s=selected(),it=s.count>0?ITEMS[s.id]:null,m=mobHit(world),h=currentHit(world),hl=currentHit(world,true);
   const mobFirst=m&&(!h||h.t>rayDist(m));
-  if(m&&mobFirst&&!player.sneak){
-    if(m.def.trader){openUI('trade',m);return;}
-    if(it&&it.shears&&m.type==='sheep'&&!m.sheared){m.sheared=true;m.regrow=90;spawnItem(m.pos[0],m.pos[1]+0.8,m.pos[2],WOOL,rint(1,3),0);damageTool(s,1);player.swing=1;return;}
-    if(it&&(m.def.food||[WHEAT]).includes(s.id)&&m.def.passive&&!m.def.trader&&!m.def.swim&&!(m.love>0)&&!(m.loveCd>0)){m.love=12;if(!inventory.creative)consumeHeld();updateHotbar();player.swing=1;showMsg('♥');return;}
-    if(m.def.vehicle&&!player.riding){ mountBoat(m); return; }
-    if(m.def.wolf&&!m.tame&&s.id===BONE&&!(m.angry>0)){ if(!inventory.creative)consumeHeld(); updateHotbar(); player.swing=1;
-      if(Math.random()<0.34){ m.tame=true; m.hp=20; m.sit=true; m.target=null; showMsg('♥ The wolf is now your pet! Right-click it to make it sit or follow.'); sfx.bark(); } else showMsg('The wolf sniffs the bone...'); return; }
-    if(m.def.wolf&&m.tame){ if([BEEF,BEEF_C,PORK,PORK_C,CHICKEN,CHICKEN_C,MUTTON,MUTTON_C,ROTTEN].includes(s.id)&&m.hp<20){ m.hp=Math.min(20,m.hp+6); if(!inventory.creative)consumeHeld(); updateHotbar(); showMsg('♥'); return; }
-      m.sit=!m.sit; m.target=null; showMsg(m.sit?'Your wolf sits and waits.':'Your wolf follows you.'); return; }
-  }
+  if(m&&mobFirst&&!player.sneak){ const before=m.proxy?MOBSYNC.map(k=>m[k]):null, done=useOnMob(m,s,it); if(before)net.mobChanged(m,before); if(done)return; }
   if(h&&!player.sneak&&interactBlock(h))return;
   if(h&&h.block===END_FRAME&&it&&it.eye){ world.setBlock(h.x,h.y,h.z,END_FRAME_EYE); if(!inventory.creative)consumeHeld(); updateHotbar(); sfx.craft(); checkEndPortal(); return; }
   if(it&&it.food){ if(player.food<20||inventory.creative){player.food=Math.min(20,player.food+it.food);sfx.eat();if(!inventory.creative)consumeHeld();updateHotbar();player.swing=1;} return; }
@@ -115,7 +125,8 @@ function useItem(world){
   if(it&&it.rod){ useRod(s); return; }
   if(it&&it.throw){ throwItem(s,it.throw); return; }
   if(it&&it.shield)return;
-  if(it&&it.boat){ const t=hl&&isWater(hl.block)?[hl.x+0.5,hl.y+1,hl.z+0.5]:h?[h.x+h.nx+0.5,h.y+h.ny,h.z+h.nz+0.5]:null; if(t){ const b=spawnMob(world,'boat',t[0],t[1],t[2]); b.yaw=player.yaw; if(!inventory.creative)consumeHeld(); updateHotbar(); sfx.place(); } return; }
+  if(it&&it.cart){ if(placeCart(h,hl)){ if(!inventory.creative)consumeHeld(); updateHotbar(); sfx.place(); } return; }
+  if(it&&it.boat){ const t=hl&&isWater(hl.block)?[hl.x+0.5,hl.y+1,hl.z+0.5]:h?[h.x+h.nx+0.5,h.y+h.ny,h.z+h.nz+0.5]:null; if(t){ const b=spawnMob(world,'boat',t[0],t[1],t[2]); b.yaw=player.yaw; if(b.detached)net.requestSpawn(b); if(!inventory.creative)consumeHeld(); updateHotbar(); sfx.place(); } return; }
   if(it&&it.bow){ if(bowCd>0)return; if(inventory.creative||invCount(ARROW)>0){ if(!inventory.creative)invRemove(ARROW,1); const f=forwardVec(); shootArrow([player.pos[0],player.pos[1]+EYE,player.pos[2]],f,32,true,{dmg:5*(1+0.25*(s.ench&&s.ench.Power||0))}); damageTool(s,1); bowCd=0.7; player.swing=1; updateHotbar(); } return; }
   if(it&&it.eye){ if(world.dim!=='over'){showMsg('The eye does nothing here.');return;} const sp=world.gen.portalCenter; if(!sp){showMsg('The eye just hovers. Superflat worlds have no stronghold.');return;} const dx=sp[0]-player.pos[0],dz=sp[2]-player.pos[2],d=Math.hypot(dx,dz);
     const dir=['north','north-east','east','south-east','south','south-west','west','north-west'][Math.round(((Math.atan2(dx,-dz)+Math.PI*2)%(Math.PI*2))/(Math.PI/4))%8]; showMsg(`The eye points ${dir}: the stronghold is ${Math.round(d)} blocks away, deep underground.`); sfx.teleport(); if(Math.random()<0.2&&!inventory.creative){consumeHeld();updateHotbar();} return; }

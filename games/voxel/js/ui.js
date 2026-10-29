@@ -21,8 +21,8 @@ function updateBars(){ const gm=gameMode(); document.getElementById('cross').sty
 
 // --- container UI (inventory / crafting table / furnace / chest / enchanting / trading) ---
 let uiOpen=false;const cursorEl=document.getElementById('cursorStack');const ui={type:null,tile:null,grid:[],gw:0,ench:[],opts:null};
-function openUI(type,tile){if(type==='creative'){ui.cgrid=null;}ui.type=type;ui.tile=tile||null;ui.gw=type==='table'?3:type==='inventory'?2:0;ui.grid=Array.from({length:ui.gw*ui.gw},empty);ui.ench=[empty()];ui.opts=null;uiOpen=true;invEl.classList.remove('hidden');refreshUI();document.exitPointerLock();if(tile&&typeof net!=='undefined')net.requestTile(tile);}
-function closeUI(relock=true){uiOpen=false;invEl.classList.add('hidden');for(const s of ui.grid.concat(ui.ench))if(s.count){const l=invAdd(s.id,s.count,s.dur,s.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],s.id,l,s.dur,null,s.ench);clearStack(s);}
+function openUI(type,tile){if(type==='creative'){ui.cgrid=null;}ui.type=type;ui.tile=tile||null;ui.gw=type==='table'?3:type==='inventory'?2:0;ui.grid=Array.from({length:ui.gw*ui.gw},empty);ui.ench=[empty()];ui.opts=null;uiOpen=true;invEl.classList.remove('hidden');refreshUI();document.exitPointerLock();net.openedTile(ui.tile);}
+function closeUI(relock=true){uiOpen=false;invEl.classList.add('hidden');net.closedTile();for(const s of ui.grid.concat(ui.ench))if(s.count){const l=invAdd(s.id,s.count,s.dur,s.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],s.id,l,s.dur,null,s.ench);clearStack(s);}
   const c=inventory.cursor;if(c.count){const l=invAdd(c.id,c.count,c.dur,c.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],c.id,l,c.dur,null,c.ench);clearStack(c);}cursorEl.classList.add('hidden');buildHotbar();scheduleSave();if(relock&&!player.dead)resumeGame();}
 function moveStack(s,target){
   if(ITEMS[s.id].stack>1)for(const t of target){if(t.id===s.id&&t.count<ITEMS[s.id].stack){const n=Math.min(s.count,ITEMS[s.id].stack-t.count);t.count+=n;s.count-=n;if(!s.count){clearStack(s);return;}}}
@@ -37,12 +37,12 @@ function slotClick(arr,i,opt,e){ const s=arr[i],c=inventory.cursor,right=e.butto
   else if(!s.count){setStack(s,c);clearStack(c);}
   else if(s.id===c.id&&ITEMS[s.id].stack>1){const n=Math.min(c.count,ITEMS[s.id].stack-s.count);s.count+=n;c.count-=n;if(!c.count)clearStack(c);}
   else{const t={};setStack(t,s);setStack(s,c);setStack(c,t);} }
-function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;refreshUI();buildHotbar();scheduleSave();if(ui.tile&&typeof net!=='undefined')net.sendTile(ui.tile);};d.oncontextmenu=e=>e.preventDefault();return d;}
+function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;if(ui.tile&&ui.tile.pos&&TILE_TYPES.has(ui.tile.type))tileChanged(...ui.tile.pos);refreshUI();buildHotbar();scheduleSave();};d.oncontextmenu=e=>e.preventDefault();return d;}
 function recRow(iconId,title,sub,ok,onclick){const d=document.createElement('div');d.className='rec'+(ok?' ok':'');d.innerHTML=`<div class="ic" style="background-image:url(${iconURL(iconId)})"></div><div>${title}<small>${sub}</small></div>`;if(onclick)d.onclick=()=>{if(ok)onclick();};else d.style.cursor='default';return d;}
 function refreshUI(){
   const main=document.getElementById('uiMain'),side=document.getElementById('uiSide');main.innerHTML='';side.innerHTML='';
   const invQuick={quick:s=>{ const i=inventory.slots.indexOf(s);
-    if(ui.type==='chest')moveStack(s,ui.tile.slots); else if(ui.type==='furnace'){ if(SMELT[s.id]||!FUEL[s.id])moveStack(s,[ui.tile.inp]); else moveStack(s,[ui.tile.fuel]); } else if(ui.type==='enchant'&&itemKind(ITEMS[s.id])){moveStack(s,ui.ench);ui.opts=null;}
+    if(ui.type==='chest'||ui.type==='hopper'||ui.type==='dropper')moveStack(s,ui.tile.slots); else if(ui.type==='furnace'){ if(SMELT[s.id]||!FUEL[s.id])moveStack(s,[ui.tile.inp]); else moveStack(s,[ui.tile.fuel]); } else if(ui.type==='enchant'&&itemKind(ITEMS[s.id])){moveStack(s,ui.ench);ui.opts=null;}
     else if(ui.type==='brew'){ if(BREW[s.id])moveStack(s,[ui.tile.ing]); else if(s.id===BLAZE_POWDER)moveStack(s,[ui.tile.fuel]); else if(ITEMS[s.id].drink)moveStack(s,ui.tile.bottles); }
     else if(ITEMS[s.id].armor&&!inventory.armor[ITEMS[s.id].armor.slot].count)moveStack(s,[inventory.armor[ITEMS[s.id].armor.slot]]);
     else moveStack(s,i<9?inventory.slots.slice(9):inventory.slots.slice(0,9)); }};
@@ -62,6 +62,8 @@ function refreshUI(){
     const fire=document.createElement('div');fire.id='fireP';fire.style.cssText='text-align:center;color:#f93;font-size:12px';col.appendChild(fire);col.appendChild(mkSlot([t.fuel],0,{accept:c=>!!FUEL[c.id],quick:s=>moveStack(s,inventory.slots)}));row.appendChild(col);
     const ar=document.createElement('div');ar.className='arrow';ar.id='cookP';row.appendChild(ar); row.appendChild(mkSlot([t.out],0,{output:true,onTake:()=>{addXp(t.out.count);clearStack(t.out);}}));
     main.appendChild(h('Furnace'));main.appendChild(row); updateFurnaceUI(); }
+  else if(ui.type==='hopper'||ui.type==='dropper'){ const n=ui.tile.slots.length; main.appendChild(h(ui.type==='hopper'?'Hopper':ui.tile.type==='dispenser'?'Dispenser':'Dropper'));
+    const g=document.createElement('div');g.className='g3';g.style.gridTemplateColumns=`repeat(${n===5?5:3},42px)`;g.style.marginBottom='10px';for(let i=0;i<n;i++)g.appendChild(mkSlot(ui.tile.slots,i,{quick:s=>moveStack(s,inventory.slots)}));main.appendChild(g); }
   else if(ui.type==='chest'){ main.appendChild(h('Chest'));const g=grid();for(let i=0;i<27;i++)g.appendChild(mkSlot(ui.tile.slots,i,{quick:s=>moveStack(s,inventory.slots)}));g.style.marginBottom='10px';main.appendChild(g); }
   else if(ui.type==='enchant'){ const row=document.createElement('div');row.className='row';row.style.marginBottom='10px'; row.appendChild(mkSlot(ui.ench,0,{accept:c=>!!itemKind(ITEMS[c.id]),quick:s=>moveStack(s,inventory.slots)}));
     const info=document.createElement('div');info.style.cssText='font-size:12px;color:#bbb';info.textContent=`Your level: ${player.level}. Put a tool, weapon, bow or armor in the slot.`;row.appendChild(info); main.appendChild(h('Enchanting table'));main.appendChild(row); }
@@ -190,7 +192,7 @@ function findItem(q){ q=q.toLowerCase().replace(/_/g,' '); const ids=Object.keys
 function setTimeOfDay(w){ const t={sunrise:0.0,day:0.08,morning:0.08,noon:0.25,sunset:0.48,night:0.62,midnight:0.75}[w]; if(t===undefined)return false; dayTime=t; net.sendTime(); return true; }
 const NO_CHEAT_CMDS=new Set(['help','seed','list','me']);
 function runCommand(cmd){ const a=cmd.slice(1).trim().split(/\s+/),c=(a[0]||'').toLowerCase(), host=!net.guest;
-  if(c==='help'||!c)return cheatsOn()?'Commands: /gamemode survival|creative|spectator · /time set day|noon|night · /daylight on|off · /difficulty <name> · /gamerule keepInventory|mobSpawning|daylight true|false · /give <item> [count] · /tp x y z · /effect night_vision|clear · /heal · /kill · /locate stronghold|fortress|village|temple · /weather clear|rain|thunder · /spawn · /seed · /list'
+  if(c==='help'||!c)return cheatsOn()?'Commands: /gamemode survival|creative|spectator · /time set day|noon|night · /daylight on|off · /difficulty <name> · /gamerule keepInventory|mobSpawning|daylight true|false · /give <item> [count] · /tp x y z · /effect night_vision|clear · /heal · /kill · /locate stronghold|fortress|village|temple|trial|mineshaft · /weather clear|rain|thunder · /spawn · /seed · /list'
     :'Commands: /seed · /list · /me <action>.  Cheats are off in this world, so other commands are disabled.';
   if(c==='seed')return 'Seed: '+SEED;
   if(c==='list')return 'Players: '+[net.name].concat([...net.remotes.values()].map(r=>r.name)).join(', ');
@@ -219,7 +221,12 @@ function runCommand(cmd){ const a=cmd.slice(1).trim().split(/\s+/),c=(a[0]||'').
     if(what.startsWith('temp')){ const g=dims.over.gen; if(g.flat)return 'Superflat worlds have no temples.'; const pcx=Math.floor(player.pos[0]/16),pcz=Math.floor(player.pos[2]/16); let best=null,bd=1e9;
       for(let r=0;r<=48&&!best;r++)for(let a=-r;a<=r;a++)for(const [cx,cz] of [[pcx+a,pcz-r],[pcx+a,pcz+r],[pcx-r,pcz+a],[pcx+r,pcz+a]]){ if(hash3(cx,cz,95)>=0.03||g.villageCenter(cx,cz))continue; const c=g.column(cx*16+7,cz*16+7); if(c.biome!==BIOME.DESERT||c.h<=SEA_LEVEL+2)continue; const d=Math.hypot(cx-pcx,cz-pcz); if(d<bd){bd=d;best=[cx*16+7,c.h,cz*16+7];} }
       return best?`Desert temple at ${best[0]} ${best[1]} ${best[2]}`:'No desert temple nearby'; }
-    return 'Usage: /locate stronghold|fortress|village|temple'; }
+    if(what.startsWith('trial')||what.startsWith('mine')){ const g=dims.over.gen; if(g.flat)return 'Superflat worlds have none.'; const pcx=Math.floor(player.pos[0]/16),pcz=Math.floor(player.pos[2]/16);
+      for(let r=0;r<=60;r++)for(let a=-r;a<=r;a++)for(const [cx,cz] of [[pcx+a,pcz-r],[pcx+a,pcz+r],[pcx-r,pcz+a],[pcx+r,pcz+a]]){
+        if(what.startsWith('trial')){ if(g.trialAt(cx,cz)){ let ok=true; for(let i=0;i<16&&ok;i+=5)for(let j=0;j<16&&ok;j+=5)if(g.column(cx*16+i,cz*16+j).h<36)ok=false; if(ok)return `Trial chamber at ${cx*16+8} ~12 ${cz*16+8} (deep underground)`; } }
+        else if(g.mineshaftAt(Math.floor(cx/6),Math.floor(cz/6)))return `Mineshaft tunnels around ${cx*16+8} ~${16+Math.floor(hash3(Math.floor(cx/6),Math.floor(cz/6),402)*14)} ${cz*16+8}`; }
+      return 'None found nearby'; }
+    return 'Usage: /locate stronghold|fortress|village|temple|trial|mineshaft'; }
   if(c==='weather'){ if(!host)return 'Only the host can change the weather.'; const W=weatherState(),v=(a[1]||'clear').toLowerCase(); W.on=v!=='clear'; W.thunder=v==='thunder'; W.t=v==='clear'?600:300; net.sendWeather(); return 'Weather: '+v; }
   if(c==='spawn'){ if(world.dim!=='over')world=dims.over; player.pos=[...player.spawn]; player.vel=[0,0,0]; return 'Back at spawn'; }
   return 'Unknown command. Type /help'; }
