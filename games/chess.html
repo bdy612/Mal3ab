@@ -52,6 +52,20 @@ const other = (p) => p === 1 ? 2 : 1;
 const sideOf = (p) => p === 1 ? 'w' : 'b';
 const flipped = () => S.mode === 'online' && S.me === 2;
 const now = () => Date.now();
+// Thinking time is measured on THIS device from the moment the current turn appeared here,
+// so two computers whose clocks disagree can't steal or add time from each other.
+let turnSeenAt = Date.now(), seenKey = '';
+function noteTurn() {
+  if (!window.S || !S.state) return;
+  const k = (S.code || 'local') + ':' + (S.state.gameNo || 1) + ':' + S.state.moves.length + ':' + (S.state.winner || '');
+  if (k === seenKey) return;
+  seenKey = k; turnSeenAt = Date.now();
+  if (S.mode === 'online') try {         // a page refresh keeps counting from when the turn really started on this device
+    const saved = JSON.parse(localStorage.getItem('mal3ab_chess_turn') || 'null');
+    if (saved && saved.k === k && saved.at <= turnSeenAt && turnSeenAt - saved.at < 3 * 3600e3) turnSeenAt = saved.at;
+    else localStorage.setItem('mal3ab_chess_turn', JSON.stringify({ k, at: turnSeenAt }));
+  } catch (e) {}
+}
 
 function newState() {
   const tc = (window.S && S.state && S.state.tc != null) ? S.state.tc : urlTc;
@@ -67,9 +81,10 @@ function applyMove(from, to) {
   const m = chess.move({ from, to, promotion: 'q' });
   if (!m) return false;
   if (st.clock) {
-    if (st.clock.ts) st.clock[sideOf(st.turn)] -= now() - st.clock.ts;
+    noteTurn();
+    if (st.clock.ts) st.clock[sideOf(st.turn)] -= now() - turnSeenAt;   // time used on this move, measured locally
     if (st.inc) st.clock[sideOf(st.turn)] += st.inc * 1000;      // increment after every move
-    st.clock.ts = now();
+    st.clock.ts = 1;                                              // clocks run from the first move on
   }
   st.fen = chess.fen(); st.last = [from, to]; st.moves.push(m.san); st.drawOffer = null;
   if (chess.in_checkmate()) { st.winner = st.turn; st.reason = t('checkmate'); }
@@ -123,7 +138,7 @@ function resign() {
 function remaining(side) {
   const c = S.state.clock; if (!c) return null;
   let ms = c[side];
-  if (c.ts && !S.state.winner && sideOf(S.state.turn) === side) ms -= now() - c.ts;
+  if (c.ts && !S.state.winner && sideOf(S.state.turn) === side) { noteTurn(); ms -= now() - turnSeenAt; }
   return Math.max(0, ms);
 }
 const fmt = (ms) => { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
@@ -171,6 +186,7 @@ function drawArrows() {
 
 // ---------- render ----------
 function render() {
+  noteTurn();
   const st = S.state;
   sync();
   const flip = flipped(), inCheck = chess.in_check();
