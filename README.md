@@ -4,7 +4,7 @@ Live: https://bdy612.github.io/Mal3ab/
 
 ## Games
 - **Online (same device or room code):** Tic-Tac-Toe, Connect 4, Chess (clock, move list, draw offer, resign, premove, right-click arrows).
-- **My games:** City Hall, Turf Rush, Pitch Legends. (Voxel Sandbox will be added when finished — see integrations/voxel.)
+- **My games:** City Hall, Turf Rush, Pitch Legends, Voxel Sandbox (its own UI untouched; account name + cloud-saved worlds via shared/cloud.js).
 
 ## Features
 - Arabic / English (button in the top bar, remembered). The layout never flips — only the text direction changes.
@@ -37,5 +37,5 @@ Tables: `rooms` (live game state), `profiles` (accounts + stats), `matches` (his
 - All four share the Mal3ab look via `shared/theme.css` (CSS variables only; game code untouched).
 - `shared/cloud.js`: cloud saves (the game's localStorage keys are mirrored to the `saves` table for logged-in players) and the account name becomes the mayor / player name.
 - Turf Rush: `turf-online.js` — invite link `?join=CODE`.
-- Voxel (parked in integrations/voxel): `mal3ab-online.js` — short codes / links; the WebRTC handshake goes through the `rooms` table.
+- Voxel: only `shared/cloud.js` (worlds, profile and friend list mirrored to the account); it keeps its own friends/multiplayer system.
 - Pitch Legends: `online.js` — challenge codes/links: your squad (cards, levels, stats) is stored in `squads`; a friend plays against it and results go to both the squad record and the match history.

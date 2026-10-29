@@ -5,6 +5,7 @@
 (function () {
   const me = document.currentScript;
   const GAME = me.dataset.game, KEYS = (me.dataset.keys || '').split(',').filter(Boolean), NAME_INPUT = me.dataset.nameInput;
+  const keyMatch = (k) => KEYS.some(p => p.endsWith('*') ? k.startsWith(p.slice(0, -1)) : k === p);
   const depth = me.getAttribute('src').startsWith('../../') ? '../../' : '../';
   document.body && document.body.setAttribute('data-mal3ab', GAME);
   document.addEventListener('DOMContentLoaded', () => document.body.setAttribute('data-mal3ab', GAME));
@@ -45,6 +46,16 @@
           if (label) { const n = document.createElement('span'); n.className = 'pill'; n.textContent = label; w.appendChild(n); }
           const h = document.createElement('a'); h.className = 'pill mal3ab-home'; h.href = homeHref; h.textContent = '🏠'; h.title = t('home'); w.appendChild(h);
         }
+      } else if (GAME === 'voxel') {                 // account name becomes the Voxel profile name; home bubble bottom-left
+        try {   // profile name = account name; the game reads it at start-up, so set it and reload once
+          const pr = JSON.parse(localStorage.getItem('voxel-profile') || '{}');
+          if (name && pr.name !== name && !sessionStorage.getItem('mal3ab_voxel_named')) {
+            sessionStorage.setItem('mal3ab_voxel_named', '1'); pr.name = name; localStorage.setItem('voxel-profile', JSON.stringify(pr)); location.reload(); return;
+          }
+        } catch (e) {}
+        const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
+        box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>`;
+        document.body.appendChild(box);
       } else {                                       // any other game: small round bubbles in the bottom-left corner
         const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
         box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>${label ? `<span class="bubble name">${label}</span>` : ''}`;
@@ -60,8 +71,8 @@
     if (!synced) {
       const saves = await Auth.loadSaves(GAME);
       let changed = false;
-      for (const k of KEYS) {
-        if (saves[k] == null) continue;
+      for (const k of Object.keys(saves)) {
+        if (saves[k] == null || !keyMatch(k)) continue;
         const v = typeof saves[k] === 'string' ? saves[k] : JSON.stringify(saves[k]);
         if (localStorage.getItem(k) !== v) { localStorage.setItem(k, v); changed = true; }
       }
@@ -74,7 +85,7 @@
     const orig = Storage.prototype.setItem;
     Storage.prototype.setItem = function (k, v) {
       orig.call(this, k, v);
-      if (this === localStorage && KEYS.includes(k)) {
+      if (this === localStorage && keyMatch(k)) {
         clearTimeout(timers[k]);
         timers[k] = setTimeout(() => { let data; try { data = JSON.parse(v); } catch (e) { data = v; } Auth.saveGame(GAME, k, data); }, 1500);
       }
@@ -82,7 +93,7 @@
     const origRemove = Storage.prototype.removeItem;
     Storage.prototype.removeItem = function (k) {
       origRemove.call(this, k);
-      if (this === localStorage && KEYS.includes(k)) Auth.saveGame(GAME, k, null);
+      if (this === localStorage && keyMatch(k)) Auth.saveGame(GAME, k, null);
     };
   })();
 })();
