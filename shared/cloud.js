@@ -22,14 +22,15 @@
     } catch (e) { return; }
     const name = Auth.name();
 
-    // name badge + prefill the game's own name field
+    // slim bar at the very top of the page (in normal flow, so it never covers the game)
     const onReady = () => {
-      if (name) {
-        const b = document.createElement('div'); b.className = 'mal3ab-badge';
-        b.textContent = (GAME === 'cityhall' ? t('mayor') + ': ' : '👤 ') + name;
-        document.body.appendChild(b);
-        if (NAME_INPUT) { const inp = document.querySelector(NAME_INPUT); if (inp) { inp.value = name; inp.dispatchEvent(new Event('change')); inp.dispatchEvent(new Event('input')); } }
-      }
+      const bar = document.createElement('div'); bar.id = 'mal3ab-bar';
+      bar.innerHTML = `<a href="${depth}index.html">🏠 ${t('home')}</a>
+        <span class="name">${name ? (GAME === 'cityhall' ? t('mayor') + ': ' : '👤 ') + name : ''}</span>
+        <span id="mal3ab-bar-slot"></span>
+        <button onclick="location.reload()">${t("tryAgain")}</button>`;
+      document.body.prepend(bar);
+      if (name && NAME_INPUT) { const inp = document.querySelector(NAME_INPUT); if (inp) { inp.value = name; inp.dispatchEvent(new Event('change')); inp.dispatchEvent(new Event('input')); } }
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady); else onReady();
 

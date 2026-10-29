@@ -13,6 +13,7 @@
       navigator.clipboard.writeText(base + '?join=' + code).then(() => { const o = b.textContent; b.textContent = '✓'; setTimeout(() => b.textContent = o, 1200); });
     };
     row.appendChild(b);
+    const put = () => { const slot = document.getElementById('mal3ab-bar-slot'); if (slot) { const c = b.cloneNode(true); c.className = 'sec'; c.onclick = b.onclick; slot.appendChild(c); } else setTimeout(put, 200); }; put();
   }
   const join = new URLSearchParams(location.search).get('join');
   if (join) {

@@ -23,6 +23,16 @@ body[data-mal3ab="voxel"] { background: #0f1220 !important; font-family: 'Segoe 
 body[data-mal3ab="voxel"] button { background: #ffb703 !important; color: #1a1200 !important; border: 0 !important; border-radius: 8px !important; font-weight: 700 !important; padding: 6px 12px !important; }
 body[data-mal3ab="voxel"] button:hover { filter: brightness(1.1); }
 body[data-mal3ab="voxel"] input { background: #232a48 !important; color: #eef0ff !important; border: 1px solid #2c355c !important; border-radius: 8px !important; padding: 4px 8px !important; }
-/* Mal3ab badge (mayor / player name) */
-.mal3ab-badge { position: fixed; top: 10px; right: 120px; z-index: 9999; background: rgba(26,31,53,.94); color: #ffb703; border: 1px solid #2c355c; border-radius: 10px; padding: 6px 12px; font: 700 14px 'Segoe UI', Tahoma, Arial, sans-serif; pointer-events: none; }
-body[data-mal3ab="cityhall"] .mal3ab-badge { top: 72px; right: 210px; }
+/* Mal3ab bar: a normal block at the top of the page, the game starts below it — nothing overlaps */
+#mal3ab-bar { position: relative; z-index: 10000; height: 44px; box-sizing: border-box; display: flex; align-items: center; gap: 14px; padding: 0 14px;
+  background: #1a1f35; border-bottom: 1px solid #2c355c; color: #eef0ff; font: 700 14px 'Segoe UI', Tahoma, Arial, sans-serif; direction: ltr; }
+#mal3ab-bar a { color: #3a86ff; text-decoration: none; }
+#mal3ab-bar .name { color: #ffb703; }
+#mal3ab-bar #mal3ab-bar-slot { margin-left: auto; display: flex; gap: 8px; }
+#mal3ab-bar button { background: #ffb703 !important; color: #1a1200 !important; border: 0 !important; border-radius: 8px !important; padding: 6px 12px !important; font: 700 13px 'Segoe UI', Tahoma, Arial, sans-serif !important; cursor: pointer; margin: 0 !important; width: auto !important; }
+#mal3ab-bar button.sec { background: #232a48 !important; color: #eef0ff !important; }
+/* leave 44px for the bar in full-screen layouts */
+body[data-mal3ab="cityhall"] #game { height: calc(100vh - 44px) !important; }
+body[data-mal3ab="turfrush"] .app { height: calc(100% - 44px) !important; }
+body[data-mal3ab="pitch"] .topbar { top: 0; }
+body[data-mal3ab="turfrush"] .overlay { top: 44px !important; }

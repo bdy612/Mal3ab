@@ -62,7 +62,7 @@
       el = document.createElement('div'); el.id = 'mal3ab-online'; document.body.appendChild(el);
       const st = document.createElement('style');
       st.textContent = `
-        #mal3ab-online{position:fixed;top:64px;right:14px;z-index:9998;width:min(92vw,340px);background:#1a1f35;border:1px solid #2c355c;border-radius:14px;padding:14px;color:#eef0ff;font:14px 'Segoe UI',Tahoma,Arial,sans-serif;display:none;max-height:80vh;overflow:auto}
+        #mal3ab-online{position:absolute;top:48px;right:14px;z-index:9998;width:min(92vw,340px);background:#1a1f35;border:1px solid #2c355c;border-radius:14px;padding:14px;color:#eef0ff;font:14px 'Segoe UI',Tahoma,Arial,sans-serif;display:none;max-height:80vh;overflow:auto}
         #mal3ab-online.open{display:block}
         #mal3ab-online h3{margin:0 0 8px;color:#ffb703;font-size:16px}
         #mal3ab-online .btn{background:#ffb703;color:#1a1200;border:0;border-radius:8px;padding:8px 12px;font-weight:700;cursor:pointer;width:100%;margin-top:6px;font-family:inherit}
@@ -75,12 +75,11 @@
         #mal3ab-online .c-blue{border-color:#2f6fed}#mal3ab-online .c-green{border-color:#22a85a}#mal3ab-online .c-yellow{border-color:#e9b926}#mal3ab-online .c-red{border-color:#e03b3b}#mal3ab-online .c-black{border-color:#eee}
         #mal3ab-online .vs{background:rgba(255,183,3,.12);border:1px solid #ffb703;border-radius:8px;padding:8px;margin-bottom:8px}
         #mal3ab-online .msg{color:#ff5d73;min-height:18px;font-size:12px}
-        #mal3ab-online-btn{position:fixed;top:14px;right:14px;z-index:9999;background:#ffb703;color:#1a1200;border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;font-family:'Segoe UI',Tahoma,Arial,sans-serif}
         .ar #mal3ab-online{direction:rtl}`;
       document.head.appendChild(st);
       const b = document.createElement('button'); b.id = 'mal3ab-online-btn'; b.textContent = '⚔️ ' + T('تحدّي صاحبك', 'Challenge a friend');
       b.onclick = () => { el.classList.toggle('open'); render(); };
-      document.body.appendChild(b);
+      (document.getElementById('mal3ab-bar-slot') || document.body).appendChild(b);
     }
     return el;
   }
@@ -127,7 +126,7 @@
 
   (async () => {
     if (!await waitReady()) return;
-    await new Promise(r => setTimeout(r, 300));
+    for (let i = 0; i < 50 && !document.getElementById('mal3ab-bar-slot'); i++) await new Promise(r => setTimeout(r, 100));
     panel();
     const code = new URLSearchParams(location.search).get('vs');
     if (code) {
