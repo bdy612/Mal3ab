@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إكس أو — ملعب</title>
+<link rel="stylesheet" href="../shared/style.css">
+<style>
+  .board { grid-template-columns: repeat(3, 1fr); width: min(90vw, 360px); }
+  .cell { aspect-ratio: 1; font-size: 64px; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../shared/net.js"></script>
+<script src="../shared/shell.js"></script>
+</head>
+<body>
+<div class="center"><div class="board" id="board"></div></div>
+<script>
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const board = document.getElementById('board');
+
+function winner(b) {
+  for (const l of LINES) if (b[l[0]] && b[l[0]] === b[l[1]] && b[l[0]] === b[l[2]]) return { who: b[l[0]], line: l };
+  if (b.every(Boolean)) return { who: 'draw', line: [] };
+  return null;
+}
+
+function play(i) {
+  const st = S.state;
+  if (st.winner || st.board[i] || !S.myTurn()) return;
+  if (S.mode === 'online' && S.players < 2) return;
+  st.board[i] = st.turn;
+  const w = winner(st.board);
+  if (w) { st.winner = w.who; st.line = w.line; } else st.turn = st.turn === 1 ? 2 : 1;
+  S.commit();
+}
+
+Shell.start({
+  title: 'إكس أو',
+  newState: () => ({ board: Array(9).fill(0), turn: 1, winner: null, line: [] }),
+  render() {
+    const st = S.state;
+    board.innerHTML = st.board.map((v, i) =>
+      `<div class="cell ${v ? 'p' + v : ''} ${st.line && st.line.includes(i) ? 'win' : ''}" onclick="play(${i})">${v === 1 ? 'X' : v === 2 ? 'O' : ''}</div>`
+    ).join('');
+  }
+});
+</script>
+</body>
+</html>

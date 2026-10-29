@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شطرنج — ملعب</title>
+<link rel="stylesheet" href="../shared/style.css">
+<style>
+  .board { grid-template-columns: repeat(8, 1fr); width: min(95vw, 560px); gap: 0; padding: 6px; direction: ltr; background: #5c3b1e; }
+  .cell { aspect-ratio: 1; border-radius: 0; font-size: clamp(26px, 7vw, 46px); }
+  .cell.light { background: #f0d9b5; } .cell.dark { background: #b58863; }
+  .cell.light:hover, .cell.dark:hover { filter: brightness(1.08); }
+  .cell.w { color: #fff; text-shadow: 0 0 3px #000, 0 0 2px #000; } .cell.b { color: #111; }
+  .cell.sel { outline: 4px solid var(--accent); outline-offset: -4px; }
+  .cell.dot::after { content: ''; width: 22%; height: 22%; border-radius: 50%; background: rgba(0,0,0,.35); position: absolute; }
+  .cell.cap { outline: 4px solid var(--p1); outline-offset: -4px; }
+  .cell { position: relative; }
+  .cell.check { background: #ff6b6b !important; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="../shared/net.js"></script>
+<script src="../shared/shell.js"></script>
+</head>
+<body>
+<div class="center"><div class="board" id="board"></div></div>
+<script>
+const PIECES = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛', k: '♚' };
+const FILES = 'abcdefgh';
+const board = document.getElementById('board');
+const chess = new Chess();
+let sel = null, moves = [];
+
+function sync() { chess.load(S.state.fen); }
+
+function tap(sq) {
+  const st = S.state;
+  if (st.winner || !S.myTurn()) return;
+  if (S.mode === 'online' && S.players < 2) return;
+  sync();
+  const mv = moves.find(m => m.to === sq);
+  if (sel && mv) {
+    chess.move({ from: sel, to: sq, promotion: 'q' });
+    st.fen = chess.fen();
+    st.last = [sel, sq];
+    sel = null; moves = [];
+    if (chess.in_checkmate()) st.winner = st.turn;
+    else if (chess.game_over()) st.winner = 'draw';
+    else st.turn = st.turn === 1 ? 2 : 1;
+    S.commit();
+    return;
+  }
+  const piece = chess.get(sq);
+  if (piece && piece.color === chess.turn()) { sel = sq; moves = chess.moves({ square: sq, verbose: true }); }
+  else { sel = null; moves = []; }
+  render();
+}
+
+function render() {
+  sync();
+  const flip = S.mode === 'online' && S.me === 2;
+  const inCheck = chess.in_check();
+  let html = '';
+  for (let i = 0; i < 64; i++) {
+    const r = flip ? i >> 3 : 7 - (i >> 3);            // rank index 0..7 (0 = rank 1)
+    const f = flip ? 7 - (i & 7) : (i & 7);
+    const sq = FILES[f] + (r + 1);
+    const p = chess.get(sq);
+    const cls = ['cell', (r + f) % 2 ? 'light' : 'dark'];
+    if (p) cls.push(p.color);
+    if (sel === sq) cls.push('sel');
+    const m = moves.find(m => m.to === sq);
+    if (m) cls.push(p ? 'cap' : 'dot');
+    if (inCheck && p && p.type === 'k' && p.color === chess.turn()) cls.push('check');
+    html += `<div class="${cls.join(' ')}" onclick="tap('${sq}')">${p ? PIECES[p.type] : ''}</div>`;
+  }
+  board.innerHTML = html;
+  const extra = S.state.winner ? '' : (inCheck ? 'كش!' : (chess.turn() === 'w' ? 'الأبيض يلعب' : 'الأسود يلعب'));
+  Shell.status(extra);
+}
+
+Shell.start({
+  title: 'شطرنج',
+  newState: () => ({ fen: new Chess().fen(), turn: 1, winner: null, last: null }),
+  render
+});
+</script>
+</body>
+</html>

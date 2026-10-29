@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>كونكت ٤ — ملعب</title>
+<link rel="stylesheet" href="../shared/style.css">
+<style>
+  .board { grid-template-columns: repeat(7, 1fr); width: min(95vw, 560px); direction: ltr; background: #1d4ed8; }
+  .cell { aspect-ratio: 1; border-radius: 50%; background: var(--bg); }
+  .cell:hover { background: #1b2140; }
+  .cell.p1 { background: var(--p1); } .cell.p2 { background: #ffd60a; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../shared/net.js"></script>
+<script src="../shared/shell.js"></script>
+</head>
+<body>
+<div class="center"><div class="board" id="board"></div></div>
+<script>
+const R = 6, C = 7;
+const board = document.getElementById('board');
+
+function check(b, r, c) {
+  const who = b[r][c];
+  for (const [dr, dc] of [[0,1],[1,0],[1,1],[1,-1]]) {
+    const cells = [[r, c]];
+    for (const s of [1, -1]) {
+      let rr = r + dr * s, cc = c + dc * s;
+      while (rr >= 0 && rr < R && cc >= 0 && cc < C && b[rr][cc] === who) { cells.push([rr, cc]); rr += dr * s; cc += dc * s; }
+    }
+    if (cells.length >= 4) return cells;
+  }
+  return null;
+}
+
+function drop(c) {
+  const st = S.state;
+  if (st.winner || !S.myTurn()) return;
+  if (S.mode === 'online' && S.players < 2) return;
+  let r = R - 1;
+  while (r >= 0 && st.board[r][c]) r--;
+  if (r < 0) return;
+  st.board[r][c] = st.turn;
+  const w = check(st.board, r, c);
+  if (w) { st.winner = st.turn; st.line = w; }
+  else if (st.board.every(row => row.every(Boolean))) st.winner = 'draw';
+  else st.turn = st.turn === 1 ? 2 : 1;
+  S.commit();
+}
+
+Shell.start({
+  title: 'كونكت ٤',
+  newState: () => ({ board: Array.from({ length: R }, () => Array(C).fill(0)), turn: 1, winner: null, line: [] }),
+  render() {
+    const st = S.state;
+    const inLine = (r, c) => (st.line || []).some(([a, b]) => a === r && b === c);
+    board.innerHTML = st.board.map((row, r) => row.map((v, c) =>
+      `<div class="cell ${v ? 'p' + v : ''} ${inLine(r, c) ? 'win' : ''}" onclick="drop(${c})"></div>`).join('')).join('');
+  }
+});
+</script>
+</body>
+</html>
