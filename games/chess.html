@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chess — Mal3ab</title>
-<link rel="stylesheet" href="../shared/style.css?v=1793266162">
+<link rel="stylesheet" href="../shared/style.css?v=1793275821">
 <style>
   .board { grid-template-columns: repeat(8, 1fr); width: min(95vw, 520px); gap: 0; padding: 6px; direction: ltr; background: #5c3b1e; }
   .cell { aspect-ratio: 1; border-radius: 0; font-size: clamp(26px, 7vw, 44px); position: relative; }
@@ -12,15 +12,15 @@
   .cell.light:hover, .cell.dark:hover { filter: brightness(1.08); }
   .cell.w { color: #fff; text-shadow: 0 0 3px #000, 0 0 2px #000; } .cell.b { color: #111; }
   .cell.sel { outline: 4px solid var(--accent); outline-offset: -4px; }
-  .cell.dot::after { content: ''; width: 22%; height: 22%; border-radius: 50%; background: rgba(0,0,0,.35); position: absolute; }
-  .cell.cap { outline: 4px solid var(--p1); outline-offset: -4px; }
+  .cell.dot::after { content: ''; position: absolute; top: 50%; left: 50%; width: 30%; height: 30%; transform: translate(-50%, -50%); border-radius: 50%; background: rgba(0,0,0,.28); pointer-events: none; }
+  .cell.cap::after { content: ''; position: absolute; inset: 4%; border-radius: 50%; border: 5px solid rgba(0,0,0,.28); pointer-events: none; }
   .cell.check { background: #ff6b6b !important; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-<script src="../shared/i18n.js?v=1793266162"></script>
-<script src="../shared/net.js?v=1793266162"></script>
-<script src="../shared/shell.js?v=1793266162"></script>
+<script src="../shared/i18n.js?v=1793275821"></script>
+<script src="../shared/net.js?v=1793275821"></script>
+<script src="../shared/shell.js?v=1793275821"></script>
 </head>
 <body>
 <div class="chess-wrap">
@@ -45,6 +45,7 @@ const board = document.getElementById('board'), svg = document.getElementById('a
 const chess = new Chess();
 let sel = null, moves = [], premove = null, arrows = [], marks = new Set(), rightFrom = null;
 const urlTc = +(new URLSearchParams(location.search).get('tc') || 0);
+const urlInc = +(new URLSearchParams(location.search).get('inc') || 0);
 
 const sync = () => chess.load(S.state.fen);
 const other = (p) => p === 1 ? 2 : 1;
@@ -54,8 +55,9 @@ const now = () => Date.now();
 
 function newState() {
   const tc = (window.S && S.state && S.state.tc != null) ? S.state.tc : urlTc;
+  const inc = (window.S && S.state && S.state.inc != null) ? S.state.inc : urlInc;
   return { fen: new Chess().fen(), turn: 1, winner: null, reason: null, moves: [], last: null,
-           tc, clock: tc ? { w: tc * 60000, b: tc * 60000, ts: null } : null, drawOffer: null };
+           tc, inc, clock: tc ? { w: tc * 60000, b: tc * 60000, ts: null } : null, drawOffer: null };
 }
 
 // ---------- moves ----------
@@ -66,6 +68,7 @@ function applyMove(from, to) {
   if (!m) return false;
   if (st.clock) {
     if (st.clock.ts) st.clock[sideOf(st.turn)] -= now() - st.clock.ts;
+    if (st.inc) st.clock[sideOf(st.turn)] += st.inc * 1000;      // increment after every move
     st.clock.ts = now();
   }
   st.fen = chess.fen(); st.last = [from, to]; st.moves.push(m.san); st.drawOffer = null;
@@ -208,7 +211,7 @@ function render() {
       <button class="btn small" onclick="acceptDraw()">${t('acceptDraw')}</button><button class="btn small secondary" onclick="declineDraw()">${t('declineDraw')}</button></div>`;
   else if (st.drawOffer === me) db.innerHTML = `<div class="drawbox">${t('drawOffered')}</div>`;
   else db.innerHTML = `<div class="drawbox"><button class="btn small secondary" onclick="offerDraw()">${t('offerDraw')}</button><button class="btn small secondary" onclick="resign()">🏳️ ${t('resign')}</button></div>`;
-  document.getElementById('hint').textContent = t('arrowsHint') + (premove ? ` · ${t('premove')}: ${premove.from}→${premove.to}` : '');
+  document.getElementById('hint').textContent = (st.tc ? `⏱ ${st.tc}+${st.inc || 0} · ` : '') + t('arrowsHint') + (premove ? ` · ${t('premove')}: ${premove.from}→${premove.to}` : '');
 
   tickClock();
   Shell.status(st.winner ? '' : (inCheck ? t('check') : (chess.turn() === 'w' ? t('whitePlays') : t('blackPlays'))));
