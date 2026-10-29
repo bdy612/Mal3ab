@@ -23,16 +23,14 @@ body[data-mal3ab="voxel"] { background: #0f1220 !important; font-family: 'Segoe 
 body[data-mal3ab="voxel"] button { background: #ffb703 !important; color: #1a1200 !important; border: 0 !important; border-radius: 8px !important; font-weight: 700 !important; padding: 6px 12px !important; }
 body[data-mal3ab="voxel"] button:hover { filter: brightness(1.1); }
 body[data-mal3ab="voxel"] input { background: #232a48 !important; color: #eef0ff !important; border: 1px solid #2c355c !important; border-radius: 8px !important; padding: 4px 8px !important; }
-/* Mal3ab bar: a normal block at the top of the page, the game starts below it — nothing overlaps */
-#mal3ab-bar { position: relative; z-index: 10000; height: 44px; box-sizing: border-box; display: flex; align-items: center; gap: 14px; padding: 0 14px;
-  background: #1a1f35; border-bottom: 1px solid #2c355c; color: #eef0ff; font: 700 14px 'Segoe UI', Tahoma, Arial, sans-serif; direction: ltr; }
-#mal3ab-bar a { color: #3a86ff; text-decoration: none; }
-#mal3ab-bar .name { color: #ffb703; }
-#mal3ab-bar #mal3ab-bar-slot { margin-left: auto; display: flex; gap: 8px; }
-#mal3ab-bar button { background: #ffb703 !important; color: #1a1200 !important; border: 0 !important; border-radius: 8px !important; padding: 6px 12px !important; font: 700 13px 'Segoe UI', Tahoma, Arial, sans-serif !important; cursor: pointer; margin: 0 !important; width: auto !important; }
-#mal3ab-bar button.sec { background: #232a48 !important; color: #eef0ff !important; }
-/* leave 44px for the bar in full-screen layouts */
-body[data-mal3ab="cityhall"] #game { height: calc(100vh - 44px) !important; }
-body[data-mal3ab="turfrush"] .app { height: calc(100% - 44px) !important; }
-body[data-mal3ab="pitch"] .topbar { top: 0; }
-body[data-mal3ab="turfrush"] .overlay { top: 44px !important; }
+/* Mal3ab controls inside the games */
+body[data-mal3ab="pitch"] .pill.mal3ab-home { text-decoration: none; cursor: pointer; background: #ffb703 !important; color: #1a1200 !important; }
+body[data-mal3ab="turfrush"] .mal3ab-name { color: #ffb703; cursor: default; }
+.mal3ab-bubbles { position: fixed; left: 12px; bottom: 12px; z-index: 9999; display: flex; gap: 8px; align-items: center; }
+.mal3ab-bubbles .bubble { display: inline-flex; align-items: center; justify-content: center; min-width: 42px; height: 42px; padding: 0 12px; border-radius: 21px; background: rgba(26,31,53,.95); color: #ffb703; border: 1px solid #2c355c; font: 700 14px 'Segoe UI', Tahoma, Arial, sans-serif; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.4); }
+/* Pitch Legends: challenge card on the home screen, play-again button in the arena */
+.mal3ab-card { margin: 14px 0 0; padding: 16px; border-radius: 14px; background: rgba(255,183,3,.08); border: 1px solid #ffb703; }
+.mal3ab-card h3 { margin: 0 0 6px; color: #ffb703; }
+.mal3ab-card p { margin: 0 0 10px; color: #9aa3c7; font-size: 14px; }
+.mal3ab-card button, .mal3ab-again { background: #ffb703 !important; color: #1a1200 !important; border: 0 !important; border-radius: 10px !important; padding: 10px 18px !important; font-weight: 700 !important; cursor: pointer; }
+.mal3ab-again-wrap { text-align: center; padding: 10px 0 16px; }

@@ -22,15 +22,34 @@
     } catch (e) { return; }
     const name = Auth.name();
 
-    // slim bar at the very top of the page (in normal flow, so it never covers the game)
+    // Mal3ab controls placed INSIDE each game's own UI (no bar, no overlays)
+    const homeHref = depth + 'index.html';
+    const label = name ? (GAME === 'cityhall' ? t('mayor') + ': ' : '👤 ') + name : '';
     const onReady = () => {
-      const bar = document.createElement('div'); bar.id = 'mal3ab-bar';
-      bar.innerHTML = `<a href="${depth}index.html">🏠 ${t('home')}</a>
-        <span class="name">${name ? (GAME === 'cityhall' ? t('mayor') + ': ' : '👤 ') + name : ''}</span>
-        <span id="mal3ab-bar-slot"></span>
-        <button onclick="location.reload()">${t("tryAgain")}</button>`;
-      document.body.prepend(bar);
       if (name && NAME_INPUT) { const inp = document.querySelector(NAME_INPUT); if (inp) { inp.value = name; inp.dispatchEvent(new Event('change')); inp.dispatchEvent(new Event('input')); } }
+      if (GAME === 'cityhall') {                     // top panel: mayor stat after the date, home button after "?"
+        const top = document.getElementById('top');
+        if (top) {
+          if (label) { const st = document.createElement('div'); st.className = 'stat'; st.innerHTML = `<b>${name}</b><span>${t('mayor')}</span>`; top.insertBefore(st, document.getElementById('spd0')); }
+          const h = document.createElement('button'); h.textContent = '🏠'; h.title = t('home'); h.onclick = () => location.href = homeHref; top.appendChild(h);
+        }
+      } else if (GAME === 'turfrush') {              // footer controls row
+        const ctrl = document.querySelector('.ctrl');
+        if (ctrl) {
+          if (label) { const n = document.createElement('span'); n.className = 'mini mal3ab-name'; n.textContent = label; ctrl.prepend(n); }
+          const h = document.createElement('button'); h.className = 'mini'; h.type = 'button'; h.textContent = '🏠 ' + t('home').replace('← ', ''); h.onclick = () => location.href = homeHref; ctrl.appendChild(h);
+        }
+      } else if (GAME === 'pitch') {                 // wallet pills next to tokens / shards
+        const w = document.querySelector('.wallet');
+        if (w) {
+          if (label) { const n = document.createElement('span'); n.className = 'pill'; n.textContent = label; w.appendChild(n); }
+          const h = document.createElement('a'); h.className = 'pill mal3ab-home'; h.href = homeHref; h.textContent = '🏠'; h.title = t('home'); w.appendChild(h);
+        }
+      } else {                                       // any other game: small round bubbles in the bottom-left corner
+        const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
+        box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>${label ? `<span class="bubble name">${label}</span>` : ''}`;
+        document.body.appendChild(box);
+      }
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady); else onReady();
 
