@@ -25,9 +25,8 @@
       cityhall: 'City Hall', cityhallDesc: 'إنت العمدة: ابني مدينتك وأدِر الميزانية.',
       turfrush: 'Turf Rush', turfrushDesc: 'سباق سيطرة على الأرض، سريع ومتعدد اللاعبين.',
       pitch: 'Pitch Legends', pitchDesc: 'أركيد كورة بكروت على طريقة UNO.',
-      voxel: 'Voxel Sandbox', voxelDesc: 'عالم مكعبات ثلاثي الأبعاد: ابني واستكشف وانجو.',
-      myGames: 'ألعابي', boardGames: 'ألعاب أونلاين',
-      searchPh: 'دوّر باسم اللعبة أو النوع (Action, RPG, Racing…)', pickForMe: '🎲 اختارلي لعبة', games: 'لعبة', discoverTitle: '📚 اكتشف الألعاب',
+      games: 'الألعاب', remember: 'خليني مسجّل لمدة أسبوع (من غيرها بتخرج بعد ٣ ساعات من غير لعب)',
+      
       roomMissing: 'الغرفة مش موجودة', roomFull: 'الغرفة مليانة', codeMissing: 'الكود ده مش موجود', roomFail: 'مقدرتش أعمل غرفة، جرّب تاني',
     },
     en: {
@@ -53,9 +52,8 @@
       cityhall: 'City Hall', cityhallDesc: 'You are the mayor: build your city and manage the budget.',
       turfrush: 'Turf Rush', turfrushDesc: 'Fast multiplayer territory race.',
       pitch: 'Pitch Legends', pitchDesc: 'Football card arcade, UNO style.',
-      voxel: 'Voxel Sandbox', voxelDesc: '3D block world: build, explore, survive.',
-      myGames: 'My games', boardGames: 'Online games',
-      searchPh: 'Search by name or genre (Action, RPG, Racing…)', pickForMe: '🎲 Pick a game for me', games: 'games', discoverTitle: '📚 Discover games',
+      games: 'Games', remember: 'Keep me signed in for a week (otherwise you are signed out after 3 idle hours)',
+      
       roomMissing: 'Room not found', roomFull: 'Room is full', codeMissing: 'That code does not exist', roomFail: 'Could not create a room, try again',
     }
   };

@@ -28,10 +28,8 @@
 </div>
 <div class="msg" id="msg"></div>
 
-<h2 class="section" data-i18n="boardGames"></h2>
+<h2 class="section" data-i18n="games"></h2>
 <div class="grid" id="grid"></div>
-<h2 class="section" data-i18n="myGames"></h2>
-<div class="grid" id="grid2"></div>
 
 <div style="text-align:center;padding:30px">
   <a class="btn secondary" href="history.html" data-i18n="history"></a>
@@ -47,6 +45,7 @@
     <input id="username" class="text" data-i18n-ph="username">
     <input id="email" class="text" type="email" data-i18n-ph="emailOptional" hidden>
     <input id="password" class="text" type="password" data-i18n-ph="password">
+    <label class="remember"><input type="checkbox" id="remember"> <span data-i18n="remember"></span></label>
     <button class="btn" id="submit" onclick="submitAuth()"></button>
     <div class="msg" id="amsg"></div>
     <hr>
@@ -56,23 +55,20 @@
 </div>
 
 <script>
-const ONLINE = [
-  { id: 'tictactoe', icon: '❌⭕', key: 'tictactoe' },
-  { id: 'connect4',  icon: '🔴🟡', key: 'connect4' },
-  { id: 'chess',     icon: '♞',   key: 'chess', clock: true },
-];
-const MINE = [
-  { id: 'city-hall/index.html', icon: '🏙️', key: 'cityhall' },
-  { id: 'turf-rush.html',       icon: '🏁', key: 'turfrush' },
+const GAMES = [
+  { id: 'chess',     icon: '♞',   key: 'chess', room: true, clock: true },
   { id: 'pitch-legends/index.html', icon: '⚽', key: 'pitch' },
-  { id: 'voxel/index.html',     icon: '🧱', key: 'voxel' },
+  { id: 'turf-rush.html',       icon: '🏁', key: 'turfrush' },
+  { id: 'city-hall/index.html', icon: '🏙️', key: 'cityhall' },
+  { id: 'connect4',  icon: '🔴🟡', key: 'connect4', room: true },
+  { id: 'tictactoe', icon: '❌⭕', key: 'tictactoe', room: true },
 ];
 const msg = document.getElementById('msg'), modal = document.getElementById('modal');
 let mode = 'login';
 
 function draw() {
   document.getElementById('langslot').innerHTML = langButton();
-  document.getElementById('grid').innerHTML = ONLINE.map(g => `
+  document.getElementById('grid').innerHTML = GAMES.map(g => `
     <div class="card">
       <div class="icon">${g.icon}</div>
       <h2>${t(g.key)}</h2>
@@ -80,15 +76,9 @@ function draw() {
       ${g.clock ? `<label class="clock">${t('timeControl')}:
         <select id="tc-${g.id}"><option value="0">${t('noClock')}</option><option value="3">3 ${t('min')}</option><option value="5">5 ${t('min')}</option><option value="10" selected>10 ${t('min')}</option><option value="15">15 ${t('min')}</option></select></label>` : ''}
       <div class="actions">
-        <button class="btn" onclick="createRoom('${g.id}', ${!!g.clock})">🌐 ${t('online')}</button>
+        ${g.room ? `<button class="btn" onclick="createRoom('${g.id}', ${!!g.clock})">🌐 ${t('online')}</button>`
+                 : `<a class="btn" href="games/${g.id}">▶ ${t('play')}</a>`}
       </div>
-    </div>`).join('');
-  document.getElementById('grid2').innerHTML = MINE.map(g => `
-    <div class="card">
-      <div class="icon">${g.icon}</div>
-      <h2>${t(g.key)}</h2>
-      <p>${t(g.key + 'Desc')}</p>
-      <div class="actions"><a class="btn" href="games/${g.id}">${t('play')}</a></div>
     </div>`).join('');
   drawWho();
   applyLang();
@@ -117,8 +107,9 @@ async function submitAuth() {
   const email = document.getElementById('email').value.trim(), pw = document.getElementById('password').value, un = document.getElementById('username').value.trim();
   const am = document.getElementById('amsg');
   try {
-    if (mode === 'signup') await Auth.signUp(un, pw, email);
-    else await Auth.signIn(un, pw);
+    const rem = document.getElementById('remember').checked;
+    if (mode === 'signup') await Auth.signUp(un, pw, email, rem);
+    else await Auth.signIn(un, pw, rem);
     modal.hidden = true;
   } catch (e) { am.textContent = e.message; }
 }

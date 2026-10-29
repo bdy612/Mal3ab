@@ -17,7 +17,10 @@
       if (Auth.token) {
         const { data } = await sb.rpc('me', { p_token: Auth.token });
         Auth._set(data);
+        if (!data) { Auth.token = null; try { localStorage.removeItem(TOKEN_KEY); } catch (e) {} }   // expired
       }
+      // heartbeat: while the site is open the session never expires (3 h idle, or 7 days with "keep me signed in")
+      setInterval(() => { if (Auth.token) sb.rpc('touch', { p_token: Auth.token }).then(({ data }) => { if (data === false) Auth.signOut(); }); }, 5 * 60 * 1000);
       return Auth.user;
     },
     _set(profile) {
@@ -34,13 +37,13 @@
       try { return localStorage.getItem('mal3ab_guest') || ''; } catch (e) { return ''; }
     },
     setGuestName(n) { try { localStorage.setItem('mal3ab_guest', n); } catch (e) {} },
-    async signUp(username, password, email) {
-      const { data, error } = await sb.rpc('signup', { p_username: username, p_password: password, p_email: email || null });
+    async signUp(username, password, email, remember) {
+      const { data, error } = await sb.rpc('signup', { p_username: username, p_password: password, p_email: email || null, p_remember: !!remember });
       if (error) throw new Error(error.message);
       Auth._session(data);
     },
-    async signIn(identifier, password) {
-      const { data, error } = await sb.rpc('login', { p_identifier: identifier, p_password: password });
+    async signIn(identifier, password, remember) {
+      const { data, error } = await sb.rpc('login', { p_identifier: identifier, p_password: password, p_remember: !!remember });
       if (error) throw new Error(error.message);
       Auth._session(data);
     },

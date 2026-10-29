@@ -93,3 +93,5 @@ hr { border: 0; border-top: 1px solid var(--card2); width: 100%; }
 .ar .drawbox, .ar .hint, .ar .topbar .room, .ar .topbar .title, .ar table, .ar .empty, .ar .guest { direction: rtl; }
 .ar .topbar .room { text-align: right; }
 .ar th, .ar td { text-align: right; }
+.remember { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--muted); }
+.remember input { width: auto; margin-top: 3px; }
