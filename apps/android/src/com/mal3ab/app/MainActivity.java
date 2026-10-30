@@ -9,6 +9,9 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Environment;
 import android.webkit.JavascriptInterface;
+import android.webkit.PermissionRequest;
+import android.content.pm.PackageManager;
+import java.util.ArrayList;
 import android.widget.Toast;
 import android.graphics.Color;
 import android.net.Uri;
@@ -27,14 +30,15 @@ import android.webkit.WebViewClient;
 // Mal3ab for Android: the website, full screen, with saved logins and picture uploads.
 // The page can ask for an update: the new APK is downloaded and the installer opens by itself.
 public class MainActivity extends Activity {
-    static final String VERSION = "1.0";
+    static final String VERSION = "1.1";
     static final String HOME = "https://bdy612.github.io/Mal3ab/play.html";
     static final String OFFLINE = "<!doctype html><html><head><meta name='viewport' content='width=device-width,initial-scale=1'>"
         + "<style>body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#0f1220;color:#eef0ff;font-family:sans-serif;text-align:center;padding:20px}"
         + "b{color:#ffb703;font-size:44px}button{background:#ffb703;border:0;border-radius:12px;padding:12px 22px;font-size:17px;font-weight:700}</style></head>"
         + "<body><b>ملعب</b><div>مفيش إنترنت — ملعب محتاج نت عشان الحسابات واللعب مع أصحابك.</div><div>No internet connection — Mal3ab needs the internet for accounts and online play.</div>"
         + "<button onclick=\"location.href='" + HOME + "'\">↻ حاول تاني / Try again</button></body></html>";
-    static final int PICK_FILE = 7;
+    static final int PICK_FILE = 7, MEDIA_PERMS = 8;
+    PermissionRequest pendingMedia;   // a page asked for the camera/mic while we ask Android for them
     WebView web;
     ValueCallback<Uri[]> fileCallback;
     long downloadId = -1;
@@ -102,6 +106,35 @@ public class MainActivity extends Activity {
         } else super.onActivityResult(req, res, data);
     }
 
+    // calls: the page asks for the camera / microphone -> make sure Android allowed them, then let the page have them
+    void mediaRequest(PermissionRequest req) {
+        Uri o = req.getOrigin();
+        if (o == null || o.getHost() == null || !o.getHost().endsWith("bdy612.github.io")) { req.deny(); return; }
+        ArrayList<String> need = new ArrayList<>();
+        for (String r : req.getResources()) {
+            if (PermissionRequest.RESOURCE_VIDEO_CAPTURE.equals(r) && !has(android.Manifest.permission.CAMERA)) need.add(android.Manifest.permission.CAMERA);
+            if (PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(r) && !has(android.Manifest.permission.RECORD_AUDIO)) need.add(android.Manifest.permission.RECORD_AUDIO);
+        }
+        if (need.isEmpty() || Build.VERSION.SDK_INT < 23) { grantAllowed(req); return; }
+        if (pendingMedia != null) pendingMedia.deny();
+        pendingMedia = req;
+        requestPermissions(need.toArray(new String[0]), MEDIA_PERMS);
+    }
+    boolean has(String perm) { return Build.VERSION.SDK_INT < 23 || checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED; }
+    void grantAllowed(PermissionRequest req) {
+        ArrayList<String> ok = new ArrayList<>();
+        for (String r : req.getResources()) {
+            if (PermissionRequest.RESOURCE_VIDEO_CAPTURE.equals(r) && has(android.Manifest.permission.CAMERA)) ok.add(r);
+            if (PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(r) && has(android.Manifest.permission.RECORD_AUDIO)) ok.add(r);
+        }
+        if (ok.isEmpty()) req.deny(); else req.grant(ok.toArray(new String[0]));
+    }
+    @Override
+    public void onRequestPermissionsResult(int code, String[] perms, int[] results) {
+        super.onRequestPermissionsResult(code, perms, results);
+        if (code == MEDIA_PERMS && pendingMedia != null) { PermissionRequest r = pendingMedia; pendingMedia = null; grantAllowed(r); }
+    }
+
     @Override
     protected void onDestroy() { try { unregisterReceiver(done); } catch (Exception e) { } super.onDestroy(); }
 
@@ -141,6 +174,12 @@ public class MainActivity extends Activity {
         DoneReceiver(MainActivity activity) { a = activity; }
         @Override
         public void onReceive(Context c, Intent i) { a.downloaded(i.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)); }
+    }
+
+    static class MediaTask implements Runnable {
+        final MainActivity a; final PermissionRequest req;
+        MediaTask(MainActivity activity, PermissionRequest r) { a = activity; req = r; }
+        public void run() { a.mediaRequest(req); }
     }
 
     static class UpdateTask implements Runnable {
@@ -206,5 +245,9 @@ public class MainActivity extends Activity {
             catch (Exception e) { a.fileCallback = null; return false; }
             return true;
         }
+        @Override
+        public void onPermissionRequest(PermissionRequest req) { a.runOnUiThread(new MediaTask(a, req)); }
+        @Override
+        public void onPermissionRequestCanceled(PermissionRequest req) { if (a.pendingMedia == req) a.pendingMedia = null; }
     }
 }

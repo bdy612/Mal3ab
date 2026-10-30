@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Account — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793380190">
+<link rel="stylesheet" href="shared/style.css?v=1793381184">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793380190"></script>
-<script src="shared/net.js?v=1793380190"></script>
+<script src="shared/i18n.js?v=1793381184"></script>
+<script src="shared/net.js?v=1793381184"></script>
 </head>
 <body>
 <div class="topbar">
@@ -19,7 +19,19 @@
 <div class="page" id="page"></div>
 <input type="file" id="file" accept="image/*" hidden>
 <script>
+addStrings({
+  acc_adminT: 'طلب إنك تبقى أدمن', acc_adminWhy: 'ليه عايز تبقى أدمن؟ (اختياري)', acc_adminSend: '📨 ابعت الطلب', acc_adminPending: '⏳ طلبك مستني رد الأدمن', acc_adminDeclined: '❌ طلبك اترفض — ممكن تبعت تاني',
+  acc_adminApproved: '✅ طلبك اتقبل', acc_adminSent: 'الطلب اتبعت للأدمن', acc_delT: 'امسح حسابي', acc_delWarn: 'ده بيمسح حسابك وكل حاجة فيه نهائيًا: الأصحاب، الرسايل، الحفظ والإحصائيات. مش هتقدر ترجعه.',
+  acc_delPw: 'اكتب الباسورد عشان تأكد', acc_delBtn: '🗑 امسح حسابي نهائيًا', acc_delSure: 'متأكد إنك عايز تمسح حسابك {p} نهائيًا؟', acc_delOwner: 'الأدمن الرئيسي ما ينفعش يتمسح', acc_deleted: 'حسابك اتمسح',
+  acc_notReady: 'الميزة دي لسه بتتجهز — جرب كمان شوية'
+}, {
+  acc_adminT: 'Request To Become An Admin', acc_adminWhy: 'Why do you want to be an admin? (optional)', acc_adminSend: '📨 Send Request', acc_adminPending: '⏳ Your request is waiting for an admin', acc_adminDeclined: '❌ Your request was declined — you can send a new one',
+  acc_adminApproved: '✅ Your request was approved', acc_adminSent: 'Request sent to the admins', acc_delT: 'Delete My Account', acc_delWarn: 'This deletes your account and everything in it for good: friends, messages, saves and stats. It cannot be undone.',
+  acc_delPw: 'Type your password to confirm', acc_delBtn: '🗑 Delete My Account Forever', acc_delSure: 'Are you sure you want to delete your account {p} for good?', acc_delOwner: 'The main admin cannot be deleted', acc_deleted: 'Your account was deleted',
+  acc_notReady: 'This feature is still being set up — try again a bit later'
+});
 const page = document.getElementById('page');
+const rpcErr = (e) => /Could not find the function|schema cache/i.test((e && e.message) || '') ? t('acc_notReady') : (e && e.message) || String(e);
 function msg(id, text, bad) { const el = document.getElementById(id); el.className = bad ? 'err' : 'ok'; el.textContent = text; }
 
 function draw() {
@@ -61,7 +73,22 @@ function draw() {
       <div class="row2"><b>${p.wins}</b> ${t('wins')} · <b>${p.losses}</b> ${t('losses')} · <b>${p.draws}</b> ${t('draws')}
         <a class="btn small secondary" href="history.html" style="margin-inline-start:auto">${t('history')}</a>
         ${p.is_admin ? `<a class="btn small" href="admin.html">${t('admin')}</a>` : ''}</div>
+    </div>
+    ${p.is_admin ? '' : `<div class="panel2">
+      <h2>🛡️ ${t('acc_adminT')}</h2>
+      <div id="adm-state" style="color:var(--muted)"></div>
+      <div id="adm-form"><textarea class="text" id="admWhy" maxlength="300" rows="2" placeholder="${t('acc_adminWhy')}" style="width:100%;resize:vertical"></textarea>
+      <div class="row2"><button class="btn small" onclick="askAdmin()">${t('acc_adminSend')}</button></div></div>
+      <div id="m-adm"></div>
+    </div>`}
+    <div class="panel2" style="border:1px solid #e5484d55">
+      <h2 style="color:#ff6b6b">⚠️ ${t('acc_delT')}</h2>
+      <p style="color:var(--muted);margin:0 0 8px">${t('acc_delWarn')}</p>
+      ${p.is_owner ? `<div class="err">${t('acc_delOwner')}</div>` : `<input class="text" type="password" id="delPw" placeholder="${t('acc_delPw')}" autocomplete="current-password">
+      <div class="row2"><button class="btn small" style="background:#e5484d;color:#fff" onclick="deleteMe()">${t('acc_delBtn')}</button></div>`}
+      <div id="m-del"></div>
     </div>`;
+  if (!p.is_admin) loadAdminReq();
   document.getElementById('lang').onchange = async (e) => {
     try { await Auth.update({ lang: e.target.value }); setLang(e.target.value); } catch (err) { msg('m-lang', err.message, true); }
   };
@@ -76,6 +103,27 @@ async function savePw() {
   if (b !== c) { msg('m-pw', t('passwordsDontMatch'), true); return; }
   try { await Auth.changePassword(a, b); ['pw0', 'pw1', 'pw2'].forEach(id => document.getElementById(id).value = ''); msg('m-pw', t('passwordChanged')); }
   catch (e) { msg('m-pw', e.message, true); }
+}
+async function loadAdminReq() {
+  try {
+    const { data, error } = await sb.rpc('my_admin_request', { p_token: Auth.token }); if (error) throw error;
+    const st = document.getElementById('adm-state'), form = document.getElementById('adm-form'); if (!st) return;
+    st.textContent = !data ? '' : data.status === 'pending' ? t('acc_adminPending') : data.status === 'declined' ? t('acc_adminDeclined') : t('acc_adminApproved');
+    form.hidden = !!data && data.status === 'pending';
+  } catch (e) {}
+}
+async function askAdmin() {
+  try { const { error } = await sb.rpc('request_admin', { p_token: Auth.token, p_reason: document.getElementById('admWhy').value.trim() }); if (error) throw error;
+    msg('m-adm', t('acc_adminSent')); loadAdminReq(); } catch (e) { msg('m-adm', rpcErr(e), true); }
+}
+async function deleteMe() {
+  const pw = document.getElementById('delPw').value; if (!pw) { document.getElementById('delPw').focus(); return; }
+  if (!confirm(t('acc_delSure', { p: Auth.profile.username }))) return;
+  try {
+    const { error } = await sb.rpc('delete_my_account', { p_token: Auth.token, p_password: pw }); if (error) throw error;
+    try { localStorage.removeItem('mal3ab_token'); } catch (e) {} Auth.token = null;
+    alert(t('acc_deleted')); location.href = 'play.html';
+  } catch (e) { msg('m-del', rpcErr(e), true); }
 }
 async function removePic() { try { await Auth.update({ clearAvatar: true }); draw(); } catch (e) { msg('m-pic', e.message, true); } }
 

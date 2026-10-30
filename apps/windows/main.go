@@ -24,7 +24,7 @@ import (
 const home = "https://bdy612.github.io/Mal3ab/play.html"
 
 // the version of this app; the website compares it with the latest release in the database
-const version = "1.0"
+const version = "1.1"
 
 const offline = `<!doctype html><html><head><meta charset="utf-8"><style>
 body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#0f1220;color:#eef0ff;font-family:'Segoe UI',Tahoma,sans-serif;text-align:center}
