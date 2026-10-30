@@ -26,15 +26,15 @@ addStrings({
   vs_diff: 'المستوى', vs_bots: 'البوتات', vs_play: '▶ العب', vs_create: '➕ اعمل غرفة', vs_join: 'ادخل', vs_code: 'الكود',
   vs_copyLink: '🔗 انسخ اللينك', vs_copied: 'اتنسخ ✓', vs_settings: '⚙ الإعدادات', vs_sens: 'حساسية الماوس', vs_vol: 'الصوت', vs_fov: 'مجال الرؤية',
   vs_back: 'رجوع', vs_resume: '▶ كمّل', vs_leave: 'اخرج من الماتش', vs_paused: 'متوقف',
-  vs_help: 'WASD تتحرك · Shift جري · Space نط · كليك شمال يضرب · كليك يمين نيشان · R حشو · G قنبلة · 1-5 السلاح · Tab النتيجة',
-  vs_helpTouch: 'العصاية للحركة · اسحب في الشاشة عشان تبص · 🔥 ضرب · 🎯 نيشان · ⤒ نط · 💣 قنبلة',
+  vs_help: 'WASD تتحرك · Shift جري · Space نط · كليك شمال يضرب · كليك يمين نيشان · R حشو · G اضغط مطوّل عشان تنشن القنبلة · 1-5 السلاح · Tab النتيجة',
+  vs_helpTouch: 'العصاية للحركة · اسحب في الشاشة عشان تبص · 🔥 ضرب · 🎯 نيشان · ⤒ نط · 💣 دوس واسحب صباعك عشان تنشن القنبلة',
   vs_respawn: 'هترجع بعد {n}', vs_killedBy: 'قتلك {p}', vs_wave: 'الموجة', vs_left: 'فاضل', vs_waveClear: 'الموجة خلصت! ✓',
   vs_over: 'انتهى الماتش', vs_gameOver: 'خسرت!', vs_youWin: 'كسبت! 🏆', vs_won: '{p} كسب', vs_reached: 'وصلت للموجة {n}', vs_best: 'أحسن رقم: الموجة {n}',
   vs_kills: 'قتلات', vs_deaths: 'موت', vs_player: 'اللاعب', vs_again: '↻ العب تاني', vs_menu: 'القائمة', vs_nextRound: 'الجولة الجاية بعد {n}',
   vs_firstTo: 'أول واحد يوصل {n}', vs_waiting: 'مستني أصحابك… ابعتلهم الكود', vs_room: 'الغرفة', vs_joined: 'دخل', vs_leftRoom: 'خرج',
   vs_pistol: 'مسدس', vs_rifle: 'رشاش', vs_shotgun: 'شوتجن', vs_sniper: 'قناصة', vs_blocks: 'بلوكات', vs_grenade: 'قنبلة', vs_reload: 'بيحشي…',
   vs_easy: 'سهل', vs_medium: 'متوسط', vs_hard: 'صعب', vs_you: 'إنت', vs_clickPlay: 'اضغط عشان تكمّل', vs_codeHint: 'اكتب كود من ٤ حروف',
-  vs_connecting: 'بيتوصل…', vs_score: 'النتيجة', vs_head: 'هيدشوت!'
+  vs_connecting: 'بيتوصل…', vs_score: 'النتيجة', vs_head: 'هيدشوت!', vs_lb: '🏆 المتصدرين', vs_lbKills: 'قتلات', vs_lbWins: 'انتصارات', vs_lbWave: 'أعلى موجة', vs_matches: 'ماتشات', vs_lbEmpty: 'لسه مفيش حد — العب ماتش واظهر هنا!', vs_lbLogin: 'سجّل دخول في ملعب عشان اسمك يظهر في المتصدرين', vs_loading: 'بيحمّل…', vs_rank: '#'
 }, {
   vs_title: 'Voxel Strike', vs_sub: 'A blocky arena battle: guns, grenades that blow up blocks, and blocks to build cover',
   vs_dm: 'Deathmatch', vs_dmDesc: 'You against bots — first to {n} kills wins.', vs_waves: 'Waves', vs_wavesDesc: 'Wave after wave of bots. Stay alive as long as you can.',
@@ -42,15 +42,15 @@ addStrings({
   vs_diff: 'Level', vs_bots: 'Bots', vs_play: '▶ Play', vs_create: '➕ Create room', vs_join: 'Join', vs_code: 'Code',
   vs_copyLink: '🔗 Copy link', vs_copied: 'Copied ✓', vs_settings: '⚙ Settings', vs_sens: 'Mouse sensitivity', vs_vol: 'Volume', vs_fov: 'Field of view',
   vs_back: 'Back', vs_resume: '▶ Resume', vs_leave: 'Leave match', vs_paused: 'Paused',
-  vs_help: 'WASD move · Shift sprint · Space jump · Left click shoot · Right click aim · R reload · G grenade · 1-5 weapons · Tab scores',
-  vs_helpTouch: 'Stick to move · drag the screen to look · 🔥 shoot · 🎯 aim · ⤒ jump · 💣 grenade',
+  vs_help: 'WASD move · Shift sprint · Space jump · Left click shoot · Right click aim · R reload · hold G to aim a grenade · 1-5 weapons · Tab scores',
+  vs_helpTouch: 'Stick to move · drag the screen to look · 🔥 shoot · 🎯 aim · ⤒ jump · 💣 hold to aim the grenade, let go to throw',
   vs_respawn: 'Back in {n}', vs_killedBy: 'Eliminated by {p}', vs_wave: 'Wave', vs_left: 'left', vs_waveClear: 'Wave cleared! ✓',
   vs_over: 'Match over', vs_gameOver: 'Game over!', vs_youWin: 'You win! 🏆', vs_won: '{p} wins', vs_reached: 'You reached wave {n}', vs_best: 'Best: wave {n}',
   vs_kills: 'Kills', vs_deaths: 'Deaths', vs_player: 'Player', vs_again: '↻ Play again', vs_menu: 'Menu', vs_nextRound: 'Next round in {n}',
   vs_firstTo: 'First to {n}', vs_waiting: 'Waiting for friends… send them the code', vs_room: 'Room', vs_joined: 'joined', vs_leftRoom: 'left',
   vs_pistol: 'Pistol', vs_rifle: 'Rifle', vs_shotgun: 'Shotgun', vs_sniper: 'Sniper', vs_blocks: 'Blocks', vs_grenade: 'Grenade', vs_reload: 'Reloading…',
   vs_easy: 'Easy', vs_medium: 'Medium', vs_hard: 'Hard', vs_you: 'you', vs_clickPlay: 'Click to continue', vs_codeHint: 'Type a 4-letter code',
-  vs_connecting: 'Connecting…', vs_score: 'Scores', vs_head: 'Headshot!'
+  vs_connecting: 'Connecting…', vs_score: 'Scores', vs_head: 'Headshot!', vs_lb: '🏆 Leaderboard', vs_lbKills: 'Kills', vs_lbWins: 'Wins', vs_lbWave: 'Best wave', vs_matches: 'Matches', vs_lbEmpty: 'Nobody yet — play a match and show up here!', vs_lbLogin: 'Log in to Mal3ab to put your name on the leaderboard', vs_loading: 'Loading…', vs_rank: '#'
 });
 
 const SET = Object.assign({ sens: 1, vol: 0.7, fov: 75 }, lsGet('vstrike-settings', {}));
@@ -345,7 +345,7 @@ function die(t, a, w, head) {
   if (G.mode === 'online' && t.local) send('kill', { k: a ? a.id : null, v: t.id, w, h: head });
   dropLoot(t);
   t.respawnAt = G.t + 3.5;
-  if (t.local) { G.ads = false; G.fireHeld = false; showDead(a); }
+  if (t.local) { G.ads = false; G.fireHeld = false; G.nadeAim = false; showDead(a); }
   checkEnd();
 }
 function startReload(f) {
@@ -368,20 +368,43 @@ function placeBlock(f) {
 
 // grenades
 const nades = [], nadeMat = lam(0x3f5a2a);
+function nadeStart(f) {                                  // where a grenade leaves the hand and how fast
+  const d = dirOf(f.yaw, f.pitch + 0.12), o = eye(f).addScaledVector(d, 0.5);
+  return { o, v: d.multiplyScalar(f.bot ? 13 : 21).add(new V3(f.vel.x * 0.5, 2, f.vel.z * 0.5)) };
+}
+function nadeStep(p, v, dt) {                             // same flight as a real grenade: gravity + bounces
+  v.y -= 20 * dt;
+  for (const ax of ['x', 'y', 'z']) {
+    const old = p[ax]; p[ax] += v[ax] * dt;
+    if (G.world.solid(Math.floor(p.x), Math.floor(p.y), Math.floor(p.z))) { p[ax] = old; v[ax] *= -0.42; if (ax === 'y') { v.x *= 0.7; v.z *= 0.7; } }
+  }
+}
+// hold G (or the 💣 button) to see the arc and where it will blow up; let go to throw
+const arcGeo = new THREE.BufferGeometry(); arcGeo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(3 * 70), 3));
+const arcLine = new THREE.Line(arcGeo, new THREE.LineDashedMaterial({ color: 0xffe08a, dashSize: 0.35, gapSize: 0.22, transparent: true, opacity: 0.95, depthTest: false }));
+arcLine.frustumCulled = false; arcLine.visible = false; arcLine.renderOrder = 5; scene.add(arcLine);
+const arcRing = new THREE.Mesh(new THREE.RingGeometry(4.3, 4.6, 48), new THREE.MeshBasicMaterial({ color: 0xff5d5d, transparent: true, opacity: 0.6, side: THREE.DoubleSide, depthWrite: false }));
+arcRing.rotation.x = -Math.PI / 2; arcRing.visible = false; scene.add(arcRing);
+const arcDot = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 8), new THREE.MeshBasicMaterial({ color: 0xff5d5d })); arcDot.visible = false; scene.add(arcDot);
+function updArc() {
+  const me = G.me, on = G.nadeAim && me && me.alive && me.nades > 0 && !G.paused && !G.over;
+  arcLine.visible = arcRing.visible = arcDot.visible = !!on; if (!on) return;
+  const { o, v } = nadeStart(me), pos = arcGeo.attributes.position; let n = 0;
+  for (let i = 0; i <= 63 && n < 70; i++) { pos.setXYZ(n++, o.x, o.y, o.z); nadeStep(o, v, 1 / 30); }
+  for (let i = n; i < 70; i++) pos.setXYZ(i, o.x, o.y, o.z);
+  pos.needsUpdate = true; arcGeo.computeBoundingSphere(); arcLine.computeLineDistances();
+  arcDot.position.copy(o); arcRing.position.set(o.x, o.y - 0.15, o.z);
+}
 function throwNade(f) {
   if (f.nades <= 0 || !f.alive) return; f.nades--;
-  const d = dirOf(f.yaw, f.pitch + 0.18), o = eye(f).addScaledVector(d, 0.5), v = d.multiplyScalar(f.bot ? 13 : 16).add(new V3(f.vel.x * 0.5, 2.5, f.vel.z * 0.5));
+  const { o, v } = nadeStart(f);
   addNade(f, o, v, true); if (f.local) { hudAmmo(); beep(420, 0.06, 'triangle', 0.1); }
   if (G.mode === 'online' && f.local) send('nade', { id: f.id, o: arr(o), v: arr(v) });
 }
 function addNade(owner, o, v, real) { const m = new THREE.Mesh(box(0.16, 0.2, 0.16), nadeMat); m.position.copy(o); scene.add(m); nades.push({ owner, p: o.clone(), v: v.clone(), t: 2.1, m, real }); }
 function updNades(dt) {
   for (let i = nades.length - 1; i >= 0; i--) {
-    const n = nades[i]; n.t -= dt; n.v.y -= 20 * dt;
-    for (const ax of ['x', 'y', 'z']) {
-      const old = n.p[ax]; n.p[ax] += n.v[ax] * dt;
-      if (G.world.solid(Math.floor(n.p.x), Math.floor(n.p.y), Math.floor(n.p.z))) { n.p[ax] = old; n.v[ax] *= -0.42; if (ax === 'y') { n.v.x *= 0.7; n.v.z *= 0.7; } }
-    }
+    const n = nades[i]; n.t -= dt; nadeStep(n.p, n.v, dt);
     n.m.position.copy(n.p); n.m.rotation.x += dt * 8; n.m.rotation.z += dt * 5;
     if (n.t <= 0) {
       scene.remove(n.m); nades.splice(i, 1);
@@ -590,6 +613,7 @@ function endMatch() {
       reason: G.mode === 'waves' ? t('vs_wave') + ' ' + G.wave : G.me.kills + '–' + (iWon ? (rank[1] ? rank[1].kills : 0) : top.kills), moves: null, finished_at: new Date().toISOString() };
     if (window.History) History.save(row);
     if (G.mode === 'online' && window.Auth && Auth.record) Auth.record(iWon ? 'win' : 'loss');
+    if (window.Auth && Auth.token && window.sb) sb.rpc('vs_report', { p_token: Auth.token, p_kills: G.me.kills, p_deaths: G.me.deaths, p_win: iWon, p_online: G.mode === 'online', p_wave: G.mode === 'waves' ? G.wave : 0 }).then(() => {}, () => {});
   } catch (e) {}
   showEnd();
 }
@@ -605,7 +629,7 @@ function update(dt) {
     if (!f.remote) common(f, dt);
     animate(f, dt);
   }
-  updNades(dt); updPickups(dt); updParts(dt);
+  updNades(dt); updPickups(dt); updParts(dt); updArc();
   for (const tr of tracers) if (tr.life > 0) { tr.life -= dt; tr.l.material.opacity = Math.max(0, tr.life / 0.07) * 0.85; if (tr.life <= 0) tr.l.visible = false; }
   for (let i = booms.length - 1; i >= 0; i--) { const b = booms[i]; b.t += dt; b.m.scale.setScalar(1 + b.t * 14); b.m.material.opacity = Math.max(0, 0.85 - b.t * 3.4); if (b.t > 0.3) { scene.remove(b.m); booms.splice(i, 1); } }
   if (G.mode === 'waves' && !G.over) wavesUpdate(dt);
@@ -731,7 +755,7 @@ function hudFrame(dt) {
   $('dmg').style.opacity = G.hurtA.toFixed(2);
   const dirs = $('dirs'); if (G.hurtFrom && G.hurtA > 0.05) { const a = Math.atan2(-(G.hurtFrom.x - me.pos.x), -(G.hurtFrom.z - me.pos.z)); dirs.firstElementChild.style.transform = `rotate(${-angDiff(me.yaw, a)}rad)`; dirs.style.opacity = G.hurtA; } else dirs.style.opacity = 0;
   const g = GUNS[me.weapon], scoped = G.ads && g && g.scope && camera.fov < SET.fov / 2;
-  $('scope').hidden = !scoped; $('cross').style.display = scoped || (G.ads && me.weapon !== 'blocks' && me.weapon !== 'shotgun') ? 'none' : '';
+  $('scope').hidden = !scoped; $('cross').style.display = scoped ? 'none' : '';
   const gap = 6 + (g ? (g.spread * (1 + me.heat + (me.onGround ? 0 : 1.6) + (Math.hypot(me.vel.x, me.vel.z) > 1.2 ? 0.8 : 0))) * 340 : 0);
   const cs = $('cross').children; cs[0].style.transform = `translate(-50%,${-gap - 9}px)`; cs[1].style.transform = `translate(-50%,${gap}px)`; cs[2].style.transform = `translate(${-gap - 9}px,-50%)`; cs[3].style.transform = `translate(${gap}px,-50%)`;
   if ((hudT -= dt) > 0) return; hudT = 0.2;
@@ -770,7 +794,7 @@ function renderBoard(show) {
 // ---------------------------------------------------------------------
 // screens: menu, pause, settings, end
 // ---------------------------------------------------------------------
-const SCREENS = ['menu', 'pause', 'end', 'settings'];
+const SCREENS = ['menu', 'pause', 'end', 'settings', 'lb'];
 function showScreen(id) { for (const s of SCREENS) $(s).hidden = s !== id; if (id) $('touch').hidden = true; }
 function inviteLink(code) { return location.href.split('?')[0].split('#')[0] + '?room=' + code; }
 function newCode() { const A = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 4; i++) s += A[Math.floor(Math.random() * A.length)]; return s; }
@@ -780,7 +804,7 @@ function renderMenu() {
   const m = lsGet('vstrike-menu', { diff: 'medium', bots: 5, wdiff: 'medium' });
   $('menu').innerHTML = `<div class="wrap">
     <div class="head"><div><div class="logo"><b>VOXEL</b> <span>STRIKE</span></div><div class="sub">${t('vs_sub')}</div></div><div class="sp"></div>
-      ${window.langButton ? langButton().replace('btn small secondary', 'btn small sec') : ''}<button class="btn small sec" id="mSet">${t('vs_settings')}</button><button class="btn small sec" data-mal3ab-home>🏠</button></div>
+      ${window.langButton ? langButton().replace('btn small secondary', 'btn small sec') : ''}<button class="btn small" id="mLb">${t('vs_lb')}</button><button class="btn small sec" id="mSet">${t('vs_settings')}</button><button class="btn small sec" data-mal3ab-home>🏠</button></div>
     <div class="cards">
       <div class="card"><div class="ic">⚔️</div><h2>${t('vs_dm')}</h2><p>${t('vs_dmDesc', { n: DM_TARGET })}</p>
         <div class="row"><label>${t('vs_diff')}</label>${lv('dmDiff', m.diff)}<label>${t('vs_bots')}</label><select id="dmBots">${[3, 5, 7, 9].map(n => `<option ${n === m.bots ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
@@ -801,7 +825,24 @@ function renderMenu() {
   $('goJoin').onclick = () => { const c = $('joinCode').value.trim().toUpperCase(); if (c.length < 4) { $('mMsg').textContent = t('vs_codeHint'); return; } startGame('online', { code: c }); };
   $('joinCode').onkeydown = (e) => { if (e.key === 'Enter') $('goJoin').click(); };
   $('mSet').onclick = () => openSettings('menu');
+  $('mLb').onclick = () => openLeaderboard('kills');
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
+}
+async function openLeaderboard(by) {
+  showScreen('lb');
+  const tabs = [['kills', 'vs_lbKills'], ['wins', 'vs_lbWins'], ['wave', 'vs_lbWave']];
+  const head = `<div class="panel wide"><h2>${t('vs_lb')}</h2><div class="row center">${tabs.map(([k, s]) => `<button class="btn small ${k === by ? '' : 'sec'}" data-by="${k}">${t(s)}</button>`).join('')}</div>`;
+  $('lb').innerHTML = head + `<p>${t('vs_loading')}</p></div>`;
+  let rows = [];
+  try { const r = await sb.rpc('vs_leaderboard', { p_by: by, p_token: (window.Auth && Auth.token) || null, p_limit: 25 }); rows = r.data || []; } catch (e) {}
+  if ($('lb').hidden) return;
+  const val = (r) => by === 'wins' ? r.wins : by === 'wave' ? r.best_wave : r.kills;
+  const av = (r) => window.avatarHtml ? avatarHtml({ avatar: r.avatar, username: r.username }, 26) : '';
+  $('lb').innerHTML = head + (rows.length ? `<table class="lbt"><tr><th>${t('vs_rank')}</th><th>${t('vs_player')}</th><th>${t(tabs.find(x => x[0] === by)[1])}</th><th>${t('vs_matches')}</th></tr>` +
+    rows.map(r => `<tr class="${r.me ? 'me' : ''}"><td>${r.rank <= 3 ? ['🥇', '🥈', '🥉'][r.rank - 1] : r.rank}</td><td class="nm">${av(r)} ${esc(r.username)}</td><td>${val(r)}</td><td>${r.matches}</td></tr>`).join('') + '</table>'
+    : `<p>${t('vs_lbEmpty')}</p>`) + (window.Auth && Auth.token ? '' : `<p class="small">${t('vs_lbLogin')}</p>`) + `<button class="btn sec" id="lbBack">${t('vs_back')}</button></div>`;
+  $('lb').querySelectorAll('[data-by]').forEach(b => b.onclick = () => openLeaderboard(b.dataset.by));
+  $('lbBack').onclick = () => { showScreen('menu'); renderMenu(); };
 }
 function openSettings(back) {
   showScreen('settings');
@@ -876,11 +917,11 @@ document.addEventListener('keydown', (e) => {
   const me = G.me; if (!me) return;
   if (e.code.startsWith('Digit')) { const n = +e.code.slice(5); if (n >= 1 && n <= 5) switchWeapon(me, SLOTS[n - 1]); }
   if (e.code === 'KeyR') startReload(me);
-  if (e.code === 'KeyG' && !e.repeat) throwNade(me);
+  if (e.code === 'KeyG' && !e.repeat && me.nades > 0 && me.alive) G.nadeAim = true;
   if (e.code === 'KeyQ' && !e.repeat) { const i = SLOTS.indexOf(me.weapon); switchWeapon(me, SLOTS[(i + SLOTS.length - 1) % SLOTS.length]); }
   if (['Space', 'Tab'].includes(e.code)) e.preventDefault();
 });
-document.addEventListener('keyup', (e) => { keys[e.code] = false; if (e.code === 'Tab') renderBoard(false); });
+document.addEventListener('keyup', (e) => { keys[e.code] = false; if (e.code === 'Tab') renderBoard(false); if (e.code === 'KeyG' && G.nadeAim) { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } });
 addEventListener('blur', () => { for (const k in keys) keys[k] = false; G.fireHeld = false; });
 
 // ---------------------------------------------------------------------
@@ -901,17 +942,17 @@ addEventListener('blur', () => { for (const k in keys) keys[k] = false; G.fireHe
     if (k === 'aim') G.ads = !G.ads && !!GUNS[me.weapon];
     if (k === 'jump') TOUCH.jump = true;
     if (k === 'reload') startReload(me);
-    if (k === 'nade') throwNade(me);
+    if (k === 'nade' && me.nades > 0) G.nadeAim = true;
     if (k === 'next') { const i = SLOTS.indexOf(me.weapon); switchWeapon(me, SLOTS[(i + 1) % SLOTS.length]); }
     if (k === 'pause') openPause();
     if (k === 'score') renderBoard(!G.boardOpen);
   };
-  const release = (b) => { b.classList.remove('held'); const k = b.dataset.b; if (k === 'fire') { G.fireHeld = false; G.fired = false; } if (k === 'jump') TOUCH.jump = false; };
+  const release = (b) => { b.classList.remove('held'); const k = b.dataset.b; if (k === 'fire') { G.fireHeld = false; G.fired = false; } if (k === 'jump') TOUCH.jump = false; if (k === 'nade' && G.nadeAim) { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } };
   T.addEventListener('touchstart', (e) => {
     e.preventDefault();
     for (const tch of e.changedTouches) {
       const el = document.elementFromPoint(tch.clientX, tch.clientY), b = el && el.closest && el.closest('.tb');
-      if (b) { held[tch.identifier] = b; press(b); if (b.dataset.b === 'fire') looks[tch.identifier] = { x: tch.clientX, y: tch.clientY }; continue; }
+      if (b) { held[tch.identifier] = b; press(b); if (b.dataset.b === 'fire' || b.dataset.b === 'nade') looks[tch.identifier] = { x: tch.clientX, y: tch.clientY }; continue; }
       if (el && el.closest && el.closest('.stick') && stickId === null) { stickId = tch.identifier; moveStick(tch); continue; }
       looks[tch.identifier] = { x: tch.clientX, y: tch.clientY };
     }

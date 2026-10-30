@@ -17,8 +17,8 @@
   (async () => {
     try {
       if (!window.supabase) await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      if (!window.t) await load(depth + 'shared/i18n.js?v=1793346743');
-      if (!window.Auth) await load(depth + 'shared/net.js?v=1793346743');
+      if (!window.t) await load(depth + 'shared/i18n.js?v=1793347815');
+      if (!window.Auth) await load(depth + 'shared/net.js?v=1793347815');
       await Auth.init();
     } catch (e) { window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready')); return; }
     window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready'));   // games that wait for the account
@@ -61,6 +61,21 @@
         const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
         box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>`;
         document.body.appendChild(box);
+        // Mal3ab friends are Voxel Sandbox friends too (using each friend's Voxel friend code from their cloud save)
+        const syncFriends = async () => {
+          if (!Auth.token || typeof friends === 'undefined' || !friends.add || !window.Friends) return;
+          try {
+            const d = await Friends.list(), list = (d && d.friends) || [];
+            for (const f of list) {
+              let code = null; try { code = await Friends.voxelCodeOf(f.id); } catch (e) {}
+              const norm = code && friends.normCode(code); if (!norm || norm === PROFILE.code) continue;
+              const known = friends.list.find(x => x.code === norm);
+              if (!known) friends.add(norm, f.username);
+              else if (known.name !== cleanName(f.username)) { known.name = cleanName(f.username); friends.save(); friends.changed(); }
+            }
+          } catch (e) {}
+        };
+        setTimeout(syncFriends, 2000); setInterval(syncFriends, 60000);
       } else if (document.querySelector('[data-mal3ab-home]')) {   // the game has its own home buttons
         document.querySelectorAll('[data-mal3ab-home]').forEach(h => { h.onclick = (e) => { e.preventDefault(); location.href = homeHref; }; });
       } else {                                       // any other game: small round bubbles in the bottom-left corner
