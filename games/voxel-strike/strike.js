@@ -904,7 +904,7 @@ function hudAmmo() {
   const me = G.me; if (!me) return; const w = me.weapon;
   if (w === 'blocks') { $('ammoNum').textContent = '🧱 ' + me.blocks; $('wname').textContent = t('vs_blocks') + ' · 💣 ' + me.nades; return; }
   if (w === 'nade') { $('ammoNum').textContent = '💣 ' + me.nades; $('wname').textContent = t('vs_grenade'); return; }
-  $('ammoNum').textContent = me.mag[w] + ' / ' + (isFinite(me.res[w]) ? me.res[w] : '∞');
+  $('ammoNum').textContent = !isFinite(me.mag[w]) ? '∞' : me.mag[w] + ' / ' + (isFinite(me.res[w]) ? me.res[w] : '∞');
   $('wname').textContent = (me.reloadT > 0 ? t('vs_reload') : t('vs_' + w)) + ' · 💣 ' + me.nades;
 }
 function hudSlots() {
@@ -961,7 +961,7 @@ function updDead() {
 }
 function renderBoard(show) {
   G.boardOpen = show; $('board').hidden = !show; if (!show) return;
-  const RL = rules(), lv = (f) => G.mode === 'waves' ? '—' : RL.lives > 0 ? (isOut(f) ? '💀 ' + t('vs_out2') : '❤ ' + Math.max(0, RL.lives - f.deaths)) : '∞';
+  const RL = rules(), lv = (f) => G.mode === 'waves' ? '—' : RL.lives > 0 ? (isOut(f) ? '<span style="white-space:nowrap">💀 ' + t('vs_out2') + '</span>' : '❤ ' + Math.max(0, RL.lives - f.deaths)) : '∞';
   $('board').innerHTML = `<h3>${t('vs_score')} · 👥 ${aliveCount()} ${t('vs_alive')}</h3><table><tr><th>${t('vs_player')}</th><th>${t('vs_livesCol')}</th><th>${t('vs_kills')}</th><th>${t('vs_deaths')}</th></tr>` +
     ranking().map(f => `<tr class="${f === G.me ? 'me' : ''}" style="${isOut(f) ? 'opacity:.5' : ''}"><td><i style="background:#${f.color.toString(16).padStart(6, '0')}"></i>${f.alive ? '' : '☠ '}${esc(f === G.me ? f.name + ' (' + t('vs_you') + ')' : f.name)}</td><td>${lv(f)}</td><td>${f.kills}</td><td>${f.deaths}</td></tr>`).join('') + '</table>';
 }
