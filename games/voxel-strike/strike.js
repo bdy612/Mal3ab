@@ -1106,6 +1106,16 @@ document.addEventListener('mal3abready', () => { if (G.me && G.me.local) G.me.na
 document.addEventListener('mal3ab-outdated', () => { if (G.running && G.mode === 'online') toMenu(); });   // a new release came out: leave the online match
 setInterval(() => { if (G.me && G.me.local && window.Auth && Auth.profile && G.me.name !== Auth.profile.username) G.me.name = Auth.profile.username; }, 3000);   // signed in later
 requestAnimationFrame(frame);
+window.Mal3abPrepareInvite = async () => {
+  const base = location.href.split('?')[0];
+  if (G.running && G.mode === 'online' && NET.code) return base + '?room=' + NET.code;
+  if (window.Mal3abVersion && !Mal3abVersion.gate()) return null;
+  const mm = lsGet('vstrike-menu', {}), bots = G.running ? (G.mode === 'dm' ? (G.opts.bots || 5) : 3) : (mm.obots != null ? mm.obots : 3), lv = G.running ? (G.diff || 'medium') : (mm.olv || 'medium');
+  const code = newCode();
+  if (G.running) toMenu();
+  startGame('online', { code, bots, lv });                 // the friend's link lands in this match
+  return base + '?room=' + code;
+};
 window.Mal3abShareLink = () => { const base = location.href.split('?')[0]; return G.running && G.mode === 'online' && NET.code ? base + '?room=' + NET.code : base; };   // chat: "invite to this game"
 window.VSGame = { G, NET, startGame, fire, spawn, boom, toMenu, throwNade, placeBlock };     // handy for testing
 })();

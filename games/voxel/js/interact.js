@@ -119,6 +119,7 @@ function useItem(world){
   if(m&&mobFirst&&!player.sneak){ const before=m.proxy?MOBSYNC.map(k=>m[k]):null, done=useOnMob(m,s,it); if(before)net.mobChanged(m,before); if(done)return; }
   if(h&&!player.sneak&&interactBlock(h))return;
   if(h&&h.block===END_FRAME&&it&&it.eye){ world.setBlock(h.x,h.y,h.z,END_FRAME_EYE); if(!inventory.creative)consumeHeld(); updateHotbar(); sfx.craft(); checkEndPortal(); return; }
+  if(it&&it.armor){ equipHeldArmor(s,it); return; }
   if(it&&it.food){ if(player.food<20||inventory.creative){player.food=Math.min(20,player.food+it.food);sfx.eat();if(!inventory.creative)consumeHeld();updateHotbar();player.swing=1;} return; }
   if(it&&it.drink){ applyEffect(it.drink); sfx.eat(); player.swing=1; replaceHeld(BOTTLE); if(it.drink!=='water')showMsg(EFFECTS[it.drink].name+'!'); return; }
   if(it&&it.tool==='axe'&&h&&h.block>COPPER_BLOCK&&h.block<=COPPER_OXIDIZED){ world.setBlock(h.x,h.y,h.z,h.block-1); damageTool(s,1); player.swing=1; spawnParticles(h.x+0.5,h.y+0.5,h.z+0.5,[0.85,0.55,0.35],10,{spread:1,speed:2,up:2,life:0.5}); sfx.dig(); return; }
@@ -167,7 +168,12 @@ function sleep(h){ if(world.dim!=='over'){showMsg('You cannot sleep here... the 
   if(world.mobs.some(m=>(m.def.hostile||m.angry)&&Math.hypot(m.pos[0]-player.pos[0],m.pos[2]-player.pos[2])<10)){showMsg('You may not rest now, there are monsters nearby');return;}
   const f=document.getElementById('fade');f.style.opacity=1; setTimeout(()=>{dayTime=0.02;world.mobs=world.mobs.filter(m=>!m.def.hostile);f.style.opacity=0;showMsg('Good morning!');net.sendTime();},1200); }
 function showMsg(t){const m=document.getElementById('msg');m.textContent=t;m.style.opacity=1;clearTimeout(m._t);m._t=setTimeout(()=>m.style.opacity=0,3500);}
-function dropHeld(){ const s=selected(); if(!s.count)return; const f=forwardVec(); spawnItem(player.pos[0]+f[0]*0.5,player.pos[1]+EYE-0.3,player.pos[2]+f[2]*0.5,s.id,1,s.dur,[f[0]*6,f[1]*6+1,f[2]*6],s.ench); consumeHeld(); updateHotbar(); }
+// right-click armor in your hand: put it on; whatever you were wearing in that slot comes back to your hand
+function equipHeldArmor(s,it){ const worn=inventory.armor[it.armor.slot], t={}; setStack(t,s); setStack(s,worn); setStack(worn,t); if(!s.count)clearStack(s);
+  player.swing=1; sfx.craft(); updateHotbar(); buildHotbar(); scheduleSave(); showMsg(ITEMS[worn.id].name+' ✓'); }
+function dropHeld(all){ const s=selected(); if(!s.count)return; throwStack(s,all?s.count:1); if(all){ clearStack(s); } else consumeHeld(); updateHotbar(); buildHotbar(); }
+// throw items forward (Q, Ctrl+Q, or out of the inventory window)
+function throwStack(s,n){ const f=forwardVec(); thrownBy=net.role?net.myId:0; try{ spawnItem(player.pos[0]+f[0]*0.5,player.pos[1]+EYE-0.3,player.pos[2]+f[2]*0.5,s.id,n,s.dur,[f[0]*6,f[1]*6+1,f[2]*6],s.ench); } finally { thrownBy=-1; } sfx.pickup(); }
 
 // ---------------------------------------------------------------------
 // PORTALS & DIMENSION TRAVEL

@@ -4,6 +4,17 @@
   const AR = () => (window.getLang ? getLang() : 'ar') === 'ar';
   const base = location.href.split('?')[0];
   window.Mal3abShareLink = () => { const c = $('code') && $('code').value.trim().toUpperCase(); return c ? base + '?join=' + c : base; };   // chat: "invite to this game"
+  let hosting = '';
+  window.Mal3abPrepareInvite = async () => {                    // chat invite: host my code so the friend's link joins me
+    const tab = $('tabOnline'), inMenu = !!(tab && tab.offsetParent), code = () => ($('code') && $('code').value.trim().toUpperCase()) || '';
+    if (!inMenu) return code() ? window.Mal3abShareLink() : null;  // a match is running: share its code if it has one
+    if (!$('goBtn')) return null;
+    tab.click();
+    if (!code()) $('newCodeBtn').click();
+    if (hosting !== code()) { hosting = code(); $('goBtn').click(); }
+    return window.Mal3abShareLink();
+  };
+
   const row = $('newCodeBtn') && $('newCodeBtn').parentElement;
   if (row) {
     const b = document.createElement('button'); b.className = 'mini'; b.type = 'button';

@@ -386,4 +386,15 @@ function horseDef(name,body,mane,leg){ return {name,w:0.6,h:1.6,hp:20,speed:2.2,
     ...legs4(12,1.5,6,3.5,3.5,leg)]}; }
 MOB_TYPES.horse=horseDef('Horse',[140,90,55],[60,40,25],[120,78,48]); MOB_TYPES.horse_white=horseDef('Horse',[225,225,220],[180,180,175],[205,205,200]); MOB_TYPES.horse_black=horseDef('Horse',[50,45,45],[25,22,22],[45,40,40]);
 for(const d of Object.values(MOB_TYPES))buildMobGeom(d);
+// armour that other players can see: one small model per material and slot, drawn over the player model
+const ARMOR_COLS={leather:[125,80,45],copper:[205,115,65],iron:[210,210,215],golden:[240,200,60],diamond:[90,225,215],other:[150,150,160]};
+const ARMOR_SHAPES=[
+  [{box:[-4.6,28.4,-4.6,4.6,32.7,4.6]},{box:[-4.6,23.8,0.4,4.6,28.4,4.6]},{box:[-4.6,23.8,-4.6,-3.8,28.4,0.4]},{box:[3.8,23.8,-4.6,4.6,28.4,0.4]}],                                   // helmet (face stays visible)
+  [{box:[-4.6,12.6,-2.7,4.6,24.5,2.7]},{box:[-8.7,17.5,-2.7,-3.7,24.6,2.7],anim:-1,pivotPx:[-6,24,0]},{box:[3.7,17.5,-2.7,8.7,24.6,2.7],anim:1,pivotPx:[6,24,0]}],              // chestplate + shoulders
+  [{box:[-4.6,4,-2.6,0.2,12.6,2.6],anim:1,pivotPx:[-2,12,0]},{box:[-0.2,4,-2.6,4.6,12.6,2.6],anim:-1,pivotPx:[2,12,0]}],                                                       // leggings
+  [{box:[-4.7,-0.1,-2.8,0.3,4,2.7],anim:1,pivotPx:[-2,12,0]},{box:[-0.3,-0.1,-2.8,4.7,4,2.7],anim:-1,pivotPx:[2,12,0]}]];                                                       // boots
+const ARMOR_DEFS={};
+function armorMat(id){ const n=((ITEMS[id]&&ITEMS[id].name)||'').toLowerCase(); for(const k of ['leather','copper','iron','golden','diamond'])if(n.startsWith(k))return k; return 'other'; }
+function armorDef(id,slot){ const mat=armorMat(id),k=mat+slot; if(!ARMOR_DEFS[k]){ const d={parts:ARMOR_SHAPES[slot].map(p=>Object.assign({col:ARMOR_COLS[mat]},p))}; buildMobGeom(d); ARMOR_DEFS[k]=d; } return ARMOR_DEFS[k]; }
+function drawArmor(ids,M,light,phase){ if(!ids)return; for(let s=0;s<4;s++){ const id=ids[s]; if(id&&ITEMS[id]&&ITEMS[id].armor)drawModel(armorDef(id,s),M,light,[0,0,0,0],phase,null); } }
 

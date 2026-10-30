@@ -40,7 +40,7 @@ Object.assign(net,{
   sendTo(id,msg){ const p=this.peers.find(p=>p.id===id); if(p)this.send(p,msg); },
   resetShare(){ this.hostDim=null; this.pm.clear(); this.pi.clear(); this.sharedWorld=null; this.watch=null; this.tileStale=false; this.tileShadow=null; },
   // ---- things a guest asks the host to do ----
-  dropItem(x,y,z,id,count,dur,vel,ench){ this.toHost({t:'drop',dim:world.dim,p:[r2(x),r2(y),r2(z)],id,n:count,dur:dur||0,v:vel?vel.map(r2):0,e:ench||0}); },
+  dropItem(x,y,z,id,count,dur,vel,ench){ this.toHost({t:'drop',dim:world.dim,p:[r2(x),r2(y),r2(z)],id,n:count,dur:dur||0,v:vel?vel.map(r2):0,e:ench||0,by:thrownBy>=0?1:0}); },
   requestSpawn(m){ this.toHost({t:'spawn',type:m.type,p:m.pos.map(r2),yaw:r2(m.yaw),dir:m.dir,s:m.s||0}); },
   shareArrow(a,fromPlayer){ const msg={t:'arrow',dim:world.dim,p:a.pos.map(r2),v:a.vel.map(r2),fire:a.fire?1:0,kind:a.kind||0,splash:a.splash||0,mob:fromPlayer?0:1};
     if(this.role==='host')this.broadcast(msg); else this.toHost(msg); },
@@ -116,9 +116,11 @@ Object.assign(net,{
     if(this.role==='host'){ if(!peer.welcomed)return false; const w=world,r=this.remotes.get(peer.id),here=!!r&&r.dim===w.dim;
       switch(m.t){
         case 'sync': peer.snap=null; return true;
-        case 'drop': { const dw=dims[m.dim]; if(!dw||!ITEMS[m.id]||!(m.n>0))return true; inWorld(dw,()=>spawnItem(m.p[0],m.p[1],m.p[2],m.id,Math.min(m.n,999),m.dur,m.v||undefined,m.e||undefined)); return true; }
+        case 'drop': { const dw=dims[m.dim]; if(!dw||!ITEMS[m.id]||!(m.n>0))return true; const was=thrownBy; thrownBy=m.by?peer.id:-1;
+          try{ inWorld(dw,()=>spawnItem(m.p[0],m.p[1],m.p[2],m.id,Math.min(m.n,999),m.dur,m.v||undefined,m.e||undefined)); } finally { thrownBy=was; } return true; }
         case 'take': { if(!here)return true; const i=w.items.findIndex(it=>it.nid===m.nid); if(i<0)return true; const it=w.items[i];
-          if(it.age<0.5||Math.hypot(r.pos[0]-it.pos[0],r.pos[1]+0.9-it.pos[1],r.pos[2]-it.pos[2])>4)return true;
+          if(it.age<pickDelay(it,peer.id)||Math.hypot(r.pos[0]-it.pos[0],r.pos[1]+0.9-it.pos[1],r.pos[2]-it.pos[2])>4)return true;
+          { const nt=nearestTaker(it,w); if(nt&&nt.id!==peer.id&&nt.d<1.6)return true; }   // someone else is closer: it's theirs
           w.items.splice(i,1); this.send(peer,{t:'give',id:it.id,n:it.count,dur:it.dur||0,e:it.ench||0}); return true; }
         case 'hit': { if(!here)return true; const mob=mobByNid(w,m.nid); if(!mob||mob.hp<=0)return true; this.hitBy=peer.id;
           try{ hurtMob(w,mob,+m.dmg||0,m.kb||null); } finally { this.hitBy=0; } if(!mob.tame)petsDefend(w,mob,r.code,r.pos); return true; }

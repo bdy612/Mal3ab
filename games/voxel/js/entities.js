@@ -172,7 +172,17 @@ function applyEnchant(s,o){ s.ench={...(s.ench||{}),[o.name]:Math.max(o.lvl,s.en
 // ---------------------------------------------------------------------
 function spawnItem(x,y,z,id,count,dur,vel,ench){ if(!id||!count)return;
   if(net.shared()){ if(blockFx===0)net.dropItem(x,y,z,id,count,dur,vel,ench); return; }   // the host owns dropped items (and drops spilled chests itself) if(!ench)for(const it of world.items){ if(it.id===id&&!it.ench&&ITEMS[id].stack>1&&it.count+count<=64&&Math.hypot(it.pos[0]-x,it.pos[1]-y,it.pos[2]-z)<1){it.count+=count;return;} }
-  world.items.push({id,count,dur:dur||0,ench,pos:[x,y,z],vel:vel||[rand(-2,2),rand(3,5),rand(-2,2)],w:0.125,h:0.25,onGround:false,age:0,spin:Math.random()*6}); }
+  world.items.push({id,count,dur:dur||0,ench,pos:[x,y,z],vel:vel||[rand(-2,2),rand(3,5),rand(-2,2)],w:0.125,h:0.25,onGround:false,age:0,spin:Math.random()*6,by:thrownBy}); }
+let thrownBy=-1;   // set while a player throws something: their id (0 = the host / single player); -1 = a normal drop
+// how long before someone may pick an item up: the thrower waits 2 s, everyone else 0.8 s, normal drops 0.6 s
+function pickDelay(it,who){ return it.by==null||it.by<0?0.6:it.by===who?2:0.8; }
+// the player closest to an item (me = 0, or a friend's id), among those who could take it right now
+function nearestTaker(it,world){ let best=null,bd=1e9;
+  const ok=(id,pos)=>it.age>=pickDelay(it,id);
+  if(!player.dead&&!player.spectator&&game.state==='playing'&&ok(0)){ bd=Math.hypot(player.pos[0]-it.pos[0],player.pos[1]+0.9-it.pos[1],player.pos[2]-it.pos[2]); best={id:0,pos:player.pos,d:bd}; }
+  if(net.role==='host')for(const r of net.remotes.values()){ if(!r.pos||r.dim!==world.dim||r.dead||r.spec||!ok(r.id))continue;
+    const d=Math.hypot(r.pos[0]-it.pos[0],r.pos[1]+0.9-it.pos[1],r.pos[2]-it.pos[2]); if(d<bd){bd=d;best={id:r.id,pos:r.pos,d};} }
+  return best; }
 function spawnOrbs(x,y,z,total){ while(total>0){const v=Math.min(total,rint(3,10));total-=v;world.orbs.push({value:v,pos:[x,y,z],vel:[rand(-2,2),rand(2,4),rand(-2,2)],w:0.1,h:0.2,onGround:false,age:0});} }
 function dropBlockLoot(b,x,y,z){ const B=BLOCKS[b]; let id=b,n=1; const s=selected(),fortune=s.ench&&s.ench.Fortune||0; const drop=(i,c)=>spawnItem(x+0.5,y+0.3,z+0.5,i,c,0);
   if(b===COBWEB){ const t=s.count?ITEMS[s.id]:null; if(t&&(t.tool==='sword'||t.shears))drop(STRING,1); return; }
@@ -188,9 +198,9 @@ function updateItems(world,dt){
     const at=blockAt(world,it,0.1); if(isLava(at)){world.items.splice(i,1);continue;}
     it.vel[1]=isWater(at)?Math.min(it.vel[1]+10*dt,1.5):Math.max(it.vel[1]+GRAVITY*dt,-40); if(it.onGround){it.vel[0]*=0.7;it.vel[2]*=0.7;}
     stepEntity(world,it,dt); { const ib=blockAt(world,it,0.1); if(SOLID[ib]&&!SHAPE[ib])it.pos[1]+=1; }
-    if(it.age>0.6&&!player.dead&&!player.spectator&&game.state==='playing'){ const dx=player.pos[0]-it.pos[0],dy=player.pos[1]+0.9-it.pos[1],dz=player.pos[2]-it.pos[2];const d=Math.hypot(dx,dy,dz);
-      if(d<2.2){const k=dt*10;it.pos[0]+=dx/d*k;it.pos[1]+=dy/d*k;it.pos[2]+=dz/d*k;}
-      if(d<1.1){const left=invAdd(it.id,it.count,it.dur,it.ench);if(left<it.count){sfx.pickup();updateHotbar();}it.count=left;if(!left)world.items.splice(i,1);} } }
+    const nt=it.age>0.5?nearestTaker(it,world):null;
+    if(nt&&nt.d<2.2){ const dx=nt.pos[0]-it.pos[0],dy=nt.pos[1]+0.9-it.pos[1],dz=nt.pos[2]-it.pos[2],d=Math.max(0.01,nt.d),k=dt*10; it.pos[0]+=dx/d*k;it.pos[1]+=dy/d*k;it.pos[2]+=dz/d*k; }   // flies to the closest player
+    if(nt&&nt.id===0&&nt.d<1.1){const left=invAdd(it.id,it.count,it.dur,it.ench);if(left<it.count){sfx.pickup();updateHotbar();}it.count=left;if(!left)world.items.splice(i,1);} }
   for(let i=world.orbs.length-1;i>=0;i--){ const o=world.orbs[i]; o.age+=dt; if(o.age>120||o.pos[1]<-10){world.orbs.splice(i,1);continue;}
     o.vel[1]=Math.max(o.vel[1]+GRAVITY*0.5*dt,-20); if(o.onGround){o.vel[0]*=0.8;o.vel[2]*=0.8;} stepEntity(world,o,dt);
     if(!player.dead&&!player.spectator&&game.state==='playing'){ const dx=player.pos[0]-o.pos[0],dy=player.pos[1]+0.9-o.pos[1],dz=player.pos[2]-o.pos[2],d=Math.hypot(dx,dy,dz);

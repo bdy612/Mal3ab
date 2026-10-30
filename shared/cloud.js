@@ -27,8 +27,8 @@
   (async () => {
     try {
       if (!window.supabase) await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      if (!window.t) await load(depth + 'shared/i18n.js?v=1793353723');
-      if (!window.Auth) await load(depth + 'shared/net.js?v=1793353723');
+      if (!window.t) await load(depth + 'shared/i18n.js?v=1793355395');
+      if (!window.Auth) await load(depth + 'shared/net.js?v=1793355395');
       await Auth.init();
     } catch (e) { window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready')); return; }
     window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready'));   // games that wait for the account
@@ -80,6 +80,9 @@
           const base = location.href.split('?')[0];
           if (typeof game !== 'undefined' && game.state === 'playing' && game.meta && !game.meta.remote && typeof PROFILE !== 'undefined' && PROFILE.code)
             return base + '?joinFriend=' + encodeURIComponent(PROFILE.code) + '&fname=' + encodeURIComponent(PROFILE.name || name || '');
+          // I'm a guest in someone else's world: the link joins that host
+          if (typeof game !== 'undefined' && game.state === 'playing' && game.meta && game.meta.remote && typeof friends !== 'undefined' && friends.lastJoin)
+            return base + '?joinFriend=' + encodeURIComponent(friends.lastJoin.code) + '&fname=' + encodeURIComponent(friends.lastJoin.name || '');
           return base;
         };
         // old app: no online play — joining a friend, letting friends in, or swapping codes
@@ -105,6 +108,57 @@
           } catch (e) {}
         };
         setTimeout(syncFriends, 2000); setInterval(syncFriends, 60000);
+        // a Mal3ab friend knocking (e.g. from a chat invite) whose Voxel code isn't known yet: look it up and let them in
+        if (typeof friends !== 'undefined' && friends.onConn) {
+          const oc = friends.onConn.bind(friends);
+          friends.onConn = (c) => {
+            oc(c);
+            const md = c.metadata || {}, code = friends.normCode(md.code);
+            if (md.k !== 'join' || !code || !friends.requests.some(r => r.code === code)) return;
+            syncFriends().then(() => { const req = friends.requests.find(r => r.code === code); if (req && friends.list.some(f => f.code === code)) friends.accept(req); });
+          };
+        }
+        // live "who is online" for Voxel friends through Mal3ab's realtime presence (much steadier than pinging over PeerJS):
+        // I show up on my own channel with what I'm doing; I listen on each friend's channel.
+        if (window.sb && typeof friends !== 'undefined' && typeof PROFILE !== 'undefined' && PROFILE.code) {
+          const P = friends.presence = { online: new Set(), had: new Set(), subs: new Map() };
+          const mine = sb.channel('vxp-' + PROFILE.code, { config: { presence: { key: PROFILE.code } } });
+          let last = '', joined = false;
+          const track = () => { if (!joined) return; let st = null; try { st = friends.myStatus(); } catch (e) {} const j = JSON.stringify(st); if (j === last) return; last = j; mine.track({ code: PROFILE.code, st, at: Date.now() }); };
+          // a friend can't reach me on the matchmaking server: make sure I'm registered there
+          mine.on('broadcast', { event: 'poke' }, () => { try { if (!friends.peer || friends.peer.destroyed) { friends.peer = null; friends.start(); } else if (friends.peer.disconnected) friends.peer.reconnect(); } catch (e) {} });
+          mine.subscribe((st) => { if (st === 'SUBSCRIBED') { joined = true; last = ''; track(); } });
+          setInterval(track, 4000);
+          const watch = () => {
+            for (const f of friends.list) {
+              if (P.subs.has(f.code)) continue;
+              const ch = sb.channel('vxp-' + f.code, { config: { presence: { key: 'w-' + PROFILE.code, enabled: true } } });   // a key turns presence on (watching only, no track)
+              ch.on('presence', { event: 'sync' }, () => look(f.code));
+              ch.subscribe(); P.subs.set(f.code, ch);
+            }
+            for (const code of P.subs.keys()) look(code, true);
+          };
+          // is this friend on their channel right now? (once we've seen them there, their channel is the truth)
+          const look = (code, quiet) => {
+            const ch = P.subs.get(code), fr = friends.list.find(x => x.code === code); if (!ch || !fr || ch.state !== 'joined') return;
+            const all = ch.presenceState(); let found = null;
+            for (const k in all) for (const m of all[k]) if (m.code === code && (!found || (m.at || 0) > (found.at || 0))) found = m;
+            const was = fr.online;
+            if (found) { P.online.add(code); P.had.add(code); fr.online = true; fr.miss = 0; fr.seen = Date.now(); if (found.st) { fr.state = found.st; if (found.st.name && found.st.name !== 'Player') fr.name = cleanName(found.st.name); } }
+            else { P.online.delete(code); if (P.had.has(code)) { fr.online = false; fr.state = null; } }
+            if (!quiet || was !== fr.online) friends.changed();
+          };
+          watch(); setInterval(watch, 8000);
+          friends.poke = (code) => { const ch = P.subs.get(code); if (ch) ch.send({ type: 'broadcast', event: 'poke', payload: {} }); };
+        }
+        // chat invite while at the title screen: open my latest world so the friend's link joins me there
+        window.Mal3abPrepareInvite = async () => {
+          if (typeof game === 'undefined') return null;
+          if (game.state !== 'playing' && typeof WORLDS !== 'undefined' && WORLDS.length && typeof playWorld === 'function') {
+            const w = [...WORLDS].sort((a, b) => (b.played || 0) - (a.played || 0))[0]; playWorld(w);
+          }
+          return window.Mal3abShareLink();
+        };
       } else if (document.querySelector('[data-mal3ab-home]')) {   // the game has its own home buttons
         document.querySelectorAll('[data-mal3ab-home]').forEach(h => { h.onclick = (e) => { e.preventDefault(); location.href = homeHref; }; });
       } else {                                       // any other game: small round bubbles in the bottom-left corner

@@ -94,11 +94,11 @@ const net={
     if(m.t==='leave'){ const r=this.remotes.get(m.id); if(r)addChat(r.name+' left the game','#ff8'); this.remotes.delete(m.id); return; }
   },
   updateRemote(m){ let r=this.remotes.get(m.id); if(!r){r={id:m.id,name:m.name||'player'};this.remotes.set(m.id,r);} if(m.name)r.name=m.name; if(m.skin!==undefined)r.skin=m.skin|0;
-    if(!r.pos||r.dim!==m.dim){r.pos=[...m.p];} r.dim=m.dim; r.tpos=m.p; r.yaw=m.yaw; r.pitch=m.pitch; r.sneak=m.sneak; r.spec=!!m.spec; r.cr=!!m.cr; r.dead=!!m.dead; r.held=m.held|0; r.w=0.3; r.h=1.8; },
+    if(!r.pos||r.dim!==m.dim){r.pos=[...m.p];} r.dim=m.dim; r.tpos=m.p; r.yaw=m.yaw; r.pitch=m.pitch; r.sneak=m.sneak; r.spec=!!m.spec; r.cr=!!m.cr; r.dead=!!m.dead; r.held=m.held|0; if(Array.isArray(m.ar))r.ar=m.ar.slice(0,4).map(v=>v|0); r.w=0.3; r.h=1.8; },
   update(dt){ if(!this.role)return;
     if(this.role==='guest'&&!this.guest){ this.helloT=(this.helloT||0)+dt; if(this.helloT>1){ this.helloT=0; for(const p of this.peers)this.send(p,{t:'hello',name:this.name,skin:PROFILE.skin,code:PROFILE.code}); } return; }
     if(game.state!=='playing')return;
-    this.posT+=dt; if(this.posT>=0.1){ this.posT=0; this.broadcast({t:'pos',id:this.myId,name:this.name,skin:PROFILE.skin,dim:world.dim,p:player.pos.map(v=>Math.round(v*100)/100),yaw:player.yaw,pitch:player.pitch,sneak:player.sneak,spec:!!player.spectator,cr:inventory.creative?1:0,dead:player.dead?1:0,held:selected().id}); }
+    this.posT+=dt; if(this.posT>=0.1){ this.posT=0; this.broadcast({t:'pos',id:this.myId,name:this.name,skin:PROFILE.skin,dim:world.dim,p:player.pos.map(v=>Math.round(v*100)/100),yaw:player.yaw,pitch:player.pitch,sneak:player.sneak,spec:!!player.spectator,cr:inventory.creative?1:0,dead:player.dead?1:0,held:selected().id,ar:inventory.armor.map(a=>a.count?a.id:0)}); }
     if(this.role==='host'){ this.timeT+=dt; if(this.timeT>10){this.timeT=0;this.sendTime();} }
     if(this.shareUpdate)this.shareUpdate(dt);
     for(const r of this.remotes.values()){ if(!r.pos||!r.tpos)continue; const k=Math.min(1,dt*12),ox=r.pos[0],oz=r.pos[2]; for(let a=0;a<3;a++)r.pos[a]+=(r.tpos[a]-r.pos[a])*k; r.phase=(r.phase||0)+Math.hypot(r.pos[0]-ox,r.pos[2]-oz)*4; } },

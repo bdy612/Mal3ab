@@ -87,6 +87,13 @@ window.Shell = {
     const S = window.S, st = document.getElementById('status'), room = document.querySelector('.topbar .room');
     if (!st || !S.state) return;
     window.Mal3abShareLink = () => S.mode === 'online' && S.code ? Net.inviteLink(S.code) : location.href;
+    window.Mal3abPrepareInvite = async () => {
+      if (S.mode === 'online' && S.code) return Net.inviteLink(S.code);
+      const game = location.pathname.split('/').pop().replace('.html', ''), q = new URLSearchParams(location.search);
+      const code = await Net.create(game, {});
+      const url = `${game}.html?code=${code}&p=1` + (q.get('tc') ? '&tc=' + q.get('tc') + '&inc=' + (q.get('inc') || 0) : '');
+      return { link: Net.inviteLink(code), go: () => { location.href = url; } };   // (not 'then': that would make it a promise)
+    };
     if (S.mode === 'online') {
       room.innerHTML = `${t('roomCode')}: <b>${S.code}</b>
         <button class="btn tiny" onclick="Shell.copy('${S.code}', this)">${t('copy')}</button>

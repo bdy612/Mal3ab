@@ -37,7 +37,16 @@ function slotClick(arr,i,opt,e){ const s=arr[i],c=inventory.cursor,right=e.butto
   else if(!s.count){setStack(s,c);clearStack(c);}
   else if(s.id===c.id&&ITEMS[s.id].stack>1){const n=Math.min(c.count,ITEMS[s.id].stack-s.count);s.count+=n;c.count-=n;if(!c.count)clearStack(c);}
   else{const t={};setStack(t,s);setStack(s,c);setStack(c,t);} }
-function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;if(ui.tile&&ui.tile.pos&&TILE_TYPES.has(ui.tile.type))tileChanged(...ui.tile.pos);refreshUI();buildHotbar();scheduleSave();};d.oncontextmenu=e=>e.preventDefault();return d;}
+function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;if(ui.tile&&ui.tile.pos&&TILE_TYPES.has(ui.tile.type))tileChanged(...ui.tile.pos);refreshUI();buildHotbar();scheduleSave();};d.oncontextmenu=e=>e.preventDefault();
+  if(!opt.output){ d.onmouseenter=()=>{ui.hover={arr,i};}; d.onmouseleave=()=>{ if(ui.hover&&ui.hover.arr===arr&&ui.hover.i===i)ui.hover=null; }; }
+  return d;}
+// throwing from the inventory: click outside the window with an item on the cursor (left = all, right = one),
+// or press Q over a slot (Ctrl+Q = the whole stack)
+invEl.addEventListener('mousedown',e=>{ if(!uiOpen||e.target!==invEl)return; const c=inventory.cursor; if(!c.count)return; e.preventDefault();
+  const n=e.button===2?1:c.count; throwStack(c,n); c.count-=n; if(!c.count)clearStack(c); refreshUI(); buildHotbar(); scheduleSave(); });
+invEl.addEventListener('contextmenu',e=>{ if(e.target===invEl)e.preventDefault(); });
+function throwFromSlot(all){ const h=ui.hover; if(!h)return false; const s=h.arr[h.i]; if(!s||!s.count)return false; const n=all?s.count:1;
+  throwStack(s,n); s.count-=n; if(!s.count)clearStack(s); refreshUI(); buildHotbar(); scheduleSave(); return true; }
 function recRow(iconId,title,sub,ok,onclick){const d=document.createElement('div');d.className='rec'+(ok?' ok':'');d.innerHTML=`<div class="ic" style="background-image:url(${iconURL(iconId)})"></div><div>${title}<small>${sub}</small></div>`;if(onclick)d.onclick=()=>{if(ok)onclick();};else d.style.cursor='default';return d;}
 function refreshUI(){
   const main=document.getElementById('uiMain'),side=document.getElementById('uiSide');main.innerHTML='';side.innerHTML='';
@@ -169,10 +178,11 @@ document.addEventListener('keydown',e=>{
   if(e.code==='KeyE'&&!player.dead&&!player.spectator){if(uiOpen)closeUI();else if(locked)openUI(inventory.creative?'creative':'inventory');e.preventDefault();return;}
   if((e.code==='KeyT'||e.code==='Slash')&&locked){ e.preventDefault(); openChat(e.code==='Slash'?'/':''); return; }
   if(e.code==='Escape'&&uiOpen){closeUI();return;}
+  if(e.code==='KeyQ'&&uiOpen&&!e.repeat&&!player.spectator){ e.preventDefault(); throwFromSlot(e.ctrlKey); return; }
   if(!locked)return;keys[e.code]=true;
   if(e.code==='KeyW'&&!e.repeat){const now=performance.now();if(now-lastW<300&&player.food>6)player.sprint=true;lastW=now;}
   if(e.code.startsWith('Digit')){const n=parseInt(e.code[5]);if(n>=1&&n<=9){inventory.sel=n-1;updateHotbar();}}
-  if(e.code==='KeyQ'&&!e.repeat&&!player.spectator)dropHeld();
+  if(e.code==='KeyQ'&&!e.repeat&&!player.spectator)dropHeld(e.ctrlKey);
   if(e.code==='KeyF'&&inventory.creative){player.fly=!player.fly;player.vel[1]=0;}
   if(e.code==='KeyG'&&!e.repeat){ if(!cheatsOn()){showMsg('Cheats are off in this world.');} else { const m=gameMode()==='survival'?'creative':'survival'; setGameMode(m); showMsg('Game mode: '+m); } }
   if(['Space','ShiftLeft','ControlLeft','Tab','F1','F3','F5'].includes(e.code))e.preventDefault();

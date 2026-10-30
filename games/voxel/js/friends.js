@@ -51,9 +51,11 @@ const friends={
   onError(e,p){ const t=e.type;
     if(t==='peer-unavailable'){ const m=/peer\s+(\S+)/i.exec(e.message||''),id=m&&m[1];
       for(const f of this.list)if(this.pid(f.code)===id){ f.checking=false; this.missed(f); }
-      if(this.joinTarget&&this.pid(this.joinTarget.code)===id)this.joinFail(this.joinTarget.name+' is offline right now.');
+      if(this.joinTarget&&this.pid(this.joinTarget.code)===id){ const f=this.joinTarget; f.joinTries=(f.joinTries||0)+1;
+        if(f.joinTries<=8){ if(this.poke)this.poke(f.code); setTimeout(()=>{ if(this.joinTarget===f&&!net.guest&&this.status==='online')this.join(f); },2500); }
+        else { f.joinTries=0; this.joinFail(f.name+' is offline right now.'); } }
       this.changed(); return; }
-    if(t==='unavailable-id'){ this.setStatus('in use'); try{p.destroy();}catch(_){} if(this.peer===p)this.peer=null; return; }
+    if(t==='unavailable-id'){ this.setStatus('in use'); try{p.destroy();}catch(_){} if(this.peer===p)this.peer=null; clearTimeout(this.retryT); this.retryT=setTimeout(()=>{ if(!this.peer)this.start(); },15000); return; }
     if(['network','server-error','socket-error','socket-closed','disconnected'].includes(t)){ if(this.status==='in use'||this.peer!==p)return;
       if(p.destroyed){ this.peer=null; this.setStatus('offline'); this.scheduleRetry(); } else this.reconnectSoon(p); return; }
     if(t==='browser-incompatible'){ this.setStatus('unavailable'); return; } },
@@ -64,7 +66,7 @@ const friends={
   refresh(){ if(this.status!=='online'||!this.peer)return; for(const f of this.list)this.ping(f); },
   // one missed check is not enough to call a friend offline (a slow network or a server hiccup on their side):
   // they go offline only after several misses in a row and nothing heard from them for a while
-  missed(f){ if(this.playingWith(f))return; f.miss=(f.miss||0)+1; if(!f.online||f.miss>=3||(f.miss>=2&&Date.now()-(f.seen||0)>60000)){ f.online=false; f.state=null; } },
+  missed(f){ if(this.playingWith(f)||(this.presence&&this.presence.online.has(f.code)))return; f.miss=(f.miss||0)+1; if(!f.online||f.miss>=3||(f.miss>=2&&Date.now()-(f.seen||0)>60000)){ f.online=false; f.state=null; } },
   playingWith(f){ if(typeof net==='undefined'||!net.role)return false; if(net.role==='guest')return !!(net.guest&&this.lastJoin&&this.lastJoin.code===f.code); for(const r of net.remotes.values())if(r.code===f.code)return true; return false; },
   ping(f){ if(f.checking)return; f.checking=true; let got=false; let c; try{ c=this.peer.connect(this.pid(f.code),{metadata:{k:'ping',...this.me()},serialization:'raw',reliable:true}); }catch(e){ f.checking=false; return; }
     if(!c){ f.checking=false; return; }
@@ -100,12 +102,13 @@ const friends={
   ignore(code){ this.incoming=this.incoming.filter(r=>r.code!==code); this.changed(); },
   // join a friend's world
   join(f){ if(this.status!=='online'||!this.peer)return 'You are not connected to the friends service yet.';
-    this.cancelJoin(); this.joinTarget=f; let c; try{ c=this.peer.connect(this.pid(f.code),{metadata:{k:'join',...this.me()},serialization:'raw',reliable:true}); }catch(e){ return 'Could not start the connection.'; }
+    if(this.joinTarget===f&&f.joinTries>0){ if(!net.guest)net.reset(); this.joinConn=null; } else this.cancelJoin();   // a quiet retry keeps the first deadline
+    this.joinTarget=f; let c; try{ c=this.peer.connect(this.pid(f.code),{metadata:{k:'join',...this.me()},serialization:'raw',reliable:true}); }catch(e){ return 'Could not start the connection.'; }
     if(!c)return 'Could not start the connection.';
     this.joinConn=c; this.lastJoin=f; net.joinVia(adaptConn(c),{name:f.name});
-    this.joinTimer=setTimeout(()=>{ if(!net.guest&&this.joinTarget===f)this.joinFail(f.name+' did not answer. They may need to accept you (Esc → Friends in their game).'); },90000);
+    if(!f.joinTries)this.joinTimer=setTimeout(()=>{ if(!net.guest&&this.joinTarget===f)this.joinFail(f.name+' did not answer. They may need to accept you (Esc → Friends in their game).'); },90000);
     return null; },
-  joined(){ clearTimeout(this.joinTimer); this.joinTarget=null; this.joinConn=null; clearTimeout(this.okT); this.okT=setTimeout(()=>{ if(net.guest)this.rejoins=0; },30000); },
+  joined(){ if(this.joinTarget)this.joinTarget.joinTries=0; clearTimeout(this.joinTimer); this.joinTarget=null; this.joinConn=null; clearTimeout(this.okT); this.okT=setTimeout(()=>{ if(net.guest)this.rejoins=0; },30000); },
   // the connection to the host dropped by itself: go back in automatically (a few tries) instead of dumping the player on the title screen
   autoRejoin(msg){ const f=this.lastJoin; this.rejoins=(this.rejoins||0)+1;
     if(!f||this.rejoins>3||this.status==='in use'||typeof startJoin!=='function'){ this.rejoins=0; onGuestDisconnected(msg); return; }

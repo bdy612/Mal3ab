@@ -112,9 +112,11 @@ function drawEntities(world,vp,planes,sun,fog,fs,fe,amb,self){
     const tint=m.hurtT>0?[1,0.2,0.2,0.5]:m.fuse>0?[1,1,1,0.5+0.5*Math.sin(m.fuse*25)]:m.burnT>0?[1,0.5,0.1,0.35]:m.def.fire?[1,0.6,0.1,0.25]:[0,0,0,0];
     const sz=(m.size||1)*(m.baby?0.6:1); drawModel(m.def,mul(translate(m.pos[0],m.pos[1]-(m.sit?0.18:0),m.pos[2]),rotY(m.yaw),scale(sz)),m.def.fire?1:lum(m.pos[0],m.pos[1]+0.5,m.pos[2]),tint,m.sit?0:m.phase,p=>(p.wool&&m.sheared)||(p.collar&&!m.tame)||(p.saddle&&!m.saddle)); }
   if(bobber)drawModel(MOB_TYPES.bobber,translate(bobber.pos[0],bobber.pos[1],bobber.pos[2]),lum(bobber.pos[0],bobber.pos[1]+0.3,bobber.pos[2]),[0,0,0,0],0,null);
-  if(self){ const p=player,def=MOB_TYPES['player'+(PROFILE.skin%PLAYER_COLS.length)]; drawModel(def,mul(translate(p.pos[0],p.pos[1]-(p.sneak?0.15:0),p.pos[2]),rotY(p.yaw)),lum(p.pos[0],p.pos[1]+1,p.pos[2]),[0,0,0,0],p.bob*0.55,null); }
+  if(self){ const p=player,def=MOB_TYPES['player'+(PROFILE.skin%PLAYER_COLS.length)],M=mul(translate(p.pos[0],p.pos[1]-(p.sneak?0.15:0),p.pos[2]),rotY(p.yaw)),L=lum(p.pos[0],p.pos[1]+1,p.pos[2]);
+    drawModel(def,M,L,[0,0,0,0],p.bob*0.55,null); drawArmor(inventory.armor.map(a=>a.count?a.id:0),M,L,p.bob*0.55); }
   for(const rp of net.remotesIn(world.dim)){ if(rp.spec)continue; const def=MOB_TYPES['player'+((rp.skin??rp.id)%PLAYER_COLS.length)]; if(!aabbInFrustum(planes,rp.pos[0]-1,rp.pos[1],rp.pos[2]-1,rp.pos[0]+1,rp.pos[1]+2,rp.pos[2]+1))continue;
-    drawModel(def,mul(translate(rp.pos[0],rp.pos[1]-(rp.sneak?0.15:0),rp.pos[2]),rotY(rp.yaw)),lum(rp.pos[0],rp.pos[1]+1,rp.pos[2]),[0,0,0,0],rp.phase||0,null); }
+    const M=mul(translate(rp.pos[0],rp.pos[1]-(rp.sneak?0.15:0),rp.pos[2]),rotY(rp.yaw)),L=lum(rp.pos[0],rp.pos[1]+1,rp.pos[2]);
+    drawModel(def,M,L,[0,0,0,0],rp.phase||0,null); drawArmor(rp.ar,M,L,rp.phase||0); }
   for(const a of world.arrows){ const yaw=Math.atan2(-a.vel[0],-a.vel[2]),pitch=Math.atan2(a.vel[1],Math.hypot(a.vel[0],a.vel[2]));
     drawModel(a.kind?MOB_TYPES[a.kind==='egg'?'egg':a.kind==='wind'?'windcharge':a.kind==='potion'?'potion':'snowball']:a.fire?MOB_TYPES.fireball:MOB_TYPES.arrow,mul(translate(a.pos[0],a.pos[1],a.pos[2]),rotY(yaw),rotX(-pitch)),a.fire?1:lum(a.pos[0],a.pos[1],a.pos[2]),[0,0,0,0],0,null); }
   gl.bindVertexArray(null);

@@ -327,7 +327,12 @@
   function status(t) { const s = document.querySelector('#mal3ab-online .status'); if (s) s.textContent = t; }
   function closePanel() { const el = document.getElementById('mal3ab-online'); if (el) el.classList.remove('open'); }
   function linkFor(code) { return location.href.split('?')[0] + '?pvp=' + code; }
-  window.Mal3abShareLink = () => PVP.code && PVP.role === 'host' ? linkFor(PVP.code) : location.href.split('?')[0];   // chat: "invite to this game"
+  window.Mal3abShareLink = () => PVP.code && PVP.role === 'host' ? linkFor(PVP.code) : location.href.split('?')[0];
+  window.Mal3abPrepareInvite = async () => {                    // chat invite: the friend joins my live match
+    if (PVP.code && PVP.role === 'host') return linkFor(PVP.code);
+    if (PVP.live || !verOk()) return null;                       // already playing someone (1 v 1)
+    const c = randCode(); hostLobby(c); return linkFor(c);
+  };   // chat: "invite to this game"
 
   function renderLobby(mode) {
     const el = panel(); el.classList.add('open');
