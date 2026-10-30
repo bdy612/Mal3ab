@@ -10,8 +10,8 @@
   // old invite links (index.html?join=CODE …) and the apps go straight to the games
   if (/[?&](join|code|room)=/.test(location.search) || /Mal3abApp/.test(navigator.userAgent)) location.replace('play.html' + location.search);
 </script>
-<link rel="stylesheet" href="shared/style.css?v=1793357052">
-<script src="shared/i18n.js?v=1793357052"></script>
+<link rel="stylesheet" href="shared/style.css?v=1793360910">
+<script src="shared/i18n.js?v=1793360910"></script>
 <style>
   body { background: radial-gradient(ellipse at 50% -10%, #2a3366 0%, var(--bg) 60%); min-height: 100vh; }
   .land { max-width: 1040px; margin: 0 auto; padding: 18px 18px 50px; display: flex; flex-direction: column; gap: 26px; }
@@ -96,7 +96,8 @@ addStrings({
   l_exeNote: 'If "Windows protected your PC" appears, click More info, then Run anyway.',
   l_games: 'Games', l_foot: 'The apps open the same website, so every update reaches them by itself — no need to download again.'
 });
-const GAMES = [['♞', 'chess'], ['⚽', 'pitch'], ['🏁', 'turfrush'], ['🏙️', 'cityhall'], ['🧱', 'voxel'], ['🔫', 'voxelstrike'], ['🏗️', 'bricks'], ['🔴', 'connect4'], ['❌', 'tictactoe']];
+const GAMES = [['♞', 'chess'], ['⚽', 'pitch'], ['🏁', 'turfrush'], ['🏙️', 'cityhall'], ['🧱', 'voxel'], ['🔫', 'voxelstrike'], ['🏗️', 'bricks'], ['🔴', 'connect4'], ['❌', 'tictactoe'],
+  ['👾', 'glitchhopper'], ['⏳', 'chronocourier'], ['☕', 'alchemybarista'], ['🌒', 'shadoweclipse'], ['🐋', 'echoesdeep'], ['🃏', 'deckdungeons'], ['🧪', 'pixelalchemist'], ['🛰️', 'neoncourier'], ['💻', 'gridlockhacker'], ['🍳', 'gravitychef'], ['🔮', 'echoesspire'], ['🐾', 'cyberpet']];
 function draw() {
   document.getElementById('langslot').innerHTML = langButton();
   document.getElementById('h1').innerHTML = t('l_title');

@@ -5,6 +5,8 @@ window.Shell = {
   async start(opts) {
     await Auth.init();
     const q = new URLSearchParams(location.search);
+    // opened from the games page with no mode chosen yet: pick online / vs bot / same device (and the clock) here
+    if (!q.get('code') && !q.get('bot') && !q.get('local')) { Shell.startMenu(opts); return null; }
     const S = {
       mode: q.get('bot') ? 'bot' : q.get('code') ? 'online' : 'local',
       bot: q.get('bot') || null,                 // easy | medium | hard (you are player 1, the computer is player 2)
@@ -59,6 +61,44 @@ window.Shell = {
     return S;
   },
 
+  // ---------- how do you want to play? ----------
+  startMenu(opts) {
+    const game = location.pathname.split('/').pop().replace('.html', ''), clock = game === 'chess';
+    let pref = {}; try { pref = JSON.parse(localStorage.getItem('mal3ab-menu-' + game) || '{}'); } catch (e) {}
+    const sel = (id, vals, cur, fmt) => `<select id="${id}">${vals.map(v => `<option value="${v}" ${String(v) === String(cur) ? 'selected' : ''}>${fmt(v)}</option>`).join('')}</select>`;
+    const draw = () => {
+      document.querySelectorAll('.topbar, #status, .startmenu').forEach(e => e.remove());
+      const el = document.createElement('div'); el.className = 'startmenu';
+      el.innerHTML = `<div class="smbox">
+        <div class="smhead"><a class="btn small secondary" href="../play.html">${t('home')}</a><h2>${t(opts.title)}</h2>${langButton()}</div>
+        <p class="smq">${t('smChoose')}</p>
+        ${clock ? `<div class="smclock"><span>${t('timeControl')}</span>${sel('smTc', [0, 1, 2, 3, 5, 10, 15, 20, 30, 45, 60, 90], pref.tc != null ? pref.tc : 10, v => v ? v + ' ' + t('min') : t('noClock'))}
+          <span>+</span>${sel('smInc', [0, 1, 2, 3, 5, 10, 15, 20, 30], pref.inc || 0, v => v + ' ' + t('sec'))}</div>` : ''}
+        <div class="smopt"><div class="smico">🌐</div><div class="smbody"><b>${t('online')}</b><small>${t('smOnlineDesc')}</small>
+          ${Auth.name() ? '' : `<input id="smName" class="text" placeholder="${t('username')}">`}
+          <div class="smrow"><button class="btn" id="smCreate">${t('smCreate')}</button></div>
+          <div class="smrow"><input id="smCode" class="text" maxlength="4" placeholder="ABCD"><button class="btn secondary" id="smJoin">${t('enterRoom')}</button></div></div></div>
+        ${opts.botMove ? `<div class="smopt"><div class="smico">🤖</div><div class="smbody"><b>${t('vsBot')}</b><small>${t('smBotDesc')}</small>
+          <div class="smrow">${sel('smLvl', ['easy', 'medium', 'hard'], pref.lvl || 'medium', v => t(v))}<button class="btn" id="smBot">▶ ${t('play')}</button></div></div></div>` : ''}
+        <div class="smopt"><div class="smico">👥</div><div class="smbody"><b>${t('sameDevice')}</b><small>${t('smLocalDesc')}</small>
+          <div class="smrow"><button class="btn secondary" id="smLocal">▶ ${t('play')}</button></div></div></div>
+        <div class="msg" id="smMsg"></div></div>`;
+      document.body.prepend(el);
+      const $ = (id) => document.getElementById(id), msg = $('smMsg');
+      const clk = () => clock ? `&tc=${$('smTc').value}&inc=${$('smInc').value}` : '';
+      const save = () => { try { localStorage.setItem('mal3ab-menu-' + game, JSON.stringify({ tc: clock ? +$('smTc').value : undefined, inc: clock ? +$('smInc').value : undefined, lvl: $('smLvl') ? $('smLvl').value : pref.lvl })); } catch (e) {} };
+      const named = () => { if (Auth.name()) return true; const n = ($('smName') && $('smName').value.trim()) || ''; if (!n) { msg.textContent = t('username') + '?'; $('smName') && $('smName').focus(); return false; } Auth.setGuestName(n); return true; };
+      $('smCreate').onclick = async () => { if (!named()) return; save(); msg.textContent = t('creating'); try { const code = await Net.create(game, {}); location.href = `${game}.html?code=${code}&p=1${clk()}`; } catch (e) { msg.textContent = e.message; } };
+      $('smJoin').onclick = async () => { const c = $('smCode').value.trim().toUpperCase(); if (c.length < 4) { msg.textContent = t('codeHint'); return; } if (!named()) return; msg.textContent = t('joining');
+        try { const room = await Net.join(c); location.href = `${room.game}.html?code=${room.code}&p=2`; } catch (e) { msg.textContent = e.message; } };
+      $('smCode').onkeydown = (e) => { if (e.key === 'Enter') $('smJoin').click(); };
+      if ($('smBot')) $('smBot').onclick = () => { save(); location.href = `${game}.html?bot=${$('smLvl').value}${clk()}`; };
+      $('smLocal').onclick = () => { save(); location.href = `${game}.html?local=1${clk()}`; };
+      window.Mal3abPrepareInvite = async () => { if (!named()) return null; save(); const code = await Net.create(game, {}); return { link: Net.inviteLink(code), go: () => { location.href = `${game}.html?code=${code}&p=1${clk()}`; } }; };
+    };
+    draw(); document.addEventListener('langchange', draw);
+  },
+
   buildBar(opts) {
     document.querySelectorAll('.topbar, #status').forEach(e => e.remove());
     const bar = document.createElement('div');
@@ -69,6 +109,7 @@ window.Shell = {
       <div class="room"></div>
       ${opts.extraButtons || ''}
       <button class="btn small secondary" data-mal3ab-chat title="Chat">💬</button>
+      <a class="btn small secondary" href="${location.pathname.split('/').pop()}" title="${t('smChoose')}">☰</a>
       <button class="btn small" onclick="S.reset()">${t('newGame')}</button>
       ${langButton()}`;
     document.body.prepend(bar);

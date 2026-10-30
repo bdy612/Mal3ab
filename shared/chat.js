@@ -10,12 +10,12 @@
     chat_title: '💬 الشات', chat_friends: 'اختار صاحب تكلمه', chat_noFriends: 'لسه مفيش أصحاب — ضيفهم من صفحة الألعاب (👥 الأصحاب)',
     chat_login: 'سجّل دخول في ملعب عشان تكلم أصحابك', chat_type: 'اكتب رسالة…', chat_send: 'ابعت', chat_invite: '🎮 ادعيه للعبة دي',
     chat_inviteMsg: 'تعالى العب معايا', chat_join: '▶ ادخل', chat_back: '→ رجوع', chat_empty: 'لسه مفيش رسايل — قول أهلًا 👋',
-    chat_new: '{p} بعتلك رسالة', chat_online: 'أونلاين', chat_offline: 'مش أونلاين', chat_err: 'ما اتبعتتش — حاول تاني', chat_preparing: 'بجهّز الغرفة…', chat_clear: 'امسح الشات', chat_clearQ: 'تمسح كل الرسايل مع {p} وتبدأ شات جديد؟ (بتتمسح عندك إنت بس)', chat_clearYes: '🗑 امسح', chat_cancel: 'إلغاء'
+    chat_new: '{p} بعتلك رسالة', chat_online: 'أونلاين', chat_offline: 'مش أونلاين', chat_err: 'ما اتبعتتش — حاول تاني', chat_preparing: 'بجهّز الغرفة…', chat_clear: 'امسح الشات', chat_call: 'مكالمة', chat_callMsg: 'بدأت مكالمة — تعالى', chat_callJoin: '📞 ادخل المكالمة', chat_calling: '📞 {p} بيكلمك…', chat_decline: 'مش دلوقتي', chat_clearQ: 'تمسح كل الرسايل مع {p} وتبدأ شات جديد؟ (بتتمسح عندك إنت بس)', chat_clearYes: '🗑 امسح', chat_cancel: 'إلغاء'
   }, {
     chat_title: '💬 Chat', chat_friends: 'Pick a friend to talk to', chat_noFriends: 'No friends yet — add them on the games page (👥 Friends)',
     chat_login: 'Log in to Mal3ab to chat with your friends', chat_type: 'Type a message…', chat_send: 'Send', chat_invite: '🎮 Invite to this game',
     chat_inviteMsg: 'Come play with me', chat_join: '▶ Join', chat_back: '← Back', chat_empty: 'No messages yet — say hi 👋',
-    chat_new: '{p} sent you a message', chat_online: 'online', chat_offline: 'offline', chat_err: 'Not sent — try again', chat_preparing: 'Getting the room ready…', chat_clear: 'Clear chat', chat_clearQ: 'Clear all messages with {p} and start a new chat? (only on your side)', chat_clearYes: '🗑 Clear', chat_cancel: 'Cancel'
+    chat_new: '{p} sent you a message', chat_online: 'online', chat_offline: 'offline', chat_err: 'Not sent — try again', chat_preparing: 'Getting the room ready…', chat_clear: 'Clear chat', chat_call: 'Call', chat_callMsg: 'started a call — join me', chat_callJoin: '📞 Join call', chat_calling: '📞 {p} is calling you…', chat_decline: 'Not now', chat_clearQ: 'Clear all messages with {p} and start a new chat? (only on your side)', chat_clearYes: '🗑 Clear', chat_cancel: 'Cancel'
   });
   const css = document.createElement('style');
   css.textContent = `
@@ -48,6 +48,9 @@
   #m3chat .muted{color:#9aa3c7;text-align:center;padding:20px 10px}
   [data-mal3ab-chat]{position:relative}
   [data-mal3ab-chat][data-n]::after{content:attr(data-n);position:absolute;top:-6px;right:-6px;background:#ff5d73;color:#fff;border-radius:10px;padding:0 6px;font:700 11px/17px system-ui,sans-serif;min-width:17px;text-align:center}
+  .m3ring{display:flex;flex-direction:column;gap:8px;cursor:default;animation:m3pulse 1s infinite} .m3ring .m3rb{display:flex;gap:6px}
+  .m3ring button{flex:1;border:0;border-radius:8px;padding:7px 10px;font-weight:700;cursor:pointer} .m3ring .y{background:#3ddc84;color:#06240f} .m3ring .n2{background:#232a48;color:#eef0ff}
+  @keyframes m3pulse{50%{box-shadow:0 0 0 6px rgba(255,183,3,.25)}}
   .m3toast{position:fixed;right:16px;top:16px;z-index:100001;background:#1a1f35;color:#eef0ff;border:2px solid #ffb703;border-radius:12px;padding:10px 14px;font:600 14px 'Segoe UI',Tahoma,sans-serif;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.45)}
   .ar #m3chat .bd,.ar #m3chat .hd,.ar #m3chat .ft{direction:rtl}`;
   document.head.appendChild(css);
@@ -76,11 +79,12 @@
     if (f) openConv(f); else if (C.friend) openConv(C.friend); else drawList();
   };
   C.close = () => { if (C.el) C.el.hidden = true; C.open = false; };
-  const head = (title, back) => `<div class="hd">${back ? `<button class="x" data-a="back">${t('chat_back')}</button>` : ''}<b>${title}</b>${back ? `<button class="x" data-a="clear" title="${t('chat_clear')}">🗑</button>` : ''}<button class="x" data-a="close">✕</button></div>`;
+  const head = (title, back) => `<div class="hd">${back ? `<button class="x" data-a="back">${t('chat_back')}</button>` : ''}<b>${title}</b>${back ? `<button class="x" data-a="call" title="${t('chat_call')}">📞</button><button class="x" data-a="clear" title="${t('chat_clear')}">🗑</button>` : ''}<button class="x" data-a="close">✕</button></div>`;
   function wire() {
     C.el.querySelectorAll('[data-a="close"]').forEach(b => b.onclick = C.close);
     C.el.querySelectorAll('[data-a="back"]').forEach(b => b.onclick = () => { C.friend = null; drawList(); });
     C.el.querySelectorAll('[data-a="clear"]').forEach(b => b.onclick = askClear);
+    C.el.querySelectorAll('[data-a="call"]').forEach(b => b.onclick = startCall);
   }
   async function loadFriends() { try { const d = await Friends.list(); C.friends = (d && d.friends) || []; } catch (e) {} }
   function drawList() {
@@ -115,6 +119,28 @@
     };
     await fetchNew(); delete C.unread[f.id]; badges(); setTimeout(() => inp.focus(), 50);
   }
+  // ---- calls: a separate page (call.html) with mic, camera, people and screen sharing ----
+  const ROOT = () => location.href.replace(/games\/.*$/, '').replace(/[^/]*$/, '');
+  const openCall = (link) => { const w = window.open(link, '_blank'); if (!w) location.href = link; };
+  async function startCall() {
+    const f = C.friend; if (!f) return;
+    const room = Array.from(crypto.getRandomValues(new Uint8Array(8)), b => 'abcdefghjkmnpqrstuvwxyz23456789'[b % 31]).join('');
+    const link = ROOT() + 'call.html?room=' + room;
+    openCall(link);                                                   // opens right away (still inside the click)
+    try { await rpc('chat_send', { p_to: f.id, p_body: '📞 ' + t('chat_callMsg') + '\n' + link, p_kind: 'call', p_meta: { link } }); await fetchNew(); ping(f.id, { call: link, name: (Auth.profile && Auth.profile.username) || '' }); } catch (e) {}
+  }
+  let ringT = 0, ringEl = null; C.ring = (n, l) => ring(n, l);   // (also used by tests)
+  function ring(name, link) {
+    if (ringEl) ringEl.remove(); clearInterval(ringT);
+    const d = ringEl = document.createElement('div'); d.className = 'm3toast m3ring';
+    d.innerHTML = `<div>${esc(t('chat_calling', { p: name || '…' }))}</div><div class="m3rb"><button class="y">${t('chat_callJoin')}</button><button class="n2">${t('chat_decline')}</button></div>`;
+    const stop = () => { clearInterval(ringT); d.remove(); ringEl = null; };
+    d.querySelector('.y').onclick = (e) => { e.stopPropagation(); stop(); openCall(link); };
+    d.querySelector('.n2').onclick = (e) => { e.stopPropagation(); stop(); };
+    document.body.appendChild(d);
+    let n = 0; const beep = () => { try { const A = C.ac || (C.ac = new (window.AudioContext || window.webkitAudioContext)()), o = A.createOscillator(), g = A.createGain(); o.frequency.value = n % 2 ? 660 : 880; g.gain.setValueAtTime(0.08, A.currentTime); g.gain.exponentialRampToValueAtTime(0.001, A.currentTime + 0.35); o.connect(g); g.connect(A.destination); o.start(); o.stop(A.currentTime + 0.4); } catch (e) {} };
+    beep(); ringT = setInterval(() => { if (++n > 40) stop(); else beep(); }, 750);
+  }
   // clear the whole conversation (only on my side) and start fresh
   function askClear() {
     const f = C.friend, box = C.el && C.el.querySelector('#m3msgs'); if (!f || !box || box.querySelector('.m3cf')) return;
@@ -131,6 +157,7 @@
     const box = C.el && C.el.querySelector('#m3msgs'); if (!box) return;
     const html = (m) => {
       const mine = m.from_id === Auth.user.id, time = new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      if (m.kind === 'call' && m.meta && m.meta.link) return `<div class="m3m ${mine ? 'me' : ''}"><div class="inv"><div class="m3t" dir="auto">📞 ${esc(mine ? t('chat_call') : t('chat_callMsg'))}</div><button data-call="${esc(m.meta.link)}">${t('chat_callJoin')}</button></div><span class="tm" dir="ltr">${time}</span></div>`;
       if (m.kind === 'invite' && m.meta && m.meta.link) return `<div class="m3m ${mine ? 'me' : ''}" data-inv="${esc(m.from_id + '|' + m.meta.link)}"><div class="inv"><div class="m3t" dir="auto">${linkify(m.body.split('\n')[0])}</div>${mine ? '' : `<button data-go="${esc(m.meta.link)}">${t('chat_join')}</button>`}</div><span class="tm" dir="ltr">${time}</span></div>`;
       return `<div class="m3m ${mine ? 'me' : ''}"><div class="m3t" dir="auto">${linkify(m.body)}</div><span class="tm" dir="ltr">${time}</span></div>`;
     };
@@ -143,6 +170,7 @@
       box.insertAdjacentHTML('beforeend', latest(append).map(html).join(''));
     }
     box.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { location.href = b.dataset.go; });
+    box.querySelectorAll('[data-call]').forEach(b => b.onclick = () => openCall(b.dataset.call));
     box.scrollTop = box.scrollHeight;
   }
   async function fetchNew() {
@@ -167,7 +195,7 @@
     if (!ch) { ch = out[id] = sb.channel('inbox-' + id, { config: { broadcast: { self: false, ack: false } } }); ch._ready = new Promise(res => ch.subscribe(s => { if (s === 'SUBSCRIBED') res(); })); }
     return ch;
   }
-  function ping(id) { const ch = outCh(id); ch._ready.then(() => ch.send({ type: 'broadcast', event: 'ping', payload: { from: Auth.user.id } })); }
+  function ping(id, extra) { const ch = outCh(id); ch._ready.then(() => ch.send({ type: 'broadcast', event: 'ping', payload: Object.assign({ from: Auth.user.id }, extra || {}) })); }
   function badges() {
     const n = Object.values(C.unread).reduce((a, b) => a + b, 0);
     document.querySelectorAll('[data-mal3ab-chat]').forEach(b => n ? b.setAttribute('data-n', n > 99 ? '99+' : n) : b.removeAttribute('data-n'));
@@ -198,7 +226,8 @@
     if (!Auth.token || !Auth.user) return;
     if (C.inbox) return;
     C.inbox = sb.channel('inbox-' + Auth.user.id, { config: { broadcast: { self: false } } });
-    C.inbox.on('broadcast', { event: 'ping' }, ({ payload }) => { if (C.open && C.friend && payload && payload.from === C.friend.id) fetchNew(); else refreshUnread(true); });
+    C.inbox.on('broadcast', { event: 'ping' }, ({ payload }) => {
+      if (payload && payload.call && /\/call\.html\?room=/.test(payload.call)) ring(payload.name, payload.call); if (C.open && C.friend && payload && payload.from === C.friend.id) fetchNew(); else refreshUnread(true); });
     C.inbox.subscribe();
     await refreshUnread(false);
     setInterval(() => { if (C.open && C.friend) fetchNew(); }, 4000);
