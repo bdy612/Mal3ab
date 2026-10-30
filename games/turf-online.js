@@ -6,14 +6,16 @@
   const row = $('newCodeBtn') && $('newCodeBtn').parentElement;
   if (row) {
     const b = document.createElement('button'); b.className = 'mini'; b.type = 'button';
-    b.textContent = AR() ? '🔗 نسخ لينك الدعوة' : '🔗 Copy invite link';
+    const label = () => b.textContent = AR() ? '🔗 نسخ لينك الدعوة' : '🔗 Copy Invite Link'; label();
+    document.addEventListener('mal3abready', label); document.addEventListener('langchange', label);
     b.onclick = () => {
       let code = $('code').value.trim().toUpperCase();
       if (!code) { $('newCodeBtn').click(); code = $('code').value.trim().toUpperCase(); }
       navigator.clipboard.writeText(base + '?join=' + code).then(() => { const o = b.textContent; b.textContent = '✓'; setTimeout(() => b.textContent = o, 1200); });
     };
     row.appendChild(b);
-    const homeBtn = () => { const h = document.createElement('button'); h.className = 'mini'; h.type = 'button'; h.textContent = '🏠 ' + (AR() ? 'الرئيسية' : 'Home'); h.onclick = () => location.href = '../play.html'; return h; };
+    const homeBtn = () => { const h = document.createElement('button'); h.className = 'mini'; h.type = 'button'; h.onclick = () => location.href = '../play.html';
+      const lb = () => h.textContent = '🏠 ' + (AR() ? 'الرئيسية' : 'Home'); lb(); document.addEventListener('mal3abready', lb); document.addEventListener('langchange', lb); return h; };
     row.appendChild(homeBtn());                                                     // Play online
     const localRow = $('startBtn') && $('startBtn').parentElement; if (localRow) localRow.appendChild(homeBtn());   // Same keyboard, next to "Start match"
   }

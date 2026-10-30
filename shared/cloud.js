@@ -13,15 +13,26 @@
   // load supabase + net.js, then sync
   const load = (src) => new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
   const SYNC_FLAG = 'mal3ab_synced_' + GAME;
+  // English buttons, tabs and headings in Title Case ("Play Online", "Same Keyboard") in the games that ship English-only UI
+  function capitalise() {
+    if (!['turfrush', 'pitch', 'cityhall'].includes(GAME) || !window.titleCase || !document.body) return;
+    const SEL = 'button, .tab, label, h1, h2, h3, h4, th, option, a.btn, summary, legend';
+    const fix = () => document.querySelectorAll(SEL).forEach(el => {
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n;
+      while ((n = w.nextNode())) if (/[a-z]/.test(n.nodeValue)) { const v = titleCase(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; }
+    });
+    let tm = 0; fix(); new MutationObserver(() => { clearTimeout(tm); tm = setTimeout(fix, 150); }).observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
 
   (async () => {
     try {
       if (!window.supabase) await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      if (!window.t) await load(depth + 'shared/i18n.js?v=1793348364');
-      if (!window.Auth) await load(depth + 'shared/net.js?v=1793351247');
+      if (!window.t) await load(depth + 'shared/i18n.js?v=1793352695');
+      if (!window.Auth) await load(depth + 'shared/net.js?v=1793352695');
       await Auth.init();
     } catch (e) { window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready')); return; }
     window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready'));   // games that wait for the account
+    capitalise();
     const name = Auth.name();
 
     // Mal3ab controls placed INSIDE each game's own UI (no bar, no overlays)

@@ -31,7 +31,8 @@ addStrings({
   bb_holding: 'ماسك قطعة — اضغط مكان ما عايز تحطها (كليك يمين يرجّعها)',
   p_brick: 'طوبة', p_tall: 'طوبة عالية', p_plate: 'لوح', p_tile: 'بلاطة', p_rtile: 'بلاطة مدورة', p_slope: 'مايلة', p_islope: 'مايلة مقلوبة', p_round: 'طوبة مدورة', p_rplate: 'لوح مدور',
   p_cone: 'مخروط', p_dome: 'قبة', p_pillar: 'عمود', p_arch: 'قوس', p_window: 'شباك', p_door: 'باب', p_fence: 'سور', p_technic: 'تكنيك', p_motor: 'موتور', p_gear: 'ترس',
-  p_fan: 'مروحة', p_turntable: 'قاعدة بتلف', p_wheel: 'عجلة', p_light: 'نور', p_lightp: 'نور صغير', p_blink: 'نور بيرمش'
+  p_fan: 'مروحة', p_turntable: 'قاعدة بتلف', p_wheel: 'عجلة', p_light: 'نور', p_lightp: 'نور صغير', p_blink: 'نور بيرمش',
+  bb_online: 'أونلاين', bb_onTitle: '🌐 ابنوا مع بعض', bb_onDesc: 'اعمل غرفة وابعت الكود أو اللينك لصاحبك — كل اللي يدخل بيبني في نفس المكان في نفس الوقت.', bb_create: '➕ اعمل غرفة', bb_join: 'ادخل', bb_code: 'الكود', bb_copyLink: '🔗 انسخ اللينك', bb_copied: 'اتنسخ ✓', bb_leave: 'اخرج من الغرفة', bb_room: 'الغرفة', bb_players: 'اللي بيبنوا', bb_joined: '{p} دخل يبني معاك', bb_left: '{p} خرج', bb_codeHint: 'اكتب كود من ٤ حروف', bb_you: 'إنت'
 }, {
   bb_title: 'Brick Builder', bb_build: 'Build', bb_move: 'Move', bb_paint: 'Paint', bb_pick: 'Copy', bb_delete: 'Delete',
   bb_rotate: 'Rotate', bb_undo: 'Undo', bb_redo: 'Redo', bb_clear: 'Clear all', bb_saves: 'My builds', bb_photo: 'Photo', bb_play: 'Play', bb_stop: 'Stop',
@@ -48,7 +49,8 @@ addStrings({
   bb_holding: 'Holding a piece — click where it should go (right click puts it back)',
   p_brick: 'Brick', p_tall: 'Tall brick', p_plate: 'Plate', p_tile: 'Tile', p_rtile: 'Round tile', p_slope: 'Slope', p_islope: 'Inverted slope', p_round: 'Round brick', p_rplate: 'Round plate',
   p_cone: 'Cone', p_dome: 'Dome', p_pillar: 'Pillar', p_arch: 'Arch', p_window: 'Window', p_door: 'Door', p_fence: 'Fence', p_technic: 'Technic brick', p_motor: 'Motor', p_gear: 'Gear',
-  p_fan: 'Fan', p_turntable: 'Turntable', p_wheel: 'Wheel', p_light: 'Light', p_lightp: 'Small light', p_blink: 'Blinking light'
+  p_fan: 'Fan', p_turntable: 'Turntable', p_wheel: 'Wheel', p_light: 'Light', p_lightp: 'Small light', p_blink: 'Blinking light',
+  bb_online: 'Online', bb_onTitle: '🌐 Build together', bb_onDesc: 'Make a room and send the code or link to a friend — everyone in it builds in the same place at the same time.', bb_create: '➕ Create room', bb_join: 'Join', bb_code: 'Code', bb_copyLink: '🔗 Copy link', bb_copied: 'Copied ✓', bb_leave: 'Leave room', bb_room: 'Room', bb_players: 'Builders', bb_joined: '{p} joined to build with you', bb_left: '{p} left', bb_codeHint: 'Type a 4-letter code', bb_you: 'you'
 });
 
 // ---------------------------------------------------------------------
@@ -118,6 +120,8 @@ const FIX = {
 };
 const ghostOk = std({ color: '#ffffff', transparent: true, opacity: 0.55, depthWrite: false, roughness: 0.4 });
 const ghostBad = std({ color: '#ff3b3b', transparent: true, opacity: 0.45, depthWrite: false });
+ghostOk.emissiveIntensity = 0.35;
+const ghostLine = new THREE.LineBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.95, depthTest: false });
 
 // ---------------------------------------------------------------------
 // geometry for every kind of piece (built once per piece, then shared)
@@ -263,6 +267,7 @@ const shadowCatcher = new THREE.Mesh(new THREE.PlaneGeometry(240, 240), new THRE
 // ---------------------------------------------------------------------
 // the build: every piece also fills cells in a grid (studs × plates)
 // ---------------------------------------------------------------------
+const ON = { ch: null, code: '', ready: false, me: Math.random().toString(36).slice(2, 10), peers: new Map(), joinedW: 0, synced: false };
 const S = { bricks: [], occ: new Map(), tool: 'build', part: BY.b2x4, color: 0, rot: 0, base: 3, held: null, tab: 'bricks', name: '', play: false, recent: lsGet('bricks-recent', ['b2x4', 'b2x2', 'b1x4', 'p2x4', 's2x2', 't2x2', 'r1x1', 'g16', 'm2x2']).filter(id => BY[id]) };
 let nextId = 1;
 const dims = (p, r) => r % 2 ? [p.d, p.w] : [p.w, p.d];
@@ -287,23 +292,23 @@ function meshFor(b) {
   }
   return root;
 }
-function addBrick(b) { b.id = nextId++; S.bricks.push(b); for (const k of cells(BY[b.p], b.x, b.y, b.z, b.r)) S.occ.set(k, b.id); b.mesh = meshFor(b); scene.add(b.mesh); dirty = true; return b; }
+function addBrick(b) { b.id = nextId++; b.u = b.u || ON.me + '-' + b.id; S.bricks.push(b); for (const k of cells(BY[b.p], b.x, b.y, b.z, b.r)) S.occ.set(k, b.id); b.mesh = meshFor(b); scene.add(b.mesh); dirty = true; return b; }
 function removeBrick(b) { const i = S.bricks.indexOf(b); if (i < 0) return; S.bricks.splice(i, 1); for (const k of cells(BY[b.p], b.x, b.y, b.z, b.r)) S.occ.delete(k); scene.remove(b.mesh); dirty = true; }
 function remesh(b) { scene.remove(b.mesh); b.mesh = meshFor(b); scene.add(b.mesh); dirty = true; }
-const serial = () => ({ v: 1, base: S.base, b: S.bricks.map(b => [b.p, b.c, b.x, b.y, b.z, b.r]) });
+const serial = () => ({ v: 1, base: S.base, b: S.bricks.map(b => [b.p, b.c, b.x, b.y, b.z, b.r, b.u]) });
 function load(data) {
   for (const b of [...S.bricks]) removeBrick(b);
   if (!data) data = { b: [] };
   setBase(data.base != null ? data.base : 3);
-  for (const a of data.b || []) if (BY[a[0]] && COLORS[a[1]] && fits(BY[a[0]], a[2], a[3], a[4], a[5])) addBrick({ p: a[0], c: a[1], x: a[2], y: a[3], z: a[4], r: a[5] });
+  for (const a of data.b || []) if (BY[a[0]] && COLORS[a[1]] && fits(BY[a[0]], a[2], a[3], a[4], a[5])) addBrick({ p: a[0], c: a[1], x: a[2], y: a[3], z: a[4], r: a[5], u: a[6] });
   status();
 }
 function setBase(i) { S.base = i; baseMat.color.set(COLORS[i][0]); dirty = true; }
 
 const undoStack = [], redoStack = [];
 function snapshot() { undoStack.push(JSON.stringify(serial())); if (undoStack.length > 80) undoStack.shift(); redoStack.length = 0; }
-function undo() { if (!undoStack.length) return; redoStack.push(JSON.stringify(serial())); S.held = null; load(JSON.parse(undoStack.pop())); changed(); }
-function redo() { if (!redoStack.length) return; undoStack.push(JSON.stringify(serial())); S.held = null; load(JSON.parse(redoStack.pop())); changed(); }
+function undo() { if (!undoStack.length) return; redoStack.push(JSON.stringify(serial())); S.held = null; load(JSON.parse(undoStack.pop())); changed(); netState(); }
+function redo() { if (!redoStack.length) return; undoStack.push(JSON.stringify(serial())); S.held = null; load(JSON.parse(redoStack.pop())); changed(); netState(); }
 let saveT = 0;
 function changed() { status(); clearTimeout(saveT); saveT = setTimeout(() => lsSet('bricks-current', Object.assign(serial(), { name: S.name })), 700); toolbar(); if (S.play) setupMotion(); }
 
@@ -400,12 +405,12 @@ function orbitToFly() {
 function placeCamera() {
   if (!touchMode) {
     FLY.pos.x = clamp(FLY.pos.x, -HALF - 40, HALF + 40); FLY.pos.z = clamp(FLY.pos.z, -HALF - 40, HALF + 40); FLY.pos.y = clamp(FLY.pos.y, 0.6, 90);
-    camera.position.copy(FLY.pos); camera.rotation.set(FLY.pitch, FLY.yaw, 0); dirty = true; return;
+    camera.position.copy(FLY.pos); camera.rotation.set(FLY.pitch, FLY.yaw, 0); camera.updateMatrixWorld(); dirty = true; return;
   }
   cam.phi = clamp(cam.phi, 0.12, 1.5); cam.r = clamp(cam.r, 5, 110);
   cam.target.x = clamp(cam.target.x, -HALF - 4, HALF + 4); cam.target.z = clamp(cam.target.z, -HALF - 4, HALF + 4); cam.target.y = clamp(cam.target.y, 0, 40);
   camera.position.set(cam.target.x + cam.r * Math.sin(cam.phi) * Math.sin(cam.theta), cam.target.y + cam.r * Math.cos(cam.phi), cam.target.z + cam.r * Math.sin(cam.phi) * Math.cos(cam.theta));
-  camera.lookAt(cam.target); dirty = true;
+  camera.lookAt(cam.target); camera.updateMatrixWorld(); dirty = true;
 }
 const fwdVec = () => new V3(-Math.sin(FLY.yaw) * Math.cos(FLY.pitch), Math.sin(FLY.pitch), -Math.cos(FLY.yaw) * Math.cos(FLY.pitch));
 function orbit(dx, dy) { cam.theta -= dx * 0.008; cam.phi -= dy * 0.008; placeCamera(); }
@@ -457,11 +462,19 @@ function targetFor(hit) {
 }
 function setGhost(tg) {
   const p = curPart(), r = curRot();
-  if (!ghost || ghost.userData.p !== p.id) { if (ghost) scene.remove(ghost); ghost = new THREE.Mesh(build(p).ghost, ghostOk); ghost.userData.p = p.id; ghost.renderOrder = 2; scene.add(ghost); }
+  if (!ghost || ghost.userData.p !== p.id) {
+    if (ghost) scene.remove(ghost);
+    ghost = new THREE.Mesh(build(p).ghost, ghostOk); ghost.userData.p = p.id; ghost.renderOrder = 2; scene.add(ghost);
+    // a bright outline around the preview so it stands out on any colour
+    const g = ghost.geometry; g.computeBoundingBox(); const bb = g.boundingBox, sz = bb.getSize(new V3()), c = bb.getCenter(new V3());
+    const edge = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(sz.x + 0.04, sz.y + 0.04, sz.z + 0.04)), ghostLine);
+    edge.position.copy(c); edge.renderOrder = 3; ghost.add(edge);
+  }
   if (!tg) { ghost.visible = false; dirty = true; return; }
   const [fw, fd] = dims(p, r);
   ghost.visible = true; ghost.position.set(tg.x - HALF + fw / 2, tg.y * PLATE + 0.005, tg.z - HALF + fd / 2); ghost.rotation.y = SYMMETRIC[p.kind] ? 0 : -r * Math.PI / 2;
-  ghost.material = tg.ok ? ghostOk : ghostBad; if (tg.ok) ghostOk.color.set(COLORS[curColor()][0]);
+  ghost.material = tg.ok ? ghostOk : ghostBad; if (tg.ok) { ghostOk.color.set(COLORS[curColor()][0]); ghostOk.emissive.set(COLORS[curColor()][0]); }
+  ghostLine.color.set(tg.ok ? '#ffffff' : '#ff3b3b');
   dirty = true;
 }
 function setHoverMesh(m) {
@@ -488,13 +501,13 @@ function click(cx, cy) {
   if (placing()) {
     if (!hover || !hover.ok) { tone(180, 0.08); return; }
     snapshot();
-    addBrick({ p: curPart().id, c: curColor(), x: hover.x, y: hover.y, z: hover.z, r: curRot() });
+    netAdd(addBrick({ p: curPart().id, c: curColor(), x: hover.x, y: hover.y, z: hover.z, r: curRot() }));
     click3(); remember(curPart().id); if (S.held) S.held = null;
     changed(); refreshHover(); return;
   }
   const b = hoverMesh && hoverMesh.userData.b; if (!b) return;
-  if (S.tool === 'move') { snapshot(); setHoverMesh(null); S.held = { p: b.p, c: b.c, r: b.r, from: [b.x, b.y, b.z] }; removeBrick(b); tone(520, 0.05); changed(); refreshHover(); }
-  else if (S.tool === 'paint') { if (b.c === S.color) return; snapshot(); setHoverMesh(null); b.c = S.color; remesh(b); tone(700, 0.05); changed(); refreshHover(); }
+  if (S.tool === 'move') { snapshot(); setHoverMesh(null); S.held = { p: b.p, c: b.c, r: b.r, from: [b.x, b.y, b.z] }; removeBrick(b); netSend('rm', { u: b.u }); tone(520, 0.05); changed(); refreshHover(); }
+  else if (S.tool === 'paint') { if (b.c === S.color) return; snapshot(); setHoverMesh(null); b.c = S.color; remesh(b); netSend('paint', { u: b.u, c: b.c }); tone(700, 0.05); changed(); refreshHover(); }
   else if (S.tool === 'delete') deleteAt(cx, cy);
   else if (S.tool === 'pick') { S.part = BY[b.p]; S.color = b.c; S.rot = b.r; S.tab = KINDS[S.part.kind][1]; remember(b.p); setTool('build'); renderParts(); renderColors(); tone(880, 0.05); }
 }
@@ -502,11 +515,11 @@ function deleteAt(cx, cy) {
   audio();
   if (S.held) { cancelHeld(); return; }
   const hit = hitAt(cx, cy), b = hit && brickOf(hit.object); if (!b) return;
-  snapshot(); setHoverMesh(null); removeBrick(b); tone(300, 0.06); changed(); refreshHover();
+  snapshot(); setHoverMesh(null); removeBrick(b); netSend('rm', { u: b.u }); tone(300, 0.06); changed(); refreshHover();
 }
 function cancelHeld() {
   if (!S.held) return; const h = S.held, p = BY[h.p];
-  if (h.from && fits(p, h.from[0], h.from[1], h.from[2], h.r)) addBrick({ p: h.p, c: h.c, x: h.from[0], y: h.from[1], z: h.from[2], r: h.r });
+  if (h.from && fits(p, h.from[0], h.from[1], h.from[2], h.r)) netAdd(addBrick({ p: h.p, c: h.c, x: h.from[0], y: h.from[1], z: h.from[2], r: h.r }));
   S.held = null; undoStack.pop(); changed(); refreshHover();
 }
 function rotate() { if (S.held) S.held.r = (S.held.r + 1) % 4; else S.rot = (S.rot + 1) % 4; tone(600, 0.03); refreshHover(); }
@@ -530,7 +543,7 @@ document.addEventListener('pointerlockchange', () => {
 });
 document.addEventListener('mousemove', (e) => {
   if (!FLY.locked) return;
-  FLY.yaw -= e.movementX * 0.0024; FLY.pitch = clamp(FLY.pitch - e.movementY * 0.0024, -1.55, 1.55); placeCamera();
+  FLY.yaw -= e.movementX * 0.0024; FLY.pitch = clamp(FLY.pitch - e.movementY * 0.0024, -1.55, 1.55); placeCamera(); FLY.look = true;
 });
 document.addEventListener('mousedown', (e) => {
   if (!FLY.locked) return; e.preventDefault();
@@ -606,6 +619,7 @@ function toolbar() {
      <button class="tool" data-act="undo" ${undoStack.length ? '' : 'disabled'} title="${t('bb_undo')} (Ctrl+Z)"><b>↶</b><span>${t('bb_undo')}</span></button>
      <button class="tool" data-act="redo" ${redoStack.length ? '' : 'disabled'} title="${t('bb_redo')} (Ctrl+Y)"><b>↷</b><span>${t('bb_redo')}</span></button>
      <i class="sep"></i><button class="tool ${S.play ? 'on' : ''}" data-act="play" title="G"><b>${S.play ? '⏸' : '▶'}</b><span>${t(S.play ? 'bb_stop' : 'bb_play')}</span></button>
+     <button class="tool ${ON.code ? 'on' : ''}" data-act="online"><b>🌐</b><span>${ON.code ? ON.code + ' · ' + (ON.peers.size + 1) : t('bb_online')}</span></button>
      <button class="tool" data-act="saves"><b>🗂</b><span>${t('bb_saves')}</span></button>
      <button class="tool" data-act="photo"><b>📷</b><span>${t('bb_photo')}</span></button>
      <button class="tool" data-act="clear"><b>🧹</b><span>${t('bb_clear')}</span></button>`;
@@ -615,7 +629,8 @@ $('tools').addEventListener('click', (e) => {
   if (b.dataset.tool) return setTool(b.dataset.tool);
   const a = b.dataset.act;
   if (a === 'rotate') rotate(); if (a === 'undo') undo(); if (a === 'redo') redo(); if (a === 'saves') openSaves(); if (a === 'photo') photo(); if (a === 'play') setPlay(!S.play);
-  if (a === 'clear' && S.bricks.length && confirm(t('bb_confirmClear'))) { snapshot(); load({ base: S.base, b: [] }); changed(); }
+  if (a === 'clear' && S.bricks.length && confirm(t('bb_confirmClear'))) { snapshot(); load({ base: S.base, b: [] }); changed(); netState(); }
+  if (a === 'online') openOnline();
 });
 function iconFor(p, color) {
   const c = document.createElement('canvas'), N = 56; c.width = c.height = N; const g = c.getContext('2d');
@@ -676,7 +691,7 @@ function renderColors() {
   $('bases').innerHTML = BASES.map(i => `<button class="sw small ${S.base === i ? 'on' : ''}" data-b="${i}" style="--c:${COLORS[i][0]}"></button>`).join('');
 }
 $('colors').addEventListener('click', (e) => { const b = e.target.closest('[data-c]'); if (!b) return; S.color = +b.dataset.c; if (S.held) S.held.c = S.color; renderColors(); renderParts(); quickbar(); refreshHover(); });
-$('bases').addEventListener('click', (e) => { const b = e.target.closest('[data-b]'); if (!b) return; snapshot(); setBase(+b.dataset.b); renderColors(); changed(); });
+$('bases').addEventListener('click', (e) => { const b = e.target.closest('[data-b]'); if (!b) return; snapshot(); setBase(+b.dataset.b); renderColors(); changed(); netSend('base', { c: S.base }); });
 function quickbar() {
   const q = $('quick'); if (!q) return;
   q.innerHTML = S.recent.map((id, i) => `<button class="qs ${S.part.id === id && !S.held ? 'on' : ''}" data-q="${id}" title="${t('p_' + BY[id].kind)} ${label(BY[id])}"><img src="${icon(BY[id], S.color)}" alt=""><i>${i + 1}</i></button>`).join('') +
@@ -709,8 +724,8 @@ function openSaves() {
     all[id] = { name, t: Date.now(), data: serial() }; S.name = name;
     if (lsSet('bricks-saves', all)) { $('doSave').textContent = t('bb_saved'); setTimeout(openSaves, 700); changed(); }
   };
-  $('doNew').onclick = () => { snapshot(); S.name = ''; load({ base: S.base, b: [] }); changed(); $('modal').hidden = true; };
-  $('modal').querySelectorAll('[data-load]').forEach(b => b.onclick = () => { const it = savesList()[b.dataset.load]; if (!it) return; snapshot(); S.name = it.name; load(it.data); changed(); $('modal').hidden = true; });
+  $('doNew').onclick = () => { snapshot(); S.name = ''; load({ base: S.base, b: [] }); changed(); netState(); $('modal').hidden = true; };
+  $('modal').querySelectorAll('[data-load]').forEach(b => b.onclick = () => { const it = savesList()[b.dataset.load]; if (!it) return; snapshot(); S.name = it.name; load(it.data); changed(); netState(); $('modal').hidden = true; });
   $('modal').querySelectorAll('[data-del]').forEach(b => b.onclick = () => { const all = savesList(), it = all[b.dataset.del]; if (!it || !confirm(t('bb_confirmDel', { p: it.name }))) return; delete all[b.dataset.del]; lsSet('bricks-saves', all); openSaves(); });
 }
 $('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') $('modal').hidden = true; });
@@ -723,6 +738,110 @@ function photo() {
   const a = document.createElement('a'); a.download = (S.name || 'brick-build') + '.png'; a.href = out.toDataURL('image/png'); a.click();
   if (ghost) ghost.visible = gv; dirty = true; tone(1200, 0.06);
 }
+
+// ---------------------------------------------------------------------
+// building together online: a Supabase broadcast room "bricks-CODE".
+// Every change is sent to everyone; someone joining gets the whole build.
+// ---------------------------------------------------------------------
+function netSend(ev, p) { if (ON.ch && ON.ready) ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me }, p) }); }
+function netAdd(b) { if (b) netSend('add', { b: [b.p, b.c, b.x, b.y, b.z, b.r, b.u] }); }
+function netState() { netSend('state', { data: serial() }); }
+const myName = () => (window.Auth && Auth.name && Auth.name()) || 'Builder';
+const peerColor = (id) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) | 0; return [0, 1, 2, 3, 9, 13, 14, 15][Math.abs(h) % 8]; };
+function tagSprite(text, hex) {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 48; const g = c.getContext('2d');
+  g.font = 'bold 26px system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  const w = Math.min(250, g.measureText(text).width + 26); g.fillStyle = 'rgba(15,18,32,.75)'; if (g.roundRect) { g.beginPath(); g.roundRect(128 - w / 2, 5, w, 38, 12); g.fill(); } else g.fillRect(128 - w / 2, 5, w, 38);
+  g.fillStyle = hex; g.fillText(text, 128, 25);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthTest: false })); sp.scale.set(3, 0.56, 1); sp.position.y = 1.1; return sp;
+}
+function peerOf(id, name) {
+  let pr = ON.peers.get(id);
+  if (!pr) {
+    const col = COLORS[peerColor(id)][0], g = new THREE.Group();
+    const head = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), std({ color: col })); g.add(head);
+    const eye = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.15, 0.05), std({ color: '#1b2a34' })); eye.position.set(0, 0.1, -0.42); g.add(eye);
+    pr = { name: name || '…', g, t: performance.now(), tag: null }; pr.tag = tagSprite(pr.name, col); g.add(pr.tag); scene.add(g); ON.peers.set(id, pr);
+    toast(t('bb_joined', { p: pr.name })); toolbar();
+  }
+  if (name && name !== pr.name) { pr.name = name; pr.g.remove(pr.tag); pr.tag = tagSprite(name, COLORS[peerColor(id)][0]); pr.g.add(pr.tag); }
+  return pr;
+}
+function dropPeer(id) { const pr = ON.peers.get(id); if (!pr) return; scene.remove(pr.g); ON.peers.delete(id); toast(t('bb_left', { p: pr.name })); toolbar(); dirty = true; }
+function onNet(ev, p) {
+  if (!p || p.id === ON.me) return;
+  if (ev === 'hello') {
+    peerOf(p.id, p.n);
+    if (p.req) { netSend('hello', { n: myName() }); if (performance.now() - ON.joinedW > 1500) netSend('state', { to: p.id, data: serial() }); }
+    return;
+  }
+  if (ev === 'bye') { dropPeer(p.id); return; }
+  if (ev === 'cam') { const pr = peerOf(p.id, p.n); pr.t = performance.now(); pr.g.position.fromArray(p.p); pr.g.rotation.y = p.y || 0; dirty = true; return; }
+  if (ev === 'state') {
+    if (p.to && p.to !== ON.me) return;
+    if (p.to) { if (ON.synced) return; ON.synced = true; snapshot(); }
+    S.held = null; setHoverMesh(null); load(p.data); changed(); refreshHover(); return;
+  }
+  if (ev === 'add') {
+    const a = p.b; if (S.bricks.some(b => b.u === a[6]) || !BY[a[0]] || !COLORS[a[1]]) return;
+    if (fits(BY[a[0]], a[2], a[3], a[4], a[5])) { addBrick({ p: a[0], c: a[1], x: a[2], y: a[3], z: a[4], r: a[5], u: a[6] }); changed(); refreshHover(); }
+    return;
+  }
+  const b = p.u && S.bricks.find(x => x.u === p.u);
+  if (ev === 'rm' && b) { if (hoverMesh === b.mesh) setHoverMesh(null); removeBrick(b); changed(); refreshHover(); }
+  if (ev === 'paint' && b && COLORS[p.c]) { if (hoverMesh === b.mesh) setHoverMesh(null); b.c = p.c; remesh(b); changed(); }
+  if (ev === 'base' && COLORS[p.c]) { setBase(p.c); renderColors(); changed(); }
+}
+function joinRoom(code) {
+  leaveRoom(true);
+  if (!window.sb) return;
+  ON.code = code; ON.ready = false; ON.synced = false; ON.joinedW = performance.now();
+  const ch = sb.channel('bricks-' + code, { config: { broadcast: { self: false, ack: false } } });
+  for (const ev of ['hello', 'bye', 'cam', 'state', 'add', 'rm', 'paint', 'base']) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+  ch.subscribe((st) => { if (st === 'SUBSCRIBED') { ON.ready = true; netSend('hello', { n: myName(), req: true }); } });
+  ON.ch = ch; history.replaceState(null, '', location.pathname + '?room=' + code); toolbar(); status();
+  window.Mal3abShareLink = () => inviteLink(code);
+}
+function leaveRoom(quiet) {
+  if (ON.ch) { netSend('bye', {}); try { sb.removeChannel(ON.ch); } catch (e) {} }
+  for (const id of [...ON.peers.keys()]) { const pr = ON.peers.get(id); scene.remove(pr.g); }
+  ON.peers.clear(); ON.ch = null; ON.ready = false; ON.code = ''; window.Mal3abShareLink = null;
+  if (!quiet) { history.replaceState(null, '', location.pathname); toolbar(); status(); }
+}
+const inviteLink = (code) => location.href.split('?')[0].split('#')[0] + '?room=' + code;
+const newCode = () => { const A = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 4; i++) s += A[Math.floor(Math.random() * A.length)]; return s; };
+function copyText(text, btn) { const done = () => { const o = btn.textContent; btn.textContent = t('bb_copied'); setTimeout(() => btn.textContent = o, 1200); }; if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else done(); }
+async function canGoOnline() { return !window.Mal3abVersion || await Mal3abVersion.gate(); }
+function openOnline() {
+  if (FLY.locked) document.exitPointerLock();
+  $('modal').hidden = false;
+  if (ON.code) {
+    $('modal').innerHTML = `<div class="box"><h2>${t('bb_onTitle')}</h2>
+      <div class="row"><span>${t('bb_room')}:</span><b class="big">${ON.code}</b><span class="sp"></span><button class="btn small" id="onLink">${t('bb_copyLink')}</button></div>
+      <div class="list"><b>${t('bb_players')}</b><div class="item"><div><b>${esc(myName())}</b><small>${t('bb_you')}</small></div></div>${[...ON.peers.values()].map(pr => `<div class="item"><div><b>${esc(pr.name)}</b></div></div>`).join('')}</div>
+      <div class="row"><button class="btn sec" id="onLeave">${t('bb_leave')}</button><span class="sp"></span><button class="btn sec" id="onClose">${t('bb_close')}</button></div></div>`;
+    $('onLink').onclick = (e) => copyText(inviteLink(ON.code), e.target);
+    $('onLeave').onclick = () => { leaveRoom(); $('modal').hidden = true; };
+  } else {
+    $('modal').innerHTML = `<div class="box"><h2>${t('bb_onTitle')}</h2><p class="muted">${t('bb_onDesc')}</p>
+      <button class="btn" id="onCreate">${t('bb_create')}</button>
+      <div class="row"><input id="onCode" maxlength="6" placeholder="${t('bb_code')}" style="text-transform:uppercase;letter-spacing:3px;text-align:center;font-weight:700"><button class="btn sec" id="onJoin">${t('bb_join')}</button></div>
+      <div class="muted" id="onMsg"></div>
+      <div class="row"><span class="sp"></span><button class="btn sec" id="onClose">${t('bb_close')}</button></div></div>`;
+    $('onCreate').onclick = async () => { if (!await canGoOnline()) return; joinRoom(newCode()); openOnline(); };
+    $('onJoin').onclick = async () => { const c = $('onCode').value.trim().toUpperCase(); if (c.length < 4) { $('onMsg').textContent = t('bb_codeHint'); return; } if (!await canGoOnline()) return; joinRoom(c); openOnline(); };
+  }
+  $('onClose').onclick = () => $('modal').hidden = true;
+}
+function toast(text) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = text; document.body.appendChild(d); setTimeout(() => d.remove(), 3500); }
+let camSendW = 0;
+function netTick() {
+  if (!ON.ch || !ON.ready) return;
+  const now = performance.now();
+  if (now > camSendW) { camSendW = now + 250; netSend('cam', { n: myName(), p: camera.position.toArray().map(v => +v.toFixed(2)), y: +(touchMode ? cam.theta + Math.PI : FLY.yaw).toFixed(2) }); }
+  for (const [id, pr] of ON.peers) if (now - pr.t > 15000) dropPeer(id);
+}
+addEventListener('pagehide', () => { if (ON.ch) netSend('bye', {}); });
 
 // ---------------------------------------------------------------------
 // start
@@ -752,10 +871,13 @@ function frame() {
   requestAnimationFrame(frame);
   const now = performance.now(), dt = Math.min(0.05, (now - last) / 1000); last = now;
   if (canvas.clientWidth && (canvas.width !== Math.floor(canvas.clientWidth * renderer.getPixelRatio()))) resize();
-  if (flyStep(dt) && FLY.locked) refreshHover();
-  animate(dt);
+  // the see-through preview follows the crosshair while you look around or fly
+  if ((flyStep(dt) || FLY.look) && FLY.locked) refreshHover(); FLY.look = false;
+  animate(dt); netTick();
   if (!dirty) return; dirty = false; renderer.render(scene, camera);
 }
 requestAnimationFrame(frame);
-window.BB = { S, BY, PARTS, addBrick, load, serial, hitAt, click, deleteAt, setTool, rotate, undo, redo, setPlay, FLY, motion: () => motion, riders: () => riders, choosePart };   // for testing
+const roomParam = new URLSearchParams(location.search).get('room');
+if (roomParam) { const go = async () => { if (await canGoOnline()) joinRoom(roomParam.toUpperCase()); }; if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(() => { if (!ON.code) go(); }, 4000); } }
+window.BB = { ghost: () => ghost, ON, joinRoom, leaveRoom, S, BY, PARTS, addBrick, load, serial, hitAt, click, deleteAt, setTool, rotate, undo, redo, setPlay, FLY, motion: () => motion, riders: () => riders, choosePart };   // for testing
 })();

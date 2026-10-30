@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793348364">
+<link rel="stylesheet" href="shared/style.css?v=1793352695">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793348364"></script>
-<script src="shared/net.js?v=1793351247"></script>
+<script src="shared/i18n.js?v=1793352695"></script>
+<script src="shared/net.js?v=1793352695"></script>
 </head>
 <body>
 <div class="topbar">
@@ -168,7 +168,7 @@ async function joinRoom(code) {
 }
 // ---------- friends + fast connect ----------
 const fmodal = document.getElementById('fmodal');
-const FAST = ['chess', 'pitch', 'connect4', 'tictactoe', 'turfrush', 'voxel', 'voxelstrike'];
+const FAST = ['chess', 'pitch', 'connect4', 'tictactoe', 'turfrush', 'voxel', 'voxelstrike', 'bricks'];
 let fTimer = null, waiting = null;
 function openFriends() { fmodal.hidden = false; drawFriends(); clearInterval(fTimer); fTimer = setInterval(() => { if (!fmodal.hidden && !waiting) drawFriends(); else if (fmodal.hidden) clearInterval(fTimer); }, 10000); }
 async function drawFriends() {
@@ -214,7 +214,7 @@ async function fastConnect(id, name) {
       if (!chosen) { drawFriends(); return; }
       voxel = { world: chosen, myCode: vd.code, friendCode: await Friends.voxelCodeOf(id) };
     }
-    const code = game === 'turfrush' ? randTurf() : game === 'pitch' ? randTurf() + 'P' : game === 'voxelstrike' ? randTurf() + 'S' : game === 'voxel' ? voxel.myCode : await Net.create(game, {});
+    const code = game === 'turfrush' ? randTurf() : game === 'pitch' ? randTurf() + 'P' : game === 'voxelstrike' ? randTurf() + 'S' : game === 'bricks' ? randTurf() + 'B' : game === 'voxel' ? voxel.myCode : await Net.create(game, {});
     const invId = await Friends.invite(id, game, code);
     waiting = { id: invId, name, game, code }; drawFriends();
     const poll = setInterval(async () => {

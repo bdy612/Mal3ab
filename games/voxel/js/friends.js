@@ -14,7 +14,9 @@ function adaptConn(c){ const a={readyState:c.open?'open':'connecting',onopen:nul
     send(s){ try{ c.send(s); }catch(e){} }, close(){ try{ c.close(); }catch(e){} }};
   const closed=()=>{ if(a.readyState==='closed')return; a.readyState='closed'; if(a.onclose)a.onclose(); };
   c.on('open',()=>{ if(a.readyState==='open')return; a.readyState='open'; if(a.onopen)a.onopen(); });
-  c.on('data',d=>{ if(a.onmessage)a.onmessage({data:d}); }); c.on('close',closed); c.on('error',closed); return a; }
+  c.on('data',d=>{ if(a.onmessage)a.onmessage({data:d}); }); c.on('close',closed);
+  // only treat an error as a disconnect when the link is really gone (a failed send or a hiccup is not one)
+  c.on('error',e=>{ const t=e&&e.type; if(!c.open||t==='connection-closed'||t==='negotiation-failed')closed(); }); return a; }
 
 const friends={
   peer:null, status:'off', list:lsGet('voxel-friends',[]), incoming:[], requests:[], onchange:null, retryT:null, joinTarget:null, joinConn:null, joinTimer:null,
@@ -29,30 +31,46 @@ const friends={
   start(){ if(this.peer)return; if(typeof Peer==='undefined'||!window.RTCPeerConnection){ this.setStatus('unavailable'); return; }
     this.setStatus('connecting'); let p; try{ p=new Peer(this.pid(PROFILE.code),peerServerOpts()); }catch(e){ this.setStatus('offline'); this.scheduleRetry(); return; }
     this.peer=p;
-    p.on('open',()=>{ if(this.peer!==p)return; this.retries=0; this.setStatus('online'); this.refresh(); });
+    p.on('open',()=>{ if(this.peer!==p)return; this.retries=0; this.recons=0; clearTimeout(this.reconT); this.setStatus('online'); this.refresh(); });
     p.on('connection',c=>this.onConn(c));
     // lost the link to the matchmaking server after being online: try to get it back (games already running are not affected)
-    p.on('disconnected',()=>{ if(this.peer!==p||p.destroyed||this.status!=='online')return; this.setStatus('reconnecting'); setTimeout(()=>{ if(this.peer===p&&!p.destroyed&&p.disconnected)try{p.reconnect();}catch(e){this.scheduleRetry();} },3000); });
+    p.on('disconnected',()=>{ if(this.peer!==p||p.destroyed||this.status==='in use')return; this.reconnectSoon(p); });
     p.on('error',e=>this.onError(e,p)); },
-  scheduleRetry(){ clearTimeout(this.retryT); this.retries=(this.retries||0)+1; this.retryT=setTimeout(()=>{ if(this.peer){ try{this.peer.destroy();}catch(e){} this.peer=null; } this.start(); },Math.min(60000,10000*this.retries)); },
+  // is a game running over this peer right now? (destroying the peer would cut it)
+  busy(){ return typeof net!=='undefined'&&!!net.role&&net.peers.some(x=>x.dc&&x.dc.readyState!=='closed'); },
+  // lost the link to the matchmaking server: reconnect quietly and keep every running game connection open
+  reconnectSoon(p){ clearTimeout(this.reconT); if(this.status!=='reconnecting')this.setStatus('reconnecting'); this.recons=(this.recons||0)+1;
+    this.reconT=setTimeout(()=>{ if(this.peer!==p)return;
+      if(p.destroyed){ this.peer=null; this.setStatus('offline'); this.scheduleRetry(); return; }
+      if(p.open&&!p.disconnected){ this.recons=0; this.setStatus('online'); return; }
+      try{ p.reconnect(); }catch(e){}
+      this.reconnectSoon(p); },Math.min(20000,1500*this.recons)); },
+  scheduleRetry(){ clearTimeout(this.retryT); this.retries=(this.retries||0)+1; this.retryT=setTimeout(()=>{
+      if(this.peer&&!this.peer.destroyed&&this.busy()){ try{ if(this.peer.disconnected)this.peer.reconnect(); }catch(e){} this.scheduleRetry(); return; }
+      if(this.peer){ try{this.peer.destroy();}catch(e){} this.peer=null; } this.start(); },Math.min(60000,10000*this.retries)); },
   onError(e,p){ const t=e.type;
     if(t==='peer-unavailable'){ const m=/peer\s+(\S+)/i.exec(e.message||''),id=m&&m[1];
-      for(const f of this.list)if(this.pid(f.code)===id){ f.online=false; f.state=null; f.checking=false; }
+      for(const f of this.list)if(this.pid(f.code)===id){ f.checking=false; this.missed(f); }
       if(this.joinTarget&&this.pid(this.joinTarget.code)===id)this.joinFail(this.joinTarget.name+' is offline right now.');
       this.changed(); return; }
     if(t==='unavailable-id'){ this.setStatus('in use'); try{p.destroy();}catch(_){} if(this.peer===p)this.peer=null; return; }
-    if(['network','server-error','socket-error','socket-closed','disconnected'].includes(t)){ if(this.status!=='in use'&&this.peer===p){ this.setStatus('offline'); try{p.destroy();}catch(_){} this.peer=null; this.scheduleRetry(); } return; }
+    if(['network','server-error','socket-error','socket-closed','disconnected'].includes(t)){ if(this.status==='in use'||this.peer!==p)return;
+      if(p.destroyed){ this.peer=null; this.setStatus('offline'); this.scheduleRetry(); } else this.reconnectSoon(p); return; }
     if(t==='browser-incompatible'){ this.setStatus('unavailable'); return; } },
   // what friends see about me when they check
   myStatus(){ const playing=game.state==='playing'&&game.meta; return {t:'status',...this.me(),where:!playing?'menu':game.meta.remote?'guest':'world',
     world:playing?game.meta.name:null,mode:playing?modeLabel(game.meta):null,players:playing?1+net.remotes.size:0,host:playing&&game.meta.remote?net.hostName:null,
     joinable:!!(playing&&!game.meta.remote&&SETTINGS.allow!=='nobody')}; },
   refresh(){ if(this.status!=='online'||!this.peer)return; for(const f of this.list)this.ping(f); },
+  // one missed check is not enough to call a friend offline (a slow network or a server hiccup on their side):
+  // they go offline only after several misses in a row and nothing heard from them for a while
+  missed(f){ if(this.playingWith(f))return; f.miss=(f.miss||0)+1; if(!f.online||f.miss>=3||(f.miss>=2&&Date.now()-(f.seen||0)>60000)){ f.online=false; f.state=null; } },
+  playingWith(f){ if(typeof net==='undefined'||!net.role)return false; if(net.role==='guest')return !!(net.guest&&this.lastJoin&&this.lastJoin.code===f.code); for(const r of net.remotes.values())if(r.code===f.code)return true; return false; },
   ping(f){ if(f.checking)return; f.checking=true; let got=false; let c; try{ c=this.peer.connect(this.pid(f.code),{metadata:{k:'ping',...this.me()},serialization:'raw',reliable:true}); }catch(e){ f.checking=false; return; }
     if(!c){ f.checking=false; return; }
-    const to=setTimeout(()=>{ f.checking=false; if(!got){ f.online=false; f.state=null; } try{c.close();}catch(e){} this.changed(); },12000);
+    const to=setTimeout(()=>{ f.checking=false; if(!got)this.missed(f); try{c.close();}catch(e){} this.changed(); },15000);
     c.on('data',d=>{ let m; try{m=JSON.parse(d);}catch(e){return;} if(m.t!=='status')return; got=true; clearTimeout(to);
-      f.online=true; f.state=m; f.name=cleanName(m.name); f.skin=(m.skin|0)%8; f.seen=Date.now(); f.checking=false; this.save(); this.changed(); setTimeout(()=>{try{c.close();}catch(e){}},300); });
+      f.online=true; f.miss=0; f.state=m; f.name=cleanName(m.name); f.skin=(m.skin|0)%8; f.seen=Date.now(); f.checking=false; this.save(); this.changed(); setTimeout(()=>{try{c.close();}catch(e){}},300); });
     c.on('error',()=>{}); this.changed(); },
   // someone connected to me: a status check or a request to join my world
   onConn(c){ const md=c.metadata||{}, code=this.normCode(md.code); if(!code||code===PROFILE.code){ try{c.close();}catch(e){} return; }
@@ -84,10 +102,16 @@ const friends={
   join(f){ if(this.status!=='online'||!this.peer)return 'You are not connected to the friends service yet.';
     this.cancelJoin(); this.joinTarget=f; let c; try{ c=this.peer.connect(this.pid(f.code),{metadata:{k:'join',...this.me()},serialization:'raw',reliable:true}); }catch(e){ return 'Could not start the connection.'; }
     if(!c)return 'Could not start the connection.';
-    this.joinConn=c; net.joinVia(adaptConn(c),{name:f.name});
+    this.joinConn=c; this.lastJoin=f; net.joinVia(adaptConn(c),{name:f.name});
     this.joinTimer=setTimeout(()=>{ if(!net.guest&&this.joinTarget===f)this.joinFail(f.name+' did not answer. They may need to accept you (Esc → Friends in their game).'); },90000);
     return null; },
-  joined(){ clearTimeout(this.joinTimer); this.joinTarget=null; this.joinConn=null; },
+  joined(){ clearTimeout(this.joinTimer); this.joinTarget=null; this.joinConn=null; clearTimeout(this.okT); this.okT=setTimeout(()=>{ if(net.guest)this.rejoins=0; },30000); },
+  // the connection to the host dropped by itself: go back in automatically (a few tries) instead of dumping the player on the title screen
+  autoRejoin(msg){ const f=this.lastJoin; this.rejoins=(this.rejoins||0)+1;
+    if(!f||this.rejoins>3||this.status==='in use'||typeof startJoin!=='function'){ this.rejoins=0; onGuestDisconnected(msg); return; }
+    onGuestDisconnected('Connection to '+f.name+' dropped — reconnecting...');
+    let n=0; const iv=setInterval(()=>{ n++; if(net.role||game.state==='playing'){ clearInterval(iv); return; }
+      if(this.status==='online'&&n>=3){ clearInterval(iv); startJoin(f); } else if(n>80){ clearInterval(iv); this.rejoins=0; showTitle(msg); } },500); },
   cancelJoin(){ clearTimeout(this.joinTimer); if(this.joinTarget&&!net.guest)net.reset(); this.joinTarget=null; this.joinConn=null; },
   joinFail(msg){ const was=this.joinTarget; this.cancelJoin(); if(was)onGuestDisconnected(msg); },
 };

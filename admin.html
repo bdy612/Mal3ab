@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Admin — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793348364">
+<link rel="stylesheet" href="shared/style.css?v=1793352695">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793348364"></script>
-<script src="shared/net.js?v=1793351247"></script>
+<script src="shared/i18n.js?v=1793352695"></script>
+<script src="shared/net.js?v=1793352695"></script>
 </head>
 <body>
 <div class="topbar">
@@ -43,12 +43,12 @@ function draw() {
   document.getElementById('tbl').innerHTML = `<tr><th></th><th>${t('username')}</th><th>${t('email')}</th><th>${t('stats')}</th><th>${t('joined')}</th><th>${t('lastSeen')}</th><th></th></tr>` +
     list.map(u => `<tr>
       <td>${avatarHtml(u, 34)}</td>
-      <td><b>${esc(u.username)}</b>${u.id === me ? ` <small>(${t('you')})</small>` : ''}${u.is_admin ? `<span class="badge admin">${t('adminBadge')}</span>` : ''}${u.banned ? `<span class="badge banned" title="${esc(u.ban_reason)}">${t('bannedBadge')}: ${esc(u.ban_reason)}</span>` : ''}</td>
+      <td><b>${esc(u.username)}</b>${u.id === me ? ` <small>(${t('you')})</small>` : ''}${u.is_owner ? `<span class="badge admin" style="background:#ffb703;color:#1a1200">👑 ${getLang() === 'ar' ? 'الأدمن الرئيسي' : 'Main admin'}</span>` : u.is_admin ? `<span class="badge admin">${t('adminBadge')}</span>` : ''}${u.banned ? `<span class="badge banned" title="${esc(u.ban_reason)}">${t('bannedBadge')}: ${esc(u.ban_reason)}</span>` : ''}</td>
       <td>${esc(u.email || '—')}</td>
       <td>${u.wins ?? 0} / ${u.losses ?? 0} / ${u.draws ?? 0}</td>
       <td>${fmtDate(u.created_at)}</td>
       <td>${fmtDate(u.last_seen)}</td>
-      <td><div class="acts">${u.id === me ? '' : `
+      <td><div class="acts">${u.id === me || u.is_owner ? '' : `
         ${u.banned ? `<button class="btn tiny secondary" onclick="act('${u.id}','unban')">${t('unban')}</button>` : `<button class="btn tiny" style="background:var(--p1);color:#fff" onclick="ban('${u.id}')">${t('ban')}</button>`}
         ${u.is_admin ? `<button class="btn tiny secondary" onclick="act('${u.id}','remove_admin')">${t('removeAdmin')}</button>` : `<button class="btn tiny" onclick="act('${u.id}','make_admin')">${t('makeAdmin')}</button>`}
         <button class="btn tiny secondary" onclick="del('${u.id}')">${t('deleteUser')}</button>`}</div></td>

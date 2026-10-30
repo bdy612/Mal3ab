@@ -54,7 +54,9 @@ const net={
   wire(peer,dc){
     dc.onopen=()=>{ if(this.role==='guest'&&!this.guest)this.send(peer,{t:'hello',name:this.name,skin:PROFILE.skin,code:PROFILE.code}); };
     dc.onclose=()=>{ if(!this.peers.includes(peer))return; this.peers=this.peers.filter(p=>p!==peer); if(this.leaving)return;
-      if(this.role==='guest'){ const was=this.guest; this.reset(); onGuestDisconnected(peer.kicked?'You were removed from the world by the host.':was?'Lost connection to the host. They may have closed the world.':'Could not reach the host.'); }
+      if(this.role==='guest'){ const was=this.guest; this.reset();
+        if(was&&!peer.kicked&&typeof friends!=='undefined'&&friends.autoRejoin)friends.autoRejoin('Lost connection to the host. They may have closed the world.');
+        else onGuestDisconnected(peer.kicked?'You were removed from the world by the host.':was?'Lost connection to the host. They may have closed the world.':'Could not reach the host.'); }
       else { if(this.peerGone)this.peerGone(peer); if(this.watch!==undefined)peer.watch=null; const r=this.remotes.get(peer.id); if(r)addChat(r.name+' left the game','#ff8'); this.remotes.delete(peer.id); this.broadcast({t:'leave',id:peer.id}); if(typeof friends!=='undefined')friends.changed(); } };
     dc.onmessage=e=>{ let m; try{m=JSON.parse(e.data);}catch(err){return;} this.onMsg(peer,m); };
     if(dc.readyState==='open')dc.onopen(); },

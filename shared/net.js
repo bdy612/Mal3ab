@@ -146,6 +146,7 @@
       if (game === 'turfrush') return `${ROOT()}games/turf-rush.html?join=${code}`;
       if (game === 'pitch') return `${ROOT()}games/pitch-legends/index.html?pvp=${code}`;
       if (game === 'voxelstrike') return `${ROOT()}games/voxel-strike/index.html?room=${code}`;
+      if (game === 'bricks') return `${ROOT()}games/brick-builder/index.html?room=${code}`;
       if (game === 'voxel') return `${ROOT()}games/voxel/index.html?joinFriend=${encodeURIComponent(code)}&fname=${encodeURIComponent(name || '')}`;
       return `${ROOT()}games/${game}.html?code=${code}&p=${p}`;
     },

@@ -63,8 +63,31 @@
   try { lang = localStorage.getItem('mal3ab_lang') || (navigator.language.startsWith('ar') ? 'ar' : 'en'); } catch (e) {}
   if (!STR[lang]) lang = 'ar';
 
+  // English labels and buttons in Title Case ("Join Room", "Play Again"); sentences just start with a capital
+  const SMALL = new Set(['a', 'an', 'the', 'and', 'or', 'of', 'to', 'in', 'on', 'at', 'for', 'by', 'with', 'vs', 'per', 'from', 'as', 'into', 'than', 'via']);
+  const KEEP = new Set(['resigned', 'invitesYou', 'vs', 'sec', 'min', 'vs_left', 'vs_joined', 'vs_leftRoom']);   // pieces glued into the middle of a sentence
+  const capWord = (w) => w.replace(/[a-z]/, (c) => c.toUpperCase());
+  const capCache = {};
+  window.titleCase = (s) => {
+    if (typeof s !== 'string' || !/[a-z]/.test(s)) return s;
+    if (capCache[s] !== undefined) return capCache[s];
+    const body = s.replace(/^[^A-Za-z{]+/, ''), words = s.trim().split(/\s+/);
+    let out;
+    if (body.startsWith('{') || /[.?;…—]|, |https?:/.test(s.trim().replace(/(…|\.\.\.)$/, '')) || words.length > 5) out = s.replace(/^([^A-Za-z{]*)([a-z])/, (m, a, c) => a + c.toUpperCase());
+    else {
+      let first = true; const parts = s.split(/(\s+)/), lastIdx = parts.map((w, i) => /\S/.test(w) ? i : -1).reduce((a, b) => Math.max(a, b), -1);
+      out = parts.map((w, i) => {
+        if (!/[A-Za-z]/.test(w) || /[<>]/.test(w)) return w;
+        const bare = w.replace(/[^A-Za-z]/g, '').toLowerCase(), small = (!first && i !== lastIdx && SMALL.has(bare)) || bare === 'vs'; first = false;
+        if (small || /[A-Z0-9{@/]/.test(w.replace(/^[^A-Za-z{0-9]+/, '').charAt(0)) || /^[a-z]+\.[a-z]/.test(w)) return w;
+        return w.split('-').map(capWord).join('-');
+      }).join('').replace(/\b(Log|Sign) in\b/g, '$1 In');
+    }
+    return (capCache[s] = out);
+  };
   window.t = (key, vars) => {
     let s = (STR[lang] && STR[lang][key]) || STR.ar[key] || key;
+    if (lang === 'en' && !KEEP.has(key)) s = titleCase(s);
     if (vars) for (const k in vars) s = s.replace('{' + k + '}', vars[k]);
     return s;
   };

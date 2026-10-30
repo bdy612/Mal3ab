@@ -8,7 +8,7 @@
   const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const randCode = () => Array.from({ length: 5 }, () => ALPHA[Math.floor(Math.random() * ALPHA.length)]).join('');
   const AR = () => (window.getLang ? getLang() : 'ar') === 'ar';
-  const T = (ar, en) => AR() ? ar : en;
+  const T = (ar, en) => AR() ? ar : (window.titleCase ? titleCase(en) : en);
   const G = Game;
   const W = FIELD.w;
   const PVP = window.PVP = { role: null, code: null, ch: null, live: false, peer: null, remote: { ix: 0, iy: 0, acts: new Set() },
