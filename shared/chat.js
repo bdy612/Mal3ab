@@ -10,12 +10,12 @@
     chat_title: '💬 الشات', chat_friends: 'اختار صاحب تكلمه', chat_noFriends: 'لسه مفيش أصحاب — ضيفهم من صفحة الألعاب (👥 الأصحاب)',
     chat_login: 'سجّل دخول في ملعب عشان تكلم أصحابك', chat_type: 'اكتب رسالة…', chat_send: 'ابعت', chat_invite: '🎮 ادعيه للعبة دي',
     chat_inviteMsg: 'تعالى العب معايا', chat_join: '▶ ادخل', chat_back: '→ رجوع', chat_empty: 'لسه مفيش رسايل — قول أهلًا 👋',
-    chat_new: '{p} بعتلك رسالة', chat_online: 'أونلاين', chat_offline: 'مش أونلاين', chat_err: 'ما اتبعتتش — حاول تاني', chat_preparing: 'بجهّز الغرفة…'
+    chat_new: '{p} بعتلك رسالة', chat_online: 'أونلاين', chat_offline: 'مش أونلاين', chat_err: 'ما اتبعتتش — حاول تاني', chat_preparing: 'بجهّز الغرفة…', chat_clear: 'امسح الشات', chat_clearQ: 'تمسح كل الرسايل مع {p} وتبدأ شات جديد؟ (بتتمسح عندك إنت بس)', chat_clearYes: '🗑 امسح', chat_cancel: 'إلغاء'
   }, {
     chat_title: '💬 Chat', chat_friends: 'Pick a friend to talk to', chat_noFriends: 'No friends yet — add them on the games page (👥 Friends)',
     chat_login: 'Log in to Mal3ab to chat with your friends', chat_type: 'Type a message…', chat_send: 'Send', chat_invite: '🎮 Invite to this game',
     chat_inviteMsg: 'Come play with me', chat_join: '▶ Join', chat_back: '← Back', chat_empty: 'No messages yet — say hi 👋',
-    chat_new: '{p} sent you a message', chat_online: 'online', chat_offline: 'offline', chat_err: 'Not sent — try again', chat_preparing: 'Getting the room ready…'
+    chat_new: '{p} sent you a message', chat_online: 'online', chat_offline: 'offline', chat_err: 'Not sent — try again', chat_preparing: 'Getting the room ready…', chat_clear: 'Clear chat', chat_clearQ: 'Clear all messages with {p} and start a new chat? (only on your side)', chat_clearYes: '🗑 Clear', chat_cancel: 'Cancel'
   });
   const css = document.createElement('style');
   css.textContent = `
@@ -25,20 +25,24 @@
   #m3chat .hd{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#1a1f35;border-bottom:1px solid #2c355c}
   #m3chat .hd b{flex:1;color:#ffb703;font-size:16px} #m3chat button{font-family:inherit;cursor:pointer}
   #m3chat .x{background:#232a48;color:#eef0ff;border:0;border-radius:8px;padding:5px 10px}
-  #m3chat .bd{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px}
+  #m3chat .bd{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;min-height:0}
+  #m3chat .bd>*{flex-shrink:0;position:relative}
   #m3chat .fr{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:#1a1f35;border:0;color:#eef0ff;text-align:start;width:100%}
   #m3chat .fr:hover{background:#232a48} #m3chat .fr span{flex:1} #m3chat .fr small{color:#9aa3c7}
   #m3chat .dot{width:10px;height:10px;border-radius:50%;background:#555;flex:none} #m3chat .dot.on{background:#80ed99;box-shadow:0 0 6px #80ed99}
   #m3chat .n{background:#ff5d73;color:#fff;border-radius:10px;padding:1px 7px;font-size:12px;font-weight:700}
-  #m3chat .msg{max-width:82%;padding:7px 11px;border-radius:14px;background:#232a48;color:#eef0ff;margin:0;min-height:0;font-size:14px;text-align:start;align-self:flex-start;white-space:pre-wrap;word-break:break-word;line-height:1.45}
-  #m3chat .msg .m3t{unicode-bidi:plaintext;text-align:start}
-  #m3chat .msg.me{align-self:flex-end;background:#ffb703;color:#1a1200} #m3chat .msg a{color:inherit;text-decoration:underline}
-  #m3chat .msg .tm{display:block;font-size:10px;opacity:.6;margin-top:2px;text-align:end;direction:ltr;unicode-bidi:isolate}
+  #m3chat .m3m{max-width:82%;padding:7px 11px;border-radius:14px;background:#232a48;color:#eef0ff;margin:0;font-size:14px;text-align:start;align-self:flex-start;white-space:pre-wrap;word-break:break-word;line-height:1.45}
+  #m3chat .m3m .m3t{unicode-bidi:plaintext;text-align:start}
+  #m3chat .m3m.me{align-self:flex-end;background:#ffb703;color:#1a1200} #m3chat .m3m a{color:inherit;text-decoration:underline}
+  #m3chat .m3m .tm{display:block;font-size:10px;opacity:.6;margin-top:2px;text-align:end;direction:ltr;unicode-bidi:isolate}
   #m3chat .fr b{unicode-bidi:plaintext} #m3chat input{unicode-bidi:plaintext}
   #m3chat .inv{display:flex;flex-direction:column;gap:6px} #m3chat .inv button{background:#80ed99;color:#062b12;border:0;border-radius:8px;padding:6px 10px;font-weight:700}
-  #m3chat .msg.me .inv button{background:#1a1200;color:#ffb703}
+  #m3chat .m3m.me .inv button{background:#1a1200;color:#ffb703}
   #m3chat .ft{display:flex;flex-direction:column;gap:6px;padding:8px;border-top:1px solid #2c355c;background:#1a1f35}
-  #m3chat .row{display:flex;gap:6px} #m3chat input{flex:1;min-width:0;background:#0f1220;color:#eef0ff;border:2px solid #2c355c;border-radius:10px;padding:9px 10px;font:inherit;text-transform:none;letter-spacing:0;text-align:start;width:auto}
+  #m3chat .row{display:flex;gap:6px;align-items:stretch}
+  #m3chat .m3cf{background:#2a1520;border:1px solid #ff5d73;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;text-align:center}
+  #m3chat .m3cf div{display:flex;gap:6px} #m3chat .m3cf button{flex:1;border:0;border-radius:8px;padding:7px;font-weight:700;cursor:pointer}
+  #m3chat .m3cf .y{background:#ff5d73;color:#fff} #m3chat .m3cf .n2{background:#232a48;color:#eef0ff} #m3chat input{flex:1;min-width:0;background:#0f1220;color:#eef0ff;border:2px solid #2c355c;border-radius:10px;padding:9px 10px;font:inherit;text-transform:none;letter-spacing:0;text-align:start;width:auto}
   #m3chat .snd{background:#ffb703;color:#1a1200;border:0;border-radius:10px;padding:0 14px;font-weight:700}
   #m3chat .iv{background:#232a48;color:#eef0ff;border:0;border-radius:10px;padding:7px;font-weight:600}
   #m3chat .muted{color:#9aa3c7;text-align:center;padding:20px 10px}
@@ -72,10 +76,11 @@
     if (f) openConv(f); else if (C.friend) openConv(C.friend); else drawList();
   };
   C.close = () => { if (C.el) C.el.hidden = true; C.open = false; };
-  const head = (title, back) => `<div class="hd">${back ? `<button class="x" data-a="back">${t('chat_back')}</button>` : ''}<b>${title}</b><button class="x" data-a="close">✕</button></div>`;
+  const head = (title, back) => `<div class="hd">${back ? `<button class="x" data-a="back">${t('chat_back')}</button>` : ''}<b>${title}</b>${back ? `<button class="x" data-a="clear" title="${t('chat_clear')}">🗑</button>` : ''}<button class="x" data-a="close">✕</button></div>`;
   function wire() {
     C.el.querySelectorAll('[data-a="close"]').forEach(b => b.onclick = C.close);
     C.el.querySelectorAll('[data-a="back"]').forEach(b => b.onclick = () => { C.friend = null; drawList(); });
+    C.el.querySelectorAll('[data-a="clear"]').forEach(b => b.onclick = askClear);
   }
   async function loadFriends() { try { const d = await Friends.list(); C.friends = (d && d.friends) || []; } catch (e) {} }
   function drawList() {
@@ -98,25 +103,45 @@
     // invite: a link that drops the friend straight into the match / room / world I'm in right now
     // (games that can, open an online room first: Mal3abPrepareInvite returns the link, or { link, go })
     C.el.querySelector('#m3inv').onclick = async (e) => {
-      const btn = e.currentTarget, label = btn.textContent; btn.disabled = true; btn.textContent = '⏳ ' + t('chat_preparing');
+      const btn = e.currentTarget, label = btn.textContent; btn.blur();
+      if (btn.disabled || Date.now() - (C.invT || 0) < 8000) return; C.invT = Date.now();
+      btn.disabled = true; btn.textContent = '⏳ ' + t('chat_preparing');
       let r = null; try { if (window.Mal3abPrepareInvite) r = await window.Mal3abPrepareInvite(); } catch (err) { console.warn(err); }
       const link = (typeof r === 'string' && r) || (r && r.link) || (window.Mal3abShareLink && window.Mal3abShareLink()) || location.href;
       const title = document.title.replace(/ — .*$/, '');
       await send(`🎮 ${t('chat_inviteMsg')} — \u2068${title}\u2069\n${link}`, 'invite', { link, title: document.title });
-      btn.disabled = false; btn.textContent = label;
+      btn.textContent = '✓'; setTimeout(() => { btn.disabled = false; btn.textContent = label; }, 3000);
       if (r && typeof r.go === 'function') r.go();   // e.g. move into the new online room
     };
     await fetchNew(); delete C.unread[f.id]; badges(); setTimeout(() => inp.focus(), 50);
+  }
+  // clear the whole conversation (only on my side) and start fresh
+  function askClear() {
+    const f = C.friend, box = C.el && C.el.querySelector('#m3msgs'); if (!f || !box || box.querySelector('.m3cf')) return;
+    box.insertAdjacentHTML('afterbegin', `<div class="m3cf"><span dir="auto">${t('chat_clearQ', { p: esc(f.username) })}</span><div><button class="y">${t('chat_clearYes')}</button><button class="n2">${t('chat_cancel')}</button></div></div>`);
+    box.scrollTop = 0;
+    const cf = box.querySelector('.m3cf');
+    cf.querySelector('.n2').onclick = () => cf.remove();
+    cf.querySelector('.y').onclick = async () => {
+      try { await rpc('chat_clear', { p_friend: f.id }); C.msgs = []; C.lastId = 0; delete C.unread[f.id]; badges(); drawMsgs(); }
+      catch (e) { cf.querySelector('span').textContent = t('chat_err'); }
+    };
   }
   function drawMsgs(append) {
     const box = C.el && C.el.querySelector('#m3msgs'); if (!box) return;
     const html = (m) => {
       const mine = m.from_id === Auth.user.id, time = new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      if (m.kind === 'invite' && m.meta && m.meta.link) return `<div class="msg ${mine ? 'me' : ''}"><div class="inv"><div class="m3t" dir="auto">${linkify(m.body.split('\n')[0])}</div>${mine ? '' : `<button data-go="${esc(m.meta.link)}">${t('chat_join')}</button>`}</div><span class="tm" dir="ltr">${time}</span></div>`;
-      return `<div class="msg ${mine ? 'me' : ''}"><div class="m3t" dir="auto">${linkify(m.body)}</div><span class="tm" dir="ltr">${time}</span></div>`;
+      if (m.kind === 'invite' && m.meta && m.meta.link) return `<div class="m3m ${mine ? 'me' : ''}" data-inv="${esc(m.from_id + '|' + m.meta.link)}"><div class="inv"><div class="m3t" dir="auto">${linkify(m.body.split('\n')[0])}</div>${mine ? '' : `<button data-go="${esc(m.meta.link)}">${t('chat_join')}</button>`}</div><span class="tm" dir="ltr">${time}</span></div>`;
+      return `<div class="m3m ${mine ? 'me' : ''}"><div class="m3t" dir="auto">${linkify(m.body)}</div><span class="tm" dir="ltr">${time}</span></div>`;
     };
-    if (!append) box.innerHTML = C.msgs.length ? C.msgs.map(html).join('') : `<p class="muted" id="m3empty">${t('chat_empty')}</p>`;
-    else { const e = box.querySelector('#m3empty'); if (e) e.remove(); box.insertAdjacentHTML('beforeend', append.map(html).join('')); }
+    const key = (m) => m.kind === 'invite' && m.meta && m.meta.link ? m.from_id + '|' + m.meta.link : null;
+    const latest = (list) => { const seen = new Set(); return list.slice().reverse().filter(m => { const k = key(m); if (!k) return true; if (seen.has(k)) return false; seen.add(k); return true; }).reverse(); };
+    if (!append) { const list = latest(C.msgs); box.innerHTML = list.length ? list.map(html).join('') : `<p class="muted" id="m3empty">${t('chat_empty')}</p>`; }
+    else {
+      const e = box.querySelector('#m3empty'); if (e) e.remove();
+      for (const m of append) { const k = key(m); if (k) box.querySelectorAll('[data-inv]').forEach(el => { if (el.dataset.inv === k) el.remove(); }); }
+      box.insertAdjacentHTML('beforeend', latest(append).map(html).join(''));
+    }
     box.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { location.href = b.dataset.go; });
     box.scrollTop = box.scrollHeight;
   }
@@ -166,6 +191,8 @@
     d.onclick = () => { d.remove(); C.show(f.id); }; document.body.appendChild(d); setTimeout(() => d.remove(), 6000);
   }
   document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('[data-mal3ab-chat]'); if (b) { e.preventDefault(); e.stopPropagation(); C.toggle(); } }, true);
+  document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('#m3chat button'); if (b) setTimeout(() => { if (document.activeElement === b) b.blur(); }, 0); });
+  document.addEventListener('pointerlockchange', () => { const a = document.activeElement; if (document.pointerLockElement && a && C.el && C.el.contains(a)) a.blur(); });
   document.addEventListener('langchange', () => { if (C.open) { C.friend ? openConv(C.friend) : drawList(); } });
   async function start() {
     if (!Auth.token || !Auth.user) return;
