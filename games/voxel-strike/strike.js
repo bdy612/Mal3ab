@@ -26,7 +26,7 @@ addStrings({
   vs_diff: 'المستوى', vs_bots: 'البوتات', vs_play: '▶ العب', vs_create: '➕ اعمل غرفة', vs_join: 'ادخل', vs_code: 'الكود',
   vs_copyLink: '🔗 انسخ اللينك', vs_copied: 'اتنسخ ✓', vs_settings: '⚙ الإعدادات', vs_sens: 'حساسية الماوس', vs_vol: 'الصوت', vs_fov: 'مجال الرؤية',
   vs_back: 'رجوع', vs_resume: '▶ كمّل', vs_leave: 'اخرج من الماتش', vs_paused: 'متوقف',
-  vs_help: 'WASD تتحرك · Shift جري · Space نط · كليك شمال يضرب · كليك يمين نيشان · R حشو · G اضغط مطوّل عشان تنشن القنبلة · 1-5 السلاح · Tab النتيجة',
+  vs_help: 'WASD تتحرك · Shift جري · Space نط · كليك شمال يضرب · كليك يمين نيشان · R حشو · 6 أو العجلة للقنبلة (دوس مطوّل عشان تنشن وسيب ترمي) · G رمية سريعة · Tab النتيجة',
   vs_helpTouch: 'العصاية للحركة · اسحب في الشاشة عشان تبص · 🔥 ضرب · 🎯 نيشان · ⤒ نط · 💣 دوس واسحب صباعك عشان تنشن القنبلة',
   vs_respawn: 'هترجع بعد {n}', vs_killedBy: 'قتلك {p}', vs_wave: 'الموجة', vs_left: 'فاضل', vs_waveClear: 'الموجة خلصت! ✓',
   vs_over: 'انتهى الماتش', vs_gameOver: 'خسرت!', vs_youWin: 'كسبت! 🏆', vs_won: '{p} كسب', vs_reached: 'وصلت للموجة {n}', vs_best: 'أحسن رقم: الموجة {n}',
@@ -42,7 +42,7 @@ addStrings({
   vs_diff: 'Level', vs_bots: 'Bots', vs_play: '▶ Play', vs_create: '➕ Create room', vs_join: 'Join', vs_code: 'Code',
   vs_copyLink: '🔗 Copy link', vs_copied: 'Copied ✓', vs_settings: '⚙ Settings', vs_sens: 'Mouse sensitivity', vs_vol: 'Volume', vs_fov: 'Field of view',
   vs_back: 'Back', vs_resume: '▶ Resume', vs_leave: 'Leave match', vs_paused: 'Paused',
-  vs_help: 'WASD move · Shift sprint · Space jump · Left click shoot · Right click aim · R reload · hold G to aim a grenade · 1-5 weapons · Tab scores',
+  vs_help: 'WASD move · Shift sprint · Space jump · Left click shoot · Right click aim · R reload · 6 or the wheel for the grenade (hold to aim, let go to throw) · G quick throw · Tab scores',
   vs_helpTouch: 'Stick to move · drag the screen to look · 🔥 shoot · 🎯 aim · ⤒ jump · 💣 hold to aim the grenade, let go to throw',
   vs_respawn: 'Back in {n}', vs_killedBy: 'Eliminated by {p}', vs_wave: 'Wave', vs_left: 'left', vs_waveClear: 'Wave cleared! ✓',
   vs_over: 'Match over', vs_gameOver: 'Game over!', vs_youWin: 'You win! 🏆', vs_won: '{p} wins', vs_reached: 'You reached wave {n}', vs_best: 'Best: wave {n}',
@@ -153,6 +153,7 @@ function gunModel(kind) {
   if (kind === 'shotgun') { add(box(0.1, 0.1, 0.72), m, 0, 0, -0.25); add(box(0.08, 0.07, 0.3), wood, 0, -0.08, -0.32); add(box(0.08, 0.12, 0.24), wood, 0, -0.03, 0.2); muzzle = -0.62; }
   if (kind === 'sniper') { add(box(0.07, 0.09, 0.98), m, 0, 0, -0.36); add(box(0.06, 0.07, 0.32), acc, 0, 0.09, -0.12); add(box(0.08, 0.12, 0.26), wood, 0, -0.03, 0.26); muzzle = -0.86; }
   if (kind === 'blocks') { add(box(0.24, 0.24, 0.24), new THREE.MeshLambertMaterial({ map: blockTex(B.PLANK) }), 0, 0.02, -0.12); }
+  if (kind === 'nade') { add(box(0.13, 0.17, 0.13), lam(0x3f5a2a), 0, 0.03, -0.14); add(box(0.06, 0.06, 0.06), lam(0x9aa0a6), 0, 0.14, -0.14); add(box(0.02, 0.1, 0.07), lam(0x9aa0a6), 0.07, 0.06, -0.14); }
   add(box(0.1, 0.1, 0.14), SKIN, 0, -0.1, 0.07);
   const fl = new THREE.Mesh(new THREE.PlaneGeometry(0.22, 0.22), new THREE.MeshBasicMaterial({ color: 0xffd25a, transparent: true, opacity: 0.95, depthWrite: false, side: THREE.DoubleSide }));
   fl.position.set(0, 0.01, muzzle); fl.visible = false; g.add(fl); g.userData.flash = fl;
@@ -195,8 +196,8 @@ const GUNS = {
   shotgun: { dmg: 12, head: 1.4, rate: 0.78, mag: 6, res: 30, reload: 2.1, spread: 0.075, heat: 0, pellets: 9, range: 36, zoom: 1.2, kick: 0.06, auto: false, falloff: [8, 30] },
   sniper: { dmg: 92, head: 2.2, rate: 1.25, mag: 5, res: 25, reload: 2.3, spread: 0.06, ads: 0.0007, heat: 0, pellets: 1, range: 200, zoom: 4, kick: 0.07, auto: false, scope: true }
 };
-const GUN_KEYS = ['pistol', 'rifle', 'shotgun', 'sniper'], SLOTS = ['pistol', 'rifle', 'shotgun', 'sniper', 'blocks'];
-const ICON = { pistol: '🔫', rifle: '🪖', shotgun: '💥', sniper: '🎯', blocks: '🧱', grenade: '💣' };
+const GUN_KEYS = ['pistol', 'rifle', 'shotgun', 'sniper'], SLOTS = ['pistol', 'rifle', 'shotgun', 'sniper', 'blocks', 'nade'];
+const ICON = { pistol: '🔫', rifle: '🪖', shotgun: '💥', sniper: '🎯', blocks: '🧱', nade: '💣', grenade: '💣' };
 for (const k of SLOTS) VM[k] = gunModel(k);
 const LEVELS = {
   easy: { think: 0.55, react: 0.9, turn: 3.5, spread: 3.2, dmg: 0.45, err: 0.15, nade: 0 },
@@ -284,7 +285,7 @@ function muzzlePos(f) {
 }
 const hearVol = (p) => G.me ? clamp(1 - p.distanceTo(G.me.pos) / 75, 0, 1) : 0.5;
 function fire(f) {
-  if (!f.alive) return false;
+  if (!f.alive || f.weapon === 'nade') return false;
   if (f.weapon === 'blocks') return placeBlock(f);
   const g = GUNS[f.weapon];
   if (f.fireCD > 0 || f.reloadT > 0) return false;
@@ -314,17 +315,26 @@ function fire(f) {
     const fl = VM[f.weapon].userData.flash; fl.visible = true; fl.rotation.z = Math.random() * 3; setTimeout(() => fl.visible = false, 45);
     if (G.mode === 'online') send('shot', { id: f.id, w: f.weapon, o: arr(mz), e: ends.slice(0, 9).map(arr) });
     hudAmmo();
-  } else { shotSound(f.weapon, hearVol(f.pos)); burst(mz, 0xffd25a, 2, 1, 0.08, 0.08); }
+  } else {
+    shotSound(f.weapon, hearVol(f.pos)); burst(mz, 0xffd25a, 2, 1, 0.08, 0.08);
+    if (G.mode === 'online' && f.bot && !f.remote) NET.botQ.s.push([f.weapon, arr(mz), ends.slice(0, 3).map(arr)]);
+  }
   return true;
 }
 function hitFighter(shooter, target, dmg, head, w) {
   if (shooter.local) { hitMark(false); head ? sfx.head() : sfx.hit(); }
-  if (G.mode === 'online') { if (shooter.local && target.remote) send('hit', { id: shooter.id, to: target.id, dmg: Math.round(dmg), h: head, w }); return; }
+  if (G.mode === 'online') {
+    if (!sim(shooter)) return;
+    if (!target.remote) { damage(target, dmg, shooter, head, w); return; }          // you or a bot you host
+    if (shooter.bot) NET.botQ.h.push([shooter.id, target.id, Math.round(dmg), head ? 1 : 0, w]);
+    else send('hit', { id: shooter.id, to: target.id, dmg: Math.round(dmg), h: head, w });
+    return;
+  }
   damage(target, dmg, shooter, head, w);
 }
 function hitBlock(f, h, point, d, g) {
   const def = BLOCKS[h.b]; burst(point.clone().addScaledVector(d, -0.05), def.color, 4, 3, 0.07, 0.4);
-  if (G.mode === 'online' && !f.local) return;          // online, every player breaks blocks with their own shots
+  if (G.mode === 'online' && !sim(f)) return;          // online, every player breaks blocks with their own shots
   if (def.hp && G.world.damageBlock(h.x, h.y, h.z, g.dmg >= 60 ? 4 : 1)) {
     burst(new V3(h.x + 0.5, h.y + 0.5, h.z + 0.5), def.color, 14, 5, 0.14, 0.9);
     if (G.mode === 'online') send('blk', { x: h.x, y: h.y, z: h.z, b: 0 });
@@ -342,7 +352,7 @@ function die(t, a, w, head) {
   if (a && a !== t) a.kills++;
   feed(a, t, w, head);
   if (a && a.local && a !== t) { sfx.kill(); hitMark(true); STATS.kills++; saveStats(); }
-  if (G.mode === 'online' && t.local) send('kill', { k: a ? a.id : null, v: t.id, w, h: head });
+  if (G.mode === 'online' && sim(t)) send('kill', { k: a ? a.id : null, v: t.id, w, h: head });
   dropLoot(t);
   t.respawnAt = G.t + 3.5;
   if (t.local) { G.ads = false; G.fireHeld = false; G.nadeAim = false; showDead(a); }
@@ -353,7 +363,7 @@ function startReload(f) {
   f.reloadT = g.reload; if (f.local) { sfx.reload(); G.ads = false; hudAmmo(); }
 }
 function finishReload(f) { const w = f.weapon, g = GUNS[w]; const take = Math.min(g.mag - f.mag[w], f.res[w]); f.mag[w] += take; f.res[w] -= take; if (f.local) hudAmmo(); }
-function switchWeapon(f, k) { if (!f.alive || f.weapon === k) return; f.weapon = k; f.reloadT = 0; f.fireCD = Math.max(f.fireCD, 0.28); if (f.local) { G.ads = false; G.fired = false; hudAll(); } }
+function switchWeapon(f, k) { if (!f.alive || f.weapon === k) return; if (k === 'nade' && f.nades <= 0) { if (f.local) sfx.empty(); return; } if (f.weapon !== 'nade') f.prevWeapon = f.weapon; G.nadeAim = f.local ? false : G.nadeAim; f.weapon = k; f.reloadT = 0; f.fireCD = Math.max(f.fireCD, 0.28); if (f.local) { G.ads = false; G.fired = false; hudAll(); } }
 function placeBlock(f) {
   if (f.fireCD > 0 || f.blocks <= 0) return false;
   const h = G.world.raycast(eye(f), dirOf(f.yaw, f.pitch), 5.5); if (!h) return false;
@@ -398,8 +408,8 @@ function updArc() {
 function throwNade(f) {
   if (f.nades <= 0 || !f.alive) return; f.nades--;
   const { o, v } = nadeStart(f);
-  addNade(f, o, v, true); if (f.local) { hudAmmo(); beep(420, 0.06, 'triangle', 0.1); }
-  if (G.mode === 'online' && f.local) send('nade', { id: f.id, o: arr(o), v: arr(v) });
+  addNade(f, o, v, true); if (f.local) { hudAmmo(); hudSlots(); beep(420, 0.06, 'triangle', 0.1); if (f.nades <= 0 && f.weapon === 'nade') switchWeapon(f, f.prevWeapon || 'rifle'); }
+  if (G.mode === 'online' && sim(f)) send('nade', { id: f.id, o: arr(o), v: arr(v) });
 }
 function addNade(owner, o, v, real) { const m = new THREE.Mesh(box(0.16, 0.2, 0.16), nadeMat); m.position.copy(o); scene.add(m); nades.push({ owner, p: o.clone(), v: v.clone(), t: 2.1, m, real }); }
 function updNades(dt) {
@@ -418,7 +428,7 @@ function boom(p, owner) {
   burst(p, 0xffb347, 26, 9, 0.22, 0.55); burst(p, 0x8a8a8a, 14, 4, 0.16, 0.9); flashSphere(p);
   const dme = G.me ? G.me.pos.distanceTo(p) : 50; shotSound('boom', clamp(1.25 - dme / 60, 0.1, 1)); G.shake = Math.max(G.shake, clamp(1 - dme / 20, 0, 1) * 0.6);
   for (const f of G.fighters) {
-    if (!f.alive || (G.mode === 'online' && !f.local) || (G.mode === 'waves' && owner && owner.bot && f.bot)) continue;
+    if (!f.alive || (G.mode === 'online' && !sim(f)) || (G.mode === 'waves' && owner && owner.bot && f.bot)) continue;
     const c = new V3(f.pos.x, f.pos.y + 0.9, f.pos.z), d = c.distanceTo(p); if (d > 4.6) continue;
     const k = 1 - d / 4.6; let dmg = 125 * k; if (f === owner) dmg *= 0.5;
     f.vel.add(c.clone().sub(p).normalize().multiplyScalar(9 * k)); f.vel.y += 3 * k;
@@ -550,7 +560,7 @@ function animate(f, dt) {
   f.walk += dt * sp * 2.2; const a = Math.sin(f.walk) * Math.min(0.75, sp / 6);
   m.legL.rotation.x = a; m.legR.rotation.x = -a;
   m.armR.rotation.x = Math.PI / 2 + f.pitch; m.armL.rotation.x = Math.PI / 2 + f.pitch - 0.05; m.armL.rotation.z = 0.35; m.head.rotation.x = f.pitch;
-  m.gun.scale.y = f.weapon === 'pistol' ? 0.5 : f.weapon === 'sniper' ? 1.45 : f.weapon === 'shotgun' ? 1.1 : f.weapon === 'blocks' ? 0.35 : 1;
+  m.gun.scale.y = f.weapon === 'pistol' ? 0.5 : f.weapon === 'sniper' ? 1.45 : f.weapon === 'shotgun' ? 1.1 : f.weapon === 'blocks' || f.weapon === 'nade' ? 0.32 : 1;
   m.shirt.emissive.setHex(G.t - f.hurtT < 0.12 ? 0x881111 : 0x000000);
 }
 
@@ -573,7 +583,7 @@ function startGame(mode, opts) {
   if (mode === 'dm') for (let i = 0; i < (G.opts.bots || 5); i++) addBot(G.diff, i);
   for (const f of G.fighters) spawn(f);
   if (mode === 'waves') { G.wave = 0; G.waveBreak = 2.5; banner(t('vs_wave') + ' 1'); }
-  if (mode === 'online') netStart(G.opts.code);
+  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium' } : null);
   G.running = true;
   showScreen(null); $('hud').hidden = false; $('touch').hidden = !touchMode; hudAll(); renderBoard(false);
   lockMouse();
@@ -624,7 +634,7 @@ function update(dt) {
     if (f.remote) { netSmooth(f, dt); }
     else if (f.bot) {
       if (f.alive && !G.over) botUpdate(f, dt);
-      else if (!f.alive && G.mode === 'dm' && !G.over && G.t >= f.respawnAt) spawn(f);
+      else if (!f.alive && (G.mode === 'dm' || G.mode === 'online') && !G.over && G.t >= f.respawnAt) spawn(f);
     }
     if (!f.remote) common(f, dt);
     animate(f, dt);
@@ -642,22 +652,25 @@ function update(dt) {
 // online play (Supabase realtime broadcast). Every player runs their own
 // character; hits are sent to the victim, who decides if they died.
 // ---------------------------------------------------------------------
-const NET = { ch: null, code: '', ready: false, round: 1, peers: new Map(), sendT: 0, synced: false, upT: 0 };
+const NET = { ch: null, code: '', ready: false, round: 1, peers: new Map(), sendT: 0, synced: false, upT: 0, cfg: null, host: false, botsT: -99, botsFrom: null, botSendT: 0, botQ: { s: [], h: [] }, infoT: 0 };
+const wall = () => performance.now() / 1000;                       // real seconds (game time slows down on weak devices)
+const sim = (f) => f.local || (f.bot && !f.remote);                 // this screen runs that fighter (you, or bots when you host them)
+const fighterById = (id) => id && (G.me && id === G.me.id ? G.me : G.fighters.find(f => f.id === id));
 const seedFor = (code, round) => VS.hash('vstrike:' + code + ':' + round);
 function send(ev, p) { if (NET.ch && NET.ready) NET.ch.send({ type: 'broadcast', event: ev, payload: p }); }
-function netStart(code) {
-  NET.code = code; NET.round = 1; NET.peers.clear(); NET.ready = false; NET.synced = false; NET.upT = 0;
+function netStart(code, cfg) {
+  NET.code = code; NET.round = 1; NET.peers.clear(); NET.ready = false; NET.synced = false; NET.upT = 0; NET.cfg = cfg || null; NET.host = false; NET.botsT = -99; NET.startW = wall(); NET.botsFrom = null; NET.botQ = { s: [], h: [] };
   $('waitbox').innerHTML = `<div>${t('vs_waiting')}</div><div class="row center"><b class="big">${code}</b><button class="btn small" id="wLink">${t('vs_copyLink')}</button></div>`;
   $('wLink').onclick = (e) => copy(inviteLink(code), e.target);
   history.replaceState(null, '', location.pathname + '?room=' + code);
   if (!window.sb) { banner(t('vs_connecting')); return; }
   const ch = sb.channel('vstrike-' + code, { config: { broadcast: { self: false, ack: false } } });
-  for (const ev of ['hello', 'st', 'shot', 'hit', 'kill', 'nade', 'boom', 'blk', 'sync', 'bye']) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+  for (const ev of ['hello', 'st', 'shot', 'hit', 'kill', 'nade', 'boom', 'blk', 'sync', 'bye', 'bots', 'cfg']) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
   ch.subscribe((s) => { if (s === 'SUBSCRIBED') { NET.ready = true; send('hello', hello(true)); } });
   NET.ch = ch;
 }
 function netLeave() { if (NET.ch) { send('bye', { id: G.me && G.me.id }); try { sb.removeChannel(NET.ch); } catch (e) {} } NET.ch = null; NET.ready = false; NET.peers.clear(); }
-const hello = (req) => ({ id: G.me.id, n: G.me.name, c: G.me.color, req });
+const hello = (req) => ({ id: G.me.id, n: G.me.name, c: G.me.color, req, cfg: NET.cfg });
 function peer(id, n, c) {
   let f = NET.peers.get(id);
   if (!f) { f = newFighter({ id, remote: true, name: n || '…', color: c != null ? c : COLORS[2] }); f.netT = G.t; f.tp = f.pos.clone(); f.tyaw = 0; NET.peers.set(id, f); feedText(esc(f.name) + ' ' + t('vs_joined')); }
@@ -667,22 +680,24 @@ function dropPeer(f) { if (!f) return; NET.peers.delete(f.id); removeFighter(f);
 function onNet(ev, p) {
   if (!G.running || G.mode !== 'online' || !p) return;
   if (ev === 'hello') {
-    if (p.id === G.me.id) return; peer(p.id, p.n, p.c);
+    if (p.id === G.me.id) return; peer(p.id, p.n, p.c); if (!NET.cfg && p.cfg) NET.cfg = p.cfg;
     if (p.req) {
       send('hello', hello(false));
-      if (NET.upT > 2) send('sync', { to: p.id, round: NET.round, ch: [...G.world.changes].slice(-3000), sc: G.fighters.map(f => [f.id, f.kills, f.deaths]) });
+      if (NET.upT > 2) send('sync', { to: p.id, round: NET.round, cfg: NET.cfg, ch: [...G.world.changes].slice(-3000), sc: G.fighters.map(f => [f.id, f.kills, f.deaths]) });
     }
     return;
   }
   if (ev === 'sync') {
-    if (p.to !== G.me.id || NET.synced) return; NET.synced = true;
+    if (p.to !== G.me.id || NET.synced) return; NET.synced = true; if (p.cfg) NET.cfg = p.cfg;
     if (p.round !== NET.round) { NET.round = p.round; buildWorld(seedFor(NET.code, NET.round)); spawn(G.me); }
     for (const [k, b] of p.ch) { const [x, y, z] = k.split(',').map(Number); G.world.set(x, y, z, b); }
     for (const [id, k, d] of p.sc) { const f = NET.peers.get(id); if (f) { f.kills = k; f.deaths = d; } }
     return;
   }
   if (ev === 'bye') { dropPeer(NET.peers.get(p.id)); return; }
-  const f = NET.peers.get(p.id) || (ev === 'st' ? peer(p.id, p.n, p.c) : null);
+  if (ev === 'cfg') { NET.cfg = p.cfg; return; }
+  if (ev === 'bots') { onBots(p); return; }
+  const f = ev === 'st' ? (NET.peers.get(p.id) || peer(p.id, p.n, p.c)) : fighterById(p.id);
   if (ev === 'st') {
     if (p.r !== NET.round) return;
     f.netT = G.t; f.tp.fromArray(p.p); f.tyaw = p.y; f.pitch = p.pt; f.weapon = p.w; f.hp = p.hp; f.kills = p.k; f.deaths = p.d;
@@ -691,10 +706,10 @@ function onNet(ev, p) {
     if (!p.a && f.alive) { f.alive = false; f.deadT = G.t; }
     return;
   }
-  if (ev === 'hit') { if (p.to === G.me.id) damage(G.me, p.dmg, f, p.h, p.w); return; }
+  if (ev === 'hit') { const tg = fighterById(p.to); if (tg && sim(tg)) damage(tg, p.dmg, f, p.h, p.w); return; }
   if (ev === 'kill') {
-    const v = p.v === G.me.id ? G.me : NET.peers.get(p.v), k = p.k === G.me.id ? G.me : NET.peers.get(p.k);
-    if (v && v !== G.me && v.alive) { v.alive = false; v.deadT = G.t; v.deaths++; }
+    const v = fighterById(p.v), k = fighterById(p.k);
+    if (v && !sim(v) && v.alive) { v.alive = false; v.deadT = G.t; v.deaths++; }
     if (k && k !== v) { k.kills++; if (k === G.me) { sfx.kill(); hitMark(true); STATS.kills++; saveStats(); } }
     if (v !== G.me) feed(k, v, p.w, p.h);
     checkEnd(); return;
@@ -708,6 +723,49 @@ function onNet(ev, p) {
   if (ev === 'nade') { addNade(f, new V3().fromArray(p.o), new V3().fromArray(p.v), false); return; }
   if (ev === 'boom') { const i = nades.findIndex(n => n.owner === f && !n.real); if (i >= 0) { scene.remove(nades[i].m); nades.splice(i, 1); } boom(new V3().fromArray(p.p), f); return; }
   if (ev === 'blk') { const old = G.world.get(p.x, p.y, p.z); G.world.set(p.x, p.y, p.z, p.b); if (!p.b && old) burst(new V3(p.x + 0.5, p.y + 0.5, p.z + 0.5), BLOCKS[old].color, 12, 5, 0.14, 0.9); }
+}
+// one player's screen runs the room's bots and sends where they are 10× a second;
+// if that player leaves, the next one (smallest id) takes them over
+function onBots(p) {
+  if (p.h === G.me.id) return;
+  if (NET.host) {
+    if (p.h < G.me.id) { NET.host = false; for (const b of G.fighters.filter(f => f.bot && !f.remote)) removeFighter(b); }   // someone else already hosts
+    else return;
+  }
+  NET.botsT = wall(); NET.botsFrom = p.h;
+  if (p.r !== NET.round) return;
+  const seen = new Set();
+  for (const a of p.b) {
+    const [id, x, y, z, yw, pt, wi, al, hp, k, d] = a; seen.add(id);
+    let b = G.fighters.find(f => f.id === id);
+    if (!b) { const info = (p.i || []).find(q => q[0] === id); b = newFighter({ id, bot: true, remote: true, name: info ? info[1] : '🤖 Bot', color: info ? info[2] : COLORS[4] }); b.tp = new V3(x, y, z); b.pos.set(x, y, z); b.tyaw = yw; }
+    else if (p.i) { const info = p.i.find(q => q[0] === id); if (info && info[1] !== b.name) { b.name = info[1]; b.model.root.remove(b.tag); b.tag = nameTag(b.name, '#' + b.color.toString(16).padStart(6, '0')); b.model.root.add(b.tag); } }
+    b.tp.set(x, y, z); b.tyaw = yw; b.pitch = pt; b.weapon = SLOTS[wi] || 'rifle'; b.hp = hp; b.kills = k; b.deaths = d;
+    if (al && !b.alive) { b.alive = true; b.pos.set(x, y, z); b.model.root.rotation.set(0, 0, 0); }
+    if (!al && b.alive) { b.alive = false; b.deadT = G.t; }
+  }
+  for (const b of G.fighters.filter(f => f.bot && f.remote && !seen.has(f.id))) removeFighter(b);
+  for (const s of p.s || []) { const o = new V3().fromArray(s[1]); shotSound(s[0], hearVol(o)); burst(o, 0xffd25a, 2, 1, 0.08, 0.08); for (const e of s[2]) { const q = new V3().fromArray(e); tracer(o, q); burst(q, 0xbbbbbb, 2, 2, 0.06, 0.3); } }
+  for (const h of p.hh || []) if (h[1] === G.me.id) damage(G.me, h[2], fighterById(h[0]), !!h[3], h[4]);
+  checkEnd();
+}
+function botHosting(dt) {
+  const want = (NET.cfg && NET.cfg.bots) || 0;
+  // become the host when nobody else is sending bots and you have the smallest id in the room
+  if (!NET.host && want > 0 && wall() - NET.botsT > 3 && wall() - NET.startW > 3 && [...NET.peers.keys()].every(id => id > G.me.id)) {
+    NET.host = true;
+    for (const b of G.fighters.filter(f => f.bot && f.remote)) { b.remote = false; b.ai = {}; b.vel.set(0, 0, 0); b.pos.copy(b.tp || b.pos); refill(b); }
+  }
+  if (!NET.host) return;
+  const mine = G.fighters.filter(f => f.bot && !f.remote);
+  if (mine.length < want) { const b = addBot(NET.cfg.lv || 'medium', mine.length + 3); b.id = 'b' + G.me.id.slice(0, 4) + Math.random().toString(36).slice(2, 6); spawn(b); }
+  else if (mine.length > want) removeFighter(mine[mine.length - 1]);
+  if (wall() < NET.botSendT) return; NET.botSendT = wall() + 0.1;
+  const msg = { h: G.me.id, r: NET.round, b: mine.map(b => [b.id, +b.pos.x.toFixed(2), +b.pos.y.toFixed(2), +b.pos.z.toFixed(2), +b.yaw.toFixed(2), +b.pitch.toFixed(2), Math.max(0, SLOTS.indexOf(b.weapon)), b.alive ? 1 : 0, Math.round(b.hp), b.kills, b.deaths]) };
+  if ((NET.infoT -= 1) <= 0) { NET.infoT = 15; msg.i = mine.map(b => [b.id, b.name, b.color]); }
+  if (NET.botQ.s.length) msg.s = NET.botQ.s.splice(0, 12);
+  if (NET.botQ.h.length) msg.hh = NET.botQ.h.splice(0, 20);
+  send('bots', msg);
 }
 function netSmooth(f, dt) {
   const before = f.pos.clone();
@@ -723,9 +781,12 @@ function netUpdate(dt) {
     send('st', st);
   }
   for (const f of [...NET.peers.values()]) if (G.t - f.netT > 9) dropPeer(f);
+  if (!NET.host && wall() - NET.botsT > 4) for (const b of G.fighters.filter(f => f.bot && f.remote && f.alive)) b.alive = false;   // host gone: hide frozen bots
+  botHosting(dt);
   if (G.over && G.t - G.endT > 8) {                        // everyone starts the next round on their own, same seed
     NET.round++; G.over = false; showScreen(null); $('hud').hidden = false; $('touch').hidden = !touchMode;
     buildWorld(seedFor(NET.code, NET.round)); for (const f of G.fighters) { f.kills = 0; f.deaths = 0; } spawn(G.me);
+    for (const b of G.fighters) if (b.bot && !b.remote) spawn(b);
     for (const f of NET.peers.values()) { f.alive = false; }
     banner(t('vs_firstTo', { n: ONLINE_TARGET })); lockMouse(); hudAll();
   }
@@ -740,14 +801,15 @@ function hudHp() { const me = G.me; if (!me) return; const v = Math.max(0, Math.
 function hudAmmo() {
   const me = G.me; if (!me) return; const w = me.weapon;
   if (w === 'blocks') { $('ammoNum').textContent = '🧱 ' + me.blocks; $('wname').textContent = t('vs_blocks') + ' · 💣 ' + me.nades; return; }
+  if (w === 'nade') { $('ammoNum').textContent = '💣 ' + me.nades; $('wname').textContent = t('vs_grenade'); return; }
   $('ammoNum').textContent = me.mag[w] + ' / ' + (isFinite(me.res[w]) ? me.res[w] : '∞');
   $('wname').textContent = (me.reloadT > 0 ? t('vs_reload') : t('vs_' + w)) + ' · 💣 ' + me.nades;
 }
 function hudSlots() {
   const me = G.me; if (!me) return;
-  $('slots').innerHTML = SLOTS.map((k, i) => `<div class="slot ${me.weapon === k ? 'on' : ''}" data-w="${k}"><b>${ICON[k]}</b>${i + 1}</div>`).join('') + `<div class="slot" data-w="nade"><b>💣</b>${me.nades}</div>`;
+  $('slots').innerHTML = SLOTS.map((k, i) => `<div class="slot ${me.weapon === k ? 'on' : ''} ${k === 'nade' && !me.nades ? 'off' : ''}" data-w="${k}"><b>${ICON[k]}</b>${i + 1}${k === 'nade' ? ' ×' + me.nades : ''}</div>`).join('');
 }
-$('slots').addEventListener('pointerdown', (e) => { const s = e.target.closest('.slot'); if (!s || !G.me) return; e.stopPropagation(); if (s.dataset.w === 'nade') throwNade(G.me); else switchWeapon(G.me, s.dataset.w); });
+$('slots').addEventListener('pointerdown', (e) => { const s = e.target.closest('.slot'); if (!s || !G.me) return; e.stopPropagation(); switchWeapon(G.me, s.dataset.w); });
 function fmtTime(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 let hudT = 0;
 function hudFrame(dt) {
@@ -767,6 +829,14 @@ function hudFrame(dt) {
     $('waitbox').hidden = NET.peers.size > 0 || G.over;
   } else $('waitbox').hidden = true;
   $('top').innerHTML = top;
+  // live standings: who is closest to the target
+  const target = G.mode === 'dm' ? DM_TARGET : G.mode === 'online' ? ONLINE_TARGET : 0, mini = $('mini');
+  mini.hidden = !target || G.over;
+  if (target) {
+    const rank = ranking(); let list = rank.slice(0, 5); if (!list.includes(me)) list = list.slice(0, 4).concat(me);
+    mini.innerHTML = list.map(f => { const i = rank.indexOf(f) + 1, col = '#' + f.color.toString(16).padStart(6, '0');
+      return `<div class="mr ${f === me ? 'me' : ''}"><span class="rk">${i <= 3 ? ['🥇', '🥈', '🥉'][i - 1] : i}</span><i style="background:${col}"></i><span class="nm">${esc(f === me ? t('vs_you') : f.name)}</span><b>${f.kills}</b><span class="bar"><s style="width:${Math.min(100, f.kills / target * 100)}%;background:${col}"></s></span></div>`; }).join('');
+  }
   if (me.reloadT > 0) hudAmmo();
   $('clickHint').hidden = touchMode || locked() || G.paused || G.over || !G.running;
   if (G.boardOpen) renderBoard(true);
@@ -812,16 +882,17 @@ function renderMenu() {
       <div class="card"><div class="ic">🌊</div><h2>${t('vs_waves')}</h2><p>${t('vs_wavesDesc')}${STATS.bestWave ? '<br><b>' + t('vs_best', { n: STATS.bestWave }) + '</b>' : ''}</p>
         <button class="btn" id="goWaves">${t('vs_play')}</button></div>
       <div class="card"><div class="ic">🌐</div><h2>${t('vs_online')}</h2><p>${t('vs_onlineDesc', { n: ONLINE_TARGET })}</p>
+        <div class="row"><label>${t('vs_bots')}</label><select id="onBots">${[0, 1, 2, 3, 5, 7].map(n => `<option ${n === (m.obots || 0) ? 'selected' : ''}>${n}</option>`).join('')}</select>${lv('onLv', m.olv || 'medium')}</div>
         <button class="btn" id="goCreate">${t('vs_create')}</button>
         <div class="row"><input class="code" id="joinCode" maxlength="6" placeholder="${t('vs_code')}"><button class="btn sec" id="goJoin">${t('vs_join')}</button></div>
         <div class="msg" id="mMsg"></div></div>
     </div>
     <div class="help">${touchMode ? t('vs_helpTouch') : t('vs_help')}</div></div>`;
   if (window.applyLang) applyLang();
-  const remember = () => lsSet('vstrike-menu', { diff: $('dmDiff').value, bots: +$('dmBots').value });
+  const remember = () => lsSet('vstrike-menu', { diff: $('dmDiff').value, bots: +$('dmBots').value, obots: +$('onBots').value, olv: $('onLv').value });
   $('goDm').onclick = () => { remember(); startGame('dm', { diff: $('dmDiff').value, bots: +$('dmBots').value }); };
   $('goWaves').onclick = () => startGame('waves', {});
-  $('goCreate').onclick = () => startGame('online', { code: newCode() });
+  $('goCreate').onclick = () => { remember(); startGame('online', { code: newCode(), bots: +$('onBots').value, lv: $('onLv').value }); };
   $('goJoin').onclick = () => { const c = $('joinCode').value.trim().toUpperCase(); if (c.length < 4) { $('mMsg').textContent = t('vs_codeHint'); return; } startGame('online', { code: c }); };
   $('joinCode').onkeydown = (e) => { if (e.key === 'Enter') $('goJoin').click(); };
   $('mSet').onclick = () => openSettings('menu');
@@ -860,12 +931,16 @@ function openPause() {
   if (!G.running || G.over) return;
   G.paused = true; G.fireHeld = false; G.ads = false; for (const k in keys) keys[k] = false; showScreen('pause');
   $('pause').innerHTML = `<div class="panel"><h2>${t('vs_paused')}</h2>
-    ${G.mode === 'online' ? `<div class="row center"><span>${t('vs_room')}: <b class="big">${NET.code}</b></span><button class="btn small sec" id="pLink">${t('vs_copyLink')}</button></div>` : ''}
+    ${G.mode === 'online' ? `<div class="row center"><span>${t('vs_room')}: <b class="big">${NET.code}</b></span><button class="btn small sec" id="pLink">${t('vs_copyLink')}</button></div>
+      <div class="row center"><label>🤖 ${t('vs_bots')}</label><select id="pBots">${[0, 1, 2, 3, 5, 7].map(n => `<option ${n === ((NET.cfg && NET.cfg.bots) || 0) ? 'selected' : ''}>${n}</option>`).join('')}</select>
+      <select id="pLv">${['easy', 'medium', 'hard'].map(k => `<option value="${k}" ${k === ((NET.cfg && NET.cfg.lv) || 'medium') ? 'selected' : ''}>${t('vs_' + k)}</option>`).join('')}</select></div>` : ''}
     <button class="btn" id="pRes">${t('vs_resume')}</button><button class="btn sec" id="pSet">${t('vs_settings')}</button>
     <button class="btn sec" id="pLeave">${t('vs_leave')}</button><button class="btn sec" data-mal3ab-home>🏠</button>
     <div class="help">${touchMode ? t('vs_helpTouch') : t('vs_help')}</div></div>`;
   $('pRes').onclick = resume; $('pSet').onclick = () => openSettings('pause'); $('pLeave').onclick = toMenu;
   if ($('pLink')) $('pLink').onclick = (e) => copy(inviteLink(NET.code), e.target);
+  const setCfg = () => { NET.cfg = { bots: +$('pBots').value, lv: $('pLv').value }; send('cfg', { cfg: NET.cfg }); if (NET.host) for (const b of G.fighters) if (b.bot && !b.remote) b.lv = NET.cfg.lv; };
+  if ($('pBots')) { $('pBots').onchange = setCfg; $('pLv').onchange = setCfg; }
   wireHome();
 }
 function resume() { if (!G.running) return; G.paused = false; showScreen(null); $('touch').hidden = !touchMode; lockMouse(); }
@@ -901,10 +976,13 @@ document.addEventListener('mousemove', (e) => {
 });
 document.addEventListener('mousedown', (e) => {
   if (!locked() || !G.me || G.paused) return; audio();
-  if (e.button === 0) { G.fireHeld = true; G.fired = false; }
+  if (e.button === 0) { if (G.me.weapon === 'nade') { if (G.me.nades > 0 && G.me.alive) G.nadeAim = 'click'; } else { G.fireHeld = true; G.fired = false; } }
   if (e.button === 2 && GUNS[G.me.weapon]) G.ads = true;
 });
-document.addEventListener('mouseup', (e) => { if (e.button === 0) { G.fireHeld = false; G.fired = false; } if (e.button === 2) G.ads = false; });
+document.addEventListener('mouseup', (e) => {
+  if (e.button === 0) { G.fireHeld = false; G.fired = false; if (G.nadeAim === 'click') { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } }
+  if (e.button === 2) G.ads = false;
+});
 document.addEventListener('contextmenu', (e) => { if (G.running) e.preventDefault(); });
 document.addEventListener('wheel', (e) => { if (!locked() || !G.me) return; const i = SLOTS.indexOf(G.me.weapon); switchWeapon(G.me, SLOTS[(i + (e.deltaY > 0 ? 1 : -1) + SLOTS.length) % SLOTS.length]); });
 document.addEventListener('keydown', (e) => {
@@ -915,7 +993,7 @@ document.addEventListener('keydown', (e) => {
   if (!locked() && !touchMode) return;
   keys[e.code] = true;
   const me = G.me; if (!me) return;
-  if (e.code.startsWith('Digit')) { const n = +e.code.slice(5); if (n >= 1 && n <= 5) switchWeapon(me, SLOTS[n - 1]); }
+  if (e.code.startsWith('Digit')) { const n = +e.code.slice(5); if (n >= 1 && n <= SLOTS.length) switchWeapon(me, SLOTS[n - 1]); }
   if (e.code === 'KeyR') startReload(me);
   if (e.code === 'KeyG' && !e.repeat && me.nades > 0 && me.alive) G.nadeAim = true;
   if (e.code === 'KeyQ' && !e.repeat) { const i = SLOTS.indexOf(me.weapon); switchWeapon(me, SLOTS[(i + SLOTS.length - 1) % SLOTS.length]); }
@@ -938,7 +1016,7 @@ addEventListener('blur', () => { for (const k in keys) keys[k] = false; G.fireHe
   const press = (b) => {
     const me = G.me; if (!me || G.paused) return; audio(); b.classList.add('held');
     const k = b.dataset.b;
-    if (k === 'fire') { G.fireHeld = true; G.fired = false; }
+    if (k === 'fire') { if (me.weapon === 'nade') { if (me.nades > 0) G.nadeAim = 'click'; } else { G.fireHeld = true; G.fired = false; } }
     if (k === 'aim') G.ads = !G.ads && !!GUNS[me.weapon];
     if (k === 'jump') TOUCH.jump = true;
     if (k === 'reload') startReload(me);
@@ -947,7 +1025,7 @@ addEventListener('blur', () => { for (const k in keys) keys[k] = false; G.fireHe
     if (k === 'pause') openPause();
     if (k === 'score') renderBoard(!G.boardOpen);
   };
-  const release = (b) => { b.classList.remove('held'); const k = b.dataset.b; if (k === 'fire') { G.fireHeld = false; G.fired = false; } if (k === 'jump') TOUCH.jump = false; if (k === 'nade' && G.nadeAim) { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } };
+  const release = (b) => { b.classList.remove('held'); const k = b.dataset.b; if (k === 'fire') { G.fireHeld = false; G.fired = false; if (G.nadeAim === 'click') { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } } if (k === 'jump') TOUCH.jump = false; if (k === 'nade' && G.nadeAim) { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } };
   T.addEventListener('touchstart', (e) => {
     e.preventDefault();
     for (const tch of e.changedTouches) {
