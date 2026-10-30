@@ -17,8 +17,8 @@
   (async () => {
     try {
       await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      await load(depth + 'shared/i18n.js?v=1793338557');
-      await load(depth + 'shared/net.js?v=1793338557');
+      await load(depth + 'shared/i18n.js?v=1793338910');
+      await load(depth + 'shared/net.js?v=1793338910');
       await Auth.init();
     } catch (e) { return; }
     const name = Auth.name();
@@ -28,6 +28,10 @@
     const label = name ? (GAME === 'cityhall' ? t('mayor') + ': ' : '👤 ') + name : '';
     const onReady = () => {
       if (name && NAME_INPUT) { const inp = document.querySelector(NAME_INPUT); if (inp) { inp.value = name; inp.dispatchEvent(new Event('change')); inp.dispatchEvent(new Event('input')); } }
+      if (GAME === 'turfrush') {                     // same keyboard: the orange painter is you (or "Player 1" with no name)
+        const n1 = document.getElementById('name1');
+        if (n1) { n1.value = name || 'Player 1'; n1.dispatchEvent(new Event('change')); n1.dispatchEvent(new Event('input')); const lab = document.getElementById('n1'); if (lab) lab.textContent = n1.value; }
+      }
       if (GAME === 'cityhall') {                     // top panel: mayor stat after the date, home button after "?"
         const top = document.getElementById('top');
         if (top) {
