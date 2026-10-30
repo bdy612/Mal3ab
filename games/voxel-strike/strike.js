@@ -801,7 +801,7 @@ function renderMenu() {
   $('goJoin').onclick = () => { const c = $('joinCode').value.trim().toUpperCase(); if (c.length < 4) { $('mMsg').textContent = t('vs_codeHint'); return; } startGame('online', { code: c }); };
   $('joinCode').onkeydown = (e) => { if (e.key === 'Enter') $('goJoin').click(); };
   $('mSet').onclick = () => openSettings('menu');
-  document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../index.html'; });
+  document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 }
 function openSettings(back) {
   showScreen('settings');
@@ -843,7 +843,7 @@ function showEnd() {
   $('eMenu').onclick = toMenu; wireHome();
   if (G.mode === 'online') { const tick = () => { if (!G.over || $('end').hidden) return; const n = $('nextR'); if (n) n.textContent = t('vs_nextRound', { n: Math.max(1, Math.ceil(8 - (G.t - G.endT))) }); setTimeout(tick, 250); }; tick(); }
 }
-function wireHome() { document.querySelectorAll('[data-mal3ab-home]').forEach(h => h.onclick = () => { netLeave(); location.href = '../../index.html'; }); }
+function wireHome() { document.querySelectorAll('[data-mal3ab-home]').forEach(h => h.onclick = () => { netLeave(); location.href = '../../play.html'; }); }
 
 // ---------------------------------------------------------------------
 // mouse + keyboard

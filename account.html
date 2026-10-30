@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Account — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793340755">
+<link rel="stylesheet" href="shared/style.css?v=1793346743">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793340755"></script>
-<script src="shared/net.js?v=1793340755"></script>
+<script src="shared/i18n.js?v=1793346743"></script>
+<script src="shared/net.js?v=1793346743"></script>
 </head>
 <body>
 <div class="topbar">
-  <a class="back" href="index.html" data-i18n="home"></a>
+  <a class="back" href="play.html" data-i18n="home"></a>
   <div class="title" data-i18n="myAccount"></div>
   <div class="room"></div>
   <span id="langslot"></span>
@@ -26,7 +26,7 @@ function draw() {
   document.getElementById('langslot').innerHTML = langButton();
   applyLang();
   const p = Auth.profile;
-  if (!p) { page.innerHTML = `<div class="panel2"><p>${t('loginFirst')}</p><a class="btn" href="index.html">${t('home')}</a></div>`; return; }
+  if (!p) { page.innerHTML = `<div class="panel2"><p>${t('loginFirst')}</p><a class="btn" href="play.html">${t('home')}</a></div>`; return; }
   page.innerHTML = `
     <div class="panel2">
       <h2>${t('picture')}</h2>

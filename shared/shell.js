@@ -32,7 +32,7 @@ window.Shell = {
 
     if (S.mode === 'online') {
       const room = await Net.get(S.code);
-      if (!room) { alert(t('roomMissing')); location.href = '../index.html'; return; }
+      if (!room) { alert(t('roomMissing')); location.href = '../play.html'; return; }
       S.players = room.players;
       S.names = { 1: room.p1_name || '', 2: room.p2_name || '' };
       S.state = room.state && room.state.turn ? room.state : null;
@@ -64,7 +64,7 @@ window.Shell = {
     const bar = document.createElement('div');
     bar.className = 'topbar';
     bar.innerHTML = `
-      <a class="back" href="../index.html">${t('home')}</a>
+      <a class="back" href="../play.html">${t('home')}</a>
       <div class="title">${t(opts.title)}</div>
       <div class="room"></div>
       ${opts.extraButtons || ''}

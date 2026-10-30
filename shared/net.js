@@ -223,7 +223,7 @@
     },
     inviteLink(code) {
       const base = location.href.replace(/games\/.*$/, '').replace(/[^/]*$/, '');
-      return base + 'index.html?join=' + code;
+      return base + 'play.html?join=' + code;
     }
   };
 })();

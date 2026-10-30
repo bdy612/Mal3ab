@@ -13,7 +13,7 @@
       navigator.clipboard.writeText(base + '?join=' + code).then(() => { const o = b.textContent; b.textContent = '✓'; setTimeout(() => b.textContent = o, 1200); });
     };
     row.appendChild(b);
-    const homeBtn = () => { const h = document.createElement('button'); h.className = 'mini'; h.type = 'button'; h.textContent = '🏠 ' + (AR() ? 'الرئيسية' : 'Home'); h.onclick = () => location.href = '../index.html'; return h; };
+    const homeBtn = () => { const h = document.createElement('button'); h.className = 'mini'; h.type = 'button'; h.textContent = '🏠 ' + (AR() ? 'الرئيسية' : 'Home'); h.onclick = () => location.href = '../play.html'; return h; };
     row.appendChild(homeBtn());                                                     // Play online
     const localRow = $('startBtn') && $('startBtn').parentElement; if (localRow) localRow.appendChild(homeBtn());   // Same keyboard, next to "Start match"
   }

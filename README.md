@@ -1,5 +1,8 @@
 # ملعب (Mal3ab) — multiplayer mini games
 
+- `index.html` is the landing page: open the web version (`play.html`, the games hub), download the Android app (`downloads/Mal3ab.apk`) or the Windows app (`downloads/Mal3ab.exe`). Old invite links (`index.html?join=…`) and the apps jump straight to `play.html`.
+- The apps open the live site, so website updates reach them without a new download. Sources and build steps: `apps/` (see `apps/README.md`).
+
 Live: https://bdy612.github.io/Mal3ab/
 
 ## Games

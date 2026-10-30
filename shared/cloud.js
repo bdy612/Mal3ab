@@ -17,15 +17,15 @@
   (async () => {
     try {
       if (!window.supabase) await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      if (!window.t) await load(depth + 'shared/i18n.js?v=1793340755');
-      if (!window.Auth) await load(depth + 'shared/net.js?v=1793340755');
+      if (!window.t) await load(depth + 'shared/i18n.js?v=1793346743');
+      if (!window.Auth) await load(depth + 'shared/net.js?v=1793346743');
       await Auth.init();
     } catch (e) { window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready')); return; }
     window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready'));   // games that wait for the account
     const name = Auth.name();
 
     // Mal3ab controls placed INSIDE each game's own UI (no bar, no overlays)
-    const homeHref = depth + 'index.html';
+    const homeHref = depth + 'play.html';
     const label = name ? (GAME === 'cityhall' ? t('mayor') + ': ' : '👤 ') + name : '';
     const onReady = () => {
       if (name && NAME_INPUT) { const inp = document.querySelector(NAME_INPUT); if (inp) { inp.value = name; inp.dispatchEvent(new Event('change')); inp.dispatchEvent(new Event('input')); } }

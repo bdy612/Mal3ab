@@ -4,244 +4,109 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793340755">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793340755"></script>
-<script src="shared/net.js?v=1793340755"></script>
+<meta name="description" content="Mal3ab — multiplayer games: chess, Connect 4, X-O, Turf Rush, Pitch Legends, City Hall, Voxel Sandbox, Voxel Strike, Brick Builder. Play on the web or install the Android / Windows app.">
+<link rel="icon" href="icon.png">
+<script>
+  // old invite links (index.html?join=CODE …) and the apps go straight to the games
+  if (/[?&](join|code|room)=/.test(location.search) || /Mal3abApp/.test(navigator.userAgent)) location.replace('play.html' + location.search);
+</script>
+<link rel="stylesheet" href="shared/style.css?v=1793346743">
+<script src="shared/i18n.js?v=1793346743"></script>
+<style>
+  body { background: radial-gradient(ellipse at 50% -10%, #2a3366 0%, var(--bg) 60%); min-height: 100vh; }
+  .land { max-width: 1040px; margin: 0 auto; padding: 18px 18px 50px; display: flex; flex-direction: column; gap: 26px; }
+  .nav { display: flex; align-items: center; gap: 10px; }
+  .nav .logo { font-size: 26px; font-weight: 900; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+  .nav .logo img { width: 38px; height: 38px; border-radius: 10px; }
+  .nav .sp { flex: 1; }
+  .hero { text-align: center; padding: 26px 0 6px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .hero h1 { margin: 0; font-size: clamp(36px, 7vw, 64px); line-height: 1.05; }
+  .hero h1 b { color: var(--accent); }
+  .hero p { margin: 0; color: var(--muted); font-size: clamp(16px, 2.2vw, 20px); max-width: 640px; }
+  .ways { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
+  .way { background: var(--card); border: 2px solid transparent; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+  .way.best { border-color: var(--accent); box-shadow: 0 10px 40px rgba(255, 183, 3, .12); }
+  .way .tag { position: absolute; top: -12px; inset-inline-end: 16px; background: var(--accent); color: #1a1200; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 20px; display: none; }
+  .way.best .tag { display: block; }
+  .way .ic { font-size: 40px; }
+  .way h2 { margin: 0; font-size: 22px; }
+  .way p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; flex: 1; }
+  .way .btn { text-align: center; font-size: 17px; padding: 13px 18px; }
+  .way small { color: var(--muted); font-size: 12px; line-height: 1.5; }
+  .games { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .chip { color: var(--text); background: var(--card); border-radius: 14px; padding: 9px 14px; display: flex; gap: 8px; align-items: center; font-weight: 600; font-size: 15px; }
+  .chip span { font-size: 20px; }
+  h3.sec { text-align: center; color: var(--muted); font-weight: 600; margin: 0; font-size: 16px; }
+  .foot { text-align: center; color: var(--muted); font-size: 13px; }
+  .ar .hero, .ar .way, .ar .foot, .ar h3.sec { direction: rtl; }
+</style>
 </head>
 <body>
-<div class="topbar">
-  <div class="title">🎮 <span data-i18n="app"></span></div>
-  <div class="room" id="who"></div>
-  <button class="btn small secondary" onclick="openFriends()" data-i18n="friends"></button>
-  <span id="langslot"></span>
-</div>
-
-<div class="hero">
-  <h1>🎮 <span data-i18n="app"></span></h1>
-  <p data-i18n="tagline"></p>
-</div>
-
-<div class="join">
-  <span data-i18n="haveCode"></span>
-  <input id="code" maxlength="4" placeholder="ABCD">
-  <button class="btn" onclick="joinRoom()" data-i18n="enterRoom"></button>
-</div>
-<div class="msg" id="msg"></div>
-
-<h2 class="section" data-i18n="games"></h2>
-<div class="grid" id="grid"></div>
-
-<div style="text-align:center;padding:30px">
-  <a class="btn secondary" href="history.html" data-i18n="history"></a>
-</div>
-
-<!-- friends panel -->
-<div class="modal" id="fmodal" hidden>
-  <div class="box friends">
-    <h3 data-i18n="friends"></h3>
-    <div id="fbody"></div>
-    <div class="msg" id="fmsg"></div>
-    <button class="btn tiny secondary close" onclick="fmodal.hidden=true">✕</button>
+<div class="land">
+  <div class="nav">
+    <div class="logo"><img src="icon.png" alt=""> <span data-i18n="app"></span></div>
+    <div class="sp"></div>
+    <span id="langslot"></span>
   </div>
-</div>
 
-<!-- account modal -->
-<div class="modal" id="modal" hidden>
-  <div class="box">
-    <div class="tabs">
-      <button class="tab active" onclick="tab('login')" data-i18n="login"></button>
-      <button class="tab" onclick="tab('signup')" data-i18n="signup"></button>
+  <div class="hero">
+    <h1 id="h1"></h1>
+    <p data-i18n="l_tag"></p>
+  </div>
+
+  <div class="ways">
+    <div class="way" id="w-web">
+      <span class="tag" data-i18n="l_best"></span>
+      <div class="ic">🌐</div><h2 data-i18n="l_web"></h2><p data-i18n="l_webDesc"></p>
+      <a class="btn" href="play.html" data-i18n="l_webBtn"></a>
     </div>
-    <input id="username" class="text" data-i18n-ph="username">
-    <input id="email" class="text" type="email" data-i18n-ph="emailOptional" hidden>
-    <input id="password" class="text" type="password" data-i18n-ph="password">
-    <label class="remember"><input type="checkbox" id="remember"> <span data-i18n="remember"></span></label>
-    <button class="btn" id="submit" onclick="submitAuth()"></button>
-    <div class="msg" id="amsg"></div>
-    <hr>
-    <div class="guest"><span data-i18n="orGuest"></span> <input id="guest" class="text" data-i18n-ph="username"> <button class="btn small secondary" onclick="saveGuest()">OK</button></div>
-    <button class="btn tiny secondary close" onclick="modal.hidden=true">✕</button>
+    <div class="way" id="w-apk">
+      <span class="tag" data-i18n="l_best"></span>
+      <div class="ic">🤖</div><h2 data-i18n="l_apk"></h2><p data-i18n="l_apkDesc"></p>
+      <a class="btn" href="downloads/Mal3ab.apk" download data-i18n="l_apkBtn"></a>
+      <small data-i18n="l_apkNote"></small>
+    </div>
+    <div class="way" id="w-exe">
+      <span class="tag" data-i18n="l_best"></span>
+      <div class="ic">🪟</div><h2 data-i18n="l_exe"></h2><p data-i18n="l_exeDesc"></p>
+      <a class="btn" href="downloads/Mal3ab.exe" download data-i18n="l_exeBtn"></a>
+      <small data-i18n="l_exeNote"></small>
+    </div>
   </div>
+
+  <h3 class="sec" data-i18n="l_games"></h3>
+  <div class="games" id="games"></div>
+  <div class="foot" data-i18n="l_foot"></div>
 </div>
-
 <script>
-const GAMES = [
-  { id: 'chess',     icon: '♞',   key: 'chess', room: true, clock: true, bot: true },
-  { id: 'pitch-legends/index.html', icon: '⚽', key: 'pitch' },
-  { id: 'turf-rush.html',       icon: '🏁', key: 'turfrush', bot: true },
-  { id: 'city-hall/index.html', icon: '🏙️', key: 'cityhall' },
-  { id: 'voxel/index.html',     icon: '🧱', key: 'voxel' },
-  { id: 'voxel-strike/index.html', icon: '🔫', key: 'voxelstrike' },
-  { id: 'brick-builder/index.html', icon: '🏗️', key: 'bricks' },
-  { id: 'connect4',  icon: '🔴🟡', key: 'connect4', room: true, bot: true },
-  { id: 'tictactoe', icon: '❌⭕', key: 'tictactoe', room: true, bot: true },
-];
-const msg = document.getElementById('msg'), modal = document.getElementById('modal');
-let mode = 'login';
-
+addStrings({
+  l_title: 'كل الألعاب في <b>ملعب</b> واحد', l_tag: 'شطرنج، كورة، سباقات، عالم مكعبات، ضرب نار وبناء بالطوب — العب لوحدك أو مع أصحابك أونلاين.',
+  l_best: 'مناسب لجهازك', l_web: 'العب على الموقع', l_webDesc: 'من غير تسطيب — يفتح على طول في المتصفح على أي جهاز.', l_webBtn: '▶ افتح نسخة الويب',
+  l_apk: 'تطبيق أندرويد', l_apkDesc: 'ملعب كتطبيق على موبايلك أو التابلت، بشاشة كاملة ومن غير شريط المتصفح.', l_apkBtn: '⬇ نزّل APK',
+  l_apkNote: 'لو الموبايل سألك، اسمح بالتسطيب من المصدر ده (Install unknown apps).',
+  l_exe: 'برنامج ويندوز', l_exeDesc: 'ملعب كبرنامج على الكمبيوتر في نافذة لوحده — ملف واحد، من غير تسطيب.', l_exeBtn: '⬇ نزّل EXE',
+  l_exeNote: 'لو ظهرت رسالة "Windows protected your PC" دوس More info وبعدين Run anyway.',
+  l_games: 'الألعاب', l_foot: 'التطبيقات بتفتح نفس الموقع، فأي تحديث بيوصلها لوحده من غير ما تنزّلها تاني.'
+}, {
+  l_title: 'Every game in one <b>Mal3ab</b>', l_tag: 'Chess, football, racing, a block world, a shooter and brick building — play alone or online with your friends.',
+  l_best: 'Best for your device', l_web: 'Play on the web', l_webDesc: 'Nothing to install — opens right away in the browser on any device.', l_webBtn: '▶ Open the web version',
+  l_apk: 'Android app', l_apkDesc: 'Mal3ab as an app on your phone or tablet, full screen with no browser bar.', l_apkBtn: '⬇ Download APK',
+  l_apkNote: 'If your phone asks, allow installing from this source (Install unknown apps).',
+  l_exe: 'Windows app', l_exeDesc: 'Mal3ab as a program on your PC in its own window — one file, no installer.', l_exeBtn: '⬇ Download EXE',
+  l_exeNote: 'If "Windows protected your PC" appears, click More info, then Run anyway.',
+  l_games: 'Games', l_foot: 'The apps open the same website, so every update reaches them by itself — no need to download again.'
+});
+const GAMES = [['♞', 'chess'], ['⚽', 'pitch'], ['🏁', 'turfrush'], ['🏙️', 'cityhall'], ['🧱', 'voxel'], ['🔫', 'voxelstrike'], ['🏗️', 'bricks'], ['🔴', 'connect4'], ['❌', 'tictactoe']];
 function draw() {
   document.getElementById('langslot').innerHTML = langButton();
-  document.getElementById('grid').innerHTML = GAMES.map(g => `
-    <div class="card">
-      <div class="icon">${g.icon}</div>
-      <h2>${t(g.key)}</h2>
-      <p>${t(g.key + 'Desc')}</p>
-      ${g.clock ? `<label class="clock">${t('timeControl')}:
-        <select id="tc-${g.id}"><option value="0">${t('noClock')}</option><option value="1">1 ${t('min')}</option><option value="2">2 ${t('min')}</option><option value="3">3 ${t('min')}</option><option value="5">5 ${t('min')}</option><option value="10" selected>10 ${t('min')}</option><option value="15">15 ${t('min')}</option><option value="20">20 ${t('min')}</option><option value="30">30 ${t('min')}</option><option value="45">45 ${t('min')}</option><option value="60">60 ${t('min')}</option><option value="90">90 ${t('min')}</option></select> + <select id="inc-${g.id}" title="${t('increment')}"><option value="0">0 ${t('sec')}</option><option value="1">1 ${t('sec')}</option><option value="2">2 ${t('sec')}</option><option value="3">3 ${t('sec')}</option><option value="5">5 ${t('sec')}</option><option value="10">10 ${t('sec')}</option><option value="15">15 ${t('sec')}</option><option value="20">20 ${t('sec')}</option><option value="30">30 ${t('sec')}</option></select></label>` : ''}
-      <div class="actions">
-        ${g.room ? `<button class="btn" onclick="createRoom('${g.id}', ${!!g.clock})">🌐 ${t('online')}</button>`
-                 : `<a class="btn" href="games/${g.id}">▶ ${t('play')}</a>`}
-      </div>
-      ${g.bot ? `<div class="actions botrow">
-        <select id="lvl-${g.key}" title="${t('vsBot')}"><option value="easy">${t('easy')}</option><option value="medium" selected>${t('medium')}</option><option value="hard">${t('hard')}</option></select>
-        <button class="btn secondary" onclick="playBot('${g.id}', '${g.key}', ${!!g.clock})">🤖 ${t('vsBot')}</button></div>` : ''}
-    </div>`).join('');
-  drawWho();
+  document.getElementById('h1').innerHTML = t('l_title');
+  document.getElementById('games').innerHTML = GAMES.map(([i, k]) => `<a class="chip" href="play.html"><span>${i}</span>${t(k)}</a>`).join('');
   applyLang();
 }
-function drawWho() {
-  const w = document.getElementById('who');
-  if (Auth.profile) {
-    const p = Auth.profile;
-    w.innerHTML = `<a class="me" href="account.html" title="${t('myAccount')}">${avatarHtml(p, 28)} <b>${p.username}</b></a> · ${p.wins} ${t('wins')} · ${p.losses} ${t('losses')} · ${p.draws} ${t('draws')}
-      ${p.is_admin ? `<a class="btn tiny" href="admin.html">${t('admin')}</a>` : ''}
-      <button class="btn tiny secondary" onclick="Auth.signOut()">${t('logout')}</button>`;
-  } else {
-    const g = Auth.name();
-    w.innerHTML = `${g ? '👤 ' + g + ' (' + t('guest') + ')' : ''} <button class="btn small" onclick="openModal()">${t('login')} / ${t('signup')}</button>`;
-  }
-}
-function openModal() { modal.hidden = false; tab('login'); document.getElementById('guest').value = Auth.name(); }
-function tab(m) {
-  mode = m;
-  document.querySelectorAll('.tab').forEach((b, i) => b.classList.toggle('active', (i === 0) === (m === 'login')));
-  document.getElementById('email').hidden = m !== 'signup';
-  document.getElementById('username').placeholder = t(m === 'signup' ? 'username' : 'usernameOrEmail');
-  document.getElementById('submit').textContent = t(m);
-  document.getElementById('amsg').textContent = '';
-}
-async function submitAuth() {
-  const email = document.getElementById('email').value.trim(), pw = document.getElementById('password').value, un = document.getElementById('username').value.trim();
-  const am = document.getElementById('amsg');
-  try {
-    const rem = document.getElementById('remember').checked;
-    if (mode === 'signup') await Auth.signUp(un, pw, email, rem);
-    else await Auth.signIn(un, pw, rem);
-    modal.hidden = true;
-  } catch (e) { am.textContent = e.message; }
-}
-function saveGuest() { Auth.setGuestName(document.getElementById('guest').value.trim()); modal.hidden = true; drawWho(); }
-
-async function ensureName() {
-  if (Auth.name()) return true;
-  const n = prompt(t('username'));
-  if (!n) return false;
-  Auth.setGuestName(n.trim()); drawWho();
-  return true;
-}
-const clockMin = () => { const e = document.getElementById('tc-chess'); return e ? e.value : 10; };
-const clockInc = () => { const e = document.getElementById('inc-chess'); return e ? e.value : 0; };
-function playBot(id, key, clock) {
-  const lvl = document.getElementById('lvl-' + key).value;
-  if (id.endsWith('.html')) { location.href = `games/${id}?bot=${lvl}`; return; }
-  location.href = `games/${id}.html?bot=${lvl}${clock ? '&tc=' + clockMin() + '&inc=' + clockInc() : ''}`;
-}
-async function createRoom(game, clock) {
-  if (!await ensureName()) return;
-  msg.textContent = t('creating');
-  try {
-    const tc = clock ? document.getElementById('tc-' + game).value : '';
-    const code = await Net.create(game, {});
-    location.href = `games/${game}.html?code=${code}&p=1${tc ? '&tc=' + tc + '&inc=' + clockInc() : ''}`;
-  } catch (e) { msg.textContent = e.message; }
-}
-async function joinRoom(code) {
-  code = code || document.getElementById('code').value;
-  if (code.length < 4) { msg.textContent = t('codeHint'); return; }
-  if (!await ensureName()) return;
-  msg.textContent = t('joining');
-  try {
-    const room = await Net.join(code);
-    location.href = `games/${room.game}.html?code=${room.code}&p=2`;
-  } catch (e) { msg.textContent = e.message; }
-}
-// ---------- friends + fast connect ----------
-const fmodal = document.getElementById('fmodal');
-const FAST = ['chess', 'pitch', 'connect4', 'tictactoe', 'turfrush', 'voxel', 'voxelstrike'];
-let fTimer = null, waiting = null;
-function openFriends() { fmodal.hidden = false; drawFriends(); clearInterval(fTimer); fTimer = setInterval(() => { if (!fmodal.hidden && !waiting) drawFriends(); else if (fmodal.hidden) clearInterval(fTimer); }, 10000); }
-async function drawFriends() {
-  const b = document.getElementById('fbody'), m = document.getElementById('fmsg');
-  if (!Auth.user) { b.innerHTML = `<p class="hint">${t('loginForFriends')}</p><button class="btn" onclick="fmodal.hidden=true;openModal()">${t('login')}</button>`; return; }
-  if (waiting) { b.innerHTML = `<p class="waiting">${t('waitingFor', { p: waiting.name })}</p><button class="btn secondary small" onclick="cancelWait()">${t('decline')}</button>`; return; }
-  let d; try { d = await Friends.list(); } catch (e) { m.textContent = e.message; return; }
-  const opts = FAST.map(g => `<option value="${g}">${t(g)}</option>`).join('');
-  b.innerHTML = `
-    <div class="frow add"><input id="fname" class="text" placeholder="${t('addFriend')}"><button class="btn small" onclick="addFriend()">${t('send')}</button></div>
-    ${d.incoming.length ? `<h4>${t('requests')}</h4>` + d.incoming.map(r => `<div class="frow"><span>👤 ${r.username}</span>
-        <button class="btn tiny" onclick="respondFriend(${r.req_id}, true)">✅ ${t('accept')}</button><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('') : ''}
-    ${d.outgoing.map(r => `<div class="frow muted"><span>👤 ${r.username} · ${t('sent')}…</span><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('')}
-    ${d.friends.length ? d.friends.map(f => `<div class="frow"><span><i class="fdot ${f.online ? 'on' : ''}"></i> ${f.username} <small>${f.online ? t('isOnline') : t('isOffline')}</small></span>
-        ${f.online ? `<select id="g-${f.id}">${opts}</select><button class="btn tiny" onclick="fastConnect('${f.id}', '${f.username.replace(/'/g, '')}')">${t('fastConnect')}</button>` : ''}
-        <button class="btn tiny secondary" title="${t('remove')}" onclick="removeFriend('${f.id}')">🗑</button></div>`).join('') : `<p class="hint">${t('noFriends')}</p>`}`;
-}
-async function addFriend() { const m = document.getElementById('fmsg'); try { await Friends.request(document.getElementById('fname').value); m.textContent = t('sent') + ' ✅'; drawFriends(); } catch (e) { m.textContent = e.message; } }
-async function respondFriend(id, ok) { try { await Friends.respond(id, ok); } catch (e) {} drawFriends(); }
-async function removeFriend(id) { try { await Friends.remove(id); } catch (e) {} drawFriends(); }
-const randTurf = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
-async function voxelData() {
-  const saves = await Auth.loadSaves('voxel');
-  const parse = (v) => typeof v === 'string' ? JSON.parse(v) : v;
-  let worlds = saves['voxel-worlds'], profile = saves['voxel-profile'];
-  try { if (!worlds) worlds = JSON.parse(localStorage.getItem('voxel-worlds') || 'null'); if (!profile) profile = JSON.parse(localStorage.getItem('voxel-profile') || 'null'); } catch (e) {}
-  return { worlds: parse(worlds) || [], code: profile && parse(profile).code };
-}
-async function fastConnect(id, name) {
-  const game = document.getElementById('g-' + id).value, m = document.getElementById('fmsg');
-  try {
-    let voxel = null;
-    if (game === 'voxel') {
-      const vd = await voxelData();
-      if (!vd.code || !vd.worlds.length) { m.textContent = t('voxelFirst'); return; }
-      const b = document.getElementById('fbody');
-      const chosen = await new Promise(res => {
-        b.innerHTML = `<h4>${t('pickWorld')}</h4>` + vd.worlds.map(w => `<div class="frow"><span>🧱 ${w.name} <small>${w.mode || ''}</small></span><button class="btn tiny" data-w="${w.id}">${t('fastConnect')}</button></div>`).join('') +
-          `<button class="btn secondary small" id="w-cancel">${t('decline')}</button>`;
-        b.querySelectorAll('button[data-w]').forEach(x => x.onclick = () => res(x.dataset.w));
-        b.querySelector('#w-cancel').onclick = () => res(null);
-      });
-      if (!chosen) { drawFriends(); return; }
-      voxel = { world: chosen, myCode: vd.code, friendCode: await Friends.voxelCodeOf(id) };
-    }
-    const code = game === 'turfrush' ? randTurf() : game === 'pitch' ? randTurf() + 'P' : game === 'voxelstrike' ? randTurf() + 'S' : game === 'voxel' ? voxel.myCode : await Net.create(game, {});
-    const invId = await Friends.invite(id, game, code);
-    waiting = { id: invId, name, game, code }; drawFriends();
-    const poll = setInterval(async () => {
-      if (!waiting) { clearInterval(poll); return; }
-      const st = await Friends.inviteStatus(waiting.id);
-      if (st === 'accepted') {
-        clearInterval(poll);
-        if (game === 'pitch') location.href = `games/pitch-legends/index.html?pvp=${code}&role=host`;
-        else if (game === 'voxel') location.href = `games/voxel/index.html?world=${encodeURIComponent(voxel.world)}&friend=${encodeURIComponent(voxel.friendCode || '')}&fname=${encodeURIComponent(name)}`;
-        else location.href = Invites.gameUrl(game, code, 1) + (game === 'chess' ? '&tc=' + clockMin() + '&inc=' + clockInc() : '');
-      }
-      else if (st === 'declined') { clearInterval(poll); m.textContent = t('declined', { p: name }); waiting = null; drawFriends(); }
-    }, 2500);
-  } catch (e) { m.textContent = e.message; }
-}
-function cancelWait() { waiting = null; drawFriends(); }
-
-document.getElementById('code').addEventListener('keydown', e => { if (e.key === 'Enter') joinRoom(); });
+const ua = navigator.userAgent, best = /Android/i.test(ua) ? 'w-apk' : /Windows/i.test(ua) ? 'w-exe' : 'w-web';
+document.getElementById(best).classList.add('best');
 document.addEventListener('langchange', draw);
-document.addEventListener('authchange', drawWho);
-
-(async () => {
-  await Auth.init();
-  draw();
-  const join = new URLSearchParams(location.search).get('join');
-  if (join) { document.getElementById('code').value = join.toUpperCase(); joinRoom(join); }
-})();
+document.addEventListener('DOMContentLoaded', draw);
 </script>
 </body>
 </html>
