@@ -21,3 +21,19 @@ Go + github.com/jchv/go-webview2 (uses the Edge WebView2 runtime built into Wind
 go install github.com/tc-hib/go-winres@v0.3.3 && go-winres make --arch amd64
 GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "-H windowsgui -s -w" -o Mal3ab.exe .
 ```
+
+## Versions and the Update button (since 1.0)
+
+- Each app reports its own version to the site: Android through `Mal3abNative.version()` (JavaScript bridge),
+  Windows through `window.MAL3AB_APP` (injected before every page). The first builds only had `Mal3abApp/1.0`
+  in the user agent and no updater.
+- The latest release lives in the database: `app_config` row `release` →
+  `{ latest, apk, exe, notes_ar, notes_en }`. The files are in the public storage bucket `apps`
+  (`Mal3ab-<version>.apk` / `.exe`).
+- An app older than `latest` cannot create, join or accept anything online (`Mal3abVersion.gate()` in
+  `shared/net.js`), and is disconnected if a new release comes out while it is open.
+- **Update** (hub top bar, only inside the apps): Android downloads the APK with the system download manager and
+  opens the installer; Windows downloads the new exe, swaps it in place of the running one (`.old` is cleaned up
+  on the next start) and restarts. If that fails, the plain download link opens instead.
+- Releasing a new version: bump `VERSION` in `MainActivity.java` + `versionCode`/`versionName` in the manifest, and
+  `version` in `main.go`; build both, upload them to the `apps` bucket, then update the `release` row.

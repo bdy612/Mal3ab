@@ -4,16 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793352762">
+<link rel="stylesheet" href="shared/style.css?v=1793353723">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793352762"></script>
-<script src="shared/net.js?v=1793352762"></script>
+<script src="shared/i18n.js?v=1793353723"></script>
+<script src="shared/net.js?v=1793353723"></script>
 </head>
 <body>
 <div class="topbar">
   <div class="title">🎮 <span data-i18n="app"></span> <span class="ver" data-ver>v1.0</span></div>
   <div class="room" id="who"></div>
   <button class="btn small secondary" onclick="openFriends()" data-i18n="friends"></button>
+  <button class="btn small secondary" data-mal3ab-chat title="Chat">💬</button>
+  <button class="btn small" id="updBtn" hidden></button>
   <span id="langslot"></span>
 </div>
 
@@ -80,10 +82,24 @@ const GAMES = [
 const msg = document.getElementById('msg'), modal = document.getElementById('modal');
 let mode = 'login';
 
+// ❤️ favourite games are pinned first (saved on this device and on the account, so the apps show them too)
+let FAVS = []; try { FAVS = JSON.parse(localStorage.getItem('mal3ab-favs') || '[]'); } catch (e) {}
+function toggleFav(key) {
+  FAVS = FAVS.includes(key) ? FAVS.filter(k => k !== key) : [key, ...FAVS];
+  try { localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); } catch (e) {}
+  if (Auth.token) Auth.saveGame('hub', 'mal3ab-favs', FAVS).catch(() => {});
+  draw();
+}
+async function loadFavs() {
+  if (!Auth.token) return;
+  try { const sv = await Auth.loadSaves('hub'); if (Array.isArray(sv['mal3ab-favs'])) { FAVS = sv['mal3ab-favs']; localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); draw(); } } catch (e) {}
+}
 function draw() {
   document.getElementById('langslot').innerHTML = langButton();
-  document.getElementById('grid').innerHTML = GAMES.map(g => `
-    <div class="card">
+  const list = [...GAMES].sort((a, b) => { const fa = FAVS.indexOf(a.key), fb = FAVS.indexOf(b.key); return (fa < 0 ? 99 : fa) - (fb < 0 ? 99 : fb); });
+  document.getElementById('grid').innerHTML = list.map(g => `
+    <div class="card ${FAVS.includes(g.key) ? 'fav' : ''}">
+      <button class="heart" onclick="toggleFav('${g.key}')" title="${t(FAVS.includes(g.key) ? 'unpin' : 'pin')}" aria-label="${t(FAVS.includes(g.key) ? 'unpin' : 'pin')}">${FAVS.includes(g.key) ? '❤️' : '🤍'}</button>
       <div class="icon">${g.icon}</div>
       <h2>${t(g.key)}</h2>
       <p>${t(g.key + 'Desc')}</p>
@@ -234,13 +250,28 @@ function cancelWait() { waiting = null; drawFriends(); }
 
 document.getElementById('code').addEventListener('keydown', e => { if (e.key === 'Enter') joinRoom(); });
 document.addEventListener('langchange', draw);
-document.addEventListener('authchange', drawWho);
+document.addEventListener('authchange', () => { drawWho(); loadFavs(); });
 
 (async () => {
   await Auth.init();
-  draw();
+  draw(); loadFavs();
   const join = new URLSearchParams(location.search).get('join');
   if (join) { document.getElementById('code').value = join.toUpperCase(); joinRoom(join); }
+})();
+</script>
+<script>
+// apps: an Update button (downloads and installs the new app by itself) and the app's own version next to the title
+(function () {
+  const V = window.Mal3abVersion, b = document.getElementById('updBtn'); if (!V || !b) return;
+  const draw = () => {
+    document.querySelectorAll('[data-ver]').forEach(e => e.textContent = 'v' + V.current());
+    if (!V.app) return;
+    b.hidden = false; b.textContent = t('ver_btn'); b.classList.toggle('secondary', !V.outdated() && !V.legacy);
+    b.style.boxShadow = V.outdated() || V.legacy ? '0 0 0 3px #ff5d73' : '';
+  };
+  b.onclick = () => V.blocked();
+  V.ready.then(() => { draw(); if (V.outdated()) V.blocked(); });
+  document.addEventListener('langchange', draw); draw();
 })();
 </script>
 </body>

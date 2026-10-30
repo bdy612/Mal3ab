@@ -811,7 +811,7 @@ function leaveRoom(quiet) {
 const inviteLink = (code) => location.href.split('?')[0].split('#')[0] + '?room=' + code;
 const newCode = () => { const A = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 4; i++) s += A[Math.floor(Math.random() * A.length)]; return s; };
 function copyText(text, btn) { const done = () => { const o = btn.textContent; btn.textContent = t('bb_copied'); setTimeout(() => btn.textContent = o, 1200); }; if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else done(); }
-async function canGoOnline() { return !window.Mal3abVersion || await Mal3abVersion.gate(); }
+async function canGoOnline() { return !window.Mal3abVersion || await Mal3abVersion.ok(); }
 function openOnline() {
   if (FLY.locked) document.exitPointerLock();
   $('modal').hidden = false;

@@ -1,7 +1,15 @@
 package com.mal3ab.app;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Environment;
+import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +25,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 // Mal3ab for Android: the website, full screen, with saved logins and picture uploads.
+// The page can ask for an update: the new APK is downloaded and the installer opens by itself.
 public class MainActivity extends Activity {
+    static final String VERSION = "1.0";
     static final String HOME = "https://bdy612.github.io/Mal3ab/play.html";
     static final String OFFLINE = "<!doctype html><html><head><meta name='viewport' content='width=device-width,initial-scale=1'>"
         + "<style>body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#0f1220;color:#eef0ff;font-family:sans-serif;text-align:center;padding:20px}"
@@ -27,6 +37,8 @@ public class MainActivity extends Activity {
     static final int PICK_FILE = 7;
     WebView web;
     ValueCallback<Uri[]> fileCallback;
+    long downloadId = -1;
+    DoneReceiver done;
 
     @Override
     protected void onCreate(Bundle saved) {
@@ -45,11 +57,16 @@ public class MainActivity extends Activity {
         s.setBuiltInZoomControls(false);
         s.setDisplayZoomControls(false);
         s.setCacheMode(WebSettings.LOAD_DEFAULT);
-        s.setUserAgentString(s.getUserAgentString() + " Mal3abApp/1.0");
+        s.setUserAgentString(s.getUserAgentString() + " Mal3abApp/" + VERSION);
         CookieManager.getInstance().setAcceptCookie(true);
 
         web.setWebViewClient(new Client());
         web.setWebChromeClient(new Chrome(this));
+        web.addJavascriptInterface(new Bridge(this), "Mal3abNative");
+
+        done = new DoneReceiver(this);
+        IntentFilter f = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        if (Build.VERSION.SDK_INT >= 33) registerReceiver(done, f, Context.RECEIVER_EXPORTED); else registerReceiver(done, f);
 
         if (saved != null) web.restoreState(saved);
         else web.loadUrl(urlFrom(getIntent()));
@@ -83,6 +100,66 @@ public class MainActivity extends Activity {
             fileCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(res, data));
             fileCallback = null;
         } else super.onActivityResult(req, res, data);
+    }
+
+    @Override
+    protected void onDestroy() { try { unregisterReceiver(done); } catch (Exception e) { } super.onDestroy(); }
+
+    // download the new APK with the system download manager (progress shows in the notifications)
+    void startUpdate(String url) {
+        try {
+            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
+            r.setTitle("Mal3ab");
+            r.setDescription("Update / تحديث");
+            r.setMimeType("application/vnd.android.package-archive");
+            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            r.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, "Mal3ab-update-" + System.currentTimeMillis() + ".apk");
+            downloadId = dm.enqueue(r);
+            Toast.makeText(this, "⬇ Mal3ab…", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception e2) { }
+        }
+    }
+
+    // the download finished: open the installer on it
+    void downloaded(long id) {
+        if (id != downloadId) return;
+        try {
+            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            Uri apk = dm.getUriForDownloadedFile(id);
+            if (apk == null) { Toast.makeText(this, "Update failed / التحديث ما نجحش", Toast.LENGTH_LONG).show(); return; }
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setDataAndType(apk, "application/vnd.android.package-archive");
+            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        } catch (Exception e) { Toast.makeText(this, "Update failed / التحديث ما نجحش", Toast.LENGTH_LONG).show(); }
+    }
+
+    static class DoneReceiver extends BroadcastReceiver {
+        final MainActivity a;
+        DoneReceiver(MainActivity activity) { a = activity; }
+        @Override
+        public void onReceive(Context c, Intent i) { a.downloaded(i.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)); }
+    }
+
+    static class UpdateTask implements Runnable {
+        final MainActivity a; final String url;
+        UpdateTask(MainActivity activity, String u) { a = activity; url = u; }
+        public void run() { a.startUpdate(url); }
+    }
+
+    // what the page can call: Mal3abNative.version() and Mal3abNative.update(url)
+    static class Bridge {
+        final MainActivity a;
+        Bridge(MainActivity activity) { a = activity; }
+        @JavascriptInterface
+        public String version() { return VERSION; }
+        @JavascriptInterface
+        public void update(String url) {
+            if (url == null || !(url.startsWith("https://asycvzvkvukjamwrekwi.supabase.co/storage/") || url.startsWith("https://bdy612.github.io/"))) return;   // only our own downloads
+            a.runOnUiThread(new UpdateTask(a, url));
+        }
     }
 
     @Override

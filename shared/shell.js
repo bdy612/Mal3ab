@@ -68,6 +68,7 @@ window.Shell = {
       <div class="title">${t(opts.title)}</div>
       <div class="room"></div>
       ${opts.extraButtons || ''}
+      <button class="btn small secondary" data-mal3ab-chat title="Chat">💬</button>
       <button class="btn small" onclick="S.reset()">${t('newGame')}</button>
       ${langButton()}`;
     document.body.prepend(bar);
@@ -85,6 +86,7 @@ window.Shell = {
     extra = Shell._extra;
     const S = window.S, st = document.getElementById('status'), room = document.querySelector('.topbar .room');
     if (!st || !S.state) return;
+    window.Mal3abShareLink = () => S.mode === 'online' && S.code ? Net.inviteLink(S.code) : location.href;
     if (S.mode === 'online') {
       room.innerHTML = `${t('roomCode')}: <b>${S.code}</b>
         <button class="btn tiny" onclick="Shell.copy('${S.code}', this)">${t('copy')}</button>

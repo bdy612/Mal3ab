@@ -27,8 +27,8 @@
   (async () => {
     try {
       if (!window.supabase) await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      if (!window.t) await load(depth + 'shared/i18n.js?v=1793352762');
-      if (!window.Auth) await load(depth + 'shared/net.js?v=1793352762');
+      if (!window.t) await load(depth + 'shared/i18n.js?v=1793353723');
+      if (!window.Auth) await load(depth + 'shared/net.js?v=1793353723');
       await Auth.init();
     } catch (e) { window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready')); return; }
     window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready'));   // games that wait for the account
@@ -49,18 +49,21 @@
         if (top) {
           if (label) { const st = document.createElement('div'); st.className = 'stat'; st.innerHTML = `<b>${name}</b><span>${t('mayor')}</span>`; top.insertBefore(st, document.getElementById('spd0')); }
           const h = document.createElement('button'); h.textContent = '🏠'; h.title = t('home'); h.onclick = () => location.href = homeHref; top.appendChild(h);
+          const c = document.createElement('button'); c.textContent = '💬'; c.title = 'Chat'; c.setAttribute('data-mal3ab-chat', ''); top.appendChild(c);
         }
       } else if (GAME === 'turfrush') {              // footer controls row
         const ctrl = document.querySelector('.ctrl');
         if (ctrl) {
           if (label) { const n = document.createElement('span'); n.className = 'mini mal3ab-name'; n.textContent = label; ctrl.prepend(n); }
           const h = document.createElement('button'); h.className = 'mini'; h.type = 'button'; h.textContent = '🏠 ' + t('home').replace('← ', ''); h.onclick = () => location.href = homeHref; ctrl.appendChild(h);
+          const c = document.createElement('button'); c.className = 'mini'; c.type = 'button'; c.textContent = '💬'; c.title = 'Chat'; c.setAttribute('data-mal3ab-chat', ''); ctrl.appendChild(c);
         }
       } else if (GAME === 'pitch') {                 // wallet pills next to tokens / shards
         const w = document.querySelector('.wallet');
         if (w) {
           if (label) { const n = document.createElement('span'); n.className = 'pill'; n.textContent = label; w.appendChild(n); }
           const h = document.createElement('a'); h.className = 'pill mal3ab-home'; h.href = homeHref; h.textContent = '🏠'; h.title = t('home'); w.appendChild(h);
+          const c = document.createElement('a'); c.className = 'pill mal3ab-home'; c.href = '#'; c.textContent = '💬'; c.title = 'Chat'; c.setAttribute('data-mal3ab-chat', ''); w.appendChild(c);
         }
       } else if (GAME === 'voxel') {                 // account name becomes the Voxel profile name; home bubble bottom-left
         try {   // profile name = account name; the game reads it at start-up, so set it and reload once
@@ -70,8 +73,23 @@
           }
         } catch (e) {}
         const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
-        box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>`;
+        box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a><a class="bubble" href="#" title="Chat" data-mal3ab-chat>💬</a>`;
         document.body.appendChild(box);
+        // "invite to this game" in the chat: a link that joins the world I am hosting right now
+        window.Mal3abShareLink = () => {
+          const base = location.href.split('?')[0];
+          if (typeof game !== 'undefined' && game.state === 'playing' && game.meta && !game.meta.remote && typeof PROFILE !== 'undefined' && PROFILE.code)
+            return base + '?joinFriend=' + encodeURIComponent(PROFILE.code) + '&fname=' + encodeURIComponent(PROFILE.name || name || '');
+          return base;
+        };
+        // old app: no online play — joining a friend, letting friends in, or swapping codes
+        if (window.Mal3abVersion && typeof friends !== 'undefined' && typeof net !== 'undefined') {
+          const V = window.Mal3abVersion, oj = friends.join.bind(friends), oa = friends.admit.bind(friends), oh = net.hostInvite.bind(net), on = net.join.bind(net);
+          friends.join = (f) => V.gate() ? oj(f) : t('ver_short');
+          friends.admit = (c, md) => { if (V.outdated()) { try { c.close(); } catch (e) {} return; } return oa(c, md); };
+          net.hostInvite = async () => { if (!V.gate()) throw new Error(t('ver_short')); return oh(); };
+          net.join = async (code) => { if (!V.gate()) throw new Error(t('ver_short')); return on(code); };
+        }
         // Mal3ab friends are Voxel Sandbox friends too (using each friend's Voxel friend code from their cloud save)
         const syncFriends = async () => {
           if (!Auth.token || typeof friends === 'undefined' || !friends.add || !window.Friends) return;
@@ -91,7 +109,7 @@
         document.querySelectorAll('[data-mal3ab-home]').forEach(h => { h.onclick = (e) => { e.preventDefault(); location.href = homeHref; }; });
       } else {                                       // any other game: small round bubbles in the bottom-left corner
         const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
-        box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>${label ? `<span class="bubble name">${label}</span>` : ''}`;
+        box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a><a class="bubble" href="#" title="Chat" data-mal3ab-chat>💬</a>${label ? `<span class="bubble name">${label}</span>` : ''}`;
         document.body.appendChild(box);
       }
     };

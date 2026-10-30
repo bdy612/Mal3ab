@@ -3,6 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const AR = () => (window.getLang ? getLang() : 'ar') === 'ar';
   const base = location.href.split('?')[0];
+  window.Mal3abShareLink = () => { const c = $('code') && $('code').value.trim().toUpperCase(); return c ? base + '?join=' + c : base; };   // chat: "invite to this game"
   const row = $('newCodeBtn') && $('newCodeBtn').parentElement;
   if (row) {
     const b = document.createElement('button'); b.className = 'mini'; b.type = 'button';
@@ -19,6 +20,9 @@
     row.appendChild(homeBtn());                                                     // Play online
     const localRow = $('startBtn') && $('startBtn').parentElement; if (localRow) localRow.appendChild(homeBtn());   // Same keyboard, next to "Start match"
   }
+  // old app: no online play (checked before the game's own click handler)
+  if ($('goBtn')) $('goBtn').addEventListener('click', (e) => { if (window.Mal3abVersion && !Mal3abVersion.gate()) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
+  document.addEventListener('mal3ab-outdated', () => { setTimeout(() => { location.href = location.href.split('?')[0]; }, 8000); });
   const join = new URLSearchParams(location.search).get('join');
   if (join) {
     const go = () => { $('tabOnline') && $('tabOnline').click(); $('code').value = join.toUpperCase(); $('goBtn').click(); };

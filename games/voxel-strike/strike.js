@@ -576,6 +576,7 @@ function clearWorld() {
 }
 function buildWorld(seed) { if (G.world) G.world.dispose(scene); G.world = new VS.World(seed); G.world.flush(scene, terrainMat); }
 function startGame(mode, opts) {
+  if (mode === 'online' && window.Mal3abVersion && !Mal3abVersion.gate()) return;   // old app: no online play
   netLeave(); clearWorld();
   G.mode = mode; G.opts = opts || {}; G.over = false; G.t = 0; G.diff = G.opts.diff || 'medium'; G.paused = false; G.ads = false; G.fireHeld = false; G.endT = 0;
   buildWorld(mode === 'online' ? seedFor(G.opts.code, 1) : G.opts.seed != null ? G.opts.seed : (Math.random() * 1e9) | 0);
@@ -777,7 +778,7 @@ function netUpdate(dt) {
   if (NET.sendT <= 0 && G.me) {
     NET.sendT = 1 / 12; const m = G.me;
     const st = { id: m.id, r: NET.round, p: arr(m.pos), y: +m.yaw.toFixed(3), pt: +m.pitch.toFixed(3), w: m.weapon, hp: Math.max(0, Math.round(m.hp)), a: m.alive, k: m.kills, d: m.deaths };
-    if ((NET.nameT = (NET.nameT || 0) - 1) <= 0) { NET.nameT = 24; st.n = m.name; st.c = m.color; }
+    if ((NET.nameT = (NET.nameT || 0) - 1) <= 0 || NET.sentName !== m.name) { NET.nameT = 24; NET.sentName = m.name; st.n = m.name; st.c = m.color; }   // the name goes out at once when it changes
     send('st', st);
   }
   for (const f of [...NET.peers.values()]) if (G.t - f.netT > 9) dropPeer(f);
@@ -874,7 +875,7 @@ function renderMenu() {
   const m = lsGet('vstrike-menu', { diff: 'medium', bots: 5, wdiff: 'medium' });
   $('menu').innerHTML = `<div class="wrap">
     <div class="head"><div><div class="logo"><b>VOXEL</b> <span>STRIKE</span></div><div class="sub">${t('vs_sub')}</div></div><div class="sp"></div>
-      ${window.langButton ? langButton().replace('btn small secondary', 'btn small sec') : ''}<button class="btn small" id="mLb">${t('vs_lb')}</button><button class="btn small sec" id="mSet">${t('vs_settings')}</button><button class="btn small sec" data-mal3ab-home>🏠</button></div>
+      ${window.langButton ? langButton().replace('btn small secondary', 'btn small sec') : ''}<button class="btn small" id="mLb">${t('vs_lb')}</button><button class="btn small sec" id="mSet">${t('vs_settings')}</button><button class="btn small sec" data-mal3ab-chat title="Chat">💬</button><button class="btn small sec" data-mal3ab-home>🏠</button></div>
     <div class="cards">
       <div class="card"><div class="ic">⚔️</div><h2>${t('vs_dm')}</h2><p>${t('vs_dmDesc', { n: DM_TARGET })}</p>
         <div class="row"><label>${t('vs_diff')}</label>${lv('dmDiff', m.diff)}<label>${t('vs_bots')}</label><select id="dmBots">${[3, 5, 7, 9].map(n => `<option ${n === m.bots ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
@@ -935,7 +936,7 @@ function openPause() {
       <div class="row center"><label>🤖 ${t('vs_bots')}</label><select id="pBots">${[0, 1, 2, 3, 5, 7].map(n => `<option ${n === ((NET.cfg && NET.cfg.bots) || 0) ? 'selected' : ''}>${n}</option>`).join('')}</select>
       <select id="pLv">${['easy', 'medium', 'hard'].map(k => `<option value="${k}" ${k === ((NET.cfg && NET.cfg.lv) || 'medium') ? 'selected' : ''}>${t('vs_' + k)}</option>`).join('')}</select></div>` : ''}
     <button class="btn" id="pRes">${t('vs_resume')}</button><button class="btn sec" id="pSet">${t('vs_settings')}</button>
-    <button class="btn sec" id="pLeave">${t('vs_leave')}</button><button class="btn sec" data-mal3ab-home>🏠</button>
+    <button class="btn sec" id="pLeave">${t('vs_leave')}</button><button class="btn sec" data-mal3ab-chat>💬</button><button class="btn sec" data-mal3ab-home>🏠</button>
     <div class="help">${touchMode ? t('vs_helpTouch') : t('vs_help')}</div></div>`;
   $('pRes').onclick = resume; $('pSet').onclick = () => openSettings('pause'); $('pLeave').onclick = toMenu;
   if ($('pLink')) $('pLink').onclick = (e) => copy(inviteLink(NET.code), e.target);
@@ -1099,8 +1100,12 @@ buildWorld((Math.random() * 1e9) | 0);
 renderMenu(); showScreen('menu');
 document.addEventListener('langchange', () => { if (!$('menu').hidden) renderMenu(); if (G.running) { hudAll(); } });
 const room = new URLSearchParams(location.search).get('room');
-if (room) { const go = () => startGame('online', { code: room.toUpperCase() }); if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(() => { if (!G.running) go(); }, 4000); } }
+// invite link: start once (with the account name when it is ready; a guest name only if the account takes too long)
+if (room) { const go = () => { if (!G.running) startGame('online', { code: room.toUpperCase() }); }; if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(go, 6000); } }
 document.addEventListener('mal3abready', () => { if (G.me && G.me.local) G.me.name = myName(); });
+document.addEventListener('mal3ab-outdated', () => { if (G.running && G.mode === 'online') toMenu(); });   // a new release came out: leave the online match
+setInterval(() => { if (G.me && G.me.local && window.Auth && Auth.profile && G.me.name !== Auth.profile.username) G.me.name = Auth.profile.username; }, 3000);   // signed in later
 requestAnimationFrame(frame);
+window.Mal3abShareLink = () => { const base = location.href.split('?')[0]; return G.running && G.mode === 'online' && NET.code ? base + '?room=' + NET.code : base; };   // chat: "invite to this game"
 window.VSGame = { G, NET, startGame, fire, spawn, boom, toMenu, throwNade, placeBlock };     // handy for testing
 })();

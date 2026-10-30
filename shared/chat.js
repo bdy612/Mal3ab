@@ -85,7 +85,7 @@
     wire(); C.el.querySelectorAll('[data-f]').forEach(b => b.onclick = () => openConv(C.friends.find(f => f.id === b.dataset.f)));
   }
   async function openConv(f) {
-    C.friend = f; C.msgs = []; C.lastId = 0;
+    C.friend = f; C.msgs = []; C.lastId = 0; outCh(f.id);
     C.el.innerHTML = head(`<i class="dot ${f.online ? 'on' : ''}" style="display:inline-block;margin-inline-end:6px"></i>${esc(f.username)}`, true) +
       `<div class="bd" id="m3msgs"></div><div class="ft"><button class="iv" id="m3inv">${t('chat_invite')}</button>
        <div class="row"><input id="m3in" maxlength="1000" placeholder="${t('chat_type')}" autocomplete="off"><button class="snd" id="m3snd">${t('chat_send')}</button></div></div>`;
@@ -128,11 +128,12 @@
   }
   // instant delivery: a ping on the friend's inbox channel (the message itself stays in the database)
   const out = {};
-  function ping(id) {
+  function outCh(id) {   // opened as soon as a conversation opens, so the ping leaves instantly on send
     let ch = out[id];
     if (!ch) { ch = out[id] = sb.channel('inbox-' + id, { config: { broadcast: { self: false, ack: false } } }); ch._ready = new Promise(res => ch.subscribe(s => { if (s === 'SUBSCRIBED') res(); })); }
-    ch._ready.then(() => ch.send({ type: 'broadcast', event: 'ping', payload: { from: Auth.user.id } }));
+    return ch;
   }
+  function ping(id) { const ch = outCh(id); ch._ready.then(() => ch.send({ type: 'broadcast', event: 'ping', payload: { from: Auth.user.id } })); }
   function badges() {
     const n = Object.values(C.unread).reduce((a, b) => a + b, 0);
     document.querySelectorAll('[data-mal3ab-chat]').forEach(b => n ? b.setAttribute('data-n', n > 99 ? '99+' : n) : b.removeAttribute('data-n'));

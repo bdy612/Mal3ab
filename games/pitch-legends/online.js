@@ -51,6 +51,7 @@
   }
   function onMsg(ev, m) {
     PVP.lastSeen = Date.now();
+    if (ev === 'bye') { opponentLeft(m.name); return; }
     if (PVP.role === 'host') {
       if (ev === 'hello' && !PVP.live) { PVP.peer = m; status(T(`${m.name} دخل! الماتش هيبدأ…`, `${m.name} joined! Starting…`)); setTimeout(startHostMatch, 900); }
       else if (ev === 'hello' && PVP.live) sendStart();                       // guest reloaded / missed start
@@ -134,6 +135,7 @@
   G.update = function (dt) { if (isGuest()) return guestUpdate.call(this, dt); return o.update.call(this, dt); };
   G.end = function () {
     if (isHost()) { sendSnap(true); }
+    else if (isGuest() && !PVP.endByHost) send('bye', { name: myName() });   // the guest gave up: the host's match ends too
     o.end.call(this);
     if (PVP.live) finishLive();
   };
@@ -150,7 +152,7 @@
     PVP.timers.push(setInterval(() => {
       if (!G.running || G.over) return;
       sendSnap(false);
-      if (Date.now() - PVP.lastSeen > 12000) { G.say(T('الخصم فصل.', 'Your opponent disconnected.')); G.end(); }
+      if (Date.now() - PVP.lastSeen > 8000) { G.say(T('الخصم فصل.', 'Your opponent disconnected.')); opponentLeft(); }
     }, 66));
   }
   function packTeam(list) { return list.map(a => [Math.round(a.x), Math.round(a.y), +a.fx.toFixed(2), +a.fy.toFixed(2), (a.stun > 0 ? 1 : 0) | (a.frozen > 0 ? 2 : 0) | (a.remoteUser ? 4 : 0)]); }
@@ -170,7 +172,7 @@
     lastSnap = Date.now();
     clearTimers();
     PVP.timers.push(setInterval(() => flushInput(false), 66));
-    PVP.timers.push(setInterval(() => { if (PVP.live && G.running && Date.now() - lastSnap > 12000) { UI.toast(T('الاتصال بالخصم اتقطع', 'Lost connection to the host'), 'bad'); G.stop(); PVP.live = false; } }, 2000));
+    PVP.timers.push(setInterval(() => { if (PVP.live && G.running && Date.now() - lastSnap > 8000) { UI.toast(T('الاتصال بالخصم اتقطع', 'Lost connection to the host'), 'bad'); G.stop(); PVP.live = false; } }, 2000));
   }
   function flushInput(force) {
     if (!isGuest()) return;
@@ -223,7 +225,7 @@
     const ownerHost = m.o >= 0 ? m.o : -1;                      // host order: home 0-4, away 5-9
     g.ball.owner = ownerHost < 0 ? null : ownerHost >= 5 ? g.home[ownerHost - 5] : g.away[ownerHost];
     g.ball._tx = W - m.b[0]; g.ball._ty = m.b[1]; g.ball.power = !!m.b[2];
-    if (m.over && !g.over) { g.time = MATCH_SECONDS; G.end(); }
+    if (m.over && !g.over) { g.time = MATCH_SECONDS; PVP.endByHost = true; G.end(); PVP.endByHost = false; }
   }
 
   // ---------------- start / end hooks ----------------
@@ -264,6 +266,37 @@
     if (PVP.peer && simulate) { leaveLive(); }
     return o_startMatch.call(UI, simulate);
   };
+  // ---------------- leaving a live match ends it for both players ----------------
+  // the other player left (said bye, closed the game, or went silent): I win, the match closes
+  function opponentLeft(name) {
+    if (!PVP.live) { if (PVP.peer) { UI.toast(T(`${name || PVP.peer.name} خرج`, `${name || PVP.peer.name} left`), 'bad'); leaveLive(); } return; }
+    const who = name || (PVP.peer && PVP.peer.name) || T('صاحبك', 'Your friend');
+    UI.toast(T(`${who} خرج من الماتش — كسبت ✓`, `${who} left the match — you win ✓`), 'good');
+    G.say(T(`${who} خرج من الماتش.`, `${who} left the match.`));
+    G.score.home = Math.max(G.score.home, G.score.away + 1);
+    PVP.endByHost = true;
+    if (G.running && !G.over) G.end(); else finishLive();
+    PVP.endByHost = false;
+    leaveLive();
+  }
+  // I leave a live match (another screen, the home button, closing the game): tell the other player first
+  function leaveMatch() {
+    if (!PVP.live) return;
+    send('bye', { name: myName() });
+    if (!PVP.recorded) { PVP.recorded = true; if (window.Auth && Auth.user) Auth.record('loss'); }
+    try { G.stop(); } catch (e) {}
+    setTimeout(leaveLive, 300);                    // give the goodbye a moment to go out
+    clearTimers(); PVP.live = false;
+  }
+  const o_show = UI.show;
+  UI.show = function (name) { if (name !== 'arena' && PVP.live) leaveMatch(); return o_show.call(this, name); };
+  window.addEventListener('pagehide', () => { if (PVP.live) send('bye', { name: myName() }); });
+  let hiddenT = 0;
+  document.addEventListener('visibilitychange', () => {
+    clearTimeout(hiddenT);
+    if (document.hidden && PVP.live) hiddenT = setTimeout(() => { if (document.hidden && PVP.live) { leaveMatch(); UI.show('home'); } }, 20000);   // away for 20 s = left
+  });
+  document.addEventListener('mal3ab-outdated', () => { try { leaveMatch(); leaveLive(); } catch (e) {} });
   function leaveLive() { clearTimers(); PVP.live = false; PVP.peer = null; if (PVP.ch) { sb.removeChannel(PVP.ch); PVP.ch = null; } PVP.code = null; PVP.role = null; }
 
   // ---------------- lobby UI ----------------
@@ -294,6 +327,7 @@
   function status(t) { const s = document.querySelector('#mal3ab-online .status'); if (s) s.textContent = t; }
   function closePanel() { const el = document.getElementById('mal3ab-online'); if (el) el.classList.remove('open'); }
   function linkFor(code) { return location.href.split('?')[0] + '?pvp=' + code; }
+  window.Mal3abShareLink = () => PVP.code && PVP.role === 'host' ? linkFor(PVP.code) : location.href.split('?')[0];   // chat: "invite to this game"
 
   function renderLobby(mode) {
     const el = panel(); el.classList.add('open');
@@ -324,8 +358,10 @@
     }
     el.querySelector('#mo-x').onclick = () => { closePanel(); if (!PVP.live) leaveLive(); };
   }
-  function hostLobby(code) { leaveLive(); connect(code, 'host'); renderLobby('host'); }
+  const verOk = () => !window.Mal3abVersion || Mal3abVersion.gate();   // old app: no online play
+  function hostLobby(code) { if (!verOk()) return; leaveLive(); connect(code, 'host'); renderLobby('host'); }
   function guestLobby(code) {
+    if (!verOk()) return;
     leaveLive(); connect(code, 'guest'); renderLobby('guest');
     const hello = () => { if (PVP.role === 'guest' && !PVP.live) send('hello', { name: myName(), id: myId(), squad: mySquad(), plv: powerLevel() }); };
     const t = setInterval(() => { if (PVP.role !== 'guest' || PVP.live) { clearInterval(t); return; } hello(); }, 1500);
