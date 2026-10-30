@@ -89,6 +89,10 @@
   #board h3 { margin: 0 0 8px; color: var(--accent); text-align: center; }
   #dead { position: absolute; left: 50%; top: 36%; transform: translate(-50%, -50%); text-align: center; background: rgba(0, 0, 0, .55); padding: 14px 24px; border-radius: 14px; font-size: 18px; display: flex; flex-direction: column; gap: 6px; }
   #dead b { color: var(--accent); font-size: 22px; }
+  #dead.spec { top: 64px; transform: translateX(-50%); font-size: 14px; padding: 8px 16px; background: rgba(0, 0, 0, .45); } #dead.spec b { font-size: 16px; } #dead small { color: #c9cfea; font-size: 12px; }
+  .rulesp .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .rulesp .two label { gap: 4px; } .rulesp .two small { color: var(--muted); font-size: 11px; }
+  .rulesp .two input[type=number] { width: 100%; text-align: center; font-weight: 700; }
+  @media (max-width: 520px) { .rulesp .two { grid-template-columns: 1fr; } }
   #waitbox { position: absolute; top: 64px; left: 50%; transform: translateX(-50%); background: rgba(15, 18, 32, .85); padding: 10px 16px; border-radius: 12px; text-align: center; pointer-events: auto; display: flex; flex-direction: column; gap: 6px; }
   #clickHint { position: absolute; left: 50%; top: 58%; transform: translateX(-50%); background: rgba(0, 0, 0, .6); padding: 8px 16px; border-radius: 10px; }
 
@@ -114,8 +118,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793360910"></script>
-<script src="../../shared/net.js?v=1793360910"></script>
+<script src="../../shared/i18n.js?v=1793380190"></script>
+<script src="../../shared/net.js?v=1793380190"></script>
 <script src="../../shared/vendor/three.min.js"></script>
 </head>
 <body>
@@ -158,8 +162,8 @@
 <div class="screen" id="lb" hidden></div>
 <div class="screen" id="rules" hidden></div>
 
-<script src="world.js?v=1793360910"></script>
-<script src="strike.js?v=1793360910"></script>
-<script src="../../shared/cloud.js?v=1793360910" data-game="voxelstrike" data-keys="vstrike-settings,vstrike-stats,vstrike-menu"></script>
+<script src="world.js?v=1793380190"></script>
+<script src="strike.js?v=1793380190"></script>
+<script src="../../shared/cloud.js?v=1793380190" data-game="voxelstrike" data-keys="vstrike-settings,vstrike-stats,vstrike-menu"></script>
 </body>
 </html>

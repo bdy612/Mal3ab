@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Alchemy Barista — Mal3ab</title>
+<meta name="theme-color" content="#0f1220">
+<style>
+  :root { --bg: #0f1220; --card: #1a1f35; --card2: #262d4d; --text: #eef0ff; --muted: #a9b0d4; --accent: #ffb703; --red: #ff5d73; --paper: #fff6e4; --ink: #3b2418; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, 'DejaVu Sans', Arial, sans-serif; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  [hidden] { display: none !important; }
+  #c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; touch-action: none; }
+  .ico { vertical-align: -3px; flex: none; }
+  .coin { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #fff1a8 0 18%, #ffd25a 22% 60%, #c8900e 64%); box-shadow: 0 1px 0 #8a5f05; vertical-align: -2px; margin-inline-end: 4px; }
+  .coin.big { width: 22px; height: 22px; }
+
+  .btn { background: var(--accent); color: #1a1200; border: 0; border-radius: 12px; padding: 10px 18px; font: 700 15px inherit; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: transform .08s, filter .15s; }
+  .btn:hover:not([disabled]) { filter: brightness(1.08); } .btn:active:not([disabled]) { transform: scale(.96); }
+  .btn.sec { background: var(--card2); color: var(--text); } .btn.small { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
+  .btn.big { font-size: 18px; padding: 13px 26px; border-radius: 14px; box-shadow: 0 4px 0 #b47f00, 0 8px 24px rgba(255,183,3,.25); }
+  .btn[disabled] { opacity: .45; cursor: default; box-shadow: none; }
+  .btn.danger { color: #ffb3bd; }
+
+  /* top bar */
+  #hud { position: fixed; top: 0; left: 0; right: 0; height: 54px; display: flex; align-items: center; gap: 8px; padding: 0 10px; padding-top: env(safe-area-inset-top); z-index: 10; background: linear-gradient(#0f1220f2, #0f1220d0); border-bottom: 1px solid rgba(255,183,3,.18); pointer-events: none; }
+  #hud > * { pointer-events: auto; }
+  .hgrp { display: flex; align-items: center; gap: 6px; }
+  .hb { background: var(--card2); color: var(--text); border: 0; border-radius: 10px; height: 36px; min-width: 36px; padding: 0 9px; font: 600 14px inherit; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .hb:hover { background: #313a62; }
+  .brand { font-weight: 800; white-space: nowrap; color: var(--text); font-size: 15px; margin-inline-start: 4px; }
+  .brand b { color: var(--accent); }
+  #stats { flex: 1; justify-content: center; gap: 8px; display: none; }
+  #hud.ingame #stats { display: flex; } #hud.ingame .brand { display: none; }
+  #pauseBtn { display: none; } #hud.ingame #pauseBtn { display: inline-flex; }
+  .st { background: rgba(38,45,77,.85); border-radius: 10px; padding: 6px 10px; font-weight: 700; font-size: 14px; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; transition: transform .15s; }
+  .st small { color: var(--muted); font-weight: 600; }
+  .st.bump { animation: bump .35s; }
+  @keyframes bump { 40% { transform: scale(1.25); } }
+  #sStrikes b { color: rgba(255,255,255,.18); font-size: 13px; } #sStrikes b.on { color: var(--red); }
+  .sp { flex: 1; } #hud.ingame .sp { display: none; }
+
+  /* order bubble */
+  #bubble { position: fixed; z-index: 4; background: var(--paper); color: var(--ink); border-radius: 18px; padding: 12px 15px 12px; box-shadow: 0 6px 0 rgba(120,70,40,.35), 0 14px 30px rgba(0,0,0,.35); font-size: 17px; line-height: 1.5; overflow: hidden; transform-origin: 0% 60%; transform: scale(.6); opacity: 0; transition: transform .25s cubic-bezier(.3,1.6,.5,1), opacity .2s; display: flex; flex-direction: column; gap: 6px; }
+  #bubble.show { transform: scale(1); opacity: 1; } #bubble.dim { opacity: .55; }
+  #bubble::before { content: ''; position: absolute; left: -12px; top: 46%; border: 12px solid transparent; border-right-color: var(--paper); border-left: 0; }
+  #bubble .who { font-size: 12.5px; font-weight: 800; color: #9a5a2e; text-transform: uppercase; letter-spacing: .5px; display: flex; align-items: center; gap: 6px; }
+  .ar #bubble .who { text-transform: none; letter-spacing: 0; }
+  #bubble .poem { font-weight: 600; }
+  #bubble .kw { color: #7a2f8f; background: linear-gradient(transparent 62%, rgba(214,160,255,.35) 62%); border-radius: 3px; padding: 0 2px; }
+  #bubble .ics { display: inline-flex; gap: 1px; margin-inline-start: 3px; vertical-align: 1px; background: #2a2440; border-radius: 7px; padding: 1px 3px; }
+  #bubble .ics .ico { vertical-align: 0; }
+  #bubble .nw { white-space: nowrap; }
+  #bubble .mnote { font-size: 13px; color: #6a3b8a; font-weight: 600; }
+  #bubble .peek { align-self: flex-start; background: #c79bff; color: #2a1440; border: 0; border-radius: 10px; padding: 6px 12px; font: 700 13px inherit; font-family: inherit; cursor: pointer; display: inline-flex; gap: 5px; align-items: center; }
+  #bubble .pat { height: 8px; border-radius: 4px; background: rgba(90,50,30,.15); overflow: hidden; margin-top: 2px; flex: none; }
+  #bubble .pat i { display: block; height: 100%; width: 100%; border-radius: 4px; background: #5fd38a; transition: background .3s; }
+  #bubble .hearts { display: flex; gap: 3px; align-items: center; }
+  #bubble .tipv { margin-inline-start: auto; font-weight: 800; color: #9a6a00; display: inline-flex; align-items: center; gap: 3px; }
+  .ar #bubble { direction: rtl; }
+
+  /* serve / dump */
+  #actions { position: fixed; z-index: 5; display: flex; gap: 8px; align-items: stretch; }
+  #serveBtn { flex: 2.2; font-size: 19px; border-radius: 14px; box-shadow: 0 5px 0 #b47f00, 0 10px 24px rgba(0,0,0,.35); }
+  #serveBtn.pulse { animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { transform: scale(1.06); box-shadow: 0 5px 0 #b47f00, 0 0 0 8px rgba(255,183,3,.35); } }
+  #dumpBtn { flex: 1; border-radius: 14px; box-shadow: 0 5px 0 #151a30; }
+
+  #tip { position: fixed; z-index: 8; pointer-events: none; background: rgba(15,18,32,.95); border: 1px solid rgba(255,183,3,.35); border-radius: 12px; padding: 8px 11px; max-width: 250px; font-size: 13px; box-shadow: 0 8px 22px rgba(0,0,0,.4); }
+  #tip b { color: var(--accent); font-size: 14px; } #tip .d { color: var(--muted); margin: 2px 0 4px; line-height: 1.35; }
+  #tip .row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; padding: 3px 4px; border-radius: 8px; opacity: .6; }
+  #tip .row.cur { opacity: 1; background: rgba(255,255,255,.07); }
+  #tip .row small { width: 100%; color: var(--muted); }
+  #tip .chip { display: inline-flex; align-items: center; gap: 1px; background: #262d4d; border-radius: 7px; padding: 1px 5px; font-size: 9px; letter-spacing: -1px; color: #fff; }
+  .ar #tip { direction: rtl; }
+
+  #coach { position: fixed; z-index: 7; background: rgba(15,18,32,.94); border: 2px solid var(--accent); border-radius: 14px; padding: 10px 13px; font-size: 15px; font-weight: 600; line-height: 1.4; display: flex; gap: 10px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.45); animation: pop .3s; }
+  #coach span { flex: 1; }
+  .ar #coach { direction: rtl; }
+  @keyframes pop { from { transform: scale(.8); opacity: 0; } }
+  #toast { position: fixed; left: 50%; top: 66px; transform: translateX(-50%) translateY(-8px); z-index: 30; background: rgba(15,18,32,.94); border: 1px solid rgba(255,183,3,.4); padding: 8px 16px; border-radius: 12px; font-weight: 700; opacity: 0; transition: .2s; white-space: nowrap; }
+  #toast.show { opacity: 1; transform: translateX(-50%); }
+
+  /* overlay screens */
+  #overlay { position: fixed; inset: 0; z-index: 20; background: radial-gradient(ellipse at 50% 40%, rgba(15,18,32,.55), rgba(8,9,18,.82)); display: flex; align-items: center; justify-content: center; padding: 62px 14px 14px; }
+  #box { background: linear-gradient(#1d2340, #161a30); border: 1px solid rgba(255,183,3,.25); border-radius: 22px; padding: 22px 22px 18px; width: min(520px, 100%); max-height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.55); animation: pop .25s; scrollbar-width: thin; }
+  .ar #box { direction: rtl; }
+  #box h1 { margin: 0; font-size: 34px; color: var(--accent); font-family: Georgia, 'DejaVu Serif', serif; letter-spacing: .5px; text-shadow: 0 3px 0 #7a4a00; }
+  #box h2 { margin: 0; font-size: 24px; color: var(--accent); }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .sub { margin: 0; color: var(--text); opacity: .85; line-height: 1.5; }
+  .muted { margin: 0; color: var(--muted); line-height: 1.45; } .muted.small { font-size: 13px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .how { display: flex; flex-direction: column; gap: 10px; text-align: start; }
+  .hrow { display: flex; gap: 10px; align-items: flex-start; background: rgba(255,255,255,.04); border-radius: 12px; padding: 9px 11px; line-height: 1.45; font-size: 14.5px; }
+  .hrow .ico { margin-top: 1px; }
+  .days { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
+  .day { background: var(--card2); color: var(--text); border: 0; border-radius: 12px; padding: 10px 4px 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: inherit; }
+  .day b { font-size: 20px; } .day:hover:not([disabled]) { background: #343d68; } .day.lock { opacity: .45; cursor: default; }
+  .list { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .item { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.05); border-radius: 14px; padding: 6px 10px 6px 6px; text-align: start; }
+  .item.own { background: rgba(255,183,3,.08); }
+  .item .it { flex: 1; display: flex; flex-direction: column; gap: 2px; } .item small { color: var(--muted); font-size: 12.5px; line-height: 1.35; }
+  .owned { color: #8dffa8; font-weight: 700; font-size: 13px; white-space: nowrap; }
+  canvas.pv { width: 58px; height: 58px; flex: none; background: radial-gradient(circle, rgba(255,200,120,.12), transparent 70%); border-radius: 12px; }
+  .card { display: flex; gap: 12px; align-items: center; background: rgba(255,255,255,.05); border-radius: 14px; padding: 8px 12px 8px 8px; width: 100%; text-align: start; }
+  .card canvas.pv { width: 72px; height: 72px; }
+  .card div { display: flex; flex-direction: column; gap: 2px; } .card em { color: var(--accent); font-style: normal; font-size: 12px; font-weight: 800; text-transform: uppercase; } .card small { color: var(--muted); line-height: 1.35; }
+  .facts { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; } .facts span { background: var(--card2); border-radius: 10px; padding: 7px 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+  .wallet { margin: 0; font-weight: 700; }
+  .stars { display: flex; gap: 6px; } .stars .ico { animation: pop .4s backwards; } .stars .ico:nth-child(2) { animation-delay: .15s; } .stars .ico:nth-child(3) { animation-delay: .3s; }
+  .sum { display: flex; gap: 10px; width: 100%; } .sum div { flex: 1; background: var(--card2); border-radius: 14px; padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .sum b { font-size: 22px; } .sum b small { color: var(--muted); font-size: 14px; } .sum span { color: var(--muted); font-size: 12.5px; }
+
+  /* phones */
+  body.port #hud, body.short #hud { height: 48px; padding: 0 6px; gap: 4px; }
+  body.short #hud { height: 44px; }
+  body.port .hb, body.short .hb { height: 30px; min-width: 30px; padding: 0 6px; font-size: 12px; border-radius: 8px; }
+  body.port .hgrp { gap: 4px; }
+  body.port .st, body.short .st { padding: 3px 6px; font-size: 12px; border-radius: 8px; } body.port #stats { gap: 3px; }
+  body.port #sStrikes b { font-size: 12px; margin-inline-end: 2px; } body.port .coin { width: 12px; height: 12px; }
+  body.short #bubble { font-size: 13px; line-height: 1.38; padding: 8px 11px; gap: 3px; } body.short #bubble .who { font-size: 11px; }
+  body.short #serveBtn { font-size: 16px; } body.short #toast { top: 50px; } body.short #coach { font-size: 13px; padding: 7px 10px; }
+  body.short #overlay { padding-top: 50px; }
+  @media (max-width: 370px) { body.port #sCust { display: none; } }
+  body.port #sDay { display: none; }
+  body.port #bubble { font-size: 13.5px; line-height: 1.42; padding: 9px 11px; border-radius: 14px; gap: 4px; }
+  body.port #bubble .who { font-size: 11px; } body.port #bubble .mnote { font-size: 11.5px; }
+  body.port #serveBtn { font-size: 17px; } body.port #toast { top: 56px; }
+  body.port #coach { font-size: 13px; padding: 8px 10px; flex-direction: column; align-items: stretch; gap: 7px; }
+  body.port .brand { display: none; }
+  body.port #box h1 { font-size: 28px; }
+  @media (max-width: 380px) { #sStrikes b { font-size: 11px; } body.port .st { padding: 4px 5px; } }
+  @media (max-height: 520px) { #box { padding: 14px; gap: 8px; } #box h1 { font-size: 26px; } }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../../shared/i18n.js?v=1793380190"></script>
+<script src="../../shared/net.js?v=1793380190"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div class="hgrp">
+    <button class="hb" data-mal3ab-home title="Home">🏠</button>
+    <button class="hb" data-mal3ab-chat title="Chat">💬</button>
+    <button class="hb" id="langBtn">English</button>
+    <span class="brand"><b>Alchemy</b> Barista</span>
+  </div>
+  <div class="hgrp" id="stats">
+    <span class="st" id="sDay"></span>
+    <span class="st" id="sCust"></span>
+    <span class="st" id="sHearts"></span>
+    <span class="st" id="sStrikes"></span>
+  </div>
+  <span class="sp"></span>
+  <div class="hgrp">
+    <span class="st" id="sTips"></span>
+    <button class="hb" id="pauseBtn" title="Pause"></button>
+  </div>
+</div>
+<div id="bubble" hidden></div>
+<div id="actions" hidden><button class="btn" id="serveBtn"></button><button class="btn sec" id="dumpBtn"></button></div>
+<div id="tip" hidden></div>
+<div id="coach" hidden></div>
+<div id="toast" hidden></div>
+<div id="overlay" hidden><div id="box"></div></div>
+<script src="art.js?v=1793380190"></script>
+<script src="game.js?v=1793380190"></script>
+<script src="../../shared/cloud.js?v=1793380190" data-game="alchemy-barista" data-keys="alchemy-barista-*"></script>
+<script>
+  document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
+</script>
+</body>
+</html>

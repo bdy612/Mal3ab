@@ -10,12 +10,12 @@
     chat_title: '💬 الشات', chat_friends: 'اختار صاحب تكلمه', chat_noFriends: 'لسه مفيش أصحاب — ضيفهم من صفحة الألعاب (👥 الأصحاب)',
     chat_login: 'سجّل دخول في ملعب عشان تكلم أصحابك', chat_type: 'اكتب رسالة…', chat_send: 'ابعت', chat_invite: '🎮 ادعيه للعبة دي',
     chat_inviteMsg: 'تعالى العب معايا', chat_join: '▶ ادخل', chat_back: '→ رجوع', chat_empty: 'لسه مفيش رسايل — قول أهلًا 👋',
-    chat_new: '{p} بعتلك رسالة', chat_online: 'أونلاين', chat_offline: 'مش أونلاين', chat_err: 'ما اتبعتتش — حاول تاني', chat_preparing: 'بجهّز الغرفة…', chat_clear: 'امسح الشات', chat_call: 'مكالمة', chat_callMsg: 'بدأت مكالمة — تعالى', chat_callJoin: '📞 ادخل المكالمة', chat_calling: '📞 {p} بيكلمك…', chat_decline: 'مش دلوقتي', chat_clearQ: 'تمسح كل الرسايل مع {p} وتبدأ شات جديد؟ (بتتمسح عندك إنت بس)', chat_clearYes: '🗑 امسح', chat_cancel: 'إلغاء'
+    chat_new: '{p} بعتلك رسالة', chat_online: 'أونلاين', chat_offline: 'مش أونلاين', chat_err: 'ما اتبعتتش — حاول تاني', chat_preparing: 'بجهّز الغرفة…', chat_clear: 'امسح الشات', chat_call: 'مكالمة', chat_callMsg: 'بدأت مكالمة — تعالى', chat_callJoin: '📞 ادخل المكالمة', chat_calling: '📞 {p} بيكلمك…', chat_decline: 'مش دلوقتي', chat_clearQ: 'تمسح كل الرسايل مع {p} وتبدأ شات جديد؟ (بتتمسح عندك إنت بس)', chat_clearYes: '🗑 امسح', chat_cancel: 'إلغاء', chat_missed: '📵 مكالمة فايتة من {p}'
   }, {
     chat_title: '💬 Chat', chat_friends: 'Pick a friend to talk to', chat_noFriends: 'No friends yet — add them on the games page (👥 Friends)',
     chat_login: 'Log in to Mal3ab to chat with your friends', chat_type: 'Type a message…', chat_send: 'Send', chat_invite: '🎮 Invite to this game',
     chat_inviteMsg: 'Come play with me', chat_join: '▶ Join', chat_back: '← Back', chat_empty: 'No messages yet — say hi 👋',
-    chat_new: '{p} sent you a message', chat_online: 'online', chat_offline: 'offline', chat_err: 'Not sent — try again', chat_preparing: 'Getting the room ready…', chat_clear: 'Clear chat', chat_call: 'Call', chat_callMsg: 'started a call — join me', chat_callJoin: '📞 Join call', chat_calling: '📞 {p} is calling you…', chat_decline: 'Not now', chat_clearQ: 'Clear all messages with {p} and start a new chat? (only on your side)', chat_clearYes: '🗑 Clear', chat_cancel: 'Cancel'
+    chat_new: '{p} sent you a message', chat_online: 'online', chat_offline: 'offline', chat_err: 'Not sent — try again', chat_preparing: 'Getting the room ready…', chat_clear: 'Clear chat', chat_call: 'Call', chat_callMsg: 'started a call — join me', chat_callJoin: '📞 Join call', chat_calling: '📞 {p} is calling you…', chat_decline: 'Not now', chat_clearQ: 'Clear all messages with {p} and start a new chat? (only on your side)', chat_clearYes: '🗑 Clear', chat_cancel: 'Cancel', chat_missed: '📵 Missed call from {p}'
   });
   const css = document.createElement('style');
   css.textContent = `
@@ -126,17 +126,18 @@
     const f = C.friend; if (!f) return;
     const room = Array.from(crypto.getRandomValues(new Uint8Array(8)), b => 'abcdefghjkmnpqrstuvwxyz23456789'[b % 31]).join('');
     const link = ROOT() + 'call.html?room=' + room;
-    openCall(link);                                                   // opens right away (still inside the click)
+    openCall(link + '&ring=' + f.id);                                 // opens right away (still inside the click); my copy knows whom it rings
     try { await rpc('chat_send', { p_to: f.id, p_body: '📞 ' + t('chat_callMsg') + '\n' + link, p_kind: 'call', p_meta: { link } }); await fetchNew(); ping(f.id, { call: link, name: (Auth.profile && Auth.profile.username) || '' }); } catch (e) {}
   }
-  let ringT = 0, ringEl = null; C.ring = (n, l) => ring(n, l);   // (also used by tests)
-  function ring(name, link) {
+  let ringT = 0, ringEl = null; C.ring = (n, l, f) => ring(n, l, f);   // (also used by tests)
+  const roomOf = (l) => ((l || '').match(/[?&]room=([a-zA-Z0-9-]+)/) || [])[1] || '';
+  function ring(name, link, from) {
     if (ringEl) ringEl.remove(); clearInterval(ringT);
-    const d = ringEl = document.createElement('div'); d.className = 'm3toast m3ring';
+    const d = ringEl = document.createElement('div'); d.className = 'm3toast m3ring'; d.dataset.room = roomOf(link);
     d.innerHTML = `<div>${esc(t('chat_calling', { p: name || '…' }))}</div><div class="m3rb"><button class="y">${t('chat_callJoin')}</button><button class="n2">${t('chat_decline')}</button></div>`;
     const stop = () => { clearInterval(ringT); d.remove(); ringEl = null; };
     d.querySelector('.y').onclick = (e) => { e.stopPropagation(); stop(); openCall(link); };
-    d.querySelector('.n2').onclick = (e) => { e.stopPropagation(); stop(); };
+    d.querySelector('.n2').onclick = (e) => { e.stopPropagation(); stop(); if (from && Auth.user) ping(from, { declined: link, name: (Auth.profile && Auth.profile.username) || '' }); };   // the caller is told
     document.body.appendChild(d);
     let n = 0; const beep = () => { try { const A = C.ac || (C.ac = new (window.AudioContext || window.webkitAudioContext)()), o = A.createOscillator(), g = A.createGain(); o.frequency.value = n % 2 ? 660 : 880; g.gain.setValueAtTime(0.08, A.currentTime); g.gain.exponentialRampToValueAtTime(0.001, A.currentTime + 0.35); o.connect(g); g.connect(A.destination); o.start(); o.stop(A.currentTime + 0.4); } catch (e) {} };
     beep(); ringT = setInterval(() => { if (++n > 40) stop(); else beep(); }, 750);
@@ -195,6 +196,7 @@
     if (!ch) { ch = out[id] = sb.channel('inbox-' + id, { config: { broadcast: { self: false, ack: false } } }); ch._ready = new Promise(res => ch.subscribe(s => { if (s === 'SUBSCRIBED') res(); })); }
     return ch;
   }
+  C.ping = (id, extra) => ping(id, extra);
   function ping(id, extra) { const ch = outCh(id); ch._ready.then(() => ch.send({ type: 'broadcast', event: 'ping', payload: Object.assign({ from: Auth.user.id }, extra || {}) })); }
   function badges() {
     const n = Object.values(C.unread).reduce((a, b) => a + b, 0);
@@ -227,7 +229,11 @@
     if (C.inbox) return;
     C.inbox = sb.channel('inbox-' + Auth.user.id, { config: { broadcast: { self: false } } });
     C.inbox.on('broadcast', { event: 'ping' }, ({ payload }) => {
-      if (payload && payload.call && /\/call\.html\?room=/.test(payload.call)) ring(payload.name, payload.call); if (C.open && C.friend && payload && payload.from === C.friend.id) fetchNew(); else refreshUnread(true); });
+      try { document.dispatchEvent(new CustomEvent('mal3ab-ping', { detail: payload })); } catch (e) {}
+      if (payload && payload.call && /\/call\.html\?room=/.test(payload.call)) ring(payload.name, payload.call, payload.from);
+      if (payload && payload.cancel && ringEl && ringEl.dataset.room === roomOf(payload.cancel)) { clearInterval(ringT); ringEl.remove(); ringEl = null; const m = document.createElement('div'); m.className = 'm3toast'; m.textContent = t('chat_missed', { p: payload.name || '…' }); m.onclick = () => m.remove(); document.body.appendChild(m); setTimeout(() => m.remove(), 8000); }   // the caller hung up
+      if (payload && (payload.cancel || payload.declined)) return;
+      if (C.open && C.friend && payload && payload.from === C.friend.id) fetchNew(); else refreshUnread(true); });
     C.inbox.subscribe();
     await refreshUnread(false);
     setInterval(() => { if (C.open && C.friend) fetchNew(); }, 4000);

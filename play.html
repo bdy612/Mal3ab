@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793360910">
+<link rel="stylesheet" href="shared/style.css?v=1793380190">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793360910"></script>
-<script src="shared/net.js?v=1793360910"></script>
+<script src="shared/i18n.js?v=1793380190"></script>
+<script src="shared/net.js?v=1793380190"></script>
 </head>
 <body>
 <div class="topbar">
@@ -106,7 +106,7 @@ async function loadFavs() {
   if (!Auth.token) return;
   try { const sv = await Auth.loadSaves('hub'); if (Array.isArray(sv['mal3ab-favs'])) { FAVS = sv['mal3ab-favs']; localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); draw(); } } catch (e) {}
 }
-const READY = [];   // new games show up here as each one is finished
+const READY = ['chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire'];   // new games show up here as each one is finished
 // one card per game: title with the emoji on the other side, a description, and a single Play button
 // (online / vs bot / clock are chosen inside each game)
 function card(g) {

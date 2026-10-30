@@ -6,8 +6,8 @@
 <title>Call — Mal3ab</title>
 <link rel="icon" href="icon.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793360910"></script>
-<script src="shared/net.js?v=1793360910"></script>
+<script src="shared/i18n.js?v=1793380190"></script>
+<script src="shared/net.js?v=1793380190"></script>
 <style>
   :root { --bg: #0b0e1a; --card: #161b2e; --card2: #232a48; --text: #eef0ff; --muted: #9aa3c7; --accent: #ffb703; --red: #ff4d5e; --green: #3ddc84; }
   * { box-sizing: border-box; }
@@ -28,6 +28,13 @@
   .preview video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
   .preview .av { position: absolute; }
   .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; } .row .grow { flex: 1; }
+  .devs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+  .devs label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+  .devs select { font: inherit; font-size: 13px; background: var(--card2); color: var(--text); border: 0; border-radius: 10px; padding: 8px; max-width: 100%; }
+  .badge { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 6px; background: var(--accent); color: #1a1200; flex: none; } .badge.co { background: #8ea0ff; }
+  .person .acts { display: flex; gap: 4px; } .person .acts button { background: #0f1220; color: var(--text); border: 0; border-radius: 7px; padding: 4px 7px; font-size: 13px; }
+  .person .acts button:hover { background: #3a2030; }
+  .dupbox { display: flex; flex-direction: column; gap: 8px; background: #2a1520; border: 1px solid var(--red); border-radius: 12px; padding: 10px; }
   .note { color: var(--muted); font-size: 13px; line-height: 1.5; } .err { color: var(--red); font-size: 13px; min-height: 16px; }
 
   /* call */
@@ -82,8 +89,8 @@
     <div class="preview"><video id="pv" autoplay playsinline muted></video><div class="av" id="pvAv" hidden></div></div>
     <div class="row">
       <button class="pill" id="lMic"></button><button class="pill" id="lCam"></button>
-      <select class="pill" id="lDev" hidden></select>
     </div>
+    <div class="devs" id="lDevs"></div>
     <input class="text" id="lName" maxlength="24">
     <div class="err" id="lErr"></div>
     <div class="row"><button class="btn grow" id="lJoin"></button><button class="btn sec" id="lHome">🏠</button></div>
@@ -97,12 +104,12 @@
     <button class="pill" id="cLink"></button><span id="langslot"></span></div>
   <div id="main">
     <div id="stage"><div id="spot"></div><div id="grid"></div></div>
-    <div id="side" hidden><h3 id="sideT"></h3><div id="people"></div><div id="msgs" hidden></div>
+    <div id="side" hidden><h3 id="sideT"></h3><div id="people"></div><div id="setp" class="devs" style="padding:0 12px 12px" hidden></div><div id="msgs" hidden></div>
       <form id="chatform" hidden><input class="text" id="chatIn" maxlength="500" autocomplete="off"><button class="btn" id="chatSend"></button></form></div>
   </div>
   <div class="controls">
     <button class="cb" id="bMic"></button><button class="cb" id="bCam"></button><button class="cb" id="bShare"></button>
-    <button class="cb" id="bChat"></button><button class="cb" id="bPeople"></button><button class="cb" id="bFull"></button>
+    <button class="cb" id="bChat"></button><button class="cb" id="bPeople"></button><button class="cb" id="bSet"></button><button class="cb" id="bFull"></button>
     <button class="cb hang" id="bHang">📞</button>
   </div>
 </div>
@@ -115,7 +122,11 @@ addStrings({
   call_link: '🔗 انسخ اللينك', call_copied: 'اتنسخ ✓', call_people: 'الناس', call_chat: 'الشات', call_send: 'ابعت', call_type: 'اكتب رسالة…',
   call_share: 'شير سكرين', call_stopShare: 'وقف الشير', call_full: 'ملء الشاشة', call_hang: 'اقفل', call_you: 'إنت', call_alone: 'مستني حد يدخل… ابعتله اللينك',
   call_joined: '{p} دخل المكالمة', call_left: '{p} خرج', call_noShare: 'الشير سكرين مش مدعوم هنا — جرّب من الكمبيوتر في المتصفح أو برنامج ملعب.',
-  call_sharing: 'بيعمل شير', call_count: '{n} في المكالمة', call_connecting: 'بيوصل…', call_bye: 'خرجت من المكالمة', call_back: '↻ ادخل تاني', call_close: 'اقفل الصفحة'
+  call_sharing: 'بيعمل شير', call_count: '{n} في المكالمة', call_connecting: 'بيوصل…', call_bye: 'خرجت من المكالمة', call_back: '↻ ادخل تاني', call_close: 'اقفل الصفحة',
+  call_settings: 'الإعدادات', call_micDev: '🎤 المايك', call_camDev: '📷 الكاميرا', call_spk: '🔊 السماعة', call_default: 'الافتراضي', call_noSpk: 'تغيير السماعة مش مدعوم في المتصفح ده',
+  call_dup: 'إنت داخل المكالمة دي بالفعل من شباك أو جهاز تاني.', call_moveHere: '↪ انقل المكالمة هنا', call_moved: 'دخلت المكالمة من شباك تاني', call_host: 'الهوست', call_cohost: 'مساعد',
+  call_mute: 'اكتم صوته', call_remove: 'طلّعه من المكالمة', call_makeCo: 'اعمله مساعد هوست', call_unCo: 'شيله من المساعدين', call_mutedBy: '{p} كتم صوتك', call_kicked: 'الهوست طلّعك من المكالمة',
+  call_banned: 'اتطلّعت من المكالمة دي ومش هتقدر تدخلها تاني', call_muteAll: '🔇 اكتم الكل', call_declined: '{p} رفض المكالمة', call_checking: 'بيتأكد…', call_groupOnly: 'المكالمة دي لأعضاء الجروب بس'
 }, {
   call_title: 'Mal3ab Call', call_room: 'Call', call_join: '📞 Join call', call_name: 'Your name', call_mic: '🎤 Mic', call_cam: '📷 Camera',
   call_on: 'on', call_off: 'off', call_noDev: 'No camera or mic available — you will join listen-only.', call_denied: 'The browser blocked the camera/mic — allow them from the lock icon next to the address.',
@@ -123,16 +134,28 @@ addStrings({
   call_link: '🔗 Copy link', call_copied: 'Copied ✓', call_people: 'People', call_chat: 'Chat', call_send: 'Send', call_type: 'Type a message…',
   call_share: 'Share screen', call_stopShare: 'Stop sharing', call_full: 'Full screen', call_hang: 'Leave', call_you: 'You', call_alone: 'Waiting for someone to join… send them the link',
   call_joined: '{p} joined', call_left: '{p} left', call_noShare: 'Screen sharing is not supported here — try a computer browser or the Mal3ab app.',
-  call_sharing: 'sharing', call_count: '{n} in the call', call_connecting: 'Connecting…', call_bye: 'You left the call', call_back: '↻ Join again', call_close: 'Close page'
+  call_sharing: 'sharing', call_count: '{n} in the call', call_connecting: 'Connecting…', call_bye: 'You left the call', call_back: '↻ Join again', call_close: 'Close page',
+  call_settings: 'Settings', call_micDev: '🎤 Microphone', call_camDev: '📷 Camera', call_spk: '🔊 Speaker', call_default: 'Default', call_noSpk: 'Choosing the speaker is not supported in this browser',
+  call_dup: 'You are already in this call from another window or device.', call_moveHere: '↪ Move the call here', call_moved: 'You joined the call from another window', call_host: 'Host', call_cohost: 'Co-host',
+  call_mute: 'Mute', call_remove: 'Remove from the call', call_makeCo: 'Make co-host', call_unCo: 'Remove co-host', call_mutedBy: '{p} muted you', call_kicked: 'The host removed you from the call',
+  call_banned: 'You were removed from this call and cannot join it again', call_muteAll: '🔇 Mute everyone', call_declined: '{p} declined the call', call_checking: 'Checking…', call_groupOnly: 'This call is only for the group members'
 });
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s == null ? '' : s).replace(/[<>&"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]));
 const rid = (n) => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => 'abcdefghjkmnpqrstuvwxyz23456789'[b % 31]).join('');
 const q = new URLSearchParams(location.search);
-let ROOM = (q.get('room') || '').replace(/[^a-z0-9]/gi, '').slice(0, 16);
+let ROOM = (q.get('room') || '').replace(/[^a-z0-9-]/gi, '').slice(0, 24);
 if (!ROOM) { ROOM = rid(8); history.replaceState(null, '', location.pathname + '?room=' + ROOM); }
 const LINK = location.href.split('?')[0] + '?room=' + ROOM;
-const ME = { id: Date.now().toString(36) + rid(6), name: '' };
+const ME = { id: Date.now().toString(36) + rid(6), name: '', at: Date.now() };
+// who I am across windows/devices: my account, or a fixed id for this browser when playing as a guest
+let UID = ''; try { UID = localStorage.getItem('mal3ab_guest_uid') || ''; if (!UID) { UID = 'guest-' + rid(10); localStorage.setItem('mal3ab_guest_uid', UID); } } catch (e) { UID = 'guest-' + rid(10); }
+const RING = (q.get('ring') || '').split(',').filter(x => /^[0-9a-f-]{36}$/.test(x));   // friends being rung: told if I cancel
+let ROLES = { host: null, cohosts: [], banned: [] }, answered = false;
+const DEV = (() => { try { return JSON.parse(localStorage.getItem('mal3ab-call-devices') || '{}'); } catch (e) { return {}; } })();
+const saveDev = () => { try { localStorage.setItem('mal3ab-call-devices', JSON.stringify(DEV)); } catch (e) {} };
+const isHost = (uid) => !!uid && uid === ROLES.host, isCo = (uid) => !!uid && (ROLES.cohosts || []).includes(uid);
+const canManage = (uid) => isHost(uid) || isCo(uid);
 // public STUN + the PeerJS project's public TURN relays (for networks that block direct connections)
 const ICE = { iceServers: [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] },
   { urls: ['turn:eu-0.turn.peerjs.com:3478', 'turn:us-0.turn.peerjs.com:3478'], username: 'peerjs', credential: 'peerjsp' }] };
@@ -146,7 +169,9 @@ function initials(n) { return (String(n || '?').trim()[0] || '?').toUpperCase();
 
 // ---------------- lobby ----------------
 async function getMedia(kind) {
-  try { return await navigator.mediaDevices.getUserMedia(kind === 'audio' ? { audio: { echoCancellation: true, noiseSuppression: true } } : { video: { width: { ideal: 1280 }, height: { ideal: 720 } } }); }
+  const a = { echoCancellation: true, noiseSuppression: true }, v = { width: { ideal: 1280 }, height: { ideal: 720 } };
+  if (DEV.mic) a.deviceId = { ideal: DEV.mic }; if (DEV.cam) v.deviceId = { ideal: DEV.cam };
+  try { return await navigator.mediaDevices.getUserMedia(kind === 'audio' ? { audio: a } : { video: v }); }
   catch (e) { return { error: e }; }
 }
 async function setupDevices() {
@@ -158,7 +183,32 @@ async function setupDevices() {
   const denied = [a, v].some(r => r.error && /NotAllowed|Security/i.test(r.error.name));
   if (!L.audio && !L.video) $('lErr').textContent = denied ? t('call_denied') : t('call_noDev');
   else if (denied) $('lErr').textContent = t('call_denied');
-  drawLobby();
+  drawLobby(); drawDevices($('lDevs'));
+}
+// ---- choosing the microphone, camera and speaker ----
+async function drawDevices(box) {
+  if (!box || !navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+  let list = []; try { list = await navigator.mediaDevices.enumerateDevices(); } catch (e) {}
+  const cur = { audioinput: L.audio && L.audio.getSettings ? L.audio.getSettings().deviceId : DEV.mic, videoinput: L.video && L.video.getSettings ? L.video.getSettings().deviceId : DEV.cam, audiooutput: DEV.spk || 'default' };
+  const sel = (kind, label, id) => { const ds = list.filter(d => d.kind === kind); if (!ds.length) return '';
+    return `<label>${t(label)}<select data-k="${kind}">${ds.map((d, i) => `<option value="${esc(d.deviceId)}" ${d.deviceId === cur[kind] ? 'selected' : ''}>${esc(d.label || t(label).replace(/^\S+\s/, '') + ' ' + (i + 1))}</option>`).join('')}</select></label>`; };
+  box.innerHTML = sel('audioinput', 'call_micDev') + sel('videoinput', 'call_camDev') + (('setSinkId' in HTMLMediaElement.prototype) ? sel('audiooutput', 'call_spk') : '');
+  box.querySelectorAll('select').forEach(s => s.onchange = () => switchDevice(s.dataset.k, s.value));
+}
+async function switchDevice(kind, id) {
+  if (kind === 'audiooutput') { DEV.spk = id; saveDev(); for (const a of audios.values()) if (a.setSinkId) a.setSinkId(id).catch(() => toast(t('call_noSpk'))); return; }
+  if (kind === 'audioinput') {
+    DEV.mic = id; saveDev();
+    try { const st = await navigator.mediaDevices.getUserMedia({ audio: { deviceId: { exact: id }, echoCancellation: true, noiseSuppression: true } }), tr = st.getAudioTracks()[0];
+      if (L.audio) { L.stream.removeTrack(L.audio); L.audio.stop(); } L.audio = tr; L.stream.addTrack(tr); tr.enabled = L.mic;
+      for (const p of peers.values()) p.aT.sender.replaceTrack(tr).catch(() => {}); } catch (e) { toast(t('call_denied')); }
+  }
+  if (kind === 'videoinput') {
+    DEV.cam = id; saveDev();
+    if (L.cam) try { const st = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: id }, width: { ideal: 1280 }, height: { ideal: 720 } } }), tr = st.getVideoTracks()[0];
+      if (L.video) { L.stream.removeTrack(L.video); L.video.stop(); } L.video = tr; L.stream.addTrack(tr); if (inCall) pushVideo(); } catch (e) { toast(t('call_denied')); }
+  }
+  if (inCall) { send('st', myState()); drawCall(); drawTiles(); } else drawLobby();
 }
 function drawLobby() {
   $('lTitle').textContent = t('call_title'); $('lRoom').textContent = t('call_room') + ': ' + ROOM;
@@ -179,27 +229,91 @@ $('lJoin').onclick = () => {
   if (!AC) try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
   join();
 };
+async function loadRoles() {
+  try { const { data, error } = await sb.rpc('call_room_open', { p_token: (window.Auth && Auth.token) || null, p_room: ROOM }); if (error) throw error;
+    if (data) ROLES = { host: data.host, cohosts: data.cohosts || [], banned: data.banned || [] }; return true; }
+  catch (e) { if (/group/i.test(e.message || '')) return 'group'; return true; }   // no room info: everyone is equal
+}
 
 // ---------------- the call ----------------
 function send(ev, payload) { if (ch) ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ from: ME.id }, payload) }); }
 function myState() { return { name: ME.name, mic: !!(L.audio && L.mic), cam: !!(L.video && L.cam), share: !!L.screen }; }
-function join() {
-  $('lobby').hidden = true; $('call').hidden = false; inCall = true;
+async function join(force) {
+  $('lJoin').disabled = true; $('lJoin').textContent = t('call_checking');
+  const ok = await loadRoles();
+  if (ok === 'group') { $('lErr').textContent = t('call_groupOnly'); $('lJoin').disabled = false; drawLobby(); return; }
+  if (ROLES.banned.includes(UID)) { $('lErr').textContent = t('call_banned'); $('lJoin').disabled = false; drawLobby(); return; }
+  if (ch) { try { sb.removeChannel(ch); } catch (e) {} ch = null; }
   if (L.audio) L.audio.enabled = L.mic;
-  ch = sb.channel('call-' + ROOM, { config: { broadcast: { self: false }, presence: { key: ME.id } } });
+  ch = sb.channel('call-' + ROOM, { config: { broadcast: { self: false }, presence: { key: ME.id, enabled: true } } });
+  let firstSync; const synced = new Promise(r => firstSync = r);
   ch.on('broadcast', { event: 'sig' }, ({ payload }) => onSignal(payload).catch(e => console.warn('signal', e)));
   ch.on('broadcast', { event: 'st' }, ({ payload }) => { const p = peers.get(payload.from); if (p) { p.st = payload; p.name = payload.name || p.name; drawTiles(); } });
   ch.on('broadcast', { event: 'msg' }, ({ payload }) => addMsg(payload.name, payload.text, false));
   ch.on('broadcast', { event: 'bye' }, ({ payload }) => dropPeer(payload.from, true));
-  ch.on('presence', { event: 'sync' }, syncPeers);
-  ch.subscribe((s) => { if (s === 'SUBSCRIBED') ch.track({ name: ME.name, at: Date.now() }); });
+  ch.on('broadcast', { event: 'cmd' }, ({ payload }) => onCmd(payload));
+  ch.on('broadcast', { event: 'roles' }, () => loadRoles().then(() => { drawTiles(); drawSide(); }));
+  ch.on('broadcast', { event: 'dup' }, ({ payload }) => { if (payload.uid === UID && payload.keep !== ME.id && inCall) leaveCall('call_moved'); });
+  ch.on('presence', { event: 'sync' }, () => { firstSync(); if (inCall) syncPeers(); });
+  ch.subscribe();
+  await Promise.race([synced, new Promise(r => setTimeout(r, 3000))]);
+  // the same account can only be in a call once
+  const all = ch.presenceState(), dupe = Object.keys(all).some(k => k !== ME.id && (all[k][0] || {}).uid === UID);
+  if (dupe && !force) {
+    $('lJoin').disabled = false; drawLobby();
+    $('lErr').innerHTML = `<div class="dupbox"><span>${t('call_dup')}</span><button class="btn" id="lMove">${t('call_moveHere')}</button></div>`;
+    $('lMove').onclick = () => { send('dup', { uid: UID, keep: ME.id }); $('lErr').textContent = ''; setTimeout(() => join(true), 700); };
+    return;
+  }
+  $('lobby').hidden = true; $('call').hidden = false; inCall = true; ME.at = Date.now();
+  await ch.track({ name: ME.name, uid: UID, at: ME.at });
+  watchInbox();
   drawCall(); drawTiles();
 }
+// host / co-host commands (checked against the room's roles from the database)
+function onCmd(c) {
+  if (c.to !== ME.id || !inCall || !canManage(c.uid)) return;
+  if (c.action === 'mute' && L.audio && L.mic) { L.mic = false; L.audio.enabled = false; send('st', myState()); drawCall(); drawTiles(); toast(t('call_mutedBy', { p: c.name || t('call_host') })); }
+  if (c.action === 'kick') leaveCall('call_kicked');
+}
+async function manage(peerId, action) {
+  const p = peers.get(peerId); if (!p) return;
+  if (action === 'mute') send('cmd', { to: peerId, action: 'mute', uid: UID, name: ME.name });
+  if (action === 'kick' || action === 'cohost' || action === 'uncohost') {
+    if (p.uid && window.Auth && Auth.token && (action === 'kick' || !p.uid.startsWith('guest-'))) {
+      try { const { data, error } = await sb.rpc('call_room_set', { p_token: Auth.token, p_room: ROOM, p_action: action === 'kick' ? 'ban' : action, p_target: p.uid }); if (error) throw error;
+        ROLES = { host: data.host, cohosts: data.cohosts || [], banned: data.banned || [] }; send('roles', {}); } catch (e) { toast(e.message); if (action !== 'kick') return; }
+    }
+    if (action === 'kick') { send('cmd', { to: peerId, action: 'kick', uid: UID }); setTimeout(() => dropPeer(peerId, true), 400); }
+  }
+  drawTiles(); drawSide();
+}
+function muteAll() { for (const p of peers.values()) if (!canManage(p.uid) || isHost(UID)) send('cmd', { to: p.id, action: 'mute', uid: UID, name: ME.name }); }
+// my own inbox in this window: hear when someone I'm ringing declines
+let inbox = null;
+function watchInbox() {   // the site chat (chat.js) already listens to my inbox and re-sends every ping as an event
+  if (inbox) return; inbox = true;
+  document.addEventListener('mal3ab-ping', (e) => { const p = e.detail; if (p && p.declined && new RegExp('[?&]room=' + ROOM + '(&|$)').test(p.declined)) toast('📵 ' + t('call_declined', { p: p.name || '…' })); });
+}
+// tell the friends I was ringing that I hung up before anyone answered (their ringing stops)
+function cancelRing() {
+  if (!RING.length || answered || !window.Auth || !Auth.user) return;
+  for (const id of RING) {
+    if (window.Chat && Chat.ping) { Chat.ping(id, { cancel: LINK, name: (Auth.profile && Auth.profile.username) || ME.name }); continue; }
+    const c = sb.channel('inbox-' + id, { config: { broadcast: { self: false, ack: false } } });
+    c.subscribe((st) => { if (st === 'SUBSCRIBED') c.send({ type: 'broadcast', event: 'ping', payload: { from: Auth.user.id, cancel: LINK, name: ME.name } }); }); }
+  RING.length = 0;
+}
 function syncPeers() {
-  const all = ch.presenceState(), ids = new Set(Object.keys(all).filter(k => k !== ME.id));
+  const all = ch.presenceState();
+  // the same account opened the call twice: the older window gives way to the newer one
+  if (Object.keys(all).some(k => k !== ME.id && (all[k][0] || {}).uid === UID && (all[k][0] || {}).at > ME.at)) { leaveCall('call_moved'); return; }
+  const ids = new Set(Object.keys(all).filter(k => k !== ME.id && !ROLES.banned.includes((all[k][0] || {}).uid)));
+  if (ids.size) { answered = true; RING.length = 0; }
   for (const id of ids) {
     const pr = all[id][0] || {};
-    if (!peers.has(id)) { addPeer(id, pr.name || '…'); toast(t('call_joined', { p: pr.name || '…' })); }
+    if (peers.has(id)) peers.get(id).uid = pr.uid;
+    if (!peers.has(id)) { addPeer(id, pr.name || '…').uid = pr.uid; toast(t('call_joined', { p: pr.name || '…' })); }
     else if (pr.name && peers.get(id).name === '…') { peers.get(id).name = pr.name; peers.get(id).st.name = pr.name; }
   }
   for (const id of [...peers.keys()]) if (!ids.has(id)) dropPeer(id, true);
@@ -257,13 +371,14 @@ async function toggleShare() {
     spotlight = 'me'; pushVideo(); drawCall();
   } catch (e) { if (!/NotAllowed|Abort/i.test(e.name)) toast(t('call_noShare')); }
 }
-function hangUp() {
-  send('bye', {}); inCall = false;
+function hangUp() { leaveCall('call_bye'); }
+function leaveCall(why) {
+  cancelRing(); send('bye', {}); inCall = false;
   for (const id of [...peers.keys()]) dropPeer(id, false);
   try { ch.untrack(); sb.removeChannel(ch); } catch (e) {} ch = null;
   for (const tr of [L.audio, L.video, L.screen]) if (tr) tr.stop();
   document.body.innerHTML = `<div style="position:fixed;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:#0b0e1a;color:#eef0ff;font-family:Segoe UI,Tahoma,sans-serif">
-    <div style="font-size:48px">📞</div><b style="font-size:20px">${t('call_bye')}</b>
+    <div style="font-size:48px">${why === 'call_kicked' ? '🚫' : '📞'}</div><b style="font-size:20px;text-align:center;padding:0 16px">${t(why || 'call_bye')}</b>
     <div style="display:flex;gap:10px"><button class="btn" onclick="location.reload()">${t('call_back')}</button><button class="btn sec" onclick="window.close();location.href='play.html'">${t('call_close')}</button></div></div>`;
 }
 $('bMic').onclick = toggleMic; $('bCam').onclick = toggleCam; $('bShare').onclick = toggleShare; $('bHang').onclick = hangUp;
@@ -272,7 +387,8 @@ $('bPeople').onclick = () => { sidePanel = sidePanel === 'people' ? null : 'peop
 $('bChat').onclick = () => { sidePanel = sidePanel === 'chat' ? null : 'chat'; $('bChat').dataset.n = ''; drawSide(); if (sidePanel) setTimeout(() => $('chatIn').focus(), 50); };
 $('cLink').onclick = () => { navigator.clipboard.writeText(LINK).then(() => { $('cLink').textContent = t('call_copied'); setTimeout(drawCall, 1500); }); };
 $('chatform').onsubmit = (e) => { e.preventDefault(); const v = $('chatIn').value.trim(); if (!v) return; send('msg', { name: ME.name, text: v.slice(0, 500) }); addMsg(ME.name, v, true); $('chatIn').value = ''; };
-window.addEventListener('pagehide', () => { if (inCall) send('bye', {}); });
+window.addEventListener('pagehide', () => { if (inCall) { cancelRing(); send('bye', {}); } });
+$('bSet').onclick = () => { sidePanel = sidePanel === 'settings' ? null : 'settings'; drawSide(); };
 
 // ---- drawing ----
 function drawCall() {
@@ -280,7 +396,7 @@ function drawCall() {
   set('bMic', L.mic && L.audio ? '🎤' : '🔇', !!(L.mic && L.audio), t('call_mic').replace(/^\S+\s/, ''));
   set('bCam', L.cam && L.video ? '📷' : '🚫', !!(L.cam && L.video), t('call_cam').replace(/^\S+\s/, ''));
   set('bShare', '🖥️', L.screen ? 'on' : null, L.screen ? t('call_stopShare') : t('call_share'));
-  set('bChat', '💬', null, t('call_chat')); set('bPeople', '👥', null, t('call_people')); set('bFull', '⛶', null, t('call_full'));
+  set('bChat', '💬', null, t('call_chat')); set('bPeople', '👥', null, t('call_people')); set('bSet', '⚙️', null, t('call_settings')); set('bFull', '⛶', null, t('call_full'));
   $('bHang').title = t('call_hang'); $('bHang').innerHTML = '📞<small>' + t('call_hang') + '</small>';
   $('cLink').textContent = t('call_link'); $('cCount').textContent = t('call_count', { n: peers.size + 1 });
   $('langslot').innerHTML = langButton().replace('btn small secondary langbtn', 'pill langbtn');
@@ -309,7 +425,7 @@ function drawTiles() {
   }
   if (!peers.size) grid.insertAdjacentHTML('beforeend', `<div class="tile"><div style="color:var(--muted);text-align:center;padding:20px">${t('call_alone')}<br><br><button class="pill" onclick="document.getElementById('cLink').click()">${t('call_link')}</button></div></div>`);
   for (const p of peers.values()) {
-    let a = audios.get(p.id); if (!a) { a = new Audio(); a.autoplay = true; audios.set(p.id, a); }
+    let a = audios.get(p.id); if (!a) { a = new Audio(); a.autoplay = true; audios.set(p.id, a); if (DEV.spk && a.setSinkId) a.setSinkId(DEV.spk).catch(() => {}); }
     if (a.srcObject !== p.stream) { a.srcObject = p.stream; a.play().catch(() => {}); }
   }
   for (const [id, a] of audios) if (!peers.has(id)) { a.srcObject = null; audios.delete(id); }
@@ -318,11 +434,25 @@ function drawTiles() {
 }
 function drawSide() {
   $('side').hidden = !sidePanel;
-  $('people').hidden = sidePanel !== 'people'; $('msgs').hidden = $('chatform').hidden = sidePanel !== 'chat';
-  $('sideT').innerHTML = (sidePanel === 'chat' ? '💬 ' + t('call_chat') : '👥 ' + t('call_people')) + `<button class="pill" onclick="sidePanel=null;drawSide()">✕</button>`;
+  $('people').hidden = sidePanel !== 'people'; $('setp').hidden = sidePanel !== 'settings'; $('msgs').hidden = $('chatform').hidden = sidePanel !== 'chat';
+  $('sideT').innerHTML = (sidePanel === 'chat' ? '💬 ' + t('call_chat') : sidePanel === 'settings' ? '⚙️ ' + t('call_settings') : '👥 ' + t('call_people')) + `<button class="pill" onclick="sidePanel=null;drawSide()">✕</button>`;
   $('chatIn').placeholder = t('call_type'); $('chatSend').textContent = t('call_send');
-  if (sidePanel === 'people') $('people').innerHTML = [{ name: ME.name + ' (' + t('call_you') + ')', st: myState() }].concat([...peers.values()].map(p => ({ name: p.name, st: p.st })))
-    .map(x => `<div class="person"><span dir="auto">${esc(x.name)}</span>${x.st.mic ? '🎤' : '🔇'}${x.st.cam ? '📷' : ''}${x.st.share ? '🖥️' : ''}</div>`).join('');
+  if (sidePanel === 'settings') drawDevices($('setp'));
+  if (sidePanel === 'people') {
+    const mine = canManage(UID), badge = (uid) => isHost(uid) ? `<span class="badge">${t('call_host')}</span>` : isCo(uid) ? `<span class="badge co">${t('call_cohost')}</span>` : '';
+    const acts = (p) => {
+      if (!mine || isHost(p.uid) || (isCo(p.uid) && !isHost(UID))) return '';
+      const real = p.uid && !p.uid.startsWith('guest-');
+      return `<span class="acts">${p.st.mic ? `<button data-m="mute" data-p="${p.id}" title="${t('call_mute')}">🔇</button>` : ''}`
+        + (isHost(UID) && real ? `<button data-m="${isCo(p.uid) ? 'uncohost' : 'cohost'}" data-p="${p.id}" title="${t(isCo(p.uid) ? 'call_unCo' : 'call_makeCo')}">${isCo(p.uid) ? '☆' : '⭐'}</button>` : '')
+        + `<button data-m="kick" data-p="${p.id}" title="${t('call_remove')}">🚫</button></span>`;
+    };
+    $('people').innerHTML = (mine && peers.size ? `<button class="btn" id="muteAll" style="margin-bottom:6px">${t('call_muteAll')}</button>` : '')
+      + [`<div class="person"><span dir="auto">${esc(ME.name)} (${t('call_you')})</span>${badge(UID)}${L.mic ? '🎤' : '🔇'}${L.cam ? '📷' : ''}${L.share ? '🖥️' : ''}</div>`]
+      .concat([...peers.values()].map(p => `<div class="person"><span dir="auto">${esc(p.name)}</span>${badge(p.uid)}${p.st.mic ? '🎤' : '🔇'}${p.st.cam ? '📷' : ''}${p.st.share ? '🖥️' : ''}${acts(p)}</div>`)).join('');
+    $('people').querySelectorAll('[data-m]').forEach(b => b.onclick = () => { if (b.dataset.m !== 'kick' || confirm(t('call_remove') + '?')) manage(b.dataset.p, b.dataset.m); });
+    if ($('muteAll')) $('muteAll').onclick = muteAll;
+  }
 }
 function addMsg(name, text, me) {
   const d = document.createElement('div'); d.className = 'm' + (me ? ' me' : ''); d.dir = 'auto'; d.innerHTML = `<b>${esc(name)}</b>${esc(text)}`; $('msgs').appendChild(d); $('msgs').scrollTop = 1e9;
