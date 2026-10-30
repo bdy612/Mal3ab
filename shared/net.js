@@ -161,7 +161,7 @@
     toast(inv) {
       const el = document.createElement('div');
       el.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:99999;background:#1a1f35;color:#eef0ff;border:2px solid #ffb703;border-radius:14px;padding:14px 16px;font:700 15px Segoe UI,Tahoma,Arial,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.5);max-width:320px';
-      const names = { chess: t('chess'), connect4: t('connect4'), tictactoe: t('tictactoe'), turfrush: t('turfrush'), voxel: t('voxel'), pitch: t('pitch') };
+      const names = { chess: t('chess'), connect4: t('connect4'), tictactoe: t('tictactoe'), turfrush: t('turfrush'), voxel: t('voxel'), pitch: t('pitch'), voxelstrike: t('voxelstrike'), bricks: t('bricks') };
       el.innerHTML = `⚡ <b style="color:#ffb703">${inv.from}</b> ${t('invitesYou')} <b>${names[inv.game] || inv.game}</b>
         <div style="display:flex;gap:8px;margin-top:10px">
           <button style="flex:1;background:#80ed99;color:#062b12;border:0;border-radius:8px;padding:8px;font-weight:700;cursor:pointer">✅ ${t('accept')}</button>
@@ -170,7 +170,7 @@
       ok.onclick = async () => {
         try {
           await rpc('respond_invite', { p_id: inv.id, p_accept: true });
-          if (!['turfrush', 'voxel', 'pitch'].includes(inv.game)) await Net.join(inv.code);
+          if (!['turfrush', 'voxel', 'pitch', 'voxelstrike', 'bricks'].includes(inv.game)) await Net.join(inv.code);   // these games use their own rooms
           location.href = Invites.gameUrl(inv.game, inv.code, 2, inv.from);
         } catch (e) { el.textContent = e.message; setTimeout(() => el.remove(), 3000); }
       };
