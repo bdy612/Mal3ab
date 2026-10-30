@@ -10,8 +10,8 @@
   // old invite links (index.html?join=CODE …) and the apps go straight to the games
   if (/[?&](join|code|room)=/.test(location.search) || /Mal3abApp/.test(navigator.userAgent)) location.replace('play.html' + location.search);
 </script>
-<link rel="stylesheet" href="shared/style.css?v=1793352695">
-<script src="shared/i18n.js?v=1793352695"></script>
+<link rel="stylesheet" href="shared/style.css?v=1793352762">
+<script src="shared/i18n.js?v=1793352762"></script>
 <style>
   body { background: radial-gradient(ellipse at 50% -10%, #2a3366 0%, var(--bg) 60%); min-height: 100vh; }
   .land { max-width: 1040px; margin: 0 auto; padding: 18px 18px 50px; display: flex; flex-direction: column; gap: 26px; }
@@ -44,7 +44,7 @@
 <body>
 <div class="land">
   <div class="nav">
-    <div class="logo"><img src="icon.png" alt=""> <span data-i18n="app"></span></div>
+    <div class="logo"><img src="icon.png" alt=""> <span data-i18n="app"></span> <span class="ver" data-ver>v1.0</span></div>
     <div class="sp"></div>
     <span id="langslot"></span>
   </div>

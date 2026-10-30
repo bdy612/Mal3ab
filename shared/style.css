@@ -127,3 +127,6 @@ a.me { color: var(--text); display: inline-flex; align-items: center; gap: 6px; 
 .users .acts { display: flex; gap: 6px; flex-wrap: wrap; }
 .ar .page, .ar .users td, .ar .users th { direction: rtl; text-align: right; }
 .card .botrow { align-items: center; } .card .botrow select { flex: 0 0 auto; font-family: inherit; background: var(--card2); color: var(--text); border: 0; border-radius: 8px; padding: 9px 8px; }
+
+/* release number next to the Mal3ab title */
+.ver { display: inline-block; vertical-align: middle; font-size: 12px; font-weight: 800; color: #1a1200; background: var(--accent); border-radius: 999px; padding: 2px 8px; margin-inline-start: 6px; letter-spacing: .3px; line-height: 1.4; }

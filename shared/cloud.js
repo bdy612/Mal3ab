@@ -27,8 +27,8 @@
   (async () => {
     try {
       if (!window.supabase) await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      if (!window.t) await load(depth + 'shared/i18n.js?v=1793352695');
-      if (!window.Auth) await load(depth + 'shared/net.js?v=1793352695');
+      if (!window.t) await load(depth + 'shared/i18n.js?v=1793352762');
+      if (!window.Auth) await load(depth + 'shared/net.js?v=1793352762');
       await Auth.init();
     } catch (e) { window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready')); return; }
     window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready'));   // games that wait for the account

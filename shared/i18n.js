@@ -59,6 +59,7 @@
       roomMissing: 'Room not found', roomFull: 'Room is full', codeMissing: 'That code does not exist', roomFail: 'Could not create a room, try again',
     }
   };
+  window.MAL3AB_VERSION = '1.0';   // the current release (the latest one is also stored in the database: app_config.release)
   let lang = 'ar';
   try { lang = localStorage.getItem('mal3ab_lang') || (navigator.language.startsWith('ar') ? 'ar' : 'en'); } catch (e) {}
   if (!STR[lang]) lang = 'ar';
@@ -105,6 +106,7 @@
     document.body && document.body.classList.toggle('ar', lang === 'ar');
     document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
     document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
+    document.querySelectorAll('[data-ver]').forEach(el => el.textContent = 'v' + window.MAL3AB_VERSION);
     document.querySelectorAll('.langbtn').forEach(b => b.textContent = lang === 'ar' ? 'English' : 'العربية');
   };
   // round profile picture (or the first letter of the name)
