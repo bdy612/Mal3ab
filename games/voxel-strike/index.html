@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Voxel Strike — Mal3ab</title>
+<style>
+  :root { --bg: #0f1220; --card: #1a1f35; --card2: #232a48; --text: #eef0ff; --muted: #9aa3c7; --accent: #ffb703; --red: #ff5d73; --blue: #4cc9f0; --ok: #80ed99; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0f1220; color: var(--text); font-family: 'Segoe UI', Tahoma, Arial, sans-serif; user-select: none; -webkit-user-select: none; }
+  #c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; touch-action: none; }
+  .screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 30; overflow: auto; background: rgba(10, 12, 24, .55); }
+  .screen[hidden], [hidden] { display: none !important; }
+  #menu { background: linear-gradient(180deg, rgba(15, 18, 32, .35), rgba(15, 18, 32, .88)); align-items: flex-start; }
+  .wrap { width: min(1020px, 100%); display: flex; flex-direction: column; gap: 16px; margin: auto 0; }
+  .head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .head .sp { flex: 1; }
+  .logo { font-weight: 900; font-size: clamp(32px, 6vw, 58px); letter-spacing: 2px; line-height: 1; text-shadow: 0 4px 0 rgba(0, 0, 0, .35); }
+  .logo b { color: var(--accent); } .logo span { color: #fff; }
+  .sub { color: #d6dbf5; font-size: 15px; margin-top: 6px; text-shadow: 0 1px 2px #000; }
+  .btn { background: var(--accent); color: #1a1200; border: 0; border-radius: 12px; padding: 11px 18px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .btn.sec { background: var(--card2); color: var(--text); } .btn.small { padding: 7px 12px; font-size: 14px; } .btn:hover { filter: brightness(1.08); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+  .card { background: rgba(26, 31, 53, .93); border: 1px solid rgba(255, 255, 255, .07); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+  .card h2 { margin: 0; font-size: 22px; } .card p { margin: 0; color: var(--muted); font-size: 14px; flex: 1; line-height: 1.5; } .card .ic { font-size: 34px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; } .row.center { justify-content: center; }
+  .row label { color: var(--muted); font-size: 14px; }
+  select, input { font-family: inherit; font-size: 15px; background: var(--card2); color: var(--text); border: 2px solid transparent; border-radius: 10px; padding: 8px 10px; }
+  input.code { width: 120px; text-transform: uppercase; letter-spacing: 3px; text-align: center; font-weight: 700; flex: 1; }
+  .msg { color: var(--red); min-height: 18px; font-size: 13px; }
+  .help { color: #c9cfea; font-size: 13px; text-align: center; text-shadow: 0 1px 2px #000; }
+  .panel { background: rgba(26, 31, 53, .96); border-radius: 18px; padding: 22px; width: min(440px, 100%); display: flex; flex-direction: column; gap: 10px; text-align: center; }
+  .panel h2 { margin: 0 0 4px; color: var(--accent); font-size: 26px; } .panel p { margin: 0; color: var(--muted); }
+  .panel label { display: flex; flex-direction: column; gap: 4px; text-align: start; color: var(--muted); font-size: 14px; }
+  input[type=range] { padding: 0; accent-color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; } th { color: var(--muted); font-weight: 600; } td, th { padding: 6px 8px; text-align: start; border-bottom: 1px solid rgba(255, 255, 255, .07); }
+  td:not(:first-child), th:not(:first-child) { text-align: center; width: 60px; }
+  tr.me td { color: var(--accent); font-weight: 700; }
+  td i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-inline-end: 6px; }
+  .big { font-size: 22px; letter-spacing: 3px; color: var(--accent); }
+  .ar .sub, .ar .card p, .ar .card h2, .ar .help, .ar .panel, .ar #dead, .ar #waitbox, .ar #board h3 { direction: rtl; }
+
+  /* HUD */
+  #hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; text-shadow: 0 1px 2px rgba(0, 0, 0, .8); }
+  #cross { position: absolute; left: 50%; top: 50%; }
+  #cross i { position: absolute; background: #fff; box-shadow: 0 0 2px #000; }
+  #cross i:nth-child(1), #cross i:nth-child(2) { width: 2px; height: 9px; } #cross i:nth-child(3), #cross i:nth-child(4) { width: 9px; height: 2px; }
+  #hitm { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font: 700 28px system-ui; color: #fff; opacity: 0; }
+  #hitm.kill { color: var(--red); font-size: 34px; }
+  #scope { position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0 34vmin, #000 34.4vmin); }
+  #scope::before, #scope::after { content: ''; position: absolute; background: rgba(0, 0, 0, .85); }
+  #scope::before { left: 0; right: 0; top: 50%; height: 2px; } #scope::after { top: 0; bottom: 0; left: 50%; width: 2px; }
+  #dmg { position: absolute; inset: 0; box-shadow: inset 0 0 140px 50px rgba(220, 0, 0, .6); opacity: 0; }
+  #dirs { position: absolute; left: 50%; top: 50%; opacity: 0; }
+  #dirs i { position: absolute; left: -14px; top: -150px; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 24px solid rgba(255, 70, 70, .9); transform-origin: 14px 150px; }
+  #top { position: absolute; top: max(10px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); display: flex; gap: 14px; align-items: center; background: rgba(0, 0, 0, .42); padding: 7px 16px; border-radius: 12px; white-space: nowrap; font-size: 15px; }
+  #top b { color: var(--accent); }
+  #feed { position: absolute; top: 58px; right: 12px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; font-size: 14px; }
+  #feed div { background: rgba(0, 0, 0, .45); padding: 4px 10px; border-radius: 8px; }
+  #hpbox { position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, .42); padding: 9px 14px; border-radius: 12px; font-weight: 800; font-size: 20px; }
+  #hpbar { width: 170px; height: 12px; background: rgba(255, 255, 255, .15); border-radius: 6px; overflow: hidden; } #hpbar i { display: block; height: 100%; background: var(--ok); width: 100%; transition: width .15s; }
+  #ammo { position: absolute; right: 16px; bottom: 16px; text-align: right; background: rgba(0, 0, 0, .42); padding: 8px 14px; border-radius: 12px; }
+  #ammo b { font-size: 28px; display: block; } #ammo span { color: #cdd3ee; font-size: 13px; }
+  #slots { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 6px; pointer-events: auto; z-index: 2; }
+  .slot { min-width: 50px; padding: 5px 8px; border-radius: 10px; background: rgba(0, 0, 0, .45); border: 2px solid transparent; text-align: center; font-size: 12px; color: #ddd; cursor: pointer; }
+  .slot b { display: block; font-size: 19px; } .slot.on { border-color: var(--accent); color: #fff; background: rgba(0, 0, 0, .6); }
+  #banner { position: absolute; top: 20%; left: 0; right: 0; text-align: center; font-size: clamp(28px, 5vw, 50px); font-weight: 900; color: var(--accent); opacity: 0; transition: opacity .4s; }
+  #board { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(15, 18, 32, .94); border-radius: 16px; padding: 16px 18px; min-width: min(340px, 90vw); }
+  #board h3 { margin: 0 0 8px; color: var(--accent); text-align: center; }
+  #dead { position: absolute; left: 50%; top: 36%; transform: translate(-50%, -50%); text-align: center; background: rgba(0, 0, 0, .55); padding: 14px 24px; border-radius: 14px; font-size: 18px; display: flex; flex-direction: column; gap: 6px; }
+  #dead b { color: var(--accent); font-size: 22px; }
+  #waitbox { position: absolute; top: 64px; left: 50%; transform: translateX(-50%); background: rgba(15, 18, 32, .85); padding: 10px 16px; border-radius: 12px; text-align: center; pointer-events: auto; display: flex; flex-direction: column; gap: 6px; }
+  #clickHint { position: absolute; left: 50%; top: 58%; transform: translateX(-50%); background: rgba(0, 0, 0, .6); padding: 8px 16px; border-radius: 10px; }
+
+  /* touch */
+  #touch { position: fixed; inset: 0; z-index: 9; touch-action: none; }
+  #touch .stick { position: absolute; left: max(22px, env(safe-area-inset-left)); bottom: 84px; width: 132px; height: 132px; border-radius: 50%; background: rgba(255, 255, 255, .1); border: 2px solid rgba(255, 255, 255, .28); }
+  #touch .knob { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; background: rgba(255, 255, 255, .42); }
+  #touch .tb { position: absolute; border-radius: 50%; background: rgba(0, 0, 0, .38); border: 2px solid rgba(255, 255, 255, .35); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; width: 56px; height: 56px; }
+  #touch .tb.held { background: rgba(255, 183, 3, .55); border-color: var(--accent); }
+  #touch .fire { width: 86px; height: 86px; font-size: 34px; right: calc(26px + env(safe-area-inset-right)); bottom: 110px; }
+  #touch .aim { right: calc(124px + env(safe-area-inset-right)); bottom: 168px; }
+  #touch .jump { right: calc(30px + env(safe-area-inset-right)); bottom: 210px; }
+  #touch .reload { right: calc(130px + env(safe-area-inset-right)); bottom: 98px; }
+  #touch .nade { right: calc(188px + env(safe-area-inset-right)); bottom: 150px; width: 48px; height: 48px; font-size: 19px; }
+  #touch .next { right: calc(98px + env(safe-area-inset-right)); bottom: 238px; width: 48px; height: 48px; font-size: 18px; }
+  #touch .pause { right: calc(12px + env(safe-area-inset-right)); top: max(10px, env(safe-area-inset-top)); width: 44px; height: 44px; font-size: 18px; }
+  #touch .score { left: max(12px, env(safe-area-inset-left)); top: max(10px, env(safe-area-inset-top)); width: 44px; height: 44px; font-size: 18px; }
+  @media (pointer: coarse) {
+    #hpbox { left: 12px; bottom: 12px; padding: 6px 10px; font-size: 16px; } #hpbar { width: 110px; }
+    #ammo { top: max(10px, env(safe-area-inset-top)); bottom: auto; right: auto; left: calc(66px + env(safe-area-inset-left)); text-align: left; padding: 5px 10px; } #ammo b { font-size: 20px; }
+    #slots { bottom: 8px; } .slot { min-width: 42px; padding: 3px 6px; } #feed { top: 120px; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../../shared/i18n.js?v=1793340755"></script>
+<script src="../../shared/net.js?v=1793340755"></script>
+<script src="../../shared/vendor/three.min.js"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="hud" hidden>
+  <div id="cross"><i></i><i></i><i></i><i></i></div>
+  <div id="hitm">✕</div>
+  <div id="scope" hidden></div>
+  <div id="dmg"></div>
+  <div id="dirs"><i></i></div>
+  <div id="top"></div>
+  <div id="waitbox" hidden></div>
+  <div id="feed"></div>
+  <div id="hpbox">❤ <div id="hpbar"><i></i></div><span id="hpnum">100</span></div>
+  <div id="ammo"><b id="ammoNum"></b><span id="wname"></span></div>
+  <div id="slots"></div>
+  <div id="banner"></div>
+  <div id="board" hidden></div>
+  <div id="dead" hidden></div>
+  <div id="clickHint" hidden data-i18n="vs_clickPlay"></div>
+</div>
+
+<div id="touch" hidden>
+  <div class="stick"><div class="knob"></div></div>
+  <div class="tb fire" data-b="fire">🔥</div>
+  <div class="tb aim" data-b="aim">🎯</div>
+  <div class="tb jump" data-b="jump">⤒</div>
+  <div class="tb reload" data-b="reload">↻</div>
+  <div class="tb nade" data-b="nade">💣</div>
+  <div class="tb pause" data-b="pause">⏸</div>
+  <div class="tb score" data-b="score">🏆</div>
+</div>
+
+<div class="screen" id="menu"></div>
+<div class="screen" id="pause" hidden></div>
+<div class="screen" id="settings" hidden></div>
+<div class="screen" id="end" hidden></div>
+
+<script src="world.js?v=1793340755"></script>
+<script src="strike.js?v=1793340755"></script>
+<script src="../../shared/cloud.js?v=1793340755" data-game="voxelstrike" data-keys="vstrike-settings,vstrike-stats,vstrike-menu"></script>
+</body>
+</html>

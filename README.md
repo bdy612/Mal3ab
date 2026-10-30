@@ -5,12 +5,15 @@ Live: https://bdy612.github.io/Mal3ab/
 ## Games
 - **Online (same device or room code):** Tic-Tac-Toe, Connect 4, Chess (clock, move list, draw offer, resign, premove, right-click arrows).
 - **My games:** City Hall, Turf Rush, Pitch Legends, Voxel Sandbox (its own UI untouched; account name + cloud-saved worlds via shared/cloud.js).
+- **Voxel Strike** (`games/voxel-strike/`): blocky arena shooter on a generated voxel map — pistol, rifle, shotgun, sniper (scope), grenades that blow holes in the map, placeable blocks; Deathmatch vs bots (easy/medium/hard, 3–9 bots, first to 20), Waves (survive; best wave saved), Online (room code, invite link `?room=CODE`, Fast Connect; first to 15 wins the round, new round every 8 s). Online uses a Supabase broadcast channel `vstrike-CODE`: each player runs their own character, hits go to the victim, grenade explosions and block changes are replayed on every screen, late joiners get a sync of the changed blocks and scores. Touch controls on phones.
+- **Brick Builder** (`games/brick-builder/`): pick up building bricks and snap them onto a 32×32 baseplate — bricks, plates, tiles, slopes, round pieces and cones in 21 colours (4 see-through); Build / Move (pick a piece up and put it somewhere else) / Paint / Copy / Delete, rotate (R or right click), undo/redo, stack-on-top snapping, saved builds (`bricks-saves`, synced to the account), photo export. Mouse, keyboard and touch (tap to place, one finger turns, two fingers zoom/move).
+- Both new games use the local copy of three.js r149 in `shared/vendor/three.min.js` and the shared Arabic/English strings (`addStrings` in `shared/i18n.js`).
 
 ## Features
 - Arabic / English (button in the top bar, remembered). The layout never flips — only the text direction changes.
 - Online rooms: 4-letter code or an invite link (`index.html?join=CODE`).
 - Accounts: player name + password (email optional), bcrypt-hashed in the database, no email confirmation. Log in with name or email. Sessions last 3 hours of inactivity, or 7 days with "keep me signed in"; while the site is open a heartbeat keeps you logged in. Wins/losses/draws on the profile. Or play as a guest.
-- Friends: add by name, accept requests, see who is online; **Fast connect** invites an online friend straight into a game (chess, Connect 4, X-O, Turf Rush, Voxel Sandbox — pick one of your worlds, the friend lands in it) — they get a popup on the site and accept, no code or link needed.
+- Friends: add by name, accept requests, see who is online; **Fast connect** invites an online friend straight into a game (chess, Connect 4, X-O, Turf Rush, Pitch Legends, Voxel Strike, Voxel Sandbox — pick one of your worlds, the friend lands in it) — they get a popup on the site and accept, no code or link needed.
 - Match history (`history.html`): online games are saved to the database; guests see their local history.
 - "Play again" at the end of every game.
 

@@ -16,11 +16,12 @@
 
   (async () => {
     try {
-      await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
-      await load(depth + 'shared/i18n.js?v=1793338910');
-      await load(depth + 'shared/net.js?v=1793338910');
+      if (!window.supabase) await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js');
+      if (!window.t) await load(depth + 'shared/i18n.js?v=1793340755');
+      if (!window.Auth) await load(depth + 'shared/net.js?v=1793340755');
       await Auth.init();
-    } catch (e) { return; }
+    } catch (e) { window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready')); return; }
+    window.Mal3abReady = true; document.dispatchEvent(new Event('mal3abready'));   // games that wait for the account
     const name = Auth.name();
 
     // Mal3ab controls placed INSIDE each game's own UI (no bar, no overlays)
@@ -60,6 +61,8 @@
         const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
         box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>`;
         document.body.appendChild(box);
+      } else if (document.querySelector('[data-mal3ab-home]')) {   // the game has its own home buttons
+        document.querySelectorAll('[data-mal3ab-home]').forEach(h => { h.onclick = (e) => { e.preventDefault(); location.href = homeHref; }; });
       } else {                                       // any other game: small round bubbles in the bottom-left corner
         const box = document.createElement('div'); box.className = 'mal3ab-bubbles';
         box.innerHTML = `<a class="bubble" href="${homeHref}" title="${t('home')}">🏠</a>${label ? `<span class="bubble name">${label}</span>` : ''}`;
