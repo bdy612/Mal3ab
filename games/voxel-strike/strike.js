@@ -30,6 +30,10 @@ addStrings({
   vs_helpTouch: 'العصاية للحركة · اسحب في الشاشة عشان تبص · 🔥 ضرب · 🎯 نيشان · ⤒ نط · 💣 دوس واسحب صباعك عشان تنشن القنبلة',
   vs_respawn: 'هترجع بعد {n}', vs_killedBy: 'قتلك {p}', vs_wave: 'الموجة', vs_left: 'فاضل', vs_waveClear: 'الموجة خلصت! ✓',
   vs_over: 'انتهى الماتش', vs_gameOver: 'خسرت!', vs_youWin: 'كسبت! 🏆', vs_won: '{p} كسب', vs_reached: 'وصلت للموجة {n}', vs_best: 'أحسن رقم: الموجة {n}',
+  vs_rules: '⚙ إعدادات الماتش', vs_rulesT: 'إعدادات الماتش', vs_botN: 'عدد البوتات', vs_allLv: 'مستوى كل البوتات', vs_mixed: 'مختلط', vs_eachBot: 'كل بوت لوحده',
+  vs_bot: 'بوت', vs_target: 'عدد القتلات للفوز', vs_noLimit: 'من غير حد', vs_lives: 'الأرواح (كام مرة تموت وترجع)', vs_inf: '∞ ما لا نهاية',
+  vs_hc: '💀 هاردكور', vs_hcDesc: 'أي ضربة بتموّت على طول، واللي يموت بيفضل ميت لآخر الماتش.', vs_save: '✓ تمام', vs_out: 'خلصت أرواحك — بتتفرج لحد آخر الماتش',
+  vs_lastStand: 'آخر واحد يفضل عايش يكسب', vs_livesLeft: 'أرواح', vs_sum: '{b} بوت · {l} · {t} · {v}', vs_sumT: 'أول واحد يوصل {n}', vs_sumL: '{n} أرواح',
   vs_kills: 'قتلات', vs_deaths: 'موت', vs_player: 'اللاعب', vs_again: '↻ العب تاني', vs_menu: 'القائمة', vs_nextRound: 'الجولة الجاية بعد {n}',
   vs_firstTo: 'أول واحد يوصل {n}', vs_waiting: 'مستني أصحابك… ابعتلهم الكود', vs_room: 'الغرفة', vs_joined: 'دخل', vs_leftRoom: 'خرج',
   vs_pistol: 'مسدس', vs_rifle: 'رشاش', vs_shotgun: 'شوتجن', vs_sniper: 'قناصة', vs_blocks: 'بلوكات', vs_grenade: 'قنبلة', vs_reload: 'بيحشي…',
@@ -46,6 +50,10 @@ addStrings({
   vs_helpTouch: 'Stick to move · drag the screen to look · 🔥 shoot · 🎯 aim · ⤒ jump · 💣 hold to aim the grenade, let go to throw',
   vs_respawn: 'Back in {n}', vs_killedBy: 'Eliminated by {p}', vs_wave: 'Wave', vs_left: 'left', vs_waveClear: 'Wave cleared! ✓',
   vs_over: 'Match over', vs_gameOver: 'Game over!', vs_youWin: 'You win! 🏆', vs_won: '{p} wins', vs_reached: 'You reached wave {n}', vs_best: 'Best: wave {n}',
+  vs_rules: '⚙ Match settings', vs_rulesT: 'Match settings', vs_botN: 'Number of bots', vs_allLv: 'Level for all bots', vs_mixed: 'Mixed', vs_eachBot: 'Each bot',
+  vs_bot: 'Bot', vs_target: 'Kills to win', vs_noLimit: 'No limit', vs_lives: 'Lives (how many times you can die)', vs_inf: '∞ Unlimited',
+  vs_hc: '💀 Hardcore', vs_hcDesc: 'Any hit kills instantly, and whoever dies stays dead until the match ends.', vs_save: '✓ Done', vs_out: 'Out of lives — watching until the match ends',
+  vs_lastStand: 'Last one standing wins', vs_livesLeft: 'lives', vs_sum: '{b} bots · {l} · {t} · {v}', vs_sumT: 'first to {n}', vs_sumL: '{n} lives',
   vs_kills: 'Kills', vs_deaths: 'Deaths', vs_player: 'Player', vs_again: '↻ Play again', vs_menu: 'Menu', vs_nextRound: 'Next round in {n}',
   vs_firstTo: 'First to {n}', vs_waiting: 'Waiting for friends… send them the code', vs_room: 'Room', vs_joined: 'joined', vs_leftRoom: 'left',
   vs_pistol: 'Pistol', vs_rifle: 'Rifle', vs_shotgun: 'Shotgun', vs_sniper: 'Sniper', vs_blocks: 'Blocks', vs_grenade: 'Grenade', vs_reload: 'Reloading…',
@@ -214,6 +222,12 @@ const GRAV = 22, JUMP = 7.6, ONLINE_TARGET = 15, DM_TARGET = 20;
 // ---------------------------------------------------------------------
 const G = { mode: null, world: null, fighters: [], me: null, t: 0, running: false, paused: false, over: false, ads: false, fireHeld: false, fired: false,
   shake: 0, kick: 0, diff: 'medium', bots: 5, wave: 0, waveLeft: 0, waveSpawnT: 0, waveBreak: 0, hurtA: 0, hurtFrom: null, endT: 0, opts: null };
+// match rules: kills to win (0 = no limit), lives (0 = unlimited), hardcore (one hit kills, one life)
+function rules() {
+  const c = (G.mode === 'online' ? NET.cfg : G.opts) || {}, hard = !!c.hardcore;
+  return { target: c.target != null ? +c.target : (G.mode === 'online' ? ONLINE_TARGET : DM_TARGET), lives: hard ? 1 : (+c.lives || 0), hardcore: hard };
+}
+const isOut = (f) => G.mode !== 'waves' && rules().lives > 0 && f.deaths >= rules().lives;   // no lives left: stays dead
 const myName = () => (window.Auth && Auth.name && Auth.name()) || t('vs_player');
 function newFighter(o) {
   const f = Object.assign({ id: Math.random().toString(36).slice(2, 10), name: 'Player', color: COLORS[0], bot: false, local: false, remote: false,
@@ -342,6 +356,7 @@ function hitBlock(f, h, point, d, g) {
 }
 function damage(t, dmg, a, head, w) {
   if (!t.alive || G.over || G.t - t.spawnT < 1.2) return;
+  if (G.mode !== 'waves' && rules().hardcore && dmg > 0) dmg = Math.max(dmg, t.hp);
   t.hp -= dmg; t.hurtT = G.t;
   if (t.local) { G.hurtA = Math.min(1, G.hurtA + dmg / 60); G.hurtFrom = a && a !== t ? a.pos.clone() : null; sfx.hurt(); hudHp(); }
   if (t.bot && a && a !== t && !(G.mode === 'waves' && a.bot)) { t.ai.target = a; t.ai.seen = G.t; t.ai.last = a.pos.clone(); }
@@ -354,7 +369,7 @@ function die(t, a, w, head) {
   if (a && a.local && a !== t) { sfx.kill(); hitMark(true); STATS.kills++; saveStats(); }
   if (G.mode === 'online' && sim(t)) send('kill', { k: a ? a.id : null, v: t.id, w, h: head });
   dropLoot(t);
-  t.respawnAt = G.t + 3.5;
+  t.respawnAt = isOut(t) ? Infinity : G.t + 3.5;
   if (t.local) { G.ads = false; G.fireHeld = false; G.nadeAim = false; showDead(a); }
   checkEnd();
 }
@@ -528,7 +543,7 @@ const key = (c) => keys[c] ? 1 : 0;
 const TOUCH = { mx: 0, my: 0, jump: false, sprint: false };
 function localUpdate(dt) {
   const f = G.me;
-  if (!f.alive) { if (G.mode !== 'waves' && !G.over && G.t >= f.respawnAt) spawn(f); else updDead(); return; }
+  if (!f.alive) { if (G.mode !== 'waves' && !G.over && G.t >= f.respawnAt && !isOut(f)) spawn(f); else updDead(); return; }
   if (G.paused) { physics(f, dt, 0, 0, 0, false); return; }
   let mx = key('KeyD') - key('KeyA') + TOUCH.mx, mz = key('KeyS') - key('KeyW') + TOUCH.my;
   const len = Math.hypot(mx, mz); if (len > 1) { mx /= len; mz /= len; }
@@ -581,10 +596,10 @@ function startGame(mode, opts) {
   G.mode = mode; G.opts = opts || {}; G.over = false; G.t = 0; G.diff = G.opts.diff || 'medium'; G.paused = false; G.ads = false; G.fireHeld = false; G.endT = 0;
   buildWorld(mode === 'online' ? seedFor(G.opts.code, 1) : G.opts.seed != null ? G.opts.seed : (Math.random() * 1e9) | 0);
   G.me = newFighter({ local: true, name: myName(), color: COLORS[Math.floor(Math.random() * COLORS.length)] });
-  if (mode === 'dm') for (let i = 0; i < (G.opts.bots || 5); i++) addBot(G.diff, i);
+  if (mode === 'dm') { const n = G.opts.bots != null ? G.opts.bots : 5; for (let i = 0; i < n; i++) addBot((G.opts.lvs && G.opts.lvs[i]) || G.diff, i); }
   for (const f of G.fighters) spawn(f);
   if (mode === 'waves') { G.wave = 0; G.waveBreak = 2.5; banner(t('vs_wave') + ' 1'); }
-  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium' } : null);
+  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium', lvs: G.opts.lvs || null, target: G.opts.target, lives: G.opts.lives || 0, hardcore: !!G.opts.hardcore } : null);
   G.running = true;
   showScreen(null); $('hud').hidden = false; $('touch').hidden = !touchMode; hudAll(); renderBoard(false);
   lockMouse();
@@ -605,11 +620,14 @@ function wavesUpdate(dt) {
 }
 function checkEnd() {
   if (G.over) return;
-  if (G.mode === 'dm' && G.fighters.some(f => f.kills >= DM_TARGET)) endMatch();
   if (G.mode === 'waves' && !G.me.alive) setTimeout(() => { if (!G.over && G.mode === 'waves') endMatch(); }, 1800);
-  if (G.mode === 'online' && G.fighters.some(f => f.kills >= ONLINE_TARGET)) endMatch();
+  if (G.mode === 'dm' || G.mode === 'online') {
+    const r = rules();
+    if (r.target > 0 && G.fighters.some(f => f.kills >= r.target)) { endMatch(); return; }
+    if (r.lives > 0 && G.fighters.length > 1 && G.fighters.filter(f => !isOut(f)).length <= 1) endMatch();
+  }
 }
-function ranking() { return [...G.fighters].sort((a, b) => b.kills - a.kills || a.deaths - b.deaths); }
+function ranking() { return [...G.fighters].sort((a, b) => (isOut(a) - isOut(b)) || b.kills - a.kills || a.deaths - b.deaths); }   // survivors first when lives run out
 function endMatch() {
   G.over = true; G.fireHeld = false; G.ads = false; G.endT = G.t; unlockMouse();
   const rank = ranking(), top = rank[0], iWon = G.mode !== 'waves' && top === G.me;
@@ -635,7 +653,7 @@ function update(dt) {
     if (f.remote) { netSmooth(f, dt); }
     else if (f.bot) {
       if (f.alive && !G.over) botUpdate(f, dt);
-      else if (!f.alive && (G.mode === 'dm' || G.mode === 'online') && !G.over && G.t >= f.respawnAt) spawn(f);
+      else if (!f.alive && (G.mode === 'dm' || G.mode === 'online') && !G.over && G.t >= f.respawnAt && !isOut(f)) spawn(f);
     }
     if (!f.remote) common(f, dt);
     animate(f, dt);
@@ -644,6 +662,7 @@ function update(dt) {
   for (const tr of tracers) if (tr.life > 0) { tr.life -= dt; tr.l.material.opacity = Math.max(0, tr.life / 0.07) * 0.85; if (tr.life <= 0) tr.l.visible = false; }
   for (let i = booms.length - 1; i >= 0; i--) { const b = booms[i]; b.t += dt; b.m.scale.setScalar(1 + b.t * 14); b.m.material.opacity = Math.max(0, 0.85 - b.t * 3.4); if (b.t > 0.3) { scene.remove(b.m); booms.splice(i, 1); } }
   if (G.mode === 'waves' && !G.over) wavesUpdate(dt);
+  if (!G.over && G.mode === 'online' && rules().lives > 0) checkEnd();
   if (G.mode === 'online') netUpdate(dt);
   G.hurtA = Math.max(0, G.hurtA - dt * 0.9); G.shake = Math.max(0, G.shake - dt * 1.6); G.kick = Math.max(0, G.kick - dt * 7);
   hudFrame(dt);
@@ -759,7 +778,7 @@ function botHosting(dt) {
   }
   if (!NET.host) return;
   const mine = G.fighters.filter(f => f.bot && !f.remote);
-  if (mine.length < want) { const b = addBot(NET.cfg.lv || 'medium', mine.length + 3); b.id = 'b' + G.me.id.slice(0, 4) + Math.random().toString(36).slice(2, 6); spawn(b); }
+  if (mine.length < want) { const b = addBot((NET.cfg.lvs && NET.cfg.lvs[mine.length]) || NET.cfg.lv || 'medium', mine.length + 3); b.id = 'b' + G.me.id.slice(0, 4) + Math.random().toString(36).slice(2, 6); spawn(b); }
   else if (mine.length > want) removeFighter(mine[mine.length - 1]);
   if (wall() < NET.botSendT) return; NET.botSendT = wall() + 0.1;
   const msg = { h: G.me.id, r: NET.round, b: mine.map(b => [b.id, +b.pos.x.toFixed(2), +b.pos.y.toFixed(2), +b.pos.z.toFixed(2), +b.yaw.toFixed(2), +b.pitch.toFixed(2), Math.max(0, SLOTS.indexOf(b.weapon)), b.alive ? 1 : 0, Math.round(b.hp), b.kills, b.deaths]) };
@@ -823,20 +842,21 @@ function hudFrame(dt) {
   const cs = $('cross').children; cs[0].style.transform = `translate(-50%,${-gap - 9}px)`; cs[1].style.transform = `translate(-50%,${gap}px)`; cs[2].style.transform = `translate(${-gap - 9}px,-50%)`; cs[3].style.transform = `translate(${gap}px,-50%)`;
   if ((hudT -= dt) > 0) return; hudT = 0.2;
   let top = '';
-  if (G.mode === 'dm') top = `<span>🎯 ${me.kills} / ${DM_TARGET}</span><b>${t('vs_dm')}</b><span>${esc(t('vs_firstTo', { n: DM_TARGET }))}</span>`;
+  const RL = rules(), tg = RL.target > 0 ? RL.target : '∞', lifeTxt = RL.lives > 0 && G.mode !== 'waves' ? `<span>❤ ${Math.max(0, RL.lives - me.deaths)} ${t('vs_livesLeft')}</span>` : '';
+  if (G.mode === 'dm') top = `<span>🎯 ${me.kills} / ${tg}</span><b>${RL.hardcore ? t('vs_hc') : t('vs_dm')}</b>${lifeTxt || `<span>${esc(RL.target > 0 ? t('vs_firstTo', { n: RL.target }) : t('vs_lastStand'))}</span>`}`;
   if (G.mode === 'waves') { const left = G.waveLeft + G.fighters.filter(f => f.bot && f.alive).length; top = `<b>${t('vs_wave')} ${Math.max(1, G.wave)}</b><span>🤖 ${left} ${t('vs_left')}</span><span>🎯 ${me.kills}</span>`; }
   if (G.mode === 'online') {
-    top = `<span>${t('vs_room')}: <b>${NET.code}</b></span><span>🎯 ${me.kills} / ${ONLINE_TARGET}</span><span>👥 ${NET.peers.size + 1}</span>`;
+    top = `<span>${t('vs_room')}: <b>${NET.code}</b></span><span>🎯 ${me.kills} / ${tg}</span>${lifeTxt}<span>👥 ${NET.peers.size + 1}</span>`;
     $('waitbox').hidden = NET.peers.size > 0 || G.over;
   } else $('waitbox').hidden = true;
   $('top').innerHTML = top;
   // live standings: who is closest to the target
-  const target = G.mode === 'dm' ? DM_TARGET : G.mode === 'online' ? ONLINE_TARGET : 0, mini = $('mini');
+  const target = G.mode === 'dm' || G.mode === 'online' ? (RL.target > 0 ? RL.target : Math.max(5, ...G.fighters.map(f => f.kills + 1))) : 0, mini = $('mini');
   mini.hidden = !target || G.over;
   if (target) {
     const rank = ranking(); let list = rank.slice(0, 5); if (!list.includes(me)) list = list.slice(0, 4).concat(me);
     mini.innerHTML = list.map(f => { const i = rank.indexOf(f) + 1, col = '#' + f.color.toString(16).padStart(6, '0');
-      return `<div class="mr ${f === me ? 'me' : ''}"><span class="rk">${i <= 3 ? ['🥇', '🥈', '🥉'][i - 1] : i}</span><i style="background:${col}"></i><span class="nm">${esc(f === me ? t('vs_you') : f.name)}</span><b>${f.kills}</b><span class="bar"><s style="width:${Math.min(100, f.kills / target * 100)}%;background:${col}"></s></span></div>`; }).join('');
+      return `<div class="mr ${f === me ? 'me' : ''}" style="${isOut(f) ? 'opacity:.45' : ''}"><span class="rk">${i <= 3 ? ['🥇', '🥈', '🥉'][i - 1] : i}</span><i style="background:${col}"></i><span class="nm">${esc(f === me ? t('vs_you') : f.name)}</span><b>${f.kills}</b><span class="bar"><s style="width:${Math.min(100, f.kills / target * 100)}%;background:${col}"></s></span></div>`; }).join('');
   }
   if (me.reloadT > 0) hudAmmo();
   $('clickHint').hidden = touchMode || locked() || G.paused || G.over || !G.running;
@@ -854,7 +874,7 @@ function banner(text, secs) { const b = $('banner'); b.textContent = text; b.sty
 function showDead(a) { $('dead').hidden = false; $('dead').dataset.by = a && a !== G.me ? a.name : ''; updDead(); }
 function updDead() {
   const by = $('dead').dataset.by, left = G.me.respawnAt - G.t;
-  $('dead').innerHTML = (by ? `<div>${esc(t('vs_killedBy', { p: by }))}</div>` : '') + (G.mode === 'waves' ? '' : `<b>${t('vs_respawn', { n: Math.max(1, Math.ceil(left)) })}</b>`);
+  $('dead').innerHTML = (by ? `<div>${esc(t('vs_killedBy', { p: by }))}</div>` : '') + (G.mode === 'waves' ? '' : isOut(G.me) ? `<b>${t('vs_out')}</b>` : `<b>${t('vs_respawn', { n: Math.max(1, Math.ceil(left)) })}</b>`);
 }
 function renderBoard(show) {
   G.boardOpen = show; $('board').hidden = !show; if (!show) return;
@@ -865,7 +885,53 @@ function renderBoard(show) {
 // ---------------------------------------------------------------------
 // screens: menu, pause, settings, end
 // ---------------------------------------------------------------------
-const SCREENS = ['menu', 'pause', 'end', 'settings', 'lb'];
+const SCREENS = ['menu', 'pause', 'end', 'settings', 'lb', 'rules'];
+// ---------- match settings (bots, each bot's level, kills to win, lives, hardcore), kept per mode ----------
+const LVS = ['easy', 'medium', 'hard'];
+function getRules(kind) {
+  const all = lsGet('vstrike-rules', {}), m = lsGet('vstrike-menu', {});
+  const def = kind === 'dm' ? { bots: m.bots != null ? m.bots : 5, lv: m.diff || 'medium', target: DM_TARGET } : { bots: m.obots != null ? m.obots : 0, lv: m.olv || 'medium', target: ONLINE_TARGET };
+  const r = Object.assign({ lvs: null, lives: 0, hardcore: false }, def, all[kind] || {});
+  r.bots = Math.max(0, Math.min(30, r.bots | 0)); if (!Array.isArray(r.lvs)) r.lvs = null;
+  if (r.lvs) r.lvs = Array.from({ length: r.bots }, (_, i) => LVS.includes(r.lvs[i]) ? r.lvs[i] : r.lv);
+  return r;
+}
+function setRules(kind, r) { const all = lsGet('vstrike-rules', {}); all[kind] = r; lsSet('vstrike-rules', all); }
+const rulesOpts = (r, extra) => Object.assign({ diff: r.lv, lv: r.lv, bots: r.bots, lvs: r.lvs, target: r.target, lives: r.lives, hardcore: r.hardcore }, extra || {});
+function rulesSummary(r) {
+  const mixed = r.lvs && r.lvs.some(l => l !== r.lvs[0]), lvl = r.bots ? (mixed ? t('vs_mixed') : t('vs_' + ((r.lvs && r.lvs[0]) || r.lv))) : '—';
+  return t('vs_sum', { b: r.bots, l: lvl, t: r.target > 0 ? t('vs_sumT', { n: r.target }) : t('vs_noLimit'), v: r.hardcore ? t('vs_hc') : r.lives > 0 ? t('vs_sumL', { n: r.lives }) : '❤ ∞' });
+}
+function openRules(kind) {
+  const r = getRules(kind); showScreen('rules');
+  const opt = (v, txt, cur) => `<option value="${v}" ${String(v) === String(cur) ? 'selected' : ''}>${txt}</option>`;
+  const draw = () => {
+    const lvs = r.lvs || Array(r.bots).fill(r.lv), mixed = lvs.some(l => l !== lvs[0]);
+    $('rules').innerHTML = `<div class="panel wide rulesp"><h2>${t('vs_rulesT')} — ${kind === 'dm' ? t('vs_dm') : t('vs_online')}</h2>
+      <label>${t('vs_botN')}<div class="row"><button class="btn sec small" data-n="-1">−</button><input type="number" id="rBots" min="0" max="30" value="${r.bots}"><button class="btn sec small" data-n="1">+</button></div></label>
+      ${r.bots ? `<label>${t('vs_allLv')}<select id="rAll">${mixed ? opt('mixed', t('vs_mixed'), 'mixed') : ''}${LVS.map(k => opt(k, t('vs_' + k), mixed ? '' : lvs[0])).join('')}</select></label>
+      <div class="blist"><div class="small">${t('vs_eachBot')}</div>${lvs.map((l, i) => `<div class="bi"><span>🤖 ${t('vs_bot')} ${i + 1}</span><select data-i="${i}">${LVS.map(k => opt(k, t('vs_' + k), l)).join('')}</select></div>`).join('')}</div>` : ''}
+      <label>${t('vs_target')}<select id="rTarget">${[5, 10, 15, 20, 30, 50].map(n => opt(n, n, r.target)).join('')}${opt(0, t('vs_noLimit'), r.target)}</select></label>
+      <label>${t('vs_lives')}<select id="rLives" ${r.hardcore ? 'disabled' : ''}>${opt(0, t('vs_inf'), r.hardcore ? 1 : r.lives)}${[1, 2, 3, 5, 10].map(n => opt(n, n, r.hardcore ? 1 : r.lives)).join('')}</select></label>
+      <label class="tog"><span><input type="checkbox" id="rHard" ${r.hardcore ? 'checked' : ''}> ${t('vs_hc')}</span><small>${t('vs_hcDesc')}</small></label>
+      <button class="btn" id="rDone">${t('vs_save')}</button></div>`;
+    const redraw = () => setTimeout(draw, 0);   // never rebuild the panel from inside one of its own events
+    const setBots = (n) => { n = Math.max(0, Math.min(30, n | 0)); if (n === r.bots) return; const old = r.lvs || Array(r.bots).fill(r.lv); r.bots = n; r.lvs = Array.from({ length: n }, (_, i) => old[i] || old[old.length - 1] || r.lv); redraw(); };
+    $('rules').querySelectorAll('[data-n]').forEach(b => b.onclick = () => setBots(r.bots + +b.dataset.n));
+    $('rBots').onchange = (e) => setBots(+e.target.value);
+    if ($('rAll')) $('rAll').onchange = (e) => { if (e.target.value === 'mixed') return; r.lv = e.target.value; r.lvs = Array(r.bots).fill(r.lv); redraw(); };
+    $('rules').querySelectorAll('.bi select').forEach(sel => sel.onchange = () => { const l = r.lvs || Array(r.bots).fill(r.lv); l[+sel.dataset.i] = sel.value; r.lvs = l; redraw(); });
+    $('rTarget').onchange = (e) => { r.target = +e.target.value; };
+    $('rLives').onchange = (e) => { r.lives = +e.target.value; };
+    $('rHard').onchange = (e) => { r.hardcore = e.target.checked; redraw(); };
+    $('rDone').onclick = () => {
+      if (!r.target && !r.lives && !r.hardcore) r.lives = 3;                     // a match needs an end: no kill limit means limited lives
+      if (r.lvs && r.lvs.length && r.lvs.every(l => l === r.lvs[0])) { r.lv = r.lvs[0]; r.lvs = null; }
+      setRules(kind, r); showScreen('menu'); renderMenu();
+    };
+  };
+  draw();
+}
 function showScreen(id) { for (const s of SCREENS) $(s).hidden = s !== id; if (id) $('touch').hidden = true; }
 function inviteLink(code) { return location.href.split('?')[0].split('#')[0] + '?room=' + code; }
 function newCode() { const A = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 4; i++) s += A[Math.floor(Math.random() * A.length)]; return s; }
@@ -877,23 +943,23 @@ function renderMenu() {
     <div class="head"><div><div class="logo"><b>VOXEL</b> <span>STRIKE</span></div><div class="sub">${t('vs_sub')}</div></div><div class="sp"></div>
       ${window.langButton ? langButton().replace('btn small secondary', 'btn small sec') : ''}<button class="btn small" id="mLb">${t('vs_lb')}</button><button class="btn small sec" id="mSet">${t('vs_settings')}</button><button class="btn small sec" data-mal3ab-chat title="Chat">💬</button><button class="btn small sec" data-mal3ab-home>🏠</button></div>
     <div class="cards">
-      <div class="card"><div class="ic">⚔️</div><h2>${t('vs_dm')}</h2><p>${t('vs_dmDesc', { n: DM_TARGET })}</p>
-        <div class="row"><label>${t('vs_diff')}</label>${lv('dmDiff', m.diff)}<label>${t('vs_bots')}</label><select id="dmBots">${[3, 5, 7, 9].map(n => `<option ${n === m.bots ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
+      <div class="card"><div class="ic">⚔️</div><h2>${t('vs_dm')}</h2><p>${t('vs_dmDesc', { n: getRules('dm').target || '∞' })}</p>
+        <div class="sumr"><span>${esc(rulesSummary(getRules('dm')))}</span><button class="btn sec small" id="dmRules">${t('vs_rules')}</button></div>
         <button class="btn" id="goDm">${t('vs_play')}</button></div>
       <div class="card"><div class="ic">🌊</div><h2>${t('vs_waves')}</h2><p>${t('vs_wavesDesc')}${STATS.bestWave ? '<br><b>' + t('vs_best', { n: STATS.bestWave }) + '</b>' : ''}</p>
         <button class="btn" id="goWaves">${t('vs_play')}</button></div>
-      <div class="card"><div class="ic">🌐</div><h2>${t('vs_online')}</h2><p>${t('vs_onlineDesc', { n: ONLINE_TARGET })}</p>
-        <div class="row"><label>${t('vs_bots')}</label><select id="onBots">${[0, 1, 2, 3, 5, 7].map(n => `<option ${n === (m.obots || 0) ? 'selected' : ''}>${n}</option>`).join('')}</select>${lv('onLv', m.olv || 'medium')}</div>
+      <div class="card"><div class="ic">🌐</div><h2>${t('vs_online')}</h2><p>${t('vs_onlineDesc', { n: getRules('online').target || '∞' })}</p>
+        <div class="sumr"><span>${esc(rulesSummary(getRules('online')))}</span><button class="btn sec small" id="onRules">${t('vs_rules')}</button></div>
         <button class="btn" id="goCreate">${t('vs_create')}</button>
         <div class="row"><input class="code" id="joinCode" maxlength="6" placeholder="${t('vs_code')}"><button class="btn sec" id="goJoin">${t('vs_join')}</button></div>
         <div class="msg" id="mMsg"></div></div>
     </div>
     <div class="help">${touchMode ? t('vs_helpTouch') : t('vs_help')}</div></div>`;
   if (window.applyLang) applyLang();
-  const remember = () => lsSet('vstrike-menu', { diff: $('dmDiff').value, bots: +$('dmBots').value, obots: +$('onBots').value, olv: $('onLv').value });
-  $('goDm').onclick = () => { remember(); startGame('dm', { diff: $('dmDiff').value, bots: +$('dmBots').value }); };
+  $('dmRules').onclick = () => openRules('dm'); $('onRules').onclick = () => openRules('online');
+  $('goDm').onclick = () => startGame('dm', rulesOpts(getRules('dm')));
   $('goWaves').onclick = () => startGame('waves', {});
-  $('goCreate').onclick = () => { remember(); startGame('online', { code: newCode(), bots: +$('onBots').value, lv: $('onLv').value }); };
+  $('goCreate').onclick = () => startGame('online', rulesOpts(getRules('online'), { code: newCode() }));
   $('goJoin').onclick = () => { const c = $('joinCode').value.trim().toUpperCase(); if (c.length < 4) { $('mMsg').textContent = t('vs_codeHint'); return; } startGame('online', { code: c }); };
   $('joinCode').onkeydown = (e) => { if (e.key === 'Enter') $('goJoin').click(); };
   $('mSet').onclick = () => openSettings('menu');
@@ -940,7 +1006,7 @@ function openPause() {
     <div class="help">${touchMode ? t('vs_helpTouch') : t('vs_help')}</div></div>`;
   $('pRes').onclick = resume; $('pSet').onclick = () => openSettings('pause'); $('pLeave').onclick = toMenu;
   if ($('pLink')) $('pLink').onclick = (e) => copy(inviteLink(NET.code), e.target);
-  const setCfg = () => { NET.cfg = { bots: +$('pBots').value, lv: $('pLv').value }; send('cfg', { cfg: NET.cfg }); if (NET.host) for (const b of G.fighters) if (b.bot && !b.remote) b.lv = NET.cfg.lv; };
+  const setCfg = () => { NET.cfg = Object.assign({}, NET.cfg, { bots: +$('pBots').value, lv: $('pLv').value, lvs: null }); send('cfg', { cfg: NET.cfg }); if (NET.host) for (const b of G.fighters) if (b.bot && !b.remote) b.lv = NET.cfg.lv; };
   if ($('pBots')) { $('pBots').onchange = setCfg; $('pLv').onchange = setCfg; }
   wireHome();
 }
@@ -1110,12 +1176,11 @@ window.Mal3abPrepareInvite = async () => {
   const base = location.href.split('?')[0];
   if (G.running && G.mode === 'online' && NET.code) return base + '?room=' + NET.code;
   if (window.Mal3abVersion && !Mal3abVersion.gate()) return null;
-  const mm = lsGet('vstrike-menu', {}), bots = G.running ? (G.mode === 'dm' ? (G.opts.bots || 5) : 3) : (mm.obots != null ? mm.obots : 3), lv = G.running ? (G.diff || 'medium') : (mm.olv || 'medium');
-  const code = newCode();
+  const code = newCode(), o = G.running && G.mode === 'dm' ? Object.assign({}, G.opts, { lv: G.diff, code }) : rulesOpts(getRules('online'), { code });
   if (G.running) toMenu();
-  startGame('online', { code, bots, lv });                 // the friend's link lands in this match
+  startGame('online', o);                 // the friend's link lands in this match
   return base + '?room=' + code;
 };
 window.Mal3abShareLink = () => { const base = location.href.split('?')[0]; return G.running && G.mode === 'online' && NET.code ? base + '?room=' + NET.code : base; };   // chat: "invite to this game"
-window.VSGame = { G, NET, startGame, fire, spawn, boom, toMenu, throwNade, placeBlock };     // handy for testing
+window.VSGame = { G, NET, damage, rules, isOut, startGame, fire, spawn, boom, toMenu, throwNade, placeBlock };     // handy for testing
 })();
