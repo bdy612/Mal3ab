@@ -237,8 +237,9 @@ async function loadRoles() {
 
 // ---------------- the call ----------------
 function send(ev, payload) { if (ch) ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ from: ME.id }, payload) }); }
-function myState() { return { name: ME.name, mic: !!(L.audio && L.mic), cam: !!(L.video && L.cam), share: !!L.screen }; }
+function myState() { return { name: ME.name, uid: UID, mic: !!(L.audio && L.mic), cam: !!(L.video && L.cam), share: !!L.screen }; }
 async function join(force) {
+  if (window.Auth && Auth.user) UID = Auth.user.id;   // signed in: the account is who I am in the call
   $('lJoin').disabled = true; $('lJoin').textContent = t('call_checking');
   const ok = await loadRoles();
   if (ok === 'group') { $('lErr').textContent = t('call_groupOnly'); $('lJoin').disabled = false; drawLobby(); return; }
@@ -248,7 +249,7 @@ async function join(force) {
   ch = sb.channel('call-' + ROOM, { config: { broadcast: { self: false }, presence: { key: ME.id, enabled: true } } });
   let firstSync; const synced = new Promise(r => firstSync = r);
   ch.on('broadcast', { event: 'sig' }, ({ payload }) => onSignal(payload).catch(e => console.warn('signal', e)));
-  ch.on('broadcast', { event: 'st' }, ({ payload }) => { const p = peers.get(payload.from); if (p) { p.st = payload; p.name = payload.name || p.name; drawTiles(); } });
+  ch.on('broadcast', { event: 'st' }, ({ payload }) => { const p = peers.get(payload.from); if (p) { p.st = payload; p.name = payload.name || p.name; if (payload.uid) p.uid = payload.uid; drawTiles(); if (sidePanel === 'people') drawSide(); } });
   ch.on('broadcast', { event: 'msg' }, ({ payload }) => addMsg(payload.name, payload.text, false));
   ch.on('broadcast', { event: 'bye' }, ({ payload }) => dropPeer(payload.from, true));
   ch.on('broadcast', { event: 'cmd' }, ({ payload }) => onCmd(payload));
@@ -272,9 +273,11 @@ async function join(force) {
 }
 // host / co-host commands (checked against the room's roles from the database)
 function onCmd(c) {
-  if (c.to !== ME.id || !inCall || !canManage(c.uid)) return;
+  if (c.to !== ME.id || !inCall) return;
+  const by = peers.get(c.from), byUid = (by && by.uid) || c.uid;
+  if (c.action === 'kick') { loadRoles().then(() => { if (ROLES.banned.includes(UID)) leaveCall('call_kicked'); }); return; }   // only a removal the server recorded counts
+  if (!canManage(byUid)) return;
   if (c.action === 'mute' && L.audio && L.mic) { L.mic = false; L.audio.enabled = false; send('st', myState()); drawCall(); drawTiles(); toast(t('call_mutedBy', { p: c.name || t('call_host') })); }
-  if (c.action === 'kick') leaveCall('call_kicked');
 }
 async function manage(peerId, action) {
   const p = peers.get(peerId); if (!p) return;
