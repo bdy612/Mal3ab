@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793280263">
+<link rel="stylesheet" href="shared/style.css?v=1793338557">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793280263"></script>
-<script src="shared/net.js?v=1793280263"></script>
+<script src="shared/i18n.js?v=1793338557"></script>
+<script src="shared/net.js?v=1793338557"></script>
 </head>
 <body>
 <div class="topbar">
@@ -88,12 +88,12 @@ function draw() {
       ${g.clock ? `<label class="clock">${t('timeControl')}:
         <select id="tc-${g.id}"><option value="0">${t('noClock')}</option><option value="1">1 ${t('min')}</option><option value="2">2 ${t('min')}</option><option value="3">3 ${t('min')}</option><option value="5">5 ${t('min')}</option><option value="10" selected>10 ${t('min')}</option><option value="15">15 ${t('min')}</option><option value="20">20 ${t('min')}</option><option value="30">30 ${t('min')}</option><option value="45">45 ${t('min')}</option><option value="60">60 ${t('min')}</option><option value="90">90 ${t('min')}</option></select> + <select id="inc-${g.id}" title="${t('increment')}"><option value="0">0 ${t('sec')}</option><option value="1">1 ${t('sec')}</option><option value="2">2 ${t('sec')}</option><option value="3">3 ${t('sec')}</option><option value="5">5 ${t('sec')}</option><option value="10">10 ${t('sec')}</option><option value="15">15 ${t('sec')}</option><option value="20">20 ${t('sec')}</option><option value="30">30 ${t('sec')}</option></select></label>` : ''}
       <div class="actions">
-        ${g.room ? `<button class="btn" onclick="createRoom('${g.id}', ${!!g.clock})">🌐 ${t('Online')}</button>`
+        ${g.room ? `<button class="btn" onclick="createRoom('${g.id}', ${!!g.clock})">🌐 ${t('online')}</button>`
                  : `<a class="btn" href="games/${g.id}">▶ ${t('play')}</a>`}
       </div>
       ${g.bot ? `<div class="actions botrow">
         <select id="lvl-${g.key}" title="${t('vsBot')}"><option value="easy">${t('easy')}</option><option value="medium" selected>${t('medium')}</option><option value="hard">${t('hard')}</option></select>
-        <button class="btn secondary" onclick="playBot('${g.id}', '${g.key}', ${!!g.clock})">🤖 ${t('vs Bot')}</button></div>` : ''}
+        <button class="btn secondary" onclick="playBot('${g.id}', '${g.key}', ${!!g.clock})">🤖 ${t('vsBot')}</button></div>` : ''}
     </div>`).join('');
   drawWho();
   applyLang();
@@ -180,7 +180,7 @@ async function drawFriends() {
     ${d.incoming.length ? `<h4>${t('requests')}</h4>` + d.incoming.map(r => `<div class="frow"><span>👤 ${r.username}</span>
         <button class="btn tiny" onclick="respondFriend(${r.req_id}, true)">✅ ${t('accept')}</button><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('') : ''}
     ${d.outgoing.map(r => `<div class="frow muted"><span>👤 ${r.username} · ${t('sent')}…</span><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('')}
-    ${d.friends.length ? d.friends.map(f => `<div class="frow"><span><i class="fdot ${f.online ? 'on' : ''}"></i> ${f.username} <small>${f.online ? t('online') : t('offline')}</small></span>
+    ${d.friends.length ? d.friends.map(f => `<div class="frow"><span><i class="fdot ${f.online ? 'on' : ''}"></i> ${f.username} <small>${f.online ? t('isOnline') : t('isOffline')}</small></span>
         ${f.online ? `<select id="g-${f.id}">${opts}</select><button class="btn tiny" onclick="fastConnect('${f.id}', '${f.username.replace(/'/g, '')}')">${t('fastConnect')}</button>` : ''}
         <button class="btn tiny secondary" title="${t('remove')}" onclick="removeFriend('${f.id}')">🗑</button></div>`).join('') : `<p class="hint">${t('noFriends')}</p>`}`;
 }
