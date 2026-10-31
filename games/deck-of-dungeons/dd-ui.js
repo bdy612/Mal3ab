@@ -132,6 +132,7 @@ function setTxt(id, v) { if (HUDV[id] !== v) { HUDV[id] = v; $(id).textContent =
 function initIcons() {
   $('iLoot').src = A.glyphURL('coin', '#ffcc33'); $('iMana').src = A.glyphURL('gem', '#c58bff'); $('iDeck').src = A.glyphURL('card', '#9aa3c7');
   $('iPause').src = A.glyphURL('pause', '#eef0ff'); $('iCodex').src = A.glyphURL('book', '#ffcc33');
+  $('iGoal').src = A.glyphURL('sack', '#8fd0ff');
 }
 let lastVault = null;
 function updateHUD() {
@@ -356,6 +357,7 @@ document.addEventListener('keydown', (e) => {
   const k = e.key;
   if (k === 'Escape' || k === 'p' || k === 'P') {
     if (curScreen && curScreen.fn === pauseScreen) { resumeGame(); return; }
+    if (curScreen && DD.online && curScreen.fn === DD.online.pauseFn) { DD.online.pause(false); return; }
     if (curScreen && (curScreen.fn === codexScreen || curScreen.fn === howScreen || curScreen.fn === deckScreen) && inRun()) { closeOverlay(); return; }
     if (k === 'Escape' && S.sel >= 0) { deselect(); return; }
     if (inRun() && !scrOpen() && (S.mode === 'build' || S.mode === 'wave')) pauseGame();
