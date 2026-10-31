@@ -106,7 +106,7 @@ async function loadFavs() {
   if (!Auth.token) return;
   try { const sv = await Auth.loadSaves('hub'); if (Array.isArray(sv['mal3ab-favs'])) { FAVS = sv['mal3ab-favs']; localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); draw(); } } catch (e) {}
 }
-const READY = ['chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet'];   // new games show up here as each one is finished
+const READY = ['chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];   // new games show up here as each one is finished
 // one card per game: title with the emoji on the other side, a description, and a single Play button
 // (online / vs bot / clock are chosen inside each game)
 function card(g) {

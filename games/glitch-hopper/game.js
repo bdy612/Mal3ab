@@ -67,11 +67,11 @@ addStrings({
   gh_t_kernel: 'آخر مرحلة: كل حاجة مع بعض والديفراج وراك. بالتوفيق يا بطل!',
 }, {
   gh_title: 'Glitch Hopper', gh_tag: 'You are a rogue data packet escaping a defragmenting drive — and the rules glitch every 5 seconds!',
-  gh_play: 'Play', gh_continue: 'Continue — level {n}', gh_levels: 'Levels', gh_how: 'How to play', gh_back: 'Back', gh_menu: 'Menu',
-  gh_sound: 'Sounds', gh_music: 'Music', gh_on: 'on', gh_off: 'off', gh_hello: 'Hi {p} 👋',
-  gh_lvl: 'Level {n}', gh_locked: 'Locked', gh_total: 'Stars', gh_reset: 'Reset progress', gh_resetQ: 'Erase all your progress?',
+  gh_play: 'Play', gh_continue: 'Continue — Level {n}', gh_levels: 'Levels', gh_how: 'How to Play', gh_back: 'Back', gh_menu: 'Menu',
+  gh_sound: 'Sounds', gh_music: 'Music', gh_on: 'On', gh_off: 'Off', gh_hello: 'Hi {p} 👋',
+  gh_lvl: 'Level {n}', gh_locked: 'Locked', gh_total: 'Stars', gh_reset: 'Reset Progress', gh_resetQ: 'Erase all your progress?',
   gh_rotate: '📱 Turn your phone sideways for a bigger view',
-  gh_g_none: 'Stable', gh_g_flip: 'Gravity flip', gh_g_rev: 'Reversed', gh_g_ghost: 'Invisible', gh_g_ice: 'Slippery', gh_g_shift: 'Bit shift', gh_g_freeze: 'Freeze',
+  gh_g_none: 'Stable', gh_g_flip: 'Gravity Flip', gh_g_rev: 'Reversed', gh_g_ghost: 'Invisible', gh_g_ice: 'Slippery', gh_g_shift: 'Bit Shift', gh_g_freeze: 'Freeze',
   gh_d_none: 'Everything is normal — use the time.',
   gh_d_flip: 'You fall upwards! Walk on the ceiling — jumping pushes you back toward the floor.',
   gh_d_rev: 'Left is right and right is left.',
@@ -80,25 +80,25 @@ addStrings({
   gh_d_shift: 'Red blocks vanish and blue blocks appear.',
   gh_d_freeze: 'Grab a freeze ❄ and press E or Shift: the current glitch is locked for 3 seconds.',
   gh_d_sweep: 'The defrag sweeps from left to right — if it catches you, you are wiped. Keep moving!',
-  gh_now: 'now', gh_next: 'next', gh_frozen: 'frozen', gh_defrag: 'defrag', gh_stable: 'Stable — no glitches here',
-  gh_moveToStart: 'Move to start the glitch clock', gh_lost: 'Packet lost!', gh_saved: '💾 Checkpoint saved',
+  gh_now: 'Now', gh_next: 'Next', gh_frozen: 'Frozen', gh_defrag: 'Defrag', gh_stable: 'Stable — No Glitches Here',
+  gh_moveToStart: 'Move to start the glitch clock', gh_lost: 'Packet Lost!', gh_saved: '💾 Checkpoint Saved',
   gh_freezeHint: '❄ Freeze ready! Press E or Shift when you need to lock the glitch', gh_freezeHintT: '❄ Freeze ready! Tap ❄ when you need to lock the glitch',
-  gh_c_spike: 'Corrupted spike', gh_c_corrupt: 'Corrupted block', gh_c_fall: 'Fell out of the drive', gh_c_crush: 'Crushed inside a block', gh_c_sweep: 'The defrag caught you',
-  gh_new: 'New glitch!', gh_newItem: 'New!', gh_pattern: 'Glitch pattern (repeats)', gh_go: 'Go!', gh_anyKey: 'or press Space', gh_par: 'Par time: {t}', gh_parL: 'Par',
-  gh_win: 'Port reached!', gh_time: 'Time', gh_best: 'Best', gh_deaths: 'Deaths', gh_nextLvl: 'Next level', gh_retry: 'Retry', gh_newBest: '★ New record ★',
-  gh_s1: 'Finished the level', gh_s2: 'Grabbed the golden bit', gh_s3: 'Finished under {t}',
-  gh_lose: 'Defrag complete!', gh_loseMsg: 'The drive got defragmented and you were overwritten. Try to be faster next time.',
-  gh_paused: 'Paused', gh_resume: 'Resume', gh_restart: 'Restart level',
-  gh_escaped: '🎉 You escaped the drive!', gh_escapedMsg: 'Every sector cleared. You collected {s} of {m} stars — come back for the rest.',
+  gh_c_spike: 'Corrupted Spike', gh_c_corrupt: 'Corrupted Block', gh_c_fall: 'Fell Out of the Drive', gh_c_crush: 'Crushed Inside a Block', gh_c_sweep: 'The Defrag Caught You',
+  gh_new: 'New Glitch!', gh_newItem: 'New!', gh_pattern: 'Glitch Pattern (Repeats)', gh_go: 'Go!', gh_anyKey: 'Or Press Space', gh_par: 'Par Time: {t}', gh_parL: 'Par',
+  gh_win: 'Port Reached!', gh_time: 'Time', gh_best: 'Best', gh_deaths: 'Deaths', gh_nextLvl: 'Next Level', gh_retry: 'Retry', gh_newBest: '★ New Record ★',
+  gh_s1: 'Finished the Level', gh_s2: 'Grabbed the Golden Bit', gh_s3: 'Finished Under {t}',
+  gh_lose: 'Defrag Complete!', gh_loseMsg: 'The drive got defragmented and you were overwritten. Try to be faster next time.',
+  gh_paused: 'Paused', gh_resume: 'Resume', gh_restart: 'Restart Level',
+  gh_escaped: '🎉 You Escaped the Drive!', gh_escapedMsg: 'Every sector cleared. You collected {s} of {m} stars — come back for the rest.',
   gh_h_goal: 'Goal', gh_h_goalD: 'Guide the packet to the green exit port in every level.',
-  gh_h_clock: 'The glitch clock', gh_h_clockD: 'Top center: the glitch that is active now, the countdown, and the one coming next. Each level repeats its own pattern — memorize it.',
+  gh_h_clock: 'The Glitch Clock', gh_h_clockD: 'Top center: the glitch that is active now, the countdown, and the one coming next. Each level repeats its own pattern — memorize it.',
   gh_h_haz: 'Danger', gh_h_hazD: 'Red spikes wipe you. If the defrag bar at the top fills up, you lose the level.',
   gh_h_stars: 'Stars', gh_h_starsD: '3 stars per level: finish it, grab the golden bit, and beat the par time.',
   gh_keys: 'Arrows or A / D: move · Space, W or ↑: jump · E or Shift: freeze · Esc or P: pause · R: restart',
   gh_keysT: 'On phones: ◀ ▶ to move, ▲ to jump, ❄ to freeze.',
-  gh_n_boot: 'Boot sector', gh_n_flip: 'Flip switch', gh_n_sky: 'Sky walk', gh_n_mirror: 'Mirror mode', gh_n_chase: 'Defrag chase',
-  gh_n_upside: 'Upside mirror', gh_n_ghost: 'Ghost sector', gh_n_phantom: 'Phantom ceiling', gh_n_ice: 'Black ice', gh_n_shift: 'Bit shift',
-  gh_n_cold: 'Cold swap', gh_n_ghostshift: 'Ghost shift', gh_n_cache: 'Inverted cache', gh_n_frag: 'Fragmentation', gh_n_kernel: 'Kernel panic',
+  gh_n_boot: 'Boot Sector', gh_n_flip: 'Flip Switch', gh_n_sky: 'Sky Walk', gh_n_mirror: 'Mirror Mode', gh_n_chase: 'Defrag Chase',
+  gh_n_upside: 'Upside Mirror', gh_n_ghost: 'Ghost Sector', gh_n_phantom: 'Phantom Ceiling', gh_n_ice: 'Black Ice', gh_n_shift: 'Bit Shift',
+  gh_n_cold: 'Cold Swap', gh_n_ghostshift: 'Ghost Shift', gh_n_cache: 'Inverted Cache', gh_n_frag: 'Fragmentation', gh_n_kernel: 'Kernel Panic',
   gh_t_boot: 'Move, jump over the spikes and reach the green port. The golden bit is optional, but it is worth a star.',
   gh_t_flip: 'Every 5 seconds gravity flips. When it does you fall to the ceiling — walk along it over the wall. Watch out for ceiling spikes!',
   gh_t_sky: 'The ceiling route is long. Grab a freeze ❄ and lock the flipped gravity in place to make it across.',
@@ -499,7 +499,7 @@ function renderScreen() {
   if (mode === 'menu') {
     const nxt = Math.min(LV.length - 1, (prog.unlocked || 1) - 1), started = Object.keys(prog.lv).length > 0;
     const nm = window.Auth && Auth.name && Auth.name();
-    h = `<div class="panel menu">
+    h = `<div data-m3pop class="panel menu">
       <div class="logo" data-t="GLITCH HOPPER">GLITCH <b>HOPPER</b></div>
       <div class="tag">${esc(t('gh_tag'))}</div>
       ${nm ? `<div class="hello">${esc(t('gh_hello', { p: nm }))}</div>` : ''}
@@ -516,7 +516,7 @@ function renderScreen() {
       ${touchMode && VH > VW ? `<div class="hint">${esc(t('gh_rotate'))}</div>` : ''}
     </div>`;
   } else if (mode === 'levels') {
-    h = `<div class="panel wide"><h2>▦ ${esc(t('gh_levels'))}</h2><div class="grid">` + LV.map((lv, i) => {
+    h = `<div data-m3pop="top" class="panel wide"><h2>▦ ${esc(t('gh_levels'))}</h2><div class="grid">` + LV.map((lv, i) => {
       const locked = i >= (prog.unlocked || 1), st = starsOf(lv), pr = prog.lv[lv.id];
       const kinds = []; (lv.seq || []).forEach(k => k.split('+').forEach(g => { if (g !== 'none' && !kinds.includes(g)) kinds.push(g); }));
       return `<button class="lvl${i === (prog.unlocked || 1) - 1 ? ' cur' : ''}" data-act="lvl" data-i="${i}" ${locked ? 'disabled' : ''}>
@@ -529,7 +529,7 @@ function renderScreen() {
       <div class="totals">★ ${totalStars()} / ${LV.length * 3}</div></div>`;
   } else if (mode === 'how') {
     const g = ['flip', 'rev', 'ghost', 'ice', 'shift', 'freeze'];
-    h = `<div class="panel wide"><h2>? ${esc(t('gh_how'))}</h2><div class="how">
+    h = `<div data-m3pop="top" class="panel wide"><h2>? ${esc(t('gh_how'))}</h2><div class="how">
       <div class="it"><img src="${ICON.none}" alt=""><div><b>${esc(t('gh_h_goal'))}</b><span>${esc(t('gh_h_goalD'))}</span></div></div>
       <div class="it"><img src="${ICON.none}" alt=""><div><b>${esc(t('gh_h_clock'))}</b><span>${esc(t('gh_h_clockD'))}</span></div></div>
       ${g.map(k => `<div class="it"><img src="${ICON[k]}" alt=""><div><b style="color:${GC[k]}">${esc(t('gh_g_' + k))}</b><span>${esc(t('gh_d_' + k))}</span></div></div>`).join('')}
@@ -542,7 +542,7 @@ function renderScreen() {
     const news = []; Object.keys(firstUse).forEach(k => { if (firstUse[k] === cur.li) news.push(k); });
     const pat = seq.length > 1 ? seq.map((st, i) => `${i ? '<span class="ar">›</span>' : ''}<div class="ps">${stIcons(st)}<span>${esc(stName(st))}</span><small>5s</small></div>`).join('') + '<span class="ar">↻</span>'
       : `<div class="ps">${stIcons(seq[0])}<span>${esc(t('gh_stable'))}</span></div>`;
-    h = `<div class="panel" style="text-align:center">
+    h = `<div data-m3pop class="panel" style="text-align:center">
       <div class="lvtag">${esc(t('gh_lvl', { n: cur.li + 1 }))} / ${LV.length}</div>
       <h2>${esc(lvName(lv))}</h2>
       <p>${esc(t('gh_t_' + lv.id))}</p>
@@ -554,20 +554,20 @@ function renderScreen() {
       <div class="hint">${touchMode ? '' : esc(t('gh_anyKey'))}</div></div>`;
     scr.className = 'dim';
   } else if (mode === 'paused') {
-    h = `<div class="panel" style="text-align:center"><h2>❚❚ ${esc(t('gh_paused'))}</h2>
+    h = `<div data-m3pop class="panel" style="text-align:center"><h2>❚❚ ${esc(t('gh_paused'))}</h2>
       <div class="lvtag">${esc(t('gh_lvl', { n: cur.li + 1 }))} · ${esc(lvName(cur.lv))}</div>
       <div class="pattern">${cur.L.seq.map((st, i) => `${i ? '<span class="ar">›</span>' : ''}<div class="ps" style="${i === cur.s.idx ? 'border-color:' + stColor(st) : ''}">${stIcons(st)}<span>${esc(stName(st))}</span></div>`).join('')}</div>
-      <div class="col" style="margin-top:8px"><button class="btn block" data-act="resume">▶ ${esc(t('gh_resume'))}</button>
+      <div class="col pcol" style="margin-top:8px"><button class="btn block" data-act="resume">▶ ${esc(t('gh_resume'))}</button>
       <button class="btn sec block" data-act="restart">↻ ${esc(t('gh_restart'))}</button>
       <button class="btn sec block" data-act="levels">▦ ${esc(t('gh_levels'))}</button>
       <button class="btn sec block" data-act="menu">⌂ ${esc(t('gh_menu'))}</button>
       <div class="row"><button class="btn sec small" data-act="sfx">${sets.sfx ? '🔊' : '🔇'} ${esc(t('gh_sound'))}: ${esc(t(sets.sfx ? 'gh_on' : 'gh_off'))}</button>
       <button class="btn sec small" data-act="music">${sets.music ? '🎵' : '🔇'} ${esc(t('gh_music'))}: ${esc(t(sets.music ? 'gh_on' : 'gh_off'))}</button></div></div>
-      <div class="keys" style="margin-top:10px">${esc(t(touchMode ? 'gh_keysT' : 'gh_keys'))}</div></div>`;
+      <div class="keys pkeys" style="margin-top:10px">${esc(t(touchMode ? 'gh_keysT' : 'gh_keys'))}</div></div>`;
     scr.className = 'dim';
   } else if (mode === 'win') {
     const r = cur.result, last = cur.li === LV.length - 1, lv = cur.lv;
-    h = `<div class="panel" style="text-align:center"><h2 class="good">${esc(last ? t('gh_escaped') : t('gh_win'))}</h2>
+    h = `<div data-m3pop class="panel" style="text-align:center"><h2 class="good">${esc(last ? t('gh_escaped') : t('gh_win'))}</h2>
       <div class="lvtag">${esc(t('gh_lvl', { n: cur.li + 1 }))} · ${esc(lvName(lv))}</div>
       <div class="stars">${r.got.map((g, i) => `<span class="${g ? 'on' : ''}" style="animation-delay:${0.15 + i * 0.22}s">★</span>`).join('')}</div>
       ${r.isBest && prog.lv[lv.id] ? `<div class="record">${esc(t('gh_newBest'))}</div>` : ''}
@@ -578,7 +578,7 @@ function renderScreen() {
       <button class="btn sec" data-act="retry">↻ ${esc(t('gh_retry'))}</button><button class="btn sec" data-act="levels">▦ ${esc(t('gh_levels'))}</button></div></div>`;
     scr.className = 'dim';
   } else if (mode === 'lose') {
-    h = `<div class="panel" style="text-align:center"><h2 class="bad">⚠ ${esc(t('gh_lose'))}</h2>
+    h = `<div data-m3pop class="panel" style="text-align:center"><h2 class="bad">⚠ ${esc(t('gh_lose'))}</h2>
       <div class="lvtag">${esc(t('gh_lvl', { n: cur.li + 1 }))} · ${esc(lvName(cur.lv))}</div>
       <p>${esc(t('gh_loseMsg'))}</p>
       <div class="stats"><div><small>${esc(t('gh_time'))}</small><b>${fmt(cur.s.time)}</b></div><div><small>${esc(t('gh_parL'))}</small><b>${fmt(cur.lv.par)}</b></div><div><small>${esc(t('gh_deaths'))}</small><b>${cur.s.deaths}</b></div></div>
@@ -586,6 +586,7 @@ function renderScreen() {
     scr.className = 'dim';
   } else { scr.innerHTML = ''; return; }
   scr.innerHTML = h;
+  if (window.Mal3abPopButtons) try { window.Mal3abPopButtons(); } catch (e) {}
   if (!touchMode) { const b = scr.querySelector('.btn:not(.sec), .lvl.cur'); if (b) try { b.focus({ preventScroll: true }); } catch (e) {} }
 }
 scr.addEventListener('click', (e) => {
