@@ -63,7 +63,7 @@ function refreshUI(){
     if(ui.type==='inventory'){const ar=document.createElement('div');ar.className='g3';ar.style.gridTemplateColumns='42px';['Helm','Chest','Legs','Boots'].forEach((n,i)=>{const d=mkSlot(inventory.armor,i,{accept:c=>!!(ITEMS[c.id].armor&&ITEMS[c.id].armor.slot===i),quick:s=>moveStack(s,inventory.slots)});if(!inventory.armor[i].count)d.innerHTML=`<b style="font-size:9px">${n}</b>`;ar.appendChild(d);});top.appendChild(ar);const sp=document.createElement('div');sp.style.width='30px';top.appendChild(sp);}
     const g=document.createElement('div');g.className='g3';g.style.gridTemplateColumns=`repeat(${ui.gw},42px)`;for(let i=0;i<ui.grid.length;i++)g.appendChild(mkSlot(ui.grid,i,{quick:s=>moveStack(s,inventory.slots)}));top.appendChild(g);
     const ar=document.createElement('div');ar.className='arrow';ar.textContent='→';top.appendChild(ar);
-    const res=craftResult(ui.grid,ui.gw);const out=[res?{id:res[0],count:res[1]}:empty()];
+    const fix=repairResult(ui.grid),res=fix?null:craftResult(ui.grid,ui.gw);const out=[fix?fix:res?{id:res[0],count:res[1]}:empty()];
     top.appendChild(mkSlot(out,0,{output:true,onTake:()=>{for(const s of ui.grid)if(s.count){s.count--;if(!s.count)clearStack(s);}}}));
     main.appendChild(h(ui.type==='table'?'Crafting table':'Crafting'));main.appendChild(top);
   }else if(ui.type==='furnace'){ const t=ui.tile,row=document.createElement('div');row.className='row';row.style.marginBottom='10px';

@@ -144,6 +144,14 @@ function replaceHeld(id){ const s=selected(); if(inventory.creative)return; if(s
 function damageTool(s,n=1){ const it=ITEMS[s.id]; if(!it||!it.maxDur||inventory.creative)return; const u=s.ench&&s.ench.Unbreaking||0; if(u&&Math.random()<u/(u+1))return; s.dur=(s.dur||0)+n; if(s.dur>=it.maxDur){clearStack(s);sfx.break();} updateHotbar(); }
 function dropAllInventory(){ for(const arr of [inventory.slots,inventory.armor])for(const s of arr){ if(s.count){spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],s.id,s.count,s.dur,[rand(-3,3),rand(2,5),rand(-3,3)],s.ench);clearStack(s);} } updateHotbar(); }
 
+// repairing: two worn tools of the same kind in the crafting grid become one, their health added up (+5% bonus, like the real game)
+function repairResult(grid){
+  const items=grid.filter(s=>s.count); if(items.length!==2)return null;
+  const [a,b]=items, it=ITEMS[a.id]; if(a.id!==b.id||!it||!it.maxDur||it.stack!==1)return null;
+  const max=it.maxDur, left=(max-(a.dur||0))+(max-(b.dur||0))+Math.floor(max*0.05);
+  let ench; if(a.ench||b.ench){ ench={...(a.ench||{})}; for(const [k,v] of Object.entries(b.ench||{}))ench[k]=Math.max(v,ench[k]||0); }   // keeps the best enchantments of both
+  return {id:a.id,count:1,dur:Math.max(0,max-left),ench};
+}
 // crafting
 function craftResult(grid,w){
   const h=grid.length/w; let minx=w,miny=h,maxx=-1,maxy=-1;
