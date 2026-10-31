@@ -20,7 +20,7 @@ function updateBars(){ const gm=gameMode(); document.getElementById('cross').sty
   const boss=world.mobs.find(m=>m.def.boss); bossEl.style.display=boss?'block':'none'; if(boss){bossEl.firstElementChild.textContent='Dragon';bossEl.querySelector('i').style.width=Math.max(0,boss.hp/boss.def.hp*100)+'%';} }
 
 // --- container UI (inventory / crafting table / furnace / chest / enchanting / trading) ---
-let uiOpen=false;const cursorEl=document.getElementById('cursorStack');const ui={type:null,tile:null,tile2:null,grid:[],gw:0,ench:[],opts:null};
+let uiOpen=false;const cursorEl=document.getElementById('cursorStack');const ui={type:null,tile:null,tile2:null,grid:[],gw:0,ench:[],opts:null,drag:null};
 function openUI(type,tile,tile2){if(type==='creative'){ui.cgrid=null;}ui.type=type;ui.tile=tile||null;ui.tile2=tile2||null;ui.gw=type==='table'?3:type==='inventory'?2:0;ui.grid=Array.from({length:ui.gw*ui.gw},empty);ui.ench=[empty()];ui.opts=null;uiOpen=true;invEl.classList.remove('hidden');refreshUI();document.exitPointerLock();net.openedTile(ui.tile,ui.tile2);}
 function closeUI(relock=true){uiOpen=false;invEl.classList.add('hidden');net.closedTile();for(const s of ui.grid.concat(ui.ench))if(s.count){const l=invAdd(s.id,s.count,s.dur,s.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],s.id,l,s.dur,null,s.ench);clearStack(s);}
   const c=inventory.cursor;if(c.count){const l=invAdd(c.id,c.count,c.dur,c.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],c.id,l,c.dur,null,c.ench);clearStack(c);}cursorEl.classList.add('hidden');buildHotbar();scheduleSave();if(relock&&!player.dead)resumeGame();}
@@ -37,8 +37,28 @@ function slotClick(arr,i,opt,e){ const s=arr[i],c=inventory.cursor,right=e.butto
   else if(!s.count){setStack(s,c);clearStack(c);}
   else if(s.id===c.id&&ITEMS[s.id].stack>1){const n=Math.min(c.count,ITEMS[s.id].stack-s.count);s.count+=n;c.count-=n;if(!c.count)clearStack(c);}
   else{const t={};setStack(t,s);setStack(s,c);setStack(c,t);} }
-function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;if(ui.tile&&ui.tile.pos&&TILE_TYPES.has(ui.tile.type))tileChanged(...ui.tile.pos);if(ui.tile2&&ui.tile2.pos)tileChanged(...ui.tile2.pos);refreshUI();buildHotbar();scheduleSave();};d.oncontextmenu=e=>e.preventDefault();
-  if(!opt.output){ d.onmouseenter=()=>{ui.hover={arr,i};}; d.onmouseleave=()=>{ if(ui.hover&&ui.hover.arr===arr&&ui.hover.i===i)ui.hover=null; }; }
+function afterSlots(arr){ if(arr===ui.ench)ui.opts=null; if(ui.tile&&ui.tile.pos&&TILE_TYPES.has(ui.tile.type))tileChanged(...ui.tile.pos); if(ui.tile2&&ui.tile2.pos)tileChanged(...ui.tile2.pos); refreshUI(); buildHotbar(); scheduleSave(); }
+// dragging an item stack across slots (like the real game): right-drag drops one in each slot, left-drag shares the stack out evenly
+const dragFits=(s,c,opt)=>!opt.output&&(!opt.accept||opt.accept(c))&&(!s.count||(s.id===c.id&&ITEMS[c.id].stack>1&&!c.ench&&!s.ench&&s.count<ITEMS[c.id].stack));
+function dragAdd(arr,i,opt,e){ const D=ui.drag,c=inventory.cursor; if(!D||!c.count)return; const s=arr[i],key=arr.length+':'+i+':'+(arr===inventory.slots?'i':arr===ui.grid?'g':'o');
+  if(D.seen.has(key)||!dragFits(s,c,opt))return; D.seen.add(key);
+  if(D.btn===2){ if(!s.count){setStack(s,c);s.count=1;} else s.count++; c.count--; if(!c.count){clearStack(c);ui.drag=null;} afterSlots(arr); return; }
+  D.list.push({arr,i}); D.els.push(e&&e.currentTarget); if(e&&e.currentTarget)e.currentTarget.classList.add('dragmark'); }
+function dragEnd(){ const D=ui.drag; ui.drag=null; if(!D||D.btn!==0)return; const c=inventory.cursor;
+  if(D.list.length<2){ const f=D.list[0]; if(f){ slotClick(f.arr,f.i,f.opt||{},{button:0}); afterSlots(f.arr); } return; }   // just a click
+  const each=Math.floor(c.count/D.list.length); if(!each){ afterSlots(D.list[0].arr); return; }
+  for(const {arr,i} of D.list){ const s=arr[i],room=ITEMS[c.id].stack-(s.count||0),n=Math.min(each,room,c.count); if(n<=0)continue; if(!s.count){setStack(s,c);s.count=n;} else s.count+=n; c.count-=n; }
+  if(!c.count)clearStack(c); afterSlots(D.list[0].arr); }
+document.addEventListener('mouseup',e=>{ if(ui.drag&&((ui.drag.btn===0&&e.button===0)||(ui.drag.btn===2&&e.button===2))){ if(ui.drag.btn===0)dragEnd(); else ui.drag=null; } });
+function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');
+  d.onmousedown=e=>{e.preventDefault(); const c=inventory.cursor,s=arr[i];
+    if(!e.shiftKey&&c.count&&(e.button===0||e.button===2)&&dragFits(s,c,opt)){   // could become a drag
+      ui.drag={btn:e.button,list:[],els:[],seen:new Set()};
+      if(e.button===0){ ui.drag.list.push({arr,i,opt}); ui.drag.seen.add(arr.length+':'+i+':'+(arr===inventory.slots?'i':arr===ui.grid?'g':'o')); d.classList.add('dragmark'); return; }
+      dragAdd(arr,i,opt,e); return; }
+    slotClick(arr,i,opt,e); afterSlots(arr);};
+  d.oncontextmenu=e=>e.preventDefault();
+  if(!opt.output){ d.onmouseenter=e=>{ui.hover={arr,i}; if(ui.drag&&(e.buttons&(ui.drag.btn===0?1:2)))dragAdd(arr,i,opt,e);}; d.onmouseleave=()=>{ if(ui.hover&&ui.hover.arr===arr&&ui.hover.i===i)ui.hover=null; }; }
   return d;}
 // throwing from the inventory: click outside the window with an item on the cursor (left = all, right = one),
 // or press Q over a slot (Ctrl+Q = the whole stack)
