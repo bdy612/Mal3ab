@@ -907,6 +907,8 @@ function onNet(ev, p) {
     return;
   }
   if (ev === 'cfg') { NET.cfg = p.cfg; cfgToMe(); return; }
+  // a block placed or broken by someone else (the message carries no player id, so it must be handled before the sender lookup)
+  if (ev === 'blk') { const old = G.world.get(p.x, p.y, p.z); G.world.set(p.x, p.y, p.z, p.b); if (!p.b && old) burst(new V3(p.x + 0.5, p.y + 0.5, p.z + 0.5), BLOCKS[old].color, 12, 5, 0.14, 0.9); return; }
   if (ev === 'bots') { onBots(p); return; }
   const f = ev === 'st' ? (NET.peers.get(p.id) || peer(p.id, p.n, p.c)) : fighterById(p.id);
   if (ev === 'st') {
@@ -933,7 +935,6 @@ function onNet(ev, p) {
   }
   if (ev === 'nade') { addNade(f, new V3().fromArray(p.o), new V3().fromArray(p.v), false); return; }
   if (ev === 'boom') { const i = nades.findIndex(n => n.owner === f && !n.real); if (i >= 0) { scene.remove(nades[i].m); nades.splice(i, 1); } boom(new V3().fromArray(p.p), f); return; }
-  if (ev === 'blk') { const old = G.world.get(p.x, p.y, p.z); G.world.set(p.x, p.y, p.z, p.b); if (!p.b && old) burst(new V3(p.x + 0.5, p.y + 0.5, p.z + 0.5), BLOCKS[old].color, 12, 5, 0.14, 0.9); }
 }
 // one player's screen runs the room's bots and sends where they are 10× a second;
 // if that player leaves, the next one (smallest id) takes them over
