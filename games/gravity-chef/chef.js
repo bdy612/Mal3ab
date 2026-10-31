@@ -1771,7 +1771,7 @@
   function screenTitle() {
     G.screen = 'title'; ov.className = ''; setMode(false);
     const nm = playerName(), tot = totalStars();
-    ov.innerHTML = `<div class="card title">
+    ov.innerHTML = `<div data-m3pop class="card title">
       <div class="logo"><div class="w1">${letters('Gravity')}</div><div class="w2">${letters('Chef')}</div></div>
       <div class="sub">${t('gc_sub')}</div>
       <p>${t('gc_tag')}</p>
@@ -1784,7 +1784,7 @@
     if (!G || G.mode !== 'demo') newWorld(DEMO, 'demo');
     G.screen = 'levels'; ov.className = 'dim'; setMode(false);
     const cur = LEVELS.findIndex((lv, i) => unlocked(i) && !(SAVE.stars[lv.n] > 0));
-    ov.innerHTML = `<div class="card wide">
+    ov.innerHTML = `<div data-m3pop class="card wide">
       <div class="head"><button class="btn sec sm" data-act="title">${t('gc_back')}</button><h2>${t('gc_shifts')}</h2><span class="tot">⭐ ${totalStars()}/${LEVELS.length * 3}</span></div>
       <div class="grid">${LEVELS.map((lv, i) => { const lk = !unlocked(i); return `<button class="lvl${lk ? ' lock' : ''}${i === cur ? ' cur' : ''}" data-act="level" data-n="${i}" ${lk ? `title="${esc(t('gc_locked'))}"` : ''}>
         <b>${lv.n}</b><span class="ic">${lv.icon}</span><span class="nm">${t(lv.name)}</span><span class="st">${starStr(SAVE.stars[lv.n] || 0)}</span></button>`; }).join('')}</div>
@@ -1794,7 +1794,7 @@
     const lv = LEVELS[i]; if (!lv) return;
     newWorld(lv, 'play'); G.screen = 'intro'; ov.className = 'dim'; setMode(false);
     SAVE.last = i; persist();
-    ov.innerHTML = `<div class="card">
+    ov.innerHTML = `<div data-m3pop class="card">
       <div class="kick">${t('gc_shift', { n: lv.n })} · ${lv.icon}</div><h2>${t(lv.name)}</h2>
       <div class="tipbox"><span class="new">${t('gc_new')}</span>${t(lv.tip)}</div>
       <h3>${t('gc_menu')}</h3>
@@ -1819,7 +1819,7 @@
   }
   function screenPause() {
     ov.className = 'dim';
-    ov.innerHTML = `<div class="card small">
+    ov.innerHTML = `<div data-m3pop class="card small">
       <h2>⏸ ${t('gc_paused')}</h2>
       <button class="btn big" data-act="resume">▶ ${t('gc_resume')}</button>
       <button class="btn sec" data-act="restart">🔄 ${t('gc_restart')}</button>
@@ -1832,7 +1832,7 @@
   function screenHow(back) {
     howBack = back; ov.className = 'dim';
     const rows = [['egg', 'gc_h1t', 'gc_h1'], ['@pan', 'gc_h2t', 'gc_h2'], ['@pot', 'gc_h3t', 'gc_h3'], ['@hatch', 'gc_h4t', 'gc_h4'], [null, 'gc_h5t', 'gc_h5']];
-    ov.innerHTML = `<div class="card wide">
+    ov.innerHTML = `<div data-m3pop class="card wide">
       <h2>❓ ${t('gc_how')}</h2>
       <div class="how">${rows.map(([ic, a, b], i) => `<div class="hrow"><span class="hic">${ic ? `<img src="${iconURL(ic)}" alt="">` : '🌀'}</span><div><b>${i + 1}. ${t(a)}</b><p>${t(b)}</p></div></div>`).join('')}</div>
       <p class="keys">${t('gc_keys')}</p>
@@ -1860,7 +1860,7 @@
     G.screen = 'result'; ov.className = 'dim'; setMode(false);
     const R = G.result, lv = G.def, i = lv.n - 1, hasNext = i + 1 < LEVELS.length;
     const why = R.win ? '' : R.why === 'strikes' ? t('gc_whyStrikes') : t('gc_whyScore', { a: lv.stars[0] });
-    ov.innerHTML = `<div class="card">
+    ov.innerHTML = `<div data-m3pop class="card">
       <div class="kick">${t('gc_shift', { n: lv.n })} · ${t(lv.name)}</div>
       <h2>${R.win ? '🎉 ' + t('gc_win') : '😵 ' + t('gc_lose')}</h2>
       ${why ? `<p class="why">${why}</p>` : ''}

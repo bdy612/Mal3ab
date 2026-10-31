@@ -191,8 +191,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793381184"></script>
-<script src="../../shared/net.js?v=1793381184"></script>
+<script src="../../shared/i18n.js?v=1793390000"></script>
+<script src="../../shared/net.js?v=1793390000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -238,7 +238,7 @@
     <h1 data-i18n="es_title">Echoes of the Spire</h1>
     <p data-i18n="es_tagline"></p>
   </div>
-  <div class="mbtns">
+  <div class="mbtns" data-m3pop>
     <button class="btn big" id="mNew">▶</button>
     <button class="btn big sec" id="mCont" hidden></button>
     <div id="ascRow" hidden><button class="ib" id="ascL">◀</button><span id="ascV"></span><button class="ib" id="ascR">▶</button></div>
@@ -247,16 +247,16 @@
   <div class="mstats" id="mStats"></div>
 </div>
 
-<div id="modal" hidden><div class="box" id="mbox"></div></div>
+<div id="modal" hidden><div class="box" id="mbox" data-m3pop></div></div>
 
-<script src="strings.js?v=1793381184"></script>
-<script src="data.js?v=1793381184"></script>
-<script src="audio.js?v=1793381184"></script>
-<script src="map.js?v=1793381184"></script>
-<script src="core.js?v=1793381184"></script>
-<script src="render.js?v=1793381184"></script>
-<script src="ui.js?v=1793381184"></script>
-<script src="../../shared/cloud.js?v=1793381184" data-game="echoes-spire" data-keys="echoes-spire-*"></script>
+<script src="strings.js?v=1793390000"></script>
+<script src="data.js?v=1793390000"></script>
+<script src="audio.js?v=1793390000"></script>
+<script src="map.js?v=1793390000"></script>
+<script src="core.js?v=1793390000"></script>
+<script src="render.js?v=1793390000"></script>
+<script src="ui.js?v=1793390000"></script>
+<script src="../../shared/cloud.js?v=1793390000" data-game="echoes-spire" data-keys="echoes-spire-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

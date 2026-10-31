@@ -192,6 +192,7 @@ $('relics').addEventListener('click', () => { if (G.phase === 'wave' || G.phase 
 function showModal(html, kind) {
   UI.modal = kind; $('mbox').innerHTML = html; $('modal').hidden = false; $('mbox').scrollTop = 0;
   $('mbox').querySelectorAll('[data-home]').forEach(h => { h.onclick = goHome; });
+  if (window.Mal3abPopButtons) window.Mal3abPopButtons();   // re-add 🏠 + 💬 bar (#mbox has data-m3pop)
 }
 function hideModal() { UI.modal = null; $('modal').hidden = true; $('mbox').innerHTML = ''; }
 const btn = (cls, act, label) => `<button class="btn ${cls}" data-act="${act}">${label}</button>`;
@@ -216,7 +217,6 @@ function openPause() {
   showModal(`<h2><i class="pz"></i> ${esc(t('es_paused'))}</h2><p class="sub">${esc(actLabel())} · ${esc(G.act <= 3 ? t('es_waveN', { n: G.wave, m: WAVES_PER_ACT }) : t('es_endlessN', { n: G.wave }))}${G.asc ? ' · ' + esc(t('es_asc', { n: G.asc })) : ''}</p>
     <div class="col">${btn('big', 'resume', '▶ ' + esc(t('es_resume')))}${btn('sec', 'how', '❓ ' + esc(t('es_how')))}
     <div class="row2">${btn('sec', 'snd', G.settings.mute ? '🔇 ' + esc(t('es_soundOff')) : '🔊 ' + esc(t('es_soundOn')))}<button class="btn sec langbtn" data-act="lang">${getLang() === 'ar' ? 'English' : 'العربية'}</button></div>
-    <div class="row2"><button class="btn sec" data-home>🏠 ${esc(t('es_home'))}</button><button class="btn sec" data-mal3ab-chat>💬 ${esc(t('es_chat'))}</button></div>
     ${btn('sec', 'menu', '↩ ' + esc(t('es_toMenu')))}${btn('sec danger', 'restart', '⟳ ' + esc(t('es_restart')))}</div>
     ${rel ? `<h3>${esc(t('es_relics'))}</h3>${rel}` : ''}${att ? `<p class="sub">${esc(t('es_attunedL'))}: ${att}</p>` : ''}
     <p class="sub tiny">${esc(t('es_saveNote'))}</p>`, 'pause');

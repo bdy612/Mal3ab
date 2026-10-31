@@ -1346,9 +1346,7 @@
   const btn = (a, label, cls, extra) => `<button class="btn ${cls || ''}" data-a="${a}" ${extra || ''}>${label}</button>`;
   const miniRow = () => `<div class="mini">
       <button class="ib wide" data-a="lang">${getLang() === 'ar' ? 'English' : 'العربية'}</button>
-      <button class="ib" data-a="snd" title="${esc(t('gl_sound'))}">${AU.muted ? '🔇' : '🔊'}</button>
-      <button class="ib" data-mal3ab-home title="Home">🏠</button>
-      <button class="ib" data-mal3ab-chat title="Chat">💬</button></div>`;
+      <button class="ib" data-a="snd" title="${esc(t('gl_sound'))}">${AU.muted ? '🔇' : '🔊'}</button></div>`;   // 🏠 + 💬 now come from the data-m3pop bar
   function totalStars() { let s = 0; for (const k in SAVE.stars) s += SAVE.stars[k] || 0; return s; }
   function renderOv() {
     const n = G.screen; let h = '';
@@ -1428,6 +1426,7 @@
       }
     }
     ov.innerHTML = h; ov.hidden = false;
+    if (ov.firstElementChild) { ov.firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); }   // 🏠 + 💬 in every popup
     ov.querySelectorAll('[data-mal3ab-home]').forEach((b) => { b.onclick = (e) => { e.preventDefault(); location.href = '../../play.html'; }; });
     ov.querySelectorAll('canvas[data-icon]').forEach(drawIcon);
   }
