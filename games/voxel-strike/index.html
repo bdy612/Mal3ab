@@ -42,10 +42,10 @@
   .panel.wide { width: min(560px, 100%); max-height: 92vh; overflow: auto; } .panel .small { font-size: 13px; }
   .sumr { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: rgba(0, 0, 0, .18); border-radius: 12px; padding: 8px 10px; font-size: 13px; color: #d6dbf5; }
   .rulesp .row { justify-content: center; } .rulesp input[type=number] { width: 80px; text-align: center; font-weight: 700; }
-  .rulesp .blist { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; max-height: 210px; overflow: auto; padding: 4px; background: rgba(0, 0, 0, .18); border-radius: 12px; }
+  .rulesp .blist { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px; max-height: 210px; overflow: auto; padding: 4px; background: rgba(0, 0, 0, .18); border-radius: 12px; }
   .rulesp .blist .small { grid-column: 1 / -1; color: var(--muted); }
   .rulesp .bi { display: flex; align-items: center; justify-content: space-between; gap: 6px; background: var(--card2); border-radius: 10px; padding: 4px 4px 4px 10px; font-size: 13px; }
-  .rulesp .bi select { padding: 5px 6px; font-size: 13px; }
+  .rulesp .bi select { padding: 5px 6px; font-size: 13px; } .rulesp .bictl { display: flex; gap: 4px; align-items: center; } .rulesp .bi input.bhp { width: 62px; padding: 5px 4px; font-size: 13px; text-align: center; }
   .rulesp .tog { background: rgba(255, 93, 115, .1); border: 1px solid rgba(255, 93, 115, .35); border-radius: 12px; padding: 10px; }
   .rulesp .tog span { display: flex; align-items: center; gap: 8px; color: var(--text); font-weight: 700; } .rulesp .tog input { width: 20px; height: 20px; accent-color: var(--red); }
   .lbt td.nm { display: flex; align-items: center; gap: 8px; } .lbt td:first-child { width: 40px; text-align: center; }
@@ -93,7 +93,7 @@
   #dead { position: absolute; left: 50%; top: 36%; transform: translate(-50%, -50%); text-align: center; background: rgba(0, 0, 0, .55); padding: 14px 24px; border-radius: 14px; font-size: 18px; display: flex; flex-direction: column; gap: 6px; }
   #dead b { color: var(--accent); font-size: 22px; }
   #dead.spec { top: 64px; transform: translateX(-50%); font-size: 14px; padding: 8px 16px; background: rgba(0, 0, 0, .45); } #dead.spec b { font-size: 16px; } #dead small { color: #c9cfea; font-size: 12px; }
-  .rulesp .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .rulesp .two label { gap: 4px; } .rulesp .two small { color: var(--muted); font-size: 11px; }
+  .rulesp .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; } .rulesp .two select { width: 100%; min-width: 0; text-overflow: ellipsis; } .rulesp .two label { gap: 4px; } .rulesp .two small { color: var(--muted); font-size: 11px; }
   .rulesp .two input[type=number] { width: 100%; text-align: center; font-weight: 700; }
   .rulesp > * { flex-shrink: 0; } .rulesp .blist { min-height: 46px; }
   @media (max-width: 520px) { .rulesp .two { grid-template-columns: 1fr; } }
@@ -168,7 +168,7 @@
 <div class="screen" id="rules" hidden></div>
 
 <script src="world.js?v=1793395000"></script>
-<script src="strike.js?v=1793397000"></script>
+<script src="strike.js?v=1793398000"></script>
 <script src="../../shared/cloud.js?v=1793395000" data-game="voxelstrike" data-keys="vstrike-settings,vstrike-stats,vstrike-menu"></script>
 </body>
 </html>

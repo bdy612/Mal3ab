@@ -35,7 +35,7 @@ addStrings({
   vs_hc: '💀 هاردكور', vs_hcDesc: 'أي ضربة بتموّت على طول، واللي يموت بيفضل ميت لآخر الماتش.', vs_save: '✓ تمام', vs_out: 'خلصت أرواحك — بتتفرج لحد آخر الماتش',
   vs_lastStand: 'آخر واحد يفضل عايش يكسب', vs_livesLeft: 'أرواح', vs_sum: '{b} بوت · {l} · {t} · {v}', vs_sumT: 'أول واحد يوصل {n}', vs_sumL: '{n} أرواح',
   vs_fists: 'إيدك', vs_minigun: 'ميني جن', vs_railgun: 'ريل جن', vs_start: 'السلاح في الأول', vs_stAll: 'كل الأسلحة', vs_stPistol: 'مسدس بس', vs_stNone: 'من غير سلاح (إيدك بس)',
-  vs_pickups: 'أسلحة أقوى وعلاج على الخريطة', vs_pkOff: 'مفيش', vs_pkNormal: 'عادي', vs_pkLots: 'كتير', vs_drops: 'صناديق بتنزل من السما', vs_dropIn: '📦 صندوق إمدادات نازل من السما!', vs_crate: '📦 الصندوق: {w} + صحة كاملة + ذخيرة', vs_ammoRule: 'الطلقات', vs_amNormal: 'عادي', vs_amInf: 'لا نهائية ∞', vs_reloadRule: 'الريلود', vs_rlNormal: 'عادي (كل سلاح بوقته)', vs_rlCustom: 'وقت واحد لكل الأسلحة', vs_rlNone: 'من غير ريلود', vs_rlSec: 'وقت الريلود (ثواني)', vs_onDeath: 'لما حد يموت', vs_shield: '🛡️ هيلث احتياطي (درع)', vs_shOn: 'شغال — العلاج الزيادة بيتحول لدرع', vs_shOff: 'مقفول', vs_shGot: '+{n} درع 🛡️', vs_dKeep: 'تفضل معاه أسلحته زي ما هي', vs_dLose: 'تضيع أسلحته (من غير ما توقع)', vs_dDrop: 'يوقّع كل أسلحته على الأرض', vs_alive: 'عايشين', vs_spec: 'بتتفرج — WASD تتحرك، الماوس تبص، Space/Shift فوق وتحت',
+  vs_pickups: 'أسلحة أقوى وعلاج على الخريطة', vs_pkOff: 'مفيش', vs_pkNormal: 'عادي', vs_pkLots: 'كتير', vs_drops: 'صناديق بتنزل من السما', vs_dropIn: '📦 صندوق إمدادات نازل من السما!', vs_crate: '📦 الصندوق: {w} + صحة كاملة + ذخيرة', vs_ammoRule: 'الطلقات', vs_amNormal: 'عادي', vs_amInf: 'لا نهائية ∞', vs_reloadRule: 'الريلود', vs_rlNormal: 'عادي (كل سلاح بوقته)', vs_rlCustom: 'وقت واحد لكل الأسلحة', vs_rlNone: 'من غير ريلود', vs_rlSec: 'وقت الريلود (ثواني)', vs_onDeath: 'لما حد يموت', vs_shield: '🛡️ هيلث احتياطي (درع)', vs_shOn: 'شغال (العلاج الزيادة ← درع)', vs_shOff: 'مقفول', vs_shGot: '+{n} درع 🛡️', vs_myHp: 'صحة اللاعيبة', vs_myShield: 'الدرع في الأول (اللاعيبة)', vs_botHp: 'صحة كل البوتات', vs_botShield: 'الدرع في الأول (البوتات)', vs_hpHint: 'العادي 100', vs_shMax: 'أقصى درع', vs_dKeep: 'تفضل معاه أسلحته زي ما هي', vs_dLose: 'تضيع أسلحته (من غير ما توقع)', vs_dDrop: 'يوقّع كل أسلحته على الأرض', vs_alive: 'عايشين', vs_spec: 'بتتفرج — WASD تتحرك، الماوس تبص، Space/Shift فوق وتحت',
   vs_specTouch: 'بتتفرج — حرّك الكاميرا بالجويستيك', vs_out2: 'خرج', vs_got: 'خدت {w}!', vs_heal: '+50 صحة', vs_ammo: 'ذخيرة', vs_numHint: '0 = من غير حد', vs_livesCol: 'أرواح',
   vs_kills: 'قتلات', vs_deaths: 'موت', vs_player: 'اللاعب', vs_again: '↻ العب تاني', vs_menu: 'القائمة', vs_nextRound: 'الجولة الجاية بعد {n}',
   vs_firstTo: 'أول واحد يوصل {n}', vs_waiting: 'مستني أصحابك… ابعتلهم الكود', vs_room: 'الغرفة', vs_joined: 'دخل', vs_leftRoom: 'خرج',
@@ -58,7 +58,7 @@ addStrings({
   vs_hc: '💀 Hardcore', vs_hcDesc: 'Any hit kills instantly, and whoever dies stays dead until the match ends.', vs_save: '✓ Done', vs_out: 'Out of lives — watching until the match ends',
   vs_lastStand: 'Last one standing wins', vs_livesLeft: 'lives', vs_sum: '{b} bots · {l} · {t} · {v}', vs_sumT: 'first to {n}', vs_sumL: '{n} lives',
   vs_fists: 'Fists', vs_minigun: 'Minigun', vs_railgun: 'Railgun', vs_start: 'Weapons at the start', vs_stAll: 'All weapons', vs_stPistol: 'Pistol only', vs_stNone: 'No weapons (fists only)',
-  vs_pickups: 'Better weapons and heals on the map', vs_pkOff: 'Off', vs_pkNormal: 'Normal', vs_pkLots: 'Lots', vs_drops: 'Supply Drops From The Sky', vs_dropIn: '📦 Supply drop incoming!', vs_crate: '📦 Crate: {w} + full health + ammo', vs_ammoRule: 'Ammo', vs_amNormal: 'Normal', vs_amInf: 'Infinite ∞', vs_reloadRule: 'Reload', vs_rlNormal: 'Normal (each weapon its own time)', vs_rlCustom: 'Same time for every weapon', vs_rlNone: 'No reload', vs_rlSec: 'Reload time (seconds)', vs_onDeath: 'When Someone Dies', vs_shield: '🛡️ Spare Health (Shield)', vs_shOn: 'On — Extra Healing Becomes Shield', vs_shOff: 'Off', vs_shGot: '+{n} Shield 🛡️', vs_dKeep: 'Keep Their Weapons', vs_dLose: 'Lose Weapons (Nothing Drops)', vs_dDrop: 'Drop All Weapons On The Ground', vs_alive: 'alive', vs_spec: 'Spectating — WASD to move, mouse to look, Space/Shift up and down',
+  vs_pickups: 'Better weapons and heals on the map', vs_pkOff: 'Off', vs_pkNormal: 'Normal', vs_pkLots: 'Lots', vs_drops: 'Supply Drops From The Sky', vs_dropIn: '📦 Supply drop incoming!', vs_crate: '📦 Crate: {w} + full health + ammo', vs_ammoRule: 'Ammo', vs_amNormal: 'Normal', vs_amInf: 'Infinite ∞', vs_reloadRule: 'Reload', vs_rlNormal: 'Normal (each weapon its own time)', vs_rlCustom: 'Same time for every weapon', vs_rlNone: 'No reload', vs_rlSec: 'Reload time (seconds)', vs_onDeath: 'When Someone Dies', vs_shield: '🛡️ Spare Health (Shield)', vs_shOn: 'On (Extra Healing → Shield)', vs_shOff: 'Off', vs_shGot: '+{n} Shield 🛡️', vs_myHp: 'Players\' Health', vs_myShield: 'Starting Shield (Players)', vs_botHp: 'Health For All Bots', vs_botShield: 'Starting Shield (Bots)', vs_hpHint: 'Normal is 100', vs_shMax: 'Max Shield', vs_dKeep: 'Keep Their Weapons', vs_dLose: 'Lose Weapons (Nothing Drops)', vs_dDrop: 'Drop All Weapons On The Ground', vs_alive: 'alive', vs_spec: 'Spectating — WASD to move, mouse to look, Space/Shift up and down',
   vs_specTouch: 'Spectating — move the camera with the joystick', vs_out2: 'out', vs_got: 'Got the {w}!', vs_heal: '+50 health', vs_ammo: 'Ammo', vs_numHint: '0 = no limit', vs_livesCol: 'Lives',
   vs_kills: 'Kills', vs_deaths: 'Deaths', vs_player: 'Player', vs_again: '↻ Play again', vs_menu: 'Menu', vs_nextRound: 'Next round in {n}',
   vs_firstTo: 'First to {n}', vs_waiting: 'Waiting for friends… send them the code', vs_room: 'Room', vs_joined: 'joined', vs_leftRoom: 'left',
@@ -157,6 +157,28 @@ function nameTag(text, color) {
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
   s.scale.set(1.5, 0.28, 1); s.position.y = 2.2; return s;
 }
+// a small health bar (green) with the shield (blue) above it, floating over every bot and player
+const HPB = { bg: new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.55, depthWrite: false }), hp: new THREE.MeshBasicMaterial({ color: 0x2fbf71 }),
+  low: new THREE.MeshBasicMaterial({ color: 0xe5484d }), mid: new THREE.MeshBasicMaterial({ color: 0xf5a524 }), sh: new THREE.MeshBasicMaterial({ color: 0x3e8ef7 }), geo: new THREE.PlaneGeometry(1, 1).translate(0.5, 0, 0) };
+function hpBar() {
+  const g = new THREE.Group(); g.position.y = 2.55;
+  const bg = new THREE.Mesh(new THREE.PlaneGeometry(1.08, 0.24), HPB.bg); bg.position.y = 0.04; g.add(bg);
+  const hp = new THREE.Mesh(HPB.geo, HPB.hp); hp.position.set(-0.5, -0.02, 0.001); hp.scale.set(1, 0.09, 1); g.add(hp);
+  const sh = new THREE.Mesh(HPB.geo, HPB.sh); sh.position.set(-0.5, 0.1, 0.001); sh.scale.set(0, 0.07, 1); g.add(sh);
+  g.userData = { hp, sh }; return g;
+}
+const _hq = new THREE.Quaternion();
+function updHpBars() {
+  for (const f of G.fighters) {
+    const b = f.hpb; if (!b) continue;
+    b.visible = f.alive && G.running;
+    if (!b.visible) continue;
+    const r = clamp(f.hp / (f.maxHp || 100), 0, 1), s = clamp((f.shield || 0) / (f.shMax || SHIELD_MAX), 0, 1);
+    b.userData.hp.scale.x = Math.max(0.001, r); b.userData.hp.material = r > 0.6 ? HPB.hp : r > 0.3 ? HPB.mid : HPB.low;
+    b.userData.sh.scale.x = Math.max(0.001, s); b.userData.sh.visible = s > 0;
+    b.quaternion.copy(_hq.copy(f.model.root.quaternion).invert()).multiply(camera.quaternion);   // always faces the camera
+  }
+}
 // the gun in your hands
 const VM = {};
 function gunModel(kind) {
@@ -237,6 +259,7 @@ const LEVELS = {
 const PREF = { fists: 1.2, pistol: 12, rifle: 16, shotgun: 5, sniper: 30, minigun: 14, railgun: 34 };
 const COLORS = [0xe5484d, 0x3e8ef7, 0x2fbf71, 0xf5a524, 0xa855f7, 0x14b8a6, 0xf97316, 0xec4899, 0x84cc16, 0x0ea5e9];
 const BOTN = ['Omar', 'Lina', 'Yousef', 'Mona', 'Karim', 'Nour', 'Ziad', 'Hana', 'Tarek', 'Salma', 'Adam', 'Rana', 'Fady', 'Laila'];
+const SHIELD_MAX = 100;
 const GRAV = 22, JUMP = 7.6, ONLINE_TARGET = 15, DM_TARGET = 20;
 
 // ---------------------------------------------------------------------
@@ -249,7 +272,8 @@ function rules() {
   const c = (G.mode === 'online' ? NET.cfg : G.opts) || {}, hard = !!c.hardcore;
   return { target: c.target != null ? +c.target : (G.mode === 'online' ? ONLINE_TARGET : DM_TARGET), lives: hard ? 1 : (+c.lives || 0), hardcore: hard,
     start: c.start || 'all', pickups: c.pickups || (G.mode === 'online' ? 'off' : 'normal'),
-    drops: c.drops || 'off', ammo: c.ammo === 'inf' ? 'inf' : 'normal', reload: ['custom', 'none'].includes(c.reload) ? c.reload : 'normal', reloadT: clamp(+c.reloadT || 1.5, 0.1, 15), death: ['keep', 'drop'].includes(c.death) ? c.death : 'lose', shield: c.shield !== 'off' };
+    drops: c.drops || 'off', ammo: c.ammo === 'inf' ? 'inf' : 'normal', reload: ['custom', 'none'].includes(c.reload) ? c.reload : 'normal', reloadT: clamp(+c.reloadT || 1.5, 0.1, 15), death: ['keep', 'drop'].includes(c.death) ? c.death : 'lose', shield: c.shield !== 'off',
+    php: clamp(+c.php || 100, 1, 1000), psh: clamp(+c.psh || 0, 0, 1000), bhp: clamp(+c.bhp || 100, 1, 1000), bsh: clamp(+c.bsh || 0, 0, 1000), shmax: clamp(+c.shmax || 100, 1, 1000), bhps: Array.isArray(c.bhps) ? c.bhps : null };
 }
 const aliveCount = () => { const fs = G.fighters.filter(f => !(G.mode === 'waves' && f.bot && !f.alive)); return (rules().lives > 0 ? fs.filter(f => !isOut(f)) : fs.filter(f => f.alive)).length + '/' + fs.length; };
 const isOut = (f) => G.mode !== 'waves' && rules().lives > 0 && f.deaths >= rules().lives;   // no lives left: stays dead
@@ -259,7 +283,7 @@ function newFighter(o) {
     pos: new V3(), vel: new V3(), yaw: 0, pitch: 0, hp: 100, maxHp: 100, alive: false, kills: 0, deaths: 0, weapon: 'rifle', mag: {}, res: {},
     nades: 2, blocks: 20, fireCD: 0, reloadT: 0, heat: 0, onGround: false, wall: false, respawnAt: 0, deadT: 0, spawnT: -9, walk: 0, ai: {}, lv: 'medium', hurtT: -9 }, o);
   f.model = makeModel(f.color); scene.add(f.model.root); f.model.root.visible = false;
-  if (!f.local) { f.tag = nameTag(f.name, '#' + f.color.toString(16).padStart(6, '0')); f.model.root.add(f.tag); }
+  if (!f.local) { f.tag = nameTag(f.name, '#' + f.color.toString(16).padStart(6, '0')); f.model.root.add(f.tag); f.hpb = hpBar(); f.model.root.add(f.hpb); }
   refill(f); G.fighters.push(f); return f;
 }
 function refill(f) { const inf = rules().ammo === 'inf'; for (const k of GUN_KEYS) { f.mag[k] = GUNS[k].mag; f.res[k] = inf ? Infinity : GUNS[k].res; } f.nades = 2; f.blocks = 20; if (f.owned) startLoadout(f); }
@@ -276,13 +300,16 @@ function spawnPoint(f, far) {
   return best;
 }
 function spawn(f) {
-  f.pos.copy(spawnPoint(f, G.mode === 'waves' && f.bot)); f.vel.set(0, 0, 0); f.hp = f.maxHp; f.shield = 0; f.alive = true; refill(f);
+  if (G.mode !== 'waves') { const R = rules();
+    if (f.local) { f.maxHp = R.php; f.shStart = R.psh; } else if (f.bot && !f.remote) { f.maxHp = (R.bhps && R.bhps[f.idx]) || R.bhp; f.shStart = R.bsh; } }
+  if (!f.remote) f.shMax = G.mode !== 'waves' ? rules().shmax : SHIELD_MAX;
+  f.pos.copy(spawnPoint(f, G.mode === 'waves' && f.bot)); f.vel.set(0, 0, 0); f.hp = f.maxHp; f.shield = Math.min(f.shStart || 0, f.shMax || SHIELD_MAX); f.alive = true; refill(f);
   f.yaw = Math.atan2(-(W / 2 - f.pos.x), -(D / 2 - f.pos.z)); f.pitch = 0; f.reloadT = 0; f.fireCD = 0.3; f.heat = 0; f.spawnT = G.t;
   f.model.root.rotation.set(0, 0, 0); f.ai = {}; startLoadout(f);
   if (f.local) { $('dead').hidden = true; $('dead').classList.remove('spec'); G.spec = null; G.ads = false; hudAll(); }
 }
 function addBot(lv, i) {
-  const b = newFighter({ bot: true, lv, name: '🤖 ' + BOTN[(i + (G.botOff || 0)) % BOTN.length] + (i >= BOTN.length && G.mode !== 'waves' ? ' ' + (Math.floor(i / BOTN.length) + 1) : ''), color: COLORS[(i + 1) % COLORS.length] });
+  const b = newFighter({ bot: true, lv, idx: i, name: '🤖 ' + BOTN[(i + (G.botOff || 0)) % BOTN.length] + (i >= BOTN.length && G.mode !== 'waves' ? ' ' + (Math.floor(i / BOTN.length) + 1) : ''), color: COLORS[(i + 1) % COLORS.length] });
   const r = Math.random(); b.weapon = b.pref = r < 0.45 ? 'rifle' : r < 0.65 ? 'shotgun' : r < 0.82 ? 'sniper' : 'pistol';
   return b;
 }
@@ -400,12 +427,20 @@ function die(t, a, w, head) {
   if (t.local) { G.ads = false; G.fireHeld = false; G.nadeAim = false; showDead(a); }
   checkEnd();
 }
+// the room's rules arrived (or changed): apply them to me right away — infinite ammo, and my health/shield if I just spawned
+function cfgToMe() {
+  const me = G.me; if (!me || G.mode !== 'online') return; const R = rules();
+  if (R.ammo === 'inf') for (const k of GUN_KEYS) me.res[k] = Infinity;
+  if (me.alive && G.t - me.spawnT < 4) { me.maxHp = R.php; me.hp = R.php; me.shMax = R.shmax; me.shield = Math.min(R.psh, R.shmax); me.shStart = R.psh; }
+  hudAll();
+}
 function startReload(f) {
+  if (GUNS[f.weapon] && rules().ammo === 'inf') f.res[f.weapon] = Infinity;   // infinite ammo covers every gun, picked-up ones too
   const g = GUNS[f.weapon]; if (!g || f.reloadT > 0 || f.mag[f.weapon] >= g.mag || f.res[f.weapon] <= 0) return;
   const R = rules(); if (R.reload === 'none') { finishReload(f); return; }
   f.reloadT = R.reload === 'custom' ? R.reloadT : g.reload; if (f.local) { sfx.reload(); G.ads = false; hudAmmo(); }
 }
-function finishReload(f) { const w = f.weapon, g = GUNS[w]; const take = Math.min(g.mag - f.mag[w], f.res[w]); f.mag[w] += take; f.res[w] -= take; if (f.local) hudAmmo(); }
+function finishReload(f) { const w = f.weapon, g = GUNS[w]; if (rules().ammo === 'inf') f.res[w] = Infinity; const take = Math.min(g.mag - f.mag[w], f.res[w]); f.mag[w] += take; f.res[w] -= take; if (f.local) hudAmmo(); }
 function switchWeapon(f, k) { if (!f.alive || f.weapon === k) return; if (GUNS[k] && f.owned && !f.owned.has(k)) { if (f.local) sfx.empty(); return; } if (k === 'nade' && f.nades <= 0) { if (f.local) sfx.empty(); return; } if (f.weapon !== 'nade') f.prevWeapon = f.weapon; G.nadeAim = f.local ? false : G.nadeAim; f.weapon = k; f.reloadT = 0; f.fireCD = Math.max(f.fireCD, 0.28); if (f.local) { G.ads = false; G.fired = false; hudAll(); } }
 function placeBlock(f) {
   if (f.fireCD > 0 || f.blocks <= 0) return false;
@@ -528,26 +563,26 @@ function dropSpawner(dt) {
   banner(t('vs_dropIn'), 1.6); sfx.wave();
   if (G.mode === 'online') send('pk', { a: 'add', id: p.id, k: 'crate', p: arr(pos) });
 }
-const SHIELD_MAX = 100;
+// (SHIELD_MAX is defined near the top)
 function heal(f, n) {   // fills health first; whatever is left over becomes spare health (shield) when that rule is on
   const room = Math.max(0, f.maxHp - f.hp), use = Math.min(room, n); f.hp += use;
-  let extra = 0; if (G.mode !== 'waves' && rules().shield) { extra = Math.min(n - use, SHIELD_MAX - (f.shield || 0)); if (extra > 0) f.shield = (f.shield || 0) + extra; else extra = 0; }
+  let extra = 0; if (G.mode !== 'waves' && rules().shield) { extra = Math.min(n - use, (f.shMax || SHIELD_MAX) - (f.shield || 0)); if (extra > 0) f.shield = (f.shield || 0) + extra; else extra = 0; }
   return { hp: use, shield: extra };
 }
-const canHeal = (f) => f.hp < f.maxHp || (G.mode !== 'waves' && rules().shield && (f.shield || 0) < SHIELD_MAX);
+const canHeal = (f) => f.hp < f.maxHp || (G.mode !== 'waves' && rules().shield && (f.shield || 0) < (f.shMax || SHIELD_MAX));
 function collect(f, p) {
   const k = p.kind;
   if (k === 'crate') {
     if (p.fall != null) return false;
     const w = pickW(CRATE_GUNS, f.owned); if (!f.owned) f.owned = new Set(['fists']); f.owned.add(w);
-    heal(f, 100); for (const g of GUN_KEYS) { f.mag[g] = GUNS[g].mag; if (isFinite(f.res[g])) f.res[g] = Math.max(f.res[g], GUNS[g].res); } f.nades = Math.min(3, f.nades + 1); f.blocks += 10;
+    heal(f, 100); const infA = G.mode !== 'waves' && rules().ammo === 'inf'; for (const g of GUN_KEYS) { f.mag[g] = GUNS[g].mag; if (infA) f.res[g] = Infinity; else if (isFinite(f.res[g])) f.res[g] = Math.max(f.res[g], GUNS[g].res); } f.nades = Math.min(3, f.nades + 1); f.blocks += 10;
     f.weapon = w; f.reloadT = 0; if (f.local) { G.ads = false; sfx.pickup(); banner(t('vs_crate', { w: t('vs_' + w) }), 2); hudAll(); }
     return true;
   }
   let healed = null;
   if (k === 'hp') { if (!canHeal(f)) return false; healed = heal(f, 50); }
   else if (k === 'ammo') { for (const g of GUN_KEYS) if (isFinite(f.res[g])) f.res[g] = Math.min(GUNS[g].res * 1.5 + GUNS[g].mag, f.res[g] + GUNS[g].mag); f.nades = Math.min(3, f.nades + 1); f.blocks += 5; }
-  else if (GUNS[k]) { const had = f.owned && f.owned.has(k); if (!f.owned) f.owned = new Set(['fists']); f.owned.add(k); f.mag[k] = GUNS[k].mag; if (isFinite(GUNS[k].res)) f.res[k] = Math.max(f.res[k] || 0, GUNS[k].res);
+  else if (GUNS[k]) { const had = f.owned && f.owned.has(k); if (!f.owned) f.owned = new Set(['fists']); f.owned.add(k); f.mag[k] = GUNS[k].mag; if (isFinite(GUNS[k].res)) f.res[k] = Math.max(f.res[k] || 0, GUNS[k].res); if (G.mode !== 'waves' && rules().ammo === 'inf') f.res[k] = Infinity;
     if (!had && (f.bot || GUNS[k].power || !GUNS[f.weapon] || f.weapon === 'fists' || f.weapon === 'pistol')) { f.weapon = k; if (f.local) { G.ads = false; } } }
   if (f.local) { sfx.pickup(); banner(k === 'hp' ? (healed && healed.shield && !healed.hp ? t('vs_shGot', { n: healed.shield }) : t('vs_heal') + (healed && healed.shield ? ' · ' + t('vs_shGot', { n: healed.shield }) : '')) : k === 'ammo' ? t('vs_ammo') : t('vs_got', { w: t('vs_' + k) || k }), 1.2); hudAll(); }
   return true;
@@ -747,7 +782,8 @@ function startGame(mode, opts) {
   if (mode === 'dm') { const n = G.opts.bots != null ? G.opts.bots : 5; for (let i = 0; i < n; i++) addBot((G.opts.lvs && G.opts.lvs[i]) || G.diff, i); }
   for (const f of G.fighters) spawn(f);
   if (mode === 'waves') { G.wave = 0; G.waveBreak = 2.5; banner(t('vs_wave') + ' 1'); }
-  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium', lvs: G.opts.lvs || null, target: G.opts.target, lives: G.opts.lives || 0, hardcore: !!G.opts.hardcore, start: G.opts.start || 'all', pickups: G.opts.pickups || 'off', drops: G.opts.drops || 'off', ammo: G.opts.ammo || 'normal', reload: G.opts.reload || 'normal', reloadT: G.opts.reloadT || 1.5, death: G.opts.death || 'lose', shield: G.opts.shield || 'on' } : null);
+  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium', lvs: G.opts.lvs || null, target: G.opts.target, lives: G.opts.lives || 0, hardcore: !!G.opts.hardcore, start: G.opts.start || 'all', pickups: G.opts.pickups || 'off', drops: G.opts.drops || 'off', ammo: G.opts.ammo || 'normal', reload: G.opts.reload || 'normal', reloadT: G.opts.reloadT || 1.5, death: G.opts.death || 'lose', shield: G.opts.shield || 'on', php: G.opts.php || 100, psh: G.opts.psh || 0, bhp: G.opts.bhp || 100, bsh: G.opts.bsh || 0, shmax: G.opts.shmax || 100, bhps: G.opts.bhps || null } : null);
+  if (mode === 'online') cfgToMe();   // the room's rules are known only now: apply them to my first life too
   G.running = true;
   showScreen(null); $('hud').hidden = false; $('touch').hidden = !touchMode; hudAll(); renderBoard(false);
   lockMouse();
@@ -848,7 +884,7 @@ function dropPeer(f) { if (!f) return; NET.peers.delete(f.id); removeFighter(f);
 function onNet(ev, p) {
   if (!G.running || G.mode !== 'online' || !p) return;
   if (ev === 'hello') {
-    if (p.id === G.me.id) return; peer(p.id, p.n, p.c); if (!NET.cfg && p.cfg) NET.cfg = p.cfg;
+    if (p.id === G.me.id) return; peer(p.id, p.n, p.c); if (!NET.cfg && p.cfg) { NET.cfg = p.cfg; cfgToMe(); }
     if (p.req) {
       send('hello', hello(false));
       if (pickups.some(q => q.map) && ![...NET.peers.keys()].some(id => id < G.me.id)) send('pk', { a: 'list', to: p.id, l: pickups.filter(q => q.map).map(q => [q.id, q.kind, arr(q.m.position)]) });
@@ -857,7 +893,7 @@ function onNet(ev, p) {
     return;
   }
   if (ev === 'sync') {
-    if (p.to !== G.me.id || NET.synced) return; NET.synced = true; if (p.cfg) NET.cfg = p.cfg;
+    if (p.to !== G.me.id || NET.synced) return; NET.synced = true; if (p.cfg) { NET.cfg = p.cfg; cfgToMe(); }
     if (p.round !== NET.round) { NET.round = p.round; buildWorld(seedFor(NET.code, NET.round)); spawn(G.me); }
     for (const [k, b] of p.ch) { const [x, y, z] = k.split(',').map(Number); G.world.set(x, y, z, b); }
     for (const [id, k, d] of p.sc) { const f = NET.peers.get(id); if (f) { f.kills = k; f.deaths = d; } }
@@ -870,12 +906,12 @@ function onNet(ev, p) {
     if (p.a === 'list' && p.to === G.me.id) for (const it of p.l) if (!pickups.some(x => x.id === it[0])) { const q = addPickup(it[1], new V3().fromArray(it[2]), 60, it[0]); q.map = true; }
     return;
   }
-  if (ev === 'cfg') { NET.cfg = p.cfg; return; }
+  if (ev === 'cfg') { NET.cfg = p.cfg; cfgToMe(); return; }
   if (ev === 'bots') { onBots(p); return; }
   const f = ev === 'st' ? (NET.peers.get(p.id) || peer(p.id, p.n, p.c)) : fighterById(p.id);
   if (ev === 'st') {
     if (p.r !== NET.round) return;
-    f.netT = G.t; f.tp.fromArray(p.p); f.tyaw = p.y; f.pitch = p.pt; f.weapon = p.w; f.hp = p.hp; f.kills = p.k; f.deaths = p.d;
+    f.netT = G.t; f.tp.fromArray(p.p); f.tyaw = p.y; f.pitch = p.pt; f.weapon = p.w; f.hp = p.hp; if (p.mh) f.maxHp = p.mh; f.shield = p.sh || 0; if (p.sm) f.shMax = p.sm; f.kills = p.k; f.deaths = p.d;
     if (p.n && p.n !== f.name) { f.name = p.n; f.model.root.remove(f.tag); f.tag = nameTag(f.name, '#' + f.color.toString(16).padStart(6, '0')); f.model.root.add(f.tag); }
     if (p.a && !f.alive) { f.alive = true; f.pos.copy(f.tp); f.model.root.rotation.set(0, 0, 0); f.spawnT = G.t; }
     if (!p.a && f.alive) { f.alive = false; f.deadT = G.t; }
@@ -915,7 +951,7 @@ function onBots(p) {
     let b = G.fighters.find(f => f.id === id);
     if (!b) { const info = (p.i || []).find(q => q[0] === id); b = newFighter({ id, bot: true, remote: true, name: info ? info[1] : '🤖 Bot', color: info ? info[2] : COLORS[4] }); b.tp = new V3(x, y, z); b.pos.set(x, y, z); b.tyaw = yw; }
     else if (p.i) { const info = p.i.find(q => q[0] === id); if (info && info[1] !== b.name) { b.name = info[1]; b.model.root.remove(b.tag); b.tag = nameTag(b.name, '#' + b.color.toString(16).padStart(6, '0')); b.model.root.add(b.tag); } }
-    b.tp.set(x, y, z); b.tyaw = yw; b.pitch = pt; b.weapon = SLOTS[wi] || 'rifle'; b.hp = hp; b.kills = k; b.deaths = d;
+    b.tp.set(x, y, z); b.tyaw = yw; b.pitch = pt; b.weapon = SLOTS[wi] || 'rifle'; b.hp = hp; b.kills = k; b.deaths = d; b.shield = a[11] || 0; if (a[12]) b.maxHp = a[12]; if (a[13]) b.shMax = a[13];
     if (al && !b.alive) { b.alive = true; b.pos.set(x, y, z); b.model.root.rotation.set(0, 0, 0); }
     if (!al && b.alive) { b.alive = false; b.deadT = G.t; }
   }
@@ -933,10 +969,10 @@ function botHosting(dt) {
   }
   if (!NET.host) return;
   const mine = G.fighters.filter(f => f.bot && !f.remote);
-  if (mine.length < want) { const b = addBot((NET.cfg.lvs && NET.cfg.lvs[mine.length]) || NET.cfg.lv || 'medium', mine.length + 3); b.id = 'b' + G.me.id.slice(0, 4) + Math.random().toString(36).slice(2, 6); spawn(b); }
+  if (mine.length < want) { const b = addBot((NET.cfg.lvs && NET.cfg.lvs[mine.length]) || NET.cfg.lv || 'medium', mine.length + 3); b.idx = mine.length; b.id = 'b' + G.me.id.slice(0, 4) + Math.random().toString(36).slice(2, 6); spawn(b); }
   else if (mine.length > want) removeFighter(mine[mine.length - 1]);
   if (wall() < NET.botSendT) return; NET.botSendT = wall() + 0.1;
-  const msg = { h: G.me.id, r: NET.round, b: mine.map(b => [b.id, +b.pos.x.toFixed(2), +b.pos.y.toFixed(2), +b.pos.z.toFixed(2), +b.yaw.toFixed(2), +b.pitch.toFixed(2), Math.max(0, SLOTS.indexOf(b.weapon)), b.alive ? 1 : 0, Math.round(b.hp), b.kills, b.deaths]) };
+  const msg = { h: G.me.id, r: NET.round, b: mine.map(b => [b.id, +b.pos.x.toFixed(2), +b.pos.y.toFixed(2), +b.pos.z.toFixed(2), +b.yaw.toFixed(2), +b.pitch.toFixed(2), Math.max(0, SLOTS.indexOf(b.weapon)), b.alive ? 1 : 0, Math.round(b.hp), b.kills, b.deaths, Math.round(b.shield || 0), b.maxHp, b.shMax || SHIELD_MAX]) };
   if ((NET.infoT -= 1) <= 0) { NET.infoT = 15; msg.i = mine.map(b => [b.id, b.name, b.color]); }
   if (NET.botQ.s.length) msg.s = NET.botQ.s.splice(0, 12);
   if (NET.botQ.h.length) msg.hh = NET.botQ.h.splice(0, 20);
@@ -951,7 +987,7 @@ function netUpdate(dt) {
   NET.upT += dt; NET.sendT -= dt;
   if (NET.sendT <= 0 && G.me) {
     NET.sendT = 1 / 12; const m = G.me;
-    const st = { id: m.id, r: NET.round, p: arr(m.pos), y: +m.yaw.toFixed(3), pt: +m.pitch.toFixed(3), w: m.weapon, hp: Math.max(0, Math.round(m.hp)), a: m.alive, k: m.kills, d: m.deaths };
+    const st = { id: m.id, r: NET.round, p: arr(m.pos), y: +m.yaw.toFixed(3), pt: +m.pitch.toFixed(3), w: m.weapon, hp: Math.max(0, Math.round(m.hp)), mh: m.maxHp, sh: Math.round(m.shield || 0), sm: m.shMax || SHIELD_MAX, a: m.alive, k: m.kills, d: m.deaths };
     if ((NET.nameT = (NET.nameT || 0) - 1) <= 0 || NET.sentName !== m.name) { NET.nameT = 24; NET.sentName = m.name; st.n = m.name; st.c = m.color; }   // the name goes out at once when it changes
     send('st', st);
   }
@@ -975,7 +1011,7 @@ function hudAll() { hudHp(); hudAmmo(); hudSlots(); }
 function hudHp() { const me = G.me; if (!me) return; hudShield(me); const v = Math.max(0, Math.round(me.hp)); $('hpnum').textContent = v; const b = $('hpbar').firstElementChild; b.style.width = clamp(v / me.maxHp * 100, 0, 100) + '%'; b.style.background = v > 60 ? 'var(--ok)' : v > 30 ? 'var(--accent)' : 'var(--red)'; }
 function hudShield(me) {
   const box = $('shbox'); if (!box) return; const v = Math.round(me.shield || 0);
-  box.hidden = !(v > 0); if (v > 0) { box.querySelector('i').style.width = clamp(v / SHIELD_MAX * 100, 0, 100) + '%'; box.querySelector('span').textContent = v; }
+  box.hidden = !(v > 0); if (v > 0) { box.querySelector('i').style.width = clamp(v / (me.shMax || SHIELD_MAX) * 100, 0, 100) + '%'; box.querySelector('span').textContent = v; }
 }
 function hudAmmo() {
   const me = G.me; if (!me) return; const w = me.weapon;
@@ -1052,19 +1088,23 @@ const LVS = ['easy', 'medium', 'hard'], MAX_BOTS = 40;
 function getRules(kind) {
   const all = lsGet('vstrike-rules', {}), m = lsGet('vstrike-menu', {});
   const def = kind === 'dm' ? { bots: m.bots != null ? m.bots : 5, lv: m.diff || 'medium', target: DM_TARGET } : { bots: m.obots != null ? m.obots : 0, lv: m.olv || 'medium', target: ONLINE_TARGET };
-  const r = Object.assign({ lvs: null, lives: 0, hardcore: false, start: 'all', pickups: kind === 'dm' ? 'normal' : 'off', drops: kind === 'dm' ? 'normal' : 'off', ammo: 'normal', reload: 'normal', reloadT: 1.5, death: 'lose', shield: 'on' }, def, all[kind] || {});
+  const r = Object.assign({ lvs: null, lives: 0, hardcore: false, start: 'all', pickups: kind === 'dm' ? 'normal' : 'off', drops: kind === 'dm' ? 'normal' : 'off', ammo: 'normal', reload: 'normal', reloadT: 1.5, death: 'lose', shield: 'on', php: 100, psh: 0, bhp: 100, bsh: 0, shmax: 100, bhps: null }, def, all[kind] || {});
   r.reloadT = Math.max(0.1, Math.min(15, +r.reloadT || 1.5));
   r.bots = Math.max(0, Math.min(MAX_BOTS, r.bots | 0)); r.target = Math.max(0, Math.min(9999, r.target | 0)); r.lives = Math.max(0, Math.min(999, r.lives | 0)); if (!Array.isArray(r.lvs)) r.lvs = null;
   if (r.lvs) r.lvs = Array.from({ length: r.bots }, (_, i) => LVS.includes(r.lvs[i]) ? r.lvs[i] : r.lv);
+  const hpN = (v, d, lo) => Math.max(lo, Math.min(1000, Math.round(+v) || d));
+  r.php = hpN(r.php, 100, 1); r.psh = hpN(r.psh, 0, 0); r.bhp = hpN(r.bhp, 100, 1); r.bsh = hpN(r.bsh, 0, 0); r.shmax = hpN(r.shmax, 100, 1);
+  r.bhps = Array.isArray(r.bhps) && r.bots ? Array.from({ length: r.bots }, (_, i) => hpN(r.bhps[i], r.bhp, 1)) : null;
+  if (r.bhps && r.bhps.every(v => v === r.bhp)) r.bhps = null;
   return r;
 }
 function setRules(kind, r) { const all = lsGet('vstrike-rules', {}); all[kind] = r; lsSet('vstrike-rules', all); }
-const rulesOpts = (r, extra) => Object.assign({ diff: r.lv, lv: r.lv, bots: r.bots, lvs: r.lvs, target: r.target, lives: r.lives, hardcore: r.hardcore, start: r.start, pickups: r.pickups, drops: r.drops, ammo: r.ammo, reload: r.reload, reloadT: r.reloadT, death: r.death, shield: r.shield }, extra || {});
+const rulesOpts = (r, extra) => Object.assign({ diff: r.lv, lv: r.lv, bots: r.bots, lvs: r.lvs, target: r.target, lives: r.lives, hardcore: r.hardcore, start: r.start, pickups: r.pickups, drops: r.drops, ammo: r.ammo, reload: r.reload, reloadT: r.reloadT, death: r.death, shield: r.shield, php: r.php, psh: r.psh, bhp: r.bhp, bsh: r.bsh, shmax: r.shmax, bhps: r.bhps }, extra || {});
 function rulesSummary(r) {
   const mixed = r.lvs && r.lvs.some(l => l !== r.lvs[0]), lvl = r.bots ? (mixed ? t('vs_mixed') : t('vs_' + ((r.lvs && r.lvs[0]) || r.lv))) : '—';
   return t('vs_sum', { b: r.bots, l: lvl, t: r.target > 0 ? t('vs_sumT', { n: r.target }) : t('vs_noLimit'), v: r.hardcore ? t('vs_hc') : r.lives > 0 ? t('vs_sumL', { n: r.lives }) : '❤ ∞' })
     + (r.start !== 'all' ? ' · ' + (r.start === 'pistol' ? '🔫' : '👊') : '') + (r.pickups !== 'off' ? ' · 🎁' : '') + (r.drops && r.drops !== 'off' ? ' · 📦' : '')
-    + (r.ammo === 'inf' ? ' · ∞' : '') + (r.reload === 'none' ? ' · ⚡' : r.reload === 'custom' ? ' · ⏱' + r.reloadT + 's' : '') + (r.death === 'keep' ? ' · 🔒' : r.death === 'drop' ? ' · 🎒' : '') + (r.shield === 'off' ? '' : ' · 🛡️');
+    + (r.ammo === 'inf' ? ' · ∞' : '') + (r.reload === 'none' ? ' · ⚡' : r.reload === 'custom' ? ' · ⏱' + r.reloadT + 's' : '') + (r.death === 'keep' ? ' · 🔒' : r.death === 'drop' ? ' · 🎒' : '') + (r.shield === 'off' ? '' : ' · 🛡️' + (r.shmax && r.shmax !== 100 ? r.shmax : '')) + (r.php && r.php !== 100 ? ' · ❤' + r.php : '') + (r.bots && ((r.bhp && r.bhp !== 100) || r.bhps) ? ' · 🤖❤' + (r.bhps ? '…' : r.bhp) : '');
 }
 function openRules(kind) {
   const r = getRules(kind); showScreen('rules');
@@ -1074,7 +1114,11 @@ function openRules(kind) {
     $('rules').innerHTML = `<div class="panel wide rulesp" data-m3pop><h2>${t('vs_rulesT')} — ${kind === 'dm' ? t('vs_dm') : t('vs_online')}</h2>
       <label>${t('vs_botN')}<div class="row"><button class="btn sec small" data-n="-1">−</button><input type="number" id="rBots" min="0" max="${MAX_BOTS}" value="${r.bots}"><button class="btn sec small" data-n="1">+</button></div></label>
       ${r.bots ? `<label>${t('vs_allLv')}<select id="rAll">${mixed ? opt('mixed', t('vs_mixed'), 'mixed') : ''}${LVS.map(k => opt(k, t('vs_' + k), mixed ? '' : lvs[0])).join('')}</select></label>
-      <div class="blist"><div class="small">${t('vs_eachBot')}</div>${lvs.map((l, i) => `<div class="bi"><span>🤖 ${t('vs_bot')} ${i + 1}</span><select data-i="${i}">${LVS.map(k => opt(k, t('vs_' + k), l)).join('')}</select></div>`).join('')}</div>` : ''}
+      <div class="two"><label>🤖❤ ${t('vs_botHp')}<input type="number" id="rBhp" min="1" max="1000" value="${r.bhp}"><small>${t('vs_hpHint')}</small></label>
+      <label>🤖🛡️ ${t('vs_botShield')}<input type="number" id="rBsh" min="0" max="1000" value="${r.bsh}"></label></div>
+      <div class="blist"><div class="small">${t('vs_eachBot')}</div>${lvs.map((l, i) => `<div class="bi"><span>🤖 ${t('vs_bot')} ${i + 1}</span><span class="bictl"><select data-i="${i}">${LVS.map(k => opt(k, t('vs_' + k), l)).join('')}</select><input type="number" class="bhp" data-h="${i}" min="1" max="1000" value="${(r.bhps && r.bhps[i]) || r.bhp}" title="❤ HP"></span></div>`).join('')}</div>` : ''}
+      <div class="two"><label>❤ ${t('vs_myHp')}<input type="number" id="rPhp" min="1" max="1000" value="${r.php}"><small>${t('vs_hpHint')}</small></label>
+      <label>🛡️ ${t('vs_myShield')}<input type="number" id="rPsh" min="0" max="1000" value="${r.psh}"></label></div>
       <div class="two"><label>${t('vs_target')}<input type="number" id="rTarget" min="0" max="9999" value="${r.target}"><small>${t('vs_numHint')}</small></label>
       <label>${t('vs_lives')}<input type="number" id="rLives" min="0" max="999" value="${r.hardcore ? 1 : r.lives}" ${r.hardcore ? 'disabled' : ''}><small>${t('vs_numHint')}</small></label></div>
       <div class="two"><label>${t('vs_start')}<select id="rStart">${opt('all', t('vs_stAll'), r.start)}${opt('pistol', t('vs_stPistol'), r.start)}${opt('none', t('vs_stNone'), r.start)}</select></label>
@@ -1085,6 +1129,7 @@ function openRules(kind) {
       <label ${r.reload === 'custom' ? '' : 'hidden'}>${t('vs_rlSec')}<input type="number" id="rReloadT" min="0.1" max="15" step="0.1" value="${r.reloadT}"></label></div>
       <div class="two"><label>💀 ${t('vs_onDeath')}<select id="rDeath">${opt('lose', t('vs_dLose'), r.death)}${opt('keep', t('vs_dKeep'), r.death)}${opt('drop', t('vs_dDrop'), r.death)}</select></label>
       <label>${t('vs_shield')}<select id="rShield">${opt('on', t('vs_shOn'), r.shield)}${opt('off', t('vs_shOff'), r.shield)}</select></label></div>
+      <div class="two"><label>🛡️ ${t('vs_shMax')}<input type="number" id="rShMax" min="1" max="1000" value="${r.shmax}"><small>${t('vs_hpHint')}</small></label><span></span></div>
       <label class="tog"><span><input type="checkbox" id="rHard" ${r.hardcore ? 'checked' : ''}> ${t('vs_hc')}</span><small>${t('vs_hcDesc')}</small></label>
       <button class="btn" id="rDone">${t('vs_save')}</button></div>`;
     const redraw = () => setTimeout(draw, 0);   // never rebuild the panel from inside one of its own events
@@ -1100,11 +1145,21 @@ function openRules(kind) {
     $('rDrops').onchange = (e) => { r.drops = e.target.value; };
     $('rAmmo').onchange = (e) => { r.ammo = e.target.value; };
     $('rDeath').onchange = (e) => { r.death = e.target.value; };
+    const num = (v, d, lo) => Math.max(lo, Math.min(1000, Math.round(+v) || d));
+    $('rPhp').onchange = (e) => { r.php = num(e.target.value, 100, 1); e.target.value = r.php; };
+    $('rShMax').onchange = (e) => { r.shmax = num(e.target.value, 100, 1); e.target.value = r.shmax; };
+    $('rPsh').onchange = (e) => { r.psh = num(e.target.value, 0, 0); e.target.value = r.psh; };
+    if ($('rBhp')) $('rBhp').onchange = (e) => { r.bhp = num(e.target.value, 100, 1); r.bhps = null; redraw(); };
+    if ($('rBsh')) $('rBsh').onchange = (e) => { r.bsh = num(e.target.value, 0, 0); e.target.value = r.bsh; };
+    $('rules').querySelectorAll('input.bhp').forEach(inp => inp.onchange = () => { const v = num(inp.value, r.bhp, 1); inp.value = v; const a = r.bhps || Array(r.bots).fill(r.bhp); a[+inp.dataset.h] = v; r.bhps = a; });
     $('rShield').onchange = (e) => { r.shield = e.target.value; };
     $('rReload').onchange = (e) => { r.reload = e.target.value; redraw(); };
     $('rReloadT').onchange = (e) => { r.reloadT = Math.max(0.1, Math.min(15, +e.target.value || 1.5)); e.target.value = r.reloadT; };
     $('rHard').onchange = (e) => { r.hardcore = e.target.checked; redraw(); };
     $('rDone').onclick = () => {
+      const nm = (id, d, lo) => $(id) ? Math.max(lo, Math.min(1000, Math.round(+$(id).value) || d)) : null;
+      r.php = nm('rPhp', 100, 1); r.psh = nm('rPsh', 0, 0); r.shmax = nm('rShMax', 100, 1); if ($('rBhp')) r.bhp = nm('rBhp', 100, 1); if ($('rBsh')) r.bsh = nm('rBsh', 0, 0);
+      if (r.bhps && r.bhps.every(v => v === r.bhp)) r.bhps = null;
       if ($('rReloadT')) r.reloadT = Math.max(0.1, Math.min(15, +$('rReloadT').value || 1.5));
       r.target = Math.max(0, Math.min(9999, +$('rTarget').value | 0)); if (!r.hardcore) r.lives = Math.max(0, Math.min(999, +$('rLives').value | 0));
       if (!r.target && !r.lives && !r.hardcore) r.lives = 3;                     // a match needs an end: no kill limit means limited lives
@@ -1325,6 +1380,7 @@ function frame() {
     camera.position.set(W / 2 + Math.cos(orbit) * 46, 26, D / 2 + Math.sin(orbit) * 46);
     camera.lookAt(W / 2, 6, D / 2);
   }
+  updHpBars();
   // gun in hands
   for (const k of SLOTS) VM[k].visible = false;
   if (G.running && me && me.alive && !G.paused && !G.over) {
