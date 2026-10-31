@@ -535,7 +535,7 @@ let ghost = null;            // { pts: [x, y, …] at 20 Hz } of the best run
 // online race: RACE = this race (both couriers fly the same level; the rival is an interpolated ghost), ON = the room / channel
 const RACE = { on: false, phase: 'off', rid: 0, startAt: 0, goAt: 0, endClock: 0, myT: null, oppT: null, oppOut: null, gaveUp: false, myP: 0, oppP: 0,
   df: null, dStart: 1, buf: [], rtr: [], rv: null, sendT: 0, uiT: 0, req: false, oppReq: null, lastNum: 0, resSig: '', oppName: '', leftName: '' };
-const ON = { ch: null, code: '', ready: false, me: '', role: null, jt: 0, partner: null, hb: null, sel: 0, off: null };
+const ON = { ch: null, code: '', ready: false, me: '', role: null, jt: 0, partner: null, hb: null, sel: 0, off: null, gone: new Set() };
 const cam = { x: 0, y: 0, z: 1, shake: 0, sx: 0, sy: 0, pathT: 0 };
 const parts = [], streaks = [];
 let hitStop = 0, flash = 0, slowmo = 1;
@@ -1839,11 +1839,15 @@ function joinRoom(code, role) {
   if (!window.sb) { toast(t('nc_o_noNet')); return false; }
   let id = ''; try { id = sessionStorage.getItem(SLUG + '-id-' + code) || ''; } catch (e) {}
   if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem(SLUG + '-id-' + code, id); } catch (e) {} }
-  Object.assign(ON, { me: id, code, role: role || null, ready: false, jt: Date.now(), partner: null, off: null });
+  Object.assign(ON, { me: id, code, role: role || null, ready: false, jt: Date.now(), partner: null, off: null, gone: new Set() });
   let ch;
   try { ch = sb.channel(SLUG + '-' + code, { config: { broadcast: { self: false, ack: false } } }); } catch (e) { ON.code = ''; toast(t('nc_o_noNet')); return false; }
   for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
-  ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch) { ON.ready = true; hello(true); if (screen === 'lobby') showScreen('lobby'); } });
+  ch.subscribe((st) => {
+    if (ON.ch !== ch) return;
+    if (st === 'SUBSCRIBED') { ON.ready = true; hello(true); if (screen === 'lobby') showScreen('lobby'); }
+    else if ((st === 'CHANNEL_ERROR' || st === 'TIMED_OUT') && !ON.ready) toast(t('nc_o_noNet'), 4000);
+  });
   ON.ch = ch;
   try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
   clearInterval(ON.hb); ON.hb = setInterval(netBeat, 2000);
@@ -1877,12 +1881,13 @@ function onNet(ev, p) {
   if (!p || p.id === ON.me) return;
   const now = Date.now();
   if (ev === 'full') { if (p.to === ON.me) { leaveRoom(); toMenu(); showScreen('online'); toast(t('nc_o_full')); } return; }
+  if (ON.gone.has(p.id)) { if (ev === 'hello') ON.gone.delete(p.id); else return; }   // late packets after a 'bye' (only a fresh hello brings them back)
   let Pn = ON.partner;
   if (Pn && Pn.id !== p.id) {
     if (now - Pn.t < 9000) { if (ev === 'hello') netSend('full', { to: p.id }); return; }   // a third player
     partnerGone(true); Pn = null;
   }
-  if (ev === 'bye') { if (Pn) partnerGone(); return; }
+  if (ev === 'bye') { ON.gone.add(p.id); if (Pn) partnerGone(); return; }
   if (!Pn) {
     Pn = ON.partner = { id: p.id, n: t('nc_o_rival'), role: null, t: now, ul: 1, ph: 'off', rid: -1 };
     ON.off = null;

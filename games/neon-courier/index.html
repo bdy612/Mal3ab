@@ -161,7 +161,8 @@
   .pl > i { width: 10px; height: 10px; border-radius: 50%; flex: none; background: #ff9a3d; } .pl.me > i { background: var(--cyan); }
   .pl b, .rrow b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pl small { color: var(--muted); white-space: nowrap; }
-  .pl.wait { justify-content: center; color: var(--muted); font-style: italic; }
+  .pl.wait { justify-content: center; color: var(--muted); font-style: italic; } .ar .pl.wait { font-style: normal; }
+  .panel .btn[disabled] { opacity: .4; cursor: default; filter: grayscale(.6); box-shadow: none; transform: none; }
   .pl.me, .rrow.me { border-color: rgba(95,243,255,.35); }
   .rrow .pos { font-size: 20px; width: 26px; text-align: center; flex: none; }
   .rrow .tm { font-variant-numeric: tabular-nums; font-weight: 800; white-space: nowrap; } .rrow .tm.fly { color: var(--muted); font-weight: 600; font-size: 14px; }
