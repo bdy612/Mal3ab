@@ -2131,7 +2131,7 @@ function drawRivalUI() {   // screen space: name tag over the ghost, or an arrow
 }
 // ---- progress along the level: distance (in cells) to the terminal over open space
 function distField(Lv) {
-  const { W, H, g } = Lv, N = W * H, dist = new Float32Array(N).fill(Infinity);
+  const { W, H, g } = Lv, N = W * H, dist = new Float64Array(N).fill(Infinity);   // (float64: the d > dist[u] test must be exact)
   const open = (x, y) => x >= 0 && y >= 0 && x < W && y < H && g[y * W + x] === '.';
   const e = Math.floor(Lv.term.y / T) * W + Math.floor(Lv.term.x / T);
   const heap = []; const push = (i, d) => { heap.push([d, i]); let k = heap.length - 1; while (k > 0) { const q = (k - 1) >> 1; if (heap[q][0] <= heap[k][0]) break; [heap[q], heap[k]] = [heap[k], heap[q]]; k = q; } };
