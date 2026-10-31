@@ -125,6 +125,7 @@
     cp_tm_sudo: 'permission granted. ❤', cp_tm_sudodone: 'already granted today.', cp_tm_secrets: 'secrets/: access denied (hint: be nice, use sudo)',
     cp_tm_dreams: 'dreams.hex: 4C 4F 56 45 20 59 4F 55', cp_tm_hello: 'Hello, World!', cp_tm_konami: '+30 lives… just kidding. 8-bit mode unlocked!',
     cp_tm_neo: 'there is no spoon.',
+    cp_ig_go: 'Start', cp_ig_ctrl: 'Controls', cp_ig_cost: 'Costs {n} energy', cp_ig_keys: 'Enter to start · Esc to go back',
   };
   const AR = {
     cp_title: 'سايبر بِت', cp_sub: 'على قد البايت', cp_tagline: 'ربّي كائن ذكاء اصطناعي صغير ومهنّج عايش في شاشتك. بيتعلم عاداتك وبيتطور على حسب ما بتراعيه.',
@@ -240,6 +241,7 @@
     cp_tm_sudo: 'الصلاحية اتمنحت. ❤', cp_tm_sudodone: 'اتمنحت النهارده خلاص.', cp_tm_secrets: 'secrets/: ممنوع الدخول (تلميح: خليك لطيف واستخدم sudo)',
     cp_tm_dreams: 'dreams.hex: 4C 4F 56 45 20 59 4F 55', cp_tm_hello: 'Hello, World!', cp_tm_konami: '+٣٠ روح… بهزر. وضع الـ ٨-بِت اتفتح!',
     cp_tm_neo: 'مفيش معلقة.',
+    cp_ig_go: 'يلا نبدأ', cp_ig_ctrl: 'التحكم', cp_ig_cost: 'هتصرف {n} طاقة', cp_ig_keys: 'Enter عشان تبدأ · Esc عشان ترجع',
   };
   addStrings(AR, EN);
   const lang = () => (window.getLang ? getLang() : 'en');
@@ -1418,16 +1420,16 @@
   const modalEl = $('#modal'), mbox = $('#mbox'); let modalKind = null, modalArg = null;
   function openModal(kind, title, body, tabs, noClose) {
     modalKind = kind; mbox.innerHTML = `<div class="mh"><h2 ${kind === 'result' || kind === 'evo' ? 'style="text-align:center"' : ''}>${title}</h2>${noClose ? '' : '<button class="ib" id="mX" title="Close">✕</button>'}</div>${tabs || ''}<div class="mb">${body}</div>`;
-    modalEl.hidden = false; const x = $('#mX'); if (x) x.onclick = () => { Snd.sfx('close'); closeModal(); }; updCoach();
+    modalEl.hidden = false; if (window.Mal3abPopButtons) window.Mal3abPopButtons(); const x = $('#mX'); if (x) x.onclick = () => { Snd.sfx('close'); closeModal(); }; updCoach();
   }
   function closeModal() {
     if (modalEl.hidden) return; const k = modalKind; modalEl.hidden = true; modalKind = null; mbox.innerHTML = '';
     if (k === 'pause' && scene === 'game') MG.paused = false; updCoach();
   }
-  modalEl.addEventListener('pointerdown', (e) => { if (e.target === modalEl && !['pause', 'result', 'evo', 'name', 'confirm'].includes(modalKind)) { Snd.sfx('close'); closeModal(); } });
+  modalEl.addEventListener('pointerdown', (e) => { if (e.target === modalEl && !['pause', 'result', 'evo', 'name', 'confirm', 'intro'].includes(modalKind)) { Snd.sfx('close'); closeModal(); } });
   function rerenderModal() {
     const k = modalKind; if (!k) return;
-    if (k === 'games') openGames(); else if (k === 'shop') openShop(modalArg); else if (k === 'diary') openDiary(); else if (k === 'menu') openMenu(); else if (k === 'how') openHow(); else if (k === 'pause') openPause();
+    if (k === 'games') openGames(); else if (k === 'shop') openShop(modalArg); else if (k === 'diary') openDiary(); else if (k === 'menu') openMenu(); else if (k === 'how') openHow(); else if (k === 'pause') openPause(); else if (k === 'intro') showIntro(); else if (k === 'result') showResult();
   }
   function openGames() {
     const fg = favGame();
@@ -1566,16 +1568,34 @@
 
   // ------------------------------------------------------------------ mini-game framework
   const MG = { id: null, g: null, state: null, t: 0, paused: false, res: null };
-  function startGame(id) {
+  function startGame(id, quick) {
     const G = GAMES[id]; if (!G || !S) return;
     if (S.stage < G.stage) return;
     if (S.sleeping) { toast(T('cp_shh')); return; }
-    if (S.st.energy < G.energy) { closeModal(); toast(T('cp_tired')); say(SR('cp_sp_tired')); emote('sad', 1.5); return; }
+    if (S.st.energy < G.energy) { closeModal(); if (scene === 'game') exitGame(); toast(T('cp_tired')); say(SR('cp_sp_tired')); emote('sad', 1.5); return; }
     closeModal(); closeTray(); Snd.resume();
-    S.st.energy -= G.energy; S.games[id] = (S.games[id] || 0) + 1; S.counts.games++; addCare({ play: 4 }); if (isNight()) addCare({ chaos: 0.8 }); if (S.tut === 3) advanceTut(); markDirty();
-    MG.id = id; MG.g = G.create(API); MG.state = 'count'; MG.t = 3; MG.paused = false; MG.res = null; parts.length = 0;
+    MG.id = id; MG.g = G.create(API); MG.state = 'intro'; MG.t = 3; MG.paused = false; MG.res = null; parts.length = 0;
     setScene('game');
+    if (quick) beginGame(); else { Snd.sfx('open'); showIntro(); }
   }
+  function showIntro() {
+    const G = GAMES[MG.id]; if (!G || MG.state !== 'intro') return; const best = S.best[MG.id] || 0, md = S.medals[MG.id] || 0;
+    openModal('intro', G.icon + ' ' + T('cp_g_' + MG.id), `<div class="stack center"><div class="muted" style="font-size:15px">${esc(SR('cp_gd_' + MG.id))}</div>
+      <div class="row" style="justify-content:center"><span class="pill">🎮 ${esc(SR('cp_gh_' + MG.id))}</span></div>
+      <div class="row" style="justify-content:center"><span class="pill gold">${T('cp_best')}: ${best} ${['', '🥉', '🥈', '🥇'][md]}</span><span class="pill">⚡ ${esc(T('cp_ig_cost', { n: G.energy }))}</span></div>
+      <div class="muted">${esc(T('cp_medal_need', { n: G.medals[0] }))}</div>
+      <div class="row" style="justify-content:center"><button class="btn sec" id="igBack">${T('cp_back')}</button><button class="btn" id="igGo">▶ ${T('cp_ig_go')}</button></div>
+      ${LY.mobile ? '' : `<div class="muted" style="font-size:12px">${esc(SR('cp_ig_keys'))}</div>`}</div>`, '', true);
+    $('#igGo').onclick = () => beginGame(); $('#igBack').onclick = () => cancelIntro();
+  }
+  function beginGame() {
+    const G = GAMES[MG.id]; if (!G || !MG.g || MG.state !== 'intro') return;
+    if (S.st.energy < G.energy) { closeModal(); exitGame(); toast(T('cp_tired')); return; }
+    if (modalKind === 'intro') closeModal(); Snd.resume();
+    S.st.energy -= G.energy; S.games[MG.id] = (S.games[MG.id] || 0) + 1; S.counts.games++; addCare({ play: 4 }); if (isNight()) addCare({ chaos: 0.8 }); if (S.tut === 3) advanceTut(); markDirty();
+    MG.state = 'count'; MG.t = 3; MG.paused = false;
+  }
+  function cancelIntro() { if (MG.state !== 'intro') return; Snd.sfx('close'); closeModal(); MG.g = null; MG.id = null; MG.res = null; parts.length = 0; setScene('hub'); }
   function mgUpdate(dt) {
     if (!MG.g || MG.paused) return;
     if (MG.state === 'count') { const a = Math.ceil(MG.t); MG.t -= dt; const b = Math.ceil(MG.t); if (b !== a && b > 0) Snd.sfx('tap'); if (MG.t <= 0) { MG.state = 'play'; Snd.sfx('level'); } if (MG.g.idle) MG.g.idle(dt); }
@@ -1604,10 +1624,10 @@
       <div class="sec-h">${T('cp_rewards')}</div><div class="row" style="justify-content:center"><span class="pill gold">+${r.coins} ¢</span><span class="pill gold">+${r.xp} XP</span>${pills}</div>
       ${canAgain ? '' : `<div class="muted">${esc(T('cp_tired'))}</div>`}
       <div class="row" style="justify-content:center"><button class="btn sec" id="rsBack">${T('cp_toroom')}</button><button class="btn" id="rsAgain" ${canAgain ? '' : 'disabled'}>${T('cp_again')}</button></div></div>`, '', true);
-    $('#rsBack').onclick = () => { closeModal(); exitGame(); }; $('#rsAgain').onclick = () => { const id = MG.id; closeModal(); startGame(id); };
+    $('#rsBack').onclick = () => { closeModal(); exitGame(); }; $('#rsAgain').onclick = () => { const id = MG.id; closeModal(); startGame(id, true); };
   }
   function exitGame() { const r = MG.res; MG.g = null; MG.id = null; parts.length = 0; setScene('hub'); if (r) { say(SR(r.medal ? 'cp_sp_mgwin' : 'cp_sp_mglose')); emote(r.medal ? 'happy' : 'surprised', 1.5); } }
-  function pauseGame() { if (scene !== 'game' || MG.state === 'over' || MG.paused) return; MG.paused = true; openPause(); }
+  function pauseGame() { if (scene !== 'game' || MG.state === 'over' || MG.state === 'intro' || MG.paused) return; MG.paused = true; openPause(); }
   function openPause() {
     openModal('pause', '⏸ ' + T('cp_paused'), `<div class="stack"><button class="btn" id="psR">${T('cp_resume')}</button><button class="btn sec" id="psRe">${T('cp_restart')}</button><button class="btn sec" id="psS">${T('cp_sound')}: ${T(Snd.on ? 'cp_on' : 'cp_off')}</button><button class="btn danger" id="psQ">${T('cp_quit')}</button></div>`, '', true);
     $('#psR').onclick = () => { closeModal(); MG.paused = false; };
@@ -1713,6 +1733,7 @@
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     if (k === KONAMI[konamiIdx]) { konamiIdx++; if (konamiIdx === KONAMI.length) { konamiIdx = 0; if (scene === 'hub') onKonami(); } } else konamiIdx = k === KONAMI[0] ? 1 : 0;
     if (scene === 'game') {
+      if (MG.state === 'intro') { if (k === 'Enter' || k === ' ') { beginGame(); e.preventDefault(); } else if (k === 'Escape') cancelIntro(); return; }
       if (k === 'Escape' || k === 'p') { if (MG.paused && modalKind === 'pause') { closeModal(); MG.paused = false; } else pauseGame(); e.preventDefault(); return; }
       if (MG.g && MG.state === 'play' && !MG.paused && MG.g.key) { if (MG.g.key(e.code, true, e) !== false && /^(Arrow|Space)/.test(e.code)) e.preventDefault(); }
       return;
@@ -1794,7 +1815,7 @@
     start(name) { if (!S) newPet(name || 'Byte'); return S; }, cont: () => continueGame(),
     hatch() { if (S && S.stage === 0) { S.hatch = 9; tapSeed(); } }, feed: (id) => feed(id || 'crumbs'), petIt(n) { for (let i = 0; i < (n || 1); i++) petUnit(); }, poke,
     squashAll() { for (const b of bugs.slice()) squash(b); }, spawnBug: () => spawnBug(), sweep: () => doSweep(), sleep, wake: () => wake(false),
-    play: (id) => startGame(id), endGame(score) { if (MG.g) { if (score != null) MG.g.score = score; MG.g.over = true; if (MG.state !== 'play') { MG.state = 'play'; finishGame(); } } }, finish: () => { if (MG.g) finishGame(); }, exitGame, pause: pauseGame,
+    play: (id, quick) => startGame(id, quick), begin: () => beginGame(), cancelIntro: () => cancelIntro(), endGame(score) { if (MG.g) { if (score != null) MG.g.score = score; MG.g.over = true; if (MG.state !== 'play') { MG.state = 'play'; finishGame(); } } }, finish: () => { if (MG.g) finishGame(); }, exitGame, pause: pauseGame,
     simulateAway(hours) { if (!S) return null; S.last -= hours * 3600e3; S.born -= hours * 3600e3; const sum = catchUp(hours * 3600); S.last = Date.now(); syncBugs(); awaySummary(sum); saveNow(); return sum; },
     addXP(n) { addXP(n); }, addCoins(n) { addCoins(n); }, care(c) { addCare(c); }, evolve() { if (canEvolve()) startEvolution(); return !!evoSeq; },
     setHour(h) { debugHour = h; }, konami: onKonami, secret: findSecret, terminal: (cmd) => { if (cmd) termCmd(cmd); else openTerminal(); }, rename: (n) => { S.name = n; saveNow(); updTop(); },

@@ -195,6 +195,8 @@
   .term-in { display: flex; gap: 6px; direction: ltr; }
   .term-in .inp { font: 14px var(--mono); padding: 8px 10px; background: #050a08; color: #c8ffd9; border-color: #1d3b2a; }
   .evo-big canvas { width: 180px; height: 150px; }
+  #mbox > .m3pop { flex: none; margin: 0; padding: 10px 12px 12px; border-top: 1px solid var(--line); background: rgba(8, 11, 26, .6); }
+  .tcenter > .m3pop { margin-top: 4px; }
 
   /* ---------- mini-game hud ---------- */
   #mghud { position: fixed; top: calc(8px + var(--sat)); left: 8px; right: 8px; z-index: 6; display: flex; gap: 6px; align-items: center; pointer-events: none; flex-wrap: wrap; }
@@ -261,8 +263,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793356000"></script>
-<script src="../../shared/net.js?v=1793356000"></script>
+<script src="../../shared/i18n.js?v=1793390000"></script>
+<script src="../../shared/net.js?v=1793390000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -284,8 +286,8 @@
 </div>
 
 <div id="title" class="screen" hidden>
-  <div class="tbar"><button class="ib txt" id="tLang"></button><button class="ib" data-mal3ab-home title="Home">🏠</button><button class="ib" data-mal3ab-chat title="Chat">💬</button></div>
-  <div class="tcenter">
+  <div class="tbar"><button class="ib txt" id="tLang"></button></div>
+  <div class="tcenter" data-m3pop>
     <h1 class="logo-t" id="tLogo"></h1>
     <div class="sub" data-i18n="cp_sub"></div>
     <p class="tag" data-i18n="cp_tagline"></p>
@@ -307,12 +309,12 @@
 
 <div id="bubble" class="off"></div>
 <div id="evoTag" hidden><button class="btn" id="evoGo"></button></div>
-<div id="modal" hidden><div class="box" id="mbox"></div></div>
+<div id="modal" hidden><div class="box" id="mbox" data-m3pop></div></div>
 <div id="toasts"></div>
 
-<script src="pet.js?v=1793356000"></script>
-<script src="games.js?v=1793356000"></script>
-<script src="../../shared/cloud.js?v=1793356000" data-game="cyber-pet" data-keys="cyber-pet-*"></script>
+<script src="pet.js?v=1793390000"></script>
+<script src="games.js?v=1793390000"></script>
+<script src="../../shared/cloud.js?v=1793390000" data-game="cyber-pet" data-keys="cyber-pet-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>
