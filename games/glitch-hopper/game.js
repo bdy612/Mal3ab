@@ -1447,25 +1447,24 @@ function drawRaceHUD(v, dt) {
   const s = v.s, now = performance.now(), base = VW < 720 ? 106 : 68, narrow = VW < 720;
   ctx.textBaseline = 'middle';
   // progress track: you (amber) vs the rival (cyan), exit port on the right
-  const x0 = 16, x1 = VW - 34, y = base + 15, me = progOf(s), op = RACE.op;
+  const x0 = 16, x1 = VW - 34, y = base + 18, ly = base + 7, me = progOf(s), op = RACE.op;
   ctx.fillStyle = 'rgba(8,10,28,.55)'; ctx.fillRect(0, base, VW, RACE_BAND);
   ctx.fillStyle = 'rgba(255,255,255,.1)'; rr(ctx, x0, y - 2, x1 - x0, 4, 2); ctx.fill();
   ctx.strokeStyle = '#39ff88'; ctx.lineWidth = 2; rr(ctx, x1 + 6, y - 7, 14, 14, 3); ctx.stroke(); ctx.fillStyle = '#39ff88'; ctx.fillRect(x1 + 10, y - 1.5, 6, 3);
-  const mx = x0 + (x1 - x0) * me, ox = x0 + (x1 - x0) * op.p;
-  const ol = (op.done ? (op.dnf ? '✖ ' : '✓ ') : '') + iso(opName());
-  ctx.globalAlpha = op.left || (op.done && op.dnf) ? 0.4 : 1;
+  const mx = x0 + (x1 - x0) * me, ox = x0 + (x1 - x0) * op.p, faded = op.left || (op.done && op.dnf);
+  const ol = (op.done ? (op.dnf ? '✖ ' : '✓ ') : '') + iso(opName()), myL = t('gh_onYou');
+  ctx.font = `800 10px ${SANS}`; const ow = ctx.measureText(ol).width, mw = ctx.measureText(myL).width;
+  // labels ride above their dots and push apart when the two are close
+  let cm = mx, co = ox; const need = (mw + ow) / 2 + 8;
+  if (Math.abs(co - cm) < need) { const mid = (cm + co) / 2, sg = co >= cm ? 1 : -1; cm = mid - sg * need / 2; co = mid + sg * need / 2; }
+  const lo0 = 2, hi0 = VW - 2, fit = (c, w) => clamp(c, lo0 + w / 2, hi0 - w / 2);
+  let fm = fit(cm, mw), fo = fit(co, ow);
+  if (Math.abs(fo - fm) < need - 0.5) { if (fm !== cm) fo = fm + Math.sign(co - cm || 1) * need; else if (fo !== co) fm = fo - Math.sign(co - cm || 1) * need; }
+  ctx.globalAlpha = faded ? 0.4 : 1;
   ctx.fillStyle = GHOST_C; ctx.beginPath(); ctx.arc(ox, y, 5, 0, 7); ctx.fill();
-  ctx.font = `800 10px ${SANS}`; const ow = ctx.measureText(ol).width;
-  const myL = t('gh_onYou'); const mw = ctx.measureText(myL).width;
-  // labels sit to the right of their dots, the second one after the first (left side near the port)
-  const L2 = [{ k: 'm', x: mx, w: mw }, { k: 'o', x: ox, w: ow }].sort((p, q) => p.x - q.x || (p.k === 'm' ? -1 : 1));
-  let end = -1e9; const at = {};
-  for (const it of L2) { let px = Math.max(it.x + 9, end + 8); if (px + it.w > x1 - 2) px = it.x - 9 - it.w; at[it.k] = px; end = px + it.w; }
-  if (at.m + mw > at.o && at.o + ow > at.m && L2[1].x > x1 - 120) { const f = L2[0]; at[f.k] = Math.min(at[f.k], at[L2[1].k] - 8 - f.w); }
-  const lo = at.o, lm = at.m;
-  hudText(ol, Math.max(2, lo), y, `800 10px ${SANS}`, GHOST_C); ctx.globalAlpha = 1;
+  hudText(ol, fo, ly, `800 10px ${SANS}`, GHOST_C, 'center'); ctx.globalAlpha = 1;
   ctx.fillStyle = '#ffb703'; rr(ctx, mx - 5, y - 5, 10, 10, 2); ctx.fill(); ctx.strokeStyle = '#fff1c1'; ctx.lineWidth = 1; ctx.stroke();
-  hudText(myL, Math.max(2, lm), y, `800 10px ${SANS}`, '#ffd36b');
+  hudText(myL, fm, ly, `800 10px ${SANS}`, '#ffd36b', 'center');
   // name tag over the ghost, or an arrow at the edge when it is off screen
   const g = RACE.gpos;
   if (g && !((g.d || op.left) && !op.done)) {
