@@ -1419,6 +1419,7 @@ window.Mal3abPrepareInvite = async () => {
   startGame('online', o);                 // the friend's link lands in this match
   return base + '?room=' + code;
 };
+window.Mal3abLiveInfo = () => G.running && G.mode === 'online' ? { players: 1 + NET.peers.size } : {};   // shown on the game page's live list
 window.Mal3abShareLink = () => { const base = location.href.split('?')[0]; return G.running && G.mode === 'online' && NET.code ? base + '?room=' + NET.code : base; };   // chat: "invite to this game"
 window.VSGame = { G, NET, damage, rules, isOut, pickups, addPickup, startGame, fire, spawn, boom, toMenu, throwNade, placeBlock };     // handy for testing
 })();

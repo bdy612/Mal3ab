@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mal3ab</title>
+<link rel="stylesheet" href="shared/style.css?v=1793401000">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="shared/i18n.js?v=1793401000"></script>
+<script src="shared/net.js?v=1793401000"></script>
+<script src="shared/games.js?v=1793401000"></script>
+<style>
+  .gp { max-width: 980px; margin: 0 auto; padding: 18px 16px 40px; display: flex; flex-direction: column; gap: 16px; }
+  .gp-hero { display: flex; gap: 20px; align-items: center; background: linear-gradient(135deg, var(--card), var(--card2)); border-radius: 22px; padding: 22px; flex-wrap: wrap; }
+  .gp-icon { font-size: 76px; line-height: 1; filter: drop-shadow(0 8px 18px rgba(0,0,0,.45)); }
+  .gp-info { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 8px; }
+  .gp-info h1 { margin: 0; font-size: 30px; color: var(--accent, #ffb703); }
+  .gp-info p { margin: 0; color: var(--muted); font-size: 16px; }
+  .gp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .gp-tags span { background: rgba(255,255,255,.08); border-radius: 999px; padding: 4px 10px; font-size: 13px; }
+  .gp-play { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .gp-play .btn.big { font-size: 22px; padding: 14px 34px; }
+  .gp-box { background: var(--card); border-radius: 18px; padding: 16px 18px; }
+  .gp-box h2 { margin: 0 0 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  .gp-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--card2); border-radius: 12px; margin-top: 8px; flex-wrap: wrap; }
+  .gp-row .who { flex: 1; min-width: 140px; } .gp-row .who b { unicode-bidi: plaintext; } .gp-row small { color: var(--muted); display: block; }
+  .gp-dot { width: 10px; height: 10px; border-radius: 50%; background: #555; flex: none; } .gp-dot.on { background: #80ed99; box-shadow: 0 0 6px #80ed99; }
+  .gp-live { width: 10px; height: 10px; border-radius: 50%; background: #ff4d5e; box-shadow: 0 0 0 0 rgba(255,77,94,.7); animation: gpPulse 1.6s infinite; flex: none; }
+  @keyframes gpPulse { 70% { box-shadow: 0 0 0 9px rgba(255,77,94,0); } 100% { box-shadow: 0 0 0 0 rgba(255,77,94,0); } }
+  .gp-empty { color: var(--muted); margin: 4px 0 0; }
+  .gp-how { margin: 0; padding-inline-start: 22px; display: flex; flex-direction: column; gap: 6px; color: var(--text); }
+  .gp-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .gp-cols { grid-template-columns: 1fr; } .gp-icon { font-size: 58px; } .gp-info h1 { font-size: 24px; } }
+  .ar .gp-info, .ar .gp-box { direction: rtl; text-align: right; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back btn small secondary" href="play.html" data-i18n="home"></a>
+  <div class="title">🎮 <span data-i18n="app"></span></div>
+  <div class="room"></div>
+  <button class="btn small secondary" data-mal3ab-chat title="Chat">💬</button>
+  <span id="langslot"></span>
+</div>
+<div class="gp" id="gp"></div>
+<script>
+addStrings({
+  gp_live: 'بيلعبوا دلوقتي', gp_noLive: 'محدش بيلعب أونلاين دلوقتي — دوس العب واعزم صاحبك!', gp_soloOnly: 'اللعبة دي بتتلعب لوحدك.',
+  gp_friends: 'أصحابك', gp_loginFriends: 'سجّل دخول عشان تشوف أصحابك وتلعب معاهم على طول.', gp_noFriends: 'لسه مفيش أصحاب — ضيفهم من الصفحة الرئيسية (👥 الأصحاب).',
+  gp_join: '▶ ادخل', gp_watch: '👁 اتفرج', gp_msg: '💬 كلّمه', gp_invite: '🎮 اعزمه', gp_how: 'إزاي تلعب', gp_inGame: 'بيلعب دلوقتي هنا', gp_room: 'أوضة {p}',
+  gp_players: '{n} لاعيبة', gp_ago: 'من {n} دقيقة', gp_now: 'لسه بادئ', gp_notFound: 'اللعبة دي مش موجودة', gp_pin: '🤍 ثبّتها', gp_unpin: '❤️ مثبّتة', gp_on: 'أونلاين', gp_off: 'مش أونلاين',
+  m_online: '🌐 أونلاين مع أصحابك', m_coop: '🤝 تعاون أونلاين', m_race: '🏁 سباق أونلاين', m_bot: '🤖 ضد الكمبيوتر', m_local: '👥 على نفس الجهاز', m_solo: '🧍 لوحدك'
+}, {
+  gp_live: 'Playing now', gp_noLive: 'Nobody is playing online right now — press Play and invite a friend!', gp_soloOnly: 'This game is played on your own.',
+  gp_friends: 'Your Friends', gp_loginFriends: 'Log in to see your friends and play with them right away.', gp_noFriends: 'No friends yet — add them from the home page (👥 Friends).',
+  gp_join: '▶ Join', gp_watch: '👁 Watch', gp_msg: '💬 Message', gp_invite: '🎮 Invite', gp_how: 'How To Play', gp_inGame: 'playing here now', gp_room: '{p}\'s room',
+  gp_players: '{n} players', gp_ago: '{n} min ago', gp_now: 'just started', gp_notFound: 'That game doesn\'t exist', gp_pin: '🤍 Pin', gp_unpin: '❤️ Pinned', gp_on: 'online', gp_off: 'offline',
+  m_online: '🌐 Online with friends', m_coop: '🤝 Online co-op', m_race: '🏁 Online race', m_bot: '🤖 Vs the computer', m_local: '👥 Same device', m_solo: '🧍 Solo'
+});
+const KEY = new URLSearchParams(location.search).get('g') || '';
+const G = (window.MAL3AB_GAMES || []).find(g => g.key === KEY);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const ONLINE = G && G.modes.some(m => ['online', 'coop', 'race'].includes(m));
+let ROOMS = [], FRIENDS = null;
+let FAVS = []; try { FAVS = JSON.parse(localStorage.getItem('mal3ab-favs') || '[]'); } catch (e) {}
+function togglePin() {
+  FAVS = FAVS.includes(KEY) ? FAVS.filter(k => k !== KEY) : [KEY, ...FAVS];
+  try { localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); } catch (e) {}
+  if (Auth.token) Auth.saveGame('hub', 'mal3ab-favs', FAVS).catch(() => {});
+  draw();
+}
+function roomRow(r) {
+  const mins = Math.floor((Date.now() - (r.since || Date.now())) / 60000);
+  return `<div class="gp-row"><i class="gp-live"></i><div class="who"><b dir="auto">${esc(t('gp_room', { p: r.host || '…' }))}</b>
+    <small>${r.players ? t('gp_players', { n: r.players + (r.max ? '/' + r.max : '') }) + ' · ' : ''}${mins > 0 ? t('gp_ago', { n: mins }) : t('gp_now')}</small></div>
+    ${r.watch ? `<a class="btn small secondary" href="${esc(r.watch)}">${t('gp_watch')}</a>` : ''}<a class="btn small" href="${esc(r.link)}">${t('gp_join')}</a></div>`;
+}
+function friendRow(f) {
+  const room = ROOMS.find(r => r.uid && r.uid === f.id);
+  return `<div class="gp-row"><i class="gp-dot ${f.online ? 'on' : ''}"></i><div class="who"><b dir="auto">${esc(f.username)}</b>
+    <small>${room ? '🔴 ' + t('gp_inGame') : t(f.online ? 'gp_on' : 'gp_off')}</small></div>
+    ${room ? `<a class="btn small" href="${esc(room.link)}">${t('gp_join')}</a>` : ''}
+    <button class="btn small secondary" onclick="talk('${f.id}')">${t('gp_msg')}</button></div>`;
+}
+function talk(id) { if (window.Chat) Chat.show(id); }
+function draw() {
+  document.getElementById('langslot').innerHTML = langButton(); applyLang();
+  const box = document.getElementById('gp');
+  if (!G) { box.innerHTML = `<div class="gp-box"><h2>${t('gp_notFound')}</h2><a class="btn" href="play.html">${t('home')}</a></div>`; return; }
+  document.title = t(G.key) + ' — Mal3ab';
+  const how = (getLang() === 'ar' ? G.ar : G.en) || [], fav = FAVS.includes(KEY);
+  const friends = !Auth.token ? `<p class="gp-empty">${t('gp_loginFriends')}</p>` : FRIENDS == null ? '<p class="gp-empty">…</p>'
+    : FRIENDS.length ? FRIENDS.slice().sort((a, b) => (!!ROOMS.find(r => r.uid === b.id) - !!ROOMS.find(r => r.uid === a.id)) || (b.online - a.online)).map(friendRow).join('') : `<p class="gp-empty">${t('gp_noFriends')}</p>`;
+  box.innerHTML = `
+    <div class="gp-hero"><div class="gp-icon">${G.icon}</div>
+      <div class="gp-info"><h1>${esc(t(G.key))}</h1><p>${esc(t(G.key + 'Desc'))}</p>
+        <div class="gp-tags">${G.modes.map(m => `<span>${t('m_' + m)}</span>`).join('')}</div>
+        <div class="gp-play"><a class="btn big" href="${G.href}">▶ ${t('play')}</a><button class="btn secondary" onclick="togglePin()">${t(fav ? 'gp_unpin' : 'gp_pin')}</button></div></div></div>
+    <div class="gp-cols">
+      <div class="gp-box"><h2>${ONLINE ? '<i class="gp-live"></i> ' + t('gp_live') : t('m_solo')}</h2>
+        ${ONLINE ? (ROOMS.length ? ROOMS.map(roomRow).join('') : `<p class="gp-empty">${t('gp_noLive')}</p>`) : `<p class="gp-empty">${t('gp_soloOnly')}</p>`}</div>
+      <div class="gp-box"><h2>👥 ${t('gp_friends')}</h2>${friends}</div>
+    </div>
+    <div class="gp-box"><h2>📖 ${t('gp_how')}</h2><ul class="gp-how">${how.map(l => `<li>${esc(l)}</li>`).join('')}</ul></div>`;
+}
+async function loadFriends() { if (!Auth.token) { FRIENDS = null; draw(); return; } try { const d = await Friends.list(); FRIENDS = (d && d.friends) || []; } catch (e) { FRIENDS = []; } draw(); }
+document.addEventListener('langchange', draw);
+document.addEventListener('authchange', loadFriends);
+Auth.init().then(() => { draw(); loadFriends(); setInterval(loadFriends, 20000); if (G && ONLINE && window.Mal3abLive) Mal3abLive.watch(G.live, (list) => { ROOMS = list.sort((a, b) => (b.since || 0) - (a.since || 0)); draw(); }); });
+setInterval(() => { if (ROOMS.length) draw(); }, 60000);   // refresh the "x min ago" labels
+</script>
+</body>
+</html>

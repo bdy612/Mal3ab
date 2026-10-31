@@ -344,6 +344,33 @@
     document.addEventListener('langchange', relabel);
     window.Mal3abPopButtons = fill;   // games can call it right after drawing a popup
   })();
+  // 🔴 live games: a game page that is in an online room right now shows up on that game's page (game.html) so others can join or watch.
+  // Games can add details with window.Mal3abLiveInfo = () => ({ players, max, watch: <link to watch>, hidden: true to stay private })
+  (function liveRooms() {
+    const m = location.pathname.match(/\/games\/([^/]+)\//) || location.pathname.match(/\/games\/([^/.]+)\.html/), key = m && m[1];
+    const ROOM = /[?&](room|code|join|joinFriend)=/, id = Math.random().toString(36).slice(2, 10);
+    let ch = null, sent = '', busy = false;
+    async function tick() {
+      if (!key || busy) return; busy = true;
+      try {
+        let link = ''; try { const r = window.Mal3abShareLink && window.Mal3abShareLink(); link = typeof r === 'string' ? r : (r && r.link) || ''; } catch (e) {}
+        let info = {}; try { info = (window.Mal3abLiveInfo && window.Mal3abLiveInfo()) || {}; } catch (e) {}
+        const on = !!link && ROOM.test(link) && !info.hidden;
+        if (!on) { if (ch && sent) { ch.untrack(); sent = ''; } return; }
+        const p = { link, host: Auth.name() || '…', uid: Auth.user ? Auth.user.id : null, players: info.players || null, max: info.max || null, watch: info.watch || null, since: Date.now() };
+        const sig = JSON.stringify(Object.assign({}, p, { since: 0 }));
+        if (!ch) { ch = sb.channel('live-' + key, { config: { presence: { key: id } } }); await new Promise(res => { ch.subscribe(st => { if (st === 'SUBSCRIBED') res(); }); setTimeout(res, 6000); }); }
+        if (sig !== sent) { sent = sig; await ch.track(p); }
+      } catch (e) {} finally { busy = false; }
+    }
+    if (key) { setTimeout(tick, 3000); setInterval(tick, 6000); }
+    window.Mal3abLive = {
+      // the game page listens: cb(list of rooms) whenever someone starts, changes or leaves a room
+      watch(k, cb) { const c = sb.channel('live-' + k, { config: { presence: { key: 'w' + Math.random().toString(36).slice(2, 8), enabled: true } } });
+        const emit = () => cb(Object.values(c.presenceState()).map(a => a[0]).filter(r => r && r.link));
+        c.on('presence', { event: 'sync' }, emit).subscribe(); return () => { try { sb.removeChannel(c); } catch (e) {} }; }
+    };
+  })();
   // Channel Connect (friend chat) on every page that has net.js
   if (NET_SRC && !window.Chat && !document.querySelector('script[data-m3chat]')) {
     const c = document.createElement('script'); c.src = NET_SRC.replace(/net\.js(\?.*)?$/, 'chat.js$1'); c.dataset.m3chat = '1';
