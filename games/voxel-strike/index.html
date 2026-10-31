@@ -73,6 +73,8 @@
   #feed { position: absolute; top: 58px; right: 12px; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; font-size: 14px; }
   #feed div { background: rgba(0, 0, 0, .45); padding: 4px 10px; border-radius: 8px; }
   #hpbox { position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, .42); padding: 9px 14px; border-radius: 12px; font-weight: 800; font-size: 20px; }
+  #shbox { position: absolute; left: 16px; bottom: 66px; display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, .42); padding: 6px 14px; border-radius: 12px; font-weight: 800; font-size: 16px; color: #8ecbff; }
+  #shbar { width: 170px; height: 10px; background: rgba(255, 255, 255, .15); border-radius: 5px; overflow: hidden; } #shbar i { display: block; height: 100%; background: #3e8ef7; width: 0; transition: width .15s; }
   #hpbar { width: 170px; height: 12px; background: rgba(255, 255, 255, .15); border-radius: 6px; overflow: hidden; } #hpbar i { display: block; height: 100%; background: var(--ok); width: 100%; transition: width .15s; }
   #ammo { position: absolute; right: 16px; bottom: 16px; text-align: right; background: rgba(0, 0, 0, .42); padding: 8px 14px; border-radius: 12px; }
   #ammo b { font-size: 28px; display: block; } #ammo span { color: #cdd3ee; font-size: 13px; }
@@ -113,7 +115,7 @@
   #touch .pause { right: calc(12px + env(safe-area-inset-right)); top: max(10px, env(safe-area-inset-top)); width: 44px; height: 44px; font-size: 18px; }
   #touch .score { left: max(12px, env(safe-area-inset-left)); top: max(10px, env(safe-area-inset-top)); width: 44px; height: 44px; font-size: 18px; }
   @media (pointer: coarse) {
-    #hpbox { left: 12px; bottom: 12px; padding: 6px 10px; font-size: 16px; } #hpbar { width: 110px; }
+    #hpbox { left: 12px; bottom: 12px; padding: 6px 10px; font-size: 16px; } #hpbar { width: 110px; } #shbox { left: 12px; bottom: 52px; padding: 4px 10px; font-size: 13px; } #shbar { width: 110px; }
     #ammo { top: max(10px, env(safe-area-inset-top)); bottom: auto; right: auto; left: calc(66px + env(safe-area-inset-left)); text-align: left; padding: 5px 10px; } #ammo b { font-size: 20px; }
     #slots { bottom: 8px; } .slot { min-width: 42px; padding: 3px 6px; } #feed { top: 120px; }
     #mini { top: 62px; min-width: 150px; font-size: 12px; padding: 4px 8px; } #mini .mr .nm { max-width: 80px; }
@@ -138,6 +140,7 @@
   <div id="feed"></div>
   <div id="mini" hidden></div>
   <div id="hpbox">❤ <div id="hpbar"><i></i></div><span id="hpnum">100</span></div>
+  <div id="shbox" hidden>🛡️ <div id="shbar"><i></i></div><span>0</span></div>
   <div id="ammo"><b id="ammoNum"></b><span id="wname"></span></div>
   <div id="slots"></div>
   <div id="banner"></div>
@@ -165,7 +168,7 @@
 <div class="screen" id="rules" hidden></div>
 
 <script src="world.js?v=1793395000"></script>
-<script src="strike.js?v=1793396000"></script>
+<script src="strike.js?v=1793397000"></script>
 <script src="../../shared/cloud.js?v=1793395000" data-game="voxelstrike" data-keys="vstrike-settings,vstrike-stats,vstrike-menu"></script>
 </body>
 </html>
