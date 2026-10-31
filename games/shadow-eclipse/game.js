@@ -140,6 +140,56 @@
     se_future: '🗺️ Dashed outlines show where the shadows will be in 10 seconds.',
     se_tip_map: 'Press M to see the whole map.', se_tip_map_t: 'Tap 🗺️ at the top to see the whole map.',
   });
+  // online: Infiltrator vs Warden
+  addStrings({
+    se_online: '🌐 أونلاين — لاعبين اتنين', se_on_title: 'العب أونلاين', se_on_tag: 'واحد بيتسلل، والتاني كبير الحراس اللي بيحرّك الحراس ويدوّر عليه.',
+    se_name: 'اسمك', se_name_ph: 'اكتب اسمك', se_player: 'لاعب',
+    se_inf: 'المتسلل', se_inf_d: 'اتسلل في الضل واوصل لبوابة الخروج من غير ما حد يقفشك.',
+    se_war: 'كبير الحراس', se_war_d: 'حرّك الحراس ودوّر على المتسلل — بس إنت شايف اللي حراسك شايفينه بس.',
+    se_create_as: 'اعمل أوضة بالدور ده', se_or: 'أو ادخل أوضة صاحبك', se_code_ph: 'الكود', se_join: 'ادخل', se_code_hint: 'اكتب كود من ٤ حروف أو أكتر',
+    se_room: 'الأوضة', se_copy: '🔗 انسخ لينك الدعوة', se_copied: 'اتنسخ ✓', se_you: 'إنت', se_partner: 'صاحبك', se_host: '👑 صاحب الأوضة',
+    se_swap: '🔄 بدّلوا الأدوار', se_start_on: 'يلا نبدأ', se_need_p: 'مستنيين صاحبك يدخل…', se_wait_host: 'مستنيين صاحب الأوضة يبدأ…', se_lvl_pick: 'المرحلة',
+    se_leave: 'اخرج من الأوضة', se_waiting: 'مستني صاحبك… ابعتله الكود أو اللينك', se_connecting: 'بيتصل…',
+    se_full: 'الأوضة دي مليانة', se_no_net: 'مفيش اتصال بالنت', se_joined: '{p} دخل الأوضة', se_left: '{p} خرج',
+    se_lost_t: 'صاحبك خرج', se_lost_inf: 'صاحبك خرج من اللعبة. تقدر تكمّل المرحلة لوحدك والحراس هيرجعوا يمشوا لوحدهم.', se_lost_war: 'المتسلل خرج من اللعبة.',
+    se_solo: 'كمّل لوحدك', se_to_room: 'ارجع للأوضة', se_rematch: 'العبوا تاني', se_next_on: 'المرحلة اللي بعدها', se_paused_by: '{p} وقّف اللعبة',
+    se_r_win: '🏆 كسبت!', se_r_lose: 'خسرت المرة دي', se_r_esc_me: 'هربت من الحراس وعدّيت من البوابة!', se_r_esc_them: 'المتسلل هرب منك من البوابة!',
+    se_r_caught_me: 'كبير الحراس قفشك!', se_r_caught_them: 'قفشت المتسلل!', se_r_alarm: '🚨 وكان في إنذار كامل', se_r_vs: 'إنت {r} قدام {p}',
+    se_ready: 'استعد…', se_go_inf: 'اوصل للبوابة من غير ما حد يقفشك. الحراس دول بيحرّكهم واحد حقيقي!',
+    se_go_war: 'اقفش المتسلل. مش هتشوفه غير لما حارس من حراسك يشوفه أو شعلة تنوّر عليه.',
+    se_wc_sel: 'دوس على حارس عشان تختاره — وكل الحراس التانيين بيكمّلوا دوريتهم لوحدهم.', se_wc_go: 'دوس على الأرض عشان تبعت الحارس هناك (الحارس الواقف بيبص ناحيتها بس).',
+    se_wc_steer: 'WASD أو الأسهم: حرّك الحارس اللي مختاره بإيدك.', se_wc_flare: '🔥 الشعلة (F): نوّر حتة ٣ ثواني وامسح الضل اللي فيها — وبعدين تستنى ٢٠ ثانية.',
+    se_wc_rel: '✋ سيبه (X): الحارس يرجع لدوريته. ولو سبته واقف ١٠ ثواني هيرجع لوحده.', se_wc_sanct: 'مينفعش تبعت حارس قريب أوي من البداية أو البوابة.',
+    se_w_obj: '🛡️ اقفش المتسلل', se_w_role: 'حارس', se_b_flare: 'شعلة', se_b_release: 'سيبه', se_b_next: 'اللي بعده',
+    se_flare_aim: '🔥 دوس على المكان اللي عايز تنوّره', se_flare_wait: 'الشعلة لسه بتتشحن… {s}', se_flare_on: '🔥 شعلة! الضل اتمسح هناك', se_flare_inf: '🔥 كبير الحراس رمى شعلة!',
+    se_tap_guard: 'اختار حارس الأول', se_sanct: 'مينفعش تبعت حارس قريب أوي من البداية أو البوابة', se_bad_spot: 'الحارس مش هيعرف يوصل هنا',
+    se_a_spot: '👁️ حارس شاف حاجة!', se_a_hear: '👂 حارس سمع صوت!', se_a_alarm: '🚨 إنذار كامل! كل الحراس بيدوروا', se_a_calm: 'الإنذار خلص… المتسلل استخبى', se_a_free: 'الحارس رجع لدوريته',
+    se_k_sel: 'اختار / ابعت', se_k_steer: 'حرّك', se_k_flare: 'شعلة', se_k_rel: 'سيبه', se_k_next: 'الحارس اللي بعده',
+  }, {
+    se_online: '🌐 Online — 2 Players', se_on_title: 'Play Online', se_on_tag: 'One player sneaks; the other is the Warden who commands the guards and hunts them down.',
+    se_name: 'Your Name', se_name_ph: 'Type your name', se_player: 'Player',
+    se_inf: 'Infiltrator', se_inf_d: 'Sneak through the shadows and reach the exit without getting caught.',
+    se_war: 'Warden', se_war_d: 'Command the guards and hunt the Infiltrator — you only see what your guards see.',
+    se_create_as: 'Create Room', se_or: "Or Join a Friend's Room", se_code_ph: 'Code', se_join: 'Join', se_code_hint: 'Type a code of 4 or more letters',
+    se_room: 'Room', se_copy: '🔗 Copy Invite Link', se_copied: 'Copied ✓', se_you: 'You', se_partner: 'Partner', se_host: '👑 Host',
+    se_swap: '🔄 Swap Roles', se_start_on: 'Start', se_need_p: 'Waiting for your partner to join…', se_wait_host: 'Waiting for the host to start…', se_lvl_pick: 'Level',
+    se_leave: 'Leave Room', se_waiting: 'Waiting for a partner… send them the code or the link', se_connecting: 'Connecting…',
+    se_full: 'That room is full', se_no_net: 'No connection', se_joined: '{p} joined the room', se_left: '{p} left',
+    se_lost_t: 'Your Partner Left', se_lost_inf: 'Your partner left the game. You can finish the level solo — the guards go back to their own patrols.', se_lost_war: 'The Infiltrator left the game.',
+    se_solo: 'Continue Solo', se_to_room: 'Back to Room', se_rematch: 'Rematch', se_next_on: 'Next Level', se_paused_by: '{p} paused the game',
+    se_r_win: '🏆 You Win!', se_r_lose: 'You Lose', se_r_esc_me: 'You slipped past the guards and out of the exit!', se_r_esc_them: 'The Infiltrator escaped through the exit!',
+    se_r_caught_me: 'The Warden caught you!', se_r_caught_them: 'You caught the Infiltrator!', se_r_alarm: '🚨 …during a full alarm', se_r_vs: 'You were the {r} against {p}',
+    se_ready: 'Get Ready…', se_go_inf: 'Reach the exit without getting caught. These guards are commanded by a real player!',
+    se_go_war: 'Catch the Infiltrator. You only see them when one of your guards does — or when a flare lights them up.',
+    se_wc_sel: 'Tap a guard to select it — every other guard keeps its own patrol.', se_wc_go: 'Tap the floor to send the guard there (a standing watcher just turns to look).',
+    se_wc_steer: 'WASD or arrow keys: steer the selected guard by hand.', se_wc_flare: '🔥 Flare (F): light an area for 3 seconds and burn away its shade — then it recharges for 20 seconds.',
+    se_wc_rel: '✋ Release (X): the guard goes back to its patrol. A guard left standing for 10 seconds goes back by itself.', se_wc_sanct: 'Guards cannot be sent right next to the start or the exit.',
+    se_w_obj: '🛡️ Catch the Infiltrator', se_w_role: 'Guard', se_b_flare: 'Flare', se_b_release: 'Release', se_b_next: 'Next',
+    se_flare_aim: '🔥 Tap where to drop the flare', se_flare_wait: 'The flare is recharging… {s}', se_flare_on: '🔥 Flare! The shade is burned away there', se_flare_inf: '🔥 The Warden dropped a flare!',
+    se_tap_guard: 'Select a guard first', se_sanct: 'Guards cannot be sent that close to the start or the exit', se_bad_spot: 'The guard cannot get there',
+    se_a_spot: '👁️ A guard spotted something!', se_a_hear: '👂 A guard heard a noise!', se_a_alarm: '🚨 Full alarm! Every guard is hunting', se_a_calm: 'The alarm is over… the Infiltrator hid', se_a_free: 'The guard went back to its patrol',
+    se_k_sel: 'select / send', se_k_steer: 'steer', se_k_flare: 'flare', se_k_rel: 'release', se_k_next: 'next guard',
+  });
 
   // ------------------------------------------------------------------ constants & helpers
   const TAU = Math.PI * 2, D2R = Math.PI / 180;
@@ -147,6 +197,7 @@
   const WALL_H = 1.4, PILLAR_H = 2.0, SPIRE_H = 5, COG_H = 0.9;
   const LANT_R = 2.1, ALARM_TIME = 15, BRIDGE_MAX = 7.5, BRIDGE_HW = 0.42;
   const DRAIN = 0.1, DRAIN_LIT = 0.42, DRAIN_BRIDGE = 0.08, REFILL = 0.24, REFILL_LIT = 0.045, NOISE_COST = 0.16, WEAVE_MIN = 0.15;
+  const FLARE_R = 2.6, FLARE_T = 3.2, FLARE_CD = 20, HOLD_MAX = 10, SANCT_R = 2.2, CMD_SP = 2.0;   // online Warden tools
   const SHADOW_RGB = 'rgb(54,78,168)';
   const LINK_COLS = ['#ffcf4a', '#5fe0ff', '#ff7ad9', '#8dff7a'];
   const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -154,6 +205,8 @@
   const angDiff = (a, b) => { let d = (b - a) % TAU; if (d > Math.PI) d -= TAU; else if (d < -Math.PI) d += TAU; return d; };
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   const approach = (v, t, s) => v < t ? Math.min(t, v + s) : Math.max(t, v - s);
+  const r2 = (v) => Math.round(v * 100) / 100;
+  const flareK = (f) => clamp(f.t / 0.15, 0, 1) * clamp((FLARE_T - f.t) / 0.6, 0, 1);   // flare strength: quick flash in, fade out
   function rng(seed) { let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
   function segDist(px, py, ax, ay, bx, by) {
     const dx = bx - ax, dy = by - ay, l2 = dx * dx + dy * dy;
@@ -387,12 +440,15 @@
     for (const g of G.guards) if (g.lantern) {
       const dx = x - g.lx, dy = y - g.ly; if (dx * dx + dy * dy < LANT_R * LANT_R * 0.85 && losClear(g.lx, g.ly, x, y)) return true;
     }
+    for (const f of G.flares) {   // online: the Warden's flare burns the shade away for a moment
+      const dx = x - f.x, dy = y - f.y, r = FLARE_R * flareK(f); if (dx * dx + dy * dy < r * r * 0.85 && losClear(f.x, f.y, x, y)) return true;
+    }
     return false;
   }
   // is a floor point in shade? (walls, doors, pillars, spires, cogs and overhead hands all cast shadows away from the sun)
   function shadowAt(x, y) {
     const tx = Math.floor(x), ty = Math.floor(y);
-    if (G.lanterns && lightAt(x, y)) return false;
+    if ((G.lanterns || G.flares.length) && lightAt(x, y)) return false;
     if (tx >= 0 && ty >= 0 && tx < L.W && ty < L.H && L.T[ty * L.W + tx] === 3) return true;
     const k = L.def.k, sx = G.sx, sy = G.sy, lw = WALL_H * k;
     if (rayGrid(x, y, sx, sy, lw, opaque) < lw) return true;
@@ -538,6 +594,7 @@
       weave: null, meter: 1, hidden: true, alarm: false, alarmed: false, alarmT: 0, lastKnown: null, lkId: 0, vigil: 1,
       guards: L.guardDefs.map(mkGuard), parts: [], rings: [], shake: 0, flash: 0, flashCol: '255,80,80', noiseCd: 0,
       overview: false, tipI: 0, tipT: 0, flags: {}, moved: 0, lockMsgT: 0, tickT: 0, tickHi: false, motes: [], polys: [], endT: 0,
+      flares: [], flareCd: 0, spy: null, spyT: null, pings: [], lk: null,   // online only (empty in single-player)
     };
     G.lanterns = G.guards.some(g => g.lantern);
     for (const l of L.levers) { l.cd = 0; l.anim = 0; }
@@ -709,10 +766,12 @@
     G.meter = Math.max(0, G.meter - NOISE_COST); G.noiseCd = 0.7; G.flags.noise = true;
     G.rings.push({ x: w.x, y: w.y, t: 0 }); Snd.clank(); G.shake = Math.max(G.shake, 0.12);
     puff(w.x, w.y, 10, '255,230,170', 2.4, 0.4, 0.05, true);
+    G.heard = false;
     for (const g of G.guards) {
       const d = Math.hypot(g.x - w.x, g.y - w.y), R = losClear(g.x, g.y, w.x, w.y) ? 6.8 : 5;
       if (d <= R) hearNoise(g, { x: w.x, y: w.y });
     }
+    if (G.heard && netAuth()) netSend('ev', { k: 'hear', x: r2(w.x), y: r2(w.y) });   // the Warden only learns about noises a guard heard
   }
   function bridgeOK() {
     const w = G.weave, b = G.body; if (!w || w.mode !== 'free') return false;
@@ -767,7 +826,10 @@
     if (moved) g.bob += sp * dt0 * 7;
     return moved;
   }
-  function setSuspicious(g) { g.state = 'suspicious'; g.route = []; g.lostT = 0; g.iconT = 0; if (g.vis) Snd.sus(); }
+  function setSuspicious(g) {
+    g.state = 'suspicious'; if (!g.ctl) g.route = []; g.lostT = 0; g.iconT = 0; if (g.vis) Snd.sus();
+    if (netAuth()) netSend('ev', { k: 'spot', g: G.guards.indexOf(g), x: r2(G.body.x), y: r2(G.body.y) });
+  }
   function goSearch(g, p) {
     g.target = { x: p.x, y: p.y }; g.iconT = 0;
     if (g.type === 'w') { g.state = 'search'; g.lookT = 3.5; return; }
@@ -780,18 +842,78 @@
     const t = g.wps[g.wpi]; g.route = findPath(g.x, g.y, t.x, t.y); g.state = 'return';
   }
   function hearNoise(g, p) {
+    G.heard = true;
     if (G.alarm) { G.lastKnown = { x: p.x, y: p.y }; G.lkId++; return; }
+    if (g.ctl) return;   // a guard the Warden commands only reports the noise — the Warden decides
     if (g.state === 'suspicious' && g.meter > 0.5) return;
     goSearch(g, p); if (g.vis) Snd.sus();
   }
   function raiseAlarm() {
-    if (!G.alarm) { G.alarm = true; G.alarmed = true; Snd.alarm(); G.shake = Math.max(G.shake, 0.45); G.flash = 0.35; G.flashCol = '255,60,60'; toast('se_alarm', null, 3); }
+    if (!G.alarm) { G.alarm = true; G.alarmed = true; Snd.alarm(); G.shake = Math.max(G.shake, 0.45); G.flash = 0.35; G.flashCol = '255,60,60'; toast('se_alarm', null, 3); if (netAuth()) netSend('ev', { k: 'alarm' }); }
     G.alarmT = ALARM_TIME; G.lastKnown = { x: G.body.x, y: G.body.y }; G.lkId++;
-    for (const o of G.guards) { o.state = 'alarm'; o.route = []; o.repathT = 0; o.alId = -1; o.lookT = 0; o.meter = Math.max(o.meter, 0.6); o.iconT = 0; }
+    for (const o of G.guards) { o.meter = Math.max(o.meter, 0.6); o.iconT = 0; if (o.ctl) continue; o.state = 'alarm'; o.route = []; o.repathT = 0; o.alId = -1; o.lookT = 0; }
   }
   function calmDown() {
-    G.alarm = false; G.vigil = 1.15; toast('se_calm');
-    for (const g of G.guards) { g.meter = 0; goReturn(g); }
+    G.alarm = false; G.vigil = 1.15; toast('se_calm'); if (netAuth()) netSend('ev', { k: 'calm' });
+    for (const g of G.guards) { g.meter = 0; if (!g.ctl) goReturn(g); }
+  }
+  // ---- online: guards the Warden commands (only one at a time; the rest keep their own AI)
+  const sanctD = (x, y) => Math.min(L.exit ? Math.hypot(x - L.exit.x, y - L.exit.y) : 99, Math.hypot(x - L.start.x, y - L.start.y));
+  function toHold(g) { const c = g.ctl; c.k = 'hold'; c.ht = 0; c.ha = g.type === 'w' ? g.wantA : g.a; g.route = []; }
+  function release(g, auto) {
+    if (!g.ctl) return; g.ctl = null; g.lostT = 0;
+    if (G.alarm) { g.state = 'alarm'; g.route = []; g.repathT = 0; g.alId = -1; g.lookT = 0; }
+    else { g.meter = Math.min(g.meter, 0.5); goReturn(g); }
+    if (auto && netAuth()) netSend('ev', { k: 'free', g: G.guards.indexOf(g) });
+  }
+  function steerGuard(g, c, dt) {
+    const m = Math.hypot(c.sx, c.sy), ux = c.sx / m, uy = c.sy / m, sp = CMD_SP * (g.lantern ? 0.9 : 1) * Math.min(1, m) * dt;
+    const ox = g.x, oy = g.y, d0 = sanctD(ox, oy), n = Math.max(1, Math.ceil(sp / 0.1));
+    for (let k = 0; k < n; k++) { g.x += ux * sp / n; g.y += uy * sp / n; collideTiles(g, 0.3, (tx, ty) => bodySolid(tx, ty, false)); collideCircles(g, 0.3, false); }
+    const d1 = sanctD(g.x, g.y); if (d1 < SANCT_R && d1 < d0) { g.x = ox; g.y = oy; }   // no camping the start or the exit
+    g.wantA = Math.atan2(uy, ux); g.bob += Math.hypot(g.x - ox, g.y - oy) * 7; g.route = [];
+  }
+  function ctlBrain(g, dt) {
+    if (g.state === 'suspicious') { if (!g.sees) { g.lostT += dt; if (g.lostT > 1.1) g.state = 'ctl'; } } else g.state = 'ctl';
+    const c = g.ctl;
+    if (c.k === 'steer') {
+      if (G.time - c.st > 0.45 || Math.hypot(c.sx, c.sy) < 0.1) toHold(g);
+      else if (g.type === 'w') g.wantA = Math.atan2(c.sy, c.sx);
+      else steerGuard(g, c, dt);
+    } else if (c.k === 'go') {
+      if (g.type === 'w') { g.wantA = Math.atan2(c.ty - g.y, c.tx - g.x); if (Math.abs(angDiff(g.a, g.wantA)) < 0.06) toHold(g); }
+      else if (g.route.length) moveAlong(g, CMD_SP * (g.lantern ? 0.9 : 1), dt);
+      else toHold(g);
+    }
+    if (c.k === 'hold') {
+      c.ht += dt; g.wantA = g.type === 'w' ? c.ha : c.ha + Math.sin(c.ht * 1.6) * 0.8;
+      if (c.ht > HOLD_MAX) release(g, true);
+    }
+  }
+  function onCmd(p) {
+    if (!G || !G.body || mode !== 'play') return;
+    if (p.k === 'flare') { spawnFlare(+p.x, +p.y); return; }
+    const g = G.guards[p.g | 0]; if (!g) return;
+    if (p.k === 'rel') { release(g); return; }
+    for (const o of G.guards) if (o !== g && o.ctl) release(o);   // one commanded guard at a time
+    const blank = { k: 'hold', tx: 0, ty: 0, sx: 0, sy: 0, st: 0, ht: 0, ha: g.a };
+    if (p.k === 'go') {
+      const x = clamp(+p.x || 0, 0.3, L.W - 0.3), y = clamp(+p.y || 0, 0.3, L.H - 0.3);
+      if (g.type !== 'w' && sanctD(x, y) < SANCT_R) return;   // a standing watcher may look anywhere, but nobody walks into the start or exit zone
+      if (g.type === 'w') { g.ctl = Object.assign(blank, { k: 'go', tx: x, ty: y }); g.state = 'ctl'; return; }
+      const r = findPath(g.x, g.y, x, y); if (!r.length) return;
+      const e = r[r.length - 1]; if (sanctD(e.x, e.y) < SANCT_R) return;
+      g.route = r; g.ctl = Object.assign(blank, { k: 'go', tx: e.x, ty: e.y }); g.state = 'ctl';
+    } else if (p.k === 'steer') {
+      if (!g.ctl || g.ctl.k !== 'steer') { g.ctl = Object.assign(blank, { k: 'steer' }); g.route = []; g.state = 'ctl'; }
+      g.ctl.sx = clamp(+p.x || 0, -1, 1); g.ctl.sy = clamp(+p.y || 0, -1, 1); g.ctl.st = G.time;
+    }
+  }
+  function spawnFlare(x, y) {
+    if (G.flareCd > 0 || !(x >= 0 && y >= 0 && x < L.W && y < L.H)) return;
+    G.flares.push({ x, y, t: 0 }); G.flareCd = FLARE_CD;
+    Snd.clank(); puff(x, y, 26, '255,170,80', 2.6, 0.8, 0.08, true); G.flash = 0.12; G.flashCol = '255,180,90';
+    if (NET.role === 'inf') toast('se_flare_inf', null, 2.4);
   }
   function patrol(g, dt) {
     if (g.waitT > 0) {
@@ -843,6 +965,7 @@
     if (g.lookT <= 0.02) { const p = randomNear(tgt, 3.5); if (p) g.route = findPath(g.x, g.y, p.x, p.y); g.lookT = 0; }
   }
   function guardBrain(g, dt) {
+    if (g.ctl) return ctlBrain(g, dt);
     if (g.type === 'w') return watcherBrain(g, dt);
     switch (g.state) {
       case 'patrol': patrol(g, dt); break;
@@ -920,6 +1043,7 @@
     G.time += dt;
     updateSun(dt);
     updateDoors(dt);
+    if (G.flares.length || G.flareCd > 0) { G.flareCd = Math.max(0, G.flareCd - dt); for (let k = G.flares.length - 1; k >= 0; k--) if ((G.flares[k].t += dt) > FLARE_T) G.flares.splice(k, 1); }
     if (G.body) {
       G.hidden = bodyHidden();
       updatePlayer(dt);
@@ -961,6 +1085,10 @@
   function win() {
     if (mode !== 'play') return;
     mode = 'win'; G.endT = 0;
+    if (netAuth()) {   // online: the Infiltrator escaped
+      Snd.win(); G.flash = 0.4; G.flashCol = '255,220,140'; puff(L.exit.x, L.exit.y, 50, '120,255,190', 3, 1.2, 0.09, true);
+      netEnd('esc'); return;
+    }
     const i = curLevel, time = G.time, par = L.def.par || 60, ghost = !G.alarmed, fast = time <= par;
     const prev = PROG.b[i] || {}, newBest = !prev.t || time < prev.t;
     PROG.b[i] = { d: 1, g: prev.g || ghost ? 1 : 0, f: prev.f || fast ? 1 : 0, t: Math.round(Math.min(prev.t || 1e9, time) * 10) / 10 };
@@ -977,6 +1105,7 @@
     mode = 'lose'; Snd.caught(); G.shake = 0.6; G.flash = 0.5; G.flashCol = '255,40,40';
     if (G.body) puff(G.body.x, G.body.y, 26, '255,90,90', 2.4, 0.8, 0.08, true);
     if (g) { g.wantA = Math.atan2(G.body.y - g.y, G.body.x - g.x); g.state = 'alarm'; }
+    if (netAuth()) { netEnd('caught'); return; }   // online: the Warden wins
     setTimeout(() => { if (mode === 'lose') showScreen('lose'); }, 1000);
   }
   function starsOf(i) { const b = PROG.b[i]; return b ? (b.d ? 1 : 0) + (b.g ? 1 : 0) + (b.f ? 1 : 0) : 0; }
@@ -1007,10 +1136,11 @@
     const minS = isTouch ? 34 : 28;
     let s, x, y;
     const centerY = (sc) => L.H / 2 - (top + availH / 2 - VH / 2) / sc;
-    if (attract || G.overview || fit >= minS || !G.body) { s = attract ? fit * 1.02 : fit; x = L.W / 2; y = centerY(s); }
+    const wsel = isWarden() && NET.sel >= 0 ? G.guards[NET.sel] : null;   // the Warden's camera follows the selected guard on small screens
+    if (attract || G.overview || fit >= minS || (!G.body && !wsel)) { s = attract ? fit * 1.02 : fit; x = L.W / 2; y = centerY(s); }
     else {
       s = minS;
-      const f = G.weave && G.weave.mode === 'free' ? G.weave : G.body;
+      const f = wsel || (G.weave && G.weave.mode === 'free' ? G.weave : G.body);
       const hw = VW / 2 / s, hhTop = (VH / 2 - top) / s, hhBot = VH / 2 / s;
       x = L.W <= 2 * hw - 1 ? L.W / 2 : clamp(f.x, hw - 0.5, L.W - hw + 0.5);
       y = L.H <= (hhTop + hhBot) - 1 ? centerY(s) : clamp(f.y, hhTop - 0.5, L.H - hhBot + 0.5);
@@ -1200,7 +1330,7 @@
     if (!L || !G) return;
     camUpdate(dt);
     if (PROF) PROF.start();
-    const now = G.time, fog = L.def.fog && !attract && G.body;
+    const now = G.time, fog = L.def.fog && !attract && G.body, war = isWarden();
     // which guards can I see (fog of war: only what your body or your shadow has a line of sight to)
     for (const g of G.guards) {
       if (!fog) { g.vis = true; continue; }
@@ -1246,6 +1376,7 @@
     if (PROF) PROF.mark('shade+hands');
     drawParticles(c);
     if (fog && !SKIP.fog) drawFog();
+    if (war) { drawWardenFog(); setWT(c, DPR); drawWardenMarks(c, now); }
     if (PROF) PROF.mark('fog');
     drawIcons(c, now);
     if (API.debug) drawDebug(c);
@@ -1372,7 +1503,7 @@
       if (!g.vis) { g.cone = null; continue; }
       const cn = conePoly(g); g.cone = cn;
       const st = G.alarm || g.state === 'alarm' ? 'a' : g.state === 'suspicious' || g.meter > 0.12 ? 's' : g.state === 'search' || g.state === 'look' ? 'q' : 'n';
-      const col = st === 'a' ? '255,70,70' : st === 's' ? '255,183,3' : st === 'q' ? '255,215,120' : '255,244,214';
+      const col = st === 'a' ? '255,70,70' : st === 's' ? '255,183,3' : st === 'q' ? '255,215,120' : G.war && g.isCtl ? '214,190,255' : '255,244,214';
       const al = st === 'n' ? 0.3 : 0.4;
       if (HQ) {
         const gr = c.createRadialGradient(g.x, g.y, 0.2, g.x, g.y, cn.range);
@@ -1474,6 +1605,16 @@
       for (const g of G.guards) if (g.lantern) {
         const pts = lightPoly(g), gr = s.createRadialGradient(g.lx, g.ly, 0, g.lx, g.ly, LANT_R);
         gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(0.82, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+        s.fillStyle = gr; polyPath(s, pts); s.fill();
+      }
+      s.globalCompositeOperation = 'source-over';
+    }
+    if (G.flares.length) {   // online: flares burn the shade away
+      s.globalCompositeOperation = 'destination-out';
+      for (const f of G.flares) {
+        const k = flareK(f), r = FLARE_R * k; if (r < 0.05) continue;
+        const pts = [], n = 40; for (let j = 0; j < n; j++) { const a = j / n * TAU, dx = Math.cos(a), dy = Math.sin(a), d = castVis(f.x, f.y, dx, dy, r); pts.push([f.x + dx * d, f.y + dy * d]); }
+        const gr = s.createRadialGradient(f.x, f.y, 0, f.x, f.y, r); gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(0.85, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
         s.fillStyle = gr; polyPath(s, pts); s.fill();
       }
       s.globalCompositeOperation = 'source-over';
@@ -1587,6 +1728,12 @@
       const d = L.doors[p.door], gg = c.createRadialGradient(p.x, p.y, 0, p.x, p.y, 0.7);
       gg.addColorStop(0, p.mode === 'shade' ? 'rgba(120,150,255,0.35)' : 'rgba(255,220,120,0.35)'); gg.addColorStop(1, 'rgba(0,0,0,0)');
       c.fillStyle = gg; c.beginPath(); c.arc(p.x, p.y, 0.7, 0, TAU); c.fill();
+    }
+    for (const f of G.flares) {
+      const k = flareK(f), r = FLARE_R * k * (1 + Math.sin(now * 23 + f.x) * 0.03); if (r < 0.05) continue;
+      const fg = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, r); fg.addColorStop(0, `rgba(255,236,190,${0.75 * k})`); fg.addColorStop(0.25, `rgba(255,170,70,${0.4 * k})`); fg.addColorStop(1, 'rgba(255,120,40,0)');
+      c.fillStyle = fg; c.beginPath(); c.arc(f.x, f.y, r, 0, TAU); c.fill();
+      c.fillStyle = `rgba(255,250,230,${k})`; c.beginPath(); c.arc(f.x, f.y, 0.12 + Math.random() * 0.04, 0, TAU); c.fill();
     }
     c.restore();
     drawGearItem(c, now, true);
@@ -1716,6 +1863,7 @@
   // ------------------------------------------------------------------ HUD
   const hud = { meter: -1, eye: null, alarm: null, obj: null, lbl: null };
   function updateHUD(force) {
+    if (isWarden()) { wardenHUD(force); return; }
     if (!G || !G.body) return;
     const m = Math.round(G.meter * 200) / 2;
     if (force || m !== hud.meter) { hud.meter = m; $('meterFill').style.height = m + '%'; $('meter').classList.toggle('low', G.meter < WEAVE_MIN + 0.05); }
@@ -1738,17 +1886,20 @@
   function setLevelLabel() {
     const el = $('lvlLabel');
     if (mode === 'attract' || !L) { el.innerHTML = ''; return; }
-    const obj = G && G.body && L.gear && !G.gearTaken ? 'se_obj_gear' : 'se_obj_exit';
+    const obj = isWarden() ? 'se_w_obj' : G && G.body && L.gear && !G.gearTaken ? 'se_obj_gear' : 'se_obj_exit';
     el.innerHTML = `<b>${curLevel + 1}</b> · ${t(L.def.name)}<small class="${obj === 'se_obj_gear' ? 'gear' : ''}">${t(obj)}</small>`;
   }
   function keyLegend() {
+    if (isWarden()) { $('keys').innerHTML = `<kbd>🖱️</kbd> ${t('se_k_sel')} &nbsp; <kbd>WASD</kbd> ${t('se_k_steer')} &nbsp; <kbd>F</kbd> ${t('se_k_flare')} &nbsp; <kbd>X</kbd> ${t('se_k_rel')} &nbsp; <kbd>Tab</kbd> ${t('se_k_next')} &nbsp; <kbd>M</kbd> ${t('se_k_map')} &nbsp; <kbd>P</kbd> ${t('se_k_pause')}`; return; }
     $('keys').innerHTML = `<kbd>WASD</kbd> ${t('se_k_move')} &nbsp; <kbd>Q</kbd> ${t('se_k_weave')} &nbsp; <kbd>E</kbd> ${t('se_k_act')} &nbsp; <kbd>F</kbd> ${t('se_k_bridge')} &nbsp; <kbd>M</kbd> ${t('se_k_map')} &nbsp; <kbd>P</kbd> ${t('se_k_pause')}`;
   }
   function syncChrome() {
     const playing = mode !== 'attract';
     $('hud').hidden = !playing;
     $('playBtns').hidden = !playing;
-    $('touch').hidden = !(isTouch && mode === 'play');
+    $('touch').hidden = !(isTouch && mode === 'play') || isWarden();
+    $('wbtns').hidden = !(isWarden() && mode === 'play');
+    $('lightChip').firstElementChild.textContent = isWarden() ? '🔥' : '🔆';
     $('soundBtn').textContent = Snd.muted ? '🔇' : '🔊';
     $('langBtn').textContent = getLang() === 'ar' ? 'English' : 'العربية';
     setLevelLabel();
@@ -1790,6 +1941,7 @@
       const name = window.Auth && Auth.name && Auth.name();
       h = `<div class="panel">${logoSVG()}<h1>${t('se_t1')}<span>${t('se_t2')}</span></h1><p>${t('se_tag')}</p>
         <div class="col"><button class="btn big" data-act="play">${started ? t('se_cont', { n: next + 1 }) : t('se_play')}</button>
+        <button class="btn big online" data-act="online">${t('se_online')}</button>
         <div class="row"><button class="btn sec" data-act="levels">${t('se_levels')}</button><button class="btn sec" data-act="howto">${t('se_howto')}</button></div>
         <div class="row"><button class="btn sec" data-act="sound">${t(Snd.muted ? 'se_snd_off' : 'se_snd_on')}</button><button class="btn sec" data-act="lang">${getLang() === 'ar' ? 'English' : 'العربية'}</button></div></div>
         <p class="muted">${t('se_stars', { n: totalStars(), m: LEVELS.length * 3 })}${name ? ' · 👤 ' + escapeHtml(name) : ''}</p></div>`;
@@ -1802,13 +1954,64 @@
         <tr><td>WASD / ← ↑ → ↓</td><td>${t('se_c_move')}</td></tr><tr><td>Q · 🌑</td><td>${t('se_c_weave')}</td></tr>
         <tr><td>E / Space · 🔔 ⚙️</td><td>${t('se_c_act')}</td></tr><tr><td>F · 🌉</td><td>${t('se_c_bridge')}</td></tr>
         <tr><td>M · 🗺️</td><td>${t('se_c_map')}</td></tr><tr><td>P / Esc · ⏸</td><td>${t('se_c_pause')}</td></tr><tr><td>R</td><td>${t('se_c_restart')}</td></tr></table>
+        <h3>🌐 ${t('se_online')} · 🛡️ ${t('se_war')}</h3><div class="howto">${['se_wc_sel', 'se_wc_go', 'se_wc_steer', 'se_wc_flare', 'se_wc_rel', 'se_wc_sanct'].map(k => `<div>${t(k)}</div>`).join('')}</div>
         <div class="row">${back}</div></div>`;
+    } else if (screen === 'online') {
+      const authed = !!(window.Auth && Auth.profile), nm = (window.Auth && Auth.name && Auth.name()) || '';
+      h = `<div class="panel"><h2>${t('se_on_title')}</h2><p class="muted">${t('se_on_tag')}</p>
+        <label class="fld"><span>${t('se_name')}</span><input id="seName" maxlength="16" value="${escapeHtml(nm)}" placeholder="${t('se_name_ph')}" autocomplete="off" ${authed ? 'readonly' : ''}></label>
+        <div class="roles">
+          <button class="role" data-act="create" data-arg="inf"><span class="ri">🌘</span><b>${t('se_inf')}</b><span>${t('se_inf_d')}</span><em>${t('se_create_as')}</em></button>
+          <button class="role" data-act="create" data-arg="war"><span class="ri">🛡️</span><b>${t('se_war')}</b><span>${t('se_war_d')}</span><em>${t('se_create_as')}</em></button>
+        </div>
+        <h3>${t('se_or')}</h3>
+        <div class="row join"><input class="code" id="seCode" maxlength="6" placeholder="${t('se_code_ph')}" autocomplete="off" spellcheck="false"><button class="btn" data-act="join">${t('se_join')}</button></div>
+        <p class="muted" id="seMsg"></p><div class="row">${back}</div></div>`;
+    } else if (screen === 'lobby') {
+      const P = NET.partner, host = isHost(), lv = NET.lvl;
+      const ri = (r) => r === 'inf' ? '🌘' : r === 'war' ? '🛡️' : '⏳', rn = (r) => r ? t(r === 'inf' ? 'se_inf' : 'se_war') : t('se_connecting');
+      h = `<div class="panel"><h2>${t('se_on_title')}</h2>
+        <div class="roomcode"><span>${t('se_room')}</span><b>${escapeHtml(NET.code)}</b><button class="btn sec small" data-act="copy">${t('se_copy')}</button></div>
+        <div class="plist">
+          <div class="pl"><span class="ri">${ri(NET.role)}</span><div><b dir="auto">${escapeHtml(myName())}</b><small>${t('se_you')} · ${rn(NET.role)}${host ? ' · ' + t('se_host') : ''}</small></div></div>
+          ${P ? `<div class="pl"><span class="ri">${ri(P.role)}</span><div><b dir="auto">${escapeHtml(P.n)}</b><small>${t('se_partner')} · ${rn(P.role)}${host ? '' : ' · ' + t('se_host')}</small></div></div>`
+            : `<div class="pl wait">${t(NET.ready ? 'se_waiting' : 'se_connecting')}</div>`}
+        </div>
+        ${P && NET.role ? `<button class="btn sec" data-act="swap">${t('se_swap')}</button>` : ''}
+        <div class="picker">${host ? '<button data-act="lv" data-arg="-1">−</button>' : ''}<div class="grow"><small>${t('se_lvl_pick')}</small><b>${lv + 1} · ${t(LEVELS[lv].name)}</b></div>${host ? '<button data-act="lv" data-arg="1">+</button>' : ''}</div>
+        ${host ? `<button class="btn big" data-act="ostart" ${P ? '' : 'disabled'}>${t('se_start_on')}</button>${P ? '' : `<p class="muted">${t('se_need_p')}</p>`}` : `<p class="muted">${t('se_wait_host')}</p>`}
+        <p class="muted" id="seMsg"></p><div class="row"><button class="btn sec" data-act="leave">${t('se_leave')}</button></div></div>`;
+    } else if (screen === 'onready') {
+      const inf = NET.role === 'inf', tips = ['se_wc_sel', 'se_wc_go'].concat(isTouch ? [] : ['se_wc_steer'], ['se_wc_flare', 'se_wc_rel']);
+      h = `<div class="panel"><h3>${t('se_lvl', { n: curLevel + 1 })} · ${t(L.def.name)}</h3><h2>${inf ? '🌘' : '🛡️'} ${t(inf ? 'se_inf' : 'se_war')}</h2><p>${t(inf ? 'se_go_inf' : 'se_go_war')}</p>
+        ${inf ? `<div class="obj">${t(L.gear ? 'se_obj_gear' : 'se_obj_exit')}</div>` : `<div class="howto">${tips.map(k => `<div>${t(k)}</div>`).join('')}</div>`}
+        <h3>${t('se_ready')}</h3><div class="count" id="seCount">${Math.max(1, Math.ceil(NET.readyT))}</div></div>`;
+    } else if (screen === 'onres') {
+      const R = NET.endR || {}, inf = NET.role === 'inf', won = inf === (R.r === 'esc'), host = isHost(), last = curLevel >= LEVELS.length - 1;
+      const line = R.r === 'esc' ? (inf ? 'se_r_esc_me' : 'se_r_esc_them') : (inf ? 'se_r_caught_me' : 'se_r_caught_them');
+      h = `<div class="panel"><h3>${t('se_lvl', { n: curLevel + 1 })} · ${t(L.def.name)}</h3><h2>${t(won ? 'se_r_win' : 'se_r_lose')}</h2><p>${t(line)}</p>
+        ${R.r === 'caught' && R.al ? `<p class="muted">${t('se_r_alarm')}</p>` : ''}
+        <div class="stat"><span>${t('se_time')}: <b>${fmtT(R.t || 0)}</b></span></div>
+        <p class="muted">${t('se_r_vs', { r: t(inf ? 'se_inf' : 'se_war'), p: escapeHtml(NET.partner ? NET.partner.n : '…') })}</p>
+        <div class="col"><button class="btn big" data-act="rematch">${t('se_rematch')}</button>
+        ${host && !last ? `<button class="btn sec" data-act="onext">${t('se_next_on')}</button>` : ''}
+        <button class="btn sec" data-act="toroom">${t('se_to_room')}</button><p class="muted" id="seMsg"></p></div></div>`;
+    } else if (screen === 'lost') {
+      const solo = NET.phase === 'play' && NET.role === 'inf' && G && G.body;
+      h = `<div class="panel"><h2>👋 ${t('se_lost_t')}</h2><p>${t(NET.role === 'inf' ? 'se_lost_inf' : 'se_lost_war')}</p>
+        <div class="col">${solo ? `<button class="btn big" data-act="solo">${t('se_solo')}</button>` : ''}
+        <div class="row"><button class="btn sec" data-act="toroom">${t('se_to_room')}</button><button class="btn sec" data-act="menu">${t('se_menu')}</button></div></div></div>`;
     } else if (screen === 'intro') {
       const d = L.def;
       h = `<div class="panel"><h3>${t('se_lvl', { n: curLevel + 1 })}</h3><h2>${t(d.name)}</h2><p>${t(d.desc)}</p>
         <div class="obj">${t(L.gear ? 'se_obj_gear' : 'se_obj_exit')}</div>
         <div class="checks">${starRows(PROG.b[curLevel] || {})}</div>
         <div class="col"><button class="btn big" data-act="begin">${t('se_start')}</button><div class="row"><button class="btn sec" data-act="levels">${t('se_levels')}</button><button class="btn sec" data-act="howto">${t('se_howto')}</button></div></div></div>`;
+    } else if (screen === 'pause' && NET.phase === 'play') {   // online: pause is shared, no restart / level picking
+      h = `<div class="panel"><h2>⏸️ ${t('se_paused')}</h2>${NET.pausedBy ? `<p class="muted">${t('se_paused_by', { p: escapeHtml(NET.pausedBy) })}</p>` : ''}
+        <div class="col"><button class="btn big" data-act="resume">${t('se_resume')}</button>
+        <div class="row"><button class="btn sec" data-act="howto">${t('se_howto')}</button><button class="btn sec" data-act="sound">${t(Snd.muted ? 'se_snd_off' : 'se_snd_on')}</button></div>
+        <button class="btn sec" data-act="toroom">${t('se_to_room')}</button></div></div>`;
     } else if (screen === 'pause') {
       h = `<div class="panel"><h2>⏸️ ${t('se_paused')}</h2><p class="muted">${t('se_lvl', { n: curLevel + 1 })} · ${t(L.def.name)}</p>
         <div class="col"><button class="btn big" data-act="resume">${t('se_resume')}</button>
@@ -1831,6 +2034,7 @@
     ov.innerHTML = h;
     if (ov.firstElementChild) { ov.firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); }   // 🏠 + 💬 in every popup
     if (screen === 'win') ov.querySelectorAll('.stars span').forEach((s, k) => setTimeout(() => { s.classList.add('show'); if (s.classList.contains('on')) Snd.plate(); }, 200 + k * 260));
+    const ci = $('seCode'); if (ci) { ci.onkeydown = (e) => { if (e.key === 'Enter') act('join'); }; ci.oninput = () => { ci.value = ci.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); }; }
     syncChrome();
   }
   function starRows(b) {
@@ -1840,10 +2044,27 @@
   const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
   ov.addEventListener('click', (e) => {
     const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
-    Snd.unlock(); Snd.click(); act(b.dataset.act, b.dataset.arg);
+    Snd.unlock(); Snd.click(); act(b.dataset.act, b.dataset.arg, b);
   });
-  function act(a, arg) {
+  async function act(a, arg, btn) {
     switch (a) {
+      // ---- online
+      case 'online': showScreen('online', 'menu'); break;
+      case 'create': { saveName(); if (!(await canGoOnline())) return; joinRoom(newCode(), arg === 'war' ? 'war' : 'inf'); break; }
+      case 'join': {
+        const ci = $('seCode'), code = (ci ? ci.value : '').trim().toUpperCase();
+        if (code.length < 4) { note('se_code_hint'); return; }
+        saveName(); if (!(await canGoOnline())) return; joinRoom(code, null); break;
+      }
+      case 'copy': copyText(inviteLink(NET.code), btn); break;
+      case 'swap': swapRoles(); break;
+      case 'lv': if (isHost()) { NET.lvl = (NET.lvl + (+arg) + LEVELS.length) % LEVELS.length; netSend('sel', { l: NET.lvl }); renderScreen(); } break;
+      case 'ostart': goLevel(NET.lvl); break;
+      case 'leave': toMenu(); break;
+      case 'toroom': netSend('lobby', {}); toLobby(); break;
+      case 'rematch': if (isHost()) goLevel(curLevel); else { netSend('req', { act: 're' }); note('se_wait_host'); } break;
+      case 'onext': if (isHost()) goLevel(Math.min(curLevel + 1, LEVELS.length - 1)); break;
+      case 'solo': if (G && G.body) { leaveRoom(); for (const g of G.guards) release(g); mode = 'play'; hideScreen(); updateHUD(true); } break;
       case 'play': startLevel(Math.min(PROG.u, LEVELS.length) - 1); break;
       case 'levels': showScreen('levels', screen); break;
       case 'howto': showScreen('howto', screen); break;
@@ -1872,9 +2093,14 @@
     if (skipIntro) begin(); else showScreen('intro', null);
   }
   function begin() { if (mode !== 'intro') return; mode = 'play'; hideScreen(); updateHUD(true); }
-  function pause() { if (mode !== 'play') return; mode = 'pause'; keys.clear(); joyReset(); showScreen('pause', null); }
-  function resume() { if (mode !== 'pause') return; mode = 'play'; hideScreen(); }
-  function toMenu() { loadAttract(); showScreen('menu', null); }
+  // online: pausing is shared — `by` is the partner's name when they paused it
+  function pause(by) {
+    if (mode !== 'play') return; mode = 'pause'; keys.clear(); joyReset();
+    const remote = typeof by === 'string'; NET.pausedBy = remote ? by : ''; showScreen('pause', null);
+    if (NET.code && NET.phase === 'play' && !remote) netSend('pause', { on: 1 });
+  }
+  function resume(remote) { if (mode !== 'pause') return; mode = 'play'; hideScreen(); if (NET.code && NET.phase === 'play' && remote !== true) netSend('pause', { on: 0 }); }
+  function toMenu() { if (NET.code) leaveRoom(); NET.phase = 'menu'; loadAttract(); showScreen('menu', null); }
   function toggleMap() { if (G && (mode === 'play' || mode === 'pause')) { G.overview = !G.overview; G.flags.map = true; if (G.overview) toast('se_future', null, 3); } }
 
   // ------------------------------------------------------------------ input
@@ -1887,6 +2113,16 @@
     Snd.unlock();
     if (e.repeat) { if (MOVE.has(k)) keys.add(k); return; }
     keys.add(k);
+    if (G && G.war) {   // online Warden
+      if (mode === 'play') wardenKey(k);
+      else if (mode === 'pause' && screen === 'pause' && (k === 'KeyP' || k === 'Escape')) resume();
+      else if (screen === 'howto' && k === 'Escape') act('back');
+      return;
+    }
+    if (NET.code && NET.phase === 'play') {   // online Infiltrator: no restart key, and the partner-left popup can't be skipped
+      if (k === 'KeyR') return;
+      if (mode === 'pause' && screen !== 'pause') { if (screen === 'howto' && k === 'Escape') act('back'); return; }
+    }
     if (mode === 'play') {
       if (k === 'KeyQ') startWeave();
       else if (k === 'KeyE' || k === 'Space' || k === 'Enter') action();
@@ -1903,7 +2139,7 @@
     else if (screen && k === 'Escape' && (screen === 'levels' || screen === 'howto')) act('back');
   });
   window.addEventListener('keyup', (e) => keys.delete(e.code));
-  window.addEventListener('blur', () => { keys.clear(); joyReset(); pause(); });
+  window.addEventListener('blur', () => { keys.clear(); joyReset(); if (!NET.code) pause(); });   // online: opening the chat must not pause the match
   document.addEventListener('visibilitychange', () => { if (document.hidden) { keys.clear(); pause(); } });
 
   // virtual joystick + buttons
@@ -1947,14 +2183,360 @@
     if (mode === 'play') watchQuality(raw);
     try {
       if (G) {
-        if (mode === 'play' || mode === 'attract') update(dt);
+        if (G.war) { if (mode === 'play') wardenUpdate(dt); }   // online Warden: no simulation here, only the Infiltrator's snapshots
+        else if (mode === 'play' || mode === 'attract') update(dt);
         updateFx(dt);
         if (mode === 'play') { hudT -= dt; if (hudT <= 0) { hudT = 0.05; updateHUD(false); } }
+        netFrame(dt);
       }
       render(dt);
     } catch (err) { console.error(err); }
     requestAnimationFrame(frame);
   }
+
+  // ------------------------------------------------------------------ online: Infiltrator vs Warden (Supabase Realtime broadcast, room "shadow-eclipse-CODE")
+  // The Infiltrator's side runs the whole game (sun, shadows, guards, detection) and streams snapshots ~15×/s, so sneaking never lags.
+  // The Warden only renders those snapshots and sends guard commands (waypoint / steer / release) and flares. The host picks the level.
+  const NET = { ch: null, code: '', ready: false, me: '', jt: 0, role: null, partner: null, hb: null, phase: 'menu', lvl: 3, playAt: 0,
+    sel: -1, aim: false, steering: false, steerT: 0, stT: 0, endR: null, pausedBy: '', readyT: 0 };
+  const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'roles', 'sel', 'go', 'st', 'cmd', 'ev', 'end', 'pause', 'lobby', 'req'];
+  const ST_CODES = ['patrol', 'suspicious', 'search', 'look', 'return', 'alarm', 'ctl'];
+  const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const newCode = () => { let s = ''; for (let i = 0; i < 4; i++) s += ALPHA[Math.floor(Math.random() * ALPHA.length)]; return s; };
+  const pageLink = () => location.href.split('?')[0].split('#')[0];
+  const inviteLink = (code) => pageLink() + '?room=' + code;
+  const otherRole = (r) => r === 'inf' ? 'war' : 'inf';
+  function myName() { return (window.Auth && Auth.name && Auth.name()) || t('se_player'); }
+  function isWarden() { return !!(G && G.war); }
+  function netAuth() { return !!(NET.code && NET.role === 'inf' && NET.phase === 'play' && G && G.body && !attract); }   // this side runs the match
+  function isHost() { const P = NET.partner; return !P || NET.jt < P.jt || (NET.jt === P.jt && NET.me < P.id); }
+  async function canGoOnline() { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; return true; }
+  function netSend(ev, p) { if (!NET.ch || !NET.ready) return; try { NET.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: NET.me }, p || {}) }); } catch (e) {} }
+  function note(key, vars) { if (!$('hud').hidden) { toast(key, vars); return; } const m = $('seMsg'); if (m) m.textContent = t(key, vars); }
+  function saveName() { const i = $('seName'); if (!i || (window.Auth && Auth.profile)) return; const v = i.value.trim().slice(0, 16); if (v && window.Auth && Auth.setGuestName) Auth.setGuestName(v); }
+  function copyText(text, btn) {
+    const done = () => { if (!btn) return; const o = btn.textContent; btn.textContent = t('se_copied'); setTimeout(() => { btn.textContent = o; }, 1300); };
+    try { if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else done(); } catch (e) { done(); }
+  }
+  function joinRoom(code, role) {
+    leaveRoom(true);
+    if (!window.sb) { note('se_no_net'); return false; }
+    code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if (code.length < 4) return false;
+    let id = '', jt = 0;   // same id + join time after a reload, so you come back as the same player (and the host stays the host)
+    try { id = sessionStorage.getItem('shadow-eclipse-id-' + code) || ''; jt = +sessionStorage.getItem('shadow-eclipse-jt-' + code) || 0; } catch (e) {}
+    if (!id) id = Math.random().toString(36).slice(2, 10); if (!jt) jt = Date.now();
+    try { sessionStorage.setItem('shadow-eclipse-id-' + code, id); sessionStorage.setItem('shadow-eclipse-jt-' + code, String(jt)); } catch (e) {}
+    Object.assign(NET, { me: id, jt, code, role: role || null, ready: false, partner: null, phase: 'lobby', sel: -1, aim: false, endR: null });
+    const ch = sb.channel('shadow-eclipse-' + code, { config: { broadcast: { self: false, ack: false } } });
+    for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+    ch.subscribe((st) => { if (st === 'SUBSCRIBED' && NET.ch === ch) { NET.ready = true; hello(true); if (screen === 'lobby') renderScreen(); } });
+    NET.ch = ch;
+    try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
+    window.Mal3abShareLink = () => inviteLink(code);
+    clearInterval(NET.hb); NET.hb = setInterval(netBeat, 2000);
+    toLobby();
+    return true;
+  }
+  function leaveRoom(quiet) {
+    if (NET.ch) { netSend('bye', {}); const ch = NET.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
+    clearInterval(NET.hb); Object.assign(NET, { ch: null, ready: false, code: '', partner: null, role: null, phase: 'menu', sel: -1, aim: false });
+    window.Mal3abShareLink = () => pageLink();
+    if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+  }
+  function toLobby() { NET.phase = 'lobby'; NET.sel = -1; NET.aim = false; NET.endR = null; keys.clear(); loadAttract(); showScreen('lobby', null); }
+  function hello(req) { netSend('hello', { n: myName(), role: NET.role, jt: NET.jt, req: !!req, ph: NET.phase, l: NET.lvl }); }
+  function netBeat() {
+    if (!NET.ch) return;
+    netSend('hb', { n: myName(), role: NET.role, jt: NET.jt, ph: NET.phase, l: NET.lvl });
+    if (NET.partner && Date.now() - NET.partner.t > 9000) partnerGone();
+  }
+  function resolveRoles(p) {
+    if (NET.phase === 'play' && NET.role) return;
+    const mineFirst = NET.jt < p.jt || (NET.jt === p.jt && NET.me < p.id);
+    if (!p.role && !NET.role) NET.role = mineFirst ? 'inf' : 'war';
+    else if (!NET.role) NET.role = otherRole(p.role);
+    else if (p.role === NET.role && !mineFirst) NET.role = otherRole(p.role);
+  }
+  function onNet(ev, p) {
+    if (!p || p.id === NET.me) return;
+    const now = Date.now();
+    if (ev === 'full') { if (p.to === NET.me) { toMenu(); showScreen('online', 'menu'); note('se_full'); } return; }
+    let P = NET.partner;
+    if (P && P.id !== p.id) {   // a third player
+      if (now - P.t < 9000) { if (ev === 'hello') netSend('full', { to: p.id }); return; }
+      partnerGone(true); P = null;
+    }
+    if (ev === 'bye') { if (P) partnerGone(); return; }
+    if (!P) {
+      P = NET.partner = { id: p.id, n: p.n || '…', role: null, t: now, jt: p.jt || now, ph: p.ph };
+      note('se_joined', { p: P.n }); Snd.plate();
+      if (screen === 'lost') {   // they came back
+        if (NET.phase === 'result') showScreen('onres', null);
+        else { hideScreen(); if (mode === 'pause' && G && G.body) mode = 'play'; }
+      }
+    }
+    P.t = now; if (p.n) P.n = p.n; if (p.jt) P.jt = p.jt;
+    if (ev === 'hello' || ev === 'hb') {
+      if ('role' in p) P.role = p.role; P.ph = p.ph;
+      const before = NET.role; resolveRoles(p);
+      if (!isHost() && NET.phase === 'lobby' && p.l != null) NET.lvl = clamp(p.l | 0, 0, LEVELS.length - 1);
+      if (ev === 'hello' && p.req) hello(false); else if (before !== NET.role) hello(false);
+      // the partner reloaded the page in the middle of a match
+      if (NET.phase === 'play' && (p.ph === 'lobby' || p.ph === 'menu') && now - NET.playAt > 4000) {
+        if (NET.role === 'inf' && G && G.body) sendGo(true);   // the Warden only watches: bring them straight back in
+        else if (NET.role === 'war') toLobby();                 // the Infiltrator ran the match, so it is gone
+      }
+      if (screen === 'lobby') renderScreen();
+      return;
+    }
+    switch (ev) {
+      case 'roles': NET.role = p.inf === NET.me ? 'inf' : 'war'; P.role = otherRole(NET.role); if (screen === 'lobby') renderScreen(); break;
+      case 'sel': if (!isHost() && NET.phase === 'lobby') { NET.lvl = clamp(p.l | 0, 0, LEVELS.length - 1); if (screen === 'lobby') renderScreen(); } break;
+      case 'go':
+        NET.role = p.inf === NET.me ? 'inf' : 'war'; P.role = otherRole(NET.role);
+        if (p.mid && NET.phase === 'play' && curLevel === (p.l | 0)) break;
+        enterOnlineLevel(p.l | 0, !!p.mid); break;
+      case 'st': if (isWarden() && NET.phase === 'play') applySt(p); break;
+      case 'cmd': if (netAuth()) onCmd(p); break;
+      case 'ev': if (isWarden() && NET.phase === 'play') wardenEvent(p); break;
+      case 'end': if (isWarden() && NET.phase === 'play') wardenEnd(p); break;
+      case 'pause': if (NET.phase === 'play') { if (p.on) pause(P.n); else resume(true); } break;
+      case 'lobby': if (NET.phase !== 'lobby') toLobby(); break;
+      case 'req': if (isHost() && NET.phase === 'result' && p.act === 're') goLevel(curLevel); break;
+    }
+  }
+  function partnerGone(silent) {
+    const P = NET.partner; if (!P) return; NET.partner = null;
+    if (!silent) note('se_left', { p: P.n });
+    if (NET.phase === 'play' || NET.phase === 'result') {
+      if (NET.phase === 'play' && mode === 'play') { mode = 'pause'; keys.clear(); joyReset(); }   // freeze the match while you decide
+      showScreen('lost', null);
+    } else if (screen === 'lobby') renderScreen();
+  }
+  function swapRoles() {
+    if (!NET.partner || !NET.role) return;
+    NET.role = otherRole(NET.role); NET.partner.role = otherRole(NET.role);
+    netSend('roles', { inf: NET.role === 'inf' ? NET.me : NET.partner.id });
+    renderScreen();
+  }
+  function goLevel(l) {   // host: start (or restart) a match for both players
+    if (!NET.partner) { note('se_need_p'); return; }
+    NET.lvl = clamp(l, 0, LEVELS.length - 1);
+    netSend('go', { l: NET.lvl, inf: NET.role === 'inf' ? NET.me : NET.partner.id, mid: false });
+    enterOnlineLevel(NET.lvl, false);
+  }
+  function sendGo(mid) { netSend('go', { l: curLevel, inf: NET.me, mid: !!mid }); }
+  function enterOnlineLevel(l, mid) {
+    Object.assign(NET, { phase: 'play', playAt: Date.now(), sel: -1, aim: false, steering: false, endR: null, pausedBy: '', stT: 0 });
+    curLevel = clamp(l, 0, LEVELS.length - 1); NET.lvl = curLevel;
+    L = buildLevel(curLevel); newState(false); tipShown = null;
+    $('toast').classList.remove('on'); toastT = 0; keys.clear(); joyReset();
+    if (NET.role === 'war') { G.war = true; G.body = null; G.sunT = G.sun; for (const g of G.guards) { g.tx = g.x; g.ty = g.y; g.ta = g.a; } }
+    mode = 'intro'; camUpdate(1, true);
+    if (mid) { mode = 'play'; hideScreen(); updateHUD(true); } else { NET.readyT = 3; showScreen('onready', null); }
+  }
+  function netFrame(dt) {
+    if (NET.phase !== 'play') return;
+    if (mode === 'intro' && screen === 'onready') {   // shared 3-2-1 before the match
+      NET.readyT -= dt; const el = $('seCount'), n = String(Math.max(1, Math.ceil(NET.readyT)));
+      if (el && el.textContent !== n) { el.textContent = n; Snd.tick(true); }
+      if (NET.readyT <= 0) { mode = 'play'; hideScreen(); updateHUD(true); }
+    }
+    if (netAuth() && mode === 'play') { NET.stT -= dt; if (NET.stT <= 0) { NET.stT = 0.066; sendSt(); } }
+  }
+  // ---- the Infiltrator's side (authority)
+  function bodyVisToWarden() {
+    const b = G.body; if (mode === 'lose') return true;
+    for (const g of G.guards) if (g.sees) return true;
+    for (const f of G.flares) { const r = FLARE_R * flareK(f); if (Math.hypot(b.x - f.x, b.y - f.y) < r * 0.92 && losClear(f.x, f.y, b.x, b.y)) return true; }
+    return false;
+  }
+  function sendSt() {
+    const b = G.body;
+    netSend('st', {
+      lv: curLevel, t: r2(G.time), sun: r2(G.sun), fz: r2(G.freezeT), bo: r2(G.boost), gt: G.gearTaken ? 1 : 0,
+      al: G.alarm ? 1 : 0, at: r2(G.alarmT), ad: G.alarmed ? 1 : 0, vg: G.vigil,
+      h: L.hands.map(h => r2(h.a)), cg: L.circles.filter(c => c.kind === 'cog').map(c => r2(c.rot)),
+      d: L.doors.map(d => r2(d.open)), pl: L.plates.reduce((m, p, k) => m | (p.on ? 1 << k : 0), 0), lc: L.levers.map(l => r2(l.cd)),
+      g: G.guards.map(g => [r2(g.x), r2(g.y), r2(g.a), ST_CODES.indexOf(g.state), Math.round(g.meter * 100), (g.sees ? 1 : 0) | (g.ctl ? 2 : 0), g.ctl && g.ctl.k === 'go' ? [r2(g.ctl.tx), r2(g.ctl.ty)] : 0]),
+      b: bodyVisToWarden() ? [r2(b.x), r2(b.y), r2(b.a)] : 0,   // the Warden only gets your position while a guard (or a flare) sees you
+      lk: G.alarm && G.lastKnown ? [r2(G.lastKnown.x), r2(G.lastKnown.y)] : 0,
+      f: G.flares.map(f => [r2(f.x), r2(f.y), r2(f.t)]), fc: r2(G.flareCd),
+    });
+  }
+  function netEnd(r) {
+    sendSt();
+    NET.endR = { r, al: G.alarm ? 1 : 0, t: r2(G.time) }; NET.phase = 'result';
+    netSend('end', Object.assign({ b: [r2(G.body.x), r2(G.body.y), r2(G.body.a)] }, NET.endR));
+    setTimeout(() => { if (NET.phase === 'result') showScreen('onres', null); }, r === 'esc' ? 900 : 1000);
+  }
+  // ---- the Warden's side (renders snapshots, sends commands)
+  function applySt(p) {
+    if (!G || !G.war || p.lv !== curLevel) return;
+    if (Math.abs(G.time - p.t) > 0.5) G.time = p.t;
+    G.sunT = p.sun; G.freezeT = p.fz; G.boost = p.bo;
+    if (!!p.gt !== G.gearTaken) { G.gearTaken = !!p.gt; if (G.gearTaken && L.gear) { Snd.pickup(); puff(L.gear.x, L.gear.y, 30, '255,200,80', 3, 0.9, 0.08, true); } }
+    if (L.gear) L.gear.taken = G.gearTaken;
+    G.alarm = !!p.al; G.alarmT = p.at; G.alarmed = !!p.ad; G.vigil = p.vg || 1;
+    (p.h || []).forEach((a, k) => { if (L.hands[k]) L.hands[k].ta = a; });
+    const cogs = L.circles.filter(c => c.kind === 'cog'); (p.cg || []).forEach((r, k) => { if (cogs[k]) cogs[k].rot = r; });
+    (p.d || []).forEach((o, k) => { if (L.doors[k]) L.doors[k].open = o; });
+    L.plates.forEach((pl, k) => { pl.on = !!((p.pl >> k) & 1); });
+    (p.lc || []).forEach((cd, k) => { const l = L.levers[k]; if (!l) return; if (cd > l.cd + 1) { l.anim = 1; Snd.lever(); } l.cd = cd; });
+    (p.g || []).forEach((a, k) => {
+      const g = G.guards[k]; if (!g) return;
+      g.tx = a[0]; g.ty = a[1]; g.ta = a[2];
+      const st = ST_CODES[a[3]] || 'patrol'; if (st !== g.state) { g.state = st; g.iconT = 0; }
+      g.meter = a[4] / 100; g.sees = !!(a[5] & 1); g.isCtl = !!(a[5] & 2); g.goT = a[6] ? { x: a[6][0], y: a[6][1] } : null;
+    });
+    G.spyT = p.b ? { x: p.b[0], y: p.b[1], a: p.b[2] } : null;
+    G.lk = p.lk ? { x: p.lk[0], y: p.lk[1] } : null;
+    G.flares = (p.f || []).map(f => ({ x: f[0], y: f[1], t: f[2] })); G.flareCd = p.fc || 0;
+  }
+  function wardenUpdate(dt) {
+    const k = 1 - Math.exp(-14 * dt);
+    G.time += dt;
+    if (G.sunT != null) { const d = ((G.sunT - G.sun) % 360 + 540) % 360 - 180; G.sun = ((G.sun + d * k) % 360 + 360) % 360; }
+    const sa = G.sun * D2R; G.sx = Math.sin(sa); G.sy = -Math.cos(sa);
+    for (const h of L.hands) if (h.ta != null) h.a += angDiff(h.a, h.ta) * k;
+    for (const g of G.guards) {
+      if (g.tx == null) continue;
+      const ox = g.x, oy = g.y;
+      if (Math.hypot(g.tx - g.x, g.ty - g.y) > 3) { g.x = g.tx; g.y = g.ty; } else { g.x = lerp(g.x, g.tx, k); g.y = lerp(g.y, g.ty, k); }
+      g.a += angDiff(g.a, g.ta) * k; g.bob += Math.hypot(g.x - ox, g.y - oy) * 7; updateLanternPos(g); g.iconT += dt;
+    }
+    if (G.spyT) {   // the Infiltrator, only while one of your guards (or a flare) can see them
+      if (!G.spy) { G.spy = { x: G.spyT.x, y: G.spyT.y, a: G.spyT.a, moving: false, walk: 0, daze: 0 }; Snd.sus(); G.pings.push({ x: G.spy.x, y: G.spy.y, t: 0, k: 'seen' }); }
+      const s = G.spy, ox = s.x, oy = s.y; s.x = lerp(s.x, G.spyT.x, k); s.y = lerp(s.y, G.spyT.y, k); s.a += angDiff(s.a, G.spyT.a) * k;
+      const mv = Math.hypot(s.x - ox, s.y - oy); s.moving = mv > 0.002; s.walk += mv * 3.2;
+      G.ghost = { x: s.x, y: s.y, t: 0 };
+    } else G.spy = null;
+    if (G.ghost) G.ghost.t += dt;
+    for (const f of G.flares) f.t += dt;
+    G.flareCd = Math.max(0, G.flareCd - dt);
+    for (const l of L.levers) l.anim = Math.max(0, l.anim - dt * 1.4);
+    for (let i = G.pings.length - 1; i >= 0; i--) if ((G.pings[i].t += dt) > 2.2) G.pings.splice(i, 1);
+    // steer the selected guard by hand (WASD / arrows)
+    const inp = readInput(); NET.steerT -= dt;
+    if (G.guards[NET.sel] && inp.m > 0.1) { if (NET.steerT <= 0) { NET.steerT = 0.09; NET.steering = true; netSend('cmd', { k: 'steer', g: NET.sel, x: r2(inp.x), y: r2(inp.y) }); } }
+    else if (NET.steering) { NET.steering = false; netSend('cmd', { k: 'steer', g: NET.sel, x: 0, y: 0 }); }
+    if (G.freezeT <= 0) { G.tickT -= dt * (G.boost > 0 ? 4 : G.gearTaken ? 1.6 : 1); if (G.tickT <= 0) { G.tickT = 0.5; G.tickHi = !G.tickHi; Snd.tick(G.tickHi); } }
+  }
+  function wardenEvent(p) {
+    if (p.k === 'spot') { toast('se_a_spot', null, 2); Snd.sus(); G.pings.push({ x: +p.x, y: +p.y, t: 0, k: 'spot' }); }
+    else if (p.k === 'hear') { toast('se_a_hear', null, 2); Snd.clank(); G.rings.push({ x: +p.x, y: +p.y, t: 0 }); G.pings.push({ x: +p.x, y: +p.y, t: 0, k: 'hear' }); }
+    else if (p.k === 'alarm') { Snd.alarm(); G.shake = Math.max(G.shake, 0.3); G.flash = 0.3; G.flashCol = '255,60,60'; toast('se_a_alarm', null, 3); }
+    else if (p.k === 'calm') toast('se_a_calm');
+    else if (p.k === 'free' && p.g === NET.sel) toast('se_a_free');
+  }
+  function wardenEnd(p) {
+    NET.endR = { r: p.r === 'esc' ? 'esc' : 'caught', al: p.al ? 1 : 0, t: +p.t || 0 }; NET.phase = 'result';
+    mode = NET.endR.r === 'esc' ? 'win' : 'lose'; NET.aim = false;
+    if (p.b) G.spy = { x: p.b[0], y: p.b[1], a: p.b[2], moving: false, walk: 0, daze: 0 };
+    if (NET.endR.r === 'esc') { Snd.drain(); if (L.exit) puff(L.exit.x, L.exit.y, 40, '120,255,190', 3, 1.1, 0.09, true); }
+    else { Snd.win(); G.shake = 0.5; G.flash = 0.4; G.flashCol = '255,80,80'; if (G.spy) puff(G.spy.x, G.spy.y, 26, '255,90,90', 2.4, 0.8, 0.08, true); }
+    syncChrome();
+    setTimeout(() => { if (NET.phase === 'result') showScreen('onres', null); }, 1000);
+  }
+  function selectGuard(i) {
+    const old = G.guards[NET.sel];
+    if (old && old.isCtl && i !== NET.sel) netSend('cmd', { k: 'rel', g: NET.sel });   // an unselected guard goes back to its own patrol
+    NET.sel = i; NET.steering = false; Snd.click(); updateHUD(true);
+  }
+  function wFlare() {
+    if (!isWarden() || mode !== 'play') return;
+    if (G.flareCd > 0) { toast('se_flare_wait', { s: Math.ceil(G.flareCd) }); Snd.deny(); return; }
+    NET.aim = !NET.aim; if (NET.aim) toast('se_flare_aim', null, 3); updateHUD(true);
+  }
+  function wRelease() { if (isWarden() && NET.sel >= 0) { netSend('cmd', { k: 'rel', g: NET.sel }); Snd.click(); } }
+  function wNext() { if (isWarden() && G.guards.length) selectGuard((NET.sel + 1) % G.guards.length); }
+  function wardenKey(k) {
+    if (k === 'KeyF') wFlare();
+    else if (k === 'KeyX' || k === 'KeyR') wRelease();
+    else if (k === 'Tab' || k === 'KeyQ' || k === 'KeyN') wNext();
+    else if (k === 'KeyM') toggleMap();
+    else if (k === 'Escape' && NET.aim) { NET.aim = false; updateHUD(true); }
+    else if (k === 'KeyP' || k === 'Escape') pause();
+  }
+  function wardenTap(cx, cy) {
+    if (!isWarden() || mode !== 'play') return;
+    const wx = (cx - VW / 2) / cam.s + cam.x + cam.sx, wy = (cy - VH / 2) / cam.s + cam.y + cam.sy;
+    if (NET.aim) {
+      NET.aim = false; updateHUD(true);
+      if (G.flareCd > 0) { toast('se_flare_wait', { s: Math.ceil(G.flareCd) }); Snd.deny(); return; }
+      if (wx < 0 || wy < 0 || wx >= L.W || wy >= L.H) { Snd.deny(); return; }
+      netSend('cmd', { k: 'flare', x: r2(wx), y: r2(wy) }); toast('se_flare_on'); return;
+    }
+    let best = -1, bd = Math.max(0.8, 30 / cam.s);
+    G.guards.forEach((g, i) => { const d = Math.hypot(g.x - wx, g.y - wy); if (d < bd) { bd = d; best = i; } });
+    if (best >= 0) { selectGuard(best === NET.sel ? -1 : best); return; }
+    const g = G.guards[NET.sel];
+    if (!g) { toast('se_tap_guard'); Snd.deny(); return; }
+    const tt = tileAt(wx, wy);
+    if (g.type !== 'w' && sanctD(wx, wy) < SANCT_R) { toast('se_sanct'); Snd.deny(); return; }
+    if (g.type !== 'w' && (tt === 1 || tt === 2 || tt === 4)) { toast('se_bad_spot'); Snd.deny(); return; }
+    netSend('cmd', { k: 'go', g: NET.sel, x: r2(wx), y: r2(wy) }); G.pings.push({ x: wx, y: wy, t: 0, k: 'go' }); Snd.click();
+  }
+  function wardenHUD(force) {
+    const eye = $('eyeChip');
+    if (force || hud.eye !== 'w') { hud.eye = 'w'; eye.innerHTML = `<i>🛡️</i>${t('se_war')}`; eye.className = 'chip war'; }
+    const m = Math.round((1 - G.flareCd / FLARE_CD) * 200) / 2;
+    if (force || m !== hud.meter) { hud.meter = m; $('meterFill').style.height = m + '%'; $('meter').classList.toggle('low', G.flareCd > 0); }
+    const al = G.alarm ? Math.ceil(G.alarmT) : null;
+    if (force || al !== hud.alarm) { hud.alarm = al; const el = $('alarmChip'); el.hidden = al == null; if (al != null) el.textContent = t('se_alarm_t', { s: al }); }
+    const bf = $('bFlare'), cd = Math.ceil(G.flareCd), fs = (NET.aim ? 'a' : 'n') + cd;
+    if (force || bf.dataset.s !== fs) { bf.dataset.s = fs; bf.innerHTML = `🔥<small>${cd > 0 ? cd + (getLang() === 'ar' ? ' ث' : 's') : t('se_b_flare')}</small>`; bf.disabled = cd > 0; bf.classList.toggle('on', NET.aim); }
+    const g = G.guards[NET.sel], rs = g ? (g.isCtl ? 'c' : 's') : 'x', br = $('bRel');
+    if (force || br.dataset.s !== rs) { br.dataset.s = rs; br.innerHTML = `✋<small>${t('se_b_release')}</small>`; br.disabled = rs === 'x'; }
+    const bn = $('bNext'); if (force || !bn.dataset.s) { bn.dataset.s = '1'; bn.innerHTML = `👆<small>${t('se_b_next')}</small>`; }
+    cvs.style.cursor = NET.aim ? 'crosshair' : '';
+  }
+  function drawWardenFog() {
+    const f = fctx; f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, fogc.width, fogc.height);
+    setWT(f, DPR * 0.5);
+    f.fillStyle = 'rgba(7,8,16,0.5)'; f.fillRect(-0.2, -0.2, L.W + 0.4, L.H + 0.4);
+    f.globalCompositeOperation = 'destination-out'; f.fillStyle = '#000';
+    for (const g of G.guards) { if (g.cone) { polyPath(f, g.cone.pts); f.fill(); } f.beginPath(); f.arc(g.x, g.y, 0.9, 0, TAU); f.fill(); }
+    for (const fl of G.flares) { const r = FLARE_R * flareK(fl); if (r > 0.05) { f.beginPath(); f.arc(fl.x, fl.y, r, 0, TAU); f.fill(); } }
+    f.globalCompositeOperation = 'source-over';
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(fogc, 0, 0, cvs.width, cvs.height);
+  }
+  function drawWardenMarks(c, now) {
+    c.save(); c.setLineDash([0.15, 0.15]); c.lineWidth = 0.045; c.strokeStyle = 'rgba(120,255,190,0.4)';   // where guards can't be sent
+    for (const p of [L.start, L.exit]) if (p) { c.beginPath(); c.arc(p.x, p.y, SANCT_R, 0, TAU); c.stroke(); }
+    c.restore();
+    G.guards.forEach((g, i) => {
+      if (g.goT && g.isCtl) {
+        c.save(); c.setLineDash([0.14, 0.12]); c.lineDashOffset = -now * 1.2; c.strokeStyle = 'rgba(200,170,255,0.8)'; c.lineWidth = 0.05;
+        c.beginPath(); c.moveTo(g.x, g.y); c.lineTo(g.goT.x, g.goT.y); c.stroke(); c.restore();
+        c.fillStyle = 'rgba(200,170,255,0.9)'; c.beginPath(); c.arc(g.goT.x, g.goT.y, 0.12, 0, TAU); c.fill();
+      }
+      if (i === NET.sel) { c.strokeStyle = '#c9a8ff'; c.lineWidth = 0.07; c.beginPath(); c.arc(g.x, g.y, 0.58 + Math.sin(now * 5) * 0.04, 0, TAU); c.stroke(); }
+      else if (g.isCtl) { c.strokeStyle = 'rgba(200,170,255,0.5)'; c.lineWidth = 0.04; c.beginPath(); c.arc(g.x, g.y, 0.52, 0, TAU); c.stroke(); }
+    });
+    for (const p of G.pings) {
+      const k = p.t / 2.2, col = p.k === 'go' ? '200,170,255' : p.k === 'hear' ? '255,235,180' : p.k === 'spot' ? '255,183,3' : '255,80,80';
+      c.strokeStyle = `rgba(${col},${(1 - k) * 0.9})`; c.lineWidth = 0.06; c.beginPath(); c.arc(p.x, p.y, 0.25 + k * (p.k === 'go' ? 0.6 : 1.4), 0, TAU); c.stroke();
+    }
+    if (G.lk) {   // last known position during an alarm
+      const s = 0.3; c.strokeStyle = `rgba(255,70,70,${0.6 + Math.sin(now * 6) * 0.3})`; c.lineWidth = 0.08;
+      c.beginPath(); c.moveTo(G.lk.x - s, G.lk.y - s); c.lineTo(G.lk.x + s, G.lk.y + s); c.moveTo(G.lk.x + s, G.lk.y - s); c.lineTo(G.lk.x - s, G.lk.y + s); c.stroke();
+    }
+    if (!G.spy && G.ghost && G.ghost.t < 4) {   // where you last saw them
+      c.save(); c.globalAlpha = 1 - G.ghost.t / 4; c.setLineDash([0.08, 0.08]); c.strokeStyle = 'rgba(255,120,120,0.9)'; c.lineWidth = 0.045;
+      c.beginPath(); c.arc(G.ghost.x, G.ghost.y, P_R + 0.08, 0, TAU); c.stroke(); c.restore();
+    }
+    if (G.spy) { drawBody(c, G.spy, now); c.strokeStyle = `rgba(255,80,80,${0.6 + Math.sin(now * 8) * 0.3})`; c.lineWidth = 0.06; c.beginPath(); c.arc(G.spy.x, G.spy.y, P_R + 0.14, 0, TAU); c.stroke(); }
+  }
+  cvs.addEventListener('pointerdown', (e) => { if (!isWarden() || mode !== 'play') return; e.preventDefault(); Snd.unlock(); wardenTap(e.clientX, e.clientY); });
+  const wbtn = (id, fn) => $(id).addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); Snd.unlock(); const b = $(id); if (b.disabled) { Snd.deny(); return; } b.classList.add('down'); setTimeout(() => b.classList.remove('down'), 140); fn(); });
+  wbtn('bFlare', wFlare); wbtn('bRel', wRelease); wbtn('bNext', wNext);
+  addEventListener('pagehide', () => { if (NET.ch) netSend('bye', {}); });
+  window.Mal3abShareLink = () => NET.code ? inviteLink(NET.code) : pageLink();
+  window.Mal3abPrepareInvite = async () => {
+    if (!NET.code) { if (!(await canGoOnline())) return pageLink(); joinRoom(newCode(), 'inf'); }
+    return inviteLink(NET.code);
+  };
 
   // ------------------------------------------------------------------ test / scripting API
   const API = window.ShadowEclipse = {
@@ -1994,6 +2576,10 @@
     profile(on) { if (!on) { const r = PROF && PROF.sums; PROF = null; return r; } let t = 0; PROF = { sums: {}, start() { t = performance.now(); }, mark(n) { const x = performance.now(); this.sums[n] = (this.sums[n] || 0) + x - t; t = x; } }; return true; },
     resetProgress() { PROG = { u: 1, b: {} }; saveProg(); },
     unlockAll() { PROG.u = LEVELS.length; saveProg(); },
+    // online test hooks
+    net: NET, act, joinRoom, leaveRoom, newCode, goLevel, swapRoles, selectGuard, flare: wFlare, release: wRelease,
+    tapWorld(x, y) { const [sx, sy] = w2s(x, y); wardenTap(sx, sy); },   // Warden: tap a world position (tile centres are +0.5)
+    get isWarden() { return isWarden(); },
   };
 
   // ------------------------------------------------------------------ boot
@@ -2003,4 +2589,11 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { showScreen('menu', null); resize(); });
   else showScreen('menu', null);
   requestAnimationFrame(frame);
+  // ?room=CODE (an invite link) joins that room straight away
+  const roomParam = new URLSearchParams(location.search).get('room');
+  if (roomParam) {
+    let tried = false;
+    const go = async () => { if (tried || NET.code) return; tried = true; if (!(await canGoOnline())) return; joinRoom(roomParam, null); };
+    if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(go, 4000); }
+  }
 })();

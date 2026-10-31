@@ -124,10 +124,40 @@
   body.touch #keys { display: none; }
   body.touch #tip { bottom: auto; top: 52px; left: 76px; right: 98px; width: auto; max-width: none; transform: none; font-size: 12.5px; padding: 7px 10px; }
   body.touch #lvlLabel small { display: none; }
+
+  /* ---------- online (Infiltrator vs Warden) ---------- */
+  .btn.online { background: linear-gradient(180deg, #8f7dff, #5b4bd6); color: #fff; box-shadow: 0 4px 0 #2e2380; }
+  .btn.small { padding: 7px 12px; font-size: 13.5px; }
+  .fld { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--muted); font-weight: 700; }
+  .fld input, input.code { font: 700 16px inherit; font-family: inherit; padding: 10px 12px; border-radius: 11px; border: 2px solid rgba(216, 166, 86, .45); background: #11152a; color: var(--text); user-select: text; -webkit-user-select: text; min-width: 0; outline: none; }
+  .fld input:focus, input.code:focus { border-color: var(--accent); }
+  input.code { text-transform: uppercase; letter-spacing: 4px; text-align: center; flex: 1; width: 100%; }
+  .row.join { flex-wrap: nowrap; } .row.join .btn { flex: 0 0 auto; min-width: 92px; }
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .role { background: linear-gradient(160deg, #2a3154, #1b2038); border: 2px solid rgba(216, 166, 86, .4); border-radius: 15px; padding: 12px 9px 10px; color: var(--text); cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+  .role:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .role .ri { font-size: 30px; line-height: 1; } .role b { font-size: 16px; color: #ffe6b0; } .role span { font-size: 12.5px; line-height: 1.4; color: #c9cde6; }
+  .role em { font-style: normal; margin-top: auto; background: var(--accent); color: #1a1200; border-radius: 9px; padding: 5px 10px; font-weight: 800; font-size: 13px; }
+  .roomcode { display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, .25); border-radius: 12px; padding: 8px 12px; flex-wrap: wrap; justify-content: center; }
+  .roomcode span { color: var(--muted); font-size: 13px; font-weight: 700; } .roomcode b { font-size: 28px; letter-spacing: 5px; color: var(--accent); }
+  .plist { display: flex; flex-direction: column; gap: 7px; }
+  .pl { display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, .22); border-radius: 12px; padding: 8px 12px; }
+  .pl .ri { font-size: 26px; } .pl b { display: block; font-size: 15.5px; } .pl small { color: var(--muted); font-size: 12.5px; }
+  .pl.wait { justify-content: center; color: var(--muted); font-size: 14px; min-height: 48px; text-align: center; }
+  .picker { display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, .22); border-radius: 12px; padding: 6px; }
+  .picker button { width: 44px; height: 44px; flex: 0 0 auto; border-radius: 10px; border: 0; background: var(--card2); color: var(--text); font: 800 22px inherit; font-family: inherit; cursor: pointer; }
+  .picker .grow { flex: 1; text-align: center; } .picker small { display: block; color: var(--muted); font-size: 12px; } .picker b { color: #ffe6b0; }
+  .count { text-align: center; font-size: 54px; font-weight: 900; color: var(--accent); text-shadow: 0 0 24px rgba(255, 183, 3, .5); line-height: 1; }
+  .chip.war { color: #dccbff; border-color: rgba(178, 140, 255, .7); background: rgba(40, 26, 80, .9); }
+  #wbtns { position: fixed; right: max(14px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 8; display: flex; gap: 10px; }
+  #wbtns .tbtn { width: 66px; height: 66px; cursor: pointer; }
+  #wbtns .tbtn.on { background: radial-gradient(circle at 40% 35%, #ffb35a, #7a2e08); border-color: #ffe0a0; }
+  body:not(.touch) #wbtns { bottom: 46px; } body:not(.touch) #wbtns .tbtn { width: 58px; height: 58px; font-size: 22px; }
+  @media (max-width: 700px), (max-height: 520px) { body:not(.touch) #wbtns { bottom: 14px; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793395000"></script>
-<script src="../../shared/net.js?v=1793395000"></script>
+<script src="../../shared/i18n.js?v=1793400000"></script>
+<script src="../../shared/net.js?v=1793400000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -168,11 +198,17 @@
   </div>
 </div>
 
+<div id="wbtns" hidden>
+  <button class="tbtn" id="bNext">👆<small></small></button>
+  <button class="tbtn" id="bRel">✋<small></small></button>
+  <button class="tbtn" id="bFlare">🔥<small></small></button>
+</div>
+
 <div id="overlay"></div>
 
-<script src="levels.js?v=1793395000"></script>
-<script src="game.js?v=1793395000"></script>
-<script src="../../shared/cloud.js?v=1793395000" data-game="shadow-eclipse" data-keys="shadow-eclipse-*"></script>
+<script src="levels.js?v=1793400000"></script>
+<script src="game.js?v=1793400000"></script>
+<script src="../../shared/cloud.js?v=1793400000" data-game="shadow-eclipse" data-keys="shadow-eclipse-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

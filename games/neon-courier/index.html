@@ -127,9 +127,55 @@
   .panel .mt span.hit { background: rgba(255,183,3,.18); color: var(--accent); font-weight: 800; }
   .reason { text-align: center; font-size: 18px; font-weight: 700; }
 
+  /* online race: HUD box, countdown, toasts, lobby */
+  #race { display: flex; flex-direction: column; gap: 4px; background: rgba(12,8,30,.72); border: 1px solid rgba(255,154,61,.25); border-radius: 10px; padding: 5px 8px; font-size: 12px; font-weight: 700; align-self: flex-start; }
+  body:not(.race) #race { display: none !important; }
+  .rr { display: flex; align-items: center; gap: 6px; }
+  .rr > i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .rr.me > i { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); } .rr.op > i { background: #ff9a3d; box-shadow: 0 0 6px #ff9a3d; }
+  .rr .nm { width: 62px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #d9dcf5; }
+  .rr.me .track div { background: var(--cyan); } .rr.op .track div { background: #ff9a3d; }
+  .rr .v { min-width: 50px; font-variant-numeric: tabular-nums; direction: ltr; } .rr.done .v { color: var(--green); }
+  #count { position: fixed; inset: 0; z-index: 12; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; pointer-events: none; padding: 0 16px; }
+  #count .cl { background: rgba(12,8,30,.84); border: 1px solid rgba(255,61,240,.4); border-radius: 14px; padding: 8px 16px; text-align: center; font-weight: 800; font-size: 18px; color: #fff; max-width: 100%; box-shadow: 0 0 30px rgba(255,61,240,.2); }
+  #count .cl small { display: block; color: var(--pink); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+  #count .cl em { display: block; font-style: normal; font-size: 13px; color: #ffe1a1; margin-top: 2px; }
+  #count .cn { font-size: min(150px, 34vw); font-weight: 900; color: #fff; line-height: 1; text-shadow: 0 0 30px rgba(95,243,255,.8), 0 0 60px rgba(255,61,240,.5); font-variant-numeric: tabular-nums; }
+  #count .cn.go { color: var(--green); text-shadow: 0 0 30px rgba(57,255,136,.8); }
+  #count .cn.pop { animation: cpop .45s ease-out; }
+  @keyframes cpop { from { transform: scale(1.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  #toasts { position: fixed; top: calc(56px + var(--sat)); left: 50%; transform: translateX(-50%); z-index: 30; display: flex; flex-direction: column; gap: 6px; align-items: center; pointer-events: none; width: min(460px, calc(100vw - 24px)); }
+  .toast { background: rgba(20,12,44,.95); border: 1px solid rgba(255,183,3,.5); color: #fff; border-radius: 12px; padding: 8px 14px; font-weight: 700; font-size: 14px; text-align: center; box-shadow: 0 6px 24px rgba(0,0,0,.45); animation: tin .25s ease-out; }
+  @keyframes tin { from { opacity: 0; transform: translateY(-8px); } }
+  .ar #toasts, .ar #count { direction: rtl; }
+  .inp { background: #0d0a24; color: #fff; border: 1px solid rgba(95,243,255,.3); border-radius: 12px; padding: 10px 12px; font-size: 16px; font-family: inherit; min-width: 0; user-select: text; -webkit-user-select: text; }
+  .inp:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(95,243,255,.15); }
+  .inp.code { flex: 1; max-width: 190px; text-transform: uppercase; letter-spacing: 3px; text-align: center; direction: ltr; font-weight: 800; }
+  .fld { display: flex; flex-direction: column; gap: 4px; } .fld span { color: var(--muted); font-size: 13px; }
+  .panel .or { text-align: center; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .panel .msg { text-align: center; color: var(--red); min-height: 1.2em; font-size: 14px; }
+  .codebox { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,.05); border: 1px dashed rgba(95,243,255,.35); border-radius: 14px; padding: 10px 12px; }
+  .codebox span { color: var(--muted); font-size: 13px; } .codebox b { font-size: 28px; letter-spacing: 5px; color: var(--accent); direction: ltr; font-variant-numeric: tabular-nums; }
+  .plist, .rres { display: flex; flex-direction: column; gap: 6px; }
+  .pl, .rrow { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.05); border: 1px solid transparent; border-radius: 12px; padding: 9px 12px; }
+  .pl > i { width: 10px; height: 10px; border-radius: 50%; flex: none; background: #ff9a3d; } .pl.me > i { background: var(--cyan); }
+  .pl b, .rrow b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pl small { color: var(--muted); white-space: nowrap; }
+  .pl.wait { justify-content: center; color: var(--muted); font-style: italic; }
+  .pl.me, .rrow.me { border-color: rgba(95,243,255,.35); }
+  .rrow .pos { font-size: 20px; width: 26px; text-align: center; flex: none; }
+  .rrow .tm { font-variant-numeric: tabular-nums; font-weight: 800; white-space: nowrap; } .rrow .tm.fly { color: var(--muted); font-weight: 600; font-size: 14px; }
+  .picker { display: flex; align-items: center; gap: 8px; direction: ltr; background: rgba(255,255,255,.05); border-radius: 14px; padding: 8px; }
+  .picker .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+  .picker small { color: var(--muted); } .picker b { color: #fff; font-size: 16px; } .picker .md { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .picker .btn { min-width: 46px; font-size: 20px; padding: 8px 12px; }
+  .ar .picker .grow { direction: rtl; }
+  .panel .note { text-align: center; color: #ffd0a8; font-weight: 700; }
+
   @media (max-width: 600px) {
     #hLvl { display: none; }
     .track { width: 76px; }
+    .rr .nm { width: 50px; }
     .panel { padding: 16px; }
     .grid { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 7px; }
     .lv { min-height: 84px; padding: 8px; } .lv b { font-size: 20px; } .lv .nm { font-size: 12.5px; } .lv .md { font-size: 12px; }
@@ -145,8 +191,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793395000"></script>
-<script src="../../shared/net.js?v=1793395000"></script>
+<script src="../../shared/i18n.js?v=1793400000"></script>
+<script src="../../shared/net.js?v=1793400000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -162,7 +208,13 @@
   <div class="bar"><i id="intIco">📦</i><div class="track"><div id="intFill"></div></div><span id="intTxt">100%</span></div>
   <div class="bar" id="barFuel"><i>⛽</i><div class="track"><div id="fuelFill"></div></div><span id="fuelTxt">100%</span></div>
   <div id="hHot"></div>
+  <div id="race">
+    <div class="rr me" id="rMe"><i></i><span class="nm" id="rMeN" dir="auto"></span><div class="track"><div id="rMeF"></div></div><span class="v" id="rMeV"></span></div>
+    <div class="rr op" id="rOp"><i></i><span class="nm" id="rOpN" dir="auto"></span><div class="track"><div id="rOpF"></div></div><span class="v" id="rOpV"></span></div>
+  </div>
 </div>
+<div id="count" hidden><div class="cl" id="cLvl"></div><div class="cn" id="cNum"></div></div>
+<div id="toasts"></div>
 <div id="hSpeed" class="hud"></div>
 <div id="hHint" class="hud" hidden></div>
 <div id="intro" hidden></div>
@@ -171,9 +223,9 @@
   <div id="tbtns"><button id="bOut">⤓</button><button id="bIn">⤒</button><button id="bMag">🧲</button></div>
 </div>
 <div id="scr" hidden><div class="panel" id="panel" data-m3pop></div></div>
-<script src="levels.js?v=1793395000"></script>
-<script src="game.js?v=1793395000"></script>
-<script src="../../shared/cloud.js?v=1793395000" data-game="neon-courier" data-keys="neon-courier-*"></script>
+<script src="levels.js?v=1793400000"></script>
+<script src="game.js?v=1793400000"></script>
+<script src="../../shared/cloud.js?v=1793400000" data-game="neon-courier" data-keys="neon-courier-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

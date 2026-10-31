@@ -78,6 +78,32 @@
     cc_h13: 'The plate opens the way in but locks the way out, and the laser comes back on when it is released. Your echo has to let go at just the right moment.',
     cc_h14: 'Everything you have learned: block the beam, hold the plate, let go at the right moment, and cross before the floor falls.',
   });
+  // online co-op
+  addStrings({
+    cc_online: 'العب أونلاين مع صاحبك', cc_onTitle: 'أونلاين مع صاحبك', cc_onDesc: 'ساعيين في نفس المرحلة ونفس اللفّة — واحد يدوس على البلاطة والتاني يعدّي، وكل لفّة نسخكم الاتنين بتساعدكم.',
+    cc_create: '➕ اعمل أوضة', cc_or: 'أو', cc_codePh: 'كود الأوضة', cc_join: 'ادخل', cc_codeHint: 'اكتب كود الأوضة (٤ حروف)', cc_yourName: 'اسمك',
+    cc_room: 'الأوضة', cc_copyLink: '🔗 انسخ لينك الدعوة', cc_copied: 'اتنسخ ✓', cc_you: 'إنت', cc_partner: 'صاحبك', cc_hostR: 'صاحب الأوضة', cc_c1: 'الساعي ١', cc_c2: 'الساعي ٢',
+    cc_waitPartner: 'مستني صاحبك يدخل… ابعتله اللينك', cc_connecting: 'بيوصل…', cc_swap: '⇄ بدّلوا الأدوار', cc_levelOf: 'المرحلة', cc_start: '▶ ابدأ',
+    cc_needPartner: 'لازم صاحبك يدخل الأول', cc_waitHost: 'مستني صاحب الأوضة يبدأ…', cc_hostPicks: 'صاحب الأوضة بيختار المرحلة', cc_leave: 'اخرج من الأوضة', cc_toRoom: '🚪 ارجع للأوضة',
+    cc_full: 'الأوضة مليانة — فيها اتنين خلاص', cc_noNet: 'مفيش اتصال بالنت', cc_joinedP: '{p} دخل الأوضة 👋', cc_leftP: '{p} خرج',
+    cc_partnerLost: 'صاحبك خرج', cc_partnerLostD: 'تقدر تكمّل لوحدك — نسخكم القديمة لسه معاك.', cc_continueSolo: '▶ كمّل لوحدك',
+    cc_readyCo: 'أي حد فيكم يتحرك يبدأ اللفّة', cc_readyCoEcho: 'نسخكم مستنياكم — اتحركوا وابدأوا', cc_friedCo: 'اتحرقت! صاحبك لسه بيلعب…', cc_fellCo: 'وقعت! صاحبك لسه بيلعب…',
+    cc_waitDone: 'خلّصت — مستني صاحبك يخلّص…', cc_pausedBy: 'وقّفها {p}', cc_retry: '↺ حاول تاني', cc_team: '👥 {a} + {b}', cc_courier: 'ساعي', cc_waitReq: 'مستني صاحب الأوضة…',
+    cc_hwCo: '🌐 أونلاين: كل واحد بيحرّك ساعيه في نفس الوقت. لما اللفّة تخلص، لفّتكم إنتوا الاتنين بتتحوّل نسخ بتساعدكم. ⏭ يعني «أنا خلّصت» — اللفّة بتتقدّم لما الاتنين يخلّصوا.',
+    cc_coopBest: 'أحسن نتيجة أونلاين', cc_rejoin: 'صاحبك رجع — بنعيد اللفّة',
+  }, {
+    cc_online: 'Online Co-op', cc_onTitle: 'Online Co-op', cc_onDesc: 'Two couriers, one level, one loop — one holds the plate while the other runs. Every loop, both of your runs become echoes that help you.',
+    cc_create: '➕ Create Room', cc_or: 'or', cc_codePh: 'Room Code', cc_join: 'Join', cc_codeHint: 'Type the room code (4 letters)', cc_yourName: 'Your Name',
+    cc_room: 'Room', cc_copyLink: '🔗 Copy Invite Link', cc_copied: 'Copied ✓', cc_you: 'You', cc_partner: 'Partner', cc_hostR: 'Host', cc_c1: 'Courier 1', cc_c2: 'Courier 2',
+    cc_waitPartner: 'Waiting for your partner… send them the link', cc_connecting: 'Connecting…', cc_swap: '⇄ Swap Roles', cc_levelOf: 'Level', cc_start: '▶ Start',
+    cc_needPartner: 'Your partner needs to join first', cc_waitHost: 'Waiting for the host to start…', cc_hostPicks: 'The host picks the level', cc_leave: 'Leave Room', cc_toRoom: '🚪 Back To Room',
+    cc_full: 'That room is full', cc_noNet: 'No connection', cc_joinedP: '{p} joined 👋', cc_leftP: '{p} left',
+    cc_partnerLost: 'Your Partner Left', cc_partnerLostD: 'You can carry on solo — your shared echoes stay with you.', cc_continueSolo: '▶ Continue Solo',
+    cc_readyCo: 'Either Of You Moves To Start', cc_readyCoEcho: 'Your Echoes Are Ready — Move To Start', cc_friedCo: 'Fried! Your partner is still going…', cc_fellCo: 'You fell! Your partner is still going…',
+    cc_waitDone: 'Done — waiting for your partner…', cc_pausedBy: 'Paused by {p}', cc_retry: '↺ Retry', cc_team: '👥 {a} + {b}', cc_courier: 'Courier', cc_waitReq: 'Waiting for the host…',
+    cc_hwCo: '🌐 Online: each player drives their own courier at the same time. When the loop ends, both of your runs become echoes. ⏭ means “I’m done” — the loop moves on once you both are.',
+    cc_coopBest: 'Best online', cc_rejoin: 'Your partner is back — restarting the loop',
+  });
 
   // ------------------------------------------------------------------ save data
   const SAVE_KEY = 'chrono-courier-progress', SET_KEY = 'chrono-courier-settings';
@@ -89,6 +115,14 @@
   const starsOf = (id) => prog.stars[id] | 0;
   const unlocked = (i) => i === 0 || starsOf(LEVELS[i - 1].id) > 0 || starsOf(LEVELS[i].id) > 0;
   const totalStars = () => LEVELS.reduce((a, L) => a + starsOf(L.id), 0);
+  // online co-op results are kept apart from the solo stars (two couriers make levels easier)
+  const COOP_KEY = 'chrono-courier-coop', NAME_KEY = 'chrono-courier-name';
+  const coop = readJSON(COOP_KEY, {}); coop.stars = coop.stars || {}; coop.loops = coop.loops || {};
+  const saveCoop = () => { try { localStorage.setItem(COOP_KEY, JSON.stringify(coop)); } catch (e) {} };
+  const coopStarsOf = (id) => coop.stars[id] | 0;
+  const coopUnlocked = (i) => i === 0 || coopStarsOf(LEVELS[i - 1].id) > 0 || coopStarsOf(LEVELS[i].id) > 0;
+  const maxUnlockedIdx = () => { let m = 0; for (let i = 0; i < LEVELS.length; i++) if (unlocked(i) || coopUnlocked(i)) m = i; return m; };
+  const coopNextIdx = () => { const mx = maxUnlockedIdx(); for (let i = 0; i <= mx; i++) if (!coopStarsOf(LEVELS[i].id)) return i; return mx; };
 
   // ------------------------------------------------------------------ sound (WebAudio synth)
   const Snd = {
@@ -165,7 +199,14 @@
     scene: 'menu', overlay: null, li: 0, L: null, lv: null, rot: false, loops: [], cur: null, w: null, hist: [], phase: 'ready', acc: 0,
     rewindT: 0, doneT: 0, time: 0, simTime: 0, fx: [], bgfx: [], shake: 0, doorVis: [], colAnim: [], desync: [], banner: null, lastStars: 0, lastLoops: 0,
     scripted: null, tipShown: false, lostShown: false, flash: 0, newBest: false,
+    // co-op: net = null (solo) | { host: true|false }. slots = owners of this loop's live couriers (0 = Courier 1 / host, 1 = Courier 2 / guest)
+    net: null, coopLvl: false, myOwn: 0, slots: [0], curs: [], done: [false], round: 0, roundSizes: [], loopId: 0, histBase: 0, histSlots: [0],
+    pausedBy: '', pName: '', sel: 0, evT: 0, meDeadShown: false,
   };
+  const PCOL = ['#3cf2d0', '#ff5fa2'];   // Courier 1 cyan, Courier 2 pink — their echoes keep the same tint
+  const isHost = () => !!(G.net && G.net.host), isGuest = () => !!(G.net && !G.net.host);
+  const coopOn = () => !!G.net && G.slots.length > 1;   // two live couriers this loop
+  const mySlot = () => Math.max(0, G.slots.indexOf(G.myOwn));
 
   // ------------------------------------------------------------------ level rotation (tall phones get wide levels turned 90°)
   const ROTC = { '^': '>', '>': 'v', 'v': '<', '<': '^' };
@@ -183,12 +224,13 @@
 
   // ------------------------------------------------------------------ input
   const held = []; let pendDir = 0, pendAct = false;
-  function pressDir(d) { pendDir = d; const i = held.indexOf(d); if (i >= 0) held.splice(i, 1); held.push(d); kick(); }
-  function releaseDir(d) { const i = held.indexOf(d); if (i >= 0) held.splice(i, 1); }
-  function pressAct() { pendAct = true; kick(); }
-  function clearInput() { held.length = 0; pendDir = 0; pendAct = false; }
+  function pressDir(d) { pendDir = d; const i = held.indexOf(d); if (i >= 0) held.splice(i, 1); held.push(d); if (isGuest()) netIn('tap', d); kick(); }
+  function releaseDir(d) { const i = held.indexOf(d); if (i >= 0) held.splice(i, 1); if (isGuest()) netIn(); }
+  function pressAct() { pendAct = true; if (isGuest()) netIn('act'); kick(); }
+  function clearInput() { const had = held.length || pendDir || pendAct; held.length = 0; pendDir = 0; pendAct = false; if (had && isGuest()) netIn(); }
   function kick() {
     Snd.init();
+    if (isGuest()) return;   // the host runs the loop; our input is already on its way
     if (G.scene === 'play' && !G.overlay && G.phase === 'ready') startRun();
   }
   function sample(me) {
@@ -208,6 +250,7 @@
     if (G.overlay) {
       if ((k === 'Escape' || k === 'KeyP') && G.overlay === 'pause') { e.preventDefault(); resume(); }
       else if (k === 'Escape' && (G.overlay === 'howto' || G.overlay === 'levels')) { e.preventDefault(); backFromSub(); }
+      else if (k === 'Escape' && G.overlay === 'online') { e.preventDefault(); showMenu(); }
       else if ((k === 'Enter' || k === 'Space') && G.overlay === 'win') { e.preventDefault(); nextLevel(); }
       else if ((k === 'Enter' || k === 'KeyU') && G.overlay === 'lose') { e.preventDefault(); undoLoop(); }
       return;
@@ -223,7 +266,7 @@
     else if (k === 'KeyH') toggleTip();
   });
   addEventListener('keyup', (e) => { if (KEYS[e.code]) releaseDir(KEYS[e.code]); });
-  addEventListener('blur', () => { clearInput(); if (G.scene === 'play' && !G.overlay && (G.phase === 'run')) pause(); });
+  addEventListener('blur', () => { clearInput(); if (G.scene === 'play' && !G.overlay && (G.phase === 'run') && !G.net) pause(); });
   document.addEventListener('visibilitychange', () => { if (document.hidden && G.scene === 'play' && !G.overlay && G.phase === 'run') pause(); });
 
   // touch D-pad
@@ -279,7 +322,7 @@
     padEl.hidden = !(play && isTouch);
     if (play && G.L) {
       $('lvlName').innerHTML = `${G.L.id}<i>·</i>${t('cc_n' + G.L.id)}`;
-      $('bUndo').disabled = G.loops.length === 0;
+      $('bUndo').disabled = G.round === 0;
     }
   }
 
@@ -322,17 +365,33 @@
     back: () => backFromSub(),
     lvl: (b) => { const i = +b.dataset.i; if (unlocked(i)) startLevel(i); },
     resume: () => resume(),
-    restartLoop: () => { closeOverlay(); restartLoop(); },
-    restartLevel: () => startLevel(G.li),
+    restartLoop: () => { if (isGuest()) { reqHost('restartLoop'); return; } closeOverlay(); restartLoop(); },
+    restartLevel: () => restartLevel(),
     menu: () => showMenu(),
     next: () => nextLevel(),
     undo: () => undoLoop(),
     lang: () => setLang(getLang() === 'ar' ? 'en' : 'ar'),
     sound: () => { Snd.mute(!settings.mute); refreshTopLabels(); rerender(); },
+    // online
+    online: () => showOnline(),
+    create: async () => { saveTypedName(); if (!(await canGoOnline())) return; joinRoom(newCode(), 'host'); },
+    join: async () => {
+      saveTypedName();
+      const inp = $('ccCode'), code = (inp ? inp.value : '').trim().toUpperCase();
+      if (code.length < 4) { const m = $('ccMsg'); if (m) m.textContent = t('cc_codeHint'); return; }
+      if (!(await canGoOnline())) return; joinRoom(code, null);
+    },
+    copy: (b) => copyText(inviteLink(ON.code), b),
+    swap: () => swapRoles(),
+    lvSel: (b) => { if (ON.role !== 'host') return; const mx = Math.max(maxUnlockedIdx(), ON.partner ? ON.partner.ul | 0 : 0); G.sel = Math.max(0, Math.min(mx, G.sel + (+b.dataset.d))); netSend('sel', { l: G.sel }); showLobby(); },
+    startOn: () => startOnline(),
+    leave: () => { leaveRoom(); G.net = null; showMenu(); },
+    room: () => { netSend('lobby', {}); toLobby(); },
+    solo: () => continueSolo(),
   };
   let subFrom = null;
   function backFromSub() { if (subFrom === 'pause') showPause(); else showMenu(); }
-  function rerender() { const r = { menu: showMenu, levels: showLevels, howto: showHowto, pause: showPause, win: showWin, lose: showLose }[G.overlay]; if (r) r(true); }
+  function rerender() { const r = { menu: showMenu, levels: showLevels, howto: showHowto, pause: showPause, win: showWin, lose: showLose, online: showOnline, lobby: showLobby, lost: showLost }[G.overlay]; if (r) r(true); }
 
   function showMenu() {
     G.scene = 'menu'; G.L = null; G.lv = null; tipEl.hidden = true; setBanner(null);
@@ -346,6 +405,7 @@
       <div class="col">
         <button class="btn" data-act="play">▶ ${t(cont ? 'cc_continue' : 'cc_play')}${cont ? ' · ' + (nextIndex() + 1) : ''}</button>
         <button class="btn sec" data-act="levels">🗺️ ${t('cc_levels')}</button>
+        <button class="btn sec cyanb" data-act="online">🌐 ${t('cc_online')}</button>
         <button class="btn sec" data-act="howto">❓ ${t('cc_howto')}</button>
       </div>
       <div class="stars-total">${t('cc_starsTotal', { n: ts, m: LEVELS.length * 3 })}</div>
@@ -375,6 +435,7 @@
     if (G.overlay !== 'howto') subFrom = G.scene === 'play' ? 'pause' : 'menu';
     let items = '';
     for (let i = 1; i <= 8; i++) items += `<div>${t('cc_hw' + i)}</div>`;
+    items += `<div>${t('cc_hwCo')}</div>`;
     openOverlay('howto', `<div class="box wide">
       <h2>❓ ${t('cc_howto')}</h2>
       <div class="howto">${items}<div class="k">${t('cc_keys')}</div><div class="k">${t('cc_touch')}</div></div>
@@ -382,77 +443,157 @@
     </div>`, G.scene !== 'play');
   }
   function showPause() {
+    const on = !!G.net;
     openOverlay('pause', `<div class="box">
       <h2>⏸ ${t('cc_paused')}</h2>
-      <p>${t('cc_level', { n: G.L.id })} · ${t('cc_n' + G.L.id)}</p>
+      <p>${t('cc_level', { n: G.L.id })} · ${t('cc_n' + G.L.id)}${G.pausedBy ? `<br><span class="small">${t('cc_pausedBy', { p: escapeHtml(G.pausedBy) })}</span>` : ''}</p>
       <div class="col">
         <button class="btn" data-act="resume">▶ ${t('cc_resume')}</button>
         <button class="btn sec" data-act="restartLoop">↺ ${t('cc_restartLoop')}</button>
         <button class="btn sec" data-act="restartLevel">⟲ ${t('cc_restartLevel')}</button>
         <button class="btn sec" data-act="howto">❓ ${t('cc_howto')}</button>
-        <button class="btn sec" data-act="levels">🗺️ ${t('cc_levels')}</button>
-        <button class="btn sec" data-act="menu">🏁 ${t('cc_menu')}</button>
+        ${on ? `<button class="btn sec" data-act="room">${t('cc_toRoom')}</button>` : `<button class="btn sec" data-act="levels">🗺️ ${t('cc_levels')}</button>
+        <button class="btn sec" data-act="menu">🏁 ${t('cc_menu')}</button>`}
       </div>
+      <p class="small" id="ccReq"></p>
     </div>`);
   }
+  function teamLine() { return G.coopLvl && G.pName ? `<div class="who">${t('cc_team', { a: escapeHtml(G.myOwn ? G.pName : myName()), b: escapeHtml(G.myOwn ? myName() : G.pName) })}</div>` : ''; }
   function showWin(again) {
-    const L = G.L, st = G.lastStars, used = G.lastLoops, last = G.li >= LEVELS.length - 1;
+    const L = G.L, st = G.lastStars, used = G.lastLoops, last = G.li >= LEVELS.length - 1, on = !!G.net;
     let stars = '';
     for (let i = 0; i < 3; i++) stars += `<span class="${i < st ? 'on' : ''}" style="animation-delay:${again ? 0 : 0.15 + i * 0.22}s">★</span>`;
     openOverlay('win', `<div class="box">
       <h2>📦 ${t('cc_delivered')}</h2>
+      ${teamLine()}
       <div class="bigstars">${stars}</div>
       <p><b style="color:var(--text)">${used <= 2 ? t('cc_in' + used) : t('cc_inN', { n: used })}</b>${G.newBest ? ` · <span style="color:var(--cyan)">${t('cc_newBest')}</span>` : ''}<br>
       <span class="small">${L.par <= 2 ? t('cc_par' + L.par) : t('cc_parN', { n: L.par })}</span></p>
       ${last ? `<p>${t('cc_allDone')}</p>` : ''}
       <div class="col">
         ${last ? '' : `<button class="btn" data-act="next">▶ ${t('cc_next')}</button>`}
-        <button class="btn sec" data-act="restartLevel">⟲ ${t('cc_replay')}</button>
-        <button class="btn sec" data-act="levels">🗺️ ${t('cc_levels')}</button>
+        <button class="btn sec" data-act="restartLevel">${on ? t('cc_retry') : '⟲ ' + t('cc_replay')}</button>
+        ${on ? `<button class="btn sec" data-act="room">${t('cc_toRoom')}</button>` : `<button class="btn sec" data-act="levels">🗺️ ${t('cc_levels')}</button>`}
       </div>
+      <p class="small" id="ccReq"></p>
     </div>`);
     if (!again) for (let i = 0; i < st; i++) setTimeout(() => Snd.tone(660 + i * 220, 0.2, { type: 'triangle', vol: 0.12 }), 300 + i * 220);
   }
   function showLose() {
+    const on = !!G.net;
     openOverlay('lose', `<div class="box">
       <h2>⌛ ${t('cc_out')}</h2>
+      ${teamLine()}
       <p>${t('cc_outMsg')}</p>
       <div class="col">
         <button class="btn" data-act="undo">⏮ ${t('cc_undoLoop')}</button>
-        <button class="btn sec" data-act="restartLevel">⟲ ${t('cc_restartLevel')}</button>
-        <button class="btn sec" data-act="levels">🗺️ ${t('cc_levels')}</button>
+        <button class="btn sec" data-act="restartLevel">${on ? t('cc_retry') : '⟲ ' + t('cc_restartLevel')}</button>
+        ${on ? `<button class="btn sec" data-act="room">${t('cc_toRoom')}</button>` : `<button class="btn sec" data-act="levels">🗺️ ${t('cc_levels')}</button>`}
+      </div>
+      <p class="small" id="ccReq"></p>
+    </div>`);
+  }
+  // ---- online screens
+  function showOnline() {
+    const prev = $('ccCode') ? $('ccCode').value : '', authName = window.Auth && Auth.name && Auth.name();
+    let typed = ''; try { typed = localStorage.getItem(NAME_KEY) || ''; } catch (e) {}
+    openOverlay('online', `<div class="box">
+      <h2>🌐 ${t('cc_onTitle')}</h2>
+      <p>${t('cc_onDesc')}</p>
+      ${authName ? `<div class="who">${t('cc_hello', { p: escapeHtml(authName) })}</div>` : `<label class="fld"><span>${t('cc_yourName')}</span><input id="ccName" maxlength="16" value="${escapeHtml(typed)}" placeholder="${t('cc_courier')}" autocomplete="off" spellcheck="false" dir="auto"></label>`}
+      <div class="col"><button class="btn" data-act="create">${t('cc_create')}</button></div>
+      <div class="or">${t('cc_or')}</div>
+      <div class="joinrow"><input class="code" id="ccCode" maxlength="6" value="${escapeHtml(prev)}" placeholder="${t('cc_codePh')}" autocomplete="off" spellcheck="false"><button class="btn sec" data-act="join">${t('cc_join')}</button></div>
+      <div class="msg" id="ccMsg"></div>
+      <div class="row"><button class="btn sec sm" data-act="menu">${t('cc_back')}</button></div>
+    </div>`, true);
+    const inp = $('ccCode');
+    if (inp) { inp.oninput = () => { inp.value = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); }; inp.onkeydown = (e) => { if (e.key === 'Enter') ACTIONS.join(); }; }
+  }
+  function showLobby() {
+    G.scene = 'lobby';
+    const P = ON.partner, me = ON.role, host = me === 'host';
+    const mx = Math.max(maxUnlockedIdx(), P ? P.ul | 0 : 0);
+    G.sel = Math.max(0, Math.min(mx, G.sel | 0));
+    const L = LEVELS[G.sel], cst = coopStarsOf(L.id);
+    const roleTxt = (r) => r === 'host' ? `${t('cc_c1')} · ${t('cc_hostR')}` : r === 'guest' ? t('cc_c2') : t('cc_connecting');
+    const dot = (r) => `<span class="pdot" style="background:${r === 'guest' ? PCOL[1] : r === 'host' ? PCOL[0] : '#59607f'}"></span>`;
+    const lvTxt = `<b>${L.id} · ${t('cc_n' + L.id)}</b><span class="st">${'★'.repeat(cst)}<i>${'★'.repeat(3 - cst)}</i></span>`;
+    openOverlay('lobby', `<div class="box">
+      <h2>🌐 ${t('cc_onTitle')}</h2>
+      <div class="roomcode"><span>${t('cc_room')}</span><b>${escapeHtml(ON.code)}</b><button class="btn sec sm" data-act="copy">${t('cc_copyLink')}</button></div>
+      <div class="plist">
+        <div class="pl">${dot(me)}<div><b dir="auto">${escapeHtml(myName())}</b><small>${t('cc_you')} · ${roleTxt(me)}</small></div></div>
+        ${P ? `<div class="pl">${dot(P.role)}<div><b dir="auto">${escapeHtml(P.n)}</b><small>${t('cc_partner')} · ${roleTxt(P.role)}</small></div></div>`
+          : `<div class="pl wait">${t(ON.ready ? 'cc_waitPartner' : 'cc_connecting')}</div>`}
+      </div>
+      ${P && me ? `<div class="row"><button class="btn sec sm" data-act="swap">${t('cc_swap')}</button></div>` : ''}
+      ${host ? `<div class="picker"><button class="btn sec sm" data-act="lvSel" data-d="-1" ${G.sel <= 0 ? 'disabled' : ''}>‹</button><div class="grow"><small>${t('cc_levelOf')}</small>${lvTxt}</div><button class="btn sec sm" data-act="lvSel" data-d="1" ${G.sel >= mx ? 'disabled' : ''}>›</button></div>
+        <div class="col"><button class="btn" data-act="startOn" ${P ? '' : 'disabled'}>${t('cc_start')}</button></div>${P ? '' : `<p class="small">${t('cc_needPartner')}</p>`}`
+        : me === 'guest' ? `<div class="picker"><div class="grow"><small>${t('cc_levelOf')} · ${t('cc_hostPicks')}</small>${lvTxt}</div></div><p class="small">${t('cc_waitHost')}</p>` : ''}
+      <div class="row"><button class="btn sec sm" data-act="leave">${t('cc_leave')}</button></div>
+    </div>`, true);
+  }
+  function showLost() {
+    openOverlay('lost', `<div class="box">
+      <h2>👋 ${t('cc_partnerLost')}</h2>
+      <p>${t('cc_partnerLostD')}</p>
+      <div class="col">
+        <button class="btn" data-act="solo">${t('cc_continueSolo')}</button>
+        <button class="btn sec" data-act="leave">🏁 ${t('cc_menu')}</button>
       </div>
     </div>`);
   }
+  let toastTm = 0;
+  function toast(msg) { const el = $('toast'); if (!el) return; el.textContent = msg; el.hidden = false; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; clearTimeout(toastTm); toastTm = setTimeout(() => { el.hidden = true; }, 2600); }
+  function copyText(text, btn) {
+    const done = () => { if (!btn) return; const o = btn.textContent; btn.textContent = t('cc_copied'); setTimeout(() => { btn.textContent = o; }, 1300); };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done); else done(); } catch (e) { done(); }
+  }
+  function saveTypedName() { const el = $('ccName'); if (!el) return; const v = el.value.trim().slice(0, 16); try { if (v) localStorage.setItem(NAME_KEY, v); else localStorage.removeItem(NAME_KEY); } catch (e) {} }
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
 
   // ------------------------------------------------------------------ game flow
-  function startLevel(i) {
+  // set up a level (no loop yet). Solo: one live courier. Online: G.net is set by the caller first.
+  function prepLevel(i) {
     const L0 = LEVELS[i];
-    G.li = i; G.L = L0; G.scene = 'play'; G.loops = [];
-    // turn wide levels sideways on tall screens when that makes the tiles clearly bigger
+    G.li = i; G.L = L0; G.scene = 'play'; G.loops = []; G.round = 0; G.roundSizes = []; G.pausedBy = '';
+    if (!G.net) { G.myOwn = 0; G.coopLvl = false; G.slots = [0]; }
+    else { G.coopLvl = true; G.slots = G.net.host ? (ON.partner ? [0, 1] : [0]) : [0, 1]; if (ON.partner) G.pName = ON.partner.n; }
+    // turn wide levels sideways on tall screens when that makes the tiles clearly bigger (each player decides for their own screen)
     const vw = innerWidth, vh = innerHeight, H0 = L0.map.length, W0 = Math.max(...L0.map.map(r => r.length));
     const fit = (W, H) => Math.min((vw - 24) / W, (vh - 120 - (isTouch ? 176 : 0)) / (H + 0.7));
     G.rot = vh > vw * 1.2 && W0 > H0 && fit(H0, W0) > fit(W0, H0) * 1.15;
+    G.H0 = H0; G.W0 = W0;
     G.lv = E.parse(G.rot ? rotateLevel(L0) : L0);
+    buildNetMap();
     prepLevelArt();
     closeOverlay(); tipEl.hidden = true;
+  }
+  function startLevel(i) {
+    prepLevel(i); G.newLvl = true;
     beginLoop(); layout();
     showTip(true);
     Snd.init(); Snd.play('start');
   }
-  function beginLoop() {
+  function beginLoop(netLid) {
     const lv = G.lv;
-    G.w = E.newWorld(lv, G.loops.length + 1);
+    G.loopId = netLid !== undefined ? netLid : G.loopId + 1;
+    G.histBase = G.loops.length; G.histSlots = G.slots.slice();
+    G.w = E.newWorld(lv, G.loops.length + G.slots.length);
     G.hist = [E.clone(G.w)];
-    G.cur = { acts: [], path: [[lv.spawn.x, lv.spawn.y]], marks: [] };
-    G.phase = 'ready'; G.acc = 0; G.simTime = 0; G.lostShown = false;
+    G.curs = G.slots.map(() => ({ acts: [], path: [[lv.spawn.x, lv.spawn.y]], marks: [] }));
+    G.cur = G.curs[mySlot()] || G.curs[0];
+    G.done = G.slots.map(() => false);
+    G.phase = 'ready'; G.acc = 0; G.simTime = 0; G.lostShown = false; G.meDeadShown = false; G.evT = 0;
     G.desync = G.loops.map(() => -1);
     G.doorVis = Array.from(G.w.open);
     G.colAnim = []; G.fx = G.fx.filter(p => p.keep);
-    clearInput();
-    setBanner(G.loops.length ? 'cc_readyEcho' : 'cc_ready', '', true);
+    clearInput(); clearRemote();
+    const co = coopOn();
+    setBanner(G.round ? (co ? 'cc_readyCoEcho' : 'cc_readyEcho') : (co ? 'cc_readyCo' : 'cc_ready'), '', true);
     updateTop();
+    if (isHost()) { ON.evHist = []; sendLoop(); }
   }
   function startRun() {
     if (G.phase !== 'ready') return;
@@ -461,52 +602,69 @@
     Snd.play('start');
     doTick();   // the first input acts right away
   }
-  function me() { return G.loops.length; }
+  function me() { return G.loops.length + mySlot(); }
+  // one 0.2 s tick of the authoritative world (solo, or the host online): echoes replay, live couriers act
   function doTick() {
-    const w = G.w, i = me(), b = w.bots[i];
+    const w = G.w, base = G.loops.length, ms = mySlot(), i = base + ms, b = w.bots[i];
     const acts = G.loops.map(L => L.acts[w.t] | 0);
-    const a = (G.phase === 'run' && !b.dead) ? sample(i) : 0;
-    acts.push(a); G.cur.acts.push(a);
+    G.slots.forEach((own, k) => {
+      const bk = w.bots[base + k];
+      const a = (G.phase === 'run' && !bk.dead && !G.done[k]) ? (k === ms ? sample(i) : sampleRemote()) : 0;
+      acts.push(a); G.curs[k].acts.push(a);
+    });
     E.step(G.lv, w, acts);
     G.hist.push(E.clone(w));
-    G.cur.path.push([b.x, b.y]);
+    G.slots.forEach((own, k) => { const bk = w.bots[base + k]; G.curs[k].path.push([bk.x, bk.y]); });
     G.loops.forEach((L, gi) => {
       const p = L.path[w.t], gb = w.bots[gi];
       if (G.desync[gi] < 0 && p && gb.dead !== 2 && (p[0] !== gb.x || p[1] !== gb.y)) G.desync[gi] = w.t;
     });
     if (!G.scripted) effects(w.ev, i);
-    for (const ev of w.ev) if (ev.b === i && /^(pick|drop|fry|fall)$/.test(ev.e)) G.cur.marks.push({ t: w.t, e: ev.e });
-    for (const ev of w.ev) if (ev.e === 'switch' || ev.e === 'plate') { /* shown on the board */ }
-    if (w.won) { G.phase = 'done'; G.doneT = 0; G.doneAt = performance.now(); onDelivered(); return; }
+    for (const ev of w.ev) for (let k = 0; k < G.slots.length; k++) if (ev.b === base + k && /^(pick|drop|fry|fall)$/.test(ev.e)) G.curs[k].marks.push({ t: w.t, e: ev.e });
+    if (isHost()) noteEvents(w);
+    if (w.won) { G.phase = 'done'; G.doneT = 0; G.doneAt = performance.now(); onDelivered(); stDirty(); return; }
     if (w.pkg.s === 2 && !G.lostShown) { G.lostShown = true; setBanner('cc_lost', 'bad'); }
-    if (b.dead && G.phase === 'run') { G.phase = 'ff'; setBanner(b.dead === 1 ? 'cc_fried' : 'cc_fell', 'bad'); }
+    if (G.phase === 'run') {
+      // the loop fast-forwards once every live courier is wrecked, fallen or done (solo: just you)
+      const out = G.slots.every((o, k) => w.bots[base + k].dead || G.done[k]);
+      if (out) { G.phase = 'ff'; setBanner(b.dead ? (b.dead === 1 ? 'cc_fried' : 'cc_fell') : 'cc_ff', b.dead ? 'bad' : 'warn'); }
+      else if (b.dead && !G.meDeadShown) { G.meDeadShown = true; setBanner(b.dead === 1 ? 'cc_friedCo' : 'cc_fellCo', 'bad'); }
+    }
     if (w.t >= TICKS) endLoop();
     else if (!G.scripted && G.phase === 'run') {
       if (w.t % 5 === 0) Snd.play(w.t >= 35 ? 'warn' : 'sec');
     }
+    stDirty();
   }
   function endLoop() {
-    const acts = G.cur.acts.slice(); while (acts.length < TICKS) acts.push(0);
-    G.loops.push({ acts, path: G.cur.path.slice(), marks: G.cur.marks.slice() });
+    // every live courier's run becomes an echo (online: both of them, each keeping its owner's tint)
+    G.curs.forEach((c, k) => {
+      const acts = c.acts.slice(); while (acts.length < TICKS) acts.push(0);
+      G.loops.push({ acts, path: c.path.slice(), marks: c.marks.slice(), own: G.slots[k], round: G.round });
+    });
+    G.roundSizes.push(G.curs.length); G.round++;
     updateTop();
-    if (G.loops.length >= G.lv.maxLoops) { G.phase = 'over'; setBanner(null); if (!G.scripted) Snd.play('lose'); showLose(); return; }
+    if (G.round >= G.lv.maxLoops) { G.phase = 'over'; setBanner(null); if (!G.scripted) Snd.play('lose'); showLose(); stDirty(); return; }
     G.phase = 'rewind'; G.rewindT = 0; setBanner('cc_rewind', 'warn');
     if (!G.scripted) { Snd.play('rewind'); G.flash = 0.5; }
+    stDirty();
   }
   function onDelivered() {
-    const used = G.loops.length + 1, L = G.L;
+    const used = G.round + 1, L = G.L;
     const st = Math.max(1, Math.min(3, 3 - (used - L.par)));
     G.lastStars = st; G.lastLoops = used;
-    const prevLoops = prog.loops[L.id];
+    const P = G.coopLvl ? coop : prog, prevLoops = P.loops[L.id];
     G.newBest = !!prevLoops && used < prevLoops;
-    prog.stars[L.id] = Math.max(starsOf(L.id), st);
-    prog.loops[L.id] = prevLoops ? Math.min(prevLoops, used) : used;
-    saveProg();
+    P.stars[L.id] = Math.max(P.stars[L.id] | 0, st);
+    P.loops[L.id] = prevLoops ? Math.min(prevLoops, used) : used;
+    if (G.coopLvl) saveCoop(); else saveProg();
     setBanner(null);
     if (!G.scripted) { G.shake = Math.max(G.shake, 6); G.flash = 0.6; }
   }
+  function reqHost(act) { netSend('req', { act }); const r = $('ccReq'); if (r) r.textContent = t('cc_waitReq'); }
   function restartLoop() {
     if (G.scene !== 'play') return;
+    if (isGuest()) { reqHost('restartLoop'); return; }
     if (G.overlay === 'lose' || G.phase === 'over') { undoLoop(); return; }
     if (G.overlay) closeOverlay();
     if (G.phase === 'done') return;
@@ -514,23 +672,41 @@
   }
   function undoLoop() {
     if (G.scene !== 'play') return;
+    if (isGuest()) { reqHost('undo'); return; }
     if (G.phase === 'done' && !G.overlay) return;
     if (G.overlay) closeOverlay();
-    if (G.loops.length) G.loops.pop();
+    if (G.round) { const n = G.roundSizes.pop() || 1; G.loops.splice(G.loops.length - n, n); G.round--; }
     beginLoop(); Snd.play('rewind');
   }
+  function restartLevel() { if (isGuest()) { reqHost('restartLevel'); return; } startLevel(G.li); }
   function endLoopNow() {
     if (G.scene !== 'play' || G.overlay) return;
+    if (coopOn()) { if (isGuest()) netSend('req', { act: 'end' }); else markDone(mySlot()); return; }
     if (G.phase === 'ready') { G.phase = 'run'; setBanner(null); }
     if (G.phase !== 'run') return;
     G.phase = 'ff'; G.acc = 0; setBanner('cc_ff', 'warn');
   }
+  // online ⏭: "I'm done for this loop" — that courier waits; the loop fast-forwards when both are done (or wrecked)
+  function markDone(k) {
+    if (!G.w || k < 0 || k >= G.slots.length) return;
+    if (G.phase === 'ready') { G.phase = 'run'; G.acc = 0; setBanner(null); tipEl.hidden = true; }
+    if (G.phase !== 'run') return;
+    G.done[k] = true;
+    const base = G.loops.length;
+    if (G.slots.every((o, j) => G.done[j] || G.w.bots[base + j].dead)) { G.phase = 'ff'; G.acc = 0; setBanner('cc_ff', 'warn'); }
+    else if (k === mySlot()) setBanner('cc_waitDone', 'warn', true);
+    stDirty();
+  }
   function pause() {
     if (G.scene !== 'play' || G.overlay || G.phase === 'done') return;
-    clearInput(); showPause();
+    clearInput(); G.pausedBy = ''; showPause();
+    if (G.net && ON.partner) netSend('pause', { on: true });
   }
-  function resume() { closeOverlay(); }
-  function nextLevel() { if (G.li < LEVELS.length - 1) startLevel(G.li + 1); else showLevels(); }
+  function resume() { closeOverlay(); if (G.net && ON.partner) netSend('pause', { on: false }); }
+  function nextLevel() {
+    if (isGuest()) { reqHost('next'); return; }
+    if (G.li < LEVELS.length - 1) startLevel(G.li + 1); else if (G.net) { netSend('lobby', {}); toLobby(); } else showLevels();
+  }
 
   // ------------------------------------------------------------------ effects (sound + particles)
   function tileC(x, y) { return [x + 0.5, y + 0.5]; }
@@ -588,7 +764,7 @@
     const touch = isTouch, side = touch && vw > vh * 1.15;
     padEl.classList.toggle('side', side);
     const padB = touch && !side ? 178 : 0, padS = side ? 172 : 0;
-    const tlH = 46 + (lv.maxLoops - 1) * 5;
+    const tlH = 46 + (lv.maxLoops - 1) * (G.coopLvl ? 6 : 5);
     const availW = vw - 24 - padS * 2, availH = vh - top - padB - 10 - tlH - 14;
     const vW = lv.W - 2 + 2 * RIM, vH = lv.H - 2 + 2 * RIM;
     s = Math.floor(Math.min(availW / vW, availH / (vH + 0.32 + 0.34), 80));
@@ -981,6 +1157,15 @@
       ctx.fillStyle = '#fff'; ctx.fillText(o.num, bx, by + 0.5);
       ctx.globalAlpha = 1;
     }
+    if (o.tag && !wreck) {   // online: the partner's courier carries a name tag in its tint
+      const fs = Math.max(9, Math.round(s * 0.25)), ty = cy - lift - r - s * 0.34 + Math.sin(G.time * 3) * s * 0.02;
+      ctx.font = `800 ${fs}px system-ui, "Segoe UI", Tahoma, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const tw = ctx.measureText(o.tag).width + fs * 1.0, th = fs * 1.5;
+      ctx.globalAlpha = a; ctx.fillStyle = 'rgba(8,10,24,.9)'; rr(cx - tw / 2, ty - th / 2, tw, th, th / 2); ctx.fill();
+      ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(cx - fs * 0.3, ty + th / 2); ctx.lineTo(cx + fs * 0.3, ty + th / 2); ctx.lineTo(cx, ty + th / 2 + fs * 0.35); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.fillText(o.tag, cx, ty + 0.5); ctx.globalAlpha = 1;
+    }
     if (o.me && !wreck && !o.noMarker) {
       const bob = Math.sin(G.time * 5) * s * 0.04, my = cy - lift - r - s * 0.2 + bob;
       ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(cx, my + s * 0.1); ctx.lineTo(cx - s * 0.1, my - s * 0.04); ctx.lineTo(cx + s * 0.1, my - s * 0.04); ctx.fill();
@@ -994,8 +1179,14 @@
   }
 
   // world view: positions interpolate from wp (previous) to w (current) by a
+  // colour of bot bi in the loop being drawn: solo = one colour per loop; online = the owner's tint (echoes too)
+  function botCol(bi) {
+    if (!G.coopLvl) return LOOPC[bi % LOOPC.length];
+    const base = G.histBase, own = bi < base ? (G.loops[bi] ? G.loops[bi].own : 0) : G.histSlots[bi - base];
+    return PCOL[own | 0];
+  }
   function drawWorld(w, wp, a, ghostAlphaMul) {
-    const lv = G.lv, W = lv.W, H = lv.H, mine = w.bots.length - 1;
+    const lv = G.lv, W = lv.W, H = lv.H, base = Math.min(G.histBase, w.bots.length - 1), mine = Math.min(w.bots.length - 1, base + Math.max(0, G.histSlots.indexOf(G.myOwn)));
     const ea = ease(a);
     // slab under the board
     const fw = FR.x1 - FR.x0, fh = FR.y1 - FR.y0;
@@ -1040,8 +1231,8 @@
     // echo trails (their recorded routes) + upcoming steps
     const tnow = w.t;
     G.loops.forEach((Lp, gi) => {
-      if (gi >= mine) return;
-      const col = LOOPC[gi % LOOPC.length];
+      if (gi >= base) return;
+      const col = botCol(gi);
       for (let k = 1; k < Lp.path.length; k++) {
         const p = Lp.path[k], q = Lp.path[k - 1]; if (p[0] === q[0] && p[1] === q[1]) continue;
         const ahead = k > tnow && k <= tnow + 10;
@@ -1053,7 +1244,7 @@
     });
     // my own trail this loop
     if (G.cur && G.phase !== 'rewind') {
-      const P = G.cur.path, col = LOOPC[mine % LOOPC.length];
+      const P = G.cur.path, col = botCol(mine);
       for (let k = Math.max(1, P.length - 14); k < P.length; k++) {
         const p = P[k], q = P[k - 1]; if (p[0] === q[0] && p[1] === q[1]) continue;
         ctx.fillStyle = rgba(col, 0.12 + 0.3 * (k - P.length + 14) / 14); ctx.beginPath(); ctx.arc(ox + (q[0] + 0.5) * s, oy + (q[1] + 0.5) * s, s * 0.06, 0, 7); ctx.fill();
@@ -1087,10 +1278,12 @@
     if (pk.s === 3) { const X = ox + (pk.x + 0.5) * s, Y = oy + (pk.y + 0.5) * s, up = Math.min(1, G.doneT / 1.2); push(pk.y, () => drawPkg(X, Y - up * s * 1.2, 1 - up * 0.7, true)); }
     // bots
     w.bots.forEach((b, bi) => {
-      const pb = wp.bots[bi] || b, isMe = bi === mine, col = LOOPC[bi % LOOPC.length];
+      const pb = wp.bots[bi] || b, isMe = bi === mine, live = bi >= base, col = botCol(bi);
       if (b.dead === 2 && pb.dead === 2) return;
       let vx = pb.x + (b.x - pb.x) * ea, vyy = pb.y + (b.y - pb.y) * ea;
-      const o = { dir: b.dir, ghost: !isMe, me: isMe && G.phase !== 'rewind', num: isMe ? 0 : bi + 1, alpha: isMe ? 1 : 0.8 * (ghostAlphaMul || 1), wreck: b.dead === 1 && (pb.dead === 1 || a > 0.3), desync: !isMe && G.desync[bi] >= 0 && G.desync[bi] <= w.t };
+      const num = live ? 0 : G.coopLvl ? ((G.loops[bi] && G.loops[bi].round) | 0) + 1 : bi + 1;
+      const o = { dir: b.dir, ghost: !live, me: isMe && G.phase !== 'rewind', num, alpha: live ? 1 : 0.8 * (ghostAlphaMul || 1), wreck: b.dead === 1 && (pb.dead === 1 || a > 0.3), desync: !live && G.desync[bi] >= 0 && G.desync[bi] <= w.t,
+        tag: live && !isMe && G.phase !== 'rewind' ? (G.pName || t('cc_c' + (G.histSlots[bi - base] + 1))).slice(0, 12) : null };
       if (b.dead === 2) { o.scale = 1 - a * 0.8; o.rot = a * 4; o.alpha *= 1 - a; }
       if (b.dead === 1) o.jit = pb.dead === 1 ? 0 : (R() - 0.5) * s * 0.08 * (1 - a);
       if (b.x !== pb.x || b.y !== pb.y) o.hop = Math.sin(ea * Math.PI) * s * 0.05;
@@ -1159,17 +1352,22 @@
 
   // ------------------------------------------------------------------ timeline (10 s bar + one lane per echo)
   function drawTimeline(w) {
-    const { x, y, w: tw, h } = TL, lv = G.lv, n = G.loops.length, mine = n, maxL = lv.maxLoops;
+    const { x, y, w: tw, h } = TL, lv = G.lv, n = G.round, maxL = lv.maxLoops, base = G.histBase, laneH = G.coopLvl ? 3 : 5;
     const elapsed = G.phase === 'rewind' ? Math.max(0, 1 - G.rewindT / 0.9) * TICKS * TICK : Math.min(TICKS, w.t + (G.phase === 'run' ? G.acc / TICK : 0)) * TICK;
     const left = Math.max(0, TICKS * TICK - elapsed), warn = left < 3 && G.phase === 'run';
     ctx.fillStyle = 'rgba(10,13,28,.86)'; rr(x, y, tw, h, 12); ctx.fill();
     ctx.strokeStyle = warn ? `rgba(255,93,115,${0.4 + 0.4 * Math.sin(G.time * 10)})` : 'rgba(255,255,255,.08)'; ctx.lineWidth = 1; rr(x + 0.5, y + 0.5, tw - 1, h - 1, 12); ctx.stroke();
-    const col = LOOPC[Math.min(mine, maxL - 1) % LOOPC.length];
+    const col = G.coopLvl ? PCOL[G.myOwn] : LOOPC[Math.min(n, maxL - 1) % LOOPC.length];
     // loop pill (dots = loops available)
     ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
     const ly = y + 15;
     for (let i = 0; i < maxL; i++) {
       const cxp = x + 14 + i * 13;
+      if (i < n && G.coopLvl) {   // a finished co-op loop: half Courier 1, half Courier 2
+        ctx.fillStyle = PCOL[0]; ctx.beginPath(); ctx.arc(cxp, ly, 4.5, Math.PI / 2, Math.PI * 1.5); ctx.fill();
+        ctx.fillStyle = PCOL[1]; ctx.beginPath(); ctx.arc(cxp, ly, 4.5, -Math.PI / 2, Math.PI / 2); ctx.fill();
+        continue;
+      }
       ctx.beginPath(); ctx.arc(cxp, ly, 4.5, 0, 7);
       if (i < n) { ctx.fillStyle = LOOPC[i % LOOPC.length]; ctx.fill(); }
       else if (i === n) { ctx.fillStyle = col; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke(); }
@@ -1195,7 +1393,7 @@
     if (fw > 0) { ctx.fillStyle = col; rr(bx, by, Math.max(fw, 7), bhh, 3.5); ctx.fill(); }
     ctx.fillStyle = 'rgba(0,0,0,.45)'; for (let k = 1; k < 10; k++) ctx.fillRect(bx + bwid * k / 10 - 0.5, by, 1, bhh);
     // playhead
-    ctx.fillStyle = '#fff'; ctx.fillRect(bx + fw - 1, by - 3, 2, bhh + 6 + n * 5);
+    ctx.fillStyle = '#fff'; ctx.fillRect(bx + fw - 1, by - 3, 2, bhh + 6 + G.loops.length * laneH);
     const mark = (lx, ly2, e, c) => {
       ctx.fillStyle = e === 'fry' || e === 'fall' ? '#ff5d73' : e === 'pick' ? '#ffd166' : '#ffb703';
       ctx.font = '900 8px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.fillText(e === 'fry' || e === 'fall' ? '✕' : e === 'pick' ? '▲' : '▼', lx, ly2);
@@ -1203,9 +1401,8 @@
     for (const m of (G.cur ? G.cur.marks : [])) mark(bx + bwid * m.t / TICKS, by + bhh / 2 + 0.5, m.e);
     // echo lanes
     G.loops.forEach((Lp, gi) => {
-      if (gi >= mine) return;
-      const ly2 = by + bhh + 4 + gi * 5;
-      ctx.fillStyle = rgba(LOOPC[gi % LOOPC.length], 0.75); ctx.fillRect(bx, ly2, bwid, 2);
+      const ly2 = by + bhh + 4 + gi * laneH;
+      ctx.fillStyle = rgba(botCol(gi), 0.75); ctx.fillRect(bx, ly2, bwid, 2);
       for (const m of Lp.marks) mark(bx + bwid * m.t / TICKS, ly2 + 1, m.e);
       if (G.desync[gi] >= 0) { ctx.fillStyle = '#ff5d73'; ctx.fillRect(bx + bwid * G.desync[gi] / TICKS - 1, ly2 - 2, 2, 6); }
     });
@@ -1240,7 +1437,8 @@
     requestAnimationFrame(frame);
   }
   function update(dt) {
-    if (G.scene === 'play' && !G.overlay && G.w) {
+    if (G.scene === 'play' && G.w && isGuest()) guestUpdate(dt);
+    else if (G.scene === 'play' && !G.overlay && G.w) {
       if (G.phase === 'run') {
         G.acc += dt; G.simTime += dt;
         while (G.acc >= TICK && G.phase === 'run') { G.acc -= TICK; doTick(); }
@@ -1307,22 +1505,359 @@
     drawTimeline(G.w);
   }
 
+  // ------------------------------------------------------------------ online co-op (Supabase Realtime broadcast room "chrono-courier-CODE")
+  // The host runs the authoritative loop (doTick: echoes, plates, doors, the package, the timer) and streams the world ~12–15×/s.
+  // The guest sends only its own inputs and draws what the host sends, animating between ticks. Positions travel in the level's
+  // canonical orientation, so each player can still get wide levels turned sideways on a tall phone.
+  const ON = { ch: null, code: '', ready: false, me: '', role: null, jt: 0, partner: null, hb: null, lastSt: 0, dirty: false, needT: 0, evHist: [] };
+  const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'roles', 'sel', 'loop', 'st', 'in', 'req', 'pause', 'lobby', 'need'];
+  const CODE_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const newCode = () => { let c = ''; for (let i = 0; i < 4; i++) c += CODE_ABC[Math.floor(Math.random() * CODE_ABC.length)]; return c; };
+  const pageLink = () => location.href.split('?')[0].split('#')[0];
+  const inviteLink = (code) => pageLink() + '?room=' + code;
+  const otherRole = (r) => r === 'host' ? 'guest' : 'host';
+  function myName() {
+    const a = window.Auth && Auth.name && Auth.name(); if (a) return String(a).slice(0, 16);
+    let n = ''; try { n = localStorage.getItem(NAME_KEY) || ''; } catch (e) {}
+    return n || t('cc_courier');
+  }
+  async function canGoOnline() { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; return true; }
+  function netSend(ev, p) { if (!ON.ch || !ON.ready) return; try { ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me }, p || {}) }); } catch (e) {} }
+
+  // local (maybe rotated) <-> canonical level coordinates and directions
+  const cXY = (x, y) => G.rot ? [y, G.H0 - 1 - x] : [x, y];
+  const lXY = (x, y) => G.rot ? [G.H0 - 1 - y, x] : [x, y];
+  const cD = (d) => G.rot && d >= 1 && d <= 4 ? (d + 2) % 4 + 1 : d;
+  const lD = (d) => G.rot && d >= 1 && d <= 4 ? d % 4 + 1 : d;
+  let NM = null;   // per-level lists in canonical order -> local indexes (frags, doors, switches and crates are numbered in scan order)
+  function buildNetMap() {
+    const lv = G.lv, W = lv.W;
+    const ci = (li) => { const p = cXY(li % W, (li / W) | 0); return p[1] * G.W0 + p[0]; };
+    const order = (n, key) => Array.from({ length: n }, (_, k) => k).sort((a, b) => key(a) - key(b));
+    NM = {
+      dyn: order(lv.dyn.length, k => ci(lv.dyn[k])).map(k => lv.dyn[k]),
+      frags: order(lv.frags.length, k => ci(lv.frags[k])),
+      doors: order(lv.doors.length, k => ci(lv.doors[k])),
+      sw: order(lv.switches.length, k => ci(lv.switches[k])),
+      crates: order(lv.crates.length, k => ci(lv.crates[k].y * W + lv.crates[k].x)),
+    };
+  }
+  const packEv = (e) => { const o = Object.assign({}, e); if (e.x !== undefined) { const p = cXY(e.x, e.y); o.x = p[0]; o.y = p[1]; } return o; };
+  const unpackEv = (e) => { const o = Object.assign({}, e); if (e.x !== undefined) { const p = lXY(e.x, e.y); o.x = p[0]; o.y = p[1]; } return o; };
+  // host: keep the last few ticks of events so a dropped snapshot doesn't lose a sound, a spark or a timeline mark
+  function noteEvents(w) {
+    const gi = G.loops.length + G.slots.indexOf(1);
+    ON.evHist.push({ t: w.t, ev: w.ev.filter(e => (e.e !== 'step' && e.e !== 'bump') || e.b === gi).map(packEv) });
+    while (ON.evHist.length > 4) ON.evHist.shift();
+  }
+  function packSt() {
+    const w = G.w, pk = cXY(w.pkg.x, w.pkg.y);
+    return {
+      li: G.li, lid: G.loopId, rd: G.round, ph: G.phase, t: w.t, nb: w.bots.length,
+      g: NM.dyn.map(i => w.ground[i]), f: NM.frags.map(k => w.frag[k]), o: NM.doors.map(k => w.open[k]), sw: NM.sw.map(k => w.swOcc[k]),
+      tm: Array.from(w.timers), tx: Array.from(w.tmax), cn: Array.from(w.chan),
+      b: w.bots.map(b => { const p = cXY(b.x, b.y); return [p[0], p[1], cD(b.dir), b.dead, b.carry]; }),
+      c: NM.crates.map(k => { const c = w.crates[k], p = cXY(c.x, c.y); return [p[0], p[1], c.alive]; }),
+      p: [pk[0], pk[1], w.pkg.s, w.pkg.by],
+      bm: w.beams.map(m => { const a = cXY(m.x0, m.y0), z = cXY(m.x1, m.y1); return [a[0], a[1], z[0], z[1], cD(m.dir), m.on ? 1 : 0, m.hit, m.ch]; }),
+      won: w.won ? 1 : 0, wa: w.wonAt, dn: G.done.map(v => v ? 1 : 0), ev: ON.evHist,
+    };
+  }
+  function unpackSt(p) {
+    const lv = G.lv;
+    const w = { t: p.t, ground: Int8Array.from(lv.kind), frag: new Int8Array(lv.frags.length).fill(-1), bots: [], crates: [], pkg: null,
+      timers: p.tm.slice(), tmax: p.tx.slice(), chan: p.cn.slice(), open: new Uint8Array(lv.doors.length), swOcc: new Uint8Array(lv.switches.length),
+      beams: [], ev: [], won: !!p.won, wonAt: p.wa };
+    NM.dyn.forEach((i, k) => { w.ground[i] = p.g[k]; });
+    NM.frags.forEach((f, k) => { w.frag[f] = p.f[k]; });
+    NM.doors.forEach((d, k) => { w.open[d] = p.o[k]; });
+    NM.sw.forEach((q, k) => { w.swOcc[q] = p.sw[k]; });
+    w.bots = p.b.map(q => { const l = lXY(q[0], q[1]); return { x: l[0], y: l[1], px: l[0], py: l[1], dir: lD(q[2]), dead: q[3], carry: q[4], moved: 0 }; });
+    w.crates = lv.crates.map(c => ({ x: c.x, y: c.y, px: c.x, py: c.y, alive: 1 }));
+    NM.crates.forEach((k, j) => { const q = p.c[j]; if (!q) return; const l = lXY(q[0], q[1]); w.crates[k] = { x: l[0], y: l[1], px: l[0], py: l[1], alive: q[2] }; });
+    const pk = lXY(p.p[0], p.p[1]); w.pkg = { x: pk[0], y: pk[1], px: pk[0], py: pk[1], s: p.p[2], by: p.p[3] };
+    w.beams = p.bm.map(q => { const a = lXY(q[0], q[1]), z = lXY(q[2], q[3]); return { x0: a[0], y0: a[1], x1: z[0], y1: z[1], dir: lD(q[4]), on: !!q[5], hit: q[6], ch: q[7] }; });
+    return w;
+  }
+
+  // host -> guest: the loop set-up (level, loop id, every echo recorded so far) and the world snapshots
+  function stDirty() { if (!isHost()) return; ON.dirty = true; netPump(); }
+  function netPump() {   // a snapshot right after each tick, plus a keep-alive copy every 80 ms (≈12–15 per second)
+    if (!isHost() || !ON.partner || G.scene !== 'play' || !G.w || !NM) return;
+    const now = performance.now(), gap = now - ON.lastSt;
+    if ((ON.dirty && gap >= 60) || gap >= 80) { ON.dirty = false; ON.lastSt = now; netSend('st', packSt()); }
+  }
+  function sendLoop() {
+    const nl = G.newLvl ? 1 : 0; G.newLvl = false;
+    if (!isHost() || !ON.partner) return;
+    netSend('loop', { li: G.li, lid: G.loopId, rd: G.round, rs: G.roundSizes, sl: G.slots, nl, hn: myName(),
+      recs: G.loops.map(r => ({ o: r.own | 0, r: r.round | 0, a: r.acts.map(cD).join(''), p: [].concat(...r.path.map(q => cXY(q[0], q[1]))), m: r.marks })) });
+    ON.dirty = true; ON.lastSt = 0; netPump();
+  }
+  function askLoop() { const now = performance.now(); if (now - ON.needT > 700) { ON.needT = now; netSend('need', {}); } }
+  function applyLoop(p) {
+    if (ON.role === 'host') return;
+    ON.role = 'guest'; if (ON.partner) { ON.partner.role = 'host'; if (p.hn) ON.partner.n = String(p.hn).slice(0, 16); }
+    const fresh = G.scene !== 'play' || !isGuest() || p.li !== G.li || (p.nl && p.lid !== G.loopId);
+    if (!fresh && p.lid === G.loopId) return;   // we already have this loop
+    if (G.overlay) closeOverlay();
+    if (fresh) { G.net = { host: false }; G.myOwn = 1; prepLevel(p.li); }
+    G.loops = (p.recs || []).map(r => {
+      const path = []; for (let k = 0; k + 1 < r.p.length; k += 2) path.push(lXY(r.p[k], r.p[k + 1]));
+      return { own: r.o | 0, round: r.r | 0, acts: Array.from(r.a, ch => lD(+ch)), path, marks: r.m || [] };
+    });
+    G.round = p.rd | 0; G.roundSizes = (p.rs || []).slice(); G.slots = (p.sl || [0, 1]).slice();
+    if (ON.partner) G.pName = ON.partner.n;
+    beginLoop(p.lid);
+    if (fresh) { layout(); showTip(true); Snd.init(); Snd.play('start'); }
+  }
+  function applySt(p) {
+    if (!isGuest() || G.scene !== 'play' || !G.w) return;
+    if (p.li !== G.li || p.lid !== G.loopId || p.nb !== G.w.bots.length) { askLoop(); return; }
+    const prevPh = G.phase, prevRd = G.round, base = G.loops.length, ms = mySlot(), mine = base + ms;
+    G.round = p.rd | 0;
+    if (p.t !== G.w.t) {
+      const prevT = G.w.t, nw = unpackSt(p);
+      G.w = nw; G.hist.push(nw); G.acc = 0;
+      const b = nw.bots[mine]; if (b) G.cur.path.push([b.x, b.y]);
+      G.loops.forEach((L, gi) => {
+        const q = L.path[nw.t], gb = nw.bots[gi];
+        if (G.desync[gi] < 0 && q && gb && gb.dead !== 2 && (q[0] !== gb.x || q[1] !== gb.y)) G.desync[gi] = nw.t;
+      });
+      if (p.ph === 'run' && Math.floor(nw.t / 5) > Math.floor(prevT / 5) && nw.t < TICKS) Snd.play(nw.t >= 35 ? 'warn' : 'sec');
+      if (nw.pkg.s === 2 && !G.lostShown) { G.lostShown = true; setBanner('cc_lost', 'bad'); }
+    }
+    for (const pack of (p.ev || [])) {   // events of ticks we haven't seen yet (sounds, sparks, timeline marks)
+      if (pack.t <= G.evT) continue;
+      G.evT = pack.t;
+      const evs = pack.ev.map(unpackEv);
+      effects(evs, mine);
+      for (const ev of evs) if (ev.b === mine && /^(pick|drop|fry|fall)$/.test(ev.e)) G.cur.marks.push({ t: pack.t, e: ev.e });
+    }
+    G.done = (p.dn || []).map(Boolean);
+    G.phase = p.ph;
+    const b = G.w.bots[mine];
+    if (G.phase !== prevPh) {
+      if (prevPh === 'ready' && (G.phase === 'run' || G.phase === 'ff')) { setBanner(null); tipEl.hidden = true; Snd.play('start'); }
+      if (G.phase === 'ff') setBanner(b && b.dead ? (b.dead === 1 ? 'cc_fried' : 'cc_fell') : 'cc_ff', b && b.dead ? 'bad' : 'warn');
+      else if (G.phase === 'rewind') { G.rewindT = 0; setBanner('cc_rewind', 'warn'); Snd.play('rewind'); G.flash = 0.5; }
+      else if (G.phase === 'done') { G.doneT = 0; G.doneAt = performance.now(); onDelivered(); }
+      else if (G.phase === 'over') { setBanner(null); Snd.play('lose'); if (!G.overlay) showLose(); }
+    }
+    if (G.phase === 'run' && b) {
+      if (b.dead && !G.meDeadShown) { G.meDeadShown = true; setBanner(b.dead === 1 ? 'cc_friedCo' : 'cc_fellCo', 'bad'); }
+      else if (!b.dead && G.done[ms] && !(G.banner && G.banner.key === 'cc_waitDone')) setBanner('cc_waitDone', 'warn', true);
+    }
+    if (G.phase !== prevPh || G.round !== prevRd) updateTop();
+  }
+  function guestUpdate(dt) {
+    if (G.phase === 'run') { G.acc = Math.min(TICK, G.acc + dt); G.simTime += dt; }   // animate the last tick (smooths both couriers)
+    else if (G.phase === 'ff') { G.acc = Math.min(0.035, G.acc + dt); G.simTime += dt * 6; }
+    else if (G.phase === 'rewind') G.rewindT = Math.min(0.9, G.rewindT + dt);
+    else if (G.phase === 'done') {
+      G.doneT += dt;
+      if ((G.doneT > 1.6 || performance.now() - (G.doneAt || 0) > 1700) && !G.overlay) { Snd.play('click'); showWin(); }
+    }
+    for (let d = 0; d < G.doorVis.length; d++) { const tg = G.w.open[d]; G.doorVis[d] += (tg - G.doorVis[d]) * Math.min(1, dt * 14); }
+  }
+
+  // guest -> host: inputs. Taps and the action button carry counters, so a resent or late message never doubles a step.
+  const GIN = { ts: 0, as: 0, td: 0, last: 0 };
+  function netIn(kind, d) { if (kind === 'tap') { GIN.ts++; GIN.td = d; } else if (kind === 'act') GIN.as++; sendIn(); }
+  function sendIn() {
+    GIN.last = performance.now();
+    netSend('in', { lid: G.loopId, jt: ON.jt, h: cD(held.length ? held[held.length - 1] : 0), ts: GIN.ts, td: cD(GIN.td), as: GIN.as });
+  }
+  const RIN = { h: 0, ts: 0, as: 0, pd: 0, pa: false, jt: 0 };
+  function clearRemote() { RIN.h = 0; RIN.pd = 0; RIN.pa = false; }
+  function sampleRemote() { let a = 0; if (RIN.pa) { a = 5; RIN.pa = false; } else if (RIN.pd) { a = RIN.pd; RIN.pd = 0; } else if (RIN.h) a = RIN.h; return a; }
+  function applyIn(p) {
+    if (!isHost() || G.scene !== 'play' || !G.w) return;
+    if (p.jt !== RIN.jt) { RIN.jt = p.jt; RIN.ts = 0; RIN.as = 0; }
+    const fresh = p.lid === G.loopId && G.slots.length > 1;   // inputs meant for an older loop are dropped
+    if (p.ts > RIN.ts) { RIN.ts = p.ts; if (fresh) RIN.pd = lD(p.td | 0); }
+    if (p.as > RIN.as) { RIN.as = p.as; if (fresh) RIN.pa = true; }
+    RIN.h = fresh ? lD(p.h | 0) : 0;
+    if (fresh && G.phase === 'ready' && !G.overlay && (RIN.pd || RIN.pa || RIN.h)) startRun();
+  }
+  function handleReq(act) {
+    if (!isHost() || G.scene !== 'play') return;
+    if (act === 'end') { if (!G.overlay) markDone(G.slots.indexOf(1)); }
+    else if (act === 'restartLoop') restartLoop();
+    else if (act === 'undo') undoLoop();
+    else if (act === 'restartLevel') startLevel(G.li);
+    else if (act === 'next') { if (G.phase === 'done') nextLevel(); }
+  }
+  function netPause(on, by) {
+    if (on) { if (G.scene === 'play' && !G.overlay && G.phase !== 'done') { clearInput(); G.pausedBy = by || ''; showPause(); } }
+    else if (G.overlay === 'pause' || (G.overlay === 'howto' && subFrom === 'pause')) closeOverlay();
+  }
+
+  // room: join / leave / heartbeat / roles
+  function joinRoom(code, role) {
+    leaveRoom(true);
+    if (!window.sb) { toast(t('cc_noNet')); return false; }
+    code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if (!code) return false;
+    let id = ''; try { id = sessionStorage.getItem('chrono-courier-id-' + code) || ''; } catch (e) {}
+    if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('chrono-courier-id-' + code, id); } catch (e) {} }
+    ON.me = id; ON.code = code; ON.role = role || null; ON.ready = false; ON.jt = Date.now(); ON.partner = null;
+    const ch = sb.channel('chrono-courier-' + code, { config: { broadcast: { self: false, ack: false } } });
+    for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+    ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch) { ON.ready = true; hello(true); if (G.overlay === 'lobby') showLobby(); } });
+    ON.ch = ch;
+    try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
+    window.Mal3abShareLink = () => inviteLink(code);
+    clearInterval(ON.hb); ON.hb = setInterval(netBeat, 2000);
+    G.sel = coopNextIdx();
+    toLobby();
+    return true;
+  }
+  function leaveRoom(quiet) {
+    if (ON.ch) { netSend('bye', {}); const ch = ON.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
+    clearInterval(ON.hb); ON.ch = null; ON.ready = false; ON.code = ''; ON.partner = null; ON.role = null;
+    window.Mal3abShareLink = () => pageLink();
+    if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+  }
+  const netPh = () => G.scene === 'play' && G.net ? 'play' : 'lobby';
+  function hello(req) { netSend('hello', { n: myName(), role: ON.role, jt: ON.jt, req: !!req, ph: netPh(), sel: G.sel, ul: maxUnlockedIdx() }); }
+  function netBeat() {
+    if (!ON.ch) return;
+    netSend('hb', { n: myName(), role: ON.role, jt: ON.jt, ph: netPh(), sel: G.sel, ul: maxUnlockedIdx() });
+    if (ON.partner && Date.now() - ON.partner.t > 9000) partnerGone();
+  }
+  function resolveRoles(p) {
+    if (G.scene === 'play' && G.net && ON.role) return;
+    const mineFirst = ON.jt < p.jt || (ON.jt === p.jt && ON.me < p.id);
+    if (!p.role && !ON.role) ON.role = mineFirst ? 'host' : 'guest';
+    else if (!ON.role) ON.role = otherRole(p.role);
+    else if (p.role === ON.role && !mineFirst) ON.role = otherRole(p.role);
+  }
+  function onNet(ev, p) {
+    if (!p || p.id === ON.me) return;
+    const now = Date.now();
+    if (ev === 'full') { if (p.to === ON.me) { leaveRoom(); G.net = null; showOnline(); toast(t('cc_full')); const m = $('ccMsg'); if (m) m.textContent = t('cc_full'); } return; }
+    let P = ON.partner;
+    if (P && P.id !== p.id) {
+      if (now - P.t < 9000) { if (ev === 'hello') netSend('full', { to: p.id }); return; }   // a third player
+      partnerGone(true); P = null;
+    }
+    if (ev === 'bye') { if (P) partnerGone(); return; }
+    if (!P) {
+      P = ON.partner = { id: p.id, n: p.n || '…', role: null, t: now, ul: 0 };
+      toast(t('cc_joinedP', { p: P.n })); Snd.init(); Snd.play('pick');
+      RIN.jt = -1;
+    }
+    P.t = now; if (p.n) { P.n = String(p.n).slice(0, 16); if (G.coopLvl) G.pName = P.n; } if (p.ul !== undefined) P.ul = p.ul | 0;
+    if (ev === 'hello' || ev === 'hb') {
+      if ('role' in p) P.role = p.role;
+      const before = ON.role; resolveRoles(p);
+      if (P.role === 'host' && ON.role === 'guest' && p.sel !== undefined && G.scene !== 'play') G.sel = p.sel | 0;
+      if (ev === 'hello' && p.req) hello(false); else if (before !== ON.role) hello(false);
+      if (ON.role === 'host' && p.ph !== 'play') bringPartnerIn();
+      if (ON.role === 'guest' && p.ph === 'lobby' && G.scene === 'play' && G.net) toLobby();
+      if (G.overlay === 'lobby') showLobby();
+      return;
+    }
+    switch (ev) {
+      case 'roles': if (G.scene !== 'play') { ON.role = p.host === ON.me ? 'host' : 'guest'; P.role = otherRole(ON.role); if (G.overlay === 'lobby') showLobby(); } break;
+      case 'sel': if (ON.role !== 'host') { G.sel = p.l | 0; if (G.overlay === 'lobby') showLobby(); } break;
+      case 'loop': applyLoop(p); break;
+      case 'st': applySt(p); break;
+      case 'in': applyIn(p); break;
+      case 'req': handleReq(p.act); break;
+      case 'pause': netPause(!!p.on, P.n); break;
+      case 'lobby': if (G.scene === 'play' && G.net) toLobby(); break;
+      case 'need': if (isHost() && G.scene === 'play') sendLoop(); break;
+    }
+  }
+  // the partner (re)appeared while the host is playing: bring them into this level
+  function bringPartnerIn() {
+    if (!isHost() || G.scene !== 'play' || !G.w) return;
+    if (G.phase === 'done' || G.phase === 'over') { if (G.overlay === 'lost') { closeOverlay(); if (G.phase === 'done') showWin(true); else showLose(); } return; }   // they join at Next / Retry
+    if (G.overlay === 'lost') closeOverlay();
+    if (ON.partner) G.pName = ON.partner.n;
+    if (G.slots.length < 2) { G.slots = [0, 1]; toast(t('cc_rejoin')); beginLoop(); }
+    else sendLoop();
+  }
+  function partnerGone(silent) {
+    const P = ON.partner; if (!P) return; ON.partner = null;
+    if (!silent) toast(t('cc_leftP', { p: P.n }));
+    clearRemote();
+    if (G.scene === 'play' && G.net) { if (G.overlay !== 'lost') { clearInput(); showLost(); } }
+    else if (G.overlay === 'lobby') showLobby();
+  }
+  // partner gone: keep playing alone with every echo recorded so far (the guest takes over the simulation)
+  function continueSolo() {
+    if (isGuest()) { leaveRoom(); G.net = null; }
+    G.slots = [G.myOwn];
+    closeOverlay();
+    if (G.phase === 'done') showWin(true);
+    else if (G.phase === 'over') showLose();
+    else beginLoop();
+  }
+  function swapRoles() {
+    if (!ON.partner || !ON.role || G.scene === 'play') return;
+    ON.role = otherRole(ON.role); ON.partner.role = otherRole(ON.role);
+    netSend('roles', { host: ON.role === 'host' ? ON.me : ON.partner.id });
+    showLobby();
+  }
+  function startOnline() {
+    if (ON.role !== 'host') return;
+    if (!ON.partner) { toast(t('cc_needPartner')); return; }
+    G.net = { host: true }; G.myOwn = 0; G.pName = ON.partner.n;
+    startLevel(G.sel);
+  }
+  function toLobby() {
+    G.net = null; G.coopLvl = false; G.myOwn = 0; G.slots = [0];
+    G.scene = 'lobby'; G.L = null; G.lv = null; G.w = null;
+    tipEl.hidden = true; setBanner(null); clearInput();
+    if (!ON.code) { showMenu(); return; }
+    showLobby(); layout();
+  }
+  setInterval(() => {
+    if (!ON.ch) return;
+    if (isHost()) netPump();
+    else if (isGuest() && G.scene === 'play' && (G.phase === 'ready' || G.phase === 'run') && performance.now() - GIN.last > 250) sendIn();
+  }, 33);
+  addEventListener('pagehide', () => { if (ON.ch) netSend('bye', {}); });
+  window.Mal3abShareLink = () => ON.code ? inviteLink(ON.code) : pageLink();
+  window.Mal3abPrepareInvite = async () => {
+    if (!ON.code) { if (!(await canGoOnline())) return pageLink(); joinRoom(newCode(), 'host'); }
+    return inviteLink(ON.code);
+  };
+
   // ------------------------------------------------------------------ boot
   refreshTopLabels();
   layout();
   showMenu();
-  document.addEventListener('mal3abready', () => { if (G.overlay === 'menu') showMenu(); });
+  document.addEventListener('mal3abready', () => { if (G.overlay === 'menu') showMenu(); else if (G.overlay === 'lobby') showLobby(); });
   requestAnimationFrame(frame);
+  const roomParam = new URLSearchParams(location.search).get('room');
+  if (roomParam) {   // invite link: join that room straight away
+    let tried = false;
+    const go = async () => { if (tried || ON.code) return; tried = true; if (!(await canGoOnline())) return; joinRoom(roomParam.toUpperCase().slice(0, 6), null); };
+    if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(go, 4000); }
+  }
 
   // ------------------------------------------------------------------ test / scripting API
   const rotA = (a) => (G.rot && a >= 1 && a <= 4) ? a % 4 + 1 : a;
   window.ChronoCourier = {
     get state() {
       return {
-        scene: G.scene, overlay: G.overlay, phase: G.phase, level: G.L ? G.L.id : 0, loop: G.loops.length + 1, maxLoops: G.lv ? G.lv.maxLoops : 0,
+        scene: G.scene, overlay: G.overlay, phase: G.phase, level: G.L ? G.L.id : 0, loop: G.round + 1, maxLoops: G.lv ? G.lv.maxLoops : 0,
         tick: G.w ? G.w.t : 0, won: !!(G.w && G.w.won), stars: G.lastStars, loopsUsed: G.lastLoops, rotated: G.rot, lang: getLang(), tile: s,
-        me: G.w ? Object.assign({}, G.w.bots[G.loops.length]) : null, pkg: G.w ? Object.assign({}, G.w.pkg) : null,
+        me: G.w ? Object.assign({}, G.w.bots[me()]) : null, pkg: G.w ? Object.assign({}, G.w.pkg) : null,
+        online: !!G.net, host: isHost(), coop: coopOn(), coopLvl: G.coopLvl, slots: G.slots.slice(), mySlot: mySlot(), echoes: G.loops.map(L => L.own),
+        bots: G.w ? G.w.bots.map(b => ({ x: b.x, y: b.y, dead: b.dead, carry: b.carry })) : [], done: G.done.slice(), loopId: G.loopId,
+        room: ON.code, role: ON.role, partner: ON.partner ? ON.partner.n : null, pName: G.pName, banner: G.banner ? G.banner.key : null,
+        canon: G.w ? G.w.bots.map(b => cXY(b.x, b.y)) : [],
       };
+    },
+    net: {
+      create: () => joinRoom(newCode(), 'host'), join: (c) => joinRoom(c, null), start: (n) => { if (n) G.sel = n - 1; startOnline(); },
+      sel: (n) => { G.sel = n - 1; netSend('sel', { l: G.sel }); if (G.overlay === 'lobby') showLobby(); },
+      leave: () => { leaveRoom(); G.net = null; showMenu(); }, swap: () => swapRoles(), solo: () => continueSolo(), room: () => ACTIONS.room(),
+      next: () => nextLevel(), retry: () => restartLevel(), canonDir: (d) => lD(d),
     },
     engine: E, levels: LEVELS,
     start: (n) => startLevel(Math.max(0, Math.min(LEVELS.length - 1, (n | 0) - 1))),

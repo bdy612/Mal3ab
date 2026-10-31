@@ -163,6 +163,56 @@
   .howstep p { margin: 0; font-size: 14px; }
   .relicbar { display: flex; gap: 3px; } .relicbar img { width: 22px; height: 22px; cursor: pointer; }
 
+
+  /* ---------- online (2 players) ---------- */
+  .onl #bSpeed, .onl-h #bDeck { display: none !important; }
+  .stat.goal b { color: #8fd0ff; }
+  #hpanel { display: none; }
+  .onl-h #handRow { display: none !important; }
+  .onl-h #hpanel { display: flex; flex-direction: column; gap: 6px; flex: 1; min-height: 0; padding-top: 2px; }
+  .hrow { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .hrow .lbl { font-size: 12px; color: var(--muted); font-weight: 800; flex: none; }
+  .hlist { display: flex; gap: 6px; flex-wrap: wrap; min-width: 0; flex: 1; }
+  .hsend { position: relative; display: inline-flex; align-items: center; gap: 2px; background: linear-gradient(180deg, #24304f, #172038); border: 2px solid #5ab8ff; color: var(--text);
+    border-radius: 10px; height: 44px; padding: 0 8px 0 3px; cursor: pointer; font-weight: 900; font-size: 15px; box-shadow: 0 3px 0 #0a0c18; font-family: inherit; }
+  .hsend img { width: 28px; height: 32px; image-rendering: pixelated; }
+  .hsend:active { transform: translateY(2px); box-shadow: 0 1px 0 #0a0c18; }
+  .hsend[disabled] { opacity: .5; cursor: default; border-color: #3a4566; transform: none; }
+  .hsend.boss { border-color: #ff4d6d; }
+  .hab { position: relative; overflow: hidden; flex: 1 1 0; min-width: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    background: var(--card2); color: var(--text); border: 1px solid rgba(255, 255, 255, .12); border-radius: 10px; height: 50px; cursor: pointer; font-weight: 800; font-size: 11.5px;
+    box-shadow: 0 3px 0 #0a0c18; font-family: inherit; padding: 0 2px; }
+  .hab .gl { width: 20px; height: 20px; }
+  .hab span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; position: relative; }
+  .hab .cdv { position: absolute; inset: 0; background: rgba(5, 6, 14, .66); transform-origin: left center; transform: scaleX(var(--p, 0)); pointer-events: none; }
+  .hab:active { transform: translateY(2px); box-shadow: 0 1px 0 #0a0c18; }
+  .hab[disabled] { opacity: .42; cursor: default; transform: none; }
+  .hab.ready { border-color: rgba(255, 183, 3, .55); }
+  #panel.side .hrow { flex-wrap: wrap; } #panel.side .hrow.abil .hab { flex: 1 1 40%; }
+  #panel.side .hrow .lbl { width: 100%; }
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+  .role { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; background: linear-gradient(180deg, #262040, #151220); border: 2px solid var(--rc, #ffb703);
+    border-radius: 14px; padding: 12px 8px; color: var(--text); cursor: pointer; font-family: inherit; }
+  .role img { width: 44px; height: 48px; image-rendering: pixelated; border-radius: 8px; object-fit: contain; }
+  .role b { color: var(--rc); font-size: 15px; } .role span { font-size: 12px; color: #c9cde6; line-height: 1.35; flex: 1; }
+  .role em { font-style: normal; font-weight: 900; color: #1a1200; background: var(--rc); border-radius: 8px; padding: 4px 10px; margin-top: 4px; font-size: 13px; }
+  .or { text-align: center; color: var(--muted); margin: 6px 0; font-weight: 700; }
+  input.code { flex: 1; min-width: 0; background: #0b0d18; border: 1px solid rgba(255, 183, 3, .35); color: var(--text); border-radius: 10px; padding: 10px 12px; font-size: 18px;
+    font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-family: inherit; user-select: text; -webkit-user-select: text; }
+  input.code.name { letter-spacing: 0; text-transform: none; font-size: 15px; }
+  .msg { color: var(--red); min-height: 18px; font-size: 13px; text-align: center; }
+  .roomcode { display: flex; align-items: center; gap: 8px; background: rgba(0, 0, 0, .3); border-radius: 12px; padding: 8px 12px; margin: 8px 0; flex-wrap: wrap; }
+  .roomcode b { font-size: 26px; letter-spacing: 4px; color: var(--accent); font-family: monospace; direction: ltr; }
+  .plist { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+  .pl { display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .07); border-radius: 12px; padding: 8px 10px; }
+  .pl img { width: 34px; height: 38px; image-rendering: pixelated; border-radius: 6px; object-fit: contain; flex: none; }
+  .pl b { display: block; } .pl small { color: var(--muted); } .pl .tag { margin-inline-start: auto; font-size: 11px; color: #1a1200; background: var(--accent); border-radius: 6px; padding: 2px 6px; font-weight: 800; }
+  .pl.wait { justify-content: center; color: var(--muted); font-style: italic; min-height: 54px; }
+  .picker { display: flex; align-items: center; gap: 8px; justify-content: center; margin: 8px 0; }
+  .picker .grow { flex: 1; text-align: center; } .picker small { display: block; color: var(--muted); } .picker b { color: #ffd98a; }
+  .goals { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 6px 0; font-size: 12.5px; line-height: 1.4; }
+  .goals div { background: rgba(0, 0, 0, .25); border-radius: 10px; padding: 7px 9px; color: #c9cde6; } .goals b { display: block; color: var(--accent); }
+  @media (max-width: 420px) { .roles, .goals { grid-template-columns: 1fr; } .role { flex-direction: row; text-align: start; flex-wrap: wrap; } .role span { flex-basis: 60%; } }
   @media (max-height: 500px) {
     #panel.side { padding: 6px; gap: 5px; } #panel.side #info { padding: 5px 7px; } #panel.side #info .tx { -webkit-line-clamp: 3; }
     #bGo { padding: 7px 8px; } .box { padding: 12px; }
@@ -183,8 +233,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793395000"></script>
-<script src="../../shared/net.js?v=1793395000"></script>
+<script src="../../shared/i18n.js?v=1793400000"></script>
+<script src="../../shared/net.js?v=1793400000"></script>
 </head>
 <body>
 <canvas id="cv"></canvas>
@@ -198,6 +248,7 @@
     <div class="wv"><b id="hWave"></b><span id="hAct"></span></div>
     <div class="stat loot" id="sLoot" title="Loot"><img class="gl" id="iLoot" alt=""><b id="hLoot">0</b></div>
     <div class="stat mana" id="sMana" title="Mana"><img class="gl" id="iMana" alt=""><b id="hMana">0</b></div>
+    <div class="stat goal" id="sGoal" title="Stolen" hidden><img class="gl" id="iGoal" alt=""><b id="hGoal">0</b></div>
     <button class="hb hide-s" id="bDeck"><img class="gl" id="iDeck" alt=""><span id="hDeck">0</span></button>
     <div class="relicbar hide-s" id="hRelics"></div>
   </div>
@@ -213,17 +264,19 @@
     <div id="hand"></div>
     <div id="goBox"><div id="incoming"></div><button id="bGo"></button></div>
   </div>
+  <div id="hpanel"></div>
 </div>
 <div id="bossbar" hidden><span id="bossName"></span><div><i id="bossFill"></i></div></div>
 <div id="tip" hidden></div>
 <div id="banner"><h2 id="banT"></h2><p id="banS"></p></div>
 <div id="toast"></div>
 <div id="scr"></div>
-<script src="dd-data.js?v=1793395000"></script>
-<script src="dd-art.js?v=1793395000"></script>
-<script src="dd-game.js?v=1793395000"></script>
-<script src="dd-ui.js?v=1793395000"></script>
-<script src="../../shared/cloud.js?v=1793395000" data-game="deck-of-dungeons" data-keys="deck-of-dungeons-*"></script>
+<script src="dd-data.js?v=1793400000"></script>
+<script src="dd-art.js?v=1793400000"></script>
+<script src="dd-game.js?v=1793400000"></script>
+<script src="dd-ui.js?v=1793400000"></script>
+<script src="dd-online.js?v=1793400000"></script>
+<script src="../../shared/cloud.js?v=1793400000" data-game="deck-of-dungeons" data-keys="deck-of-dungeons-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

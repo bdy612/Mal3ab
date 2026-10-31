@@ -115,6 +115,40 @@ addStrings({
   gh_t_frag: 'Every glitch, one after another. Each part needs a specific glitch — learn the order.',
   gh_t_kernel: 'The final level: everything at once, with the defrag right behind you. Good luck!',
 });
+// online race
+addStrings({
+  gh_online: 'سباق أونلاين', gh_onDesc: 'اتسابق مع صاحبك على نفس المرحلة — نفس الجليتشات في نفس اللحظة. اللي يوصل البورت الأول يكسب!',
+  gh_onName: 'اسمك', gh_onAs: 'هتلعب باسم {p}', gh_onCreate: '＋ اعمل غرفة', gh_onOr: '— أو ادخل غرفة صاحبك —', gh_onCodePh: 'الكود', gh_onJoin: 'ادخل',
+  gh_onCodeHint: 'اكتب كود الغرفة (٤ حروف)', gh_onRoom: 'الغرفة', gh_onCopy: '🔗 انسخ لينك الدعوة', gh_onCopied: 'اتنسخ ✓',
+  gh_onHost: 'المضيف', gh_onGuest: 'ضيف', gh_onYou: 'إنت', gh_onWait: '⏳ مستني صاحبك يدخل… ابعتله اللينك أو الكود', gh_onConnecting: 'بيتصل…',
+  gh_onSwap: '⇄ بدّلوا المضيف', gh_onPick: 'المضيف بيختار المرحلة', gh_onStart: '▶ ابدأ السباق', gh_onNeed: 'لازم صاحبك يدخل الأول',
+  gh_onWaitHost: 'مستني المضيف يبدأ السباق…', gh_onInRace: 'المضيف لسه في سباق… استنى شوية', gh_onLeave: 'اخرج من الغرفة', gh_onFull: 'الغرفة دي مليانة',
+  gh_onNoNet: 'مفيش اتصال بالنت', gh_onJoined: '{p} دخل الغرفة', gh_onLeft: '{p} خرج', gh_onLost: '{p} خرج من السباق',
+  gh_onLostD: 'صاحبك فصل. تقدر تكمّل الجري لوحدك، أو ترجع للغرفة تستناه.', gh_onKeep: '▶ كمّل لوحدك', gh_onLobby: '↩ ارجع للغرفة',
+  gh_onRace: 'سباق', gh_onGo: 'يلا!', gh_onVs: 'ضد {p}', gh_onRules: 'نفس الجليتشات لينا إحنا الاتنين · التجميد بيثبّت الجليتش ليك إنت بس',
+  gh_onFirst: '{p} وصل البورت! فاضلّك {s} ثانية', gh_onFirstT: '⚡ {p} وصل البورت الأول!',
+  gh_onWin: '🏆 إنت كسبت!', gh_onLose: '{p} كسب!', gh_onDraw: 'تعادل بالظبط!', gh_onNone: 'محدش وصل البورت', gh_onPend: 'مستني {p}…',
+  gh_onRunning: 'لسه بيجري… {n}%', gh_onRunningS: 'لسه بيجري… {s}ث', gh_onDnf: 'موصلش', gh_onGaveUp: 'استسلم', gh_onQuit: 'خرج',
+  gh_onRematch: '↻ ماتش تاني', gh_onAsked: 'طلبت من المضيف ✓', gh_onWants: '{p} عايز: {a}',
+  gh_onGiveUp: '🏳 استسلم', gh_onRaceMenu: 'السباق شغال!', gh_onRaceMenuD: 'الساعة مش بتقف في السباق — صاحبك لسه بيجري.',
+  gh_onPlayer: 'لاعب', gh_onPartner: 'صاحبك', gh_onLevel: 'المرحلة {n} / {m}', gh_onBehind: '+{t}',
+}, {
+  gh_online: 'Online Race', gh_onDesc: 'Race a friend on the same level — the same glitches at the same moment. First to the exit port wins!',
+  gh_onName: 'Your Name', gh_onAs: 'Playing as {p}', gh_onCreate: '＋ Create Room', gh_onOr: '— Or Join a Friend’s Room —', gh_onCodePh: 'Code', gh_onJoin: 'Join',
+  gh_onCodeHint: 'Type the 4-Letter Room Code', gh_onRoom: 'Room', gh_onCopy: '🔗 Copy Invite Link', gh_onCopied: 'Copied ✓',
+  gh_onHost: 'Host', gh_onGuest: 'Guest', gh_onYou: 'You', gh_onWait: '⏳ Waiting for Your Friend… Send Them the Link or the Code', gh_onConnecting: 'Connecting…',
+  gh_onSwap: '⇄ Swap Host', gh_onPick: 'The Host Picks the Level', gh_onStart: '▶ Start Race', gh_onNeed: 'Your Friend Has to Join First',
+  gh_onWaitHost: 'Waiting for the Host to Start…', gh_onInRace: 'The Host Is Still in a Race… Hang On', gh_onLeave: 'Leave Room', gh_onFull: 'That Room Is Full',
+  gh_onNoNet: 'No Connection', gh_onJoined: '{p} Joined the Room', gh_onLeft: '{p} Left', gh_onLost: '{p} Left the Race',
+  gh_onLostD: 'Your friend disconnected. Keep running on your own, or go back to the room and wait for them.', gh_onKeep: '▶ Keep Running Solo', gh_onLobby: '↩ Back to Room',
+  gh_onRace: 'Race', gh_onGo: 'GO!', gh_onVs: 'vs {p}', gh_onRules: 'Same Glitches for Both of You · A Freeze Only Locks Your Own Glitch',
+  gh_onFirst: '{p} Reached the Port! {s}s Left', gh_onFirstT: '⚡ {p} Reached the Port First!',
+  gh_onWin: '🏆 You Win!', gh_onLose: '{p} Wins!', gh_onDraw: 'Dead Heat — Draw!', gh_onNone: 'Nobody Reached the Port', gh_onPend: 'Waiting for {p}…',
+  gh_onRunning: 'Still Running… {n}%', gh_onRunningS: 'Still Running… {s}s', gh_onDnf: 'DNF', gh_onGaveUp: 'Gave Up', gh_onQuit: 'Left',
+  gh_onRematch: '↻ Rematch', gh_onAsked: 'Asked the Host ✓', gh_onWants: '{p} Wants: {a}',
+  gh_onGiveUp: '🏳 Give Up', gh_onRaceMenu: 'The Race Is Still On!', gh_onRaceMenuD: 'The clock does not stop in a race — your friend is still running.',
+  gh_onPlayer: 'Player', gh_onPartner: 'Friend', gh_onLevel: 'Level {n} / {m}', gh_onBehind: '+{t}',
+});
 
 // ------------------------------------------------------------------ save data
 let prog = lsGet(SAVE, null);
@@ -271,7 +305,7 @@ function resize() {
 }
 
 // ------------------------------------------------------------------ view / camera
-function hudBand() { return VW < 720 ? 106 : 68; }
+function hudBand() { return (VW < 720 ? 106 : 68) + (RACE.on ? RACE_BAND : 0); }
 function fitView(v, snap) {
   const L = v.L, portrait = VH > VW * 1.1;
   const top = v.attract ? 0 : hudBand(), bottom = (!v.attract && touchMode && portrait) ? Math.min(220, VH * 0.26) : 0;
@@ -343,6 +377,10 @@ function buildPaths(L) {
 
 // ------------------------------------------------------------------ session
 let mode = 'menu', cur = null, attract = null, T0 = 0, acc = 0, testInput = null, holdLoop = false, endTok = 0;
+// online race state (see the "online race" section below)
+const RACE_BAND = 26, GRACE = 10, GHOST_C = '#2de2ff', NOIN = { l: false, r: false, jump: false, freeze: false };
+const RACE = { on: false, li: 0, sel: 0, round: 0, phase: '', countEnd: 0, lastCount: 0, goAt: 0, goSent: 0, goFlash: 0, me: null, op: null, buf: [], graceEnd: 0, myDoneAt: 0, stT: 0, uiT: 0, vote: '', voteSent: '', gFlip: 1, gpos: null, opName: '' };
+const ON = { ch: null, code: '', ready: false, me: '', role: null, jt: 0, partner: null, hb: null, sig: '' };
 const fx = { g: 0, gMax: 0.45, shake: 0, banner: null, flash: 0, frost: 0 };
 const parts = [];
 
@@ -376,23 +414,24 @@ addEventListener('keydown', (e) => {
   const a = KEYMAP[e.code];
   if (mode === 'play') {
     if (a) { keys[a] = true; e.preventDefault(); }
-    if (e.code === 'Escape' || e.code === 'KeyP') { pause(); e.preventDefault(); }
-    else if (e.code === 'KeyR' && !e.repeat) { restart(); e.preventDefault(); }
+    if (e.code === 'Escape' || e.code === 'KeyP') { if (RACE.on) raceMenu(); else pause(); e.preventDefault(); }
+    else if (e.code === 'KeyR' && !e.repeat && !RACE.on) { restart(); e.preventDefault(); }
     return;
   }
   if (a) keys[a] = true;
   if (e.repeat) return;
   if (mode === 'intro' && (a === 'j' || e.code === 'Enter')) { e.preventDefault(); go(); return; }
-  if (e.code === 'Escape' || (e.code === 'KeyP' && mode === 'paused')) {
+  if (e.code === 'Escape' || (e.code === 'KeyP' && (mode === 'paused' || mode === 'rmenu'))) {
     e.preventDefault();
-    if (mode === 'paused') resume(); else if (mode === 'levels' || mode === 'how') showMenu(); else if (mode === 'intro' || mode === 'win' || mode === 'lose') showLevels();
+    if (mode === 'rmenu') raceResume();
+    else if (mode === 'paused') resume(); else if (mode === 'levels' || mode === 'how' || mode === 'online') showMenu(); else if (mode === 'intro' || mode === 'win' || mode === 'lose') showLevels();
     return;
   }
   if ((mode === 'win' || mode === 'lose') && e.code === 'KeyR') { e.preventDefault(); startLevel(cur.li, true); }
 });
 addEventListener('keyup', (e) => { const a = KEYMAP[e.code]; if (a) keys[a] = false; });
-addEventListener('blur', () => { for (const k in keys) keys[k] = false; if (mode === 'play') pause(); });
-document.addEventListener('visibilitychange', () => { if (document.hidden && mode === 'play') pause(); });
+addEventListener('blur', () => { for (const k in keys) keys[k] = false; if (mode === 'play' && !RACE.on) pause(); });   // a race never pauses
+document.addEventListener('visibilitychange', () => { if (document.hidden && mode === 'play' && !RACE.on) pause(); });
 
 // touch buttons: one layer tracks every finger and lights the buttons under them
 const TB = { l: $('tL'), r: $('tR'), j: $('tJ'), f: $('tF') }, tRects = {};
@@ -436,7 +475,7 @@ function pollPad() {
   const b = (i) => g.buttons[i] && g.buttons[i].pressed, ax = g.axes[0] || 0;
   pad.l = ax < -0.4 || b(14); pad.r = ax > 0.4 || b(15); pad.j = b(0) || b(12); pad.f = b(2) || b(1) || b(5) || b(4);
   const st = b(9);
-  if (st && !pad.start) { if (mode === 'play') pause(); else if (mode === 'paused') resume(); else if (mode === 'intro') go(); }
+  if (st && !pad.start) { if (mode === 'play') { if (RACE.on) raceMenu(); else pause(); } else if (mode === 'paused') resume(); else if (mode === 'rmenu') raceResume(); else if (mode === 'intro') go(); }
   if (pad.j && mode === 'intro' && !pad.jPrev) go();
   pad.start = st; pad.jPrev = pad.j;
 }
@@ -445,12 +484,13 @@ function pollPad() {
 const scr = $('screen');
 function setMode(m) {
   mode = m;
-  document.body.classList.toggle('playing', m === 'play');
+  document.body.classList.toggle('playing', m === 'play' || m === 'count');
   document.body.classList.toggle('touch', touchMode);
   Music.level();
 }
 function startLevel(li, skipIntro) {
   li = clamp(li, 0, LV.length - 1);
+  RACE.on = false;
   endTok++;
   cur = newView(li, false);
   parts.length = 0; fx.g = 0; fx.shake = 0; fx.banner = null; fx.flash = 0; fx.frost = 0; acc = 0;
@@ -467,7 +507,7 @@ function go() {
 function pause() { if (mode !== 'play') return; setMode('paused'); renderScreen(); }
 function resume() { if (mode !== 'paused') return; for (const k in keys) keys[k] = false; setMode('play'); scr.innerHTML = ''; scr.className = ''; acc = 0; }
 function restart() { if (cur) startLevel(cur.li, true); }
-function showMenu() { endTok++; cur = null; setMode('menu'); if (!attract) makeAttract(); renderScreen(); }
+function showMenu() { endTok++; if (ON.code) leaveRoom(); RACE.on = false; cur = null; setMode('menu'); if (!attract) makeAttract(); renderScreen(); }
 function showLevels() { endTok++; cur = null; setMode('levels'); if (!attract) makeAttract(); renderScreen(); }
 function showHow() { setMode('how'); renderScreen(); }
 
@@ -502,10 +542,11 @@ function renderScreen() {
     h = `<div data-m3pop class="panel menu">
       <div class="logo" data-t="GLITCH HOPPER">GLITCH <b>HOPPER</b></div>
       <div class="tag">${esc(t('gh_tag'))}</div>
-      ${nm ? `<div class="hello">${esc(t('gh_hello', { p: nm }))}</div>` : ''}
+      ${nm ? `<div class="hello">${esc(t('gh_hello', { p: iso(nm) }))}</div>` : ''}
       <div class="col">
         <button class="btn block" data-act="continue">▶ ${esc(started ? t('gh_continue', { n: nxt + 1 }) : t('gh_play'))}</button>
         <button class="btn sec block" data-act="levels">▦ ${esc(t('gh_levels'))}</button>
+        <button class="btn sec block onl" data-act="online">🌐 ${esc(t('gh_online'))}</button>
         <button class="btn sec block" data-act="how">? ${esc(t('gh_how'))}</button>
         <div class="row">
           <button class="btn sec small" data-act="sfx">${sets.sfx ? '🔊' : '🔇'} ${esc(t('gh_sound'))}: ${esc(t(sets.sfx ? 'gh_on' : 'gh_off'))}</button>
@@ -584,8 +625,10 @@ function renderScreen() {
       <div class="stats"><div><small>${esc(t('gh_time'))}</small><b>${fmt(cur.s.time)}</b></div><div><small>${esc(t('gh_parL'))}</small><b>${fmt(cur.lv.par)}</b></div><div><small>${esc(t('gh_deaths'))}</small><b>${cur.s.deaths}</b></div></div>
       <div class="row"><button class="btn" data-act="retry">↻ ${esc(t('gh_retry'))}</button><button class="btn sec" data-act="levels">▦ ${esc(t('gh_levels'))}</button><button class="btn sec" data-act="menu">⌂ ${esc(t('gh_menu'))}</button></div></div>`;
     scr.className = 'dim';
-  } else { scr.innerHTML = ''; return; }
+  } else if (ONLINE_MODES.includes(mode)) { h = onlineScreen(); if (mode !== 'online' && mode !== 'lobby') scr.className = 'dim'; }
+  else { scr.innerHTML = ''; return; }
   scr.innerHTML = h;
+  if (ONLINE_MODES.includes(mode)) onlineScreenWired();
   if (window.Mal3abPopButtons) try { window.Mal3abPopButtons(); } catch (e) {}
   if (!touchMode) { const b = scr.querySelector('.btn:not(.sec), .lvl.cur'); if (b) try { b.focus({ preventScroll: true }); } catch (e) {} }
 }
@@ -593,6 +636,7 @@ scr.addEventListener('click', (e) => {
   const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
   Snd.init(); Snd.play('ui');
   const a = b.dataset.act;
+  if (onlineAct(a, b)) return;
   if (a === 'continue') startLevel(Math.min(LV.length - 1, (prog.unlocked || 1) - 1));
   else if (a === 'levels') showLevels();
   else if (a === 'how') showHow();
@@ -606,7 +650,7 @@ scr.addEventListener('click', (e) => {
   else if (a === 'music') { sets.music = !sets.music; saveSets(); Snd.apply(); renderScreen(); updateSys(); }
   else if (a === 'reset') { if (confirm(t('gh_resetQ'))) { prog = { unlocked: 1, lv: {} }; saveProg(); renderScreen(); } }
 });
-$('pauseBtn').addEventListener('click', (e) => { e.preventDefault(); pause(); });
+$('pauseBtn').addEventListener('click', (e) => { e.preventDefault(); if (RACE.on) raceMenu(); else pause(); });
 $('langBtn').addEventListener('click', () => setLang(getLang() === 'ar' ? 'en' : 'ar'));
 $('sndBtn').addEventListener('click', () => {
   Snd.init();
@@ -629,7 +673,7 @@ function toast(msg, dur = 2.4) { const el = $('toast'); el.textContent = msg; el
 function tick() {
   const v = cur, s = v.s; if (!s) return;
   v.px = s.x; v.py = s.y;
-  const inp = getInput();
+  const inp = (RACE.on && mode !== 'play') ? NOIN : getInput();
   C.step(s, inp);
   for (const e of s.events) onEvent(e);
   s.events.length = 0;
@@ -670,8 +714,8 @@ function onEvent(e) {
       break;
     }
     case 'respawn': Snd.play('respawn'); v.spawnT = 0.35; v.trail.length = 0; fx.banner = null; document.body.classList.toggle('rev', !!s.active.rev); break;
-    case 'win': Snd.play('win'); burst(s.x + P.w / 2, s.y + P.h / 2, 50, ['#39ff88', '#ffffff', '#ffb703'], 8, 1, 0.13); document.body.classList.remove('rev'); finishWin(); break;
-    case 'lose': Snd.play('lose'); fx.g = fx.gMax = 0.9; fx.shake = 0.6; document.body.classList.remove('rev'); finishLose(); break;
+    case 'win': Snd.play('win'); burst(s.x + P.w / 2, s.y + P.h / 2, 50, ['#39ff88', '#ffffff', '#ffb703'], 8, 1, 0.13); document.body.classList.remove('rev'); if (RACE.on) raceFinish(false, ''); else finishWin(); break;
+    case 'lose': Snd.play('lose'); fx.g = fx.gMax = 0.9; fx.shake = 0.6; document.body.classList.remove('rev'); if (RACE.on) raceFinish(true, 'time'); else finishLose(); break;
   }
 }
 
@@ -681,11 +725,12 @@ const rnd = Math.random;
 function frame(now) {
   const dt = Math.min(0.05, Math.max(0, (now - lastNow) / 1000)); lastNow = now; TT += dt;
   pollPad();
-  if (mode === 'play' && cur && !holdLoop) {
+  if (cur && !holdLoop && (mode === 'play' || (RACE.on && RACE.phase !== 'count' && (mode === 'rmenu' || mode === 'lost')))) {
     acc += dt; let n = 0;
     while (acc >= C.DT && n < 8) { tick(); acc -= C.DT; n++; }
     if (n >= 8) acc = 0;
   }
+  if (RACE.on) try { raceFrame(now, dt); } catch (e) { console.error(e); }
   if (toastT > 0) { toastT -= dt; if (toastT <= 0) $('toast').classList.remove('on'); }
   try { render(dt); } catch (e) { console.error(e); }
   requestAnimationFrame(frame);
@@ -876,6 +921,7 @@ function drawWorld(v, st, dt, shx, shy) {
     }
   }
   drawObjects(v, st);
+  if (s && RACE.on) drawGhost(v, dt);
   if (s) drawPlayer(v, st, dt);
   // particles
   for (let i = parts.length - 1; i >= 0; i--) {
@@ -931,7 +977,7 @@ function drawPlayer(v, st, dt) {
   const s = v.s;
   if (v.spawnT > 0) v.spawnT -= dt;
   if (s.dead) return;
-  const a = mode === 'play' ? clamp(acc / C.DT, 0, 1) : 1;
+  const a = (mode === 'play' || mode === 'rmenu' || mode === 'lost') ? clamp(acc / C.DT, 0, 1) : 1;
   const x = lerp(v.px, s.x, a), y = lerp(v.py, s.y, a);
   // flip animation + squash
   v.flipS = lerp(v.flipS, st.flip ? -1 : 1, 1 - Math.exp(-dt * 14));
@@ -968,11 +1014,11 @@ function drawPlayer(v, st, dt) {
 const MONO = 'ui-monospace, Consolas, Menlo, monospace', SANS = "'Segoe UI', Tahoma, Arial, sans-serif";
 const AR_RE = /[\u0600-\u06FF]/;
 function hudText(txt, x, y, font, col, align = 'left') {
-  const ar = AR_RE.test(txt);
+  const ar = AR_RE.test(txt), rtl = txt.includes('\u2068') ? getLang() === 'ar' : ar;   // isolated names: the UI language decides
   ctx.font = ar ? font.replace(MONO, SANS) : font; ctx.fillStyle = col; ctx.textAlign = align;
-  if (ctx.direction !== undefined) ctx.direction = ar ? 'rtl' : 'ltr';
+  if (ctx.direction !== undefined) ctx.direction = rtl ? 'rtl' : 'ltr';
   ctx.fillText(txt, x, y);
-  if (ar && ctx.direction !== undefined) ctx.direction = 'ltr';
+  if (rtl && ctx.direction !== undefined) ctx.direction = 'ltr';
 }
 function fitText(txt, maxW) {
   if (ctx.measureText(txt).width <= maxW) return txt;
@@ -991,7 +1037,7 @@ function drawHUD(v, dt) {
   if (prog_ > 0.8) { ctx.globalAlpha = 0.4 + 0.4 * Math.sin(TT * 10); ctx.fillStyle = '#ff3b6b'; ctx.fillRect(0, 0, VW * prog_, 4); ctx.globalAlpha = 1; }
   // level label
   const lx = 60;
-  hudText(t('gh_lvl', { n: v.li + 1 }).toUpperCase(), lx, 22, `800 11px ${MONO}`, '#ffb703');
+  hudText((RACE.on ? t('gh_onRace') + ' · ' : '') + t('gh_lvl', { n: v.li + 1 }).toUpperCase(), lx, 22, `800 11px ${MONO}`, RACE.on ? GHOST_C : '#ffb703');
   ctx.font = `700 14px ${SANS}`;
   hudText(fitText(lvName(lv), narrow ? VW - lx - 150 : Math.max(60, (VW - 470) / 2 - lx - 6)), lx, 40, `700 14px ${SANS}`, '#eef0ff');
   // time / defrag / freezes
@@ -1089,6 +1135,7 @@ function drawHUD(v, dt) {
     ctx.globalAlpha = 1;
   }
   ctx.textBaseline = 'alphabetic';
+  if (RACE.on) drawRaceHUD(v, dt);
   // touch freeze counter
   const tf = $('tFn'); if (tf && tf.textContent !== String(s.charges)) { tf.textContent = s.charges; $('tF').classList.toggle('empty', s.charges <= 0); }
 }
@@ -1132,6 +1179,447 @@ function postFX(v, st, dt) {
   ctx.drawImage(vign, 0, 0);
 }
 
+// ------------------------------------------------------------------ online race
+// Two players race the same level at the same time. Each side runs its own physics; both glitch clocks run on
+// race time since GO and the host's clock keeps the guest's in step. ~13 position packets a second go both ways
+// (the rival is drawn as an interpolated ghost), and each side announces its own finish time.
+// Room: Supabase Realtime broadcast channel "glitch-hopper-CODE". Roles: host (picks the level, starts) / guest.
+const ONLINE_MODES = ['online', 'lobby', 'rmenu', 'lost', 'rresult'];
+const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'roles', 'sel', 'go', 'st', 'fin', 'vote', 'lobby'];
+const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const newCode = () => { let c = ''; for (let i = 0; i < 4; i++) c += ALPHA[Math.floor(Math.random() * ALPHA.length)]; return c; };
+const pageLink = () => location.href.split('?')[0].split('#')[0];
+const inviteLink = (code) => pageLink() + '?room=' + code;
+const myName = () => { let n = ''; try { n = (window.Auth && Auth.name && Auth.name()) || ''; } catch (e) {} return String(n || t('gh_onPlayer')).slice(0, 24); };
+const opName = () => (ON.partner && ON.partner.n) || RACE.opName || t('gh_onPartner');
+const iso = (n) => '\u2068' + n + '\u2069';   // a name inside a sentence keeps its own direction
+const isHost = () => ON.role === 'host';
+const otherRole = (r) => r === 'host' ? 'guest' : 'host';
+const fmt2 = (x) => { if (x == null || !isFinite(x)) return '--'; const m = Math.floor(x / 60), s = x - m * 60; return m + ':' + (s < 10 ? '0' : '') + s.toFixed(2); };
+async function canGoOnline() { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; return true; }
+
+function netSend(ev, p) { if (!ON.ch || !ON.ready) return; try { ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me }, p || {}) }); } catch (e) {} }
+function joinRoom(code, role) {
+  leaveRoom(true);
+  if (!window.sb) { toast(t('gh_onNoNet')); return false; }
+  code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if (code.length < 4) return false;
+  let id = ''; try { id = sessionStorage.getItem('glitch-hopper-id-' + code) || ''; } catch (e) {}
+  if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('glitch-hopper-id-' + code, id); } catch (e) {} }
+  ON.me = id; ON.code = code; ON.role = role || null; ON.ready = false; ON.jt = Date.now(); ON.partner = null; ON.sig = '';
+  RACE.round = 0; RACE.sel = clamp(RACE.sel | 0, 0, LV.length - 1);
+  const ch = sb.channel('glitch-hopper-' + code, { config: { broadcast: { self: false, ack: false } } });
+  for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+  ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch) { ON.ready = true; hello(true); if (mode === 'lobby') renderScreen(); } });
+  ON.ch = ch;
+  try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
+  clearInterval(ON.hb); ON.hb = setInterval(netBeat, 2000);
+  toLobby();
+  return true;
+}
+function leaveRoom(quiet) {
+  if (ON.ch) { netSend('bye', {}); const ch = ON.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
+  clearInterval(ON.hb); ON.ch = null; ON.ready = false; ON.code = ''; ON.partner = null; ON.role = null;
+  if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+}
+const phaseName = () => RACE.on ? (RACE.me && RACE.me.done ? 'result' : 'race') : 'lobby';
+function hello(req) { netSend('hello', { n: myName(), role: ON.role, jt: ON.jt, req: !!req, ph: phaseName(), sel: RACE.sel, r: RACE.round }); }
+function netBeat() {
+  if (!ON.ch) return;
+  netSend('hb', { n: myName(), role: ON.role, jt: ON.jt, ph: phaseName(), sel: RACE.sel, r: RACE.round });
+  if (ON.partner && Date.now() - ON.partner.t > 9000) partnerGone();
+}
+function resolveRoles(p) {
+  if (RACE.on && ON.role) return;
+  const mineFirst = ON.jt < p.jt || (ON.jt === p.jt && ON.me < p.id);
+  if (!p.role && !ON.role) ON.role = mineFirst ? 'host' : 'guest';
+  else if (!ON.role) ON.role = otherRole(p.role);
+  else if (p.role === ON.role && !mineFirst) ON.role = otherRole(p.role);
+}
+function onNet(ev, p) {
+  if (!p || p.id === ON.me) return;
+  const now = Date.now();
+  if (ev === 'full') { if (p.to === ON.me) { leaveRoom(); showMenu(); setMode('online'); renderScreen(); toast(t('gh_onFull')); } return; }
+  let Pt = ON.partner;
+  if (Pt && Pt.id !== p.id) {
+    if (now - Pt.t < 9000) { if (ev === 'hello') netSend('full', { to: p.id }); return; }   // a third player
+    partnerGone(true); Pt = null;
+  }
+  if (ev === 'bye') { if (Pt) partnerGone(); return; }
+  if (!Pt) {
+    Pt = ON.partner = { id: p.id, n: p.n || '…', role: null, t: now, ph: '', r: 0 };
+    toast(t('gh_onJoined', { p: iso(Pt.n) })); Snd.play('check');
+  }
+  Pt.t = now; if (p.n) Pt.n = String(p.n).slice(0, 24);
+  if (ev === 'hello' || ev === 'hb') {
+    if ('role' in p) Pt.role = p.role; Pt.ph = p.ph || ''; Pt.r = p.r | 0;
+    const before = ON.role; resolveRoles(p);
+    if (Pt.role === 'host' && !isHost() && p.sel != null && !RACE.on) RACE.sel = clamp(p.sel | 0, 0, LV.length - 1);
+    if (ev === 'hello' && p.req) hello(false); else if (before !== ON.role) hello(false);
+    // the rival reloaded / left this race: their run is over
+    if (RACE.on && RACE.op && !RACE.op.done && p.ph === 'lobby' && Pt.r !== RACE.round && performance.now() - RACE.goSent > 4000) opFinished(RACE.op.t || 0, true, RACE.op.de || 0, 'quit');
+    // the host went back to the room: follow
+    if (RACE.on && !isHost() && Pt.role === 'host' && mode === 'rresult' && p.ph === 'lobby') toLobby();
+    if (mode === 'lobby') lobbyRefresh();
+    return;
+  }
+  switch (ev) {
+    case 'roles': ON.role = p.host === ON.me ? 'host' : 'guest'; Pt.role = otherRole(ON.role); if (mode === 'lobby') lobbyRefresh(); break;
+    case 'sel': if (!isHost() && !RACE.on) { RACE.sel = clamp(p.l | 0, 0, LV.length - 1); if (mode === 'lobby') lobbyRefresh(); } break;
+    case 'go':
+      if ((p.r | 0) <= RACE.round && RACE.on) break;   // duplicate
+      ON.role = 'guest'; Pt.role = 'host'; RACE.goSent = performance.now();
+      startRace(p.l | 0, p.r | 0); break;
+    case 'st': onSt(p); break;
+    case 'fin': if (RACE.on && (p.r | 0) === RACE.round) opFinished(+p.t, !!p.nf, p.de | 0, p.why); break;
+    case 'vote': if (RACE.on && isHost() && (p.r | 0) === RACE.round && (p.a === 'rematch' || p.a === 'next')) { RACE.vote = p.a; if (mode === 'rresult') renderScreen(); Snd.play('ui'); } break;
+    case 'lobby': if (mode !== 'lobby' && ON.code) toLobby(); break;
+  }
+}
+function partnerGone(silent) {
+  const Pt = ON.partner; if (!Pt) return; ON.partner = null;
+  if (!silent) toast(t('gh_onLeft', { p: iso(Pt.n) }));
+  if (RACE.on) {
+    RACE.opName = Pt.n; RACE.op.left = true; RACE.graceEnd = 0;
+    if (mode === 'play' || mode === 'count' || mode === 'rmenu') { for (const k in keys) keys[k] = false; setMode('lost'); renderScreen(); }
+    else if (mode === 'rresult') renderScreen();
+  } else if (mode === 'lobby') renderScreen();
+}
+function swapRoles() {
+  if (!ON.partner || !ON.role) return;
+  ON.role = otherRole(ON.role); ON.partner.role = otherRole(ON.role);
+  netSend('roles', { host: isHost() ? ON.me : ON.partner.id });
+  renderScreen();
+}
+function lobbyRefresh() {   // re-draw the lobby only when something on it changed
+  const Pt = ON.partner, sig = [ON.ready, ON.role, RACE.sel, Pt ? Pt.id + Pt.n + Pt.role + Pt.ph : '', getLang()].join('|');
+  if (sig !== ON.sig) renderScreen();
+}
+
+// ---- race flow
+function toLobby() {
+  endTok++; RACE.on = false; RACE.phase = ''; cur = null; parts.length = 0; fx.banner = null; fx.g = 0;
+  document.body.classList.remove('rev');
+  if (!attract) makeAttract();
+  setMode('lobby'); renderScreen();
+}
+function hostStart(li) {
+  if (!ON.partner) { toast(t('gh_onNeed')); return; }
+  li = clamp(li | 0, 0, LV.length - 1);
+  const r = Math.max(RACE.round, (ON.partner && ON.partner.r) || 0) + 1;
+  netSend('go', { l: li, r }); RACE.goSent = performance.now();
+  startRace(li, r);
+}
+function startRace(li, round) {
+  li = clamp(li | 0, 0, LV.length - 1);
+  endTok++;
+  RACE.opName = opName();
+  Object.assign(RACE, { on: true, li, sel: li, round, phase: 'count', me: { done: false }, op: { done: false, p: 0, de: 0, t: 0 }, buf: [], graceEnd: 0, myDoneAt: 0,
+    vote: '', voteSent: '', countEnd: performance.now() + 3000, lastCount: 4, goAt: 0, goFlash: 0, gFlip: 1, gpos: null, stT: 0 });
+  cur = newView(li, false);
+  C.startShared(cur.s);
+  parts.length = 0; fx.g = 0; fx.shake = 0; fx.banner = null; fx.flash = 0; fx.frost = 0; acc = 0;
+  for (const k in keys) keys[k] = false;
+  document.body.classList.remove('rev');
+  scr.innerHTML = ''; scr.className = '';
+  Snd.init(); setMode('count');
+}
+function raceFrame(now, dt) {
+  const s = cur && cur.s; if (!s || !RACE.me) return;
+  if (RACE.phase === 'count') {
+    const left = (RACE.countEnd - now) / 1000, n = Math.ceil(left);
+    if (n !== RACE.lastCount && n > 0) { RACE.lastCount = n; Snd.play('tick', n); }
+    if (left <= 0) {
+      RACE.phase = 'race'; RACE.goAt = now; RACE.goFlash = 0.9; acc = 0;
+      Snd.play('start'); fx.g = fx.gMax = 0.3;
+      if (mode === 'count') setMode('play');
+    }
+  }
+  if (RACE.goFlash > 0) RACE.goFlash -= dt;
+  // the race clock is wall time: a hidden tab or slow frames never stop it
+  if (RACE.goAt && s.began && !s.won && !s.lost && !RACE.me.done) {
+    const lag = (now - RACE.goAt) / 1000 - s.time;
+    if (lag > 0.1) { s.time += lag; s.gt += lag; }
+  }
+  // the rival finished: a short last chance, then this run is over
+  if (RACE.graceEnd && !RACE.me.done && now >= RACE.graceEnd) { s.lost = true; Snd.play('lose'); raceFinish(true, 'grace'); }
+  if (ON.ready && ON.partner) {
+    const iv = (RACE.phase === 'race' && !RACE.me.done) ? 75 : 400;
+    if (now - RACE.stT >= iv) { RACE.stT = now; sendSt(); }
+  }
+  if (mode === 'rresult' && now - RACE.uiT > 250) { RACE.uiT = now; resultLive(now); }
+}
+const progOf = (s) => s.won ? 1 : clamp((s.x + P.w / 2 - s.L.start.x - 0.5) / Math.max(1, s.L.exit.x - s.L.start.x), 0, 1);
+function sendSt() {
+  const s = cur.s, me = RACE.me, r2 = (x) => Math.round(x * 100) / 100;
+  const o = { r: RACE.round, x: r2(s.x), y: r2(s.y), vx: Math.round(s.vx * 10) / 10, vy: Math.round(s.vy * 10) / 10, f: s.face < 0 ? -1 : 1, fl: s.active.flip ? 1 : 0,
+    d: s.dead ? 1 : 0, p: Math.round(progOf(s) * 1000) / 1000, t: r2(s.time), de: s.deaths, fz: s.freezeT > 0 ? 1 : 0 };
+  if (isHost() && RACE.phase === 'race' && !me.done) o.g = Math.round(s.gt * 1000) / 1000;   // the host's glitch clock
+  if (me.done) { o.dn = 1; o.ft = r2(me.t); o.nf = me.dnf ? 1 : 0; o.why = me.why; }
+  netSend('st', o);
+}
+function onSt(p) {
+  if (!RACE.on || (p.r | 0) !== RACE.round) return;
+  const b = RACE.buf;
+  b.push({ t: performance.now(), x: +p.x || 0, y: +p.y || 0, vx: +p.vx || 0, vy: +p.vy || 0, f: p.f < 0 ? -1 : 1, fl: !!p.fl, d: !!p.d, fz: !!p.fz });
+  if (b.length > 40) b.splice(0, b.length - 40);
+  const o = RACE.op; if (!o.done) { o.p = clamp(+p.p || 0, 0, 1); o.t = +p.t || 0; } o.de = p.de | 0;
+  if (p.dn) opFinished(+p.ft, !!p.nf, p.de | 0, p.why);
+  // keep the shared glitch clock in step with the host
+  const s = cur && cur.s;
+  if (!isHost() && p.g != null && s && s.shared && RACE.phase === 'race' && !RACE.me.done && !s.won && !s.lost) {
+    const d = +p.g - s.gt; if (Math.abs(d) > 0.3 && Math.abs(d) < 60) s.gt += d;
+  }
+}
+function opFinished(tm, dnf, de, why) {
+  const o = RACE.op; if (!o || o.done) return;
+  Object.assign(o, { done: true, t: isFinite(tm) ? tm : 0, dnf: !!dnf, de: de | 0, why: why || '' });
+  if (!dnf) {
+    o.p = 1;
+    if (!RACE.me.done) { RACE.graceEnd = performance.now() + GRACE * 1000; toast(t('gh_onFirstT', { p: iso(opName()) }), 2.6); Snd.play('deny'); }
+  }
+  if (mode === 'rresult') renderScreen();
+}
+function raceFinish(dnf, why) {
+  const me = RACE.me, s = cur && cur.s; if (!me || me.done || !s) return;
+  Object.assign(me, { done: true, t: s.time, dnf: !!dnf, de: s.deaths, why: why || '' });
+  RACE.myDoneAt = performance.now(); RACE.phase = 'done'; RACE.graceEnd = 0;
+  const msg = { r: RACE.round, t: Math.round(me.t * 100) / 100, nf: me.dnf ? 1 : 0, de: me.de, why: me.why };
+  netSend('fin', msg);
+  [400, 1300].forEach(ms => setTimeout(() => { if (RACE.on && RACE.round === msg.r) netSend('fin', msg); }, ms));   // broadcast is fire-and-forget
+  const tok = ++endTok;
+  setTimeout(() => { if (tok === endTok && RACE.on) { setMode('rresult'); renderScreen(); } }, why === 'quit' ? 0 : dnf ? 900 : 750);
+}
+function raceMenu() { if (!RACE.on || mode !== 'play') return; for (const k in keys) keys[k] = false; setMode('rmenu'); renderScreen(); }
+function raceResume() { if (mode !== 'rmenu' && mode !== 'lost') return; for (const k in keys) keys[k] = false; setMode(RACE.phase === 'count' ? 'count' : 'play'); scr.innerHTML = ''; scr.className = ''; }
+function outcome() {
+  const me = RACE.me, op = RACE.op, opDone = op.done || op.left;
+  const meOk = me.done && !me.dnf, opOk = op.done && !op.dnf;
+  let w = '';
+  if (meOk && opOk) w = Math.abs(me.t - op.t) < 0.005 ? 'tie' : me.t < op.t ? 'me' : 'op';
+  else if (meOk) w = 'me'; else if (opOk) w = 'op'; else if (me.done && opDone) w = 'none';
+  return { w, final: me.done && opDone };
+}
+function opStatus(now) {
+  const o = RACE.op;
+  if (o.done) return o.dnf ? t(o.why === 'quit' ? 'gh_onGaveUp' : 'gh_onDnf') : fmt2(o.t);
+  if (o.left) return t('gh_onQuit');
+  if (RACE.me.done && !RACE.me.dnf) return t('gh_onRunningS', { s: Math.max(0, Math.ceil(GRACE - (now - RACE.myDoneAt) / 1000)) });
+  return t('gh_onRunning', { n: Math.round(o.p * 100) });
+}
+function resultLive(now) {
+  // their finish packet never came: after the last chance + a margin, call it
+  if (!RACE.op.done && !RACE.op.left && RACE.me.done && !RACE.me.dnf && now - RACE.myDoneAt > (GRACE + 5) * 1000) { opFinished(RACE.op.t, true, RACE.op.de, 'grace'); return; }
+  const el = $('ghOpSt'); if (el) { const txt = opStatus(now); if (el.textContent !== txt) { el.textContent = txt; el.classList.toggle('txt', !/\d:\d/.test(txt)); } }
+}
+
+// ---- ghost + race HUD
+function ghostNow() {
+  const b = RACE.buf; if (!b.length) return null;
+  const rt = performance.now() - 110;   // ~1.5 packets behind: always two to blend between
+  let i = b.length - 1; while (i > 0 && b[i].t > rt) i--;
+  const a = b[i], c = b[i + 1];
+  if (!c) { const e = clamp((rt - a.t) / 1000, 0, 0.08); return { x: a.x + a.vx * e, y: a.y + a.vy * e, fl: a.fl, f: a.f, d: a.d, fz: a.fz }; }
+  if (rt <= a.t) return a;
+  const k = clamp((rt - a.t) / Math.max(1, c.t - a.t), 0, 1);
+  if (Math.abs(c.x - a.x) + Math.abs(c.y - a.y) > 3) return k < 0.5 ? a : c;   // respawn: jump, don't slide
+  return { x: lerp(a.x, c.x, k), y: lerp(a.y, c.y, k), fl: k < 0.5 ? a.fl : c.fl, f: c.f, d: k < 0.5 ? a.d : c.d, fz: c.fz };
+}
+function drawGhost(v, dt) {
+  const g = ghostNow(); RACE.gpos = g; if (!g) return;
+  RACE.gFlip = lerp(RACE.gFlip, g.fl ? -1 : 1, 1 - Math.exp(-dt * 14));
+  if ((g.d || RACE.op.left) && !RACE.op.done) return;   // wiped / respawning, or gone
+  const w = P.w, h = P.h, cx = g.x + w / 2, cy = g.y + h / 2, done = RACE.op.done && !RACE.op.dnf;
+  const a = done ? 0.28 : 0.5 + 0.08 * Math.sin(TT * 6), jx = Math.sin(TT * 37) > 0.93 ? 0.06 : 0;   // a little packet glitch
+  if (g.fz) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.18; ctx.fillStyle = '#7df9ff'; ctx.beginPath(); ctx.arc(cx, cy, 0.65, 0, 7); ctx.fill(); ctx.globalCompositeOperation = 'source-over'; }
+  ctx.save(); ctx.translate(cx + jx, cy); ctx.scale(1, RACE.gFlip);
+  ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = a * 0.45; ctx.fillStyle = GHOST_C; rr(ctx, -w / 2 - 0.1, -h / 2 - 0.1, w + 0.2, h + 0.2, 0.2); ctx.fill();
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a * 0.7; rr(ctx, -w / 2, -h / 2, w, h, 0.13); ctx.fillStyle = '#0b5b78'; ctx.fill();
+  ctx.globalAlpha = Math.min(1, a + 0.3); ctx.lineWidth = 0.05; ctx.strokeStyle = GHOST_C; ctx.setLineDash([0.12, 0.08]); ctx.lineDashOffset = -TT * 0.5; ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#e4fcff'; ctx.fillRect(g.f * 0.07 - 0.15, -0.1, 0.09, 0.15); ctx.fillRect(g.f * 0.07 + 0.06, -0.1, 0.09, 0.15);
+  ctx.restore(); ctx.globalAlpha = 1;
+}
+function pill(txt, x, y, col, bg, size = 11) {
+  ctx.font = `800 ${size}px ${SANS}`; const w = ctx.measureText(txt).width + 12;
+  ctx.globalAlpha = 0.85; rr(ctx, x - w / 2, y - size * 0.8, w, size * 1.6, 6); ctx.fillStyle = bg; ctx.fill(); ctx.globalAlpha = 1;
+  hudText(txt, x, y, `800 ${size}px ${SANS}`, col, 'center');
+}
+function drawRaceHUD(v, dt) {
+  const s = v.s, now = performance.now(), base = VW < 720 ? 106 : 68, narrow = VW < 720;
+  ctx.textBaseline = 'middle';
+  // progress track: you (amber) vs the rival (cyan), exit port on the right
+  const x0 = 16, x1 = VW - 34, y = base + 15, me = progOf(s), op = RACE.op;
+  ctx.fillStyle = 'rgba(8,10,28,.55)'; ctx.fillRect(0, base, VW, RACE_BAND);
+  ctx.fillStyle = 'rgba(255,255,255,.1)'; rr(ctx, x0, y - 2, x1 - x0, 4, 2); ctx.fill();
+  ctx.strokeStyle = '#39ff88'; ctx.lineWidth = 2; rr(ctx, x1 + 6, y - 7, 14, 14, 3); ctx.stroke(); ctx.fillStyle = '#39ff88'; ctx.fillRect(x1 + 10, y - 1.5, 6, 3);
+  const mx = x0 + (x1 - x0) * me, ox = x0 + (x1 - x0) * op.p;
+  const ol = (op.done ? (op.dnf ? '✖ ' : '✓ ') : '') + iso(opName());
+  ctx.globalAlpha = op.left || (op.done && op.dnf) ? 0.4 : 1;
+  ctx.fillStyle = GHOST_C; ctx.beginPath(); ctx.arc(ox, y, 5, 0, 7); ctx.fill();
+  ctx.font = `800 10px ${SANS}`; const ow = ctx.measureText(ol).width;
+  const myL = t('gh_onYou'); const mw = ctx.measureText(myL).width;
+  // labels sit to the right of their dots, the second one after the first (left side near the port)
+  const L2 = [{ k: 'm', x: mx, w: mw }, { k: 'o', x: ox, w: ow }].sort((p, q) => p.x - q.x || (p.k === 'm' ? -1 : 1));
+  let end = -1e9; const at = {};
+  for (const it of L2) { let px = Math.max(it.x + 9, end + 8); if (px + it.w > x1 - 2) px = it.x - 9 - it.w; at[it.k] = px; end = px + it.w; }
+  if (at.m + mw > at.o && at.o + ow > at.m && L2[1].x > x1 - 120) { const f = L2[0]; at[f.k] = Math.min(at[f.k], at[L2[1].k] - 8 - f.w); }
+  const lo = at.o, lm = at.m;
+  hudText(ol, Math.max(2, lo), y, `800 10px ${SANS}`, GHOST_C); ctx.globalAlpha = 1;
+  ctx.fillStyle = '#ffb703'; rr(ctx, mx - 5, y - 5, 10, 10, 2); ctx.fill(); ctx.strokeStyle = '#fff1c1'; ctx.lineWidth = 1; ctx.stroke();
+  hudText(myL, Math.max(2, lm), y, `800 10px ${SANS}`, '#ffd36b');
+  // name tag over the ghost, or an arrow at the edge when it is off screen
+  const g = RACE.gpos;
+  if (g && !((g.d || op.left) && !op.done)) {
+    const sx = v.offX + (g.x + P.w / 2 - v.cam.x) * v.ts, sy = v.top + v.offY + (g.y + P.h / 2 - v.cam.y) * v.ts, up = RACE.gFlip < 0 ? 1 : -1;
+    if (sx > 0 && sx < VW && sy > v.top && sy < v.top + v.ah) pill(iso(opName()), sx, sy + up * (v.ts * 0.62 + 9), '#dffbff', 'rgba(6,40,60,.85)', narrow ? 10 : 11);
+    else {
+      const ex = clamp(sx, 22, VW - 22), ey = clamp(sy, v.top + 18, v.top + v.ah - 18), an = Math.atan2(sy - ey, sx - ex);
+      ctx.save(); ctx.translate(ex, ey); ctx.rotate(an); ctx.fillStyle = GHOST_C; ctx.globalAlpha = 0.85;
+      ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(-4, -7); ctx.lineTo(-4, 7); ctx.closePath(); ctx.fill(); ctx.restore(); ctx.globalAlpha = 1;
+      pill(iso(opName()), clamp(ex - Math.cos(an) * 30, 40, VW - 40), clamp(ey - Math.sin(an) * 20, v.top + 14, v.top + v.ah - 14), '#dffbff', 'rgba(6,40,60,.85)', 10);
+    }
+  }
+  const midY = v.top + v.ah / 2;
+  // countdown 3 · 2 · 1 · GO!
+  if (RACE.phase === 'count' || RACE.goFlash > 0) {
+    const left = (RACE.countEnd - now) / 1000, counting = RACE.phase === 'count';
+    const txt = counting ? String(Math.max(1, Math.ceil(left))) : t('gh_onGo'), k = counting ? left % 1 : clamp(RACE.goFlash / 0.9, 0, 1);
+    const fs = Math.round((narrow ? 72 : 110) * (1 + Math.max(0, k - 0.6) * 0.8)), col = counting ? '#ffffff' : GC.none;
+    ctx.globalAlpha = counting ? 1 : k; ctx.font = `900 ${fs}px ${SANS}`; ctx.textAlign = 'center';
+    ctx.fillStyle = '#ff2e88'; ctx.fillText(txt, VW / 2 - 4, midY); ctx.fillStyle = '#2de2ff'; ctx.fillText(txt, VW / 2 + 4, midY);
+    ctx.fillStyle = col; ctx.fillText(txt, VW / 2, midY); ctx.globalAlpha = 1;
+    if (counting) {
+      pill(t('gh_onVs', { p: iso(opName()) }), VW / 2, midY + fs * 0.62, GHOST_C, 'rgba(8,10,28,.8)', narrow ? 13 : 15);
+      ctx.font = `600 ${narrow ? 11 : 13}px ${SANS}`; hudText(fitText(t('gh_onRules'), VW - 24), VW / 2, midY + fs * 0.62 + 28, `600 ${narrow ? 11 : 13}px ${SANS}`, '#c6cdf2', 'center');
+    }
+  }
+  // the rival made it: last-chance countdown
+  if (RACE.graceEnd && !RACE.me.done) {
+    const sl = Math.max(0, Math.ceil((RACE.graceEnd - now) / 1000));
+    ctx.globalAlpha = 0.75 + 0.25 * Math.sin(TT * 8);
+    pill(t('gh_onFirst', { p: iso(opName()), s: sl }), VW / 2, v.top + 22, '#ffffff', 'rgba(150,20,60,.85)', narrow ? 12 : 14);
+    ctx.globalAlpha = 1;
+  }
+  ctx.textBaseline = 'alphabetic';
+}
+
+// ---- screens
+function onlineScreen() {
+  const Pt = ON.partner, host = isHost(), lv = LV[RACE.sel] || LV[0];
+  const kinds = (l) => { const k = []; (l.seq || []).forEach(x => x.split('+').forEach(g => { if (g !== 'none' && !k.includes(g)) k.push(g); })); return k.length ? k : ['none']; };
+  const roleName = (r) => r ? t(r === 'host' ? 'gh_onHost' : 'gh_onGuest') : t('gh_onConnecting');
+  if (mode === 'online') {
+    const acct = window.Auth && Auth.profile, nm = (window.Auth && Auth.name && Auth.name()) || '';
+    return `<div data-m3pop class="panel onp"><h2>🌐 ${esc(t('gh_online'))}</h2><p>${esc(t('gh_onDesc'))}</p>
+      ${acct ? `<div class="hello">${esc(t('gh_onAs', { p: iso(nm) }))}</div>` : `<label class="fld"><span>${esc(t('gh_onName'))}</span><input id="ghName" maxlength="20" autocomplete="off" spellcheck="false" dir="auto" value="${esc(nm)}" placeholder="${esc(t('gh_onPlayer'))}"></label>`}
+      <button class="btn block" data-act="create">${esc(t('gh_onCreate'))}</button>
+      <div class="or">${esc(t('gh_onOr'))}</div>
+      <div class="joinrow"><input id="ghCode" class="code" maxlength="5" placeholder="${esc(t('gh_onCodePh'))}" autocomplete="off" spellcheck="false" autocapitalize="characters"><button class="btn sec" data-act="join">${esc(t('gh_onJoin'))}</button></div>
+      <div class="msg" id="ghMsg"></div>
+      <div class="row" style="margin-top:10px"><button class="btn sec" data-act="menu">← ${esc(t('gh_back'))}</button></div></div>`;
+  }
+  if (mode === 'lobby') {
+    ON.sig = [ON.ready, ON.role, RACE.sel, Pt ? Pt.id + Pt.n + Pt.role + Pt.ph : '', getLang()].join('|');
+    const picker = `<div class="picker">${host ? `<button class="btn sec small" data-act="sel" data-d="-1" aria-label="-">‹</button>` : ''}
+        <div class="pk"><small>${esc(t('gh_onLevel', { n: RACE.sel + 1, m: LV.length }))}</small><b dir="auto">${esc(lvName(lv))}</b><span class="gi">${kinds(lv).map(k => `<img src="${ICON[k]}" alt="">`).join('')}</span></div>
+        ${host ? `<button class="btn sec small" data-act="sel" data-d="1" aria-label="+">›</button>` : ''}</div>`;
+    return `<div data-m3pop class="panel onp"><h2>🌐 ${esc(t('gh_online'))}</h2>
+      <div class="roomcode"><span>${esc(t('gh_onRoom'))}</span><b>${esc(ON.code)}</b><button class="btn small" data-act="copy">${esc(t('gh_onCopy'))}</button></div>
+      <div class="plist">
+        <div class="pl me"><i></i><div><b><bdi>${esc(myName())}</bdi></b><small>${esc(t('gh_onYou'))} · ${esc(roleName(ON.role))}</small></div></div>
+        ${Pt ? `<div class="pl op"><i></i><div><b><bdi>${esc(Pt.n)}</bdi></b><small>${esc(t('gh_onPartner'))} · ${esc(roleName(Pt.role))}</small></div></div>`
+            : `<div class="pl wait">${esc(t(ON.ready ? 'gh_onWait' : 'gh_onConnecting'))}</div>`}
+      </div>
+      ${Pt && ON.role ? `<div class="row"><button class="btn sec small" data-act="swap">${esc(t('gh_onSwap'))}</button></div>` : ''}
+      <div class="muted" style="text-align:center;margin-top:8px">${esc(t('gh_onPick'))}</div>
+      ${picker}
+      ${host ? `<button class="btn block" data-act="start" ${Pt ? '' : 'disabled'}>${esc(t('gh_onStart'))}</button>${Pt ? '' : `<p class="muted" style="text-align:center">${esc(t('gh_onNeed'))}</p>`}`
+             : `<p class="muted" style="text-align:center">${esc(t(Pt && Pt.ph && Pt.ph !== 'lobby' ? 'gh_onInRace' : 'gh_onWaitHost'))}</p>`}
+      <div class="row" style="margin-top:8px"><button class="btn sec small" data-act="leave">${esc(t('gh_onLeave'))}</button></div></div>`;
+  }
+  if (mode === 'rmenu') {
+    return `<div data-m3pop class="panel" style="text-align:center"><h2>⏱ ${esc(t('gh_onRaceMenu'))}</h2><p>${esc(t('gh_onRaceMenuD'))}</p>
+      <div class="col" style="margin-top:8px"><button class="btn block" data-act="rresume">▶ ${esc(t('gh_resume'))}</button>
+      <button class="btn sec block" data-act="giveup">${esc(t('gh_onGiveUp'))}</button>
+      <button class="btn sec block" data-act="leave">${esc(t('gh_onLeave'))}</button>
+      <div class="row"><button class="btn sec small" data-act="sfx">${sets.sfx ? '🔊' : '🔇'} ${esc(t('gh_sound'))}: ${esc(t(sets.sfx ? 'gh_on' : 'gh_off'))}</button>
+      <button class="btn sec small" data-act="music">${sets.music ? '🎵' : '🔇'} ${esc(t('gh_music'))}: ${esc(t(sets.music ? 'gh_on' : 'gh_off'))}</button></div></div></div>`;
+  }
+  if (mode === 'lost') {
+    return `<div data-m3pop class="panel" style="text-align:center"><h2 class="bad">${esc(t('gh_onLost', { p: iso(opName()) }))}</h2><p>${esc(t('gh_onLostD'))}</p>
+      <div class="col" style="margin-top:8px">${RACE.me && !RACE.me.done ? `<button class="btn block" data-act="keep">${esc(t('gh_onKeep'))}</button>` : ''}
+      <button class="btn sec block" data-act="tolobby">${esc(t('gh_onLobby'))}</button>
+      <button class="btn sec block" data-act="leave">⌂ ${esc(t('gh_menu'))}</button></div></div>`;
+  }
+  if (mode === 'rresult') {
+    const { w } = outcome(), me = RACE.me, op = RACE.op, now = performance.now(), last = RACE.li >= LV.length - 1;
+    const title = w === 'me' ? t('gh_onWin') : w === 'op' ? t('gh_onLose', { p: iso(opName()) }) : w === 'tie' ? t('gh_onDraw') : w === 'none' ? t('gh_onNone') : t('gh_onPend', { p: iso(opName()) });
+    const cls = w === 'me' || w === 'tie' ? 'good' : w === 'op' || w === 'none' ? 'bad' : '';
+    const myTxt = me.dnf ? t(me.why === 'quit' ? 'gh_onGaveUp' : 'gh_onDnf') : fmt2(me.t);
+    const gap = (w === 'me' || w === 'op') && !me.dnf && op.done && !op.dnf ? t('gh_onBehind', { t: Math.abs(me.t - op.t).toFixed(2) }) : '';
+    const row = (who) => {
+      const mine = who === 'me', win = w === who, b = mine ? me : op;
+      return `<div class="rr ${mine ? 'me' : 'op'}${win ? ' win' : ''}"><span class="md">${win ? '🥇' : (w && w !== 'tie' && w !== 'none' ? '🥈' : '·')}</span><i></i>
+        <div class="nm"><b><bdi>${esc(mine ? myName() : opName())}</bdi></b><small>${esc(mine ? t('gh_onYou') : t('gh_onPartner'))} · ✖ ${b.de | 0}</small></div>
+        <span class="tm${/\d:\d/.test(mine ? myTxt : opStatus(now)) ? '' : ' txt'}"${mine ? '' : ' id="ghOpSt"'}>${esc(mine ? myTxt : opStatus(now))}</span>${!win && gap ? `<span class="gap">${esc(gap)}</span>` : ''}</div>`;
+    };
+    const order = w === 'op' ? ['op', 'me'] : ['me', 'op'], can = !!ON.partner;
+    const note = host ? (RACE.vote && can ? t('gh_onWants', { p: iso(opName()), a: RACE.vote === 'next' ? t('gh_nextLvl') : t('gh_onRematch').replace('↻ ', '') }) : '') : (RACE.voteSent ? t('gh_onAsked') : '');
+    return `<div data-m3pop class="panel" style="text-align:center"><h2 class="${cls}">${esc(title)}</h2>
+      <div class="lvtag">${esc(t('gh_onRace'))} · ${esc(t('gh_lvl', { n: RACE.li + 1 }))} · ${esc(lvName(RACE.lv || LV[RACE.li]))}</div>
+      <div class="rres">${order.map(row).join('')}</div>
+      <div class="vote">${esc(note)}</div>
+      <div class="row"><button class="btn${host && RACE.vote === 'rematch' ? ' pulse' : ''}" data-act="rematch" ${can ? '' : 'disabled'}>${esc(t('gh_onRematch'))}</button>
+        ${last ? '' : `<button class="btn${host && RACE.vote === 'next' ? ' pulse' : ' sec'}" data-act="rnext" ${can ? '' : 'disabled'}>▶ ${esc(t('gh_nextLvl'))}</button>`}
+        ${host || !can ? `<button class="btn sec" data-act="tolobby">${esc(t('gh_onLobby'))}</button>` : `<button class="btn sec" data-act="leave">${esc(t('gh_onLeave'))}</button>`}</div></div>`;
+  }
+  return '';
+}
+function onlineScreenWired() {
+  const c = $('ghCode');
+  if (c) { c.oninput = () => { c.value = c.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); }; c.onkeydown = (e) => { if (e.key === 'Enter') onlineAct('join', null); }; }
+}
+function saveName() {
+  const el = $('ghName'); if (!el || !window.Auth || Auth.profile) return;
+  const n = el.value.trim().replace(/\s+/g, ' ').slice(0, 20); if (n && Auth.setGuestName) Auth.setGuestName(n);
+}
+function copyText(text, btn) {
+  const done = () => { if (!btn) return; const o = btn.textContent; btn.textContent = t('gh_onCopied'); setTimeout(() => { btn.textContent = o; }, 1300); };
+  try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, () => { fallbackCopy(text); done(); }); else { fallbackCopy(text); done(); } } catch (e) { done(); }
+}
+function fallbackCopy(text) { try { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); } catch (e) {} }
+function onlineAct(a, b) {
+  switch (a) {
+    case 'online': setMode('online'); if (!attract) makeAttract(); renderScreen(); return true;
+    case 'create': saveName(); (async () => { if (!(await canGoOnline())) return; joinRoom(newCode(), 'host'); })(); return true;
+    case 'join': {
+      const inp = $('ghCode'), code = (inp ? inp.value : '').trim().toUpperCase();
+      if (code.length < 4) { const m = $('ghMsg'); if (m) m.textContent = t('gh_onCodeHint'); return true; }
+      saveName(); (async () => { if (!(await canGoOnline())) return; joinRoom(code, null); })(); return true;
+    }
+    case 'copy': copyText(inviteLink(ON.code), b); return true;
+    case 'swap': swapRoles(); return true;
+    case 'sel': if (isHost()) { RACE.sel = (RACE.sel + (+b.dataset.d) + LV.length) % LV.length; netSend('sel', { l: RACE.sel }); renderScreen(); } return true;
+    case 'start': if (isHost()) hostStart(RACE.sel); return true;
+    case 'leave': leaveRoom(); showMenu(); return true;
+    case 'rresume': case 'keep': raceResume(); return true;
+    case 'giveup': if (RACE.on && cur && RACE.me && !RACE.me.done) { cur.s.lost = true; Snd.play('lose'); raceFinish(true, 'quit'); } return true;
+    case 'tolobby': if (isHost()) netSend('lobby', {}); toLobby(); return true;
+    case 'rematch': case 'rnext': {
+      const act = a === 'rematch' ? 'rematch' : 'next';
+      if (isHost()) hostStart(act === 'next' ? RACE.li + 1 : RACE.li);
+      else { RACE.voteSent = act; netSend('vote', { a: act, r: RACE.round }); renderScreen(); }
+      return true;
+    }
+  }
+  return false;
+}
+addEventListener('pagehide', () => { if (ON.ch) netSend('bye', {}); });
+window.Mal3abShareLink = () => ON.code ? inviteLink(ON.code) : pageLink();
+window.Mal3abPrepareInvite = async () => {
+  if (!ON.code) { if (!(await canGoOnline())) return pageLink(); joinRoom(newCode(), 'host'); }
+  return ON.code ? inviteLink(ON.code) : pageLink();
+};
+
 // ------------------------------------------------------------------ boot
 document.body.classList.toggle('touch', touchMode);
 resize();
@@ -1141,6 +1629,14 @@ makeAttract();
 updateSys();
 showMenu();
 requestAnimationFrame(frame);
+{ // invite link: ?room=CODE joins that room
+  const roomParam = new URLSearchParams(location.search).get('room');
+  if (roomParam) {
+    let tried = false;
+    const join = async () => { if (tried || ON.code) return; tried = true; if (!(await canGoOnline())) return; joinRoom(roomParam, null); };
+    if (window.Mal3abReady) join(); else { document.addEventListener('mal3abready', join, { once: true }); setTimeout(join, 4000); }
+  }
+}
 
 // ------------------------------------------------------------------ test / automation hooks
 window.GlitchHopper = {
@@ -1169,5 +1665,9 @@ window.GlitchHopper = {
   get progress() { return JSON.parse(JSON.stringify(prog)); },
   resetProgress() { prog = { unlocked: 1, lv: {} }; saveProg(); if (mode === 'menu' || mode === 'levels') renderScreen(); },
   unlockAll() { prog.unlocked = LV.length; saveProg(); if (mode === 'levels' || mode === 'menu') renderScreen(); },
+  online: {
+    get ON() { return ON; }, get RACE() { return RACE; }, get ghost() { return RACE.gpos; },
+    joinRoom, leaveRoom, hostStart, newCode, act: (a, d) => onlineAct(a, { dataset: d || {} }), outcome: () => RACE.me ? outcome() : null,
+  },
 };
 })();

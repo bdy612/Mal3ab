@@ -87,6 +87,10 @@
     s.x = cp.x + (1 - P.w) / 2; s.y = cp.y + 1 - P.h - 1e-4; s.vx = 0; s.vy = 0;
     s.ground = false; s.coyT = 0; s.bufT = 0; s.jumping = false; s.prevJump = true; s.prevFreeze = true; s.face = 1;
     s.idx = cp.idx || 0; s.clock = 0; s.cycleOn = false; s.freezeT = 0; s.active = L.seq[s.idx];
+    if (s.shared) {   // online race: the glitch clock belongs to the race, not to this life
+      const n = L.seq.length; s.cycleOn = true;
+      s.idx = n > 1 ? Math.floor(s.gt / P.dur) % n : 0; s.clock = s.gt % P.dur; s.active = L.seq[s.idx];
+    }
     s.dead = false; s.deadT = 0; s.cause = '';
     s.charges = cp.charges; s.tf = cp.tf.slice(); s.tg = cp.tg.slice(); s.cpi = cp.i;
     const sw = L.lv.sweep;
@@ -108,6 +112,26 @@
       }
       die(s, 'crush');
     }
+  }
+  // ---- online race: one glitch clock for both players (s.gt = seconds since GO, kept in step by the host).
+  // A freeze is a personal shield here: it holds YOUR current glitch, then you rejoin the shared clock.
+  function startShared(s) {
+    s.shared = true; s.gt = 0; s.began = true; s.cycleOn = true;
+    s.idx = 0; s.clock = 0; s.freezeT = 0; s.active = s.L.seq[0];
+  }
+  function sharedClock(s, frzPress) {   // returns true when a switch crushed the player
+    const L = s.L, n = L.seq.length, prevT = s.gt;
+    if (frzPress && s.charges > 0 && n > 1) { s.charges--; s.freezeT = Math.min(P.maxFreeze, s.freezeT + P.freezeDur); ev(s, 'freeze'); }
+    else if (frzPress) ev(s, 'nofreeze');
+    s.gt += DT;
+    if (n <= 1) return false;
+    s.clock = s.gt % P.dur;
+    if (s.freezeT > 0) { s.freezeT -= DT; if (s.freezeT > 0) return false; s.freezeT = 0; ev(s, 'thaw'); }
+    const prev = P.dur - (prevT % P.dur), rem = P.dur - s.clock;
+    for (let k = 3; k >= 1; k--) if (prev > k && rem <= k) ev(s, 'tick', k);
+    const gi = Math.floor(s.gt / P.dur) % n;
+    if (gi !== s.idx) { s.idx = gi; setActive(s, L.seq[gi]); return s.dead; }
+    return false;
   }
   const approach = (v, t, d) => v < t ? Math.min(t, v + d) : Math.max(t, v - d);
 
@@ -138,6 +162,7 @@
       if (L.lv.limit && s.time >= L.lv.limit) { s.time = L.lv.limit; s.lost = true; ev(s, 'lose'); return; }
     }
     if (s.dead) {
+      if (s.shared) sharedClock(s, false);   // the race clock keeps running while you respawn
       s.deadT -= DT;
       if (s.deadT <= 0) { spawn(s); ev(s, 'respawn'); }
       return;
@@ -146,7 +171,8 @@
     if (!s.cycleOn && (inp.l || inp.r || jumpPress || frzPress)) { s.cycleOn = true; s.began = true; ev(s, 'start'); }
 
     // ---- glitch clock
-    if (s.cycleOn) {
+    if (s.shared) { if (sharedClock(s, frzPress)) return; }
+    else if (s.cycleOn) {
       if (frzPress && s.charges > 0 && L.seq.length > 1) {
         s.charges--; s.freezeT = Math.min(P.maxFreeze, s.freezeT + P.freezeDur); ev(s, 'freeze');
       } else if (frzPress) ev(s, 'nofreeze');
@@ -236,8 +262,12 @@
   // what the clock shows: seconds left in the current state, the next state, frozen?
   function clockInfo(s) {
     const L = s.L, n = L.seq.length;
+    if (s.shared && n > 1) {
+      const gi = Math.floor(s.gt / P.dur) % n, ni = s.freezeT > 0 ? Math.floor((s.gt + s.freezeT) / P.dur) % n : (gi + 1) % n;
+      return { now: s.active, next: L.seq[ni], left: P.dur - (s.gt % P.dur), frozen: s.freezeT, idx: gi, n, on: true };
+    }
     return { now: s.active, next: L.seq[(s.idx + 1) % n], left: n > 1 ? P.dur - s.clock : Infinity, frozen: s.freezeT, idx: s.idx, n, on: s.cycleOn };
   }
 
-  root.GHCore = { P, DT, T, KINDS, parseState, load, create, spawn, step, snapshot, clockInfo, tile, solidAt, hitSolid, hazardRect };
+  root.GHCore = { P, DT, T, KINDS, parseState, load, create, spawn, step, snapshot, clockInfo, tile, solidAt, hitSolid, hazardRect, startShared };
 })(typeof window !== 'undefined' ? window : globalThis);

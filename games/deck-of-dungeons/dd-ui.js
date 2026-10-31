@@ -29,6 +29,8 @@ function fmtStats(st) { const o = {}; for (const k in st) o[k] = fmt(st[k]); ret
 const cardDesc = (id, up) => t('dd_cd_' + id, fmtStats(G.stats(id, up)));
 const baseCost = (c) => { const C = DD.CARDS[c.id]; return c.up && C.up.cost !== undefined ? C.up.cost : C.cost; };
 const comboOf = (id) => DD.COMBOS.find(c => c.id === id);
+const onl = () => !!(DD.online && DD.online.playing);          // in an online match (either role)
+const heroView = () => !!(DD.online && DD.online.client);       // this page leads the Heroes (it mirrors the Keeper's game)
 
 // ---------------------------------------------------------------- strings only the UI needs
 addStrings({
@@ -143,6 +145,8 @@ function updateHUD() {
   setTxt('hMana', run.mana + '/' + run.maxMana);
   setTxt('hDeck', String(run.draw.length));
   setTxt('bSpeed', '×' + S.speed);
+  const gl = $('sGoal'); gl.hidden = !(onl() && S.ctl);
+  if (!gl.hidden) setTxt('hGoal', Math.min(run.stats.stolen, S.ctl.goal) + '/' + S.ctl.goal);
   if (lastVault != null && run.vault !== lastVault) { const el = $('sLoot'); el.classList.remove('bump', 'hurt'); void el.offsetWidth; el.classList.add(run.vault > lastVault ? 'bump' : 'hurt'); }
   lastVault = run.vault;
   const rk = run.relics.join(',');
@@ -167,6 +171,7 @@ function updateHUD() {
 let handSig = '', seen = new Set();
 function renderHand(force) {
   const run = S.run, hand = $('hand'); if (!run || !inRun()) return;
+  if (heroView()) { DD.online.renderPanel(force); return; }
   const sig = run.hand.map(c => c.uid + (c.up ? '+' : '')).join(',') + '|' + run.mana + '|' + S.sel + '|' + getLang() + '|' + (run.echoUsed ? 1 : 0) + LM.mode;
   if (sig === handSig && !force) return; handSig = sig;
   hand.innerHTML = run.hand.map((c, i) => cardHTML(c, { i, sel: S.sel === i, poor: G.cost(c) > run.mana, isNew: !seen.has(c.uid), mini: LM.mode === 'side' })).join('');
@@ -176,7 +181,8 @@ function renderHand(force) {
 let infoSig = '';
 function renderInfo(force) {
   const run = S.run; if (!run || !inRun()) return;
-  let html = '', sig = S.sel + '|' + S.mode + '|' + getLang() + '|' + run.hand.length + '|' + S.structs.length + '|' + S.links.length + '|' + (S.mode === 'wave' ? (S.heroes.some(h => h.carry > 0) ? 'c' : G.heroesLeft()) : '');
+  if (heroView()) { DD.online.renderInfo(force); return; }
+  let html = '', sig = S.sel + '|' + S.mode + '|' + getLang() + '|' + run.hand.length + '|' + S.structs.length + '|' + S.links.length + '|' + (S.mode === 'wave' ? (S.heroes.some(h => h.carry > 0) ? 'c' : G.heroesLeft()) : '') + (onl() ? '|' + run.stats.stolen + (S.ctl && S.ctl.ai ? 'a' : '') : '');
   if (sig === infoSig && !force) return; infoSig = sig;
   const card = run.hand[S.sel];
   if (card) {
@@ -186,11 +192,12 @@ function renderInfo(force) {
   } else if (S.mode === 'build') {
     const tut = run.act === 0 && run.wave === 0 && meta.played <= 1;
     const nw = newHeroes();
-    if (tut) html = `<div class="tx">${gi('star', '#ffcc33')} ${esc(t(!S.structs.length ? 'dd_hint1' : !S.links.length ? 'dd_hint2' : 'dd_hint3'))}</div>`;
+    if (onl() && !(S.ctl && S.ctl.ai) && (run.wave === 0 || !nw.length)) html = `<div class="tx">${gi('sword', '#5ab8ff')} ${esc(t('dd_oBuildK'))} · ${esc(t('dd_oStolen', { n: run.stats.stolen, m: S.ctl ? S.ctl.goal : 0 }))}</div>`;
+    else if (tut) html = `<div class="tx">${gi('star', '#ffcc33')} ${esc(t(!S.structs.length ? 'dd_hint1' : !S.links.length ? 'dd_hint2' : 'dd_hint3'))}</div>`;
     else if (nw.length) html = `<div class="tx"><b>${esc(t('dd_new'))}</b> ${nw.map(c => `<img class="gl" style="width:16px;height:18px" src="${A.heroIcon(c)}"> <b>${esc(hname(c))}</b> — ${esc(t('dd_hd_' + c))}`).join(' · ')}</div>`;
     else html = `<div class="tx muted">${esc(touchy ? t('dd_mapTip') : t('dd_keys'))}</div>`;
   } else if (S.mode === 'wave') {
-    html = `<div class="tx">${S.heroes.some(h => h.carry > 0) ? gi('sack', '#ffcc33') + ' ' + esc(t('dd_hintFlee')) : esc(t('dd_waveOn')) + ' — ' + esc(t('dd_left', { n: G.heroesLeft() }))}</div>`;
+    html = `<div class="tx">${S.heroes.some(h => h.carry > 0) ? gi('sack', '#ffcc33') + ' ' + esc(t('dd_hintFlee')) : esc(t('dd_waveOn')) + ' — ' + esc(t('dd_left', { n: G.heroesLeft() }))}${onl() && S.ctl ? ' · ' + esc(t('dd_oStolen', { n: run.stats.stolen, m: S.ctl.goal })) : ''}</div>`;
   }
   $('info').innerHTML = html;
   const bc = $('bCast'); if (bc) bc.onclick = (e) => { e.stopPropagation(); castNone(); };
@@ -202,7 +209,7 @@ function newHeroes() {   // hero classes appearing for the first time in this ru
 }
 let incSig = '';
 function renderIncoming() {
-  const run = S.run; if (!run) return; const sig = run.act + ':' + run.wave + ':' + S.mode + getLang(); if (sig === incSig) return; incSig = sig;
+  const run = S.run; if (!run || heroView()) return; const sig = run.act + ':' + run.wave + ':' + S.mode + getLang(); if (sig === incSig) return; incSig = sig;
   if (S.mode !== 'build') { $('incoming').innerHTML = ''; return; }
   const groups = G.waveDef(run.act, run.wave, run.dread);
   $('incoming').innerHTML = `<span>${esc(t('dd_incoming'))}</span>` + groups.map(([c, n]) => `<span class="hi" data-hero="${c}"><img src="${A.heroIcon(c)}" alt="">${n > 1 ? '×' + n : ''}</span>`).join('');
@@ -286,6 +293,7 @@ cv.addEventListener('pointerup', (e) => {
   if (!pdown) return; const moved = Math.hypot(e.clientX - pdown.x, e.clientY - pdown.y) > 18; pdown = null;
   if (!inRun() || scrOpen()) return;
   const tl = G.tileAt(e.clientX, e.clientY);
+  if (heroView()) { if (e.pointerType !== 'mouse') S.hover = null; if (!moved && !DD.online.tapTile(tl, e.clientX, e.clientY) && !tipInfo(e.clientX, e.clientY)) hideTip(); return; }
   if (S.sel >= 0) {
     const card = S.run.hand[S.sel], C = card && DD.CARDS[card.id];
     if (C && C.place === 'none') { if (!moved) castNone(); return; }
@@ -298,7 +306,7 @@ cv.addEventListener('pointerup', (e) => {
 cv.addEventListener('contextmenu', (e) => { e.preventDefault(); deselect(); });
 const handEl = $('hand');
 handEl.addEventListener('pointerdown', (e) => {
-  const el = e.target.closest('.card'); if (!el || !inRun()) return; AU.init(); e.preventDefault();
+  const el = e.target.closest('.card'); if (!el || !inRun() || heroView()) return; AU.init(); e.preventDefault();
   drag = { i: +el.dataset.i, x0: e.clientX, y0: e.clientY, moved: false, el, ghost: null };
 });
 handEl.addEventListener('mousemove', (e) => {   // desktop: hovering a card shows it in the info line
@@ -337,10 +345,10 @@ $('incoming').addEventListener('click', (e) => {
 });
 $('hRelics').addEventListener('click', (e) => { const el = e.target.closest('[data-relic]'); if (!el) return; const r = el.dataset.relic; toast(t('dd_r_' + r) + ': ' + t('dd_rd_' + r), true); });
 $('bGo').onclick = () => { AU.init(); goWave(); };
-$('bSpeed').onclick = () => { S.speed = S.speed >= 3 ? 1 : S.speed + 1; settings.speed = S.speed; saveSet(); sfx('click'); updateHUD(); };
+$('bSpeed').onclick = () => { if (onl()) return; S.speed = S.speed >= 3 ? 1 : S.speed + 1; settings.speed = S.speed; saveSet(); sfx('click'); updateHUD(); };
 $('bPause').onclick = () => { AU.init(); sfx('click'); pauseGame(); };
-$('bCodex').onclick = () => { sfx('page'); if (S.mode === 'wave') S.paused = true; show(codexScreen, 'combos', 'game'); };
-$('bDeck').onclick = () => { sfx('page'); if (S.mode === 'wave') S.paused = true; show(deckScreen); };
+$('bCodex').onclick = () => { sfx('page'); if (S.mode === 'wave' && !onl()) S.paused = true; show(codexScreen, 'combos', 'game'); };   // online games keep running
+$('bDeck').onclick = () => { if (heroView()) return; sfx('page'); if (S.mode === 'wave' && !onl()) S.paused = true; show(deckScreen); };
 $('bLang').onclick = () => { AU.init(); setLang(getLang() === 'ar' ? 'en' : 'ar'); };
 document.addEventListener('keydown', (e) => {
   if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
@@ -354,11 +362,12 @@ document.addEventListener('keydown', (e) => {
     return;
   }
   if (!inRun() || scrOpen()) return;
+  if (heroView()) { DD.online.key(e); return; }
   if (k === ' ' || k === 'Enter') { e.preventDefault(); if (S.mode === 'build') goWave(); else if (S.sel >= 0 && DD.CARDS[S.run.hand[S.sel].id].place === 'none') castNone(); return; }
-  if (k === 'f' || k === 'F') { $('bSpeed').onclick(); return; }
+  if ((k === 'f' || k === 'F') && !onl()) { $('bSpeed').onclick(); return; }
   if (/^[1-9]$/.test(k)) { select(+k - 1); return; }
 });
-document.addEventListener('visibilitychange', () => { if (document.hidden && S.mode === 'wave' && !S.paused) pauseGame(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden && S.mode === 'wave' && !S.paused && !onl()) pauseGame(); });
 
 // ---------------------------------------------------------------- run flow
 function newRun(dread) {
@@ -368,6 +377,16 @@ function newRun(dread) {
     stats: { kills: 0, stolen: 0, recovered: 0, combos: 0, cards: 0, time: 0, dmg: 0 }, foundations: true, echoUsed: false, phase: 'act', uidN };
   G.refreshRelics(); meta.runs++; meta.played++; saveMeta(); seen = new Set();
   startAct(0);
+}
+// online match (Keeper's page): one act of 5 waves with a fresh starter deck; nothing is saved
+function startOnlineRun(act) {
+  ++runToken; S.demo = false; S.paused = false; S.sel = -1; S.speed = 1; hideTip();
+  const deck = DD.STARTER.map(id => ({ uid: uidN++, id, up: false }));
+  S.run = { v: 1, online: true, dread: 0, act, wave: 0, vault: 100, deck, draw: [], hand: [], discard: [], mana: 0, maxMana: 3, relics: [], wells: 0,
+    stats: { kills: 0, stolen: 0, recovered: 0, combos: 0, cards: 0, time: 0, dmg: 0, retreated: 0 }, foundations: true, echoUsed: false, phase: 'act', uidN };
+  G.refreshRelics(); seen = new Set(); handSig = ''; for (const k in HUDV) delete HUDV[k]; lastVault = null; incSig = '';
+  G.loadMap(act); S.run.draw = G.shuffle(deck.slice()); S.mode = 'between';
+  beginBuild();
 }
 function startAct(act) {
   const run = S.run; run.act = act; run.wave = 0; run.wells = 0; run.foundations = true; run.phase = 'act';
@@ -399,16 +418,20 @@ let runToken = 0;
 G.on.waveEnd = () => {
   const run = S.run, tok = ++runToken;
   run.discard.push(...run.hand); run.hand = []; S.sel = -1; hideTip();
-  const last = run.act === 2 && run.wave === WPA - 1;
+  const last = run.online ? run.wave === WPA - 1 : run.act === 2 && run.wave === WPA - 1;   // online: one act
   banner(t('dd_cleared'), t('dd_bounty', { n: run.bountyWave || 0 }), '#5fdc7a');
   if (!last) { run.phase = 'reward'; run.offer = offerCards(); saveRun(); }
   renderAll();
-  setTimeout(() => { if (tok !== runToken || S.run !== run) return; if (last) victory(); else { G.resetBoard(); show(rewardScreen, 'main'); } }, 1700);
+  setTimeout(() => {
+    if (tok !== runToken || S.run !== run) return;
+    if (last) { if (run.online) DD.online.matchEnd('keeper', 'held'); else victory(); }
+    else { G.resetBoard(); if (!(run.online && DD.online.holdScreen(rewardScreen, ['main']))) show(rewardScreen, 'main'); }
+  }, 1700);
 };
-G.on.defeat = () => {
-  const run = S.run, tok = ++runToken; S.sel = -1; hideTip(); lsDel(KEY_RUN);
-  banner(t('dd_defeat'), '', '#ff4d6d'); renderAll();
-  setTimeout(() => { if (tok !== runToken || S.run !== run) return; finishRun(false); }, 2000);
+G.on.defeat = (why) => {
+  const run = S.run, tok = ++runToken; S.sel = -1; hideTip(); if (!run.online) lsDel(KEY_RUN);
+  banner(run.online ? t('dd_hWin') : t('dd_defeat'), '', '#ff4d6d'); renderAll();
+  setTimeout(() => { if (tok !== runToken || S.run !== run) return; if (run.online) DD.online.matchEnd('heroes', why || 'vault'); else finishRun(false); }, 2000);
 };
 G.on.combo = (ids) => {
   const c = comboOf(ids[0]); banner(t('dd_combo'), ids.map(kname).join(' + '), c.col);
@@ -430,7 +453,7 @@ function finishRun(won) {
   S.mode = 'over'; show(endScreen);
 }
 function saveRun() {
-  const run = S.run; if (!run) return;
+  const run = S.run; if (!run || run.online) return;
   run.uidN = uidN;
   lsSet(KEY_RUN, Object.assign({}, run, { structs: S.structs.map(s => ({ id: s.id, x: s.x, y: s.y, lvl: s.lvl, up: s.up })) }));
 }
@@ -446,10 +469,14 @@ function continueRun() {
   else { S.mode = 'build'; computeLayout(); renderAll(); hideScreen(); }
   return true;
 }
-function toMenu() {
-  ++runToken; S.run = null; S.paused = false; S.sel = -1; hideTip(); G.demo(); computeLayout(); HUDV.go = null; show(menuScreen);
+function resetToDemo() {   // back to the title-screen dungeon (also used when an online match ends)
+  ++runToken; S.run = null; S.ctl = null; S.showFlag = false; S.paused = false; S.sel = -1; S.speed = settings.speed; G.fxOut = null; hideTip(); G.demo(); computeLayout(); HUDV.go = null;
 }
-function pauseGame() { if (!inRun() || S.mode === 'over') return; S.paused = true; show(pauseScreen); }
+function toMenu() {
+  if (DD.online && DD.online.code) DD.online.leaveRoom();
+  resetToDemo(); show(menuScreen);
+}
+function pauseGame() { if (!inRun() || S.mode === 'over') return; if (onl()) { DD.online.pause(true); return; } S.paused = true; show(pauseScreen); }
 function resumeGame() { S.paused = false; hideScreen(); }
 function closeOverlay() { S.paused = false; hideScreen(); }
 // rewards
@@ -487,6 +514,7 @@ function menuScreen() {
       ${save ? `<button class="btn" data-act="continue">${gi('play', '#1a1200')} ${esc(t('dd_continue'))}<small style="font-weight:600;opacity:.8">· ${esc(t('dd_continueAt', { a: actNo(save.act), w: save.wave + 1 }))}</small></button>` : ''}
       <button class="btn ${save ? 'sec' : ''}" data-act="newrun">${gi('card', save ? '#ffcc33' : '#1a1200')} ${esc(t('dd_newRun'))}</button>
       ${dreadRow}
+      ${DD.online ? `<button class="btn sec" data-act="online">${gi('sword', '#5ab8ff')} ${esc(t('dd_online'))}</button>` : ''}
       <div class="row" style="flex-wrap:nowrap"><button class="btn sec small sp" data-act="how">${esc(t('dd_howto'))}</button><button class="btn sec small sp" data-act="codex">${esc(t('dd_codex'))}</button><button class="btn sec small sp" data-act="records">${esc(t('dd_records'))}</button></div>
     </div>
     ${b ? `<div class="best"><span>${gi('trophy', '#ffcc33')} ${esc(t('dd_best'))}: <b>${b.score}</b></span><span>${esc(b.won ? t('dd_reachedVictory') : t('dd_reached', { a: actNo(b.act), w: b.wave + 1 }))}</span></div>` : ''}
@@ -610,7 +638,7 @@ const ACT = {
   codex(back) { show(codexScreen, 'combos', back || 'menu'); },
   ctab(tab) { show(codexScreen, tab, curScreen.args[1]); },
   records() { show(recordsScreen); },
-  back(where) { if (where === 'pause') show(pauseScreen); else if (where === 'game') closeOverlay(); else show(menuScreen); },
+  back(where) { if (where === 'opause' && DD.online) DD.online.pause(true, true); else if (where === 'pause') show(pauseScreen); else if (where === 'game') closeOverlay(); else show(menuScreen); },
   resume() { resumeGame(); },
   lang() { setLang(getLang() === 'ar' ? 'en' : 'ar'); },
   sound() { AU.setOn(!AU.on); settings.sound = AU.on; saveSet(); show(pauseScreen); },
@@ -642,12 +670,13 @@ document.addEventListener('mal3abready', onReady); if (window.Mal3abReady) onRea
 const STEP = 1 / 60; let last = performance.now(), acc = 0;
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
-  const running = (S.demo || (S.mode === 'wave' && !S.paused)) && !(S.paused);
+  const running = !heroView() && (S.demo || (S.mode === 'wave' && !S.paused)) && !(S.paused);
   const mul = S.demo ? 1 : S.speed;
   if (running) { acc += dt * mul; let n = 0; while (acc >= STEP && n < 12) { G.step(STEP); acc -= STEP; n++; } if (n >= 12) acc = 0; }
   G.fx(running ? dt * mul : (S.paused ? 0 : dt));
   try { G.render(ctx); } catch (e) { console.error(e); }
-  if (inRun()) { updateHUD(); if (S.mode === 'wave') renderInfo(); if (S.run && S.mode !== 'over') renderHand(); renderIncoming(); }
+  if (inRun()) { updateHUD(); if (S.mode === 'wave' || heroView()) renderInfo(); if (S.run && S.mode !== 'over') renderHand(); renderIncoming(); }
+  if (DD.online) { try { DD.online.frame(dt, now); } catch (e) { console.error(e); } }
   requestAnimationFrame(frame);
 }
 
@@ -658,6 +687,10 @@ function boot() {
   requestAnimationFrame(frame);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+
+// ---------------------------------------------------------------- internals shared with dd-online.js
+DD.ui = { show, hideScreen, toast, banner, computeLayout, renderAll, renderHand, renderInfo, scrOpen, hideTip, esc, gi, hname, cname, kname, actNo, inRun, ACT, settings,
+  menuScreen, codexScreen, howScreen, get cur() { return curScreen; }, startOnlineRun, resetToDemo, toMenu, goWave };
 
 // ---------------------------------------------------------------- test / scripting API
 window.DeckOfDungeons = {
