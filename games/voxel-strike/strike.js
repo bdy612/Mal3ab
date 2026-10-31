@@ -35,7 +35,7 @@ addStrings({
   vs_hc: '💀 هاردكور', vs_hcDesc: 'أي ضربة بتموّت على طول، واللي يموت بيفضل ميت لآخر الماتش.', vs_save: '✓ تمام', vs_out: 'خلصت أرواحك — بتتفرج لحد آخر الماتش',
   vs_lastStand: 'آخر واحد يفضل عايش يكسب', vs_livesLeft: 'أرواح', vs_sum: '{b} بوت · {l} · {t} · {v}', vs_sumT: 'أول واحد يوصل {n}', vs_sumL: '{n} أرواح',
   vs_fists: 'إيدك', vs_minigun: 'ميني جن', vs_railgun: 'ريل جن', vs_start: 'السلاح في الأول', vs_stAll: 'كل الأسلحة', vs_stPistol: 'مسدس بس', vs_stNone: 'من غير سلاح (إيدك بس)',
-  vs_pickups: 'أسلحة أقوى وعلاج على الخريطة', vs_pkOff: 'مفيش', vs_pkNormal: 'عادي', vs_pkLots: 'كتير', vs_alive: 'عايشين', vs_spec: 'بتتفرج — WASD تتحرك، الماوس تبص، Space/Shift فوق وتحت',
+  vs_pickups: 'أسلحة أقوى وعلاج على الخريطة', vs_pkOff: 'مفيش', vs_pkNormal: 'عادي', vs_pkLots: 'كتير', vs_drops: 'صناديق بتنزل من السما', vs_dropIn: '📦 صندوق إمدادات نازل من السما!', vs_crate: '📦 الصندوق: {w} + صحة كاملة + ذخيرة', vs_ammoRule: 'الطلقات', vs_amNormal: 'عادي', vs_amInf: 'لا نهائية ∞', vs_reloadRule: 'الريلود', vs_rlNormal: 'عادي (كل سلاح بوقته)', vs_rlCustom: 'وقت واحد لكل الأسلحة', vs_rlNone: 'من غير ريلود', vs_rlSec: 'وقت الريلود (ثواني)', vs_alive: 'عايشين', vs_spec: 'بتتفرج — WASD تتحرك، الماوس تبص، Space/Shift فوق وتحت',
   vs_specTouch: 'بتتفرج — حرّك الكاميرا بالجويستيك', vs_out2: 'خرج', vs_got: 'خدت {w}!', vs_heal: '+50 صحة', vs_ammo: 'ذخيرة', vs_numHint: '0 = من غير حد', vs_livesCol: 'أرواح',
   vs_kills: 'قتلات', vs_deaths: 'موت', vs_player: 'اللاعب', vs_again: '↻ العب تاني', vs_menu: 'القائمة', vs_nextRound: 'الجولة الجاية بعد {n}',
   vs_firstTo: 'أول واحد يوصل {n}', vs_waiting: 'مستني أصحابك… ابعتلهم الكود', vs_room: 'الغرفة', vs_joined: 'دخل', vs_leftRoom: 'خرج',
@@ -58,7 +58,7 @@ addStrings({
   vs_hc: '💀 Hardcore', vs_hcDesc: 'Any hit kills instantly, and whoever dies stays dead until the match ends.', vs_save: '✓ Done', vs_out: 'Out of lives — watching until the match ends',
   vs_lastStand: 'Last one standing wins', vs_livesLeft: 'lives', vs_sum: '{b} bots · {l} · {t} · {v}', vs_sumT: 'first to {n}', vs_sumL: '{n} lives',
   vs_fists: 'Fists', vs_minigun: 'Minigun', vs_railgun: 'Railgun', vs_start: 'Weapons at the start', vs_stAll: 'All weapons', vs_stPistol: 'Pistol only', vs_stNone: 'No weapons (fists only)',
-  vs_pickups: 'Better weapons and heals on the map', vs_pkOff: 'Off', vs_pkNormal: 'Normal', vs_pkLots: 'Lots', vs_alive: 'alive', vs_spec: 'Spectating — WASD to move, mouse to look, Space/Shift up and down',
+  vs_pickups: 'Better weapons and heals on the map', vs_pkOff: 'Off', vs_pkNormal: 'Normal', vs_pkLots: 'Lots', vs_drops: 'Supply Drops From The Sky', vs_dropIn: '📦 Supply drop incoming!', vs_crate: '📦 Crate: {w} + full health + ammo', vs_ammoRule: 'Ammo', vs_amNormal: 'Normal', vs_amInf: 'Infinite ∞', vs_reloadRule: 'Reload', vs_rlNormal: 'Normal (each weapon its own time)', vs_rlCustom: 'Same time for every weapon', vs_rlNone: 'No reload', vs_rlSec: 'Reload time (seconds)', vs_alive: 'alive', vs_spec: 'Spectating — WASD to move, mouse to look, Space/Shift up and down',
   vs_specTouch: 'Spectating — move the camera with the joystick', vs_out2: 'out', vs_got: 'Got the {w}!', vs_heal: '+50 health', vs_ammo: 'Ammo', vs_numHint: '0 = no limit', vs_livesCol: 'Lives',
   vs_kills: 'Kills', vs_deaths: 'Deaths', vs_player: 'Player', vs_again: '↻ Play again', vs_menu: 'Menu', vs_nextRound: 'Next round in {n}',
   vs_firstTo: 'First to {n}', vs_waiting: 'Waiting for friends… send them the code', vs_room: 'Room', vs_joined: 'joined', vs_leftRoom: 'left',
@@ -122,6 +122,7 @@ const sfx = {
   hit: () => beep(1500, 0.05, 'square', 0.06), head: () => beep(2100, 0.07, 'square', 0.09), empty: () => beep(300, 0.05, 'square', 0.07),
   reload: () => { beep(500, 0.04, 'square', 0.05); setTimeout(() => beep(760, 0.05, 'square', 0.05), 280); }, hurt: () => beep(170, 0.12, 'sawtooth', 0.1),
   kill: () => { beep(880, 0.08, 'triangle', 0.14); setTimeout(() => beep(1320, 0.1, 'triangle', 0.14), 90); }, place: () => beep(260, 0.05, 'triangle', 0.12),
+  land: () => { beep(140, 0.18, 'sine', 0.2); setTimeout(() => beep(90, 0.2, 'sine', 0.15), 60); },
   pickup: () => { beep(1046, 0.07, 'triangle', 0.12); setTimeout(() => beep(1568, 0.08, 'triangle', 0.12), 70); }, wave: () => { beep(440, 0.15, 'triangle', 0.15); setTimeout(() => beep(660, 0.2, 'triangle', 0.15), 150); }
 };
 
@@ -246,7 +247,8 @@ const G = { mode: null, world: null, fighters: [], me: null, t: 0, running: fals
 function rules() {
   const c = (G.mode === 'online' ? NET.cfg : G.opts) || {}, hard = !!c.hardcore;
   return { target: c.target != null ? +c.target : (G.mode === 'online' ? ONLINE_TARGET : DM_TARGET), lives: hard ? 1 : (+c.lives || 0), hardcore: hard,
-    start: c.start || 'all', pickups: c.pickups || (G.mode === 'online' ? 'off' : 'normal') };
+    start: c.start || 'all', pickups: c.pickups || (G.mode === 'online' ? 'off' : 'normal'),
+    drops: c.drops || 'off', ammo: c.ammo === 'inf' ? 'inf' : 'normal', reload: ['custom', 'none'].includes(c.reload) ? c.reload : 'normal', reloadT: clamp(+c.reloadT || 1.5, 0.1, 15) };
 }
 const aliveCount = () => { const fs = G.fighters.filter(f => !(G.mode === 'waves' && f.bot && !f.alive)); return (rules().lives > 0 ? fs.filter(f => !isOut(f)) : fs.filter(f => f.alive)).length + '/' + fs.length; };
 const isOut = (f) => G.mode !== 'waves' && rules().lives > 0 && f.deaths >= rules().lives;   // no lives left: stays dead
@@ -259,7 +261,7 @@ function newFighter(o) {
   if (!f.local) { f.tag = nameTag(f.name, '#' + f.color.toString(16).padStart(6, '0')); f.model.root.add(f.tag); }
   refill(f); G.fighters.push(f); return f;
 }
-function refill(f) { for (const k of GUN_KEYS) { f.mag[k] = GUNS[k].mag; f.res[k] = GUNS[k].res; } f.nades = 2; f.blocks = 20; if (f.owned) startLoadout(f); }
+function refill(f) { const inf = rules().ammo === 'inf'; for (const k of GUN_KEYS) { f.mag[k] = GUNS[k].mag; f.res[k] = inf ? Infinity : GUNS[k].res; } f.nades = 2; f.blocks = 20; if (f.owned) startLoadout(f); }
 function removeFighter(f) { scene.remove(f.model.root); G.fighters = G.fighters.filter(x => x !== f); }
 const eye = (f) => new V3(f.pos.x, f.pos.y + 1.55, f.pos.z);
 const dirOf = (yaw, pitch) => new V3(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch));
@@ -325,6 +327,7 @@ function fire(f) {
   if (f.weapon === 'blocks') return placeBlock(f);
   const g = GUNS[f.weapon];
   if (f.fireCD > 0 || f.reloadT > 0) return false;
+  if (f.mag[f.weapon] <= 0 && rules().reload === 'none') finishReload(f);   // no reloading: shoot straight from the reserve
   if (f.mag[f.weapon] <= 0) { if (f.local) sfx.empty(); startReload(f); f.fireCD = 0.25; return false; }
   f.mag[f.weapon]--; f.fireCD = g.rate;
   const o = eye(f), base = dirOf(f.yaw, f.pitch), ads = f.local && G.ads;
@@ -397,7 +400,8 @@ function die(t, a, w, head) {
 }
 function startReload(f) {
   const g = GUNS[f.weapon]; if (!g || f.reloadT > 0 || f.mag[f.weapon] >= g.mag || f.res[f.weapon] <= 0) return;
-  f.reloadT = g.reload; if (f.local) { sfx.reload(); G.ads = false; hudAmmo(); }
+  const R = rules(); if (R.reload === 'none') { finishReload(f); return; }
+  f.reloadT = R.reload === 'custom' ? R.reloadT : g.reload; if (f.local) { sfx.reload(); G.ads = false; hudAmmo(); }
 }
 function finishReload(f) { const w = f.weapon, g = GUNS[w]; const take = Math.min(g.mag - f.mag[w], f.res[w]); f.mag[w] += take; f.res[w] -= take; if (f.local) hudAmmo(); }
 function switchWeapon(f, k) { if (!f.alive || f.weapon === k) return; if (GUNS[k] && f.owned && !f.owned.has(k)) { if (f.local) sfx.empty(); return; } if (k === 'nade' && f.nades <= 0) { if (f.local) sfx.empty(); return; } if (f.weapon !== 'nade') f.prevWeapon = f.weapon; G.nadeAim = f.local ? false : G.nadeAim; f.weapon = k; f.reloadT = 0; f.fireCD = Math.max(f.fireCD, 0.28); if (f.local) { G.ads = false; G.fired = false; hudAll(); } }
@@ -475,8 +479,24 @@ function boom(p, owner) {
 // pick-ups: dropped by bots, and (match setting) spawned around the map for everyone to race to
 const pickups = [];
 const PICK = { hp: new THREE.MeshBasicMaterial({ color: 0x2fbf71 }), ammo: new THREE.MeshBasicMaterial({ color: 0xf5a524 }), gun: new THREE.MeshBasicMaterial({ color: 0x8ea0ff }), power: new THREE.MeshBasicMaterial({ color: 0xff5fd2 }) };
+const CRATE_GUNS = [['railgun', 3], ['minigun', 3], ['sniper', 2], ['shotgun', 1.2], ['rifle', 1]];
 const PK_KINDS = [['hp', 5], ['ammo', 3], ['rifle', 2], ['shotgun', 2], ['sniper', 1.5], ['pistol', 1], ['minigun', 1], ['railgun', 0.8]];
+function crateMesh() {
+  const g = new THREE.Group(), wood = new THREE.MeshLambertMaterial({ color: 0x9a6a32 }), band = new THREE.MeshLambertMaterial({ color: 0xf5c518 });
+  g.add(new THREE.Mesh(box(0.95, 0.75, 0.95), wood));
+  for (const y of [-0.25, 0.25]) { const b = new THREE.Mesh(box(0.99, 0.1, 0.99), band); b.position.y = y; g.add(b); }
+  const chute = new THREE.Group(), cloth = new THREE.MeshLambertMaterial({ color: 0xe5484d, side: THREE.DoubleSide }), white = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+  for (let i = 0; i < 8; i++) { const seg = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 1.7, 0.9, 3, 1, true, i * Math.PI / 4, Math.PI / 4), i % 2 ? white : cloth); seg.position.y = 2.6; chute.add(seg); }
+  const lineM = new THREE.LineBasicMaterial({ color: 0xdddddd });
+  for (const [x, z] of [[1.2, 1.2], [-1.2, 1.2], [1.2, -1.2], [-1.2, -1.2]]) chute.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new V3(0, 0.4, 0), new V3(x, 2.15, z)]), lineM));
+  g.add(chute); g.userData.chute = chute;
+  const beam = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 30, 6, 1, true), new THREE.MeshBasicMaterial({ color: 0xffd60a, transparent: true, opacity: 0.35, depthWrite: false }));
+  beam.position.y = 15; beam.visible = false; g.add(beam); g.userData.beam = beam;
+  const tag = nameTag('📦', '#f5c518'); tag.position.y = 1.0; tag.scale.multiplyScalar(0.8); g.add(tag);
+  return g;
+}
 function pickupMesh(kind) {
+  if (kind === 'crate') return crateMesh();
   const g = new THREE.Group(), mat = kind === 'hp' ? PICK.hp : kind === 'ammo' ? PICK.ammo : GUNS[kind] && GUNS[kind].power ? PICK.power : PICK.gun;
   const c = new THREE.Mesh(box(kind === 'hp' || kind === 'ammo' ? 0.42 : 0.6, kind === 'hp' || kind === 'ammo' ? 0.42 : 0.22, kind === 'hp' || kind === 'ammo' ? 0.42 : 0.22), mat); g.add(c);
   if (kind === 'hp') { const x1 = new THREE.Mesh(box(0.44, 0.12, 0.12), new THREE.MeshBasicMaterial({ color: 0xffffff })); g.add(x1); const x2 = x1.clone(); x2.rotation.z = Math.PI / 2; g.add(x2); }
@@ -485,10 +505,36 @@ function pickupMesh(kind) {
 }
 function addPickup(kind, pos, ttl, id) {
   const m = pickupMesh(kind); m.position.copy(pos); scene.add(m);
-  const p = { kind, m, t: ttl || 25, id: id || 'p' + Math.random().toString(36).slice(2, 8), base: pos.y }; pickups.push(p); return p;
+  const p = { kind, m, t: ttl || 25, id: id || 'p' + Math.random().toString(36).slice(2, 8), base: pos.y }; pickups.push(p);
+  if (kind === 'crate') { const gy = G.world.groundAt(Math.floor(pos.x), Math.floor(pos.z)) + 0.38; if (pos.y > gy + 0.05) p.fall = gy; else { p.base = gy; landCrate(p); } }
+  return p;
+}
+function landCrate(p) { p.fall = null; p.m.position.y = p.base; p.m.userData.chute.visible = false; p.m.userData.beam.visible = true; if (G.me && p.m.position.distanceTo(G.me.pos) < 40) sfx.land && sfx.land(); }
+const pickW = (list, skip) => { const l = list.filter(([k]) => !skip || !skip.has(k)), use = l.length ? l : list; let tot = 0; for (const [, w] of use) tot += w; let x = Math.random() * tot; for (const [k, w] of use) { x -= w; if (x <= 0) return k; } return use[0][0]; };
+// supply drops: a crate on a parachute every so often (the same player who spawns pickups spawns these)
+G.dropT = 0;
+function dropSpawner(dt) {
+  const r = rules(); if (G.mode === 'waves' || !r.drops || r.drops === 'off' || G.over) return;
+  if (G.mode === 'online' && [...NET.peers.keys()].some(id => id < G.me.id)) return;
+  if (!G.dropT) G.dropT = r.drops === 'lots' ? 10 : 22;
+  G.dropT -= dt; if (G.dropT > 0) return;
+  G.dropT = (r.drops === 'lots' ? 18 : 40) * (0.7 + Math.random() * 0.6);
+  if (pickups.filter(p => p.kind === 'crate').length >= (r.drops === 'lots' ? 4 : 2)) return;
+  const x = 4 + Math.floor(Math.random() * (W - 8)) + 0.5, z = 4 + Math.floor(Math.random() * (D - 8)) + 0.5;
+  const pos = new V3(x, G.world.groundAt(Math.floor(x), Math.floor(z)) + 32, z);
+  const p = addPickup('crate', pos, 90); p.map = true;
+  banner(t('vs_dropIn'), 1.6); sfx.wave();
+  if (G.mode === 'online') send('pk', { a: 'add', id: p.id, k: 'crate', p: arr(pos) });
 }
 function collect(f, p) {
   const k = p.kind;
+  if (k === 'crate') {
+    if (p.fall != null) return false;
+    const w = pickW(CRATE_GUNS, f.owned); if (!f.owned) f.owned = new Set(['fists']); f.owned.add(w);
+    f.hp = f.maxHp; for (const g of GUN_KEYS) { f.mag[g] = GUNS[g].mag; if (isFinite(f.res[g])) f.res[g] = Math.max(f.res[g], GUNS[g].res); } f.nades = Math.min(3, f.nades + 1); f.blocks += 10;
+    f.weapon = w; f.reloadT = 0; if (f.local) { G.ads = false; sfx.pickup(); banner(t('vs_crate', { w: t('vs_' + w) }), 2); hudAll(); }
+    return true;
+  }
   if (k === 'hp') { if (f.hp >= f.maxHp) return false; f.hp = Math.min(f.maxHp, f.hp + 50); }
   else if (k === 'ammo') { for (const g of GUN_KEYS) if (isFinite(f.res[g])) f.res[g] = Math.min(GUNS[g].res * 1.5 + GUNS[g].mag, f.res[g] + GUNS[g].mag); f.nades = Math.min(3, f.nades + 1); f.blocks += 5; }
   else if (GUNS[k]) { const had = f.owned && f.owned.has(k); if (!f.owned) f.owned = new Set(['fists']); f.owned.add(k); f.mag[k] = GUNS[k].mag; if (isFinite(GUNS[k].res)) f.res[k] = Math.max(f.res[k] || 0, GUNS[k].res);
@@ -519,7 +565,14 @@ function dropLoot(t) {
 }
 function updPickups(dt) {
   for (let i = pickups.length - 1; i >= 0; i--) {
-    const p = pickups[i]; p.t -= dt; p.m.rotation.y += dt * 2; p.m.position.y = p.base + Math.sin(G.t * 3 + i) * 0.12;
+    const p = pickups[i];
+    if (p.kind === 'crate') {   // falls on its parachute, then sits there with a light beam until someone opens it
+      if (p.fall != null) { p.m.position.y -= dt * 4; p.m.rotation.y += dt * 0.6; if (p.m.position.y <= p.fall) { p.base = p.fall; landCrate(p); } continue; }
+      p.t -= dt; if (p.t <= 0) { removePickup(p); continue; }
+      for (const f of G.fighters) { if (!f.alive || !sim(f) || f.pos.distanceTo(p.m.position) > 1.9) continue; if (collect(f, p)) { if (G.mode === 'online' && p.map) send('pk', { a: 'take', id: p.id }); removePickup(p); break; } }
+      continue;
+    }
+    p.t -= dt; p.m.rotation.y += dt * 2; p.m.position.y = p.base + Math.sin(G.t * 3 + i) * 0.12;
     if (p.t <= 0) { removePickup(p); continue; }
     // whoever this screen runs (you, and the bots you host) can grab it
     for (const f of G.fighters) {
@@ -551,7 +604,7 @@ function botUpdate(b, dt) {
     if (best) { if (ai.target !== best || !ai.vis) ai.react = L.react * (0.7 + Math.random() * 0.6); ai.target = best; ai.vis = true; ai.seen = G.t; ai.last = best.pos.clone(); }
     else { ai.vis = false; if (ai.target && (G.t - ai.seen > 6 || !ai.target.alive)) ai.target = null; }
     const unarmed = b.weapon === 'fists' || (b.hp < 45 && pickups.some(p => p.kind === 'hp'));
-    const want = pickups.filter(p => (b.weapon === 'fists' ? GUNS[p.kind] && p.kind !== 'fists' : (b.hp < 45 ? p.kind === 'hp' : GUNS[p.kind] && GUNS[p.kind].power && !b.owned.has(p.kind))) && p.m.position.distanceTo(b.pos) < 45)
+    const want = pickups.filter(p => (p.kind === 'crate' ? p.fall == null : b.weapon === 'fists' ? GUNS[p.kind] && p.kind !== 'fists' : (b.hp < 45 ? p.kind === 'hp' : GUNS[p.kind] && GUNS[p.kind].power && !b.owned.has(p.kind))) && p.m.position.distanceTo(b.pos) < 45)
       .sort((a, c) => a.m.position.distanceTo(b.pos) - c.m.position.distanceTo(b.pos))[0];
     if (want && (unarmed || !ai.vis)) { ai.goal = want.m.position.clone(); ai.goalT = G.t; if (b.weapon === 'fists' && (!ai.target || !ai.vis || ai.target.pos.distanceTo(b.pos) > 6)) ai.vis = false; }
     else if (!ai.vis && (!ai.goal || b.pos.distanceTo(ai.goal) < 2.5 || G.t - (ai.goalT || 0) > 12)) { ai.goal = ai.target && ai.last ? ai.last.clone() : huntGoal(b); ai.goalT = G.t; }
@@ -660,7 +713,7 @@ function animate(f, dt) {
 function clearWorld() {
   for (const f of [...G.fighters]) removeFighter(f);
   for (const n of nades) scene.remove(n.m); nades.length = 0;
-  for (const p of pickups) scene.remove(p.m); pickups.length = 0;
+  for (const p of pickups) scene.remove(p.m); pickups.length = 0; G.pkT = 0; G.dropT = 0;
   parts.length = 0; ghost.visible = false;
   if (G.world) G.world.dispose(scene);
 }
@@ -674,7 +727,7 @@ function startGame(mode, opts) {
   if (mode === 'dm') { const n = G.opts.bots != null ? G.opts.bots : 5; for (let i = 0; i < n; i++) addBot((G.opts.lvs && G.opts.lvs[i]) || G.diff, i); }
   for (const f of G.fighters) spawn(f);
   if (mode === 'waves') { G.wave = 0; G.waveBreak = 2.5; banner(t('vs_wave') + ' 1'); }
-  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium', lvs: G.opts.lvs || null, target: G.opts.target, lives: G.opts.lives || 0, hardcore: !!G.opts.hardcore, start: G.opts.start || 'all', pickups: G.opts.pickups || 'off' } : null);
+  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium', lvs: G.opts.lvs || null, target: G.opts.target, lives: G.opts.lives || 0, hardcore: !!G.opts.hardcore, start: G.opts.start || 'all', pickups: G.opts.pickups || 'off', drops: G.opts.drops || 'off', ammo: G.opts.ammo || 'normal', reload: G.opts.reload || 'normal', reloadT: G.opts.reloadT || 1.5 } : null);
   G.running = true;
   showScreen(null); $('hud').hidden = false; $('touch').hidden = !touchMode; hudAll(); renderBoard(false);
   lockMouse();
@@ -733,7 +786,7 @@ function update(dt) {
     if (!f.remote) common(f, dt);
     animate(f, dt);
   }
-  updNades(dt); pickupSpawner(dt); updPickups(dt); updParts(dt); updArc();
+  updNades(dt); pickupSpawner(dt); dropSpawner(dt); updPickups(dt); updParts(dt); updArc();
   for (const tr of tracers) if (tr.life > 0) { tr.life -= dt; tr.l.material.opacity = Math.max(0, tr.life / 0.07) * 0.85; if (tr.life <= 0) tr.l.visible = false; }
   for (let i = booms.length - 1; i >= 0; i--) { const b = booms[i]; b.t += dt; b.m.scale.setScalar(1 + b.t * 14); b.m.material.opacity = Math.max(0, 0.85 - b.t * 3.4); if (b.t > 0.3) { scene.remove(b.m); booms.splice(i, 1); } }
   if (G.mode === 'waves' && !G.over) wavesUpdate(dt);
@@ -975,17 +1028,19 @@ const LVS = ['easy', 'medium', 'hard'], MAX_BOTS = 40;
 function getRules(kind) {
   const all = lsGet('vstrike-rules', {}), m = lsGet('vstrike-menu', {});
   const def = kind === 'dm' ? { bots: m.bots != null ? m.bots : 5, lv: m.diff || 'medium', target: DM_TARGET } : { bots: m.obots != null ? m.obots : 0, lv: m.olv || 'medium', target: ONLINE_TARGET };
-  const r = Object.assign({ lvs: null, lives: 0, hardcore: false, start: 'all', pickups: kind === 'dm' ? 'normal' : 'off' }, def, all[kind] || {});
+  const r = Object.assign({ lvs: null, lives: 0, hardcore: false, start: 'all', pickups: kind === 'dm' ? 'normal' : 'off', drops: kind === 'dm' ? 'normal' : 'off', ammo: 'normal', reload: 'normal', reloadT: 1.5 }, def, all[kind] || {});
+  r.reloadT = Math.max(0.1, Math.min(15, +r.reloadT || 1.5));
   r.bots = Math.max(0, Math.min(MAX_BOTS, r.bots | 0)); r.target = Math.max(0, Math.min(9999, r.target | 0)); r.lives = Math.max(0, Math.min(999, r.lives | 0)); if (!Array.isArray(r.lvs)) r.lvs = null;
   if (r.lvs) r.lvs = Array.from({ length: r.bots }, (_, i) => LVS.includes(r.lvs[i]) ? r.lvs[i] : r.lv);
   return r;
 }
 function setRules(kind, r) { const all = lsGet('vstrike-rules', {}); all[kind] = r; lsSet('vstrike-rules', all); }
-const rulesOpts = (r, extra) => Object.assign({ diff: r.lv, lv: r.lv, bots: r.bots, lvs: r.lvs, target: r.target, lives: r.lives, hardcore: r.hardcore, start: r.start, pickups: r.pickups }, extra || {});
+const rulesOpts = (r, extra) => Object.assign({ diff: r.lv, lv: r.lv, bots: r.bots, lvs: r.lvs, target: r.target, lives: r.lives, hardcore: r.hardcore, start: r.start, pickups: r.pickups, drops: r.drops, ammo: r.ammo, reload: r.reload, reloadT: r.reloadT }, extra || {});
 function rulesSummary(r) {
   const mixed = r.lvs && r.lvs.some(l => l !== r.lvs[0]), lvl = r.bots ? (mixed ? t('vs_mixed') : t('vs_' + ((r.lvs && r.lvs[0]) || r.lv))) : '—';
   return t('vs_sum', { b: r.bots, l: lvl, t: r.target > 0 ? t('vs_sumT', { n: r.target }) : t('vs_noLimit'), v: r.hardcore ? t('vs_hc') : r.lives > 0 ? t('vs_sumL', { n: r.lives }) : '❤ ∞' })
-    + (r.start !== 'all' ? ' · ' + (r.start === 'pistol' ? '🔫' : '👊') : '') + (r.pickups !== 'off' ? ' · 🎁' : '');
+    + (r.start !== 'all' ? ' · ' + (r.start === 'pistol' ? '🔫' : '👊') : '') + (r.pickups !== 'off' ? ' · 🎁' : '') + (r.drops && r.drops !== 'off' ? ' · 📦' : '')
+    + (r.ammo === 'inf' ? ' · ∞' : '') + (r.reload === 'none' ? ' · ⚡' : r.reload === 'custom' ? ' · ⏱' + r.reloadT + 's' : '');
 }
 function openRules(kind) {
   const r = getRules(kind); showScreen('rules');
@@ -1000,6 +1055,10 @@ function openRules(kind) {
       <label>${t('vs_lives')}<input type="number" id="rLives" min="0" max="999" value="${r.hardcore ? 1 : r.lives}" ${r.hardcore ? 'disabled' : ''}><small>${t('vs_numHint')}</small></label></div>
       <div class="two"><label>${t('vs_start')}<select id="rStart">${opt('all', t('vs_stAll'), r.start)}${opt('pistol', t('vs_stPistol'), r.start)}${opt('none', t('vs_stNone'), r.start)}</select></label>
       <label>${t('vs_pickups')}<select id="rPick">${opt('off', t('vs_pkOff'), r.pickups)}${opt('normal', t('vs_pkNormal'), r.pickups)}${opt('lots', t('vs_pkLots'), r.pickups)}</select></label></div>
+      <div class="two"><label>📦 ${t('vs_drops')}<select id="rDrops">${opt('off', t('vs_pkOff'), r.drops)}${opt('normal', t('vs_pkNormal'), r.drops)}${opt('lots', t('vs_pkLots'), r.drops)}</select></label>
+      <label>${t('vs_ammoRule')}<select id="rAmmo">${opt('normal', t('vs_amNormal'), r.ammo)}${opt('inf', t('vs_amInf'), r.ammo)}</select></label></div>
+      <div class="two"><label>${t('vs_reloadRule')}<select id="rReload">${opt('normal', t('vs_rlNormal'), r.reload)}${opt('custom', t('vs_rlCustom'), r.reload)}${opt('none', t('vs_rlNone'), r.reload)}</select></label>
+      <label ${r.reload === 'custom' ? '' : 'hidden'}>${t('vs_rlSec')}<input type="number" id="rReloadT" min="0.1" max="15" step="0.1" value="${r.reloadT}"></label></div>
       <label class="tog"><span><input type="checkbox" id="rHard" ${r.hardcore ? 'checked' : ''}> ${t('vs_hc')}</span><small>${t('vs_hcDesc')}</small></label>
       <button class="btn" id="rDone">${t('vs_save')}</button></div>`;
     const redraw = () => setTimeout(draw, 0);   // never rebuild the panel from inside one of its own events
@@ -1012,8 +1071,13 @@ function openRules(kind) {
     $('rLives').onchange = (e) => { r.lives = Math.max(0, Math.min(999, +e.target.value | 0)); e.target.value = r.lives; };
     $('rStart').onchange = (e) => { r.start = e.target.value; if (r.start === 'none' && r.pickups === 'off') { r.pickups = 'normal'; redraw(); } };
     $('rPick').onchange = (e) => { r.pickups = e.target.value; };
+    $('rDrops').onchange = (e) => { r.drops = e.target.value; };
+    $('rAmmo').onchange = (e) => { r.ammo = e.target.value; };
+    $('rReload').onchange = (e) => { r.reload = e.target.value; redraw(); };
+    $('rReloadT').onchange = (e) => { r.reloadT = Math.max(0.1, Math.min(15, +e.target.value || 1.5)); e.target.value = r.reloadT; };
     $('rHard').onchange = (e) => { r.hardcore = e.target.checked; redraw(); };
     $('rDone').onclick = () => {
+      if ($('rReloadT')) r.reloadT = Math.max(0.1, Math.min(15, +$('rReloadT').value || 1.5));
       r.target = Math.max(0, Math.min(9999, +$('rTarget').value | 0)); if (!r.hardcore) r.lives = Math.max(0, Math.min(999, +$('rLives').value | 0));
       if (!r.target && !r.lives && !r.hardcore) r.lives = 3;                     // a match needs an end: no kill limit means limited lives
       if (r.lvs && r.lvs.length && r.lvs.every(l => l === r.lvs[0])) { r.lv = r.lvs[0]; r.lvs = null; }

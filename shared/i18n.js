@@ -87,7 +87,7 @@
       pin: 'Pin to the top', unpin: 'Unpin', roomMissing: 'Room not found', roomFull: 'Room is full', codeMissing: 'That code does not exist', roomFail: 'Could not create a room, try again',
     }
   };
-  window.MAL3AB_VERSION = '1.0';   // the current release (the latest one is also stored in the database: app_config.release)
+  window.MAL3AB_VERSION = '1.1';   // the current release (the latest one is also stored in the database: app_config.release)
   let lang = 'ar';
   try { lang = localStorage.getItem('mal3ab_lang') || (navigator.language.startsWith('ar') ? 'ar' : 'en'); } catch (e) {}
   if (!STR[lang]) lang = 'ar';
