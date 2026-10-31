@@ -104,14 +104,91 @@ function toggleFav(key) {
 }
 async function loadFavs() {
   if (!Auth.token) return;
-  try { const sv = await Auth.loadSaves('hub'); if (Array.isArray(sv['mal3ab-favs'])) { FAVS = sv['mal3ab-favs']; localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); draw(); } } catch (e) {}
+  try { const sv = await Auth.loadSaves('hub'); let ch = false;
+    if (Array.isArray(sv['mal3ab-favs'])) { FAVS = sv['mal3ab-favs']; localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); ch = true; }
+    if (sv['mal3ab-hub-layout'] && typeof sv['mal3ab-hub-layout'] === 'object') { LAYOUT = fixLayout(sv['mal3ab-hub-layout']); localStorage.setItem('mal3ab-hub-layout', JSON.stringify(LAYOUT)); ch = true; }
+    if (ch) draw(); } catch (e) {}
 }
+// ---- my own arrangement: the order of the games and my own groups (saved on this device and on the account) ----
+addStrings({ hub_arrange: '✏️ رتّب الألعاب', hub_done: '✓ خلصت', hub_newGroup: '➕ جروب جديد', hub_groupName: 'اسم الجروب', hub_dragHere: 'اسحب ألعاب وحطها هنا', hub_delGroup: 'امسح الجروب (الألعاب بترجع مكانها)',
+  hub_hint: 'اسحب أي لعبة وحطها في المكان اللي انت عايزه — في المفضلة، أو في جروب من جروباتك، أو رتّبها جوه أي قسم.', hub_myGroup: 'جروب جديد', hub_reset: '↺ رجّع الترتيب الأصلي', hub_resetQ: 'ترجّع كل الترتيب والجروبات زي الأول؟' },
+  { hub_arrange: '✏️ Arrange Games', hub_done: '✓ Done', hub_newGroup: '➕ New Group', hub_groupName: 'Group name', hub_dragHere: 'Drag games here', hub_delGroup: 'Delete group (its games go back)',
+  hub_hint: 'Drag any game to where you want it — into Pinned, into one of your groups, or to a new spot inside any section.', hub_myGroup: 'New group', hub_reset: '↺ Reset To Default', hub_resetQ: 'Put every game and group back the way it was?' });
+const fixLayout = (L) => ({ groups: Array.isArray(L && L.groups) ? L.groups.filter(g => g && g.id).map(g => ({ id: String(g.id), name: String(g.name || '').slice(0, 30), games: Array.isArray(g.games) ? g.games.filter(k => typeof k === 'string') : [] })) : [],
+  order: (L && L.order && typeof L.order === 'object') ? L.order : {} });
+let LAYOUT = fixLayout((() => { try { return JSON.parse(localStorage.getItem('mal3ab-hub-layout') || 'null'); } catch (e) { return null; } })());
+let EDIT = false;
+function saveLayout() {
+  try { localStorage.setItem('mal3ab-hub-layout', JSON.stringify(LAYOUT)); localStorage.setItem('mal3ab-favs', JSON.stringify(FAVS)); } catch (e) {}
+  if (Auth.token) { Auth.saveGame('hub', 'mal3ab-hub-layout', LAYOUT).catch(() => {}); Auth.saveGame('hub', 'mal3ab-favs', FAVS).catch(() => {}); }
+}
+// where each game is now: 'pinned', a group id, 'games' or 'new'
+function sections(live) {
+  const inGroup = new Set(LAYOUT.groups.flatMap(g => g.games)), byKey = (k) => live.find(g => g.key === k);
+  const sorted = (list, sec) => { const o = LAYOUT.order[sec] || []; return list.slice().sort((a, b) => { const ia = o.indexOf(a.key), ib = o.indexOf(b.key); return (ia < 0 ? 1e6 + list.indexOf(a) : ia) - (ib < 0 ? 1e6 + list.indexOf(b) : ib); }); };
+  const pinned = FAVS.map(byKey).filter(Boolean), rest = live.filter(g => !FAVS.includes(g.key) && !inGroup.has(g.key));
+  return [{ id: 'pinned', title: t('pinnedGames'), list: pinned }]
+    .concat(LAYOUT.groups.map(g => ({ id: g.id, title: g.name || t('hub_myGroup'), list: g.games.map(byKey).filter(Boolean).filter(x => !FAVS.includes(x.key)), custom: true })))
+    .concat([{ id: 'games', title: t('games'), list: sorted(rest.filter(g => !g.isNew), 'games') }, { id: 'new', title: t('newGames'), list: sorted(rest.filter(g => g.isNew), 'new') }]);
+}
+// move a game into a section, before another game (or at the end)
+function moveGame(key, to, before) {
+  FAVS = FAVS.filter(k => k !== key); for (const g of LAYOUT.groups) g.games = g.games.filter(k => k !== key);
+  const live = GAMES.filter(g => !g.isNew || READY.includes(g.key)), game = live.find(g => g.key === key); if (!game) return;
+  if ((to === 'games' && game.isNew) || (to === 'new' && !game.isNew)) to = game.isNew ? 'new' : 'games';   // the two built-in lists keep their own games
+  const insert = (arr) => { const i = before ? arr.indexOf(before) : -1; if (i < 0) arr.push(key); else arr.splice(i, 0, key); return arr; };
+  if (to === 'pinned') FAVS = insert(FAVS);
+  else { const g = LAYOUT.groups.find(x => x.id === to);
+    if (g) g.games = insert(g.games);
+    else { const cur = sections(live).find(x => x.id === to).list.map(x => x.key).filter(k => k !== key); LAYOUT.order[to] = insert(cur); } }
+  saveLayout(); draw();
+}
+function newGroup() { const n = prompt(t('hub_groupName'), t('hub_myGroup')); if (n == null) return; LAYOUT.groups.push({ id: 'g' + Date.now().toString(36), name: (n.trim() || t('hub_myGroup')).slice(0, 30), games: [] }); saveLayout(); draw(); }
+function renameGroup(id, v) { const g = LAYOUT.groups.find(x => x.id === id); if (!g) return; g.name = String(v || '').trim().slice(0, 30) || t('hub_myGroup'); saveLayout(); }
+function delGroup(id) { LAYOUT.groups = LAYOUT.groups.filter(x => x.id !== id); saveLayout(); draw(); }
+function resetLayout() { if (!confirm(t('hub_resetQ'))) return; LAYOUT = { groups: [], order: {} }; FAVS = []; saveLayout(); draw(); }
+function setEdit(on) { EDIT = on; draw(); }
+// drag & drop with the mouse or a finger
+let DRAG = null;
+document.addEventListener('pointerdown', (e) => {
+  if (!EDIT) return; const c = e.target.closest('.card[data-key]'); if (!c || e.target.closest('input,button:not(.grip)')) return;
+  e.preventDefault(); const r = c.getBoundingClientRect();
+  DRAG = { key: c.dataset.key, el: c, sx: e.clientX, sy: e.clientY, dx: e.clientX - r.left, dy: e.clientY - r.top, started: false, ghost: null, id: e.pointerId };
+});
+document.addEventListener('pointermove', (e) => {
+  if (!DRAG) return;
+  if (!DRAG.started) { if (Math.hypot(e.clientX - DRAG.sx, e.clientY - DRAG.sy) < 6) return; DRAG.started = true;
+    const g = DRAG.ghost = DRAG.el.cloneNode(true); g.classList.add('dragghost'); g.style.width = DRAG.el.offsetWidth + 'px'; document.body.appendChild(g); DRAG.el.classList.add('dragging'); }
+  DRAG.ghost.style.left = (e.clientX - DRAG.dx) + 'px'; DRAG.ghost.style.top = (e.clientY - DRAG.dy) + 'px';
+  document.querySelectorAll('.dropbefore,.dropin').forEach(x => x.classList.remove('dropbefore', 'dropin'));
+  DRAG.ghost.style.display = 'none'; const under = document.elementFromPoint(e.clientX, e.clientY); DRAG.ghost.style.display = '';
+  const card = under && under.closest('.card[data-key]'), grid = under && under.closest('[data-sec]');
+  DRAG.target = grid ? { sec: grid.dataset.sec, before: card && card.dataset.key !== DRAG.key ? card.dataset.key : null } : null;
+  if (card && card.dataset.key !== DRAG.key) card.classList.add('dropbefore'); else if (grid) grid.classList.add('dropin');
+  if (e.clientY < 60) scrollBy(0, -12); else if (e.clientY > innerHeight - 60) scrollBy(0, 12);
+});
+const endDrag = () => { if (!DRAG) return; const D = DRAG; DRAG = null; if (D.ghost) D.ghost.remove(); D.el.classList.remove('dragging');
+  document.querySelectorAll('.dropbefore,.dropin').forEach(x => x.classList.remove('dropbefore', 'dropin'));
+  if (D.started && D.target) moveGame(D.key, D.target.sec, D.target.before); };
+document.addEventListener('pointerup', endDrag); document.addEventListener('pointercancel', endDrag);
+(function () { const st = document.createElement('style'); st.textContent = `
+  .arrangebar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; margin: 14px 0 0; }
+  .arrangebar .hint { color: var(--muted); font-size: 13px; flex-basis: 100%; text-align: center; }
+  .grid.editing { outline: 2px dashed rgba(255,255,255,.12); outline-offset: 6px; border-radius: 16px; min-height: 90px; }
+  .grid.editing .card { cursor: grab; user-select: none; touch-action: none; position: relative; } .grid.editing .card a.btn { pointer-events: none; opacity: .6; }
+  .card .grip { position: absolute; top: 8px; inset-inline-start: 8px; color: var(--muted); font-size: 18px; }
+  .card.dragging { opacity: .3; } .card.dropbefore { box-shadow: -4px 0 0 0 #ffb703; } .ar .card.dropbefore { box-shadow: 4px 0 0 0 #ffb703; }
+  .grid.dropin { outline-color: #ffb703; }
+  .dragghost { position: fixed; z-index: 9999; pointer-events: none; transform: rotate(2deg) scale(1.03); box-shadow: 0 18px 40px rgba(0,0,0,.5); opacity: .95; }
+  .dropempty { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 26px; border: 2px dashed rgba(255,255,255,.15); border-radius: 14px; }
+  .grouphead { display: flex; gap: 8px; justify-content: center; align-items: center; } .grouphead input { max-width: 260px; text-align: center; font-weight: 700; }`;
+  document.head.appendChild(st); })();
 const READY = ['chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];   // new games show up here as each one is finished
 // one card per game: title with the emoji on the other side, a description, and a single Play button
 // (online / vs bot / clock are chosen inside each game)
 function card(g) {
   const fav = FAVS.includes(g.key);
-  return `<div class="card ${fav ? 'fav' : ''}">
+  return `<div class="card ${fav ? 'fav' : ''}" data-key="${g.key}">${EDIT ? '<span class="grip" aria-hidden="true">⠿</span>' : ''}
       <div class="ctop"><h2>${t(g.key)}</h2><span class="icon">${g.icon}</span></div>
       <p>${t(g.key + 'Desc')}</p>
       <div class="actions"><a class="btn" href="${g.href}">▶ ${t('play')}</a>
@@ -121,9 +198,12 @@ function card(g) {
 function draw() {
   document.getElementById('langslot').innerHTML = langButton();
   const live = GAMES.filter(g => !g.isNew || READY.includes(g.key));
-  const pinned = FAVS.map(k => live.find(g => g.key === k)).filter(Boolean), rest = live.filter(g => !FAVS.includes(g.key));
-  const section = (title, list) => list.length ? `<h2 class="section">${title}</h2><div class="grid">${list.map(card).join('')}</div>` : '';
-  document.getElementById('grid').innerHTML = section(t('pinnedGames'), pinned) + section(t('games'), rest.filter(g => !g.isNew)) + section(t('newGames'), rest.filter(g => g.isNew));
+  const esc = (v) => String(v).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const head = (S) => EDIT && S.custom ? `<div class="section grouphead"><input class="text" value="${esc(S.title)}" maxlength="30" onchange="renameGroup('${S.id}', this.value)" aria-label="${t('hub_groupName')}"><button class="btn tiny secondary" onclick="delGroup('${S.id}')" title="${t('hub_delGroup')}">🗑</button></div>`
+    : `<h2 class="section">${esc(S.title)}</h2>`;
+  const section = (S) => (S.list.length || (EDIT && (S.custom || S.id === 'pinned'))) ? head(S) + `<div class="grid ${EDIT ? 'editing' : ''}" data-sec="${S.id}">${S.list.map(card).join('')}${EDIT && !S.list.length ? `<div class="dropempty">${t('hub_dragHere')}</div>` : ''}</div>` : '';
+  const bar = `<div class="arrangebar">${EDIT ? `<span class="hint">${t('hub_hint')}</span><button class="btn small secondary" onclick="newGroup()">${t('hub_newGroup')}</button><button class="btn small secondary" onclick="resetLayout()">${t('hub_reset')}</button><button class="btn small" onclick="setEdit(false)">${t('hub_done')}</button>` : `<button class="btn small secondary" onclick="setEdit(true)">${t('hub_arrange')}</button>`}</div>`;
+  document.getElementById('grid').innerHTML = bar + sections(live).map(section).join('');
   drawWho();
   applyLang();
 }
