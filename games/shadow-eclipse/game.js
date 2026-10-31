@@ -1829,6 +1829,7 @@
         <div class="col"><button class="btn big" data-act="restart">${t('se_retry')}</button><div class="row"><button class="btn sec" data-act="levels">${t('se_levels')}</button><button class="btn sec" data-act="menu">${t('se_menu')}</button></div></div></div>`;
     }
     ov.innerHTML = h;
+    if (ov.firstElementChild) { ov.firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); }   // 🏠 + 💬 in every popup
     if (screen === 'win') ov.querySelectorAll('.stars span').forEach((s, k) => setTimeout(() => { s.classList.add('show'); if (s.classList.contains('on')) Snd.plate(); }, 200 + k * 260));
     syncChrome();
   }

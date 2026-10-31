@@ -104,7 +104,8 @@ let toastT = 0;
 function toast(msg, good) { const el = $('toast'); el.textContent = msg; el.className = 'on' + (good ? ' good' : ''); clearTimeout(toastT); toastT = setTimeout(() => el.className = '', 1900); }
 function banner(title, sub, col) { const b = $('banner'); $('banT').textContent = title; $('banS').textContent = sub || ''; b.style.setProperty('--bc', col || '#ffcc33'); b.classList.remove('show'); void b.offsetWidth; b.classList.add('show'); }
 function scrOpen() { return $('scr').classList.contains('on'); }
-function show(fn, ...args) { curScreen = { fn, args }; const html = fn(...args); const s = $('scr'); s.innerHTML = html; s.className = 'on' + (fn === menuScreen ? ' menu' : ''); s.scrollTop = 0; hideTip(); }
+function show(fn, ...args) { curScreen = { fn, args }; const html = fn(...args); const s = $('scr'); s.innerHTML = html; s.className = 'on' + (fn === menuScreen ? ' menu' : ''); s.scrollTop = 0; hideTip();
+  if (s.firstElementChild) { s.firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); } }   // 🏠 + 💬 in every popup
 function hideScreen() { curScreen = null; const s = $('scr'); s.className = ''; s.innerHTML = ''; }
 const gi = (n, c, cls) => A.gimg(n, c, cls);
 function cardHTML(card, o) {

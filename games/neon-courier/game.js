@@ -1578,6 +1578,7 @@ function showScreen(name, data) {
   }
   panel.innerHTML = h;
   panel.scrollTop = 0;
+  if (window.Mal3abPopButtons) window.Mal3abPopButtons();   // re-add 🏠 + 💬 bar (#panel has data-m3pop)
 }
 function showIntro() {
   const d = L.def, m = L.medals;

@@ -309,6 +309,7 @@
   // ------------------------------------------------------------------ overlays
   function openOverlay(name, html, clear) {
     G.overlay = name; ov.className = clear ? 'clear' : ''; ov.innerHTML = html; ov.hidden = false;
+    if (ov.firstElementChild) { ov.firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); }   // 🏠 + 💬 in every popup
     renderBanner(); updateTop();
     ov.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', (e) => { Snd.init(); Snd.play('click'); ACTIONS[b.dataset.act](b, e); }));
   }

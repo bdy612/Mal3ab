@@ -1386,7 +1386,8 @@
   const img = (c, s, cls) => `<img class="px ${cls || ''}" src="${dataURL(c, s || 2)}" alt="">`;
   const ess = (el, tier, s) => img(essSpr(el, tier), s || 2);
   const coinImg = (s) => img(icon('coin'), s || 2, 'coin');
-  function modal(html, back) { $('mbox').innerHTML = html; $('modal').hidden = false; modalBack = back || null; fixHome($('mbox')); }
+  function modal(html, back) { $('mbox').innerHTML = html; $('modal').hidden = false; modalBack = back || null; fixHome($('mbox'));
+    if ($('mbox').firstElementChild) { $('mbox').firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); } }   // 🏠 + 💬 in every popup
   function closeModal() { $('modal').hidden = true; modalBack = null; }
   function fixHome(root) { root.querySelectorAll('[data-mal3ab-home]').forEach(h => { h.onclick = (e) => { e.preventDefault(); location.href = '../../play.html'; }; }); }
   const langLabel = () => getLang() === 'ar' ? 'English' : 'العربية';
@@ -1425,7 +1426,7 @@
         <span class="nm"><b>${t('pa_st' + id)}</b><small>${bi}</small></span>
         <span class="st">${st}</span></button>`;
     });
-    $('route').innerHTML = h;
+    $('route').innerHTML = h; if (window.Mal3abPopButtons) window.Mal3abPopButtons();   // #route has data-m3pop="top"
     $('route').querySelectorAll('.stn').forEach(b => b.onclick = () => { AU.init(); AU.play('click'); const i = +b.dataset.lv; if (i + 1 > S.unlocked) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); return; } levelCard(i); });
     const e = S.endless; $('endlessBest').textContent = e.best ? t('pa_e_best', { c: e.best, s: e.stations }) : '';
   }
@@ -1480,7 +1481,7 @@
       const pips = Array.from({ length: u.max }, (_, k) => `<i class="${k < lv ? 'on' : ''}"></i>`).join('');
       return `<div class="up panel"><div class="uic">${upIcon(u.id)}</div><div class="ut"><b>${t('pa_u_' + u.id)}</b><small>${t('pa_ud_' + u.id)}</small><span class="pips">${pips}</span></div>
         <button class="btn ${max ? 'sec' : ''}" data-up="${u.id}" ${max || S.bank < cost ? 'disabled' : ''}>${max ? t('pa_max') : coinImg(2) + ' ' + cost}</button></div>`;
-    }).join('');
+    }).join(''); if (window.Mal3abPopButtons) window.Mal3abPopButtons();   // #shopList has data-m3pop="top"
     $('shopList').querySelectorAll('[data-up]').forEach(b => b.onclick = () => {
       const u = UPG.find(x => x.id === b.dataset.up), lv = S.up[u.id]; if (lv >= u.max) return; const cost = u.cost[lv];
       if (S.bank < cost) { AU.play('err'); return; }
@@ -1504,7 +1505,7 @@
       <button class="btn sec" id="pRestart">🔄 ${t('pa_restart')}</button>
       <button class="btn sec" id="pHow">❓ ${t('pa_howto')}</button>
       <div class="row"><button class="tb tg-snd" id="pSnd"></button><button class="tb tg-mus" id="pMus"></button><button class="tb tg-lang" id="pLang"></button></div>
-      <div class="row"><button class="btn sec" id="pLeave">🚉 ${t('pa_leave')}</button><button class="tb" data-mal3ab-chat title="Chat">💬</button><button class="tb" data-mal3ab-home title="Home">🏠</button></div></div>`, resume);
+      <div class="row"><button class="btn sec" id="pLeave">🚉 ${t('pa_leave')}</button></div></div>`, resume);
     refreshToggles(); updHint();
     $('pResume').onclick = resume;
     $('pRestart').onclick = () => { AU.play('click'); G.mode === 'level' ? startLevel(G.li) : startEndless(); };

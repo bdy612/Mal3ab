@@ -1741,6 +1741,7 @@ function renderScreen() {
       <button class="btn sec" data-act="leave">${esc(t('ed_leave'))}</button></div>`;
   }
   scr.innerHTML = h;
+  if (scr.firstElementChild) { scr.firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); }   // 🏠 + 💬 in every popup
   const inp = $('edCode'); if (inp) { inp.onkeydown = (e) => { if (e.key === 'Enter') act('join', {}); }; inp.oninput = () => { inp.value = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); }; }
 }
 scr.addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b || b.disabled) return; auInit(); SFX.click(); act(b.dataset.act, b.dataset, b); });

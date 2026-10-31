@@ -1492,7 +1492,7 @@
         ${r.win ? `<button class="btn big" data-act="next">${t('ab_next')}</button>` : `<button class="btn big" data-act="retry">${t('ab_retry')}</button>`}
         <div class="row"><button class="btn sec" data-act="shop2">${t('ab_shop')}</button>${r.win ? `<button class="btn sec" data-act="retry">${t('ab_retry')}</button>` : ''}<button class="btn sec" data-act="menu">${t('ab_menu')}</button></div>`;
     }
-    B.innerHTML = h; B.scrollTop = 0;
+    B.innerHTML = h; B.scrollTop = 0; if (window.Mal3abPopButtons) window.Mal3abPopButtons();   // re-add 🏠 + 💬 bar (#box has data-m3pop)
     requestAnimationFrame(paintPreviews);
   }
   ui.overlay.addEventListener('click', (e) => {
