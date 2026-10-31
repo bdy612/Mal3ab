@@ -41,12 +41,12 @@
   #usehint { position: fixed; z-index: 7; pointer-events: none; background: rgba(15, 18, 32, .9); color: var(--text); border: 1px solid rgba(255, 183, 3, .6); border-radius: 10px; padding: 5px 10px; font-size: 12px; line-height: 1.45; text-align: center; white-space: nowrap; }
   #usehint span { color: var(--accent); font-weight: 700; }
   #status b.pm { background: var(--accent); color: #1a1200; border-radius: 8px; padding: 2px 8px; }
-  body.playing #side { opacity: .6; } body.playing #side:hover { opacity: 1; }
+  @media (hover: hover) { body.playing #side { opacity: .6; } body.playing #side:hover { opacity: 1; } }
   #modal p.ask { margin: 4px 0 6px; font-size: 16px; line-height: 1.5; }
   .ar #usehint { direction: rtl; }
   .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
   #colors, #bases { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-  #bases { grid-template-columns: repeat(7, 1fr); }
+  #colors { grid-template-columns: repeat(9, 1fr); gap: 4px; } #bases { grid-template-columns: repeat(7, 1fr); }
   .sw { aspect-ratio: 1; border-radius: 8px; border: 2px solid rgba(255, 255, 255, .15); background: var(--c); cursor: pointer; padding: 0; }
   .sw.trans { background: linear-gradient(135deg, var(--c) 0 50%, rgba(255, 255, 255, .55) 50%); opacity: .9; }
   .sw.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
