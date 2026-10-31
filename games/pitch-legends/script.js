@@ -846,7 +846,7 @@ const UI = {
     document.getElementById('toasts').appendChild(el);
     setTimeout(() => el.remove(), 2900);
   },
-  modal(html, wide = false) { const r = document.getElementById('modal-root'); r.innerHTML = `<div class="modal ${wide ? 'wide' : ''}">${html}</div>`; r.classList.remove('hidden'); },
+  modal(html, wide = false) { const r = document.getElementById('modal-root'); r.innerHTML = `<div class="modal ${wide ? 'wide' : ''}" data-m3pop>${html}</div>`; r.classList.remove('hidden'); },
   closeModal() { const r = document.getElementById('modal-root'); r.classList.add('hidden'); r.innerHTML = ''; },
 
   cardHtml(card, cls = '', attrs = '') {
@@ -930,7 +930,7 @@ const UI = {
     const root = document.getElementById('screen-arena');
     if (!Game.running && !Game.over) {
       const opp = Game.nextOpponent();
-      root.innerHTML = `<div class="panel pre-match">
+      root.innerHTML = `<div class="panel pre-match" data-m3pop>
         <h1>🏟️ Match day</h1>
         <p class="sub">5-a-side, 90 seconds. Your lineup: ${SLOT_ORDER.map(k => { const id = Store.state.lineup[k]; return id ? esc(CATALOG_BY_ID[id].name) : '—'; }).join(' · ')}</p>
         <div class="opp-card"><div class="muted" style="font-size:0.8rem">NEXT OPPONENT</div><div style="font-weight:800;font-size:1.2rem">${AI_STYLES[opp.style].icon} ${esc(opp.name)}</div><div class="muted">Level ${opp.level} · ${AI_STYLES[opp.style].label}</div></div>

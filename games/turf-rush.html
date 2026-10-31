@@ -142,8 +142,8 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--ink);outline-o
   .bar i{transition:none}
 }
 </style>
-<link rel="stylesheet" href="../shared/theme.css?v=1793381184">
-<script src="../shared/cloud.js?v=1793381184" data-game="turfrush" data-keys="turf-rush" data-name-input="#myName"></script>
+<link rel="stylesheet" href="../shared/theme.css?v=1793390000">
+<script src="../shared/cloud.js?v=1793390000" data-game="turfrush" data-keys="turf-rush" data-name-input="#myName"></script>
 
 
 <div class="app">
@@ -177,7 +177,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--ink);outline-o
 </div>
 
 <div class="overlay" id="menu">
-  <div class="card">
+  <div class="card" data-m3pop="top">
     <h1 class="logo"><span class="a">Turf</span> <span class="b">Rush</span></h1>
     <p class="lede">Two painters, one arena. Run over tiles to paint them your color. When the clock hits zero, whoever owns more of the floor takes the round.</p>
     <div class="tabs" role="tablist">
@@ -237,7 +237,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--ink);outline-o
 </div>
 
 <div class="overlay" id="msg" hidden>
-  <div class="card msgcard" id="msgCard">
+  <div class="card msgcard" id="msgCard" data-m3pop>
     <div class="eyebrow" id="msgEye"></div>
     <h2 id="msgTitle"></h2>
     <div class="score" id="msgScore"></div>
@@ -1292,4 +1292,4 @@ if (document.fonts && document.fonts.load) document.fonts.load(`20px ${FONT}`).c
 })();
 </script>
 
-<script src="turf-online.js?v=1793381184"></script>
+<script src="turf-online.js?v=1793390000"></script>

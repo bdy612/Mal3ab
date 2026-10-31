@@ -69,7 +69,7 @@ window.Shell = {
     const draw = () => {
       document.querySelectorAll('.topbar, #status, .startmenu').forEach(e => e.remove());
       const el = document.createElement('div'); el.className = 'startmenu';
-      el.innerHTML = `<div class="smbox">
+      el.innerHTML = `<div class="smbox" data-m3pop>
         <div class="smhead"><a class="btn small secondary" href="../play.html">${t('home')}</a><h2>${t(opts.title)}</h2>${langButton()}</div>
         <p class="smq">${t('smChoose')}</p>
         ${clock ? `<div class="smclock"><span>${t('timeControl')}</span>${sel('smTc', [0, 1, 2, 3, 5, 10, 15, 20, 30, 45, 60, 90], pref.tc != null ? pref.tc : 10, v => v ? v + ' ' + t('min') : t('noClock'))}

@@ -318,6 +318,32 @@
       return base + 'play.html?join=' + code;
     }
   };
+  // 🏠 + 💬 inside game popups (start level, pause, game over…): any element marked data-m3pop gets both buttons
+  // (data-m3pop="top" puts them at the top of the popup instead of the bottom)
+  (function popButtons() {
+    const ROOT = NET_SRC ? NET_SRC.replace(/shared\/net\.js.*$/, '') : location.href.replace(/games\/.*$/, '').replace(/[^/]*$/, '');
+    const css = document.createElement('style');
+    css.textContent = `div.m3pop{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin:12px 0 0;padding:0;pointer-events:auto;width:auto;position:static}div.m3pop.top{margin:0 0 12px}
+      div.m3pop>.m3pb{display:inline-flex;align-items:center;gap:6px;font:700 14px/1 system-ui,'Segoe UI',Tahoma,sans-serif;padding:9px 14px;margin:0;border-radius:12px;border:2px solid rgba(255,255,255,.18);
+        background:rgba(15,18,32,.75);color:#eef0ff;text-decoration:none;cursor:pointer;text-transform:none;letter-spacing:0;min-width:0;width:auto;height:auto;flex:0 0 auto;box-shadow:none;text-shadow:none;image-rendering:auto}
+      div.m3pop>.m3pb:hover{border-color:#ffb703;color:#ffb703}`;
+    (document.head || document.documentElement).appendChild(css);
+    const label = () => ({ home: getLang() === 'ar' ? 'الرئيسية' : 'Home', chat: getLang() === 'ar' ? 'الشات' : 'Chat' });
+    const bar = (top) => { const d = document.createElement('div'); d.className = 'm3pop' + (top ? ' top' : ''); const L = label();
+      d.innerHTML = `<a class="m3pb" data-m3home href="${ROOT}play.html">🏠 <span>${L.home}</span></a><button type="button" class="m3pb" data-mal3ab-chat>💬 <span>${L.chat}</span></button>`;
+      for (const ev of ['mousedown', 'pointerdown', 'touchstart', 'click']) d.addEventListener(ev, (e) => e.stopPropagation(), { passive: true });   // the game behind must not react
+      return d; };
+    const fill = () => document.querySelectorAll('[data-m3pop]').forEach(el => {
+      if ([...el.children].some(c => c.classList && c.classList.contains('m3pop'))) return;
+      const top = el.getAttribute('data-m3pop') === 'top', b = bar(top); top ? el.insertBefore(b, el.firstChild) : el.appendChild(b);
+    });
+    const relabel = () => { const L = label(); document.querySelectorAll('.m3pop').forEach(d => { const s = d.querySelectorAll('span'); s[0].textContent = L.home; s[1].textContent = L.chat; }); };
+    let q = 0; const soon = () => { if (!q) q = requestAnimationFrame(() => { q = 0; fill(); }); };
+    const start = () => { fill(); new MutationObserver(soon).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-m3pop'] }); };
+    document.body ? start() : document.addEventListener('DOMContentLoaded', start);
+    document.addEventListener('langchange', relabel);
+    window.Mal3abPopButtons = fill;   // games can call it right after drawing a popup
+  })();
   // Channel Connect (friend chat) on every page that has net.js
   if (NET_SRC && !window.Chat && !document.querySelector('script[data-m3chat]')) {
     const c = document.createElement('script'); c.src = NET_SRC.replace(/net\.js(\?.*)?$/, 'chat.js$1'); c.dataset.m3chat = '1';

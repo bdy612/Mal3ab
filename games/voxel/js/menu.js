@@ -27,9 +27,9 @@ function setBadge(el,n){ if(!el)return; let b=el.querySelector('.badge'); if(!n)
 function showHome(){ show(homeScreen()); friends.onchange=()=>{ setBadge(document.getElementById('tFriendsBtn'),friends.incoming.length); const s=document.getElementById('tFriendsStatus'); if(s)s.textContent='Friends: '+friends.statusText(); }; }
 function showPauseMain(note){ show(pauseMain(note),pauseEl); friends.onchange=()=>setBadge(document.getElementById('pFriendsBtn'),friends.requests.length); }
 function hideTitle(){ screenCleanup(); titleEl.classList.add('hidden'); titleEl.innerHTML=''; }
-function messageScreen(msg,buttons){ return E('div',{class:'panel'},E('h2',null,'Voxel Sandbox'),E('p',{class:'desc',style:'font-size:24px'},msg),
+function messageScreen(msg,buttons){ return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Voxel Sandbox'),E('p',{class:'desc',style:'font-size:24px'},msg),
   ...(buttons||[btn('Back to title screen',()=>showHome(),'wide')])); }
-function confirmScreen(title,text,yes,no,yesLabel='Delete',root=titleEl){ return E('div',{class:'panel'},E('h2',null,title),E('p',{class:'sub'},text),
+function confirmScreen(title,text,yes,no,yesLabel='Delete',root=titleEl){ return E('div',{class:'panel','data-m3pop':true},E('h2',null,title),E('p',{class:'sub'},text),
   E('div',{class:'btnrow',style:'max-width:420px'},btn(yesLabel,yes,'danger'),btn('Cancel',no))); }
 
 // --- avatar preview (the same colours as the in-game player model) ---
@@ -45,7 +45,7 @@ const SPLASHES=['Now with friends!','Punch a tree!','100% blocks!','Mind the Boo
 // ---------------------------------------------------------------------
 function homeScreen(){
   const req=friends.incoming.length;
-  return E('div',{class:'panel home'},
+  return E('div',{class:'panel home','data-m3pop':true},
     E('div',{class:'logo'},E('div',{class:'l1'},'VOXEL'),E('div',{class:'l2'},'SANDBOX'),E('div',{class:'splash'},splashText)),
     btn('Singleplayer',()=>show(worldsScreen()),'wide'),
     E('button',{class:'mc wide',id:'tFriendsBtn',onclick:()=>{sfx.click();show(friendsScreen(titleEl));}},'Friends & Multiplayer',req?E('span',{class:'badge'},req):null),
@@ -69,7 +69,7 @@ function worldsScreen(){
   search.oninput=draw; draw();
   const imp=E('input',{type:'file',accept:'.json,application/json',style:'display:none',onchange:async e=>{ const f=e.target.files[0]; if(!f)return; const err=importWorldText(await f.text()); if(err){note.textContent=err;note.className='note err';} else show(worldsScreen()); }});
   note.textContent=`Worlds are saved in this browser (${fmtBytes(storageUsed())} used of about 5 MB). Edit → Export makes a backup file.`;
-  return E('div',{class:'panel'},E('h2',null,'Select World'),search,list,
+  return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Select World'),search,list,
     E('div',{class:'btnrow'},playB,btn('Create New World',()=>show(createScreen()))),
     E('div',{class:'btnrow'},editB,delB,btn('Import',()=>imp.click(),'sm'),btn('Back',()=>showHome(),'sm')),imp,note); }
 
@@ -88,7 +88,7 @@ function createScreen(){
   const create=()=>{ const hc=o.mode==='survival'&&o.diff==='hardcore'; const m=newMeta({name:(nameI.value.trim()||'New World').slice(0,32),seed:seedFrom(seedI.value),mode:o.mode,diff:o.mode==='creative'?'normal':o.diff,
       cheats:o.cheats&&!hc,type:o.type,bonus:o.bonus,rules:{...o.rules}}); WORLDS.unshift(m); saveIndex(); selWorld=m.id; playWorld(m); };
   nameI.onkeydown=e=>{ if(e.key==='Enter')create(); };
-  return E('div',{class:'panel'},E('h2',null,'Create New World'),
+  return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Create New World'),
     field('World name',nameI),
     field('Game mode',modeSeg),diffF,desc,
     E('div',{class:'field'},E('span',null,'Allow cheats'),E('div',{class:'row'},cheatsB),cheatHint),
@@ -106,7 +106,7 @@ function createScreen(){
 function editScreen(m){
   const nameI=E('input',{class:'mci',value:m.name,maxlength:32,style:'width:100%'}), msg=E('div',{class:'note'}); const hc=m.diff==='hardcore'; const ed={cheats:m.cheats,diff:m.diff,rules:{...m.rules}};
   const save=()=>{ m.name=(nameI.value.trim()||m.name).slice(0,32); m.cheats=ed.cheats&&!hc; m.diff=ed.diff; m.rules=ed.rules; saveIndex(); show(worldsScreen()); };
-  return E('div',{class:'panel'},E('h2',null,'Edit World'),
+  return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Edit World'),
     field('World name',nameI),
     E('div',{class:'note'},`${modeLabel(m)} · ${m.type==='flat'?'Superflat':'Default'} world · seed ${m.seed} · created ${new Date(m.created).toLocaleDateString()}`),
     hc?E('p',{class:'desc'},'Hardcore: difficulty and cheats are locked.'):E('div',{class:'two'},
@@ -126,7 +126,7 @@ function profileScreen(){
   const drawSkins=()=>{ skins.innerHTML=''; PLAYER_COLS.forEach((_,i)=>{ const c=avatarCanvas(i,3); if(i===PROFILE.skin%PLAYER_COLS.length)c.classList.add('on'); c.onclick=()=>{ sfx.click(); PROFILE.skin=i; saveProfile(); drawSkins(); }; skins.appendChild(c); }); };
   drawSkins(); const msg=E('div',{class:'note'});
   nameI.oninput=()=>{ PROFILE.name=cleanName(nameI.value); saveProfile(); };
-  return E('div',{class:'panel'},E('h2',null,'Profile'),
+  return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Profile'),
     field('Username',nameI,'Other players see this name above your head and in chat.'),
     field('Look',skins,'Pick your colours. Friends see them when you play together.'),
     E('div',{class:'field'},E('span',null,'Your friend code'),E('div',{class:'codebox'},E('span',{class:'code'},PROFILE.code),btn('Copy',()=>{ try{navigator.clipboard.writeText(PROFILE.code);msg.textContent='Copied! Send it to a friend.';}catch(e){msg.textContent=PROFILE.code;} })),
@@ -135,7 +135,7 @@ function profileScreen(){
 
 function optionsScreen(back,root=titleEl){
   const pct=v=>Math.round(v*100)+'%', brightName=v=>v<=0.05?'Moody':v<0.95?Math.round(v*100)+'%':v<1.05?'Bright':v<1.45?'Brighter':'Full bright';
-  return E('div',{class:'panel'},E('h2',null,'Options'),
+  return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Options'),
     E('div',{class:'two'},
       slider('FOV',30,110,1,SETTINGS.fov,v=>v===70?'Normal':v>=110?'Quake Pro':v,v=>{SETTINGS.fov=v;saveSettings();}),
       slider('Render distance',2,12,1,SETTINGS.dist,v=>v+' chunks',v=>{SETTINGS.dist=v; if(game.state==='playing')renderDist=v; saveSettings();}),
@@ -177,7 +177,7 @@ function friendsScreen(root){
       extra.appendChild(E('div',{class:'frow'},E('div',{class:'who'},E('span',null,net.name+(net.role==='host'?' (host, you)':' (you)')))));
       for(const r of net.remotes.values())extra.appendChild(E('div',{class:'frow'},E('div',{class:'who'},E('span',null,r.name+(net.role==='guest'&&r.id===0?' (host)':''))),net.role==='host'?btn('Kick',()=>{ net.kick(r.id); setTimeout(draw,600); },'danger'):null)); } };
   draw();
-  const node=E('div',{class:'panel'},E('h2',null,'Friends'),
+  const node=E('div',{class:'panel','data-m3pop':true},E('h2',null,'Friends'),
     E('div',{class:'codebox'},E('span',null,'Your friend code'),E('span',{class:'code'},PROFILE.code),btn('Copy',()=>{ try{navigator.clipboard.writeText(PROFILE.code);addMsg.textContent='Copied your code. Send it to a friend!';addMsg.className='note ok';}catch(e){} })),
     status,
     E('div',{class:'btnrow'},addI,btn('Add friend',add)),addMsg,
@@ -211,7 +211,7 @@ function pauseMain(note){ const guest=game.meta&&game.meta.remote, req=friends.r
     E('div',{class:'note'},(guest?`Playing in ${net.hostName}'s world "${game.meta.name}"`:`${game.meta?game.meta.name:''} · ${game.meta?modeLabel(game.meta):''}`)+(net.role?' · multiplayer keeps running while this menu is open':' · game paused'))); }
 function cheatsScreen(said){ const guest=game.meta&&game.meta.remote, host=!guest, msg=E('div',{class:'note ok'},said||'');
   const say=t=>{ msg.textContent=t; };
-  return E('div',{class:'panel'},E('h2',null,'Cheats'),
+  return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Cheats'),
     field('Game mode',seg([['survival','Survival'],['creative','Creative'],['spectator','Spectator']],gameMode(),v=>{ setGameMode(v); say('Game mode: '+v); }),'Spectator: fly through walls and watch, without touching anything.'),
     host?field('Time of day',E('div',{class:'seg'},...[['sunrise','Sunrise'],['noon','Day'],['sunset','Sunset'],['midnight','Night']].map(([k,l])=>btn(l,()=>{ setTimeOfDay(k); say('Time set to '+l.toLowerCase()); })))):null,
     E('div',{class:'two'},
@@ -224,7 +224,7 @@ function cheatsScreen(said){ const guest=game.meta&&game.meta.remote, host=!gues
     msg,
     E('div',{class:'btnrow'},btn('Give items...',()=>{ pauseEl.classList.add('hidden'); screenCleanup(); game.paused=false; openUI('creative'); }),btn('Back',()=>showPauseMain()))); }
 function helpScreen(){ const K=(k,t)=>[E('b',null,k),E('span',null,t)];
-  return E('div',{class:'panel'},E('h2',null,'Controls & tips'),
+  return E('div',{class:'panel','data-m3pop':true},E('h2',null,'Controls & tips'),
     E('div',{class:'keys'},K('WASD','move'),K('Mouse','look'),K('Space','jump (swim up in water)'),K('W W','double-tap to sprint'),K('Shift','sneak (won\'t fall off edges)'),
       K('Left click','mine / attack (hold)'),K('Right click','place, use, eat, open, flip levers'),K('Middle click','pick block (creative)'),K('1-9 / wheel','choose hotbar slot'),
       K('E','inventory'),K('Q','drop item'),K('T  or  /','chat and commands'),K('F','fly (creative)'),K('F1','hide HUD'),K('F3','debug info'),K('F5','third person'),K('G','switch survival/creative (cheats)'),K('Esc','this menu')),
@@ -241,7 +241,7 @@ function helpScreen(){ const K=(k,t)=>[E('b',null,k),E('span',null,t)];
 const DEATH_MSG={mob:'You were slain',mobfire:'You were burnt by a fireball',explode:'You were blown up',fire:'You burned to death',fall:'You hit the ground too hard',drown:'You drowned',starve:'You starved to death',void:'You fell out of the world',cactus:'You were pricked to death'};
 function showDeath(kind){ const hc=difficulty()==='hardcore'; game.paused=false; pauseEl.classList.add('hidden');
   if(hc&&game.meta&&!game.meta.remote){ game.meta.dead=true; saveIndex(); } saveWorld();
-  deathEl.innerHTML=''; deathEl.appendChild(E('div',{class:'panel'},E('div',{class:'big'},hc?'Game over!':'You died!'),E('div',{class:'why'},(DEATH_MSG[kind]||'You died')+(player.level?` · score ${player.level}`:'')),
+  deathEl.innerHTML=''; deathEl.appendChild(E('div',{class:'panel','data-m3pop':true},E('div',{class:'big'},hc?'Game over!':'You died!'),E('div',{class:'why'},(DEATH_MSG[kind]||'You died')+(player.level?` · score ${player.level}`:'')),
     hc?E('p',{class:'sub'},'This is hardcore: you only had one life. You can still fly around and look at your world.'):null,
     hc?btn('Spectate world',()=>{ deathEl.classList.add('hidden'); player.dead=false; player.hp=20; player.food=20; setGameMode('spectator'); saveWorld(); resumeGame(); },'wide')
       :btn('Respawn',()=>respawn(),'wide'),

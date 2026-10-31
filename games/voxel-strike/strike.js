@@ -992,7 +992,7 @@ function openRules(kind) {
   const opt = (v, txt, cur) => `<option value="${v}" ${String(v) === String(cur) ? 'selected' : ''}>${txt}</option>`;
   const draw = () => {
     const lvs = r.lvs || Array(r.bots).fill(r.lv), mixed = lvs.some(l => l !== lvs[0]);
-    $('rules').innerHTML = `<div class="panel wide rulesp"><h2>${t('vs_rulesT')} — ${kind === 'dm' ? t('vs_dm') : t('vs_online')}</h2>
+    $('rules').innerHTML = `<div class="panel wide rulesp" data-m3pop><h2>${t('vs_rulesT')} — ${kind === 'dm' ? t('vs_dm') : t('vs_online')}</h2>
       <label>${t('vs_botN')}<div class="row"><button class="btn sec small" data-n="-1">−</button><input type="number" id="rBots" min="0" max="${MAX_BOTS}" value="${r.bots}"><button class="btn sec small" data-n="1">+</button></div></label>
       ${r.bots ? `<label>${t('vs_allLv')}<select id="rAll">${mixed ? opt('mixed', t('vs_mixed'), 'mixed') : ''}${LVS.map(k => opt(k, t('vs_' + k), mixed ? '' : lvs[0])).join('')}</select></label>
       <div class="blist"><div class="small">${t('vs_eachBot')}</div>${lvs.map((l, i) => `<div class="bi"><span>🤖 ${t('vs_bot')} ${i + 1}</span><select data-i="${i}">${LVS.map(k => opt(k, t('vs_' + k), l)).join('')}</select></div>`).join('')}</div>` : ''}
@@ -1059,7 +1059,7 @@ function renderMenu() {
 async function openLeaderboard(by) {
   showScreen('lb');
   const tabs = [['kills', 'vs_lbKills'], ['wins', 'vs_lbWins'], ['wave', 'vs_lbWave']];
-  const head = `<div class="panel wide"><h2>${t('vs_lb')}</h2><div class="row center">${tabs.map(([k, s]) => `<button class="btn small ${k === by ? '' : 'sec'}" data-by="${k}">${t(s)}</button>`).join('')}</div>`;
+  const head = `<div class="panel wide" data-m3pop><h2>${t('vs_lb')}</h2><div class="row center">${tabs.map(([k, s]) => `<button class="btn small ${k === by ? '' : 'sec'}" data-by="${k}">${t(s)}</button>`).join('')}</div>`;
   $('lb').innerHTML = head + `<p>${t('vs_loading')}</p></div>`;
   let rows = [];
   try { const r = await sb.rpc('vs_leaderboard', { p_by: by, p_token: (window.Auth && Auth.token) || null, p_limit: 25 }); rows = r.data || []; } catch (e) {}
@@ -1074,7 +1074,7 @@ async function openLeaderboard(by) {
 }
 function openSettings(back) {
   showScreen('settings');
-  $('settings').innerHTML = `<div class="panel"><h2>${t('vs_settings')}</h2>
+  $('settings').innerHTML = `<div class="panel" data-m3pop><h2>${t('vs_settings')}</h2>
     <label>${t('vs_sens')} <input type="range" id="sSens" min="0.2" max="3" step="0.05" value="${SET.sens}"></label>
     <label>${t('vs_vol')} <input type="range" id="sVol" min="0" max="1" step="0.05" value="${SET.vol}"></label>
     <label>${t('vs_fov')} <input type="range" id="sFov" min="60" max="100" step="1" value="${SET.fov}"></label>
@@ -1111,7 +1111,7 @@ function showEnd() {
   $('end').innerHTML = `<div class="panel"><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}
     ${G.mode !== 'waves' ? `<table><tr><th>${t('vs_player')}</th><th>${t('vs_kills')}</th><th>${t('vs_deaths')}</th></tr>${rank.map(f => `<tr class="${f === G.me ? 'me' : ''}"><td>${esc(f.name)}</td><td>${f.kills}</td><td>${f.deaths}</td></tr>`).join('')}</table>` : ''}
     ${G.mode === 'online' ? `<p id="nextR"></p><button class="btn sec" id="eMenu">${t('vs_leave')}</button>` : `<button class="btn" id="eAgain">${t('vs_again')}</button><button class="btn sec" id="eMenu">${t('vs_menu')}</button>`}
-    <button class="btn sec" data-mal3ab-home>🏠</button></div>`;
+    <button class="btn sec" data-mal3ab-chat>💬</button><button class="btn sec" data-mal3ab-home>🏠</button></div>`;
   if ($('eAgain')) $('eAgain').onclick = () => startGame(G.mode, G.opts);
   $('eMenu').onclick = toMenu; wireHome();
   if (G.mode === 'online') { const tick = () => { if (!G.over || $('end').hidden) return; const n = $('nextR'); if (n) n.textContent = t('vs_nextRound', { n: Math.max(1, Math.ceil(8 - (G.t - G.endT))) }); setTimeout(tick, 250); }; tick(); }

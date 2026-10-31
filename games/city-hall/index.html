@@ -55,8 +55,8 @@
   .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
   @media (max-width:800px){#left,#right{display:none}#top .stat{min-width:60px}#top .stat b{font-size:13px}}
 </style>
-<link rel="stylesheet" href="../../shared/theme.css?v=1793381184">
-<script src="../../shared/cloud.js?v=1793381184" data-game="cityhall" data-keys="cityhall-save"></script>
+<link rel="stylesheet" href="../../shared/theme.css?v=1793390000">
+<script src="../../shared/cloud.js?v=1793390000" data-game="cityhall" data-keys="cityhall-save"></script>
 </head>
 <body>
 <div id="game">
@@ -97,9 +97,9 @@
 
   <div id="bottom" class="panel"></div>
 
-  <div id="budget" class="panel modal"><span class="close" onclick="closeModals()">✕</span><h3>Budget</h3><div id="budgetBody"></div></div>
-  <div id="needs" class="panel modal"><span class="close" onclick="closeModals()">✕</span><h3>Citizen needs</h3><div id="needsBody"></div></div>
-  <div id="help" class="panel modal"><span class="close" onclick="closeModals()">✕</span><h3>How to play</h3>
+  <div id="budget" class="panel modal" data-m3pop><span class="close" onclick="closeModals()">✕</span><h3>Budget</h3><div id="budgetBody"></div></div>
+  <div id="needs" class="panel modal" data-m3pop><span class="close" onclick="closeModals()">✕</span><h3>Citizen needs</h3><div id="needsBody"></div></div>
+  <div id="help" class="panel modal" data-m3pop><span class="close" onclick="closeModals()">✕</span><h3>How to play</h3>
     <p>You are the mayor. Build roads from City Hall, then paint <b style="color:var(--r)">Residential</b>, <b style="color:var(--c)">Commercial</b> and <b style="color:var(--i)">Industrial</b> zones next to roads. Buildings grow on their own when a zone is connected, powered and watered, and demand is there.</p>
     <p style="margin-top:8px">Every month taxes come in and services cost money. Watch Happiness: it drives Approval, and Approval below 30% for too long triggers a recall election.</p>
     <p style="margin-top:8px"><b>Controls:</b> left-drag paints · right-drag or Bulldoze removes · middle-drag / WASD pans · wheel zooms · hover a tile for info · click a meter on the right to see its overlay.</p>
