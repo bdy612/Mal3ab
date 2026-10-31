@@ -2140,7 +2140,12 @@
   });
   window.addEventListener('keyup', (e) => keys.delete(e.code));
   window.addEventListener('blur', () => { keys.clear(); joyReset(); if (!NET.code) pause(); });   // online: opening the chat must not pause the match
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { keys.clear(); pause(); } });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) return;
+    keys.clear();
+    if (!NET.code) { pause(); return; }
+    clearTimeout(NET.hideT); NET.hideT = setTimeout(() => { if (document.hidden) pause(); }, 400);   // online: a page that is just reloading/closing never gets here
+  });
 
   // virtual joystick + buttons
   const joy = { active: false, id: null, ox: 0, oy: 0, x: 0, y: 0 };
@@ -2300,7 +2305,9 @@
       case 'go':
         NET.role = p.inf === NET.me ? 'inf' : 'war'; P.role = otherRole(NET.role);
         if (p.mid && NET.phase === 'play' && curLevel === (p.l | 0)) break;
-        enterOnlineLevel(p.l | 0, !!p.mid); break;
+        enterOnlineLevel(p.l | 0, !!p.mid);
+        if (p.mid && p.pz) pause(String(p.pb || ''));
+        break;
       case 'st': if (isWarden() && NET.phase === 'play') applySt(p); break;
       case 'cmd': if (netAuth()) onCmd(p); break;
       case 'ev': if (isWarden() && NET.phase === 'play') wardenEvent(p); break;
@@ -2330,7 +2337,10 @@
     netSend('go', { l: NET.lvl, inf: NET.role === 'inf' ? NET.me : NET.partner.id, mid: false });
     enterOnlineLevel(NET.lvl, false);
   }
-  function sendGo(mid) { netSend('go', { l: curLevel, inf: NET.me, mid: !!mid }); }
+  function sendGo(mid) {   // Infiltrator -> a Warden who reloaded: rejoin this match (paused too, if it is paused)
+    const pz = mode === 'pause' && screen === 'pause' ? 1 : 0;
+    netSend('go', { l: curLevel, inf: NET.me, mid: !!mid, pz, pb: NET.pausedBy ? '' : myName() });
+  }
   function enterOnlineLevel(l, mid) {
     Object.assign(NET, { phase: 'play', playAt: Date.now(), sel: -1, aim: false, steering: false, endR: null, pausedBy: '', stT: 0 });
     curLevel = clamp(l, 0, LEVELS.length - 1); NET.lvl = curLevel;
