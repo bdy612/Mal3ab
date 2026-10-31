@@ -35,6 +35,15 @@
   #parts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; overflow-y: auto; flex: 1; align-content: start; scrollbar-width: thin; }
   .part { background: var(--card); border: 2px solid transparent; border-radius: 10px; padding: 4px 2px; cursor: pointer; display: flex; flex-direction: column; align-items: center; color: var(--muted); font: 600 11px inherit; font-family: inherit; }
   .part img { width: 46px; height: 46px; } .part.on { border-color: var(--accent); color: var(--text); background: var(--card2); }
+  .part span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ph { grid-column: 1 / -1; font-size: 11px; font-weight: 700; color: var(--accent); margin: 4px 2px 0; letter-spacing: .3px; }
+  .ph:first-child { margin-top: 0; }
+  #usehint { position: fixed; z-index: 7; pointer-events: none; background: rgba(15, 18, 32, .9); color: var(--text); border: 1px solid rgba(255, 183, 3, .6); border-radius: 10px; padding: 5px 10px; font-size: 12px; line-height: 1.45; text-align: center; white-space: nowrap; }
+  #usehint span { color: var(--accent); font-weight: 700; }
+  #status b.pm { background: var(--accent); color: #1a1200; border-radius: 8px; padding: 2px 8px; }
+  body.playing #side { opacity: .6; } body.playing #side:hover { opacity: 1; }
+  #modal p.ask { margin: 4px 0 6px; font-size: 16px; line-height: 1.5; }
+  .ar #usehint { direction: rtl; }
   .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
   #colors, #bases { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
   #bases { grid-template-columns: repeat(7, 1fr); }
@@ -77,6 +86,8 @@
     #tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .tab { flex: none; padding: 5px 8px; }
     #parts { display: flex; overflow-x: auto; overflow-y: hidden; gap: 5px; }
     .part { flex: none; width: 58px; } .part img { width: 38px; height: 38px; }
+    .ph { flex: none; align-self: center; width: 46px; margin: 0; font-size: 10px; line-height: 1.25; text-align: center; white-space: normal; }
+    #parts .fhint { flex: none; width: 230px; margin: 0; font-size: 10.5px; line-height: 1.35; white-space: normal; overflow-y: auto; }
     #side .col.cols { width: 150px; overflow-y: auto; } #colors { grid-template-columns: repeat(6, 1fr); gap: 3px; } #bases { grid-template-columns: repeat(6, 1fr); gap: 3px; }
     .lbl { display: none; }
     #status { bottom: 144px; font-size: 12px; padding: 5px 10px; } #status span { display: none; }
@@ -84,9 +95,9 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793360910"></script>
-<script src="../../shared/net.js?v=1793360910"></script>
-<script src="../../shared/vendor/three.min.js"></script>
+<script src="../../shared/i18n.js?v=1793390000"></script>
+<script src="../../shared/net.js?v=1793390000"></script>
+<script src="../../shared/vendor/three.min.js?v=1793390000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -101,9 +112,10 @@
 <div id="quick"></div>
 <div id="cross"></div>
 <div id="status"></div>
+<div id="usehint" hidden></div>
 <div id="modal" hidden></div>
-<script src="bricks.js?v=1793360910"></script>
-<script src="../../shared/cloud.js?v=1793360910" data-game="bricks" data-keys="bricks-*"></script>
+<script src="bricks.js?v=1793390000"></script>
+<script src="../../shared/cloud.js?v=1793390000" data-game="bricks" data-keys="bricks-*"></script>
 <script>
   // language button label + home fallback before the account finishes loading
   const lb = document.getElementById('lang'); const setLb = () => lb.textContent = getLang() === 'ar' ? 'English' : 'العربية'; setLb(); document.addEventListener('langchange', setLb);
