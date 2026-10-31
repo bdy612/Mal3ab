@@ -3,6 +3,8 @@
   'use strict';
   const A = window.CyberPet && window.CyberPet._; if (!A) return;
   const { clamp, lerp, rnd, pick, hr, rr, ell, glowFill, noGlow } = A;
+  // gameplay randomness goes through A.rng (Math.random solo, seeded in online battles); particles stay on Math.random
+  const grnd = (a, b) => a + A.rng() * (b - a), gpick = (arr) => arr[Math.floor(A.rng() * arr.length)];
   const TAU = Math.PI * 2;
   A.addStr({
     cp_g_catch: 'اصطاد البايتس', cp_gd_catch: 'اتحرك يمين وشمال واصطاد البايتس اللي نازلة. البايت الدهبي بـ ٥. وابعد عن الفيروسات الحمرا!', cp_gh_catch: 'اسحب بصباعك، أو استخدم ← → / A D',
@@ -37,10 +39,10 @@
       const R = () => clamp(Math.min(A.W, A.H) * 0.075, 26, 46), gy = () => A.H - (A.mobile() ? 34 : 46);
       s.hint = () => A.SR('cp_gh_catch');
       function spawn() {
-        const pv = Math.min(0.42, 0.14 + s.level * 0.025), r = Math.random();
+        const pv = Math.min(0.42, 0.14 + s.level * 0.025), r = A.rng();
         const type = r < pv ? 'virus' : r < pv + 0.06 ? 'gold' : (s.lives < 3 && r < pv + 0.09) ? 'heart' : 'byte';
         const sc = Math.sqrt(A.H / 800);
-        s.items.push({ type, x: rnd(24, A.W - 24), y: A.top - 10, vy: (150 + s.level * 24) * rnd(0.85, 1.2) * sc, t: 0, wf: rnd(1.5, 3), wa: type === 'virus' && s.level > 3 ? rnd(30, 80) : 0, rot: rnd(0, TAU), vr: rnd(-3, 3), glyph: Math.random() < 0.5 ? '0' : '1' });
+        s.items.push({ type, x: grnd(24, A.W - 24), y: A.top - 10, vy: (150 + s.level * 24) * grnd(0.85, 1.2) * sc, t: 0, wf: grnd(1.5, 3), wa: type === 'virus' && s.level > 3 ? grnd(30, 80) : 0, rot: grnd(0, TAU), vr: grnd(-3, 3), glyph: A.rng() < 0.5 ? '0' : '1' });
       }
       function grab(it) {
         const r = R(), y = gy() - r;
@@ -58,7 +60,7 @@
         if (s.dying > 0) { s.dying -= dt; if (s.dying <= 0) s.over = true; }
         if (s.keys.l || s.keys.r) { s.x += (s.keys.r - s.keys.l) * (560 + s.level * 20) * dt; s.tx = s.x; } else s.x += (s.tx - s.x) * Math.min(1, dt * 14);
         s.x = clamp(s.x, r, A.W - r); s.hurt -= dt; s.eat -= dt; s.sq *= Math.pow(0.02, dt);
-        if (s.dying <= 0) { s.spawn -= dt; if (s.spawn <= 0) { spawn(); s.spawn = Math.max(0.26, 0.9 - s.level * 0.055) * rnd(0.7, 1.25); } }
+        if (s.dying <= 0) { s.spawn -= dt; if (s.spawn <= 0) { spawn(); s.spawn = Math.max(0.26, 0.9 - s.level * 0.055) * grnd(0.7, 1.25); } }
         for (let i = s.items.length - 1; i >= 0; i--) {
           const it = s.items[i]; it.t += dt; it.y += it.vy * dt; it.x += Math.cos(it.t * it.wf) * it.wa * dt; it.rot += it.vr * dt;
           if (s.dying <= 0 && Math.abs(it.y - (g0 - r * 0.9)) < r * 0.95 && Math.abs(it.x - s.x) < r * 1.15) { s.items.splice(i, 1); grab(it); continue; }
@@ -110,14 +112,14 @@
       }
       function spawn() {
         const cells = grid(), free = cells.map((c, i) => i).filter(i => !s.occ.some(o => o.cell === i)); if (!free.length) return;
-        const pk = Math.min(0.28, 0.12 + s.level * 0.015), r = Math.random(), type = r < pk ? 'pack' : r < pk + 0.06 ? 'gold' : 'bug';
-        s.occ.push({ cell: pick(free), type, t: 0, stay: Math.max(0.55, 1.45 - s.level * 0.09) * rnd(0.85, 1.15) * (type === 'pack' ? 1.2 : 1), up: 0, hit: false, gone: false, a: rnd(-0.4, 0.4) });
+        const pk = Math.min(0.28, 0.12 + s.level * 0.015), r = A.rng(), type = r < pk ? 'pack' : r < pk + 0.06 ? 'gold' : 'bug';
+        s.occ.push({ cell: gpick(free), type, t: 0, stay: Math.max(0.55, 1.45 - s.level * 0.09) * grnd(0.85, 1.15) * (type === 'pack' ? 1.2 : 1), up: 0, hit: false, gone: false, a: grnd(-0.4, 0.4) });
       }
       s.update = (dt) => {
         if (s.dying > 0) { s.dying -= dt; if (s.dying <= 0) s.over = true; return; }
         grid(); s.cheer -= dt; s.ouch -= dt;
         const maxA = Math.min(5, 1 + Math.floor(s.level / 2));
-        s.spawn -= dt; if (s.spawn <= 0) { if (s.occ.filter(o => !o.gone).length < maxA) spawn(); s.spawn = Math.max(0.3, 0.95 - s.level * 0.07) * rnd(0.7, 1.2); }
+        s.spawn -= dt; if (s.spawn <= 0) { if (s.occ.filter(o => !o.gone).length < maxA) spawn(); s.spawn = Math.max(0.3, 0.95 - s.level * 0.07) * grnd(0.7, 1.2); }
         for (let i = s.occ.length - 1; i >= 0; i--) {
           const o = s.occ[i]; o.t += dt;
           if (o.hit) { o.up = Math.max(0, o.up - dt * 6); if (o.up <= 0) s.occ.splice(i, 1); continue; }
@@ -170,7 +172,7 @@
     icon: '🎵', stage: 2, energy: 6, medals: [5, 9, 13],
     reward: (sc, m) => ({ fx: { cur: Math.min(30, 6 + sc * 2.5), happy: 4 }, coins: sc * 2 + m * 5, xp: 8 + Math.min(30, sc * 2.5) }),
     create() {
-      const s = { score: 0, level: 2, lives: 2, maxLives: 2, over: false, seq: [pick([0, 1, 2, 3]), pick([0, 1, 2, 3])], mode: 'pre', mt: 0.6, idx: 0, inIdx: 0, lit: -1, litT: 0, msg: '', dying: 0 };
+      const s = { score: 0, level: 2, lives: 2, maxLives: 2, over: false, seq: [gpick([0, 1, 2, 3]), gpick([0, 1, 2, 3])], mode: 'pre', mt: 0.6, idx: 0, inIdx: 0, lit: -1, litT: 0, msg: '', dying: 0 };
       s.hint = () => A.SR('cp_gh_echo');
       const geo = () => { const top = A.top, cx = A.W / 2, cy = top + (A.H - top) * 0.5, D = Math.min(A.W * 0.3, (A.H - top) * 0.3, 210); return { cx, cy, D, pr: D * 0.42, R: clamp(D * 0.36, 22, 64) }; };
       const padPos = (i, G) => [[G.cx, G.cy - G.D], [G.cx + G.D, G.cy], [G.cx, G.cy + G.D], [G.cx - G.D, G.cy]][i];
@@ -187,7 +189,7 @@
         if (s.dying > 0) { s.dying -= dt; if (s.dying <= 0) s.over = true; return; }
         s.mt -= dt;
         if (s.mode === 'pre' || s.mode === 'retry') { if (s.mt <= 0) { s.mode = 'show'; s.idx = 0; s.mt = 0.3; s.msg = A.SR('cp_e_watch'); } }
-        else if (s.mode === 'good') { if (s.mt <= 0) { s.seq.push(pick([0, 1, 2, 3])); s.level = s.seq.length; s.mode = 'show'; s.idx = 0; s.mt = 0.35; s.msg = A.SR('cp_e_watch'); } }
+        else if (s.mode === 'good') { if (s.mt <= 0) { s.seq.push(gpick([0, 1, 2, 3])); s.level = s.seq.length; s.mode = 'show'; s.idx = 0; s.mt = 0.35; s.msg = A.SR('cp_e_watch'); } }
         else if (s.mode === 'show') { if (s.mt <= 0) { if (s.idx < s.seq.length) { light(s.seq[s.idx], onT()); s.idx++; s.mt = onT() * 1.45; } else { s.mode = 'input'; s.inIdx = 0; s.msg = A.T('cp_e_turn'); } } }
       };
       s.draw = (g) => {
@@ -221,7 +223,7 @@
       const k = () => A.H / 800, R = () => clamp(A.H * 0.032, 14, 26), px = () => A.W * 0.3, floorY = () => A.H - 22;
       s.hint = () => A.SR('cp_gh_hop');
       function flap() { if (s.mode === 'dead') return; if (s.mode === 'ready') s.mode = 'fly'; s.vy = -600 * k(); A.sfx('hop'); A.burst(px() - R(), s.y + R() * 0.5, 4, { color: [A.theme().a], max: 80, s0: 2, s1: 3, g: 200 }); }
-      function addWall(x) { const gap = Math.max(R() * 5.6, A.H * (0.36 - s.level * 0.012)), mn = A.top + 20 + gap / 2, mx = floorY() - 20 - gap / 2; s.walls.push({ x, gy: rnd(mn, Math.max(mn, mx)), gap, w: R() * 2.6, passed: false }); }
+      function addWall(x) { const gap = Math.max(R() * 5.6, A.H * (0.36 - s.level * 0.012)), mn = A.top + 20 + gap / 2, mx = floorY() - 20 - gap / 2; s.walls.push({ x, gy: grnd(mn, Math.max(mn, mx)), gap, w: R() * 2.6, passed: false }); }
       function crash() { s.mode = 'dead'; s.dying = 0.9; A.sfx('crash'); A.shake(10); A.flash(0.3); A.burst(px(), s.y, 26, { color: ['#ff2a6d', '#ffd23e', '#fff'], max: 300 }); }
       s.update = (dt) => {
         s.t += dt; const r = R(), x = px();
@@ -279,8 +281,8 @@
           s.ev.push({ t: s.genT, k: b % 2 ? 'snare' : 'kick', bass: BASS[bar % 4] * (b % 4 === 3 ? 1.5 : 1), b }); s.ev.push({ t: s.genT + len / 2, k: 'hat' });
           if (b >= 4) {
             const slots = [[s.genT, Math.min(0.92, 0.55 + lv * 0.05)], [s.genT + len / 2, lv >= 2 ? Math.min(0.55, 0.06 + lv * 0.06) : 0]];
-            for (const [tt, p] of slots) { if (Math.random() >= p) continue; let lane = Math.floor(Math.random() * 4); if (lane === s.lastLane && ++s.rep >= 2) { lane = (lane + 1 + Math.floor(Math.random() * 3)) % 4; s.rep = 0; } else if (lane !== s.lastLane) s.rep = 0; s.lastLane = lane;
-              s.notes.push({ t: tt, lane, done: false }); if (lv >= 4 && Math.random() < 0.12) s.notes.push({ t: tt, lane: (lane + 2) % 4, done: false }); }
+            for (const [tt, p] of slots) { if (A.rng() >= p) continue; let lane = Math.floor(A.rng() * 4); if (lane === s.lastLane && ++s.rep >= 2) { lane = (lane + 1 + Math.floor(A.rng() * 3)) % 4; s.rep = 0; } else if (lane !== s.lastLane) s.rep = 0; s.lastLane = lane;
+              s.notes.push({ t: tt, lane, done: false }); if (lv >= 4 && A.rng() < 0.12) s.notes.push({ t: tt, lane: (lane + 2) % 4, done: false }); }
           }
           s.genBeat++; s.genT += len;
         }

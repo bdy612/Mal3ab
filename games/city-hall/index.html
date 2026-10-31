@@ -54,9 +54,43 @@
   #tip{position:absolute;pointer-events:none;background:rgba(15,20,25,.95);border:1px solid #3a4856;border-radius:6px;padding:6px 8px;font-size:12px;display:none;z-index:15;max-width:220px}
   .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
   @media (max-width:800px){#left,#right{display:none}#top .stat{min-width:60px}#top .stat b{font-size:13px}}
+  /* phones: modals fit the screen, the top bar scrolls sideways so speed / Save stay reachable */
+  .modal{width:min(460px,calc(100vw - 24px))}
+  @media (max-width:800px){#top{gap:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}#top::-webkit-scrollbar{display:none}#top .stat,#top button{flex:0 0 auto}}
+  /* online co-op */
+  .tool.online{border-color:#2f8a6a}
+  .tool.online.live{background:#123b2e;border-color:var(--good)}
+  #chBox{position:absolute;left:10px;width:230px;z-index:12;display:none;font-size:12px;padding:8px 10px}
+  #chBox .head{display:flex;align-items:center;gap:6px;cursor:pointer;flex-wrap:wrap}
+  #chBox .head b{font-size:12px;color:var(--quiet);letter-spacing:.05em}
+  .chip{display:inline-flex;align-items:center;gap:4px;background:#0f1419;border-radius:10px;padding:2px 7px 2px 5px;max-width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chip i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  #chFeed{margin-top:6px;display:flex;flex-direction:column;gap:3px}
+  #chFeed div{background:#0f1419;border-radius:5px;padding:3px 6px;border-left:3px solid var(--quiet);transition:opacity .6s}
+  #chFeed div.old{opacity:.45}
+  #online h3{margin-bottom:6px}
+  #online .sub{color:var(--quiet);font-size:12px;margin-bottom:10px}
+  #online input[type=text]{background:#0f1419;border:1px solid #3a4856;color:var(--ink);border-radius:6px;padding:7px 9px;font:inherit;width:100%}
+  #online input.code{text-transform:uppercase;letter-spacing:.2em;font-weight:700;text-align:center}
+  #online .line{display:flex;gap:8px;align-items:center;margin-top:8px}
+  #online .line .btn{margin-top:0;white-space:nowrap}
+  #online .or{text-align:center;color:var(--quiet);font-size:12px;margin:12px 0 2px}
+  #online .msg{color:var(--warn);font-size:12px;min-height:16px;margin-top:6px}
+  #online .roomcode{display:flex;align-items:center;gap:10px;background:#0f1419;border-radius:8px;padding:8px 10px;flex-wrap:wrap}
+  #online .roomcode b{font-size:22px;letter-spacing:.2em;color:var(--accent)}
+  #online .roomcode .btn{margin-top:0;margin-left:auto}
+  #online .plist{margin:10px 0;display:flex;flex-direction:column;gap:5px}
+  #online .pl{display:flex;align-items:center;gap:8px;background:#0f1419;border-radius:8px;padding:7px 10px}
+  #online .pl i{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
+  #online .pl span{color:var(--quiet);font-size:12px;margin-left:auto}
+  #online .pl.wait{color:var(--quiet);justify-content:center;font-style:italic}
+  #online .pick{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+  #online .pick label{display:flex;align-items:center;gap:8px;background:#0f1419;border-radius:8px;padding:7px 10px;cursor:pointer}
+  #online .pick label.off{opacity:.45;cursor:not-allowed}
+  #online .note{color:var(--quiet);font-size:12px;margin-top:8px}
 </style>
 <link rel="stylesheet" href="../../shared/theme.css?v=1793401000">
-<script src="../../shared/cloud.js?v=1793401000" data-game="cityhall" data-keys="cityhall-save"></script>
+<script src="../../shared/cloud.js?v=1793403000" data-game="cityhall" data-keys="cityhall-save,cityhall-online"></script>
 </head>
 <body>
 <div id="game">
@@ -107,6 +141,8 @@
     <button class="btn" onclick="closeModals()">Got it</button>
     <button class="btn alt" onclick="newGame()">New city</button>
   </div>
+  <div id="online" class="panel modal" data-m3pop><span class="close" onclick="closeModals()">✕</span><div id="onlineBody"></div></div>
+  <div id="chBox" class="panel"></div>
   <div id="toast"></div>
   <div id="tip"></div>
 </div>
@@ -171,8 +207,10 @@ function isBuilding(t){return t>=T.POWER && t<=T.HALL}
 function tierOf(pop){let t=0;for(let i=0;i<TIERS.length;i++) if(pop>=TIERS[i].pop) t=i;return t}
 
 // ───────────────────────── Simulation ─────────────────────────
-function simulate(){
-  const m=S.map, L=S.lvl, st={};
+// steps 1-4 of the simulation: pure functions of the map, budgets and policies (no randomness, no state changes).
+// Online guests call this too, to rebuild coverage / pollution / road maps from the tiles the host sends.
+function fieldsOf(){
+  const m=S.map, L=S.lvl;
   // 1. connectivity (BFS over roads from City Hall)
   const conn = Array.from({length:N},()=>new Uint8Array(N));
   const q=[]; for(let y=0;y<N;y++)for(let x=0;x<N;x++) if(m[y][x]===T.HALL){q.push([x,y]);conn[y][x]=1;}
@@ -194,7 +232,6 @@ function simulate(){
   }
   upkeep+=roads*BUILD.road.upkeep;
   const powered = powerCap>=buildings, watered = waterCap>=buildings;
-  st.powerCap=powerCap; st.waterCap=waterCap; st.buildings=buildings; st.powered=powered; st.watered=watered;
   // 3. coverage maps
   const cover = {}; for(const k in svc){ cover[k]=Array.from({length:N},()=>new Uint8Array(N)); const r=(BUILD[k]||{radius:3}).radius; const eff = k==='park'?1:(S.budget[k]/100);
     for(const [sx,sy] of svc[k]){const rr=Math.max(2,Math.round(r*Math.min(1.3,eff))); for(let y=sy-rr;y<=sy+rr;y++)for(let x=sx-rr;x<=sx+rr;x++) if(inb(x,y)&&Math.abs(x-sx)+Math.abs(y-sy)<=rr) cover[k][y][x]=1;}}
@@ -203,6 +240,12 @@ function simulate(){
   const polMul = (S.policies.cleanEnergy?0.7:1)*(S.policies.recycling?0.8:1);
   for(let y=0;y<N;y++)for(let x=0;x<N;x++){let e=0; if(m[y][x]===T.I) e=10+L[y][x]*8; if(m[y][x]===T.POWER) e=40; if(!e) continue;
     for(let yy=y-5;yy<=y+5;yy++)for(let xx=x-5;xx<=x+5;xx++) if(inb(xx,yy)){const d=Math.abs(xx-x)+Math.abs(yy-y); if(d<=5) pol[yy][xx]+=e*(1-d/6)*polMul;}}
+  return {conn,served,powerCap,waterCap,buildings,roads,upkeep,cover,pol,powered,watered};
+}
+function simulate(){
+  const m=S.map, L=S.lvl, st={};
+  const {conn,served,powerCap,waterCap,buildings,roads,upkeep,cover,pol,powered,watered}=fieldsOf();
+  st.powerCap=powerCap; st.waterCap=waterCap; st.buildings=buildings; st.powered=powered; st.watered=watered;
   // 5. population & jobs
   let pop=0, jobs=0, cnt={R:0,C:0,I:0}, zoned={R:0,C:0,I:0};
   for(let y=0;y<N;y++)for(let x=0;x<N;x++){const t=m[y][x],l=L[y][x];
@@ -325,16 +368,20 @@ function alert_(kind,text,x,y){S.alerts.unshift({kind,text,x,y,m:S.month}); if(S
 
 // ───────────────────────── Building ─────────────────────────
 function canAfford(c){return S.money>=c}
-function place(x,y,tool){
-  if(!inb(x,y)) return; const b=BUILD[tool]; const m=S.map;
-  if(S.bankrupt&&tool!=='bull'){toast('Building is frozen during state control.');return;}
-  if(b.tier>S.tier){toast(`${b.name} unlocks at ${TIERS[b.tier].name}`);return;}
-  if(tool==='bull'){ if(m[y][x]===T.HALL||m[y][x]===T.GRASS) return; if(!canAfford(b.cost)) return; m[y][x]=T.GRASS; S.lvl[y][x]=0; S.money-=b.cost; return; }
-  if(m[y][x]===b.t) return;
-  if(m[y][x]!==T.GRASS&&m[y][x]!==T.TREE){ if(isZone(m[y][x])&&isZone(b.t)&&S.lvl[y][x]===0){} else return; }
-  if(!canAfford(b.cost)){toast('Not enough money');return;}
-  m[y][x]=b.t; S.lvl[y][x]=0; S.money-=b.cost;
+// changes the map; returns 'ok' when something was built, '' when nothing happened, or why it was refused
+function placeAt(x,y,tool){
+  const b=BUILD[tool]; if(!b||!inb(x,y)) return ''; const m=S.map;
+  if(S.bankrupt&&tool!=='bull') return 'frozen';
+  if(b.tier>S.tier) return 'tier';
+  if(tool==='bull'){ if(m[y][x]===T.HALL||m[y][x]===T.GRASS) return ''; if(!canAfford(b.cost)) return ''; m[y][x]=T.GRASS; S.lvl[y][x]=0; S.money-=b.cost; return 'ok'; }
+  if(m[y][x]===b.t) return '';
+  if(m[y][x]!==T.GRASS&&m[y][x]!==T.TREE){ if(isZone(m[y][x])&&isZone(b.t)&&S.lvl[y][x]===0){} else return ''; }
+  if(!canAfford(b.cost)) return 'money';
+  m[y][x]=b.t; S.lvl[y][x]=0; S.money-=b.cost; return 'ok';
 }
+function placeMsg(r,tool){const b=BUILD[tool]; if(!b) return;
+  if(r==='frozen') toast('Building is frozen during state control.'); else if(r==='tier') toast(`${b.name} unlocks at ${TIERS[b.tier].name}`); else if(r==='money') toast('Not enough money');}
+function place(x,y,tool){ if(window.CHO&&CHO.live()) return CHO.place(x,y,tool); placeMsg(placeAt(x,y,tool),tool); }
 
 // ───────────────────────── Rendering ─────────────────────────
 const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
@@ -388,6 +435,7 @@ function draw(){
   for(const f of S.fires){const [px,py]=isoToScreen(f.x,f.y);ctx.fillStyle=`rgba(255,${120+rnd(80)},0,.85)`;ctx.beginPath();ctx.moveTo(px-8,py);ctx.lineTo(px,py-24-rnd(6));ctx.lineTo(px+8,py);ctx.closePath();ctx.fill();}
   // hover
   if(G.hover){const [x,y]=G.hover; if(inb(x,y)){const [px,py]=isoToScreen(x,y); diamond(px,py,'rgba(255,255,255,.18)','#fff');}}
+  if(window.CHO) CHO.draw(ctx);   // other mayors' cursors
 }
 
 // ───────────────────────── UI ─────────────────────────
@@ -417,18 +465,22 @@ function buildBar(){
     const b=BUILD[k]; const el=document.createElement('div'); el.className='tool'+(G.tool===k?' on':'')+(b.tier>S.tier?' locked':''); el.innerHTML=`${b.name}<small>$${b.cost}${b.upkeep?' · $'+b.upkeep+'/mo':''}${b.tier>S.tier?' · '+TIERS[b.tier].name:''} [${b.key}]</small>`; el.title=b.hint; el.onclick=()=>{if(b.tier>S.tier){toast(`${b.name} unlocks at ${TIERS[b.tier].name}`);return;} G.tool=k; buildBar();}; bar.appendChild(el);}
   const pol=document.createElement('div'); pol.className='tool'+(S.tier<2?' locked':''); pol.innerHTML='Policies<small>'+(S.tier<2?'Town':'city-wide rules')+'</small>'; pol.onclick=()=>{if(S.tier<2){toast('Policies unlock at Town (2,000 pop)');return;} openPolicies();}; bar.appendChild(pol);
   const bud=document.createElement('div'); bud.className='tool'; bud.innerHTML='Budget<small>taxes & loans</small>'; bud.onclick=openBudget; bar.appendChild(bud);
+  if(window.CHO) CHO.barButton(bar);
 }
 function openBudget(){closeModals(); const st=S.stats; const inc=st.income||{R:0,C:0,I:0};
   let h=`<div class="row"><span>Income: R $${fmt(inc.R)} · C $${fmt(inc.C)} · I $${fmt(inc.I)}</span></div>
   <div class="row"><span>Expenses: services $${fmt(st.upkeep||0)} · policies $${fmt(st.polCost||0)} · loan $${fmt(st.loanPay||0)}</span></div>
   <div class="row"><b>Net per month</b><b class="${(st.net||0)>=0?'good':'bad'}">$${fmt(st.net||0)}</b></div><h4 style="margin-top:10px">Taxes</h4>`;
-  for(const k of ['R','C','I']) h+=`<div class="row"><span>${k==='R'?'Residential':k==='C'?'Commercial':'Industrial'} tax <b id="tx${k}">${S.tax[k]}%</b></span><input type="range" min="0" max="30" value="${S.tax[k]}" oninput="S.tax.${k}=+this.value;document.getElementById('tx${k}').textContent=this.value+'%'"></div>`;
+  for(const k of ['R','C','I']) h+=`<div class="row"><span>${k==='R'?'Residential':k==='C'?'Commercial':'Industrial'} tax <b id="tx${k}">${S.tax[k]}%</b></span><input type="range" min="0" max="30" value="${S.tax[k]}" oninput="setTax('${k}',+this.value);document.getElementById('tx${k}').textContent=this.value+'%'"></div>`;
   h+='<h4 style="margin-top:10px">Service budgets</h4>';
-  for(const k of ['fire','police','clinic','school']) h+=`<div class="row"><span>${BUILD[k].name} <b id="bg${k}">${S.budget[k]}%</b></span><input type="range" min="50" max="150" value="${S.budget[k]}" oninput="S.budget.${k}=+this.value;document.getElementById('bg${k}').textContent=this.value+'%'"></div>`;
+  for(const k of ['fire','police','clinic','school']) h+=`<div class="row"><span>${BUILD[k].name} <b id="bg${k}">${S.budget[k]}%</b></span><input type="range" min="50" max="150" value="${S.budget[k]}" oninput="setBudget('${k}',+this.value);document.getElementById('bg${k}').textContent=this.value+'%'"></div>`;
   h+=`<h4 style="margin-top:10px">Loans</h4><div class="row"><span>Outstanding: $${fmt(S.loans)} (repaid $600/mo)</span>${S.tier>=1?`<button class="pol" onclick="takeLoan()">Borrow $10,000</button>`:'<span style="color:var(--quiet)">unlocks at Hamlet</span>'}</div>`;
   document.getElementById('budgetBody').innerHTML=h; document.getElementById('budget').classList.add('show');
 }
-function takeLoan(){if(S.loans>=30000){toast('Loan limit reached');return;} S.loans+=11000; S.money+=10000; toast('Borrowed $10,000 (repay $11,000 at $600/mo)'); openBudget();}
+function setTax(k,v){S.tax[k]=v; if(window.CHO) CHO.city('tax',{k,v});}
+function setBudget(k,v){S.budget[k]=v; if(window.CHO) CHO.city('bud',{k,v});}
+function loanAt(){if(S.loans>=30000) return 'limit'; S.loans+=11000; S.money+=10000; return 'ok';}
+function takeLoan(){const r=loanAt(); if(r==='limit'){toast('Loan limit reached');return;} toast('Borrowed $10,000 (repay $11,000 at $600/mo)'); if(window.CHO) CHO.city('loan',{}); openBudget();}
 function openNeeds(){closeModals(); const n=S.stats.needs||{}; let h='<p style="color:var(--quiet);font-size:12px;margin-bottom:8px">Happiness is the average of six needs, minus tax, pollution and traffic penalties.</p>';
   const words={Housing:'"Where can my family live?"',Jobs:'"There is no work here."',Safety:'"I don\'t feel safe at night."',Health:'"The air makes my kids sick."',Education:'"There is no school for my children."',Leisure:'"There is nothing to do on weekends."'};
   for(const k in n) h+=`<div class="row"><span>${k}<br><span style="color:var(--quiet);font-size:11px">${n[k]<50?words[k]:''}</span></span><span style="display:flex;gap:8px;align-items:center"><b style="color:${colorFor(n[k])}">${Math.round(n[k])}</b><span class="bar" style="width:120px;height:8px;background:#0f1419;border-radius:4px;display:inline-block;overflow:hidden"><i style="display:block;height:100%;width:${n[k]}%;background:${colorFor(n[k])}"></i></span></span></div>`;
@@ -438,18 +490,21 @@ function openPolicies(){closeModals(); let h='';
   for(const k in POLICIES){const p=POLICIES[k]; h+=`<div class="row"><span>${p.name}<br><span style="color:var(--quiet);font-size:11px">${p.desc}</span></span><button class="pol ${S.policies[k]?'on':''}" onclick="togglePolicy('${k}')">${p.oneoff?'Run':(S.policies[k]?'On':'Off')}</button></div>`;}
   document.getElementById('needsBody').innerHTML=h; document.querySelector('#needs h3').textContent='Policies'; document.getElementById('needs').classList.add('show');
 }
-function togglePolicy(k){const p=POLICIES[k]; if(p.oneoff){ if(S.money<p.cost){toast('Not enough money');return;} S.money-=p.cost; S.festival=1; toast('🎉 Festival Week! +15 happiness this month.'); } else S.policies[k]=!S.policies[k]; openPolicies();}
+// on = the new value for an on/off policy (undefined flips it); one-off policies just run
+function policyAt(k,on){const p=POLICIES[k]; if(!p) return ''; if(p.oneoff){ if(S.money<p.cost) return 'money'; S.money-=p.cost; S.festival=1; return 'fest'; } S.policies[k]=on===undefined?!S.policies[k]:!!on; return 'ok';}
+function togglePolicy(k){const r=policyAt(k); if(r==='money'){toast('Not enough money');return;} if(r==='fest') toast('🎉 Festival Week! +15 happiness this month.'); if(window.CHO) CHO.city('pol',{k,on:!!S.policies[k]}); openPolicies();}
 function openHelp(){closeModals(); document.getElementById('help').classList.add('show');}
 function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show')); document.querySelector('#needs h3').textContent='Citizen needs';}
-let toastT; function toast(msg){const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(toastT); toastT=setTimeout(()=>t.style.display='none',4500);}
-function setSpeed(s){G.speed=s; for(let i=0;i<4;i++) document.getElementById('spd'+i).classList.toggle('on',i===s);}
+let toastT; function toast(msg){if(window.CHO) CHO.onToast(msg); const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(toastT); toastT=setTimeout(()=>t.style.display='none',4500);}
+// remote=true: the online host changed the speed (only the host may change it)
+function setSpeed(s,remote){ if(!remote&&window.CHO&&!CHO.mayChangeSpeed()) return; G.speed=s; for(let i=0;i<4;i++) document.getElementById('spd'+i).classList.toggle('on',i===s); if(!remote&&window.CHO) CHO.onSpeed(s);}
 
 // ───────────────────────── Input ─────────────────────────
 cv.addEventListener('contextmenu',e=>e.preventDefault());
 cv.addEventListener('mousedown',e=>{ if(e.button===1||(e.button===0&&e.shiftKey)){G.drag={px:e.clientX,py:e.clientY,cx:G.cam.x,cy:G.cam.y};return;}
   const [x,y]=screenToIso(e.clientX,e.clientY); G.paint=e.button===2?'bull':G.tool; place(x,y,G.paint); G.last=[x,y]; });
 addEventListener('mousemove',e=>{ if(G.drag){G.cam.x=G.drag.cx+(e.clientX-G.drag.px)/G.cam.z; G.cam.y=G.drag.cy+(e.clientY-G.drag.py)/G.cam.z; return;}
-  const [x,y]=screenToIso(e.clientX,e.clientY); G.hover=[x,y];
+  const [x,y]=screenToIso(e.clientX,e.clientY); G.hover=[x,y]; if(window.CHO) CHO.cursor(x,y);
   if(G.paint&&(x!==G.last[0]||y!==G.last[1])){ if(BUILD[G.paint].t===T.ROAD||isZone(BUILD[G.paint].t)||G.paint==='bull') place(x,y,G.paint); G.last=[x,y]; }
   showTip(e.clientX,e.clientY,x,y); });
 addEventListener('mouseup',()=>{G.paint=null;G.drag=null;});
@@ -473,18 +528,21 @@ function showTip(sx,sy,x,y){const tip=document.getElementById('tip'); if(!inb(x,
   tip.innerHTML=h; tip.style.display='block'; tip.style.left=(sx+14)+'px'; tip.style.top=(sy+14)+'px';}
 
 // ───────────────────────── Save / load / loop ─────────────────────────
-function saveGame(){try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));toast('City saved.');}catch(e){toast('Could not save (browser storage blocked).');}}
+// in an online room the shared city goes to its own slot (cityhall-online); the single-player save is never touched
+function saveGame(){if(window.CHO&&CHO.on()) return CHO.save(); try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));toast('City saved.');}catch(e){toast('Could not save (browser storage blocked).');}}
 function loadGame(){try{const s=localStorage.getItem('cityhall-save'); if(!s) return false; S=JSON.parse(s); S.stats={}; return true;}catch(e){return false;}}
-function newGame(){S=newState(); closeModals(); goTo(Math.floor(N/2),Math.floor(N/2)); simulate(); buildBar(); updateHUD(); toast('New city founded. Build roads from City Hall and zone homes.');}
+function newGame(){if(window.CHO&&CHO.on()&&!CHO.newCity()) return; S=newState(); closeModals(); goTo(Math.floor(N/2),Math.floor(N/2)); simulate(); buildBar(); updateHUD(); toast('New city founded. Build roads from City Hall and zone homes.'); if(window.CHO) CHO.afterNewCity();}
 if(!loadGame()) S=newState();
 goTo(Math.floor(N/2),Math.floor(N/2)); G.cam.z=1.15;
 simulate(); buildBar(); updateHUD(); setSpeed(1);
-if(!localStorage.getItem('cityhall-save')) setTimeout(openHelp,400);
+if(!localStorage.getItem('cityhall-save')&&!/[?&]room=/.test(location.search)) setTimeout(openHelp,400);
 let last=performance.now();
-function loop(now){const dt=now-last; last=now; if(G.speed){G.acc+=dt*G.speed; const per=2500; while(G.acc>=per){G.acc-=per; simulate(); buildBar(); updateHUD();}} draw(); requestAnimationFrame(loop);}
+// online: only the host runs the monthly tick (guests get the city from the host); nobody ticks while in the lobby
+function loop(now){const dt=now-last; last=now; if(G.speed&&(!window.CHO||CHO.canSim())){G.acc+=dt*G.speed; const per=2500; while(G.acc>=per){G.acc-=per; G.inSim=true; try{simulate();}finally{G.inSim=false;} buildBar(); updateHUD(); if(window.CHO) CHO.afterTick();}} draw(); requestAnimationFrame(loop);}
 requestAnimationFrame(loop);
-setInterval(()=>{ if(S.month%12===0 && S.month>0) {/* autosave yearly */ try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));}catch(e){} } },30000);
+setInterval(()=>{ if(window.CHO&&CHO.on()){CHO.autosave();return;} if(S.month%12===0 && S.month>0) {/* autosave yearly */ try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));}catch(e){} } },30000);
 </script>
+<script src="online.js?v=1793403000"></script>
 
 </body>
 </html>

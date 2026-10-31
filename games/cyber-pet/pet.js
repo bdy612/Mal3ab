@@ -1426,10 +1426,11 @@
     if (modalEl.hidden) return; const k = modalKind; modalEl.hidden = true; modalKind = null; mbox.innerHTML = '';
     if (k === 'pause' && scene === 'game') MG.paused = false; updCoach();
   }
-  modalEl.addEventListener('pointerdown', (e) => { if (e.target === modalEl && !['pause', 'result', 'evo', 'name', 'confirm', 'intro'].includes(modalKind)) { Snd.sfx('close'); closeModal(); } });
+  modalEl.addEventListener('pointerdown', (e) => { if (e.target === modalEl && !['pause', 'result', 'evo', 'name', 'confirm', 'intro', 'bres', 'bwait', 'pkgone', 'online'].includes(modalKind)) { Snd.sfx('close'); closeModal(); } });
   function rerenderModal() {
     const k = modalKind; if (!k) return;
     if (k === 'games') openGames(); else if (k === 'shop') openShop(modalArg); else if (k === 'diary') openDiary(); else if (k === 'menu') openMenu(); else if (k === 'how') openHow(); else if (k === 'pause') openPause(); else if (k === 'intro') showIntro(); else if (k === 'result') showResult();
+    else if (NET.rerender) NET.rerender(k);
   }
   function openGames() {
     const fg = favGame();
@@ -1437,8 +1438,10 @@
       return `<div class="gcard ${lock ? 'lock' : ''}"><div class="gi">${G.icon}</div><div class="gn">${T('cp_g_' + id)} ${fg === id ? '❤️' : ''}</div>
         <div class="gb">${lock ? `<span class="pill">🔒</span>` : `<button class="btn small" data-g="${id}">${T('cp_play')}</button>`}<span class="gs">${lock ? '' : T('cp_energy_cost', { n: G.energy })}</span></div>
         <div class="gd">${esc(SR('cp_gd_' + id))}<br><span class="gs">${lock ? esc(T('cp_unlock_at', { s: T('cp_st' + G.stage) })) : `${T('cp_best')}: ${best} ${['', '🥉', '🥈', '🥇'][md]} · ${esc(T('cp_medal_need', { n: G.medals[0] }))}`}</span></div></div>`; }).join('');
-    openModal('games', T('cp_games_t'), `<div class="stack">${body}</div>`);
+    const online = NET.open ? `<div class="gcard"><div class="gi">🌐</div><div class="gn">${T('cp_pk_menu')}</div><div class="gb"><button class="btn small neon" id="gOnline">${T('cp_pk_go')}</button><span class="gs">👥 2–4</span></div><div class="gd">${esc(SR('cp_pk_menu_d'))}</div></div>` : '';
+    openModal('games', T('cp_games_t'), `<div class="stack">${online}${body}</div>`);
     mbox.querySelectorAll('[data-g]').forEach(b => b.onclick = () => startGame(b.dataset.g));
+    if ($('#gOnline')) $('#gOnline').onclick = () => { Snd.sfx('open'); NET.open(); };
   }
   function itemState(kind, it) {
     const owned = S.owned[kind].includes(it.id) || (!it.secret && !it.price && (!it.stage || S.stage >= it.stage));
@@ -1497,11 +1500,11 @@
     mbox.querySelectorAll('canvas[data-form]').forEach(c2 => drawPetTo(c2, c2.dataset.form, c2.dataset.sil === '1', 27));
   }
   function openMenu() {
-    const b = `<div class="stack"><button class="btn" id="mmRes">${T('cp_resume')}</button><button class="btn sec" id="mmHow">${T('cp_howto')}</button><button class="btn sec" id="mmName">${T('cp_rename')}</button>
+    const b = `<div class="stack"><button class="btn" id="mmRes">${T('cp_resume')}</button>${NET.open ? `<button class="btn neon" id="mmOnline">🌐 ${T('cp_pk_menu')}</button>` : ''}<button class="btn sec" id="mmHow">${T('cp_howto')}</button><button class="btn sec" id="mmName">${T('cp_rename')}</button>
       <button class="btn sec" id="mmSnd">${T('cp_sound')}: ${T(Snd.on ? 'cp_on' : 'cp_off')}</button>${S.secrets.konami ? `<button class="btn sec" id="mmPix">${T('cp_pixel')}: ${T(S.pixel ? 'cp_on' : 'cp_off')}</button>` : ''}
       <button class="btn sec" id="mmTitle">${T('cp_totitle')}</button><button class="btn danger" id="mmReset">${T('cp_reset')}</button></div>`;
     openModal('menu', T('cp_menu'), b);
-    $('#mmRes').onclick = () => closeModal(); $('#mmHow').onclick = () => openHow(); $('#mmName').onclick = () => openName(true);
+    $('#mmRes').onclick = () => closeModal(); $('#mmHow').onclick = () => openHow(); if ($('#mmOnline')) $('#mmOnline').onclick = () => { Snd.sfx('open'); NET.open(); }; $('#mmName').onclick = () => openName(true);
     $('#mmSnd').onclick = () => { Snd.on = !Snd.on; settings.sound = Snd.on; saveSettings(); Snd.sfx('tap'); openMenu(); };
     if ($('#mmPix')) $('#mmPix').onclick = () => { S.pixel = !S.pixel; saveNow(); openMenu(); };
     $('#mmTitle').onclick = () => { closeModal(); saveNow(); setScene('title'); };
@@ -1567,13 +1570,16 @@
   }
 
   // ------------------------------------------------------------------ mini-game framework
-  const MG = { id: null, g: null, state: null, t: 0, paused: false, res: null };
+  const MG = { id: null, g: null, state: null, t: 0, paused: false, res: null, rng: null, battle: false };
+  const NET = {};   // online hooks, filled by online.js (Pet Park)
+  function seededRng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function startGame(id, quick) {
     const G = GAMES[id]; if (!G || !S) return;
     if (S.stage < G.stage) return;
     if (S.sleeping) { toast(T('cp_shh')); return; }
     if (S.st.energy < G.energy) { closeModal(); if (scene === 'game') exitGame(); toast(T('cp_tired')); say(SR('cp_sp_tired')); emote('sad', 1.5); return; }
     closeModal(); closeTray(); Snd.resume();
+    MG.rng = null; MG.battle = false;
     MG.id = id; MG.g = G.create(API); MG.state = 'intro'; MG.t = 3; MG.paused = false; MG.res = null; parts.length = 0;
     setScene('game');
     if (quick) beginGame(); else { Snd.sfx('open'); showIntro(); }
@@ -1595,6 +1601,15 @@
     S.st.energy -= G.energy; S.games[MG.id] = (S.games[MG.id] || 0) + 1; S.counts.games++; addCare({ play: 4 }); if (isNight()) addCare({ chaos: 0.8 }); if (S.tut === 3) advanceTut(); markDirty();
     MG.state = 'count'; MG.t = 3; MG.paused = false;
   }
+  // online battle: same game + same seed for everyone, no energy cost, no solo result screen (online.js shows the shared results)
+  function startBattle(id, seed) {
+    const G = GAMES[id]; if (!G || !S) return false;
+    closeModal(); closeTray(); Snd.resume();
+    MG.rng = seededRng(seed); MG.battle = true;
+    MG.id = id; MG.g = G.create(API); MG.state = 'count'; MG.t = 3; MG.paused = false; MG.res = null; parts.length = 0;
+    setScene('game'); Snd.sfx('open'); return true;
+  }
+  function exitBattle() { MG.g = null; MG.id = null; MG.res = null; MG.rng = null; MG.battle = false; MG.paused = false; parts.length = 0; }
   function cancelIntro() { if (MG.state !== 'intro') return; Snd.sfx('close'); closeModal(); MG.g = null; MG.id = null; MG.res = null; parts.length = 0; setScene('hub'); }
   function mgUpdate(dt) {
     if (!MG.g || MG.paused) return;
@@ -1604,6 +1619,7 @@
     updMgHud();
   }
   function finishGame() {
+    if (MG.battle) { if (MG.state === 'over') return; MG.state = 'over'; Snd.sfx('lose'); if (NET.battleOver) NET.battleOver(Math.floor(MG.g.score || 0)); return; }
     if (MG.state === 'over') return; MG.state = 'over'; const G = GAMES[MG.id], sc = Math.floor(MG.g.score || 0);
     const medal = sc >= G.medals[2] ? 3 : sc >= G.medals[1] ? 2 : sc >= G.medals[0] ? 1 : 0, best = S.best[MG.id] || 0, nb = sc > best;
     if (nb) S.best[MG.id] = sc; S.medals[MG.id] = Math.max(S.medals[MG.id] || 0, medal);
@@ -1627,7 +1643,7 @@
     $('#rsBack').onclick = () => { closeModal(); exitGame(); }; $('#rsAgain').onclick = () => { const id = MG.id; closeModal(); startGame(id, true); };
   }
   function exitGame() { const r = MG.res; MG.g = null; MG.id = null; parts.length = 0; setScene('hub'); if (r) { say(SR(r.medal ? 'cp_sp_mgwin' : 'cp_sp_mglose')); emote(r.medal ? 'happy' : 'surprised', 1.5); } }
-  function pauseGame() { if (scene !== 'game' || MG.state === 'over' || MG.state === 'intro' || MG.paused) return; MG.paused = true; openPause(); }
+  function pauseGame() { if (MG.battle) { if (scene === 'game' && NET.battlePause) NET.battlePause(); return; } if (scene !== 'game' || MG.state === 'over' || MG.state === 'intro' || MG.paused) return; MG.paused = true; openPause(); }
   function openPause() {
     openModal('pause', '⏸ ' + T('cp_paused'), `<div class="stack"><button class="btn" id="psR">${T('cp_resume')}</button><button class="btn sec" id="psRe">${T('cp_restart')}</button><button class="btn sec" id="psS">${T('cp_sound')}: ${T(Snd.on ? 'cp_on' : 'cp_off')}</button><button class="btn danger" id="psQ">${T('cp_quit')}</button></div>`, '', true);
     $('#psR').onclick = () => { closeModal(); MG.paused = false; };
@@ -1659,24 +1675,28 @@
   }
   const API = {
     get W() { return W; }, get H() { return H; }, get time() { return clock; }, get top() { const r = $('#mghud').getBoundingClientRect(); return (r.bottom || 52) + 6; },
-    get R() { return LY.R; }, mobile: () => LY.mobile, pet: (gg, x, y, R, extra) => compositePet(gg, x, y, R, petOpts(Object.assign({ eye: 'normal', mouth: 'smile', open: 1, blush: 0, sx: 1, sy: 1, glitch: 0, acc: { head: S.eq.head, face: S.eq.face }, sleeping: false }, extra))),
+    get R() { return LY.R; }, mobile: () => LY.mobile, pet: (gg, x, y, R, extra) => compositePet(gg, x, y, R, petOpts(Object.assign({ eye: 'normal', mouth: 'smile', open: 1, blush: 0, sx: 1, sy: 1, glitch: 0, acc: { head: S.eq.head, face: S.eq.face }, sleeping: false }, S.stage < 1 ? { form: 'bitling', acc: null } : null, extra))),
+    rng: () => (MG.rng ? MG.rng() : Math.random()),   // gameplay randomness (seeded in online battles so everyone gets the same world)
     sfx: (n, a) => Snd.sfx(n, a), part: addPart, burst, float: floatText, shake: (n) => { shake = Math.max(shake, n); }, flash: (n) => { flash = Math.max(flash, n); },
     theme, T, SR, rnd, ri, clamp, lerp, pick, hr, hsl, rr, ell, heart, glowFill, noGlow, bg: mgBg, food: drawFood, bug: drawBug, get stage() { return S.stage; },
   };
 
   // ------------------------------------------------------------------ scenes
   function setScene(sc) {
-    scene = sc; const hubEl = $('#hub'), title = $('#title'), hud = $('#mghud');
-    hubEl.hidden = sc !== 'hub'; title.hidden = sc !== 'title'; hud.hidden = sc !== 'game';
+    scene = sc; const hubEl = $('#hub'), title = $('#title'), hud = $('#mghud'), park = $('#park');
+    hubEl.hidden = sc !== 'hub'; title.hidden = sc !== 'title'; hud.hidden = sc !== 'game'; if (park) park.hidden = sc !== 'park';
     if (sc !== 'hub') { bubbleEl.classList.add('off'); speech.t = 0; $('#evoTag').hidden = true; }
     if (sc === 'title') renderTitle(); if (sc === 'hub') { syncBugs(); renderHub(); } if (sc === 'game') { hudKey = ''; updMgHud(); }
+    if (NET.scene) NET.scene(sc);
     layout(); updCoach();
   }
   function renderTitle() {
     $('#tLogo').textContent = T('cp_title'); $('#tLogo').setAttribute('data-text', T('cp_title')); $('#tLang').textContent = lang() === 'ar' ? 'English' : 'العربية';
     titleSv = loadSave(); const has = !!titleSv;
-    $('#tBtns').innerHTML = has ? `<button class="btn" id="tbC">▶ ${T('cp_continue')}</button><button class="btn sec" id="tbH">${T('cp_howto')}</button><button class="btn sec" id="tbN">${T('cp_newpet')}</button>`
-      : `<button class="btn" id="tbS">🥚 ${T('cp_start')}</button><button class="btn sec" id="tbH">${T('cp_howto')}</button>`;
+    const onl = NET.open ? `<button class="btn neon" id="tbO">🌐 ${T('cp_pk_menu')}</button>` : '';
+    $('#tBtns').innerHTML = has ? `<button class="btn" id="tbC">▶ ${T('cp_continue')}</button>${onl}<button class="btn sec" id="tbH">${T('cp_howto')}</button><button class="btn sec" id="tbN">${T('cp_newpet')}</button>`
+      : `<button class="btn" id="tbS">🥚 ${T('cp_start')}</button>${onl}<button class="btn sec" id="tbH">${T('cp_howto')}</button>`;
+    if ($('#tbO')) $('#tbO').onclick = () => { Snd.resume(); Snd.sfx('open'); NET.open(); };
     if ($('#tbC')) $('#tbC').onclick = () => { Snd.resume(); Snd.sfx('open'); continueGame(); };
     if ($('#tbS')) $('#tbS').onclick = () => { Snd.resume(); Snd.sfx('open'); openName(false); };
     if ($('#tbN')) $('#tbN').onclick = () => { Snd.resume(); const old = loadSave(); confirmBox(SR('cp_resetq', { n: old ? old.name : '' }), T('cp_yesreset'), () => { closeModal(); openName(false); }); };
@@ -1685,6 +1705,7 @@
   function newPet(name) {
     S = fresh(); S.name = name; bugs.length = 0; pet.x = pet.tx = LY.cx; termLines.length = 0; saveNow(); applyThemeVars(); setScene('hub');
     if (/^(neo|نيو)$/i.test(name)) S.flags.neoPending = true;
+    if (NET.afterPet) NET.afterPet();
   }
   function continueGame() {
     S = loadSave(); if (!S) { openName(false); return; } applyThemeVars(); bugs.length = 0;
@@ -1697,12 +1718,14 @@
       checkAch();
     }
     saveNow();
+    if (NET.afterPet) NET.afterPet();
   }
 
   // ------------------------------------------------------------------ input
   cv.addEventListener('pointerdown', (e) => {
     Snd.resume(); const x = e.clientX, y = e.clientY; ptr.x = x; ptr.y = y; ptr.t = clock;
     if (scene === 'game') { if (MG.g && MG.state === 'play' && !MG.paused && MG.g.down) MG.g.down(x, y, e); return; }
+    if (scene === 'park') { if (NET.down) NET.down(x, y, e); return; }
     if (scene === 'title') { pet.sqv += 6; Snd.sfx('squish'); return; }
     if (scene !== 'hub' || !S || evoSeq || hatchSeq) return;
     if (S.stage === 0) { if (hitPet(x, y, 0.3)) tapSeed(); return; }
@@ -1751,9 +1774,9 @@
   $('#langBtn').onclick = toggleLang; $('#tLang').onclick = toggleLang;
   document.addEventListener('langchange', () => {
     if (scene === 'title') renderTitle(); if (S && scene === 'hub') { renderHub(); if (!$('#tray').hidden) renderTray(); }
-    $('#evoGo').textContent = T('cp_evo_go'); rerenderModal(); hudKey = ''; if (scene === 'game') updMgHud();
+    $('#evoGo').textContent = T('cp_evo_go'); rerenderModal(); hudKey = ''; if (scene === 'game') updMgHud(); if (NET.relang) NET.relang();
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { saveNow(); pauseGame(); } });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { saveNow(); if (!MG.battle) pauseGame(); } });
   window.addEventListener('pagehide', saveNow);
   window.addEventListener('resize', resize);
 
@@ -1770,6 +1793,7 @@
     if (dirty) { saveT += dt; if (saveT > 4) saveNow(); }
     shake = Math.max(0, shake - dt * 30); flash = Math.max(0, flash - dt * 1.6); if (pet.popT > 0) pet.popT = Math.max(0, pet.popT - dt);
     updParts(dt);
+    if (NET.update) NET.update(dt);
     if (scene === 'game') mgUpdate(dt);
     else if (scene === 'hub' && S) { hubUpdate(dt); evoUpdate(dt); updFlyFood(dt); }
     else if (scene === 'title') { updPetAnim(dt); pet.lookX = lerp(pet.lookX, clock - ptr.t < 3 ? clamp((ptr.x - W / 2) / 300, -1, 1) : Math.sin(clock * 0.5) * 0.6, 0.1); pet.lookY = lerp(pet.lookY, clock - ptr.t < 3 ? clamp((ptr.y - H * 0.45) / 300, -1, 1) : 0, 0.1); }
@@ -1784,6 +1808,7 @@
     g.setTransform(DPR, 0, 0, DPR, 0, 0); g.clearRect(0, 0, W, H);
     if (shake > 0) g.translate(rnd(-shake, shake), rnd(-shake, shake));
     if (scene === 'game') mgDraw(g);
+    else if (scene === 'park' && NET.draw) NET.draw(g);
     else if (scene === 'hub' && S) drawHub(g);
     else drawTitleBg(g);
     g.setTransform(DPR, 0, 0, DPR, 0, 0); drawVignette(g);
@@ -1809,7 +1834,12 @@
     requestAnimationFrame(frame);
   }
   const CP = window.CyberPet = {
-    _: Object.assign(API, { GAMES, GAME_ORDER, addStr: (ar, en) => { Object.assign(AR, ar); Object.assign(EN, en); addStrings(ar, en); } }),
+    _: Object.assign(API, { GAMES, GAME_ORDER, addStr: (ar, en) => { Object.assign(AR, ar); Object.assign(EN, en); addStrings(ar, en); }, NET,
+      core: {   // internals for online.js (Pet Park)
+        get S() { return S; }, get scene() { return scene; }, get MG() { return MG; }, get clock() { return clock; }, get W() { return W; }, get H() { return H; }, get modalKind() { return modalKind; }, get mobile() { return isMobile(); },
+        mbox, setScene, openModal, closeModal, toast, addSt, addCoins, addXP, saveNow, markDirty, mood, careStyle, ageH: () => (S ? ageH() : 0), compositePet, drawPetTo, drawParts, checkAch,
+        FORMS, STAGE_SCALE, MOOD_EMO, ST, esc, Snd, loadSave, continueGame, openName, startBattle, exitBattle, settings, saveSettings, lang,
+      } }),
     get state() { return S; }, get scene() { return scene; }, get mg() { return MG.g; }, get mgState() { return MG.state; }, get pet() { return pet; }, get bugs() { return bugs; },
     mood, careStyle, canEvolve, nextForm, usualHour, favGame,
     start(name) { if (!S) newPet(name || 'Byte'); return S; }, cont: () => continueGame(),
