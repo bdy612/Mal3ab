@@ -66,6 +66,9 @@ const REP_ROT={4:0,0:1,5:2,1:3};             // repeater UV rotation so its arro
 function texFor(t,meta,nid){ const B=BLOCKS[t],dt=DIRTYPE[t]; if(!dt)return B.tex[nid]; const f=meta&7,F=B.ftex;
   if(dt===1){ if(nid===2)return F.top; if(nid===3)return F.bottom; return nid===f?F.front:F.side; }
   if(nid===f)return F.front; if(nid===OPP[f])return F.back; return F.side; }
+// torches can stand on the floor (meta 0) or hang on a wall: meta = 8 | direction of the wall (DIRV index)
+const WALL_TORCH=new Set([TORCH,COPPER_TORCH]);
+const torchWall=(b,meta)=>WALL_TORCH.has(b)&&(meta&8)?DIRV[meta&7]:null;
 function decalAttach(b,meta){ if(b===LEVER_OFF||b===LEVER_ON||b===BUTTON||b===BUTTON_ON||b===LADDER||b===VINE)return meta&7; if(b===DOOR_B_O||b===DOOR_T_O)return DOOR_PANEL[meta&7]; return 3; }
 function pushV(arr,x,y,z,nid,ao,layer,u,v,lt,off,tint){
   arr.push((Math.round(x*16)|Math.round(y*16)<<9|Math.round(z*16)<<21)>>>0,(Math.round(u*16)|Math.round(v*16)<<12|(lt&15)<<24|((lt>>4)&15)<<28)>>>0,(nid|ao<<3|layer<<5|off<<14|tint<<17)>>>0); }
@@ -134,7 +137,11 @@ function meshChunk(world,ch){
   const op=out.op, quad=(pts,nid,layer,lt,off,rot,tint)=>{ const base=op.n; for(let c=0;c<4;c++){const p=pts[c],uv=UVS[(c+rot)&3];pushV(op.v,p[0],p[1],p[2],nid,3,layer,uv[0],uv[1],lt,off,tint);}
     op.i.push(base,base+1,base+2,base,base+2,base+3,base,base+2,base+1,base,base+3,base+2); op.n+=4; };
   for(let y=0;y<CY;y++)for(let z=0;z<CZ;z++)for(let x=0;x<CX;x++){ const i=(y*CZ+z)*CX+x,b=B[i]; if(!PLANT[b]&&!DECAL[b]&&!LIQ[b]&&!SHAPE[b])continue; const lt=Lt[i],layer=BLOCKS[b].tex[2];
-    if(PLANT[b]){ quad([[x,y,z],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z]],0,layer,lt,0,0,TINT[b]); quad([[x+1,y,z],[x,y,z+1],[x,y+1,z+1],[x+1,y+1,z]],0,layer,lt,0,0,TINT[b]); continue; }
+    if(PLANT[b]){ const wd=torchWall(b,Mt[i]);
+      if(wd){ // a wall torch: lifted, its foot against the wall, leaning out into the room
+        const tp=pts=>pts.map(p=>{ const t=p[1]-y; return [p[0]+wd[0]*(5-t*4)/16, y+(3+t*13)/16, p[2]+wd[2]*(5-t*4)/16]; });
+        quad(tp([[x,y,z],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z]]),0,layer,lt,0,0,TINT[b]); quad(tp([[x+1,y,z],[x,y,z+1],[x,y+1,z+1],[x+1,y+1,z]]),0,layer,lt,0,0,TINT[b]); continue; }
+      quad([[x,y,z],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z]],0,layer,lt,0,0,TINT[b]); quad([[x+1,y,z],[x,y,z+1],[x,y+1,z+1],[x+1,y+1,z]],0,layer,lt,0,0,TINT[b]); continue; }
     if(DECAL[b]&&RAILS.has(b)){ railQuad(quad,x,y,z,b,Mt[i],lt); continue; }
     if(DECAL[b]){ const meta=Mt[i],a=decalAttach(b,meta),f=CUBE_FACES[a],rot=(b===REPEATER_OFF||b===REPEATER_ON)?REP_ROT[meta&7]||0:0;
       quad(f.map(p=>[p[0]+x,p[1]+y,p[2]+z]),OPP[a],layer,lt,OPP[a]+1,rot,TINT[b]); continue; }

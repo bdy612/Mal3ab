@@ -33,7 +33,7 @@ function mobEntry(m){ const f=(m.hurtT>0?1:0)|(m.baby?2:0)|(m.sit?4:0)|(m.tame?8
   return [m.nid,m.type,r2(m.pos[0]),r2(m.pos[1]),r2(m.pos[2]),r2(m.yaw),f,Math.ceil(m.hp),m.size||1,r2(m.fuse||0),m.owner||(m.tame&&m.def.wolf?PROFILE.code:0),m.rider!=null?m.rider:player.riding===m?0:-1,Math.round(m.temper||0),m.def.cart?[r2(m.s||0),m.dir??-1]:0]; }
 
 Object.assign(net,{
-  hostDim:null, pm:new Map(), pi:new Map(), sharedWorld:null, snapT:0, watchT:0, vposT:0, watch:null, tileHold:0, tileStale:false, tileShadow:null, hitBy:0,
+  hostDim:null, pm:new Map(), pi:new Map(), sharedWorld:null, snapT:0, watchT:0, vposT:0, watch:null, watch2:null, shadows:{}, tileHold:0, tileStale:false, tileShadow:null, hitBy:0,
   sharedW(w){ return this.guest&&!!w&&this.hostDim!==null&&w.dim===this.hostDim; },
   shared(){ return this.sharedW(world); },
   toHost(msg){ if(this.role==='guest'&&this.peers[0])this.send(this.peers[0],msg); },
@@ -46,16 +46,17 @@ Object.assign(net,{
     if(this.role==='host')this.broadcast(msg); else this.toHost(msg); },
   shareBoom(x,y,z,r){ const msg={t:'boom',dim:world.dim,x:r2(x),y:r2(y),z:r2(z),r}; if(this.role==='host')this.broadcast(msg); else this.toHost(msg); },
   mobChanged(m,before){ const f={}; let n=0; MOBSYNC.forEach((k,i)=>{ if(m[k]!==before[i]){ f[k]=m[k]===undefined?null:m[k]; n++; } }); if(n)this.toHost({t:'mobset',nid:m.nid,f}); },
-  openedTile(t){ if(!this.shared()||!t||!t.pos||!TILE_TYPES.has(t.type))return; this.watch=tkey(...t.pos); this.tileShadow=tileData(t); this.tileHold=0; this.tileGot=false; this.tileAsk=performance.now(); this.toHost({t:'tget',dim:world.dim,k:this.watch}); },
-  closedTile(){ if(this.watch&&this.role==='guest')this.toHost({t:'tunwatch'}); this.watch=null; },
+  openedTile(t,t2){ if(!this.shared()||!t||!t.pos||!TILE_TYPES.has(t.type))return; this.watch=tkey(...t.pos); this.watch2=t2&&t2.pos?tkey(...t2.pos):null; this.shadows={[this.watch]:tileData(t)}; if(this.watch2)this.shadows[this.watch2]=tileData(t2); this.tileShadow=this.shadows[this.watch];
+    this.tileHold=0; this.tileGot=false; this.tileAsk=performance.now(); this.toHost({t:'tget',dim:world.dim,k:this.watch,k2:this.watch2}); },
+  closedTile(){ if(this.watch&&this.role==='guest')this.toHost({t:'tunwatch'}); this.watch=null; this.watch2=null; },
   // a container changed here: the guest sends the slots it changed, the host tells everyone looking at it
   tileDirty(dim,k){
-    if(this.role==='guest'){ if(!this.shared())return; const t=world.tiles.get(k); if(!t)return; const cur=tileData(t),sh=this.tileShadow||{},ch=[],J=JSON.stringify;
+    if(this.role==='guest'){ if(!this.shared())return; const t=world.tiles.get(k); if(!t)return; this.shadows=this.shadows||{}; const cur=tileData(t),sh=this.shadows[k]||(k===this.watch&&this.tileShadow)||{},ch=[],J=JSON.stringify;
       for(const f of TILE_LISTS)if(cur[f])cur[f].forEach((s,i)=>{ if(J(s)!==J(sh[f]?sh[f][i]:0))ch.push([f,i,s]); });
       for(const f of TILE_STACKS)if(f in cur&&J(cur[f])!==J(sh[f]??0))ch.push([f,-1,cur[f]]);
-      this.tileShadow=cur; if(ch.length){ this.tileHold=performance.now()+400; this.toHost({t:'tset',dim,k,ch}); } return; }
-    if(this.role==='host')for(const p of this.peers)if(p.watch&&p.watch.k===k&&p.watch.dim===dim)this.pushTile(p); },
-  pushTile(p){ const W=p.watch; if(!W)return; const w=dims[W.dim]; if(!w)return; const [x,y,z]=W.k.split(',').map(Number); let t=w.tiles.get(W.k);
+      this.shadows[k]=cur; if(k===this.watch)this.tileShadow=cur; if(ch.length){ this.tileHold=performance.now()+400; this.toHost({t:'tset',dim,k,ch}); } return; }
+    if(this.role==='host')for(const p of this.peers){ if(p.watch&&p.watch.k===k&&p.watch.dim===dim)this.pushTile(p); if(p.watch2&&p.watch2.k===k&&p.watch2.dim===dim)this.pushTile(p,p.watch2); } },
+  pushTile(p,W2){ const W=W2||p.watch; if(!W)return; const w=dims[W.dim]; if(!w)return; const [x,y,z]=W.k.split(',').map(Number); let t=w.tiles.get(W.k);
     if(!t&&w.loaded(x,z))t=inWorld(w,()=>getTile(x,y,z,w.getBlock(x,y,z)));
     const d=t&&TILE_TYPES.has(t.type)?tileData(t):null, s=JSON.stringify(d); if(s===W.last)return; W.last=s; this.send(p,{t:'tile',dim:W.dim,k:W.k,d}); },
   peerGone(peer){ for(const w of Object.values(dims))for(const m of w.mobs)if(m.rider===peer.id)m.rider=null; },
@@ -103,10 +104,10 @@ Object.assign(net,{
       if(d<1.7&&now>(it.req||0)&&invRoom(it.id)){ it.req=now+700; this.toHost({t:'take',nid:it.nid}); } } },
   shareUpdate(dt){ if(!this.role||game.state!=='playing')return;
     if(this.role==='host'){ this.snapT+=dt; if(this.snapT>=0.125){ this.snapT=0; this.sendSnaps(); }
-      this.watchT+=dt; if(this.watchT>=0.25){ this.watchT=0; for(const p of this.peers)if(p.watch)this.pushTile(p); } return; }
+      this.watchT+=dt; if(this.watchT>=0.25){ this.watchT=0; for(const p of this.peers){ if(p.watch)this.pushTile(p); if(p.watch2)this.pushTile(p,p.watch2); } } return; }
     if(!this.guest)return; this.checkShared(); if(!this.sharedWorld)return;
     const v=player.riding; this.vposT+=dt; if(v&&v.local&&this.vposT>=0.1){ this.vposT=0; this.toHost({t:'vpos',nid:v.nid,p:v.pos.map(r2),yaw:r2(v.yaw),v:v.vel.map(r2),s:v.s||0,dir:v.dir,tame:v.tame?1:0,temper:v.temper||0}); }
-    const now=performance.now(); if(this.watch&&((this.tileStale&&now>this.tileHold)||(!this.tileGot&&now-this.tileAsk>1500))){ this.tileStale=false; this.tileAsk=now; this.toHost({t:'tget',dim:world.dim,k:this.watch}); } },
+    const now=performance.now(); if(this.watch&&((this.tileStale&&now>this.tileHold)||(!this.tileGot&&now-this.tileAsk>1500))){ this.tileStale=false; this.tileAsk=now; this.toHost({t:'tget',dim:world.dim,k:this.watch,k2:this.watch2}); } },
   // ---- messages; returns true when handled here ----
   shareMsg(peer,m){
     // both sides: arrows and explosions are shown everywhere, each player takes their own damage
@@ -132,12 +133,13 @@ Object.assign(net,{
         case 'vpos': { const mob=mobByNid(w,m.nid); if(!mob||mob.rider!==peer.id)return true; mob.pos=m.p; mob.yaw=m.yaw; mob.vel=m.v; if(mob.def.cart){ mob.s=m.s; if(m.dir!=null)mob.dir=m.dir; }
           if(m.tame&&!mob.tame)mob.tame=true; if(mob.def.horse)mob.temper=m.temper; return true; }
         case 'unride': { const mob=mobByNid(w,m.nid); if(!mob||mob.rider!==peer.id)return true; mob.rider=null; if(m.p){ mob.pos=m.p; mob.vel=m.v||[0,0,0]; } if(mob.def.cart){ mob.s=m.s||0; if(m.dir!=null)mob.dir=m.dir; } return true; }
-        case 'tget': peer.watch={dim:m.dim,k:m.k,last:''}; this.pushTile(peer); return true;
-        case 'tunwatch': peer.watch=null; return true;
+        case 'tget': peer.watch={dim:m.dim,k:m.k,last:''}; peer.watch2=m.k2?{dim:m.dim,k:m.k2,last:''}:null; this.pushTile(peer); if(peer.watch2)this.pushTile(peer,peer.watch2); return true;
+        case 'tunwatch': peer.watch=null; peer.watch2=null; return true;
         case 'tset': { const tw=dims[m.dim]; if(!tw||!Array.isArray(m.ch))return true; const [x,y,z]=m.k.split(',').map(Number);
           let t=tw.tiles.get(m.k); if(!t&&tw.loaded(x,z))t=inWorld(tw,()=>getTile(x,y,z,tw.getBlock(x,y,z))); if(!t||!TILE_TYPES.has(t.type))return true;
           for(const [f,i,s] of m.ch){ if(i<0){ if(TILE_STACKS.includes(f)&&t[f])stackIn(t[f],s); } else if(TILE_LISTS.includes(f)&&t[f]&&t[f][i])stackIn(t[f][i],s); }
-          peer.watch={dim:m.dim,k:m.k,last:JSON.stringify(tileData(t))}; inWorld(tw,()=>tileChanged(x,y,z)); if(uiOpen&&ui.tile===t)refreshUI(); scheduleSave(); return true; }
+          { const W=[peer.watch,peer.watch2].find(w=>w&&w.k===m.k&&w.dim===m.dim); if(W)W.last=JSON.stringify(tileData(t)); else peer.watch={dim:m.dim,k:m.k,last:JSON.stringify(tileData(t))}; }
+          inWorld(tw,()=>tileChanged(x,y,z)); if(uiOpen&&(ui.tile===t||ui.tile2===t))refreshUI(); scheduleSave(); return true; }
         case 'vault': { const vw=dims[m.dim]; if(!vw)return true; const ok=inWorld(vw,()=>vaultLoot(m.x,m.y,m.z,String(m.code||('peer'+peer.id)))); this.send(peer,{t:'vaultRes',ok}); return true; }
       }
       return false; }
@@ -152,9 +154,9 @@ Object.assign(net,{
       case 'xp': if(game.state==='playing')spawnOrbs(m.p[0],m.p[1],m.p[2],m.n); return true;
       case 'noride': { const v=player.riding; if(v&&v.nid===m.nid){ v.local=false; player.riding=null; player.vel=[0,3,0]; showMsg('Someone else is riding that.'); } return true; }
       case 'tile': { if(m.dim!==world.dim)return true; if(performance.now()<this.tileHold){ this.tileStale=true; return true; } const [x,y,z]=m.k.split(',').map(Number);
-        if(!m.d){ world.tiles.delete(m.k); if(uiOpen&&ui.tile&&ui.tile.pos&&tkey(...ui.tile.pos)===m.k)closeUI(true); return true; }
+        if(!m.d){ world.tiles.delete(m.k); if(uiOpen&&((ui.tile&&ui.tile.pos&&tkey(...ui.tile.pos)===m.k)||(ui.tile2&&ui.tile2.pos&&tkey(...ui.tile2.pos)===m.k)))closeUI(true); return true; }
         let t=world.tiles.get(m.k); if(!t||t.type!==m.d.type){ world.tiles.delete(m.k); t=getTile(x,y,z,world.getBlock(x,y,z)); } if(!t||t.type!==m.d.type)return true;
-        applyTileData(t,m.d); if(this.watch===m.k){ this.tileShadow=tileData(t); this.tileGot=true; } if(uiOpen&&ui.tile===t){ refreshUI(); updateFurnaceUI(); } return true; }
+        applyTileData(t,m.d); if(this.watch===m.k||this.watch2===m.k){ this.shadows=this.shadows||{}; this.shadows[m.k]=tileData(t); if(this.watch===m.k){ this.tileShadow=this.shadows[m.k]; this.tileGot=true; } } if(uiOpen&&(ui.tile===t||ui.tile2===t)){ refreshUI(); updateFurnaceUI(); } return true; }
       case 'vaultRes': if(m.ok){ const s=selected(); if(s.id===TRIAL_KEY&&!inventory.creative)consumeHeld(); updateHotbar(); sfx.enchant(); showMsg('The vault opens and spills its treasure!'); }
         else showMsg('This vault already gave you its treasure.'); return true;
     }

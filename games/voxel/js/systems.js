@@ -12,7 +12,7 @@ function blockSideEffects(x,y,z,old,id,oldMeta){
   if(TILEBLK[old]&&old!==id&&!((old===FURNACE||old===FURNACE_LIT)&&(id===FURNACE||id===FURNACE_LIT))){ const t=w.tiles.get(k); if(t){
     const stacks=t.type==='chest'?t.slots:t.type==='furnace'?[t.inp,t.fuel,t.out]:t.type==='brew'?t.bottles.concat([t.ing,t.fuel]):[];
     for(const s of (t.slots&&t.type!=='chest'?t.slots:[]))if(s.count)spawnItem(x+0.5,y+0.5,z+0.5,s.id,s.count,s.dur,null,s.ench);
-    for(const s of stacks)if(s.count)spawnItem(x+0.5,y+0.5,z+0.5,s.id,s.count,s.dur,null,s.ench); w.tiles.delete(k); if(uiOpen&&ui.tile===t)closeUI(true); } }
+    for(const s of stacks)if(s.count)spawnItem(x+0.5,y+0.5,z+0.5,s.id,s.count,s.dur,null,s.ench); w.tiles.delete(k); if(uiOpen&&(ui.tile===t||ui.tile2===t))closeUI(true); } }
   // two-block structures: door halves, piston body + head
   if(isDoor(old)&&!isDoor(id)&&!doorBusy){ const py=(old===DOOR_B||old===DOOR_B_O)?y+1:y-1; if(isDoor(w.getBlock(x,py,z))){doorBusy=true;w.setBlock(x,py,z,AIR);doorBusy=false;} }
   if(!pistonBusy&&old!==id){

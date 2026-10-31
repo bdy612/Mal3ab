@@ -27,6 +27,7 @@ function attack(world){ if(attackCd>0)return;const m=mobHit(world);if(!m)return;
 const SOIL=new Set([GRASS,DIRT,FARMLAND,FARMLAND_WET]);
 function waterNear(x,y,z,r){ for(let dx=-r;dx<=r;dx++)for(let dz=-r;dz<=r;dz++)for(let dy=0;dy<=1;dy++)if(isWater(world.getBlock(x+dx,y+dy,z+dz)))return true; return false; }
 function canStay(id,meta,x,y,z){ const below=world.getBlock(x,y-1,z),sup=SUPPORT[id];
+  { const wd=torchWall(id,meta); if(wd)return !!SOLID[world.getBlock(x+wd[0],y,z+wd[2])]; }   // a wall torch hangs on the block behind it
   if(sup===1)return !!SOLID[below];
   if(sup===2){const d=DIRV[meta&7];return !!SOLID[world.getBlock(x+d[0],y+d[1],z+d[2])];}
   if(sup===4)return below===DOOR_B||below===DOOR_B_O;
@@ -41,6 +42,7 @@ function canStay(id,meta,x,y,z){ const below=world.getBlock(x,y-1,z),sup=SUPPORT
 function hitFrac(h){ const y=player.pos[1]+EYE+forwardVec()[1]*h.t; return y-h.y; }   // where on the block face you clicked (0 bottom .. 1 top)
 function upperHalf(h){ return h.ny===-1||(h.ny===0&&hitFrac(h)>0.5); }
 function placeMeta(id,h){ const dt=DIRTYPE[id];
+  if(WALL_TORCH.has(id)&&h.ny===0&&(h.nx||h.nz))return 8|DIRV.findIndex(d=>d[0]===-h.nx&&d[1]===0&&d[2]===-h.nz);   // clicked the side of a block: hang it on that wall
   if(SHAPE[id]===1)return upperHalf(h)?8:0;
   if(SHAPE[id]===2)return lookDirH()|(upperHalf(h)?8:0);
   if(SHAPE[id]===5)return lookDirH()<2?1:0;
@@ -82,8 +84,11 @@ function toggleDoor(x,y,z,open){ let b=world.getBlock(x,y,z); if(b===DOOR_T||b==
   const isOpen=b===DOOR_B_O, want=open===undefined?!isOpen:open; if(want===isOpen)return; const m=world.getMeta(x,y,z),mt=world.getMeta(x,y+1,z);
   doorBusy=true; world.setBlock(x,y,z,want?DOOR_B_O:DOOR_B,true,m); if(isDoor(world.getBlock(x,y+1,z)))world.setBlock(x,y+1,z,want?DOOR_T_O:DOOR_T,true,mt); doorBusy=false; sfx.place(); }
 let doorBusy=false;
+// two chests side by side make one large chest (a chest pairs with its first chest neighbour only if that neighbour picks it back, so rows of 3 stay sensible)
+function chestNeighbor(x,y,z){ for(const [dx,dz] of [[-1,0],[1,0],[0,-1],[0,1]])if(world.getBlock(x+dx,y,z+dz)===CHEST)return [x+dx,y,z+dz]; return null; }
+function chestPartner(x,y,z){ const q=chestNeighbor(x,y,z); if(!q)return null; const r=chestNeighbor(...q); return r&&r[0]===x&&r[2]===z?q:null; }
 function interactBlock(h){ const b=h.block,x=h.x,y=h.y,z=h.z,m=world.getMeta(x,y,z);
-  if(b===CRAFTING_TABLE){openUI('table');return true;} if(b===CHEST){openUI('chest',getTile(x,y,z,b));return true;}
+  if(b===CRAFTING_TABLE){openUI('table');return true;} if(b===CHEST){ const q=chestPartner(x,y,z); if(q){ const [p1,p2]=(q[0]<x||q[0]===x&&q[2]<z)?[q,[x,y,z]]:[[x,y,z],q]; openUI('chest',getTile(...p1,CHEST),getTile(...p2,CHEST)); } else openUI('chest',getTile(x,y,z,b)); return true;}
   if(b===FURNACE||b===FURNACE_LIT){openUI('furnace',getTile(x,y,z,b));return true;} if(b===BREWING_STAND){openUI('brew',getTile(x,y,z,b));return true;}
   if(b===ENCHANT_TABLE){openUI('enchant',{pos:[x,y,z]});return true;} if(b===BED){sleep(h);return true;}
   if(b===LEVER_OFF||b===LEVER_ON){ world.setBlock(x,y,z,b===LEVER_OFF?LEVER_ON:LEVER_OFF,true,m); sfx.place(); return true; }

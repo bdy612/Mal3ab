@@ -20,8 +20,8 @@ function updateBars(){ const gm=gameMode(); document.getElementById('cross').sty
   const boss=world.mobs.find(m=>m.def.boss); bossEl.style.display=boss?'block':'none'; if(boss){bossEl.firstElementChild.textContent='Dragon';bossEl.querySelector('i').style.width=Math.max(0,boss.hp/boss.def.hp*100)+'%';} }
 
 // --- container UI (inventory / crafting table / furnace / chest / enchanting / trading) ---
-let uiOpen=false;const cursorEl=document.getElementById('cursorStack');const ui={type:null,tile:null,grid:[],gw:0,ench:[],opts:null};
-function openUI(type,tile){if(type==='creative'){ui.cgrid=null;}ui.type=type;ui.tile=tile||null;ui.gw=type==='table'?3:type==='inventory'?2:0;ui.grid=Array.from({length:ui.gw*ui.gw},empty);ui.ench=[empty()];ui.opts=null;uiOpen=true;invEl.classList.remove('hidden');refreshUI();document.exitPointerLock();net.openedTile(ui.tile);}
+let uiOpen=false;const cursorEl=document.getElementById('cursorStack');const ui={type:null,tile:null,tile2:null,grid:[],gw:0,ench:[],opts:null};
+function openUI(type,tile,tile2){if(type==='creative'){ui.cgrid=null;}ui.type=type;ui.tile=tile||null;ui.tile2=tile2||null;ui.gw=type==='table'?3:type==='inventory'?2:0;ui.grid=Array.from({length:ui.gw*ui.gw},empty);ui.ench=[empty()];ui.opts=null;uiOpen=true;invEl.classList.remove('hidden');refreshUI();document.exitPointerLock();net.openedTile(ui.tile,ui.tile2);}
 function closeUI(relock=true){uiOpen=false;invEl.classList.add('hidden');net.closedTile();for(const s of ui.grid.concat(ui.ench))if(s.count){const l=invAdd(s.id,s.count,s.dur,s.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],s.id,l,s.dur,null,s.ench);clearStack(s);}
   const c=inventory.cursor;if(c.count){const l=invAdd(c.id,c.count,c.dur,c.ench);if(l)spawnItem(player.pos[0],player.pos[1]+1,player.pos[2],c.id,l,c.dur,null,c.ench);clearStack(c);}cursorEl.classList.add('hidden');buildHotbar();scheduleSave();if(relock&&!player.dead)resumeGame();}
 function moveStack(s,target){
@@ -37,7 +37,7 @@ function slotClick(arr,i,opt,e){ const s=arr[i],c=inventory.cursor,right=e.butto
   else if(!s.count){setStack(s,c);clearStack(c);}
   else if(s.id===c.id&&ITEMS[s.id].stack>1){const n=Math.min(c.count,ITEMS[s.id].stack-s.count);s.count+=n;c.count-=n;if(!c.count)clearStack(c);}
   else{const t={};setStack(t,s);setStack(s,c);setStack(c,t);} }
-function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;if(ui.tile&&ui.tile.pos&&TILE_TYPES.has(ui.tile.type))tileChanged(...ui.tile.pos);refreshUI();buildHotbar();scheduleSave();};d.oncontextmenu=e=>e.preventDefault();
+function mkSlot(arr,i,opt,label){const d=slotEl(arr[i],label,'');d.onmousedown=e=>{e.preventDefault();slotClick(arr,i,opt,e);if(arr===ui.ench)ui.opts=null;if(ui.tile&&ui.tile.pos&&TILE_TYPES.has(ui.tile.type))tileChanged(...ui.tile.pos);if(ui.tile2&&ui.tile2.pos)tileChanged(...ui.tile2.pos);refreshUI();buildHotbar();scheduleSave();};d.oncontextmenu=e=>e.preventDefault();
   if(!opt.output){ d.onmouseenter=()=>{ui.hover={arr,i};}; d.onmouseleave=()=>{ if(ui.hover&&ui.hover.arr===arr&&ui.hover.i===i)ui.hover=null; }; }
   return d;}
 // throwing from the inventory: click outside the window with an item on the cursor (left = all, right = one),
@@ -51,7 +51,7 @@ function recRow(iconId,title,sub,ok,onclick){const d=document.createElement('div
 function refreshUI(){
   const main=document.getElementById('uiMain'),side=document.getElementById('uiSide');main.innerHTML='';side.innerHTML='';
   const invQuick={quick:s=>{ const i=inventory.slots.indexOf(s);
-    if(ui.type==='chest'||ui.type==='hopper'||ui.type==='dropper')moveStack(s,ui.tile.slots); else if(ui.type==='furnace'){ if(SMELT[s.id]||!FUEL[s.id])moveStack(s,[ui.tile.inp]); else moveStack(s,[ui.tile.fuel]); } else if(ui.type==='enchant'&&itemKind(ITEMS[s.id])){moveStack(s,ui.ench);ui.opts=null;}
+    if(ui.type==='chest'||ui.type==='hopper'||ui.type==='dropper')moveStack(s,ui.tile2?ui.tile.slots.concat(ui.tile2.slots):ui.tile.slots); else if(ui.type==='furnace'){ if(SMELT[s.id]||!FUEL[s.id])moveStack(s,[ui.tile.inp]); else moveStack(s,[ui.tile.fuel]); } else if(ui.type==='enchant'&&itemKind(ITEMS[s.id])){moveStack(s,ui.ench);ui.opts=null;}
     else if(ui.type==='brew'){ if(BREW[s.id])moveStack(s,[ui.tile.ing]); else if(s.id===BLAZE_POWDER)moveStack(s,[ui.tile.fuel]); else if(ITEMS[s.id].drink)moveStack(s,ui.tile.bottles); }
     else if(ITEMS[s.id].armor&&!inventory.armor[ITEMS[s.id].armor.slot].count)moveStack(s,[inventory.armor[ITEMS[s.id].armor.slot]]);
     else moveStack(s,i<9?inventory.slots.slice(9):inventory.slots.slice(0,9)); }};
@@ -73,7 +73,8 @@ function refreshUI(){
     main.appendChild(h('Furnace'));main.appendChild(row); updateFurnaceUI(); }
   else if(ui.type==='hopper'||ui.type==='dropper'){ const n=ui.tile.slots.length; main.appendChild(h(ui.type==='hopper'?'Hopper':ui.tile.type==='dispenser'?'Dispenser':'Dropper'));
     const g=document.createElement('div');g.className='g3';g.style.gridTemplateColumns=`repeat(${n===5?5:3},42px)`;g.style.marginBottom='10px';for(let i=0;i<n;i++)g.appendChild(mkSlot(ui.tile.slots,i,{quick:s=>moveStack(s,inventory.slots)}));main.appendChild(g); }
-  else if(ui.type==='chest'){ main.appendChild(h('Chest'));const g=grid();for(let i=0;i<27;i++)g.appendChild(mkSlot(ui.tile.slots,i,{quick:s=>moveStack(s,inventory.slots)}));g.style.marginBottom='10px';main.appendChild(g); }
+  else if(ui.type==='chest'){ main.appendChild(h(ui.tile2?'Large chest':'Chest'));const g=grid();for(let i=0;i<27;i++)g.appendChild(mkSlot(ui.tile.slots,i,{quick:s=>moveStack(s,inventory.slots)}));
+    if(ui.tile2)for(let i=0;i<27;i++)g.appendChild(mkSlot(ui.tile2.slots,i,{quick:s=>moveStack(s,inventory.slots)}));g.style.marginBottom='10px';main.appendChild(g); }
   else if(ui.type==='enchant'){ const row=document.createElement('div');row.className='row';row.style.marginBottom='10px'; row.appendChild(mkSlot(ui.ench,0,{accept:c=>!!itemKind(ITEMS[c.id]),quick:s=>moveStack(s,inventory.slots)}));
     const info=document.createElement('div');info.style.cssText='font-size:12px;color:#bbb';info.textContent=`Your level: ${player.level}. Put a tool, weapon, bow or armor in the slot.`;row.appendChild(info); main.appendChild(h('Enchanting table'));main.appendChild(row); }
   else if(ui.type==='brew'){ const t=ui.tile,row=document.createElement('div');row.className='row';row.style.marginBottom='10px';
