@@ -680,6 +680,7 @@
   }
   function useExploit(name) {
     if (G.phase !== 'play' || G.paused) return false;
+    if (coopClient()) return coopExploit(name);
     if (!G.ex[name]) { AU.sfx('deny'); return false; }
     if (name === 'freeze') { G.ex.freeze--; G.freeze = FREEZE_T; AU.sfx('freeze'); G.flash = 0.5; G.flashCol = '#8fe9ff'; toast(t('gl_frozen')); }
     else if (name === 'emp') {
@@ -802,6 +803,13 @@
       if (r.stage > (SAVE.endless.stage || 0)) SAVE.endless.stage = r.stage;
       if (r.score > (SAVE.endless.score || 0)) SAVE.endless.score = r.score;
       writeSave();
+    } else if (netMode()) {
+      G.result = { win: true, time: G.time, trace: G.trace };
+      if (G.mode === 'race' && R.stage >= R.n && R.fin == null) {
+        R.fin = Date.now() - R.start; saveRace(); netSend('fin', { rid: R.rid, fin: R.fin });
+        if (!standings().some((x) => !x.me && x.fin != null)) toast(t('gl_on_youWon'));
+      }
+      sendPr(true);
     }
   }
   function lose() {
@@ -809,6 +817,7 @@
     G.trace = 1; G.phase = 'lost'; G.endT = 0; G.exMode = null; AU.sfx('lose'); G.shake = 16; G.flash = 0.8; G.flashCol = '#ff3b4e';
     if (G.mode === 'endless') { const r = G.run; G.result = { win: false, stage: r.stage - 1, score: r.score, best: SAVE.endless.score, bestStage: SAVE.endless.stage }; }
     else G.result = { win: false, time: G.time };
+    if (G.mode === 'race' && R) { R.traces++; saveRace(); sendPr(true); }
   }
   function solveBoard() {
     if (!lv) return;
@@ -855,9 +864,10 @@
     if (!lv) return;
     const hud = $('hud'), bar = $('bar');
     let top = 64, bot = 76;
-    if (G.screen === 'game' || G.screen === 'pause' || G.screen === 'end') {
-      const hr = hud.getBoundingClientRect(), br = bar.getBoundingClientRect();
+    if (G.screen === 'game' || G.screen === 'pause' || G.screen === 'end' || G.screen === 'gone') {
+      const hr = hud.getBoundingClientRect(), br = bar.getBoundingClientRect(), rc = $('race');
       if (hr.height) top = hr.bottom + 10;
+      if (rc && !rc.hidden) { const q = rc.getBoundingClientRect(); if (q.height) top = Math.max(top, q.bottom + 10); }
       if (br.height) bot = VH - br.top + 12;
     } else { top = 30; bot = 30; }
     const ax = 12, aw = VW - 24, ay = top, ah = Math.max(80, VH - top - bot);
@@ -1124,7 +1134,7 @@
       const cx = b.ox + (tr.x + 0.5) * cs, cy = b.oy + (tr.y + 0.5) * cs;
       if (tr.phase === 'charge' && !(tr.stun > 0)) {
         const k = clamp(tr.timer / (tr.hacked ? 0.8 : 1.2), 0, 1);
-        let len; if (tr.hacked) len = tr.target ? tr.target.i + 1 : 0; else { const p = beamCells(tr, tr.dir); const last = p[p.length - 1]; len = p.length ? (last.stop ? p.length - 0.5 : p.length + 0.5) : 0.5; }
+        let len; if (tr.hacked) len = tr.target ? tr.target.i + 1 : tr.tgtI >= 0 ? tr.tgtI + 1 : 0; else { const p = beamCells(tr, tr.dir); const last = p[p.length - 1]; len = p.length ? (last.stop ? p.length - 0.5 : p.length + 0.5) : 0.5; }
         const col = tr.hacked ? HACKC : SEC, ex = cx + DX[tr.dir] * len * cs, ey = cy + DY[tr.dir] * len * cs;
         ctx.save(); ctx.globalCompositeOperation = 'lighter';
         ctx.strokeStyle = col; ctx.globalAlpha = 0.15 + k * 0.35 + (Math.random() < 0.2 ? 0.2 : 0); ctx.lineWidth = cs * (0.06 + k * 0.5);
@@ -1153,7 +1163,7 @@
   }
   function drawBoard(b, alpha) {
     const L = b.L, cs = G.cs, W = lv.W * cs, H = lv.H * cs, corp = CORPS[(lv.def.corp || 0) % 3];
-    const acc = G.mode === 'endless' ? `hsl(${(G.run.stage * 47 + 180) % 360},90%,62%)` : corp.c;
+    const acc = lv.def.endless && G.run && G.mode !== 'demo' ? `hsl(${(G.run.stage * 47 + 180) % 360},90%,62%)` : corp.c;
     ctx.save(); ctx.globalAlpha = alpha;
     if (!b.ghost) {
       ctx.fillStyle = 'rgba(4,7,16,0.82)'; rr(ctx, b.ox - 8, b.oy - 8, W + 16, H + 16, 12); ctx.fill();
@@ -1176,6 +1186,14 @@
       const h = G.hover, cu = G.cursor;
       if (h && h.L === L && G.phase === 'play') { ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 2; rr(ctx, b.ox + h.x * cs + 3, b.oy + h.y * cs + 3, cs - 6, cs - 6, cs * 0.12); ctx.stroke(); }
       if (cu.show && cu.L === L && G.phase === 'play') { ctx.strokeStyle = '#ffb703'; ctx.lineWidth = 2.5; rr(ctx, b.ox + cu.x * cs + 2, b.oy + cu.y * cs + 2, cs - 4, cs - 4, cs * 0.12); ctx.stroke(); }
+      for (const m of ON.marks) {   // co-op: who just turned what
+        if (m.L !== L) continue;
+        const a = clamp(m.life / 0.9, 0, 1), mx = b.ox + m.x * cs, my = b.oy + m.y * cs;
+        ctx.globalAlpha = alpha * a; ctx.strokeStyle = m.col; ctx.lineWidth = 3; rr(ctx, mx + 2, my + 2, cs - 4, cs - 4, cs * 0.14); ctx.stroke();
+        ctx.font = `800 ${Math.round(clamp(cs * 0.24, 10, 14))}px 'Segoe UI', Tahoma, Arial, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        const tw = ctx.measureText(m.n).width + 8; ctx.fillStyle = 'rgba(4,7,16,0.85)'; ctx.fillRect(mx + cs / 2 - tw / 2, my - 15, tw, 15); ctx.fillStyle = m.col; ctx.fillText(m.n, mx + cs / 2, my - 2);
+        ctx.globalAlpha = alpha;
+      }
       if (G.hintCell && G.hintCell.L === L && G.phase === 'play' && G.moves === 0) {
         const hx = b.ox + (G.hintCell.x + 0.5) * cs, hy = b.oy + (G.hintCell.y + 0.5) * cs, k = (G.t * 1.3) % 1;
         ctx.strokeStyle = `rgba(255,183,3,${1 - k})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(hx, hy, cs * (0.3 + k * 0.35), 0, 7); ctx.stroke();
@@ -1185,7 +1203,7 @@
   }
   function drawBoards() {
     if (!lv || !G.boards.length) return;
-    let intro = 1; if (G.phase === 'intro') intro = clamp(G.introT / 0.6, 0, 1);
+    let intro = 1; if (G.phase === 'intro') intro = clamp(G.introT / 0.6, 0, 1); else if (G.phase === 'count') intro = 0.32;
     ctx.save();
     if (G.shake > 0.3) ctx.translate((Math.random() - 0.5) * G.shake, (Math.random() - 0.5) * G.shake);
     const demo = G.mode === 'demo';
@@ -1229,13 +1247,24 @@
     }
     if (G.flash > 0) { ctx.fillStyle = G.flashCol; ctx.globalAlpha = G.flash * 0.35; ctx.fillRect(0, 0, VW, VH); ctx.globalAlpha = 1; }
     if ((G.phase === 'won' || G.phase === 'lost') && G.mode !== 'demo' && !G.endShown) {
-      const k = clamp(G.endT / 0.3, 0, 1), txt = G.phase === 'won' ? (G.mode === 'endless' ? t('gl_stage_clear') : t('gl_win')) : t('gl_lose');
+      const k = clamp(G.endT / 0.3, 0, 1), txt = G.phase === 'won' ? (G.mode === 'endless' || (netMode() && R.stage < R.n) ? t('gl_stage_clear') : t('gl_win')) : t('gl_lose');
       const fs = Math.round(clamp(VW * 0.085, 26, 64));
       ctx.save(); ctx.globalAlpha = k; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = getLang() === 'ar' ? 'rtl' : 'ltr';
       ctx.font = `900 ${fs}px ${getLang() === 'ar' ? 'Segoe UI, Tahoma, Arial' : 'Consolas, Menlo, monospace'}, sans-serif`;
       const col = G.phase === 'won' ? '#7dfcff' : '#ff3b4e', j = (Math.random() - 0.5) * (G.phase === 'lost' ? 8 : 3);
       ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(0, VH / 2 - fs * 0.9, VW, fs * 1.8);
       ctx.fillStyle = '#ff3dd8'; ctx.fillText(txt, VW / 2 + 3 + j, VH / 2); ctx.fillStyle = '#22e6ff'; ctx.fillText(txt, VW / 2 - 3 - j, VH / 2); ctx.fillStyle = col; ctx.fillText(txt, VW / 2, VH / 2);
+      ctx.restore();
+    }
+    // online start countdown / GO
+    if (lv && R && (G.phase === 'count' || G.goT > 0)) {
+      const cnt = G.phase === 'count', n = Math.max(1, Math.ceil((R.goAt - Date.now()) / 1000)), txt = cnt ? String(n) : t('gl_on_go');
+      const fs = Math.round(clamp(VW * (cnt ? 0.2 : 0.12), 40, cnt ? 140 : 90)), a = cnt ? 1 : clamp(G.goT * 1.5, 0, 1), ar = getLang() === 'ar';
+      ctx.save(); ctx.globalAlpha = a; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = ar ? 'rtl' : 'ltr';
+      ctx.font = `900 ${fs}px ${ar ? 'Segoe UI, Tahoma, Arial' : 'Consolas, Menlo, monospace'}, sans-serif`;
+      ctx.fillStyle = '#ff3dd8'; ctx.fillText(txt, VW / 2 + 3, VH / 2); ctx.fillStyle = '#22e6ff'; ctx.fillText(txt, VW / 2 - 3, VH / 2); ctx.fillStyle = '#eaffff'; ctx.fillText(txt, VW / 2, VH / 2);
+      if (cnt) { ctx.font = `800 ${Math.round(clamp(VW * 0.035, 14, 20))}px ${ar ? 'Segoe UI, Tahoma, Arial' : 'Consolas, Menlo, monospace'}, sans-serif`; ctx.fillStyle = '#ffb703';
+        ctx.fillText(t(R.mode === 'coop' ? 'gl_on_coop' : 'gl_on_race') + ' · ' + t('gl_on_stageOf', { a: R.stage, b: R.n }), VW / 2, VH / 2 + fs * 0.7); }
       ctx.restore();
     }
     // scanlines
@@ -1253,9 +1282,11 @@
     G.t += dt;
     updateParts(dt);
     G.shake = Math.max(0, G.shake - dt * 30); G.flash = Math.max(0, G.flash - dt * 1.6);
+    G.goT = Math.max(0, (G.goT || 0) - dt);
     if (!lv || G.paused) return;
     const demo = G.mode === 'demo';
     if (G.phase === 'brief') return;
+    if (G.phase === 'count') { if (!R || Date.now() >= R.goAt) { G.phase = 'intro'; G.introT = 0; G.goT = 1; AU.sfx('start'); } else return; }   // online start countdown
     for (let L = 0; L < lv.NL; L++) for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) {
       const c = lv.cells[L][y][x]; if (!c || c.k !== 'pc') continue;
       if (c.vis !== c.rot) { const d = c.rot - c.vis, st = dt * 11; c.vis = Math.abs(d) <= st ? c.rot : c.vis + Math.sign(d) * st; }
@@ -1270,6 +1301,7 @@
       return;
     }
     if (G.phase === 'play') {
+      if (coopClient()) { coopClientTick(dt); return; }   // co-op: the host runs the network
       G.time += dt;
       processSinks(dt);
       if (G.phase !== 'play') return;
@@ -1280,8 +1312,13 @@
       if (G.trace > 0.75 && Math.floor(G.t) !== Math.floor(G.t - dt)) AU.sfx('warn');
       if (G.trace >= 1) lose();
     } else if (G.phase === 'won' || G.phase === 'lost') {
-      G.endT += dt; updateTurrets(dt);
-      if (G.endT > 1.6 && !G.endShown) { G.endShown = true; show('end'); }
+      G.endT += dt; if (!coopClient()) updateTurrets(dt);
+      if (G.endT > 1.6 && !G.endShown) {
+        G.endShown = true;
+        if (G.mode === 'race') raceAfterEnd();
+        else if (G.mode === 'coop') { if (!R) show('end'); else if (!R.over) { if (isHost()) coopAfterEnd(); else G.endShown = false; } }
+        else show('end');
+      }
     }
   }
 
@@ -1292,17 +1329,19 @@
   function updateHud() {
     if (hud.hidden || !lv) return;
     const pct = Math.min(100, Math.floor(G.trace * 100));
-    const key = pct + '|' + Math.floor(G.time) + '|' + (G.alarm ? 1 : 0) + '|' + Math.ceil(G.freeze) + '|' + getLang();
+    const tm = G.mode === 'race' && R && R.start ? (R.fin != null ? R.fin : Math.max(0, Date.now() - R.start)) / 1000 : G.time;   // a race shows the whole race clock
+    const key = pct + '|' + Math.floor(tm) + '|' + (G.alarm ? 1 : 0) + '|' + Math.ceil(G.freeze) + '|' + getLang();
     if (key === lastHud) return; lastHud = key;
     $('hTb').style.width = (G.trace * 100).toFixed(1) + '%';
     $('hTp').textContent = pct + '%';
-    $('hTime').textContent = fmtT(G.time);
+    $('hTime').textContent = fmtT(tm);
     const tr = $('hT'); tr.classList.toggle('alarm', G.alarm); tr.classList.toggle('danger', G.trace > 0.75); tr.classList.toggle('frozen', G.freeze > 0);
     $('hTl').textContent = G.freeze > 0 ? '❄ ' + Math.ceil(G.freeze) : G.alarm ? '×3' : t('gl_trace');
   }
   function hudLabels() {
     if (!lv) return;
-    if (G.mode === 'endless') { $('hLvl').textContent = '∞ ' + G.run.stage; $('hName').textContent = t('gl_stage', { n: G.run.stage }); }
+    if (netMode()) { $('hLvl').textContent = R.stage + '/' + R.n; $('hName').textContent = R.track === 'c' && lv.def.name ? t(lv.def.name) : t(R.mode === 'coop' ? 'gl_on_coop' : 'gl_on_race'); }
+    else if (G.mode === 'endless') { $('hLvl').textContent = '∞ ' + G.run.stage; $('hName').textContent = t('gl_stage', { n: G.run.stage }); }
     else { const d = LEVELS[G.li]; const ci = d.corp, idx = LEVELS.slice(0, G.li).filter((x) => x.corp === ci).length; $('hLvl').textContent = (ci + 1) + '-' + (idx + 1); $('hName').textContent = t(d.name); }
     $('bSnd').textContent = AU.muted ? '🔇' : '🔊';
     $('bLayer').querySelector('span').textContent = t('gl_layer', { n: G.activeL + 1 });
@@ -1313,7 +1352,7 @@
     if (!lv) return;
     const xs = $('xs'); let any = false;
     xs.querySelectorAll('.xb').forEach((b) => {
-      const k = b.dataset.x, n = G.ex[k] || 0, show = G.mode === 'endless' || (lv.def.ex && lv.def.ex[k] > 0);
+      const k = b.dataset.x, n = G.ex[k] || 0, show = G.mode === 'endless' || (netMode() && lv.def.endless) || (lv.def.ex && lv.def.ex[k] > 0);
       b.hidden = !show; if (show) any = true;
       b.disabled = n <= 0; b.querySelector('b').textContent = '×' + n; b.querySelector('span').textContent = t('gl_' + k);
       b.classList.toggle('on', G.exMode === k);
@@ -1337,10 +1376,10 @@
   function show(name) {
     const prev = G.screen;
     G.screen = name;
-    if (name === 'game') { ov.hidden = true; ov.innerHTML = ''; hudShow(true); hudLabels(); requestAnimationFrame(layout); return; }
-    hudShow(['pause', 'end'].includes(name) && !!lv && G.mode !== 'demo');
+    if (name === 'game') { ov.hidden = true; ov.innerHTML = ''; hudShow(true); hudLabels(); raceUi(); requestAnimationFrame(layout); return; }
+    hudShow(['pause', 'end', 'gone'].includes(name) && !!lv && G.mode !== 'demo');
     if (prev !== name) ov.scrollTop = 0;
-    renderOv();
+    renderOv(); raceUi();
     if (['pause', 'end', 'brief'].includes(name)) requestAnimationFrame(layout);
   }
   const btn = (a, label, cls, extra) => `<button class="btn ${cls || ''}" data-a="${a}" ${extra || ''}>${label}</button>`;
@@ -1360,6 +1399,7 @@
         <div class="col">
           ${btn('campaign', '▶ ' + esc(t('gl_campaign')), 'big')}
           ${btn('endless', '∞ ' + esc(t('gl_endless')) + (elock ? ` <small>🔒 ${esc(t('gl_endless_lock'))}</small>` : SAVE.endless.stage ? ` <small>${esc(t('gl_best_stage', { n: SAVE.endless.stage }))}</small>` : ''), 'sec big', elock ? 'data-locked="1"' : '')}
+          ${btn('online', '🌐 ' + esc(t('gl_online')) + ` <small>${esc(t('gl_on_race'))} · ${esc(t('gl_on_coop'))}</small>`, 'sec big')}
           ${btn('how', '? ' + esc(t('gl_how')), 'sec')}
         </div>${miniRow()}</div>`;
     } else if (n === 'levels') {
@@ -1397,6 +1437,11 @@
         <h3>${esc(t('gl_h_sec_t'))}</h3><div class="ics">${obs}</div><p class="mut">${esc(t('gl_h_trace'))}</p>
         <h3>${esc(t('gl_h_ex_t'))}</h3><div class="exs"><div>❄ <b>${esc(t('gl_freeze'))}</b> <small>${esc(t('gl_xd_freeze'))}</small></div><div>🔓 <b>${esc(t('gl_force'))}</b> <small>${esc(t('gl_xd_force'))}</small></div><div>⚡ <b>${esc(t('gl_emp'))}</b> <small>${esc(t('gl_xd_emp'))}</small></div></div>
         <div class="row">${btn('howback', esc(t('gl_back')), 'sec')}</div></div>`;
+    } else if (n === 'pause' && netMode()) {   // online never stops the clock: this is just a menu
+      h = `<div class="panel small"><h2>☰ ${esc(t('gl_on_menuT'))}</h2><p class="mut">${esc(t('gl_on_noPause'))}</p><div class="col">
+        ${btn('resume', '▶ ' + esc(t('gl_resume')), 'big')}${btn('how', '? ' + esc(t('gl_how')), 'sec')}${btn('netLeave', '⎋ ' + esc(t('gl_on_leave')), 'sec')}</div>${miniRow()}</div>`;
+    } else if (['online', 'lobby', 'raceEnd', 'coopEnd', 'gone'].includes(n)) {
+      h = netScreen(n);
     } else if (n === 'pause') {
       h = `<div class="panel small"><h2>⏸ ${esc(t('gl_paused'))}</h2><div class="col">
         ${btn('resume', '▶ ' + esc(t('gl_resume')), 'big')}${btn('restart', '↻ ' + esc(t('gl_restart')), 'sec')}${btn('how', '? ' + esc(t('gl_how')), 'sec')}
@@ -1429,11 +1474,13 @@
     if (ov.firstElementChild) { ov.firstElementChild.setAttribute('data-m3pop', ''); if (window.Mal3abPopButtons) window.Mal3abPopButtons(); }   // 🏠 + 💬 in every popup
     ov.querySelectorAll('[data-mal3ab-home]').forEach((b) => { b.onclick = (e) => { e.preventDefault(); location.href = '../../play.html'; }; });
     ov.querySelectorAll('canvas[data-icon]').forEach(drawIcon);
+    if (n === 'online') netWire();
   }
   ov.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-a]'); if (!b) return;
+    const b = e.target.closest('[data-a]'); if (!b || b.disabled) return;
     AU.init(); AU.sfx('ui');
     const a = b.dataset.a;
+    if (netAct(a, b)) return;
     if (a === 'campaign' || a === 'levels') { if (G.mode !== 'demo' && a === 'levels') { startDemo(); } show('levels'); }
     else if (a === 'title') { startDemo(); show('title'); }
     else if (a === 'endless') { if (b.dataset.locked) { toast(t('gl_endless_lock')); return; } startEndless(); }
@@ -1450,7 +1497,7 @@
     else if (a === 'snd') { toggleMute(); renderOv(); }
   });
   function toggleMute() { AU.setMute(!AU.muted); SAVE.mute = AU.muted; writeSave(); $('bSnd').textContent = AU.muted ? '🔇' : '🔊'; }
-  function pause() { if (G.screen !== 'game' || G.phase === 'won' || G.phase === 'lost') return; G.paused = true; G.exMode = null; show('pause'); }
+  function pause() { if (G.screen !== 'game' || G.phase === 'won' || G.phase === 'lost') return; G.exMode = null; if (!netMode()) G.paused = true; show('pause'); }
   function resume() { if (!lv) return; G.paused = false; show('game'); }
   let toastT = 0;
   function toast(msg) { const el = $('toast'); el.textContent = msg; el.hidden = false; el.classList.remove('go'); void el.offsetWidth; el.classList.add('go'); clearTimeout(toastT); toastT = setTimeout(() => { el.hidden = true; }, 1800); }
@@ -1488,6 +1535,7 @@
   function inPlay() { return G.screen === 'game' && lv && (G.phase === 'play' || (G.phase === 'intro' && G.introT > 0.4)) && !G.paused && G.mode !== 'demo'; }
   function act(cell, dir) {
     if (!cell) return;
+    if (G.mode === 'coop' && R && ON.code) { coopAct(cell, dir); return; }
     if (G.exMode === 'force') { forceAt(cell.L, cell.x, cell.y); return; }
     rotateCell(cell.L, cell.x, cell.y, dir);
     updateBar();
@@ -1549,15 +1597,526 @@
   document.addEventListener('mal3abready', () => { if (G.screen === 'title') renderOv(); });
   window.addEventListener('resize', resize);
 
+  // ───────────────────────── online: up to 4 hackers (Supabase Realtime broadcast) ─────────────────────────
+  // Hack Race: everyone gets the same seeded stages, solves them on their own board and moves on alone; a live strip shows who is where.
+  // Co-op Breach: one shared board; the host runs the simulation and broadcasts snapshots, the others send their rotations.
+  addStrings({
+    gl_online: 'أونلاين', gl_on_sub: 'العب مع صحابك… لحد ٤ هاكرز في نفس الأوضة.', gl_on_name: 'اسمك', gl_on_player: 'هاكر',
+    gl_on_create: 'اعمل أوضة', gl_on_joinT: 'ادخل أوضة صاحبك', gl_on_join: 'ادخل', gl_on_code: 'الكود', gl_on_codeHint: 'اكتب كود الأوضة (٤ حروف أو أكتر)',
+    gl_on_room: 'الأوضة', gl_on_copy: 'انسخ لينك الدعوة', gl_on_copied: 'اتنسخ!', gl_on_players: 'اللعيبة ({n}/4)', gl_on_you: 'إنت',
+    gl_on_host: 'المضيف', gl_on_hacker: 'هاكر', gl_on_racing: 'في السباق · {a}/{b}', gl_on_finished: 'خلّص ✓',
+    gl_on_mode: 'نوع اللعب', gl_on_race: 'سباق الاختراق', gl_on_race_d: 'نفس الشبكات للكل، وكل واحد بيحل لوحده. اللي يخلّص كل المراحل الأول يكسب.',
+    gl_on_coop: 'اختراق جماعي', gl_on_coop_d: 'شبكة واحدة وتتبع واحد. كلكم بتلفوا القطع مع بعض.',
+    gl_on_nets: 'الشبكات', gl_on_easy: 'عشوائي · سهل', gl_on_norm: 'عشوائي · متوسط', gl_on_hard: 'عشوائي · صعب', gl_on_camp: 'الحملة من مرحلة {n}',
+    gl_on_stages: 'عدد المراحل', gl_on_start: 'ابدأ', gl_on_needP: 'لازم لاعب كمان على الأقل', gl_on_waitP: 'ابعت اللينك لصحابك… مستنيينهم يدخلوا.',
+    gl_on_waitHost: 'مستنيين المضيف يبدأ…', gl_on_leave: 'اخرج من الأوضة', gl_on_full: 'الأوضة مليانة (٤ لاعبين)', gl_on_noNet: 'مفيش اتصال بالسيرفر',
+    gl_on_joined: '{p} دخل الأوضة', gl_on_left: '{p} خرج', gl_on_newHost: '{p} بقى المضيف', gl_on_inRace: 'فيه سباق شغال دلوقتي… هتلعب في اللي بعده.',
+    gl_on_go: 'يلا!', gl_on_reboot: 'بنعيد التشغيل… حاول تاني', gl_on_results: 'نتيجة السباق', gl_on_final: 'السباق خلص!',
+    gl_on_waitOthers: 'مستنيين الباقيين يخلّصوا…', gl_on_again: 'سباق تاني', gl_on_again_c: 'العب تاني', gl_on_lobby: 'ارجع للأوضة',
+    gl_on_stageOf: 'مرحلة {a}/{b}', gl_on_allLeft: 'كل اللعيبة خرجوا', gl_on_allLeft_d: 'مفيش حد تاني في الأوضة. تكمّل لوحدك؟', gl_on_solo: 'كمّل لوحدك',
+    gl_on_ended: 'المضيف رجّع الكل للأوضة', gl_on_won: '{p} كسب السباق!', gl_on_fin: '{p} خلّص!', gl_on_youWon: 'إنت الأول!',
+    gl_on_menuT: 'القائمة', gl_on_noPause: 'اللعب أونلاين مابيقفش… التتبع شغال.', gl_on_teamWin: 'الفريق اخترق كل الشبكات!', gl_on_teamLose: 'التتبع كمل على الفريق.',
+    gl_on_p1: 'الأول', gl_on_p2: 'التاني', gl_on_p3: 'التالت', gl_on_p4: 'الرابع', gl_on_team: 'الفريق',
+  }, {
+    gl_online: 'Online', gl_on_sub: 'Play with friends, up to 4 hackers in one room.', gl_on_name: 'Your Name', gl_on_player: 'Hacker',
+    gl_on_create: 'Create Room', gl_on_joinT: 'Join A Friend', gl_on_join: 'Join', gl_on_code: 'Code', gl_on_codeHint: 'Type the room code (4 or more letters)',
+    gl_on_room: 'Room', gl_on_copy: 'Copy Invite Link', gl_on_copied: 'Copied!', gl_on_players: 'Players ({n}/4)', gl_on_you: 'You',
+    gl_on_host: 'Host', gl_on_hacker: 'Hacker', gl_on_racing: 'Racing · {a}/{b}', gl_on_finished: 'Finished ✓',
+    gl_on_mode: 'Mode', gl_on_race: 'Hack Race', gl_on_race_d: 'Same networks for everyone, each on their own board. First to breach every stage wins.',
+    gl_on_coop: 'Co-op Breach', gl_on_coop_d: 'One shared board and one trace. Everyone rotates nodes together.',
+    gl_on_nets: 'Networks', gl_on_easy: 'Random · Easy', gl_on_norm: 'Random · Normal', gl_on_hard: 'Random · Hard', gl_on_camp: 'Campaign From Level {n}',
+    gl_on_stages: 'Stages', gl_on_start: 'Start', gl_on_needP: 'You need at least one more player', gl_on_waitP: 'Send the link to your friends and wait for them to join.',
+    gl_on_waitHost: 'Waiting for the host to start…', gl_on_leave: 'Leave Room', gl_on_full: 'The room is full (4 players)', gl_on_noNet: 'No connection to the server',
+    gl_on_joined: '{p} joined', gl_on_left: '{p} left', gl_on_newHost: '{p} is now the host', gl_on_inRace: 'A race is running right now. You will play in the next one.',
+    gl_on_go: 'GO!', gl_on_reboot: 'Rebooting… try again', gl_on_results: 'Race Results', gl_on_final: 'The race is over!',
+    gl_on_waitOthers: 'Waiting for the others to finish…', gl_on_again: 'Race Again', gl_on_again_c: 'Play Again', gl_on_lobby: 'Back To Room',
+    gl_on_stageOf: 'Stage {a}/{b}', gl_on_allLeft: 'Everyone Left', gl_on_allLeft_d: 'Nobody else is in the room. Keep going on your own?', gl_on_solo: 'Continue Solo',
+    gl_on_ended: 'The host took everyone back to the room', gl_on_won: '{p} won the race!', gl_on_fin: '{p} finished!', gl_on_youWon: 'You finished first!',
+    gl_on_menuT: 'Menu', gl_on_noPause: 'Online play never pauses. The trace keeps running.', gl_on_teamWin: 'The team breached every network!', gl_on_teamLose: 'The trace caught the team.',
+    gl_on_p1: '1st', gl_on_p2: '2nd', gl_on_p3: '3rd', gl_on_p4: '4th', gl_on_team: 'Team',
+  });
+  const MAXP = 4, PCOL = ['#ffb703', '#b48cff', '#ff7a59', '#5cf2c0'], MEDAL = ['🥇', '🥈', '🥉', '4'];
+  const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'cfg', 'go', 'pr', 'fin', 'lobby', 'rot', 'cx', 'snap', 'cend'];
+  const NSTAGES = [3, 5, 8];
+  const ON = { ch: null, code: '', ready: false, me: '', joinedAt: 0, peers: new Map(), hb: 0, cfg: { mode: 'race', track: 'n', lvl: 0, n: 5 },
+    hostRace: null, prKey: '', prT: 0, uiT: 0, uiDirty: false, snapT: 0, mine: new Map(), marks: [], quietUntil: 0, alone: false, lastAll: null };
+  let R = null;   // the current race / co-op run
+  const netMode = () => (G.mode === 'race' || G.mode === 'coop') && !!R;
+  const coopClient = () => G.mode === 'coop' && !!R && !!ON.code && !isHost();
+  const hashStr = (s) => { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h; };
+  const newCode = () => { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 5; i++) s += A[Math.floor(Math.random() * A.length)]; return s; };
+  const pageLink = () => location.href.split('?')[0].split('#')[0];
+  const inviteLink = (code) => pageLink() + '?room=' + code;
+  const fmtR = (ms) => { const s = Math.max(0, ms || 0) / 1000; return fmtT(s) + '.' + Math.floor((s * 10) % 10); };
+  const stageKey = () => R ? R.rid + ':' + R.stage : '';
+  function myName() {
+    const a = window.Auth && Auth.name && Auth.name(); if (a) return String(a).slice(0, 18);
+    let n = ''; try { n = localStorage.getItem(SLUG + '-name') || ''; } catch (e) {}
+    return n.trim().slice(0, 18) || t('gl_on_player');
+  }
+  function roster() {   // everyone in the room in join order; the first one is the host
+    const a = [{ id: ON.me, n: myName(), jt: ON.joinedAt, me: true }];
+    for (const P of ON.peers.values()) a.push(P);
+    a.sort((x, y) => Math.abs(x.jt - y.jt) < 600 ? (x.id < y.id ? -1 : 1) : x.jt - y.jt);
+    return a;
+  }
+  function isHost() { return !ON.code || roster()[0].id === ON.me; }
+  const colorOf = (id) => { const i = roster().findIndex((p) => p.id === id); return PCOL[Math.max(0, i) % PCOL.length]; };
+  const nameOf = (id) => id === ON.me ? myName() : ((ON.peers.get(id) || {}).n || '…');
+  function netSend(ev, p) {
+    if (!ON.ch || !ON.ready) return;
+    try { ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me, age: Date.now() - ON.joinedAt }, p || {}) }); } catch (e) {}
+  }
+  async function canGoOnline() { try { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; } catch (e) {} return true; }
+  function copyText(text, b) {
+    const done = () => { if (!b) return; const o = b.textContent; b.textContent = t('gl_on_copied'); setTimeout(() => { b.textContent = o; }, 1300); };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done); else done(); } catch (e) { done(); }
+  }
+
+  // ── room ──
+  function joinRoom(code) {
+    leaveRoom(true);
+    if (!window.sb) { toast(t('gl_on_noNet')); return false; }
+    code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8); if (code.length < 4) return false;
+    let me = null; try { me = JSON.parse(sessionStorage.getItem(SLUG + '-id-' + code) || 'null'); } catch (e) {}
+    if (!me || !me.id) { me = { id: Math.random().toString(36).slice(2, 10), at: Date.now() }; try { sessionStorage.setItem(SLUG + '-id-' + code, JSON.stringify(me)); } catch (e) {} }
+    Object.assign(ON, { me: me.id, joinedAt: me.at || Date.now(), code, ready: false, hostRace: null, quietUntil: Date.now() + 2500, alone: false, marks: [], lastAll: null });
+    ON.peers.clear(); R = null;
+    const ch = sb.channel('gl-' + code, { config: { broadcast: { self: false, ack: false } } });
+    for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+    ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch) { ON.ready = true; hello(true); if (G.screen === 'lobby') renderOv(); } });
+    ON.ch = ch;
+    try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
+    clearInterval(ON.hb); ON.hb = setInterval(netBeat, 2000);
+    toLobby(true);   // keep a saved race: after a reload the host's reply resumes it
+    return true;
+  }
+  function leaveRoom(quiet) {
+    if (ON.ch) { netSend('bye', { left: 1 }); const ch = ON.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
+    if (!quiet && ON.code) { try { sessionStorage.removeItem(SLUG + '-id-' + ON.code); sessionStorage.removeItem(SLUG + '-race-' + ON.code); } catch (e) {} }
+    clearInterval(ON.hb); ON.ch = null; ON.ready = false; ON.code = ''; ON.peers.clear(); ON.hostRace = null; ON.marks = []; R = null;
+    if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+    raceUi();
+  }
+  function myPhase() { return R ? ((R.mode === 'race' ? R.fin != null : R.over) ? 'done' : 'race') : 'lobby'; }
+  function raceInfo() { return { rid: R.rid, mode: R.mode, track: R.track, lvl: R.lvl, n: R.n, seed: R.seed, st: R.stage, el: Date.now() - R.start }; }
+  function statusPayload() {
+    const p = { n: myName(), ul: SAVE.unlocked || 0, ph: myPhase() };
+    if (R) Object.assign(p, progress());
+    if (isHost()) { p.cfg = ON.cfg; if (R) p.race = raceInfo(); }
+    return p;
+  }
+  function hello(req) { netSend('hello', Object.assign(statusPayload(), { req: !!req })); }
+  function netBeat() {
+    if (!ON.ch) return;
+    netSend('hb', statusPayload());
+    checkPeers();
+  }
+  function checkPeers() { const now = Date.now(); for (const P of [...ON.peers.values()]) if (now - P.t > 9000) peerGone(P); }
+  function onNet(ev, p) {
+    if (!p || !p.id || p.id === ON.me || !ON.code) return;
+    const now = Date.now();
+    if (ev === 'full') {
+      if (p.to === ON.me) { leaveRoom(); startDemo(); show('online'); toast(t('gl_on_full')); }
+      else if (ON.peers.delete(p.to)) roomChanged();
+      return;
+    }
+    let P = ON.peers.get(p.id);
+    if (ev === 'bye') {   // a real Leave goes at once; a closed or reloading page gets 3 s to come back
+      if (P) { if (p.left) peerGone(P); else { P.t = Math.min(P.t, now - 6000); setTimeout(checkPeers, 3100); } }
+      return;
+    }
+    if (!P) {
+      if (isHost() && roster().length >= MAXP) { netSend('full', { to: p.id }); return; }
+      P = { id: p.id, n: String(p.n || '…').slice(0, 18), jt: now - (+p.age || 0), t: now };
+      ON.peers.set(p.id, P);
+      if (now > ON.quietUntil) { toast(t('gl_on_joined', { p: P.n })); AU.sfx('link'); }
+      if (ON.alone && G.screen === 'gone') { ON.alone = false; G.paused = false; show('game'); }
+      roomChanged();
+    }
+    P.t = now; if (p.n) P.n = String(p.n).slice(0, 18);
+    if (p.ul !== undefined) P.ul = p.ul | 0;
+    if (p.ph) P.ph = p.ph;
+    if (p.rid !== undefined && p.st !== undefined) { P.rid = p.rid; P.st = p.st | 0; P.pct = p.pct | 0; P.cd = p.cd | 0; P.ct = p.ct | 0; if (p.fin !== undefined) P.fin = p.fin; P.tr = p.tr | 0; }
+    const fromHost = roster()[0].id === p.id;
+    switch (ev) {
+      case 'hello': case 'hb':
+        if (fromHost) { if (p.cfg && !R) { const was = JSON.stringify(ON.cfg); ON.cfg = Object.assign({}, ON.cfg, p.cfg); if (was !== JSON.stringify(ON.cfg) && G.screen === 'lobby') renderOv(); } hostRace(p); }
+        if (ev === 'hello' && p.req) hello(false);
+        uiChanged(); checkRaceDone(); break;
+      case 'cfg': if (fromHost && p.cfg) { ON.cfg = Object.assign({}, ON.cfg, p.cfg); if (G.screen === 'lobby') renderOv(); } break;
+      case 'go': if (fromHost) startRace(p); break;
+      case 'pr': uiChanged(); checkRaceDone(); break;
+      case 'fin':
+        if (R && R.mode === 'race' && p.rid === R.rid) {
+          P.fin = p.fin; P.rid = p.rid;
+          const first = !standings().some((x) => x.id !== P.id && x.fin != null && x.fin < p.fin);
+          toast(t(first ? 'gl_on_won' : 'gl_on_fin', { p: P.n })); uiChanged(); checkRaceDone();
+        }
+        break;
+      case 'lobby': if (fromHost && R) { toast(t('gl_on_ended')); toLobby(); } break;
+      case 'rot':
+        if (R && G.mode === 'coop' && p.s === stageKey() && lv) {
+          mark(p.id, p);
+          if (isHost() && (G.phase === 'play' || G.phase === 'intro')) { rotateCell(p.L | 0, p.x | 0, p.y | 0, p.d < 0 ? -1 : 1); updateBar(); }
+        }
+        break;
+      case 'cx':
+        if (R && G.mode === 'coop' && isHost() && p.s === stageKey() && lv) {
+          if (p.k === 'force') { if (G.ex.force > 0 && G.phase === 'play') { forceAt(p.L | 0, p.x | 0, p.y | 0); mark(p.id, p); } }
+          else if (p.k === 'freeze' || p.k === 'emp') useExploit(p.k);
+        }
+        break;
+      case 'snap': if (fromHost) applySnap(p); break;
+      case 'cend': if (fromHost && R && R.mode === 'coop' && p.rid === R.rid) coopOver(p); break;
+    }
+  }
+  function peerGone(P, silent) {
+    if (!ON.peers.has(P.id)) return;
+    const oldHost = roster()[0].id;
+    ON.peers.delete(P.id);
+    const nh = roster()[0];
+    if (!silent) toast(t('gl_on_left', { p: P.n }) + (oldHost === P.id && ON.peers.size ? ' · ' + t('gl_on_newHost', { p: nh.me ? myName() : nh.n }) : ''));
+    if (R && netMode() && !ON.peers.size && ['game', 'pause'].includes(G.screen) && myPhase() === 'race') { ON.alone = true; G.paused = true; show('gone'); }
+    roomChanged(); checkRaceDone();
+  }
+  function hostRace(p) {
+    const r = p.race;
+    if (!r) {
+      if (ON.hostRace) { ON.hostRace = null; if (G.screen === 'lobby') renderOv(); }
+      if (R && p.ph === 'lobby' && Date.now() - R.created > 5000) { toast(t('gl_on_ended')); toLobby(); }
+      return;
+    }
+    if (R && R.rid === r.rid) return;
+    let sv = null; try { sv = JSON.parse(sessionStorage.getItem(SLUG + '-race-' + ON.code) || 'null'); } catch (e) {}
+    if (sv && sv.rid === r.rid) { if (r.mode === 'coop') sv.stage = Math.max(1, r.st | 0); startRace(r, sv); return; }   // reloaded mid-race: pick up where we were
+    if (!R && r.el < 1500 && G.screen === 'lobby') { startRace(Object.assign({}, r, { delay: Math.max(0, -r.el) })); return; }   // the start signal got lost
+    if (!R && (!ON.hostRace || ON.hostRace.rid !== r.rid)) { ON.hostRace = r; if (G.screen === 'lobby') renderOv(); }
+  }
+  function uiChanged() { ON.uiDirty = true; }
+  function roomChanged() { ON.uiDirty = true; if (['lobby', 'raceEnd', 'coopEnd'].includes(G.screen)) renderOv(); }
+  function toLobby(keep) {
+    R = null; ON.alone = false; ON.marks = [];
+    if (!keep) { try { sessionStorage.removeItem(SLUG + '-race-' + ON.code); } catch (e) {} }
+    startDemo(); show('lobby'); raceUi();
+  }
+  function saveRace() { if (!R || !ON.code) return; try { sessionStorage.setItem(SLUG + '-race-' + ON.code, JSON.stringify({ rid: R.rid, stage: R.stage, start: R.start, fin: R.fin, traces: R.traces })); } catch (e) {} }
+
+  // ── race / run ──
+  function hostStart() {
+    if (!ON.code || !isHost()) return;
+    if (!ON.peers.size) { toast(t('gl_on_needP')); return; }
+    const c = ON.cfg, rid = ((Math.random() * 1e9) >>> 0) || 1, lvl = clamp(c.lvl | 0, 0, LEVELS.length - 1);
+    const n = c.track === 'c' ? Math.max(1, Math.min(c.n, LEVELS.length - lvl)) : c.n;
+    const g = { rid, mode: c.mode === 'coop' ? 'coop' : 'race', track: c.track, lvl, n, seed: hashStr(ON.code + ':' + rid), delay: 3000 };
+    netSend('go', g); startRace(g);
+  }
+  function startRace(g, sv) {
+    if (!g || !g.rid) return;
+    const now = Date.now(), delay = g.delay === undefined ? 3000 : Math.max(0, +g.delay || 0);
+    R = { rid: g.rid, mode: g.mode === 'coop' ? 'coop' : 'race', track: ['e', 'n', 'h', 'c'].includes(g.track) ? g.track : 'n', lvl: clamp(g.lvl | 0, 0, LEVELS.length - 1),
+      n: clamp(g.n | 0 || 5, 1, 18), seed: g.seed >>> 0, stage: 1, goAt: now + delay, start: now + delay, fin: null, traces: 0, created: now, over: false, res: null };
+    if (sv) { R.stage = clamp(sv.stage | 0 || 1, 1, R.n); R.start = sv.start || now; R.goAt = 0; R.fin = sv.fin === undefined ? null : sv.fin; R.traces = sv.traces | 0; }
+    ON.hostRace = null; ON.alone = false; ON.lastAll = null; ON.marks = [];
+    G.mode = R.mode; G.run = { stage: R.stage, score: 0, seed: R.seed }; G.paused = false;
+    saveRace();
+    if (R.mode === 'race' && R.fin != null) { loadRaceStage(false); G.phase = 'won'; G.endShown = true; show('raceEnd'); }
+    else loadRaceStage(!sv);
+    uiChanged();
+  }
+  function stageDef(k) {
+    if (R.track === 'c') { const i = Math.min(LEVELS.length - 1, R.lvl + k - 1); return { def: LEVELS[i], seed: 1000 + i * 7919, li: i }; }
+    const base = { e: 1, n: 3, h: 6 }[R.track] || 3;
+    return { def: genEndless(base + k - 1, (R.seed + k * 104729) >>> 0), seed: (R.seed + k) >>> 0 };
+  }
+  function loadRaceStage(count) {
+    const s = stageDef(R.stage);
+    G.run = G.run || { stage: 1, score: 0, seed: R.seed }; G.run.stage = R.stage; G.li = s.li !== undefined ? s.li : 0;
+    loadDef(s.def, s.seed);
+    G.ex = s.def.endless ? { freeze: 1, force: 1, emp: 1 } : Object.assign({ freeze: 0, force: 0, emp: 0 }, s.def.ex || {});
+    G.phase = count && Date.now() < R.goAt ? 'count' : 'intro'; G.introT = 0; G.paused = false;
+    AU.init(); if (G.phase === 'intro') AU.sfx('start');
+    ON.mine.clear();
+    show('game'); updateBar(); updateObjs(); sendPr(true);
+  }
+  function progress() {
+    let pct = 0, cd = 0, ct = 0;
+    if (lv && R && netMode()) {
+      ct = lv.cores.length; cd = lv.cores.filter((c) => c.done).length;
+      if (G.phase === 'won' || (ct && cd === ct)) pct = 100;
+      else if (G.phase !== 'count') {
+        let tot = 0, lit = 0;
+        for (let L = 0; L < lv.NL; L++) for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) { const c = lv.cells[L][y][x]; if (c && c.k === 'pc' && c.sol >= 0) { tot++; if (cellLive(c)) lit++; } }
+        let cp = 0; for (const c of lv.cores) cp += c.done ? 1 : Math.min(1, c.prog);
+        pct = Math.min(99, Math.round(100 * (0.7 * (tot ? lit / tot : 0) + 0.3 * (ct ? cp / ct : 0))));
+      }
+    }
+    if (R && R.fin != null && R.mode === 'race') pct = 100;
+    return { rid: R ? R.rid : 0, st: R ? R.stage : 0, pct, cd, ct, fin: R && R.mode === 'race' ? R.fin : null, tr: R ? R.traces : 0 };
+  }
+  function sendPr(force) {
+    if (!ON.code || !R) return;
+    const p = progress(), key = JSON.stringify(p), now = Date.now();
+    if (key === ON.prKey && !force) return;
+    if (!force && now - ON.prT < 250) return;
+    ON.prKey = key; ON.prT = now; netSend('pr', p); uiChanged();
+  }
+  function standings() {
+    if (!R) return [];
+    const list = [Object.assign({ id: ON.me, n: myName(), me: true }, progress())];
+    for (const P of ON.peers.values()) if (P.rid === R.rid) list.push({ id: P.id, n: P.n, st: P.st | 0, pct: P.pct | 0, cd: P.cd | 0, ct: P.ct | 0, fin: P.fin == null ? null : +P.fin, tr: P.tr | 0 });
+    list.sort((a, b) => (a.fin != null) !== (b.fin != null) ? (a.fin != null ? -1 : 1) : a.fin != null ? a.fin - b.fin : (b.st - a.st) || (b.pct - a.pct));
+    list.forEach((x, i) => { x.place = i + 1; x.col = colorOf(x.id); });
+    return list;
+  }
+  const allDone = () => !!R && R.mode === 'race' && standings().every((x) => x.fin != null);
+  function checkRaceDone() {
+    if (!R || R.mode !== 'race' || G.screen !== 'raceEnd') return;
+    const a = allDone(); if (a !== ON.lastAll) { ON.lastAll = a; renderOv(); if (a) AU.sfx('win'); }
+  }
+  function raceAfterEnd() {
+    if (!R) { show('end'); return; }
+    if (G.phase === 'won') { if (R.fin != null) { ON.lastAll = null; show('raceEnd'); sendPr(true); } else { R.stage++; saveRace(); loadRaceStage(false); } }
+    else { toast(t('gl_on_reboot')); loadRaceStage(false); }
+  }
+
+  // ── co-op: the host simulates, everyone rotates ──
+  function mark(id, c) { ON.marks.push({ L: c.L | 0, x: c.x | 0, y: c.y | 0, col: colorOf(id), n: nameOf(id), life: 0.9 }); if (ON.marks.length > 12) ON.marks.shift(); }
+  function coopAct(cell, dir) {
+    if (G.exMode === 'force') {
+      if (isHost()) { if (forceAt(cell.L, cell.x, cell.y)) mark(ON.me, cell); }
+      else { const c = cellAt(cell.L, cell.x, cell.y); G.exMode = null; updateBar(); if (c && c.k === 'pc' && c.lock) { netSend('cx', { k: 'force', L: cell.L, x: cell.x, y: cell.y, s: stageKey() }); AU.sfx('force'); } }
+      return;
+    }
+    if (rotateCell(cell.L, cell.x, cell.y, dir)) {
+      ON.mine.set(ck(cell.L, cell.x, cell.y), Date.now()); mark(ON.me, cell);
+      netSend('rot', { L: cell.L, x: cell.x, y: cell.y, d: dir, s: stageKey() });
+    }
+    updateBar();
+  }
+  function coopExploit(name) {   // a non-host asks the host to fire a shared exploit
+    if (!G.ex[name]) { AU.sfx('deny'); return false; }
+    if (name === 'force') { if (!anyLocked()) { toast(t('gl_no_lock')); AU.sfx('deny'); return false; } G.exMode = G.exMode === 'force' ? null : 'force'; AU.sfx('ui'); updateBar(); return true; }
+    netSend('cx', { k: name, s: stageKey() }); AU.sfx('ui'); return true;
+  }
+  const f2 = (v) => Math.round((+v || 0) * 100) / 100;
+  function sendSnap() {
+    let r = '';
+    for (let L = 0; L < lv.NL; L++) for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) { const c = lv.cells[L][y][x]; if (c && c.k === 'pc') r += (((c.rot % 4) + 4) % 4) + (c.lock ? 4 : 0); }
+    netSend('snap', { s: stageKey(), st: R.stage, ph: G.phase, r, tr: f2(G.trace), fz: f2(G.freeze), em: f2(G.emp), al: G.alarm ? 1 : 0, tm: f2(G.time), ex: G.ex,
+      co: lv.cores.map((c) => [f2(c.prog), c.done ? 1 : 0, c.feeding ? 1 : 0, f2(c.hit), f2(c.deny)]),
+      fw: lv.fws.map((f) => [f2(f.prog), f2(f.dmg), f.broken ? 1 : 0, f.feeding ? 1 : 0, f.inBw | 0, f.inCol, f2(f.shake)]),
+      tu: lv.turs.map((x) => [x.dir, x.phase, f2(x.timer), x.hacked ? 1 : 0, x.dead ? 1 : 0, f2(x.hack), f2(x.stun), f2(x.beam), x.beamDir | 0, f2(x.beamLen), x.beamCol === HACKC ? 1 : 0, x.hcol | 0, x.hp, f2(x.hit), x.target ? x.target.i : -1]) });
+  }
+  function applySnap(p) {
+    if (!R || R.mode !== 'coop' || G.mode !== 'coop' || isHost() || R.over) return;
+    if ((p.st | 0) > R.stage && (p.st | 0) <= R.n) { R.stage = p.st | 0; saveRace(); loadRaceStage(false); }   // the host moved on
+    if (p.s !== stageKey() || !lv || typeof p.r !== 'string') return;
+    const now = Date.now(); let i = 0;
+    for (let L = 0; L < lv.NL; L++) for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) {
+      const c = lv.cells[L][y][x]; if (!c || c.k !== 'pc') continue;
+      const v = +p.r[i++]; if (!(v >= 0)) continue;
+      const lock = v >= 4, r = v & 3;
+      if (c.lock && !lock) { c.pop = 0.2; const q = cellPos(L, x, y); if (q) ring(q.x, q.y, '#ffb703'); floatText(L, x, y, t('gl_unlocked'), '#ffb703', 1); AU.sfx('force'); }
+      c.lock = lock;
+      const mt = ON.mine.get(ck(L, x, y)); if (mt && now - mt < 900) continue;   // my own fresh turn wins until the host has seen it
+      const d = ((r - c.rot) % 4 + 4) % 4;
+      if (d) { c.rot += d === 3 ? -1 : d; G.E.delete(nk(L, x, y, 0)); G.E.delete(nk(L, x, y, 1)); G.info.delete(nk(L, x, y, 0)); G.info.delete(nk(L, x, y, 1)); G.dirty = true; }
+    }
+    (p.co || []).forEach((a, k) => {
+      const c = lv.cores[k]; if (!c) return;
+      c.prog = a[0]; c.feeding = !!a[2]; c.hit = Math.max(c.hit, a[3]); c.deny = Math.max(c.deny, a[4]);
+      if (a[1] && !c.done) { c.done = true; c.prog = 1; c.flash = 1; AU.sfx('breach'); const q = cellPos(c.L, c.x, c.y); if (q) { burst(q.x, q.y, COL[c.col] || '#fff', 34, 1.6, 0.9); ring(q.x, q.y, COL[c.col] || '#fff'); } floatText(c.L, c.x, c.y, t('gl_breached'), COL[c.col] || '#fff', 1.3); G.shake = Math.max(G.shake, 5); updateObjs(); }
+    });
+    (p.fw || []).forEach((a, k) => {
+      const f = lv.fws[k]; if (!f) return;
+      f.prog = a[0]; f.dmg = a[1]; f.feeding = !!a[3]; f.inBw = a[4]; f.inCol = a[5]; f.shake = Math.max(f.shake, a[6]);
+      if (a[2] && !f.broken) { f.broken = true; G.dirty = true; AU.sfx('fwbreak'); const q = cellPos(f.L, f.x, f.y); if (q) { shards(q.x, q.y, f.col >= 0 ? COL[f.col] : SEC2, 26); ring(q.x, q.y, SEC2); } floatText(f.L, f.x, f.y, t('gl_fwdown'), SEC2, 1.2); G.shake = Math.max(G.shake, 9); }
+    });
+    (p.tu || []).forEach((a, k) => {
+      const tr = lv.turs[k]; if (!tr) return;
+      const q = cellPos(tr.L, tr.x, tr.y);
+      if (a[3] && !tr.hacked) { AU.sfx('hack'); if (q) { burst(q.x, q.y, HACKC, 26, 1.2, 0.8); ring(q.x, q.y, HACKC); } floatText(tr.L, tr.x, tr.y, t('gl_hacked'), HACKC, 1.2); }
+      if (a[4] && !tr.dead) { AU.sfx('fwbreak'); if (q) shards(q.x, q.y, SEC, 18); floatText(tr.L, tr.x, tr.y, t('gl_down'), HACKC, 1.1); }
+      if (a[7] > tr.beam + 0.08) AU.sfx(a[10] ? 'hzap' : 'zap');
+      tr.dir = a[0]; tr.phase = a[1]; tr.timer = a[2]; tr.hacked = !!a[3]; tr.dead = !!a[4]; tr.hack = a[5]; tr.stun = a[6]; tr.beam = a[7]; tr.beamDir = a[8]; tr.beamLen = a[9];
+      tr.beamCol = a[10] ? HACKC : SEC; tr.hcol = a[11]; tr.hp = a[12]; tr.hit = Math.max(tr.hit, a[13]); tr.target = null; tr.tgtI = a[14];
+    });
+    if (p.fz > 0.5 && !(G.freeze > 0)) { AU.sfx('freeze'); G.flash = 0.5; G.flashCol = '#8fe9ff'; toast(t('gl_frozen')); }
+    if (p.em > 0.5 && !(G.emp > 0)) { AU.sfx('emp'); G.flash = 0.6; G.flashCol = '#c9b8ff'; toast(t('gl_emped')); }
+    G.trace = p.tr; G.freeze = p.fz; G.emp = p.em; G.alarm = !!p.al; G.time = p.tm;
+    if (p.ex && JSON.stringify(p.ex) !== JSON.stringify(G.ex)) { G.ex = Object.assign({ freeze: 0, force: 0, emp: 0 }, p.ex); updateBar(); }
+    if (p.ph === 'won' && G.phase !== 'won') { G.phase = 'won'; G.endT = 0; G.exMode = null; AU.sfx('win'); G.flash = 0.7; G.flashCol = '#bffcff'; updateObjs(); }
+    else if (p.ph === 'lost' && G.phase !== 'lost') { G.phase = 'lost'; G.endT = 0; G.exMode = null; G.trace = 1; AU.sfx('lose'); G.shake = 16; G.flash = 0.8; G.flashCol = '#ff3b4e'; }
+    else if (p.ph === 'play' && G.phase === 'intro' && G.introT > 0.4) G.phase = 'play';
+  }
+  function coopClientTick(dt) {   // between snapshots: only visuals and a smooth trace bar
+    G.time += dt;
+    for (const c of lv.cores) { c.flash = Math.max(0, c.flash - dt); c.deny = Math.max(0, c.deny - dt); c.hit = Math.max(0, c.hit - dt); }
+    for (const f of lv.fws) f.shake = Math.max(0, f.shake - dt);
+    for (const tr of lv.turs) {
+      tr.beam = Math.max(0, tr.beam - dt); tr.hit = Math.max(0, tr.hit - dt); tr.timer += dt;
+      let da = tr.dir * Math.PI / 2 - tr.aim; da = Math.atan2(Math.sin(da), Math.cos(da)); tr.aim += da * Math.min(1, dt * 9);
+      if (tr.dead && Math.random() < dt * 4) { const q = cellPos(tr.L, tr.x, tr.y); if (q) smoke(q.x, q.y); }
+    }
+    if (G.freeze > 0) G.freeze = Math.max(0, G.freeze - dt); else G.trace = Math.min(0.995, G.trace + dt / G.traceTime * (G.alarm ? 3 : 1));
+    if (G.emp > 0) G.emp = Math.max(0, G.emp - dt);
+  }
+  function coopAfterEnd() {
+    if (G.phase === 'won' && R.stage < R.n) { R.stage++; saveRace(); loadRaceStage(false); sendSnap(); return; }
+    const res = { rid: R.rid, win: G.phase === 'won', st: G.phase === 'won' ? R.n : R.stage - 1, tm: Date.now() - R.start };
+    netSend('cend', res); coopOver(res);
+  }
+  function coopOver(res) { if (!R) return; R.over = true; R.res = { win: !!res.win, st: res.st | 0, tm: +res.tm || 0 }; saveRace(); show('coopEnd'); sendPr(true); }
+
+  // ── live standings strip (race) / team strip (co-op) ──
+  let raceSig = '';
+  function raceUi() {
+    const el = $('race'); if (!el) return;
+    const on = !!(ON.code && netMode() && lv && ['game', 'pause', 'gone'].includes(G.screen));
+    if (!on) { if (!el.hidden) { el.hidden = true; el.innerHTML = ''; raceSig = ''; requestAnimationFrame(layout); } return; }
+    const ro = roster();
+    const h = R.mode === 'race'
+      ? standings().map((x) => `<div class="rp${x.me ? ' me' : ''}${x.fin != null ? ' fin' : ''}" style="--pc:${x.col}"><i></i><b>${esc(x.n)}</b><span>${x.fin != null ? '✓ ' + fmtR(x.fin) : x.st + '/' + R.n}</span>${x.fin != null ? '' : `<u><s style="width:${x.pct}%"></s></u>`}<em>${x.fin != null ? MEDAL[x.place - 1] || x.place : x.pct + '%'}</em></div>`).join('')
+      : ro.map((p, i) => `<div class="rp tm${p.me ? ' me' : ''}" style="--pc:${PCOL[i % 4]}"><i></i><b>${esc(p.me ? myName() : p.n)}</b>${i === 0 ? '<em>👑</em>' : ''}</div>`).join('');
+    const top = Math.round(hud.getBoundingClientRect().bottom + 6) + 'px';
+    if (h === raceSig && !el.hidden && el.style.top === top) return;
+    raceSig = h; const oh = el.hidden ? -1 : el.offsetHeight;
+    el.style.top = top; el.innerHTML = h; el.hidden = false;
+    if (el.offsetHeight !== oh) requestAnimationFrame(layout);
+  }
+  function netTick(dt) {
+    for (let i = ON.marks.length - 1; i >= 0; i--) { ON.marks[i].life -= dt; if (ON.marks[i].life <= 0) ON.marks.splice(i, 1); }
+    if (!ON.code) return;
+    const now = Date.now();
+    if (R) sendPr(false);
+    if (R && R.mode === 'coop' && !R.over && G.mode === 'coop' && lv && isHost()) { ON.snapT += dt; if (ON.snapT >= 0.1) { ON.snapT = 0; sendSnap(); } }
+    if (ON.uiDirty && now - ON.uiT > 200) {
+      ON.uiDirty = false; ON.uiT = now; raceUi();
+      if (G.screen === 'lobby') { const e = $('glPl'); if (e) e.innerHTML = playersHtml(); }
+      else if (G.screen === 'raceEnd') { const e = $('glRk'); if (e) e.innerHTML = rankHtml(standings()); checkRaceDone(); }
+    }
+  }
+
+  // ── screens ──
+  const TRACKS = () => ['e', 'n', 'h'].concat(Array.from({ length: maxLvl() + 1 }, (_, i) => 'c' + i));
+  function maxLvl() { let m = SAVE.unlocked || 0; for (const P of ON.peers.values()) m = Math.max(m, P.ul | 0); return Math.min(m, LEVELS.length - 1); }
+  const trackKey = (c) => c.track === 'c' ? 'c' + (c.lvl | 0) : c.track;
+  const trackLabel = (c) => c.track === 'c' ? t('gl_on_camp', { n: (c.lvl | 0) + 1 }) : t({ e: 'gl_on_easy', n: 'gl_on_norm', h: 'gl_on_hard' }[c.track] || 'gl_on_norm');
+  function statusOf(p) {
+    const ph = p.me ? myPhase() : p.ph;
+    if (ph === 'race') { const st = p.me ? (R ? R.stage : 0) : p.st | 0, n = p.me ? (R ? R.n : 0) : ((ON.hostRace && ON.hostRace.n) || (R && R.n) || 0); return n ? t('gl_on_racing', { a: st || 1, b: n }) : ''; }
+    if (ph === 'done') return t('gl_on_finished');
+    return '';
+  }
+  function playersHtml() {
+    return roster().map((p, i) => `<div class="pl" style="--pc:${PCOL[i % 4]}"><i></i><b>${esc(p.me ? myName() : p.n)}</b>${i === 0 ? '<span class="cr">👑</span>' : ''}${p.me ? `<small>${esc(t('gl_on_you'))}</small>` : ''}<em>${esc(statusOf(p) || t(i === 0 ? 'gl_on_host' : 'gl_on_hacker'))}</em></div>`).join('');
+  }
+  function rankHtml(list) {
+    return list.map((x) => `<div class="rk-r${x.me ? ' me' : ''}" style="--pc:${x.col}"><span class="pos">${x.fin != null ? MEDAL[x.place - 1] || x.place : x.place}</span><i></i><b>${esc(x.n)}</b>
+      <span>${x.fin != null ? fmtR(x.fin) : esc(t('gl_on_stageOf', { a: x.st, b: R.n })) + ' · ' + x.pct + '%'}</span>${x.tr ? `<small>☠×${x.tr}</small>` : ''}</div>`).join('');
+  }
+  function netScreen(n) {
+    const host = isHost();
+    if (n === 'online') {
+      const named = !!(window.Auth && Auth.name && Auth.name());
+      let typed = ''; try { typed = localStorage.getItem(SLUG + '-name') || ''; } catch (e) {}
+      return `<div class="panel small net"><div class="hdr"><button class="ib" data-a="title">←</button><h2>🌐 ${esc(t('gl_online'))}</h2></div>
+        <p class="mut">${esc(t('gl_on_sub'))}</p>
+        ${named ? `<div class="agent">${esc(t('gl_agent', { p: myName() }))}</div>` : `<label class="fl"><span>${esc(t('gl_on_name'))}</span><input id="glName" maxlength="16" autocomplete="off" value="${esc(typed)}" placeholder="${esc(t('gl_on_player'))}"></label>`}
+        <div class="col">${btn('netCreate', '＋ ' + esc(t('gl_on_create')), 'big')}</div>
+        <h3>${esc(t('gl_on_joinT'))}</h3>
+        <div class="jrow"><input id="glCode" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="${esc(t('gl_on_code'))}">${btn('netJoin', esc(t('gl_on_join')), '')}</div>
+        <p class="mut" id="glMsg"></p>${miniRow()}</div>`;
+    }
+    if (n === 'lobby') {
+      const ro = roster(), c = ON.cfg, busy = !!ON.hostRace;
+      const mo = (m, ic) => `<button class="mo ${c.mode === m ? 'on' : ''}" data-a="netMode" data-v="${m}" ${host ? '' : 'disabled'}><b>${ic} ${esc(t('gl_on_' + m))}</b><small>${esc(t('gl_on_' + m + '_d'))}</small></button>`;
+      const step = (a, label) => `<div class="stp">${host ? btn(a, '◀', 'sec sq', 'data-d="-1"') : ''}<b>${label}</b>${host ? btn(a, '▶', 'sec sq', 'data-d="1"') : ''}</div>`;
+      return `<div class="panel net lobby"><div class="hdr"><button class="ib" data-a="netLeave" title="${esc(t('gl_on_leave'))}">←</button><h2>🌐 ${esc(t('gl_on_room'))}</h2><span class="sp"></span><span class="rcode">${esc(ON.code)}</span></div>
+        <div class="row tight">${btn('netCopy', '🔗 ' + esc(t('gl_on_copy')), 'sec')}</div>
+        <h3>${esc(t('gl_on_players', { n: ro.length }))}</h3>
+        <div class="pls" id="glPl">${playersHtml()}</div>
+        ${busy ? `<p class="note">${esc(t('gl_on_inRace'))}</p>` : ''}
+        <h3>${esc(t('gl_on_mode'))}</h3>
+        <div class="modes">${mo('race', '🏁')}${mo('coop', '🤝')}</div>
+        <div class="opts"><div class="opt"><span>${esc(t('gl_on_nets'))}</span>${step('netTrack', esc(trackLabel(c)))}</div>
+          <div class="opt"><span>${esc(t('gl_on_stages'))}</span>${step('netN', c.n)}</div></div>
+        <div class="row">${host ? btn('netStart', '▶ ' + esc(t('gl_on_start')), 'big', ro.length < 2 || busy ? 'disabled' : '') : `<p class="mut wait">${esc(t('gl_on_waitHost'))}</p>`}</div>
+        ${host && ro.length < 2 ? `<p class="mut ctr">${esc(t('gl_on_waitP'))}</p>` : ''}${miniRow()}</div>`;
+    }
+    if (n === 'raceEnd') {
+      const list = standings(), me = list.find((x) => x.me) || { place: 1 }, all = list.every((x) => x.fin != null);
+      ON.lastAll = all;
+      return `<div class="panel end win net"><div class="ctag">${esc(t('gl_on_results'))}</div>
+        <div class="etl">${MEDAL[me.place - 1] || ''} ${esc(t('gl_on_p' + Math.min(4, me.place)))}</div>
+        <p>${esc(t(all ? 'gl_on_final' : 'gl_on_waitOthers'))}</p>
+        <div class="rk" id="glRk">${rankHtml(list)}</div>
+        <div class="row">${host ? btn('netLobby', '☰ ' + esc(t('gl_on_lobby')), 'sec') + (all ? btn('netAgain', '↻ ' + esc(t('gl_on_again')), 'big') : '') : btn('netLeave', '⎋ ' + esc(t('gl_on_leave')), 'sec')}</div></div>`;
+    }
+    if (n === 'coopEnd') {
+      const r = (R && R.res) || { win: false, st: 0, tm: 0 };
+      return `<div class="panel end ${r.win ? 'win' : 'lose'} net"><div class="ctag">${esc(t('gl_on_coop'))}</div><div class="etl">${esc(t(r.win ? 'gl_win' : 'gl_lose'))}</div>
+        <p>${esc(t(r.win ? 'gl_on_teamWin' : 'gl_on_teamLose'))}</p>
+        <div class="stats"><div><small>${esc(t('gl_stages'))}</small><b>${r.st}/${R ? R.n : 0}</b></div><div><small>${esc(t('gl_time'))}</small><b>${fmtR(r.tm)}</b></div></div>
+        <h3>${esc(t('gl_on_team'))}</h3><div class="pls">${playersHtml()}</div>
+        <div class="row">${host ? btn('netLobby', '☰ ' + esc(t('gl_on_lobby')), 'sec') + btn('netAgain', '↻ ' + esc(t('gl_on_again_c')), 'big') : `<p class="mut wait">${esc(t('gl_on_waitHost'))}</p>` + btn('netLeave', '⎋', 'sec sq', `title="${esc(t('gl_on_leave'))}"`)}</div></div>`;
+    }
+    if (n === 'gone') {
+      return `<div class="panel small net"><h2>📡 ${esc(t('gl_on_allLeft'))}</h2><p>${esc(t('gl_on_allLeft_d'))}</p>
+        <div class="col">${btn('netSolo', '▶ ' + esc(t('gl_on_solo')), 'big')}${btn('netLeave', '⌂ ' + esc(t('gl_menu')), 'sec')}</div></div>`;
+    }
+    return '';
+  }
+  function netWire() {   // inputs on the online screen
+    const nm = $('glName'); if (nm) nm.oninput = () => { try { localStorage.setItem(SLUG + '-name', nm.value.trim().slice(0, 16)); } catch (e) {} };
+    const inp = $('glCode');
+    if (inp) { inp.oninput = () => { inp.value = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); }; inp.onkeydown = (e) => { e.stopPropagation(); if (e.key === 'Enter') netAct('netJoin'); }; }
+    if (nm) nm.onkeydown = (e) => e.stopPropagation();
+  }
+  function cfgChanged() { netSend('cfg', { cfg: ON.cfg }); renderOv(); }
+  function netAct(a, b) {
+    const d = b && b.dataset ? +b.dataset.d || 0 : 0;
+    switch (a) {
+      case 'online': show('online'); return true;
+      case 'netCreate': (async () => { if (!(await canGoOnline())) return; joinRoom(newCode()); })(); return true;
+      case 'netJoin': {
+        const inp = $('glCode'), code = (inp ? inp.value : '').trim().toUpperCase();
+        if (code.length < 4) { const m = $('glMsg'); if (m) m.textContent = t('gl_on_codeHint'); return true; }
+        (async () => { if (!(await canGoOnline())) return; joinRoom(code); })(); return true;
+      }
+      case 'netCopy': copyText(inviteLink(ON.code), b); return true;
+      case 'netLeave': leaveRoom(); startDemo(); show('title'); return true;
+      case 'netMode': if (isHost()) { ON.cfg.mode = b.dataset.v === 'coop' ? 'coop' : 'race'; cfgChanged(); } return true;
+      case 'netTrack': if (isHost()) { const L = TRACKS(), i = Math.max(0, L.indexOf(trackKey(ON.cfg))), k = L[(i + d + L.length) % L.length]; if (k[0] === 'c') { ON.cfg.track = 'c'; ON.cfg.lvl = +k.slice(1); } else ON.cfg.track = k; cfgChanged(); } return true;
+      case 'netN': if (isHost()) { const i = Math.max(0, NSTAGES.indexOf(ON.cfg.n)); ON.cfg.n = NSTAGES[(i + d + NSTAGES.length) % NSTAGES.length]; cfgChanged(); } return true;
+      case 'netStart': case 'netAgain': if (!ON.hostRace) hostStart(); return true;
+      case 'netLobby': if (isHost()) { netSend('lobby', {}); toLobby(); } return true;
+      case 'netSolo': ON.alone = true; G.paused = false; show('game'); return true;
+    }
+    return false;
+  }
+  addEventListener('pagehide', () => { if (ON.ch) netSend('bye', {}); });
+  window.Mal3abShareLink = () => ON.code ? inviteLink(ON.code) : pageLink();
+  window.Mal3abPrepareInvite = async () => {
+    if (!ON.code) { if (!(await canGoOnline())) return pageLink(); joinRoom(newCode()); }
+    return inviteLink(ON.code);
+  };
+  window.Mal3abLiveInfo = () => ({ players: ON.code ? roster().length : 0, max: MAXP });
+
   // ───────────────────────── loop ─────────────────────────
   let last = performance.now();
   function frame(now) {
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000)); last = now;
-    update(dt); render(); updateHud();
+    update(dt); try { netTick(dt); } catch (e) { console.warn(e); } render(); updateHud();
     requestAnimationFrame(frame);
   }
   resize(); startDemo(); show('title');
   requestAnimationFrame(frame);
+  (function autoJoin() {   // ?room=CODE joins that room
+    const m = location.search.match(/[?&]room=([A-Za-z0-9]{4,8})/); if (!m) return;
+    (async () => { if (!(await canGoOnline())) return; joinRoom(m[1]); })();
+  })();
 
   // ───────────────────────── test / automation API ─────────────────────────
   window.GridlockHacker = {
@@ -1581,5 +2140,16 @@
     cellPos: (x, y, L) => cellPos(L || 0, x, y), cell: (x, y, L) => { const c = cellAt(L || 0, x, y); return c && { k: c.k, p: c.p, rot: c.rot, sol: c.sol, lock: !!c.lock }; }, resetSave: () => { for (const k of Object.keys(SAVE)) delete SAVE[k]; Object.assign(SAVE, { v: 1, unlocked: 0, stars: {}, best: {}, endless: { stage: 0, score: 0 }, mute: false }); writeSave(); },
     _dbg: () => { const F = computeFlow(); const m = []; for (const n of F.order) if (n.mixed) m.push([n.L, n.x, n.y, n.dist, cellAt(n.L, n.x, n.y).k, cellAt(n.L, n.x, n.y).p, cellAt(n.L, n.x, n.y).lock]); const w = []; for (const sk of F.sinks.values()) sk.sides.forEach((sd, i) => { if (sd && (sd.mixed || (sk.c.k === 'core' && sd.col !== sk.c.col) || (sk.c.k === 'src' && [...sd.cols].some((x) => x !== sk.c.col)))) w.push([sk.c.k, sk.c.x, sk.c.y, i, sd.par]); }); return { m, w }; },
     unlockAll: () => { SAVE.unlocked = LEVELS.length - 1; writeSave(); }, gen: genEndless,
+    net: {
+      get state() {
+        return { code: ON.code, me: ON.me, host: ON.code ? roster()[0].id : '', isHost: isHost(), roster: ON.code ? roster().map((p) => ({ id: p.id, n: p.me ? myName() : p.n, me: !!p.me })) : [],
+          cfg: Object.assign({}, ON.cfg), race: R && { rid: R.rid, mode: R.mode, stage: R.stage, n: R.n, fin: R.fin, traces: R.traces, over: R.over, res: R.res },
+          standings: R ? standings().map((x) => ({ n: x.n, me: !!x.me, st: x.st, pct: x.pct, fin: x.fin, place: x.place })) : [], hostRace: ON.hostRace, alone: ON.alone,
+          board: lv ? (() => { let s = ''; for (let L = 0; L < lv.NL; L++) for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) { const c = lv.cells[L][y][x]; s += !c ? '.' : c.k === 'pc' ? c.p + (c.sol < 0 ? '?' : c.sol & 3) : c.k[0]; } return s; })() : '',
+          rots: lv ? (() => { let s = ''; for (let L = 0; L < lv.NL; L++) for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) { const c = lv.cells[L][y][x]; if (c && c.k === 'pc') s += ((c.rot % 4) + 4) % 4; } return s; })() : '' };
+      },
+      join: joinRoom, leave: () => { leaveRoom(); startDemo(); show('title'); }, start: hostStart, act: netAct,
+      firstPc: () => { if (!lv) return null; for (let y = 0; y < lv.H; y++) for (let x = 0; x < lv.W; x++) { const c = lv.cells[0][y][x]; if (c && c.k === 'pc' && !c.lock && c.p !== 'X') return { x, y }; } return null; },
+    },
   };
 })();
