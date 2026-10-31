@@ -84,25 +84,25 @@
     cc_create: '➕ اعمل أوضة', cc_or: 'أو', cc_codePh: 'كود الأوضة', cc_join: 'ادخل', cc_codeHint: 'اكتب كود الأوضة (٤ حروف)', cc_yourName: 'اسمك',
     cc_room: 'الأوضة', cc_copyLink: '🔗 انسخ لينك الدعوة', cc_copied: 'اتنسخ ✓', cc_you: 'إنت', cc_partner: 'صاحبك', cc_hostR: 'صاحب الأوضة', cc_c1: 'الساعي ١', cc_c2: 'الساعي ٢',
     cc_waitPartner: 'مستني صاحبك يدخل… ابعتله اللينك', cc_connecting: 'بيوصل…', cc_swap: '⇄ بدّلوا الأدوار', cc_levelOf: 'المرحلة', cc_start: '▶ ابدأ',
-    cc_needPartner: 'لازم صاحبك يدخل الأول', cc_waitHost: 'مستني صاحب الأوضة يبدأ…', cc_hostPicks: 'صاحب الأوضة بيختار المرحلة', cc_leave: 'اخرج من الأوضة', cc_toRoom: '🚪 ارجع للأوضة',
+    cc_needPartner: 'لازم صاحبك يدخل الأول', cc_waitHost: 'مستني صاحب الأوضة يبدأ…', cc_hostPicks: 'اختيار صاحب الأوضة', cc_leave: 'اخرج من الأوضة', cc_toRoom: '🚪 ارجع للأوضة',
     cc_full: 'الأوضة مليانة — فيها اتنين خلاص', cc_noNet: 'مفيش اتصال بالنت', cc_joinedP: '{p} دخل الأوضة 👋', cc_leftP: '{p} خرج',
     cc_partnerLost: 'صاحبك خرج', cc_partnerLostD: 'تقدر تكمّل لوحدك — نسخكم القديمة لسه معاك.', cc_continueSolo: '▶ كمّل لوحدك',
     cc_readyCo: 'أي حد فيكم يتحرك يبدأ اللفّة', cc_readyCoEcho: 'نسخكم مستنياكم — اتحركوا وابدأوا', cc_friedCo: 'اتحرقت! صاحبك لسه بيلعب…', cc_fellCo: 'وقعت! صاحبك لسه بيلعب…',
     cc_waitDone: 'خلّصت — مستني صاحبك يخلّص…', cc_pausedBy: 'وقّفها {p}', cc_retry: '↺ حاول تاني', cc_team: '👥 {a} + {b}', cc_courier: 'ساعي', cc_waitReq: 'مستني صاحب الأوضة…',
     cc_hwCo: '🌐 أونلاين: كل واحد بيحرّك ساعيه في نفس الوقت. لما اللفّة تخلص، لفّتكم إنتوا الاتنين بتتحوّل نسخ بتساعدكم. ⏭ يعني «أنا خلّصت» — اللفّة بتتقدّم لما الاتنين يخلّصوا.',
-    cc_coopBest: 'أحسن نتيجة أونلاين', cc_rejoin: 'صاحبك رجع — بنعيد اللفّة',
+    cc_rejoin: 'صاحبك رجع — بنعيد اللفّة',
   }, {
     cc_online: 'Online Co-op', cc_onTitle: 'Online Co-op', cc_onDesc: 'Two couriers, one level, one loop — one holds the plate while the other runs. Every loop, both of your runs become echoes that help you.',
     cc_create: '➕ Create Room', cc_or: 'or', cc_codePh: 'Room Code', cc_join: 'Join', cc_codeHint: 'Type the room code (4 letters)', cc_yourName: 'Your Name',
     cc_room: 'Room', cc_copyLink: '🔗 Copy Invite Link', cc_copied: 'Copied ✓', cc_you: 'You', cc_partner: 'Partner', cc_hostR: 'Host', cc_c1: 'Courier 1', cc_c2: 'Courier 2',
     cc_waitPartner: 'Waiting for your partner… send them the link', cc_connecting: 'Connecting…', cc_swap: '⇄ Swap Roles', cc_levelOf: 'Level', cc_start: '▶ Start',
-    cc_needPartner: 'Your partner needs to join first', cc_waitHost: 'Waiting for the host to start…', cc_hostPicks: 'The host picks the level', cc_leave: 'Leave Room', cc_toRoom: '🚪 Back To Room',
+    cc_needPartner: 'Your partner needs to join first', cc_waitHost: 'Waiting for the host to start…', cc_hostPicks: 'Host’s Pick', cc_leave: 'Leave Room', cc_toRoom: '🚪 Back To Room',
     cc_full: 'That room is full', cc_noNet: 'No connection', cc_joinedP: '{p} joined 👋', cc_leftP: '{p} left',
     cc_partnerLost: 'Your Partner Left', cc_partnerLostD: 'You can carry on solo — your shared echoes stay with you.', cc_continueSolo: '▶ Continue Solo',
     cc_readyCo: 'Either Of You Moves To Start', cc_readyCoEcho: 'Your Echoes Are Ready — Move To Start', cc_friedCo: 'Fried! Your partner is still going…', cc_fellCo: 'You fell! Your partner is still going…',
     cc_waitDone: 'Done — waiting for your partner…', cc_pausedBy: 'Paused by {p}', cc_retry: '↺ Retry', cc_team: '👥 {a} + {b}', cc_courier: 'Courier', cc_waitReq: 'Waiting for the host…',
     cc_hwCo: '🌐 Online: each player drives their own courier at the same time. When the loop ends, both of your runs become echoes. ⏭ means “I’m done” — the loop moves on once you both are.',
-    cc_coopBest: 'Best online', cc_rejoin: 'Your partner is back — restarting the loop',
+    cc_rejoin: 'Your partner is back — restarting the loop',
   });
 
   // ------------------------------------------------------------------ save data
@@ -1662,23 +1662,31 @@
   }
 
   // guest -> host: inputs. Taps and the action button carry counters, so a resent or late message never doubles a step.
-  const GIN = { ts: 0, as: 0, td: 0, last: 0 };
-  function netIn(kind, d) { if (kind === 'tap') { GIN.ts++; GIN.td = d; } else if (kind === 'act') GIN.as++; sendIn(); }
-  function sendIn() {
-    GIN.last = performance.now();
-    netSend('in', { lid: G.loopId, jt: ON.jt, h: cD(held.length ? held[held.length - 1] : 0), ts: GIN.ts, td: cD(GIN.td), as: GIN.as });
+  // The last few taps travel with every message, so taps that arrive bunched up (network jitter) still each give one step.
+  const GIN = { ts: 0, as: 0, taps: [], last: 0 };
+  function netIn(kind, d) {
+    if (kind === 'tap') { GIN.ts++; GIN.taps.push([GIN.ts, cD(d)]); if (GIN.taps.length > 4) GIN.taps.shift(); } else if (kind === 'act') GIN.as++;
+    sendIn(kind !== 'tap');   // a tap is one step; "still held" follows ~150 ms later only if the key really stays down
   }
-  const RIN = { h: 0, ts: 0, as: 0, pd: 0, pa: false, jt: 0 };
-  function clearRemote() { RIN.h = 0; RIN.pd = 0; RIN.pa = false; }
-  function sampleRemote() { let a = 0; if (RIN.pa) { a = 5; RIN.pa = false; } else if (RIN.pd) { a = RIN.pd; RIN.pd = 0; } else if (RIN.h) a = RIN.h; return a; }
+  function sendIn(withHold) {
+    GIN.last = performance.now();
+    netSend('in', { lid: G.loopId, jt: ON.jt, h: withHold && held.length ? cD(held[held.length - 1]) : 0, tq: GIN.taps, as: GIN.as });
+  }
+  const RIN = { h: 0, ts: 0, as: 0, q: [], pa: false, jt: 0 };
+  function clearRemote() { RIN.h = 0; RIN.q = []; RIN.pa = false; }
+  function sampleRemote() { let a = 0; if (RIN.pa) { a = 5; RIN.pa = false; } else if (RIN.q.length) a = RIN.q.shift(); else if (RIN.h) a = RIN.h; return a; }
   function applyIn(p) {
     if (!isHost() || G.scene !== 'play' || !G.w) return;
-    if (p.jt !== RIN.jt) { RIN.jt = p.jt; RIN.ts = 0; RIN.as = 0; }
+    if (p.jt !== RIN.jt) { RIN.jt = p.jt; RIN.ts = 0; RIN.as = 0; RIN.q = []; }
     const fresh = p.lid === G.loopId && G.slots.length > 1;   // inputs meant for an older loop are dropped
-    if (p.ts > RIN.ts) { RIN.ts = p.ts; if (fresh) RIN.pd = lD(p.td | 0); }
+    for (const tp of (Array.isArray(p.tq) ? p.tq : [])) {
+      if (!(tp[0] > RIN.ts)) continue;
+      RIN.ts = tp[0];
+      if (fresh) { RIN.q.push(lD(tp[1] | 0)); if (RIN.q.length > 2) RIN.q.shift(); }
+    }
     if (p.as > RIN.as) { RIN.as = p.as; if (fresh) RIN.pa = true; }
     RIN.h = fresh ? lD(p.h | 0) : 0;
-    if (fresh && G.phase === 'ready' && !G.overlay && (RIN.pd || RIN.pa || RIN.h)) startRun();
+    if (fresh && G.phase === 'ready' && !G.overlay && (RIN.q.length || RIN.pa || RIN.h)) startRun();
   }
   function handleReq(act) {
     if (!isHost() || G.scene !== 'play') return;
@@ -1817,7 +1825,7 @@
   setInterval(() => {
     if (!ON.ch) return;
     if (isHost()) netPump();
-    else if (isGuest() && G.scene === 'play' && (G.phase === 'ready' || G.phase === 'run') && performance.now() - GIN.last > 250) sendIn();
+    else if (isGuest() && G.scene === 'play' && (G.phase === 'ready' || G.phase === 'run') && performance.now() - GIN.last > (held.length ? 150 : 250)) sendIn(true);
   }, 33);
   addEventListener('pagehide', () => { if (ON.ch) netSend('bye', {}); });
   window.Mal3abShareLink = () => ON.code ? inviteLink(ON.code) : pageLink();

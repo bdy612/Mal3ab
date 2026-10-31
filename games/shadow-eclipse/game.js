@@ -2197,7 +2197,7 @@
   // ------------------------------------------------------------------ online: Infiltrator vs Warden (Supabase Realtime broadcast, room "shadow-eclipse-CODE")
   // The Infiltrator's side runs the whole game (sun, shadows, guards, detection) and streams snapshots ~15×/s, so sneaking never lags.
   // The Warden only renders those snapshots and sends guard commands (waypoint / steer / release) and flares. The host picks the level.
-  const NET = { ch: null, code: '', ready: false, me: '', jt: 0, role: null, partner: null, hb: null, phase: 'menu', lvl: 3, playAt: 0,
+  const NET = { ch: null, code: '', ready: false, me: '', jt: 0, role: null, rv: 0, partner: null, hb: null, phase: 'menu', lvl: 3, playAt: 0,
     sel: -1, aim: false, steering: false, steerT: 0, stT: 0, endR: null, pausedBy: '', readyT: 0 };
   const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'roles', 'sel', 'go', 'st', 'cmd', 'ev', 'end', 'pause', 'lobby', 'req'];
   const ST_CODES = ['patrol', 'suspicious', 'search', 'look', 'return', 'alarm', 'ctl'];
@@ -2226,7 +2226,7 @@
     try { id = sessionStorage.getItem('shadow-eclipse-id-' + code) || ''; jt = +sessionStorage.getItem('shadow-eclipse-jt-' + code) || 0; } catch (e) {}
     if (!id) id = Math.random().toString(36).slice(2, 10); if (!jt) jt = Date.now();
     try { sessionStorage.setItem('shadow-eclipse-id-' + code, id); sessionStorage.setItem('shadow-eclipse-jt-' + code, String(jt)); } catch (e) {}
-    Object.assign(NET, { me: id, jt, code, role: role || null, ready: false, partner: null, phase: 'lobby', sel: -1, aim: false, endR: null });
+    Object.assign(NET, { me: id, jt, code, role: role || null, rv: 0, ready: false, partner: null, phase: 'lobby', sel: -1, aim: false, endR: null });
     const ch = sb.channel('shadow-eclipse-' + code, { config: { broadcast: { self: false, ack: false } } });
     for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
     ch.subscribe((st) => { if (st === 'SUBSCRIBED' && NET.ch === ch) { NET.ready = true; hello(true); if (screen === 'lobby') renderScreen(); } });
@@ -2244,10 +2244,10 @@
     if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
   }
   function toLobby() { NET.phase = 'lobby'; NET.sel = -1; NET.aim = false; NET.endR = null; keys.clear(); loadAttract(); showScreen('lobby', null); }
-  function hello(req) { netSend('hello', { n: myName(), role: NET.role, jt: NET.jt, req: !!req, ph: NET.phase, l: NET.lvl }); }
+  function hello(req) { netSend('hello', { n: myName(), role: NET.role, rv: NET.rv, jt: NET.jt, req: !!req, ph: NET.phase, l: NET.lvl }); }
   function netBeat() {
     if (!NET.ch) return;
-    netSend('hb', { n: myName(), role: NET.role, jt: NET.jt, ph: NET.phase, l: NET.lvl });
+    netSend('hb', { n: myName(), role: NET.role, rv: NET.rv, jt: NET.jt, ph: NET.phase, l: NET.lvl });
     if (NET.partner && Date.now() - NET.partner.t > 9000) partnerGone();
   }
   function resolveRoles(p) {
@@ -2277,8 +2277,13 @@
     }
     P.t = now; if (p.n) P.n = p.n; if (p.jt) P.jt = p.jt;
     if (ev === 'hello' || ev === 'hb') {
-      if ('role' in p) P.role = p.role; P.ph = p.ph;
-      const before = NET.role; resolveRoles(p);
+      // roles carry a version: a heartbeat sent before a swap arrived must not undo the swap
+      const rv = p.rv | 0, before = NET.role;
+      if (rv >= NET.rv) {
+        if ('role' in p) P.role = p.role;
+        if (rv > NET.rv && p.role) { NET.rv = rv; NET.role = otherRole(p.role); } else resolveRoles(p);
+      }
+      P.ph = p.ph;
       if (!isHost() && NET.phase === 'lobby' && p.l != null) NET.lvl = clamp(p.l | 0, 0, LEVELS.length - 1);
       if (ev === 'hello' && p.req) hello(false); else if (before !== NET.role) hello(false);
       // the partner reloaded the page in the middle of a match
@@ -2290,7 +2295,7 @@
       return;
     }
     switch (ev) {
-      case 'roles': NET.role = p.inf === NET.me ? 'inf' : 'war'; P.role = otherRole(NET.role); if (screen === 'lobby') renderScreen(); break;
+      case 'roles': if ((p.rv | 0) < NET.rv) break; NET.rv = p.rv | 0; NET.role = p.inf === NET.me ? 'inf' : 'war'; P.role = otherRole(NET.role); if (screen === 'lobby') renderScreen(); break;
       case 'sel': if (!isHost() && NET.phase === 'lobby') { NET.lvl = clamp(p.l | 0, 0, LEVELS.length - 1); if (screen === 'lobby') renderScreen(); } break;
       case 'go':
         NET.role = p.inf === NET.me ? 'inf' : 'war'; P.role = otherRole(NET.role);
@@ -2315,8 +2320,8 @@
   }
   function swapRoles() {
     if (!NET.partner || !NET.role) return;
-    NET.role = otherRole(NET.role); NET.partner.role = otherRole(NET.role);
-    netSend('roles', { inf: NET.role === 'inf' ? NET.me : NET.partner.id });
+    NET.role = otherRole(NET.role); NET.partner.role = otherRole(NET.role); NET.rv++;
+    netSend('roles', { inf: NET.role === 'inf' ? NET.me : NET.partner.id, rv: NET.rv });
     renderScreen();
   }
   function goLevel(l) {   // host: start (or restart) a match for both players
@@ -2333,12 +2338,12 @@
     $('toast').classList.remove('on'); toastT = 0; keys.clear(); joyReset();
     if (NET.role === 'war') { G.war = true; G.body = null; G.sunT = G.sun; for (const g of G.guards) { g.tx = g.x; g.ty = g.y; g.ta = g.a; } }
     mode = 'intro'; camUpdate(1, true);
-    if (mid) { mode = 'play'; hideScreen(); updateHUD(true); } else { NET.readyT = 3; showScreen('onready', null); }
+    if (mid) { mode = 'play'; hideScreen(); updateHUD(true); } else { NET.readyT = 3; NET.readyAt = performance.now() + 3000; showScreen('onready', null); }
   }
   function netFrame(dt) {
     if (NET.phase !== 'play') return;
     if (mode === 'intro' && screen === 'onready') {   // shared 3-2-1 before the match
-      NET.readyT -= dt; const el = $('seCount'), n = String(Math.max(1, Math.ceil(NET.readyT)));
+      NET.readyT = (NET.readyAt - performance.now()) / 1000; const el = $('seCount'), n = String(Math.max(1, Math.ceil(NET.readyT)));   // wall clock, so both sides start together
       if (el && el.textContent !== n) { el.textContent = n; Snd.tick(true); }
       if (NET.readyT <= 0) { mode = 'play'; hideScreen(); updateHUD(true); }
     }
