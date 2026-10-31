@@ -35,7 +35,7 @@ addStrings({
   vs_hc: '💀 هاردكور', vs_hcDesc: 'أي ضربة بتموّت على طول، واللي يموت بيفضل ميت لآخر الماتش.', vs_save: '✓ تمام', vs_out: 'خلصت أرواحك — بتتفرج لحد آخر الماتش',
   vs_lastStand: 'آخر واحد يفضل عايش يكسب', vs_livesLeft: 'أرواح', vs_sum: '{b} بوت · {l} · {t} · {v}', vs_sumT: 'أول واحد يوصل {n}', vs_sumL: '{n} أرواح',
   vs_fists: 'إيدك', vs_minigun: 'ميني جن', vs_railgun: 'ريل جن', vs_start: 'السلاح في الأول', vs_stAll: 'كل الأسلحة', vs_stPistol: 'مسدس بس', vs_stNone: 'من غير سلاح (إيدك بس)',
-  vs_pickups: 'أسلحة أقوى وعلاج على الخريطة', vs_pkOff: 'مفيش', vs_pkNormal: 'عادي', vs_pkLots: 'كتير', vs_drops: 'صناديق بتنزل من السما', vs_dropIn: '📦 صندوق إمدادات نازل من السما!', vs_crate: '📦 الصندوق: {w} + صحة كاملة + ذخيرة', vs_ammoRule: 'الطلقات', vs_amNormal: 'عادي', vs_amInf: 'لا نهائية ∞', vs_reloadRule: 'الريلود', vs_rlNormal: 'عادي (كل سلاح بوقته)', vs_rlCustom: 'وقت واحد لكل الأسلحة', vs_rlNone: 'من غير ريلود', vs_rlSec: 'وقت الريلود (ثواني)', vs_alive: 'عايشين', vs_spec: 'بتتفرج — WASD تتحرك، الماوس تبص، Space/Shift فوق وتحت',
+  vs_pickups: 'أسلحة أقوى وعلاج على الخريطة', vs_pkOff: 'مفيش', vs_pkNormal: 'عادي', vs_pkLots: 'كتير', vs_drops: 'صناديق بتنزل من السما', vs_dropIn: '📦 صندوق إمدادات نازل من السما!', vs_crate: '📦 الصندوق: {w} + صحة كاملة + ذخيرة', vs_ammoRule: 'الطلقات', vs_amNormal: 'عادي', vs_amInf: 'لا نهائية ∞', vs_reloadRule: 'الريلود', vs_rlNormal: 'عادي (كل سلاح بوقته)', vs_rlCustom: 'وقت واحد لكل الأسلحة', vs_rlNone: 'من غير ريلود', vs_rlSec: 'وقت الريلود (ثواني)', vs_onDeath: 'لما حد يموت', vs_dKeep: 'تفضل معاه أسلحته زي ما هي', vs_dLose: 'تضيع أسلحته (من غير ما توقع)', vs_dDrop: 'يوقّع كل أسلحته على الأرض', vs_alive: 'عايشين', vs_spec: 'بتتفرج — WASD تتحرك، الماوس تبص، Space/Shift فوق وتحت',
   vs_specTouch: 'بتتفرج — حرّك الكاميرا بالجويستيك', vs_out2: 'خرج', vs_got: 'خدت {w}!', vs_heal: '+50 صحة', vs_ammo: 'ذخيرة', vs_numHint: '0 = من غير حد', vs_livesCol: 'أرواح',
   vs_kills: 'قتلات', vs_deaths: 'موت', vs_player: 'اللاعب', vs_again: '↻ العب تاني', vs_menu: 'القائمة', vs_nextRound: 'الجولة الجاية بعد {n}',
   vs_firstTo: 'أول واحد يوصل {n}', vs_waiting: 'مستني أصحابك… ابعتلهم الكود', vs_room: 'الغرفة', vs_joined: 'دخل', vs_leftRoom: 'خرج',
@@ -58,7 +58,7 @@ addStrings({
   vs_hc: '💀 Hardcore', vs_hcDesc: 'Any hit kills instantly, and whoever dies stays dead until the match ends.', vs_save: '✓ Done', vs_out: 'Out of lives — watching until the match ends',
   vs_lastStand: 'Last one standing wins', vs_livesLeft: 'lives', vs_sum: '{b} bots · {l} · {t} · {v}', vs_sumT: 'first to {n}', vs_sumL: '{n} lives',
   vs_fists: 'Fists', vs_minigun: 'Minigun', vs_railgun: 'Railgun', vs_start: 'Weapons at the start', vs_stAll: 'All weapons', vs_stPistol: 'Pistol only', vs_stNone: 'No weapons (fists only)',
-  vs_pickups: 'Better weapons and heals on the map', vs_pkOff: 'Off', vs_pkNormal: 'Normal', vs_pkLots: 'Lots', vs_drops: 'Supply Drops From The Sky', vs_dropIn: '📦 Supply drop incoming!', vs_crate: '📦 Crate: {w} + full health + ammo', vs_ammoRule: 'Ammo', vs_amNormal: 'Normal', vs_amInf: 'Infinite ∞', vs_reloadRule: 'Reload', vs_rlNormal: 'Normal (each weapon its own time)', vs_rlCustom: 'Same time for every weapon', vs_rlNone: 'No reload', vs_rlSec: 'Reload time (seconds)', vs_alive: 'alive', vs_spec: 'Spectating — WASD to move, mouse to look, Space/Shift up and down',
+  vs_pickups: 'Better weapons and heals on the map', vs_pkOff: 'Off', vs_pkNormal: 'Normal', vs_pkLots: 'Lots', vs_drops: 'Supply Drops From The Sky', vs_dropIn: '📦 Supply drop incoming!', vs_crate: '📦 Crate: {w} + full health + ammo', vs_ammoRule: 'Ammo', vs_amNormal: 'Normal', vs_amInf: 'Infinite ∞', vs_reloadRule: 'Reload', vs_rlNormal: 'Normal (each weapon its own time)', vs_rlCustom: 'Same time for every weapon', vs_rlNone: 'No reload', vs_rlSec: 'Reload time (seconds)', vs_onDeath: 'When Someone Dies', vs_dKeep: 'Keep Their Weapons', vs_dLose: 'Lose Weapons (Nothing Drops)', vs_dDrop: 'Drop All Weapons On The Ground', vs_alive: 'alive', vs_spec: 'Spectating — WASD to move, mouse to look, Space/Shift up and down',
   vs_specTouch: 'Spectating — move the camera with the joystick', vs_out2: 'out', vs_got: 'Got the {w}!', vs_heal: '+50 health', vs_ammo: 'Ammo', vs_numHint: '0 = no limit', vs_livesCol: 'Lives',
   vs_kills: 'Kills', vs_deaths: 'Deaths', vs_player: 'Player', vs_again: '↻ Play again', vs_menu: 'Menu', vs_nextRound: 'Next round in {n}',
   vs_firstTo: 'First to {n}', vs_waiting: 'Waiting for friends… send them the code', vs_room: 'Room', vs_joined: 'joined', vs_leftRoom: 'left',
@@ -222,6 +222,7 @@ const ICON = { fists: '👊', pistol: '🔫', rifle: '🪖', shotgun: '💥', sn
 const BASIC = ['pistol', 'rifle', 'shotgun', 'sniper'];
 // which guns a fighter starts with (match setting): all / pistol only / none (fists only)
 function startLoadout(f) {
+  if (f.owned && f.deaths > 0 && G.mode !== 'waves' && rules().death === 'keep') { if (GUNS[f.weapon] && !f.owned.has(f.weapon)) f.weapon = [...f.owned].pop() || 'fists'; return; }   // keeps what they had
   const st = G.mode === 'waves' ? 'all' : (rules().start || 'all');
   f.owned = new Set(['fists'].concat(st === 'all' ? BASIC : st === 'pistol' ? ['pistol'] : []));
   if (f.bot) { if (!f.owned.has(f.pref)) f.weapon = f.owned.has('pistol') ? 'pistol' : 'fists'; else f.weapon = f.pref; }
@@ -248,7 +249,7 @@ function rules() {
   const c = (G.mode === 'online' ? NET.cfg : G.opts) || {}, hard = !!c.hardcore;
   return { target: c.target != null ? +c.target : (G.mode === 'online' ? ONLINE_TARGET : DM_TARGET), lives: hard ? 1 : (+c.lives || 0), hardcore: hard,
     start: c.start || 'all', pickups: c.pickups || (G.mode === 'online' ? 'off' : 'normal'),
-    drops: c.drops || 'off', ammo: c.ammo === 'inf' ? 'inf' : 'normal', reload: ['custom', 'none'].includes(c.reload) ? c.reload : 'normal', reloadT: clamp(+c.reloadT || 1.5, 0.1, 15) };
+    drops: c.drops || 'off', ammo: c.ammo === 'inf' ? 'inf' : 'normal', reload: ['custom', 'none'].includes(c.reload) ? c.reload : 'normal', reloadT: clamp(+c.reloadT || 1.5, 0.1, 15), death: ['keep', 'drop'].includes(c.death) ? c.death : 'lose' };
 }
 const aliveCount = () => { const fs = G.fighters.filter(f => !(G.mode === 'waves' && f.bot && !f.alive)); return (rules().lives > 0 ? fs.filter(f => !isOut(f)) : fs.filter(f => f.alive)).length + '/' + fs.length; };
 const isOut = (f) => G.mode !== 'waves' && rules().lives > 0 && f.deaths >= rules().lives;   // no lives left: stays dead
@@ -393,7 +394,7 @@ function die(t, a, w, head) {
   feed(a, t, w, head);
   if (a && a.local && a !== t) { sfx.kill(); hitMark(true); STATS.kills++; saveStats(); }
   if (G.mode === 'online' && sim(t)) send('kill', { k: a ? a.id : null, v: t.id, w, h: head });
-  dropLoot(t);
+  dropLoot(t); dropGear(t);
   t.respawnAt = isOut(t) ? Infinity : G.t + 3.5;
   if (t.local) { G.ads = false; G.fireHeld = false; G.nadeAim = false; showDead(a); }
   checkEnd();
@@ -557,6 +558,16 @@ function pickupSpawner(dt) {
   const pts = G.world.spawns, sp = pts[Math.floor(Math.random() * pts.length)].clone(); sp.y += 0.6;
   const p = addPickup(kind, sp, 60); p.map = true;
   if (G.mode === 'online') send('pk', { a: 'add', id: p.id, k: kind, p: arr(sp) });
+}
+// "drop everything" rule: the dead player's guns land around them (whoever runs that player drops them, and tells the room)
+function dropGear(t) {
+  if (G.mode === 'waves' || rules().death !== 'drop' || !sim(t) || !t.owned) return;
+  const guns = [...t.owned].filter(k => k !== 'fists' && GUNS[k]); if (!guns.length) return;
+  guns.forEach((k, i) => {
+    const a = (i / guns.length) * Math.PI * 2, pos = new V3(t.pos.x + Math.cos(a) * 0.9, t.pos.y + 0.6, t.pos.z + Math.sin(a) * 0.9);
+    const p = addPickup(k, pos, 30); p.map = true;
+    if (G.mode === 'online') send('pk', { a: 'add', id: p.id, k, p: arr(pos) });
+  });
 }
 function dropLoot(t) {
   if (G.mode === 'online' || !t.bot || Math.random() > (G.mode === 'waves' ? 0.45 : 0.3)) return;
@@ -727,7 +738,7 @@ function startGame(mode, opts) {
   if (mode === 'dm') { const n = G.opts.bots != null ? G.opts.bots : 5; for (let i = 0; i < n; i++) addBot((G.opts.lvs && G.opts.lvs[i]) || G.diff, i); }
   for (const f of G.fighters) spawn(f);
   if (mode === 'waves') { G.wave = 0; G.waveBreak = 2.5; banner(t('vs_wave') + ' 1'); }
-  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium', lvs: G.opts.lvs || null, target: G.opts.target, lives: G.opts.lives || 0, hardcore: !!G.opts.hardcore, start: G.opts.start || 'all', pickups: G.opts.pickups || 'off', drops: G.opts.drops || 'off', ammo: G.opts.ammo || 'normal', reload: G.opts.reload || 'normal', reloadT: G.opts.reloadT || 1.5 } : null);
+  if (mode === 'online') netStart(G.opts.code, G.opts.bots != null ? { bots: G.opts.bots, lv: G.opts.lv || 'medium', lvs: G.opts.lvs || null, target: G.opts.target, lives: G.opts.lives || 0, hardcore: !!G.opts.hardcore, start: G.opts.start || 'all', pickups: G.opts.pickups || 'off', drops: G.opts.drops || 'off', ammo: G.opts.ammo || 'normal', reload: G.opts.reload || 'normal', reloadT: G.opts.reloadT || 1.5, death: G.opts.death || 'lose' } : null);
   G.running = true;
   showScreen(null); $('hud').hidden = false; $('touch').hidden = !touchMode; hudAll(); renderBoard(false);
   lockMouse();
@@ -1028,19 +1039,19 @@ const LVS = ['easy', 'medium', 'hard'], MAX_BOTS = 40;
 function getRules(kind) {
   const all = lsGet('vstrike-rules', {}), m = lsGet('vstrike-menu', {});
   const def = kind === 'dm' ? { bots: m.bots != null ? m.bots : 5, lv: m.diff || 'medium', target: DM_TARGET } : { bots: m.obots != null ? m.obots : 0, lv: m.olv || 'medium', target: ONLINE_TARGET };
-  const r = Object.assign({ lvs: null, lives: 0, hardcore: false, start: 'all', pickups: kind === 'dm' ? 'normal' : 'off', drops: kind === 'dm' ? 'normal' : 'off', ammo: 'normal', reload: 'normal', reloadT: 1.5 }, def, all[kind] || {});
+  const r = Object.assign({ lvs: null, lives: 0, hardcore: false, start: 'all', pickups: kind === 'dm' ? 'normal' : 'off', drops: kind === 'dm' ? 'normal' : 'off', ammo: 'normal', reload: 'normal', reloadT: 1.5, death: 'lose' }, def, all[kind] || {});
   r.reloadT = Math.max(0.1, Math.min(15, +r.reloadT || 1.5));
   r.bots = Math.max(0, Math.min(MAX_BOTS, r.bots | 0)); r.target = Math.max(0, Math.min(9999, r.target | 0)); r.lives = Math.max(0, Math.min(999, r.lives | 0)); if (!Array.isArray(r.lvs)) r.lvs = null;
   if (r.lvs) r.lvs = Array.from({ length: r.bots }, (_, i) => LVS.includes(r.lvs[i]) ? r.lvs[i] : r.lv);
   return r;
 }
 function setRules(kind, r) { const all = lsGet('vstrike-rules', {}); all[kind] = r; lsSet('vstrike-rules', all); }
-const rulesOpts = (r, extra) => Object.assign({ diff: r.lv, lv: r.lv, bots: r.bots, lvs: r.lvs, target: r.target, lives: r.lives, hardcore: r.hardcore, start: r.start, pickups: r.pickups, drops: r.drops, ammo: r.ammo, reload: r.reload, reloadT: r.reloadT }, extra || {});
+const rulesOpts = (r, extra) => Object.assign({ diff: r.lv, lv: r.lv, bots: r.bots, lvs: r.lvs, target: r.target, lives: r.lives, hardcore: r.hardcore, start: r.start, pickups: r.pickups, drops: r.drops, ammo: r.ammo, reload: r.reload, reloadT: r.reloadT, death: r.death }, extra || {});
 function rulesSummary(r) {
   const mixed = r.lvs && r.lvs.some(l => l !== r.lvs[0]), lvl = r.bots ? (mixed ? t('vs_mixed') : t('vs_' + ((r.lvs && r.lvs[0]) || r.lv))) : '—';
   return t('vs_sum', { b: r.bots, l: lvl, t: r.target > 0 ? t('vs_sumT', { n: r.target }) : t('vs_noLimit'), v: r.hardcore ? t('vs_hc') : r.lives > 0 ? t('vs_sumL', { n: r.lives }) : '❤ ∞' })
     + (r.start !== 'all' ? ' · ' + (r.start === 'pistol' ? '🔫' : '👊') : '') + (r.pickups !== 'off' ? ' · 🎁' : '') + (r.drops && r.drops !== 'off' ? ' · 📦' : '')
-    + (r.ammo === 'inf' ? ' · ∞' : '') + (r.reload === 'none' ? ' · ⚡' : r.reload === 'custom' ? ' · ⏱' + r.reloadT + 's' : '');
+    + (r.ammo === 'inf' ? ' · ∞' : '') + (r.reload === 'none' ? ' · ⚡' : r.reload === 'custom' ? ' · ⏱' + r.reloadT + 's' : '') + (r.death === 'keep' ? ' · 🔒' : r.death === 'drop' ? ' · 🎒' : '');
 }
 function openRules(kind) {
   const r = getRules(kind); showScreen('rules');
@@ -1059,6 +1070,7 @@ function openRules(kind) {
       <label>${t('vs_ammoRule')}<select id="rAmmo">${opt('normal', t('vs_amNormal'), r.ammo)}${opt('inf', t('vs_amInf'), r.ammo)}</select></label></div>
       <div class="two"><label>${t('vs_reloadRule')}<select id="rReload">${opt('normal', t('vs_rlNormal'), r.reload)}${opt('custom', t('vs_rlCustom'), r.reload)}${opt('none', t('vs_rlNone'), r.reload)}</select></label>
       <label ${r.reload === 'custom' ? '' : 'hidden'}>${t('vs_rlSec')}<input type="number" id="rReloadT" min="0.1" max="15" step="0.1" value="${r.reloadT}"></label></div>
+      <label>💀 ${t('vs_onDeath')}<select id="rDeath">${opt('lose', t('vs_dLose'), r.death)}${opt('keep', t('vs_dKeep'), r.death)}${opt('drop', t('vs_dDrop'), r.death)}</select></label>
       <label class="tog"><span><input type="checkbox" id="rHard" ${r.hardcore ? 'checked' : ''}> ${t('vs_hc')}</span><small>${t('vs_hcDesc')}</small></label>
       <button class="btn" id="rDone">${t('vs_save')}</button></div>`;
     const redraw = () => setTimeout(draw, 0);   // never rebuild the panel from inside one of its own events
@@ -1073,6 +1085,7 @@ function openRules(kind) {
     $('rPick').onchange = (e) => { r.pickups = e.target.value; };
     $('rDrops').onchange = (e) => { r.drops = e.target.value; };
     $('rAmmo').onchange = (e) => { r.ammo = e.target.value; };
+    $('rDeath').onchange = (e) => { r.death = e.target.value; };
     $('rReload').onchange = (e) => { r.reload = e.target.value; redraw(); };
     $('rReloadT').onchange = (e) => { r.reloadT = Math.max(0.1, Math.min(15, +e.target.value || 1.5)); e.target.value = r.reloadT; };
     $('rHard').onchange = (e) => { r.hardcore = e.target.checked; redraw(); };
