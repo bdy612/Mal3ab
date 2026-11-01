@@ -128,7 +128,7 @@
     gc_oFull: 'The room is full (4 chefs).', gc_oNoNet: 'No connection.', gc_oJoined: '{p} joined the kitchen', gc_oLeft: '{p} left', gc_oNewHost: '{p} is the new host 👑',
     gc_oYouHost: 'You are the new host 👑', gc_oAlone: 'Everyone Else Left', gc_oAloneD: "You're alone in the kitchen now. Keep cooking solo?", gc_oSolo: 'Continue Solo',
     gc_oMenu: 'Back to Menu', gc_oWatch: "👀 Watching — you'll cook from the next shift", gc_oStartIn: 'Starting in {n}…', gc_oStartNow: 'Start Now',
-    gc_oMenuT: 'Menu', gc_oRunning: 'The kitchen keeps running while your friends cook!', gc_oLobby: 'Back to Lobby', gc_oTeam: 'Team Work', gc_oOrdersN: '{n} Orders',
+    gc_oMenuT: 'Menu', gc_oRunning: 'The kitchen keeps running while your friends cook!', gc_oLobby: 'Back to Lobby', gc_oTeam: 'Team Work', gc_oOrdersN: '{n} Served',
     gc_oReqSent: 'Sent to the host…', gc_oTaken: 'Someone grabbed it!', gc_oScale: '{n} chefs: more orders, higher goal',
   });
 
@@ -264,8 +264,8 @@
       bumpers: [[350, 330, 30], [620, 300, 30], [150, 480, 26], [520, 140, 26], [650, 560, 24]],
       ports: [['hatch', 'L', 300], ['trash', 'B', 160], ['tube', 'T', 760], ['tube', 'R', 320]], glitch: { every: [10, 14], dur: [6, 9], str: [150, 260], diag: 1 },
       init: ['tomato', 'mushroom', 'noodles', 'egg', 'potato', 'meat'] },
-    { name: 'gc_l20', tip: 'gc_tip20', icon: '🎖️', time: 240, menu: { egg_f: 1, steak: 1, mush_f: 1, fish_f: 1, soup: 1, ramen: 1, stew: 1, fries: 1 }, every: [7, 10], maxQ: 5,
-      patM: 0.95, done: 5, lives: 3, sm: 0.31,
+    { name: 'gc_l20', tip: 'gc_tip20', icon: '🎖️', time: 240, menu: { egg_f: 1, steak: 1, mush_f: 1, fish_f: 1, soup: 1, ramen: 1, stew: 1, fries: 1 }, every: [8.5, 11.5], maxQ: 4,
+      patM: 1.1, done: 6, lives: 4, sm: 0.31,
       st: [['board', 110, 300, 1], ['pan', 330, 470, 0], ['pan', 700, 140, 1], ['pot', 570, 480, 1], ['pot', 870, 330, 0]], bumpers: [[420, 220, 28], [760, 430, 26]],
       mags: [{ x: 230, y: 120, R: 180, p: 560, per: 9, duty: 0.5, ph: 1 }], fires: [{ x: 430, y: 470, w: 60, h: 155, d: [0, -1], per: 7, duty: 0.4, ph: 1 }],
       vents: [{ x: 700, y: 535, w: 300, h: 90, d: [-1, 0], p: 650, per: 8, duty: 0.5, ph: 3 }], portals: [[150, 520, 620, 300]],
@@ -2720,7 +2720,12 @@
     ports: () => G.ports.map((p) => ({ id: p.id, t: p.t, w: p.w, p: p.p })),
     orders: () => G.orders.map((o) => ({ d: o.d, t: Math.round(o.t) })),
     spawn(kind, x, y) { const it = mkItem(kind, x == null ? W / 2 : x, y == null ? H / 2 : y); G.items.push(it); return it.id; },
-    grab(id) { const o = byId(id); if (!o) return null; let it = o; if (o.c !== undefined && o.t) { it = takeFrom(o); if (!it) return null; } if (G.held) release(null); grabIt(it); return it.id; },
+    grab(id) {
+      const o = byId(id); if (!o) return null; let it = o, st = null;
+      if (o.c !== undefined && o.t) { st = o; it = takeOut(o); if (!it) return null; }
+      if (G.held) release(null); if (it.held) return null;   // someone else's hands are on it
+      grabIt(it); if (isGuest()) guestGrab(it, st); return it.id;
+    },
     fling(vx, vy) { if (!G.held) return false; release([vx, vy, 0.6]); return true; },
     aim(itemId, targetId) { const it = byId(itemId) || G.held, tg = byId(targetId); if (!it || !tg) return null; return findAim(it, tg); },
     shoot(itemId, targetId) {   // grab + find a shot that the preview says lands in the target + fling

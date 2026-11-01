@@ -167,8 +167,9 @@
   .roomcode b { font-size: 26px; letter-spacing: 4px; color: var(--accent); direction: ltr; }
   .sp { flex: 1; }
   .plist { display: flex; flex-direction: column; gap: 6px; }
-  .pl { display: flex; align-items: center; gap: 9px; background: var(--card2); border-radius: 12px; padding: 8px 12px; min-height: 42px; flex-wrap: wrap; }
-  .pl b { font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+  .pl { display: flex; align-items: center; gap: 8px; background: var(--card2); border-radius: 12px; padding: 8px 10px; min-height: 42px; }
+  .pl b { font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 0 1 auto; }
+  .pl small, .pl .tag, .pl .dot, .pl .crown { flex: none; }
   .pl small { color: var(--muted); font-weight: 700; font-size: 13px; }
   .pl.wait { color: var(--muted); font-style: italic; justify-content: center; font-size: 14px; border: 2px dashed rgba(154, 163, 199, .3); background: transparent; }
   .pl .tag { background: rgba(15, 18, 32, .6); border-radius: 9px; padding: 3px 8px; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 4px; }
