@@ -139,16 +139,19 @@ function moveP(id) {   // host: move a player to the other team (swaps with some
   const cur = teamOf(id); if (!cur) return;
   const to = cur === 'keeper' ? 'heroes' : 'keeper', cap = to === 'keeper' ? 1 : MAXH, m = new Map(ON.teams);
   const there = roster().filter(p => teamOf(p.id) === to);
-  if (there.length >= cap) m.set(there[there.length - 1].id, cur);
+  // the Keeper going to the Heroes swaps with the first Heroes player (the seat never empties, like the old Swap Roles);
+  // into a full team: swap with the last one there
+  if (there.length && (to === 'heroes' || there.length >= cap)) m.set((to === 'heroes' ? there[0] : there[there.length - 1]).id, cur);
   m.set(id, to); setTeams(m); sendTeams(); refreshLobby(true);
 }
 function switchTeam() { if (!teamOf(ON.me)) return; if (amHost()) moveP(ON.me); else netSend('team', { mv: ON.me }); }
-function checkHost() {
-  const h = hostId(), was = ON.lastHost; if (h === was) return;
-  ON.lastHost = h;
-  if (was && !everyone().some(p => p.id === was) && ON.peers.size) U.toast(t('dd_newHost', { p: h === ON.me ? myName() : nameOf(h) }), true);
+function checkHost(prefix) {   // -> true when it told everyone who the new host is (prefix: e.g. "X left")
+  const h = hostId(), was = ON.lastHost; if (h === was) return false;
+  ON.lastHost = h; let told = false;
+  if (was && !everyone().some(p => p.id === was)) { U.toast((prefix ? prefix + ' · ' : '') + t('dd_newHost', { p: h === ON.me ? myName() : nameOf(h) }), true); told = true; }
   if (h === ON.me) hostSync(true);
   refreshLobby();
+  return told;
 }
 
 // ---------------------------------------------------------------- screens
@@ -388,21 +391,16 @@ function onNet(ev, p) {
 function peerGone(id) {
   const P = ON.peers.get(id); if (!P) return; ON.peers.delete(id);
   const inMatch = ON.playing && S.mode !== 'over', si = ON.slots.findIndex(s => s.id === id);
-  checkHost(); hostSync();
-  if (inMatch && !ON.client && S.ctl) {   // Keeper
-    if (si >= 0) {
-      reassign();
-      const left = activeSlots().length;
-      U.toast(t(left ? 'dd_handed' : 'dd_leftP', { p: P.n }));
-      if (!left && !ON.lostOpen) { holdPrev(); ON.lostOpen = true; if (S.mode === 'wave') S.paused = true; U.show(lostScreen); }
-    } else U.toast(t('dd_leftP', { p: P.n }));
+  let msg = t('dd_leftP', { p: P.n }), lost = false;
+  if (inMatch && !ON.client && S.ctl) {   // Keeper: hand that player's heroes to the others (or the computer)
+    if (si >= 0) { reassign(); if (activeSlots().length) msg = t('dd_handed', { p: P.n }); else lost = !ON.lostOpen; }
   } else if (inMatch && ON.client) {
-    if (id === ON.kid) { U.toast(t('dd_leftP', { p: P.n })); holdPrev(); ON.lostOpen = true; U.show(lostScreen); }
-    else U.toast(t(si >= 0 ? 'dd_handed' : 'dd_leftP', { p: P.n }));
-  } else {
-    if (ON.teams.has(id) || si >= 0) U.toast(t('dd_leftP', { p: P.n }));
-    if (curName() === lobbyScreen) refreshLobby(true); else if (curName() === resultScreen) U.show(resultScreen);
-  }
+    if (id === ON.kid) lost = true; else if (si >= 0) msg = t('dd_handed', { p: P.n });
+  } else if (!ON.teams.has(id) && si < 0) msg = '';   // someone who never got a seat (e.g. a 5th player)
+  if (!checkHost(msg) && msg) U.toast(msg);   // one toast: "X left", plus who the new host is when that changed
+  hostSync();
+  if (lost) { holdPrev(); ON.lostOpen = true; if (!ON.client && S.mode === 'wave') S.paused = true; U.show(lostScreen); }
+  else if (!inMatch) { if (curName() === lobbyScreen) refreshLobby(true); else if (curName() === resultScreen) U.show(resultScreen); }
 }
 function toLobby() {
   ON.playing = false; ON.client = false; ON.result = null; ON.lostOpen = false; ON.prev = null; ON.pz = ''; ON.slots = []; ON.slot = -1; ON.kid = '';

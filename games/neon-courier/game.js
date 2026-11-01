@@ -2291,7 +2291,7 @@ function raceHud() {
       else val = fmt(q.ph === 'fly' ? q.lt + (now - q.ltAt) / 1000 : q.ph === 'wait' ? 0 : q.lt);
     }
     h += `<div class="rr${you ? ' me' : ''}${done ? ' done' : ''}"><i style="background:${col};color:${col}"></i><span class="nm" dir="auto">${esc(n)}</span>`
-      + `<span class="lv${same && lv >= 0 ? ' same' : ''}">${lv >= 0 ? esc(t('nc_o_lv', { n: lv + 1 })) : '—'}</span><span class="v">${val}</span></div>`;
+      + `<span class="lc${same && lv >= 0 ? ' same' : ''}">${lv >= 0 ? esc(t('nc_o_lv', { n: lv + 1 })) : '—'}</span><span class="v">${val}</span></div>`;
   }
   if (h !== RACE.hudSig) { RACE.hudSig = h; raceBox.innerHTML = h; }
 }
