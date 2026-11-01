@@ -37,7 +37,7 @@ addStrings({
   dd_cast: 'العبها', dd_new: 'جديد:', dd_mapTip: 'دوس على أي حاجة في الخريطة عشان تعرف عنها.',
   dd_vaultTip: 'خزنة الكنز: {n}. لو فضيت، الجولة بتخلص.', dd_gateTip: 'المدخل: الأبطال بيدخلوا من هنا وبيهربوا منه.',
   dd_actWelcome: 'الأبطال جايين يسرقوا كنزك. ابني فخاخك وأبراجك واستعد!', dd_bossIs: 'زعيم الفصل: {p}',
-  dd_pickOne: 'اختار واحدة بس', dd_reachedVictory: 'كسبت الفصول الـ 3 كلها!', dd_waveN: 'الموجة {n} من 15',
+  dd_pickOne: 'اختار واحدة بس', dd_reachedVictory: 'كسبت الفصول الـ 4 كلها!', dd_waveN: 'الموجة {n} من 20',
   dd_continueAt: 'الفصل {a} — الموجة {w}', dd_overwrite: 'عندك جولة شغالة. تبدأ جولة جديدة وتسيب القديمة؟',
   dd_drawN: 'لسه هتتسحب: {n}', dd_discardN: 'المحروق: {n}', dd_handN: 'في إيدك: {n}', dd_tapCast: 'دوس "العبها" أو دوس على الخريطة عشان تستخدمها.',
   dd_tapPlace: 'دوس على مربع منوّر عشان تحطه.', dd_sTotal: 'الضرر كله'
@@ -45,7 +45,7 @@ addStrings({
   dd_cast: 'Cast', dd_new: 'New:', dd_mapTip: 'Tap anything on the map to learn about it.',
   dd_vaultTip: 'Treasure vault: {n} loot. If it is emptied, the run ends.', dd_gateTip: 'Entrance: heroes come in here, and thieves escape through it.',
   dd_actWelcome: 'Heroes are coming to steal your hoard. Build your traps and towers and get ready!', dd_bossIs: 'Act boss: {p}',
-  dd_pickOne: 'Pick one', dd_reachedVictory: 'You conquered all 3 acts!', dd_waveN: 'Wave {n} of 15',
+  dd_pickOne: 'Pick one', dd_reachedVictory: 'You conquered all 4 acts!', dd_waveN: 'Wave {n} of 20',
   dd_continueAt: 'Act {a} — wave {w}', dd_overwrite: 'You have a run in progress. Start a new run and abandon it?',
   dd_drawN: 'Draw pile: {n}', dd_discardN: 'Discard: {n}', dd_handN: 'In hand: {n}', dd_tapCast: 'Press "Cast" or tap the map to use it.',
   dd_tapPlace: 'Tap a glowing tile to place it.', dd_sTotal: 'Total damage'
@@ -420,7 +420,7 @@ let runToken = 0;
 G.on.waveEnd = () => {
   const run = S.run, tok = ++runToken;
   run.discard.push(...run.hand); run.hand = []; S.sel = -1; hideTip();
-  const last = run.online ? run.wave === WPA - 1 : run.act === 2 && run.wave === WPA - 1;   // online: one act
+  const last = run.online ? run.wave === WPA - 1 : run.act === DD.MAPS.length - 1 && run.wave === WPA - 1;   // online: one act; campaign: the last act (IV)
   banner(t('dd_cleared'), t('dd_bounty', { n: run.bountyWave || 0 }), '#5fdc7a');
   if (!last) { run.phase = 'reward'; run.offer = offerCards(); saveRun(); }
   renderAll();

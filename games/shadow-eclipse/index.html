@@ -154,10 +154,20 @@
   #wbtns .tbtn.on { background: radial-gradient(circle at 40% 35%, #ffb35a, #7a2e08); border-color: #ffe0a0; }
   body:not(.touch) #wbtns { bottom: 46px; } body:not(.touch) #wbtns .tbtn { width: 58px; height: 58px; font-size: 22px; }
   @media (max-width: 700px), (max-height: 520px) { body:not(.touch) #wbtns { bottom: 14px; } }
+  /* ---------- online: up to 4 players (1 Infiltrator + up to 3 Wardens) ---------- */
+  .pl .grow { flex: 1; min-width: 0; } .pl .grow b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pl.me { box-shadow: inset 0 0 0 2px rgba(255, 183, 3, .35); }
+  .pl .btn.small { flex: 0 0 auto; min-width: 40px; padding: 7px 9px; }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; flex: 0 0 auto; vertical-align: -2px; box-shadow: 0 0 0 2px rgba(0, 0, 0, .35), 0 0 10px currentColor; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: rgba(0, 0, 0, .22); border-radius: 12px; padding: 5px; }
+  .seg button { border: 2px solid transparent; border-radius: 9px; background: var(--card2); color: var(--text); font: 800 14.5px inherit; font-family: inherit; padding: 9px 6px; cursor: pointer; }
+  .seg button.on { border-color: var(--accent); background: #3a3260; color: #ffe6b0; }
+  .seg button[disabled] { opacity: .45; cursor: default; }
+  .chip .gc { font-size: 10px; font-weight: 800; opacity: .92; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793400000"></script>
-<script src="../../shared/net.js?v=1793400000"></script>
+<script src="../../shared/i18n.js?v=1793403000"></script>
+<script src="../../shared/net.js?v=1793403000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -206,9 +216,9 @@
 
 <div id="overlay"></div>
 
-<script src="levels.js?v=1793400000"></script>
-<script src="game.js?v=1793400000"></script>
-<script src="../../shared/cloud.js?v=1793400000" data-game="shadow-eclipse" data-keys="shadow-eclipse-*"></script>
+<script src="levels.js?v=1793403000"></script>
+<script src="game.js?v=1793403000"></script>
+<script src="../../shared/cloud.js?v=1793403000" data-game="shadow-eclipse" data-keys="shadow-eclipse-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

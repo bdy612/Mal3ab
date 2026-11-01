@@ -242,6 +242,46 @@
     .tree .tn canvas { width: 50px; height: 44px; }
   }
   @media (max-width: 380px) { .brand .pn small { display: none; } .dk span { font-size: 9px; } }
+
+  /* ---------- pet park (online) ---------- */
+  #park { position: fixed; inset: 0; z-index: 6; pointer-events: none; }
+  #pkTop { position: absolute; top: calc(8px + var(--sat)); left: 8px; right: 8px; display: flex; gap: 6px; align-items: center; }
+  #pkTop > * { pointer-events: auto; }
+  .pkroom { height: 38px; font-weight: 800; font-size: 13px; min-width: 0; overflow: hidden; }
+  .pkroom .code { font: 900 15px var(--mono); color: var(--acc); letter-spacing: 2px; }
+  #pkList { position: absolute; top: calc(54px + var(--sat)); left: 8px; right: 8px; display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .pkp { pointer-events: auto; display: flex; align-items: center; gap: 7px; background: var(--panel); border: 1px solid color-mix(in srgb, var(--pc) 60%, transparent); border-radius: 12px;
+    padding: 4px 10px; font-size: 12px; min-width: 0; max-width: calc(50% - 3px); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .pkp i { width: 9px; height: 9px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 8px var(--pc); flex: none; }
+  .pkp > div { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+  .pkp b, .pkp small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pkp b { color: var(--pc); } .pkp small { color: var(--muted); font-size: 10.5px; }
+  .pkp.me { background: color-mix(in srgb, var(--pc) 16%, rgba(14, 18, 38, .9)); }
+  .pkban { flex-basis: 100%; text-align: center; font-size: 12px; color: var(--muted); font-weight: 600; padding: 2px 4px; text-shadow: 0 1px 4px #000; unicode-bidi: plaintext; }
+  #pkDock { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(10px + var(--sab)); display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 8px;
+    border-radius: 22px; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: max-content; max-width: calc(100vw - 16px); pointer-events: auto; }
+  .pkg { display: flex; gap: 6px; }
+  #pkDock .dk.em { width: 56px; }
+  #bboard { position: fixed; z-index: 7; right: 8px; top: calc(54px + var(--sat)); min-width: 150px; max-width: 46vw; padding: 7px 10px; border-radius: 14px; font-size: 12.5px;
+    background: rgba(10, 14, 32, .82); border: 1px solid var(--line); pointer-events: none; display: flex; flex-direction: column; gap: 3px; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  #bboard.wait { left: 50%; right: auto; top: 50%; transform: translate(-50%, -50%); min-width: 250px; max-width: calc(100vw - 32px); font-size: 15px; padding: 14px 18px; gap: 6px;
+    border-color: var(--neon); box-shadow: 0 0 30px color-mix(in srgb, var(--neon) 30%, transparent); }
+  .bbh { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-weight: 700; }
+  .bbh b { color: #fff; font-family: var(--mono); }
+  .bbr { display: flex; gap: 6px; align-items: center; }
+  .bbr i { width: 8px; height: 8px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 6px var(--pc); flex: none; }
+  .bbr span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--pc); font-weight: 700; }
+  .bbr b { font-family: var(--mono); color: #fff; min-width: 28px; text-align: end; }
+  .bbr.me span { text-decoration: underline; }
+  .ar .pkp, .ar .pkroom, .ar #bboard { direction: rtl; }
+  @media (max-width: 760px), (pointer: coarse) and (max-height: 520px) {
+    #pkList { top: calc(50px + var(--sat)); left: 6px; right: 6px; gap: 4px; }
+    .pkp { padding: 3px 8px; }
+    #pkDock { gap: 6px; padding: 6px; bottom: calc(6px + var(--sab)); }
+    #pkDock .dk { width: 58px; height: 54px; } #pkDock .dk.em { width: 52px; }
+    #bboard { top: calc(96px + var(--sat)); right: 6px; }
+  }
+  @media (max-width: 420px) { .pkroom .pkt { display: none; } }
   .screen { overflow-y: auto; overflow-x: hidden; }
   @media (max-height: 520px) {
     .logo-t { font-size: clamp(30px, 9vh, 46px); }
@@ -263,8 +303,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793401000"></script>
-<script src="../../shared/net.js?v=1793401000"></script>
+<script src="../../shared/i18n.js?v=1793403000"></script>
+<script src="../../shared/net.js?v=1793403000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -307,14 +347,30 @@
   <div class="chip"><small id="mgBestL"></small><span class="num" id="mgBest">0</span></div>
 </div>
 
+<div id="park" hidden>
+  <div id="pkTop">
+    <div class="chip pkroom"><span>🌳</span><b class="pkt" id="pkTitle"></b><span class="code" id="pkCode"></span></div>
+    <button class="ib" id="pkCopy" title="Copy">🔗</button>
+    <div class="sp"></div>
+    <button class="ib txt" id="pkLang"></button>
+    <button class="ib" data-mal3ab-home title="Home">🏠</button>
+    <button class="ib" data-mal3ab-chat title="Chat">💬</button>
+    <button class="ib" id="pkLeave" title="Leave">🚪</button>
+  </div>
+  <div id="pkList"></div>
+  <div id="pkDock"></div>
+</div>
+<div id="bboard" hidden></div>
+
 <div id="bubble" class="off"></div>
 <div id="evoTag" hidden><button class="btn" id="evoGo"></button></div>
 <div id="modal" hidden><div class="box" id="mbox" data-m3pop></div></div>
 <div id="toasts"></div>
 
-<script src="pet.js?v=1793401000"></script>
-<script src="games.js?v=1793401000"></script>
-<script src="../../shared/cloud.js?v=1793401000" data-game="cyber-pet" data-keys="cyber-pet-*"></script>
+<script src="pet.js?v=1793403000"></script>
+<script src="games.js?v=1793403000"></script>
+<script src="online.js?v=1793403000"></script>
+<script src="../../shared/cloud.js?v=1793403000" data-game="cyber-pet" data-keys="cyber-pet-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

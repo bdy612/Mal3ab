@@ -48,9 +48,13 @@ const ENEMIES = {
   maw:       { hp: 600, spd: 15, dmg: 10, gold: 120, r: 32, boss: 1, bdps: 999 },
   discord:   { hp: 950, spd: 17, dmg: 14, gold: 160, r: 30, boss: 2, bdps: 999 },
   leviathan: { hp: 1400, spd: 14, dmg: 18, gold: 240, r: 24, boss: 3, bdps: 999, shell: 0.35 },
+  // Act IV: sirens speed up the shadows around them; flickers fade out of the song every other bar (and take far less damage then)
+  siren:     { hp: 70, spd: 33, dmg: 2, gold: 9, threat: 3.6, r: 11, bdps: 8, gap: 10, haste: 0.3, hasteR: 100 },
+  flicker:   { hp: 62, spd: 46, dmg: 1, gold: 7, threat: 2.2, r: 10, bdps: 6, gap: 6, phase: 0.25 },
+  conductor: { hp: 1100, spd: 13, dmg: 20, gold: 300, r: 28, boss: 4, bdps: 999 },
 };
-const ENEMY_ORDER = ['wisp', 'skitter', 'brute', 'splitter', 'moth', 'hush', 'mourner'];
-const BOSSES = ['maw', 'discord', 'leviathan'];
+const ENEMY_ORDER = ['wisp', 'skitter', 'brute', 'splitter', 'moth', 'hush', 'mourner', 'siren', 'flicker'];
+const BOSSES = ['maw', 'discord', 'leviathan', 'conductor'];
 
 const RELICS = [
   { id: 'fork', ic: '🔔' }, { id: 'strings', ic: '🎻' }, { id: 'metronome', ic: '⏱️' }, { id: 'chamber', ic: '🐚' },
@@ -66,11 +70,14 @@ const ACTS = [
   { paths: 2, bpm: 92, prog: [0, 0, 4, 3], boss: 'maw', pool: ['wisp', 'skitter', 'brute', 'splitter'] },
   { paths: 3, bpm: 100, prog: [4, 0, 3, 1], boss: 'discord', pool: ['wisp', 'skitter', 'brute', 'splitter', 'moth', 'hush'] },
   { paths: 4, bpm: 108, prog: [1, 4, 0, 3], boss: 'leviathan', pool: ['wisp', 'skitter', 'brute', 'splitter', 'moth', 'hush', 'mourner'] },
-  { paths: 4, bpm: 112, prog: [0, 4, 1, 3], boss: null, pool: ['wisp', 'skitter', 'brute', 'splitter', 'moth', 'hush', 'mourner'] },  // endless
+  { paths: 4, bpm: 112, prog: [3, 1, 4, 0], boss: 'conductor', pool: ['wisp', 'skitter', 'brute', 'splitter', 'moth', 'hush', 'mourner', 'siren', 'flicker'] },
+  { paths: 4, bpm: 116, prog: [0, 4, 1, 3], boss: null, pool: ['wisp', 'skitter', 'brute', 'splitter', 'moth', 'hush', 'mourner', 'siren', 'flicker'] },  // endless
 ];
 // the wave (global index, 1-based) on which each enemy type first shows up
-const FIRST_WAVE = { wisp: 1, skitter: 2, brute: 3, splitter: 5, moth: 7, hush: 8, mourner: 13 };
+const FIRST_WAVE = { wisp: 1, skitter: 2, brute: 3, splitter: 5, moth: 7, hush: 8, mourner: 13, siren: 19, flicker: 21 };
 const WAVES_PER_ACT = 6;
+const FINAL_ACT = 4;                 // the run is 4 acts; the stage after the last one is Endless
+const ENDLESS_ACT = FINAL_ACT + 1;
 const START_SHARDS = 180, START_HP = 20;
 
 // seeded random (state is a plain number so a run can be saved and resumed)

@@ -20,10 +20,12 @@ const G = {
 };
 let RES_ID = 1, EN_ID = 1;
 const has = (id) => G.relicSet.has(id);
-const mapAct = () => Math.min(G.act, 3);
-const actDef = () => ACTS[Math.min(G.act, 4) - 1];
-const gIndex = () => (G.act <= 3 ? (G.act - 1) * WAVES_PER_ACT + G.wave : 18 + G.wave);
-const isBossWave = () => (G.act <= 3 ? G.wave === WAVES_PER_ACT : G.wave % 5 === 0);
+const mapAct = () => G.mapA || Math.min(G.act, FINAL_ACT);     // mapA: old Endless saves keep the act-3 map they were built on
+const actDef = () => ACTS[Math.min(G.act, ACTS.length) - 1];
+const gIndex = () => (G.act <= FINAL_ACT ? (G.act - 1) * WAVES_PER_ACT + G.wave : FINAL_ACT * WAVES_PER_ACT + G.wave);
+const isBossWave = () => (G.act <= FINAL_ACT ? G.wave === WAVES_PER_ACT : G.wave % 5 === 0);
+// online co-op: attunement belongs to the resonator's owner (G.players is set by online.js)
+const attuneOf = (r) => { const P = G.online && G.players && r.owner && G.players[r.owner]; return ((P ? P.attune : G.attune) || {})[r.role] || 0; };
 const ACT_HP = [1, 1.5, 2.3, 2.6];
 const hpScale = (g) => Math.pow(1.12, g - 1) * (1 + 0.02 * (g - 1)) * ACT_HP[Math.min(3, Math.ceil(g / WAVES_PER_ACT) - 1)] * (g > 18 ? Math.pow(1.05, g - 18) : 1) * (1 + 0.15 * G.asc);
 const curBpm = () => actDef().bpm + (has('metronome') ? 10 : 0);
@@ -137,7 +139,7 @@ function rebuild() {
   G.grand = an.grand.map(i => list[i]);
   for (const r of list) {
     const R = ROLES[r.role];
-    let m = R.mul[r.lvl - 1] * (1 + 0.15 * G.attune[r.role]);
+    let m = R.mul[r.lvl - 1] * (1 + 0.15 * attuneOf(r));
     if (r.role === 'bell' && has('fork')) m *= 1.25;
     if (r.lvl === 3 && has('overtone')) m *= 1.35;
     m *= 1 + 0.12 * Math.min(2, r.fifths);
@@ -161,7 +163,7 @@ function placeRes(role, note, sock, opts) {
   const cost = opts.free ? 0 : costOf(role);
   if (G.shards < cost) return null;
   G.shards -= cost;
-  const r = { id: RES_ID++, role, note, lvl: opts.lvl || 1, sock, x: s.x, y: s.y, invested: opts.invested != null ? opts.invested : cost, fireT: 0, retune: 0, silenced: false, silenceT: 0, mult: 1, rangeM: 1, born: G.t, fresh: G.phase === 'build' && !opts.free, muteT: 0 };
+  const r = { id: RES_ID++, role, note, lvl: opts.lvl || 1, sock, x: s.x, y: s.y, invested: opts.invested != null ? opts.invested : cost, fireT: 0, retune: 0, silenced: false, silenceT: 0, mult: 1, rangeM: 1, born: G.t, fresh: G.phase === 'build' && !opts.free, muteT: 0, owner: opts.owner || null };
   s.res = r; G.res.push(r);
   if (!opts.quiet) rebuild();
   return r;
@@ -216,14 +218,17 @@ function onStep(over) {
   const A = actDef(), bd = barDur();
   bed(st, bar, when, live, A, bd);
   if (G.phase === 'over') return;
-  if (live) {
+  if (live && !G.replica) {
     G.waveStep++;
     while (G.spawnIdx < G.spawnQ.length && G.spawnQ[G.spawnIdx].st <= G.waveStep) { const q = G.spawnQ[G.spawnIdx++]; spawnEnemy(q.type, q.path); }
     if (st === 0) bossBar(bar);
     if (st === 0 && bar % 2 === 0) for (const e of G.enemies) if (!e.dead && e.def.heal) mournerHeal(e);
+    if (st === 0) for (const e of G.enemies) if (e.def.phase) e.phased = bar % 2 === 1;      // flickers fade out on every other bar
   }
-  for (const B of G.barriers) if (B.down > 0 && --B.down === 0) { B.hp = B.max * 0.6; B.flash = 1; }
-  updateSilence();
+  if (!G.replica) {
+    for (const B of G.barriers) if (B.down > 0 && --B.down === 0) { B.hp = B.max * 0.6; B.flash = 1; }
+    updateSilence();
+  }
   const notes = new Map();
   const queue = (role, note, oct, v) => { const k = role + note + '_' + oct; const e = notes.get(k); if (e) e.v += v; else notes.set(k, { role, note, oct, v }); };
   for (const r of G.res) {
@@ -244,7 +249,7 @@ function onStep(over) {
     if (live) {
       if (G.codaCd > 0) G.codaCd--;
       const rad = G.chords.filter(c => c.type === 'radiant' && c.mem.some(m => !m.silenced));
-      if (bar % 2 === 0 && rad.length && G.hp < G.maxHp) {
+      if (bar % 2 === 0 && rad.length && G.hp < G.maxHp && !G.replica) {
         const h = Math.min(2, rad.length) + (has('series') ? 1 : 0);
         G.hp = Math.min(G.maxHp, G.hp + h); G.heal = 1; ESAudio.heal(when);
         for (const c of rad) for (let i = 0; i < 10; i++) G.parts.push({ x: c.cx, y: c.cy, tx: 0, ty: -40, life: 0, max: 0.9 + Math.random() * 0.4, rgb: CHORDS.radiant.rgb, s: 2.5, k: 'home', d: Math.random() * 0.3 });
@@ -342,12 +347,13 @@ function updateSilence() {
 function spawnEnemy(type, pi, o) {
   o = o || {};
   if (G.enemies.length > 160 && !ENEMIES[type].boss) return null;
-  const def = ENEMIES[type], p = G.map.paths[pi], g = gIndex(), hp = def.hp * hpScale(g) * (o.hpMul || 1);
+  const def = ENEMIES[type], p = G.map.paths[pi], g = gIndex(), hp = def.hp * hpScale(g) * (o.hpMul || 1) * (G.teamHp || 1);
   const e = {
     id: EN_ID++, type, def, hp, max: hp, path: pi, d: o.d || 0, x: p.pts[0].x, y: p.pts[0].y, ang: 0,
     spd: def.spd * (1 + Math.min(0.25, 0.012 * g)) * (1 + 0.03 * G.asc), slow: 0, stun: 0, hitT: 0, block: null, dead: false,
-    hint: { i: 0 }, ph: Math.random() * 6.283, rem: p.len, born: G.t, fly: !!def.fly, hex: false, r: def.r, pushT: 0,
+    hint: { i: 0 }, ph: 0, rem: p.len, born: G.t, fly: !!def.fly, hex: false, r: def.r, pushT: 0, phased: false, hasteT: 0, fast: 1,
   };
+  e.ph = (e.id * 2.39996) % 6.283;
   if (e.fly) { e.fx0 = p.start.x; e.fy0 = p.start.y; e.flen = Math.hypot(p.start.x, p.start.y) - SPIRE_R; e.f = 0; e.rem = e.flen; }
   pathAt(p, e.d, e, e.hint);
   if (e.fly) { e.x = e.fx0; e.y = e.fy0; }
@@ -358,9 +364,10 @@ function spawnEnemy(type, pi, o) {
   return e;
 }
 function hurt(e, dmg, kind) {
-  if (e.dead || dmg <= 0) return;
+  if (e.dead || dmg <= 0 || G.replica) return;
   let m = 1;
   if (e.hex) m *= 1.35;
+  if (e.def.phase && e.phased) m *= e.def.phase;
   if (e.def.armor && kind !== 'harp' && kind !== 'aurora') m *= 1 - e.def.armor;
   if (e.def.shell) m *= e.stun > 0 ? 1.4 : e.def.shell;
   const dealt = Math.min(e.hp, dmg * m); G.dmgBy[kind] = (G.dmgBy[kind] || 0) + dealt;
@@ -370,6 +377,7 @@ function hurt(e, dmg, kind) {
 }
 // stuns have diminishing returns: a creature that was just stunned shrugs off most of the next one
 function stunE(e, s) {
+  if (G.replica) return;
   let v = s * (e.def.boss ? 0.4 : 1) * (e.stunCd > 0 ? 0.3 : 1);
   if (v > e.stun) { G.stunT = (G.stunT || 0) + v - Math.max(0, e.stun); e.stun = v; e.stunCd = v + 1.6; }
 }
@@ -377,7 +385,8 @@ function pushE(e, amt) { if (e.fly) return; amt *= e.def.boss ? 0.2 : 1; e.d = M
 function kill(e) {
   e.dead = true;
   const gold = Math.round(e.def.gold * (has('magnet') ? 1.3 : 1));
-  G.shards += gold; G.kills++; G.score += gold * 2;
+  if (G.online) { ESNet.earn(gold); ESNet.ev(['k', e.id, e.def.boss ? gold : 0]); } else G.shards += gold;
+  G.kills++; G.score += gold * 2;
   smoke(e.x, e.y, e.def.boss ? 30 : 6, e.r * 0.7);
   burst(e.x, e.y, '170,120,255', e.def.boss ? 60 : 9, e.def.boss ? 260 : 110);
   for (let i = 0; i < (e.def.boss ? 14 : 2); i++) G.parts.push({ x: e.x, y: e.y, vx: (Math.random() - 0.5) * 60, vy: -60 - Math.random() * 60, life: 0, max: 0.9, rgb: '127,245,255', s: 3, k: 'shard' });
@@ -391,6 +400,7 @@ function kill(e) {
 function reachSpire(e) {
   e.dead = true; e.leaked = true;
   G.hp = Math.max(0, G.hp - e.def.dmg); G.leaks++;
+  if (G.online) ESNet.ev(['l', e.id, e.def.dmg]);
   shake(e.def.boss ? 12 : 5); G.flash = Math.max(G.flash, 0.55); G.flashCol = '255,60,110';
   ESAudio.sfx('hit'); burst(0, -40, '255,90,140', 16, 140);
   floatText(0, -150, '-' + e.def.dmg, '#ff6f91', 18);
@@ -406,10 +416,20 @@ function bossBar(bar) {
   const b = G.boss; if (!b || b.dead) return;
   if (b.type === 'maw' && bar % 2 === 0) { for (let k = 0; k < 2; k++) spawnEnemy('wisp', b.path, { d: Math.max(1, b.d + (k ? 12 : -12)), hpMul: 0.8 }); burst(b.x, b.y, '150,90,255', 12, 120); }
   else if (b.type === 'discord' && bar % 2 === 0) {
-    addRing(b.x, b.y, 170, '255,80,120', 0, 'discord', { dur: 0.7 }); ESAudio.sfx('dissonance'); shake(4);
+    addRing(b.x, b.y, 170, '255,80,120', 0, 'discord', { dur: 0.7 }); ESAudio.sfx('dissonance'); shake(4); if (G.online) ESNet.ev(['r', Math.round(b.x), Math.round(b.y), 0]);
     for (const r of G.res) if (dist2(r.x, r.y, b.x, b.y) < 170 * 170) r.silenceT = has('velvet') ? 8 : 16;
     for (const B of G.barriers) if (dist2(B.cx, B.cy, b.x, b.y) < 190 * 190 && B.down <= 0) { B.hp -= B.max * 0.5; B.flash = 1; if (B.hp <= 0) breakBarrier(B); }
   } else if (b.type === 'leviathan' && bar % 2 === 1) { for (let k = 0; k < 3; k++) spawnEnemy('skitter', b.path, { d: Math.max(1, b.d - 30 - k * 10) }); }
+  else if (b.type === 'conductor') {
+    // the Silent Conductor: on one beat it calls two flickers, two bars later a fermata hurries every shadow for a bar
+    if (bar % 4 === 0) { for (let k = 0; k < 2; k++) spawnEnemy('flicker', b.path, { d: Math.max(1, b.d - 22 - k * 14), hpMul: 0.8 }); burst(b.x, b.y, '255,214,120', 12, 120); }
+    else if (bar % 4 === 2) fermata(b);
+  }
+}
+function fermata(b) {
+  addRing(b.x, b.y, 240, '255,214,120', 0, 'fx', { dur: 0.8, lw: 3 }); ESAudio.sfx('dissonance'); shake(4);
+  for (const e of G.enemies) if (!e.dead) e.hasteT = barDur();
+  if (G.online) ESNet.ev(['r', Math.round(b.x), Math.round(b.y), 1]);
 }
 function breakBarrier(B) {
   B.hp = 0; B.down = 32; B.flash = 1;
@@ -421,6 +441,7 @@ function breakBarrier(B) {
 function updateEnemies(dt) {
   const hums = G.res.filter(r => r.role === 'hum' && !r.silenced && r.retune <= 0).map(r => ({ x: r.x, y: r.y, rr: rangeOf(r), s: ROLES.hum.slow[r.lvl - 1] + (has('frost') ? 0.15 : 0) }));
   const areas = G.chords.filter(c => c.type !== 'radiant' && c.mem.some(m => !m.silenced));
+  const sirens = G.enemies.filter(e => !e.dead && e.def.haste);
   for (const e of G.enemies) {
     if (e.dead) continue;
     let slow = 0, hex = false;
@@ -429,8 +450,11 @@ function updateEnemies(dt) {
     if (e.def.boss) slow *= 0.5;
     e.slow = Math.min(0.75, slow); e.hex = hex;
     e.hitT = Math.max(0, e.hitT - dt); e.pushT = Math.max(0, e.pushT - dt); if (e.stunCd > 0) e.stunCd -= dt;
+    let fast = e.hasteT > 0 ? 1.4 : 1; if (e.hasteT > 0) e.hasteT -= dt;
+    for (const s of sirens) if (s !== e && dist2(e.x, e.y, s.x, s.y) <= s.def.hasteR * s.def.hasteR) fast = Math.max(fast, 1 + s.def.haste);
+    e.fast = fast;
     if (e.stun > 0) { e.stun -= dt; continue; }
-    const sp = e.spd * (1 - e.slow);
+    const sp = e.spd * (1 - e.slow) * fast;
     if (e.fly) {
       e.f += (sp * dt) / e.flen;
       const ux = -e.fx0 / (e.flen + SPIRE_R), uy = -e.fy0 / (e.flen + SPIRE_R), w = Math.sin(e.f * Math.PI * 4 + e.ph) * 26 * (1 - e.f);
@@ -473,10 +497,10 @@ function update(dt) {
   let guard = 0;
   while (G.stepAcc >= sd && guard++ < 8) { G.stepAcc -= sd; onStep(G.stepAcc); }
   if (guard >= 8) G.stepAcc = 0;
-  if (G.enemies.length) updateEnemies(dt);
+  if (G.enemies.length) { if (G.replica) ESNet.lerp(dt); else updateEnemies(dt); }
   for (const g of G.rings) {
     g.t += dt; const k = Math.min(1, g.t / g.dur); g.r = g.max * (1 - (1 - k) * (1 - k));
-    if ((g.dmg > 0 || g.stun > 0 || g.push > 0) && k < 1) {
+    if ((g.dmg > 0 || g.stun > 0 || g.push > 0) && k < 1 && !G.replica) {
       for (const e of G.enemies) {
         if (e.dead || g.hit.has(e.id)) continue;
         if (dist2(e.x, e.y, g.x, g.y) <= (g.r + e.r) * (g.r + e.r)) {
@@ -508,17 +532,17 @@ function update(dt) {
   for (const r of G.res) { r.fireT = Math.max(0, r.fireT - dt * 4); r.muteT = Math.max(0, r.muteT - dt * 2); }
   G.beatT = Math.max(0, G.beatT - dt * 3); G.shake = Math.max(0, G.shake - dt * 18); G.flash = Math.max(0, G.flash - dt * 1.6);
   G.aurora = Math.max(0, G.aurora - dt * 0.9); G.heal = Math.max(0, G.heal - dt * 1.5);
-  if (G.phase === 'wave' && G.spawnIdx >= G.spawnQ.length && G.enemies.length === 0) waveCleared();
+  if (G.phase === 'wave' && !G.replica && G.spawnIdx >= G.spawnQ.length && G.enemies.length === 0) waveCleared();
 }
 
 // ---------------------------------------------------------------- waves & run flow
 function buildWave() {
   const g = gIndex(), boss = isBossWave(), A = actDef(), nP = G.map.paths.length;
   const rng = makeRng(G.seed * 7 + g * 131 + G.asc);
-  const pool = A.pool.filter(tp => FIRST_WAVE[tp] <= g || G.act === 4);
-  const W = { wisp: 3, skitter: 2, brute: 1.2, splitter: 1, moth: 1.4, hush: 0.9, mourner: 0.8 };
+  const pool = A.pool.filter(tp => FIRST_WAVE[tp] <= g || G.act > FINAL_ACT);
+  const W = { wisp: 3, skitter: 2, brute: 1.2, splitter: 1, moth: 1.4, hush: 0.9, mourner: 0.8, siren: 0.8, flicker: 1.1 };
   const newest = pool.filter(tp => FIRST_WAVE[tp] === g);
-  let budget = (9 + g * 4.4) * [1, 1.15, 1.3, 1.35][Math.min(4, G.act) - 1] * (g > 18 ? Math.pow(1.06, g - 18) : 1) * (boss ? 0.55 : 1);
+  let budget = (9 + g * 4.4) * [1, 1.15, 1.3, 1.35, 1.35][Math.min(ACTS.length, G.act) - 1] * (g > 18 ? Math.pow(1.06, g - 18) : 1) * (boss ? 0.55 : 1);
   const q = [];
   let tStep = 0, pi = rng.int(nP), first = true;
   while (budget > 0.5) {
@@ -536,7 +560,7 @@ function buildWave() {
     tStep = Math.ceil(tStep / 2) * 2;
     pi = (pi + 1 + (nP > 2 ? rng.int(nP - 1) : 0)) % nP;
   }
-  if (boss) q.push({ st: 24, type: G.act <= 3 ? A.boss : BOSSES[(Math.floor(G.wave / 5) - 1) % 3], path: rng.int(nP) });
+  if (boss) q.push({ st: 24, type: G.act <= FINAL_ACT ? A.boss : BOSSES[(Math.floor(G.wave / 5) - 1) % BOSSES.length], path: rng.int(nP) });
   q.sort((a, b) => a.st - b.st);
   return q;
 }
@@ -557,25 +581,27 @@ function startWave() {
   ui('phase');
   return true;
 }
-function waveTitle() { return G.act <= 3 ? t('es_waveN', { n: G.wave, m: WAVES_PER_ACT }) : t('es_endlessN', { n: G.wave }); }
+function waveTitle() { return G.act <= FINAL_ACT ? t('es_waveN', { n: G.wave, m: WAVES_PER_ACT }) : t('es_endlessN', { n: G.wave }); }
 function waveCleared() {
   const g = gIndex(), boss = isBossWave();
   let bonus = 20 + 4 * g, interest = 0;
-  if (has('savings')) { interest = Math.min(40, Math.floor(G.shards * 0.15)); bonus += interest; }
-  G.shards += bonus; G.score += 50 * g + (boss ? 500 : 0);
+  if (G.online) bonus = ESNet.waveBonus(bonus);      // split between the players (each earns their own interest)
+  else { if (has('savings')) { interest = Math.min(40, Math.floor(G.shards * 0.15)); bonus += interest; } G.shards += bonus; }
+  G.score += 50 * g + (boss ? 500 : 0);
   G.phase = 'cleared'; G.boss = null; ui('bossBar', null);
   ESAudio.sfx('clear'); ESAudio.musicLevel(0.8);
   ui('banner', t('es_cleared'), '+' + bonus + ' ◆');
   ui('phase');
-  if (G.act <= 3) G.profile.best = bestOf(G.profile.best, runSummary());
+  if (G.act <= FINAL_ACT) G.profile.best = bestOf(G.profile.best, runSummary());
   G.later.push({ t: G.t + 1.6, fn: () => {
     if (G.phase !== 'cleared') return;
-    if (boss && G.act === 3) victory();
+    if (boss && G.act === FINAL_ACT) victory();
     else openDraft(boss);
   } });
 }
 function openDraft(relicOnly) {
-  G.phase = 'draft'; G.nextAct = relicOnly && G.act < 3; G.draft = rollBoons(relicOnly);
+  if (G.online) { ESNet.openDraft(relicOnly); return; }     // online: every player gets their own three cards
+  G.phase = 'draft'; G.nextAct = relicOnly && G.act < FINAL_ACT; G.draft = rollBoons(relicOnly);
   ui('phase'); ui('draft');
 }
 function rollBoons(relicOnly) {
@@ -618,8 +644,9 @@ function pickBoon(i) {
   return true;
 }
 function advanceAct() {
-  const refund = G.res.reduce((s, r) => s + r.invested, 0);
-  G.shards += refund; G.act++; G.wave = 1; G.hp = Math.min(G.maxHp, G.hp + 5);
+  let refund = G.res.reduce((s, r) => s + r.invested, 0);
+  if (G.online) refund = ESNet.refund(); else G.shards += refund;      // online: each resonator goes back to its owner
+  G.act++; G.wave = 1; G.hp = Math.min(G.maxHp, G.hp + 5);
   G.res = []; G.barriers = []; G.groups = []; G.chords = []; G.links = []; G.enemies = [];
   loadMap();
   G.phase = 'build'; ui('phase'); ui('act');
@@ -632,19 +659,19 @@ function victory() {
   P.best = bestOf(P.best, Object.assign(runSummary(), { won: true })); saveProfile();
   ESAudio.sfx('victory'); G.flash = 0.8; G.flashCol = '255,240,200';
   for (let i = 0; i < 80; i++) burst(0, -60, NOTES[i % 5].rgb, 1, 260);
-  lsDel(KEY_RUN);
+  if (!G.online) lsDel(KEY_RUN);
   G.later.push({ t: G.t + 1.2, fn: () => ui('victory') });
   ui('phase');
 }
 function goEndless() {
   if (G.phase !== 'won') return;
-  G.act = 4; G.wave = 1; G.endless = true; G.bpm = curBpm(); ESAudio.setTempo(G.bpm);
+  G.act = ENDLESS_ACT; G.wave = 1; G.endless = true; G.bpm = curBpm(); ESAudio.setTempo(G.bpm);
   G.phase = 'build'; rebuild(); ui('phase'); ui('act'); persist();
 }
 function lose() {
   G.phase = 'over';
   const P = G.profile; P.best = bestOf(P.best, runSummary()); P.kills += G.kills; saveProfile();
-  lsDel(KEY_RUN);
+  if (!G.online) lsDel(KEY_RUN);
   ESAudio.sfx('defeat'); ESAudio.musicLevel(0.5);
   for (let i = 0; i < 70; i++) G.parts.push({ x: (Math.random() - 0.5) * 30, y: -Math.random() * 110, vx: (Math.random() - 0.5) * 260, vy: -Math.random() * 200, life: 0, max: 1.4 + Math.random(), rgb: '210,220,255', s: 3 + Math.random() * 3, k: 'shard' });
   shake(16); G.flash = 0.9; G.flashCol = '255,60,110'; G.spireBroken = true;
@@ -653,7 +680,7 @@ function lose() {
   G.later.push({ t: G.t + 1.8, fn: () => ui('gameover') });
   ui('phase');
 }
-function runSummary() { return { score: G.score, g: gIndex(), act: G.act, wave: G.wave, asc: G.asc, endless: G.act === 4 ? G.wave : 0, won: false, date: Date.now() }; }
+function runSummary() { return { score: G.score, g: gIndex(), act: G.act, wave: G.wave, asc: G.asc, endless: G.act > FINAL_ACT ? G.wave : 0, won: false, date: Date.now() }; }
 function bestOf(a, b) { if (!a) return b; return b.score > a.score || (b.score === a.score && b.g >= a.g) ? Object.assign({}, b, { won: b.won || a.won }) : Object.assign({}, a, { won: a.won || b.won }); }
 
 function pickOrient() {
@@ -677,20 +704,25 @@ function newRun(o) {
     seed, rng: makeRng(seed ^ 0x5bd1e995), act: 1, wave: 1, hp: START_HP, maxHp: START_HP, shards: START_SHARDS, score: 0, kills: 0,
     relics: [], relicSet: new Set(), unlocked: ['bell', 'harp'], attune: { bell: 0, harp: 0, hum: 0, ward: 0, echo: 0 },
     asc: o.asc || 0, orient: o.orient || pickOrient(), draftsTaken: 0, spawnQ: [], spawnIdx: 0, phase: 'build', paused: false,
-    draft: null, nextAct: false, endless: false, leaks: 0, codaCd: 0,
+    draft: null, nextAct: false, endless: false, leaks: 0, codaCd: 0, mapA: 0, teamHp: 1,
   });
   G.profile.runs++; saveProfile();
   loadMap(); ui('phase'); ui('act'); persist();
 }
 function persist() {
-  if (G.phase !== 'build') return;
+  if (G.phase !== 'build' || G.online) return;       // online runs are not saved (the solo save stays untouched)
   lsSet(KEY_RUN, {
-    v: 1, seed: G.seed, rs: G.rng.s, act: G.act, wave: G.wave, hp: G.hp, maxHp: G.maxHp, shards: G.shards, score: G.score, kills: G.kills,
+    v: 2, ma: G.mapA || 0, seed: G.seed, rs: G.rng.s, act: G.act, wave: G.wave, hp: G.hp, maxHp: G.maxHp, shards: G.shards, score: G.score, kills: G.kills,
     relics: G.relics, unlocked: G.unlocked, attune: G.attune, asc: G.asc, orient: G.orient, drafts: G.draftsTaken, endless: G.endless,
     res: G.res.map(r => [r.role, r.note, r.lvl, r.sock, r.invested]),
   });
 }
-function savedRun() { const s = lsGet(KEY_RUN, null); return s && s.v === 1 && s.seed != null ? s : null; }
+function savedRun() {
+  const s = lsGet(KEY_RUN, null); if (!s || (s.v !== 1 && s.v !== 2) || s.seed == null) return null;
+  // version 1 saves came from the 3-act game, where act 4 was Endless on the act-3 map
+  if (s.v === 1 && s.act >= 4) return Object.assign({}, s, { v: 2, act: ENDLESS_ACT, ma: 3, endless: true });
+  return s;
+}
 function continueRun() {
   const s = savedRun(); if (!s) return false;
   resetWorld();
@@ -698,6 +730,7 @@ function continueRun() {
     seed: s.seed, rng: makeRng(0), act: s.act, wave: s.wave, hp: s.hp, maxHp: s.maxHp, shards: s.shards, score: s.score, kills: s.kills,
     relics: s.relics.slice(), relicSet: new Set(s.relics), unlocked: s.unlocked.slice(), attune: Object.assign({ bell: 0, harp: 0, hum: 0, ward: 0, echo: 0 }, s.attune),
     asc: s.asc || 0, orient: s.orient || 'p', draftsTaken: s.drafts || 0, endless: !!s.endless, phase: 'build', paused: false, draft: null, nextAct: false, spawnQ: [], spawnIdx: 0,
+    mapA: s.ma || 0, teamHp: 1,
   });
   G.rng.s = s.rs >>> 0;
   G.map = genMap(G.seed, mapAct(), G.orient); G.bpm = curBpm(); ESAudio.setTempo(G.bpm); G.staticDirty = true;
@@ -708,7 +741,7 @@ function continueRun() {
 // the title screen: a quiet demo island where a few resonators play a little tune
 function menuScene() {
   resetWorld();
-  G.phase = 'menu'; G.act = 1; G.wave = 1; G.relicSet = new Set(); G.relics = []; G.attune = { bell: 0, harp: 0, hum: 0, ward: 0, echo: 0 }; G.asc = 0;
+  G.phase = 'menu'; G.act = 1; G.wave = 1; G.mapA = 0; G.relicSet = new Set(); G.relics = []; G.attune = { bell: 0, harp: 0, hum: 0, ward: 0, echo: 0 }; G.asc = 0;
   G.seed = 20261030; G.orient = pickOrient();
   G.map = genMap(G.seed, 2, G.orient); G.bpm = 88; ESAudio.setTempo(88); G.staticDirty = true;
   const socks = G.map.sockets.slice().sort((a, b) => Math.hypot(a.x, a.y) - Math.hypot(b.x, b.y));

@@ -110,6 +110,18 @@ const HERO_DRAW = {
     face(r); r(5, 3, 7, 2, '#6b4426'); r(4, 4, 2, 5, '#6b4426'); r(8, 8, 4, 3, '#6b4426'); r(9, 7, 2, 1, '#6b4426');
     r(5, 1, 7, 2, GOLD); r(5, 0, 1, 1, GOLD); r(8, 0, 1, 1, GOLD); r(11, 0, 1, 1, GOLD); r(8, 1, 1, 1, '#ff3a5a'); r(6, 1, 1, 1, '#3aa0ff');
     W.great(r);
+  },
+  bard(r, f) {
+    legs(r, f, '#6b2a5a', '#2e1428'); torso(r, '#c0392b', '#8a2a1e', GOLD2); r(8, 10, 3, 3, '#f0c040'); r(5, 13, 3, 2, '#f0c040');
+    face(r); r(4, 2, 8, 2, '#2a6a4a'); r(5, 1, 6, 1, '#2a6a4a'); r(3, 3, 3, 1, '#1d4a34'); r(11, 0, 1, 3, '#ff6a6a'); r(12, 0, 1, 1, '#ffd0d0');
+    r(10, 11, 4, 4, '#b07a3a'); r(10, 11, 4, 1, '#d09a5a'); r(11, 12, 2, 2, '#5a3414'); r(13, 6, 1, 6, WOOD); r(13, 5, 2, 1, '#5a3414');
+  },
+  seraphine(r, f) {
+    r(0, 6, 3, 8, '#fff6d8'); r(0, 6, 3, 1, '#ffe7a0'); r(1, 14, 2, 1, '#e8d8a8'); r(1, 9, 1, 3, '#e8d8a8');
+    legs(r, f, '#e8dcb8', '#a08a50'); torso(r, '#fffaf0', '#d8ccaa', GOLD); r(4, 14, 8, 1, '#d8ccaa'); r(7, 10, 2, 3, GOLD);
+    r(4, 4, 2, 8, '#ffe7a0'); face(r); r(5, 3, 7, 2, '#ffe7a0'); r(10, 6, 1, 1, '#3aa0ff');
+    r(5, 0, 7, 1, GOLD); r(4, 1, 1, 1, GOLD); r(12, 1, 1, 1, GOLD); r(8, 0, 1, 1, '#fff6c8');
+    W.staff(r, '#fff2a8');
   }
 };
 const heroCache = {};
@@ -335,7 +347,8 @@ A.floorFx = (id) => sprite(16, 16, (r) => {
 A.PAL = [
   { floor: '#4d4b68', seam: '#2b2a40', rock: '#15131e', rockHi: '#211e2e', face: '#3f3b5e', faceHi: '#59547c', faceLo: '#29263e', torch: '#ffb347', mist: '#7a5cff', bg: '#0a0912' },
   { floor: '#5c443b', seam: '#33221e', rock: '#190e0c', rockHi: '#271714', face: '#57342b', faceHi: '#74463b', faceLo: '#3a201b', torch: '#ff7a2a', mist: '#ff4a1a', bg: '#100605' },
-  { floor: '#4b3e60', seam: '#2a2038', rock: '#130e1a', rockHi: '#1f1729', face: '#43325c', faceHi: '#5d4a7c', faceLo: '#2d2142', torch: '#6af0d0', mist: '#40ffd0', bg: '#08060c' }
+  { floor: '#4b3e60', seam: '#2a2038', rock: '#130e1a', rockHi: '#1f1729', face: '#43325c', faceHi: '#5d4a7c', faceLo: '#2d2142', torch: '#6af0d0', mist: '#40ffd0', bg: '#08060c' },
+  { floor: '#3e4a60', seam: '#222a3a', rock: '#0b0f18', rockHi: '#161d2a', face: '#2e3a56', faceHi: '#46587e', faceLo: '#1e263a', torch: '#8ac8ff', mist: '#4a9aff', bg: '#04060c' }
 ];
 A.floorTile = (act, seed) => sprite(16, 16, (r) => {
   const P = A.PAL[act], R = rng(seed * 7919 + act * 31);
@@ -361,6 +374,7 @@ A.rockTile = (act, seed, face) => sprite(16, 16, (r) => {
   for (let i = 0; i < 6; i++) r(Math.floor(R() * 16), Math.floor(R() * top), 1, 1, shade(P.rock, 0.45));
   if (act === 1 && R() < 0.2) { const x = 2 + Math.floor(R() * 11); r(x, 2, 1, 3, '#ff6a1a'); r(x + 1, 4, 1, 2, '#c0301a'); }
   if (act === 2 && R() < 0.15) { const x = 2 + Math.floor(R() * 10); r(x, 3, 2, 2, '#40c0a0'); r(x, 3, 1, 1, '#a0fff0'); }
+  if (act === 3 && R() < 0.18) { const x = 2 + Math.floor(R() * 11); r(x, 2, 1, 4, '#5a9ae0'); r(x + 1, 4, 1, 2, '#8ac8ff'); r(x, 2, 1, 1, '#e8f4ff'); }   // Act IV: ice crystals
   if (face) {
     r(0, 10, 16, 6, P.face); r(0, 10, 16, 1, P.faceHi);
     r(0, 12, 16, 1, P.faceLo); r(0, 14, 16, 1, P.faceLo);

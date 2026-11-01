@@ -84,6 +84,12 @@ addStrings({
   nc_l1: 'أول وردية', nc_l2: 'أول خطّاف', nc_l3: 'خطوة مغناطيس', nc_l4: 'شد وسيّب', nc_l5: 'براحة عليه', nc_l6: 'شبكة الليزر',
   nc_l7: 'تيارات الهوا', nc_l8: 'نودلز سخنة', nc_l9: 'المفرمة', nc_l10: 'أبواب الضغط', nc_l11: 'حارة الدرونز', nc_l12: 'النبلة',
   nc_l13: 'متاهة الإزاز', nc_l14: 'قلب المحطة', nc_l15: 'الساعة صفر',
+  nc_l16: 'تيار جانبي', nc_l17: 'سكة المغناطيس', nc_l18: 'صالة الليزر الدوّار', nc_l19: 'ضغط الهوا', nc_l20: 'أسانسير المفرمة', nc_l21: 'خلية الدرونز',
+  nc_l22: 'فرن الإزاز', nc_l23: 'الوردية الأخيرة',
+  nc_s16a: 'المراوح بتشتغل وتقف — امسك في حلقة واستنى الهوا يهدى', nc_s17a: 'الأرضية معدن: إلزق بالمغناطيس واجري — ونُط فوق الإزاز',
+  nc_s18a: 'الليزر اللي بيلف بيقطع الحبل — عدّي ورا الشعاع', nc_s19a: 'الهوا بيزقّك على الأبواب — فرمل قبل ما تخبط',
+  nc_s20a: 'طرد إزاز في مفرمة! خليك جنب الحيطة وعدّي على مهلك', nc_s21a: 'طلب مستعجل والدرونز في كل حتة — عينك عليهم',
+  nc_s22a: 'الإزاز مبيمسكش خطّاف — استغل الهوا والحلقات', nc_s23a: 'آخر وردية: كل اللي اتعلمته في توصيلة واحدة. براحة على الطرد!',
   nc_mag: 'مغناطيس', nc_in: 'شد', nc_out: 'سيّب',
 }, {
   nc_tagline: 'Deliver packages through a zero-gravity space station — fast, and without breaking them!',
@@ -138,46 +144,72 @@ addStrings({
   nc_l1: 'First Shift', nc_l2: 'Hook Line', nc_l3: 'Mag Step', nc_l4: 'Reel Deal', nc_l5: 'Handle With Care', nc_l6: 'Laser Lattice',
   nc_l7: 'Vent Currents', nc_l8: 'Hot Noodles', nc_l9: 'The Grinder', nc_l10: 'Airlock Cycle', nc_l11: 'Drone Alley', nc_l12: 'Slingshot',
   nc_l13: 'Glass Maze', nc_l14: 'Core Breach', nc_l15: 'Zero Hour',
+  nc_l16: 'Crosswind', nc_l17: 'Mag Rail', nc_l18: 'Rotor Hall', nc_l19: 'Air Pressure', nc_l20: 'Grinder Lift', nc_l21: 'Drone Hive',
+  nc_l22: 'Glass Furnace', nc_l23: 'Final Shift',
+  nc_s16a: 'The fans pulse — hook a ring and wait for the wind to drop', nc_s17a: 'Metal floor: stick with your boots and run — kick over the glass',
+  nc_s18a: 'Rotating lasers cut your rope — slip through behind the beam', nc_s19a: 'The wind shoves you at the airlocks — brake before you hit them',
+  nc_s20a: 'Glass cargo in a grinder! Hug the wall and take it slow', nc_s21a: 'Rush order through a swarm — keep your eyes on the drones',
+  nc_s22a: "Glass won't take a hook — ride the air and use the rings", nc_s23a: "The final shift: everything you've learned in one delivery. Easy on the cargo!",
   nc_mag: 'mag', nc_in: 'reel', nc_out: 'slack',
 });
-// online race (2 players)
+// online play (up to 4 players: Online Run / Race)
 addStrings({
-  nc_o_btn: '🌐 سباق أونلاين', nc_o_title: 'سباق أونلاين', nc_o_intro: 'سابق صاحبك على نفس المرحلة في نفس الوقت — اللي يوصّل الطرد الأول يكسب!',
+  nc_o_btn: '🌐 العب أونلاين', nc_o_title: 'العب أونلاين',
+  nc_o_intro: 'لحد ٤ لاعبين في أوضة واحدة. كل واحد بيعدّي المراحل على راحته، واللي معاك في نفس المرحلة بيظهرلك شبح.',
   nc_o_name: 'اسمك', nc_o_namePh: 'اكتب اسمك هنا', nc_o_create: '➕ اعمل أوضة جديدة', nc_o_or: 'أو ادخل أوضة صاحبك بالكود',
   nc_o_codePh: 'الكود', nc_o_join: 'ادخل', nc_o_codeHint: 'اكتب كود الأوضة صح (٤ حروف أو أكتر).', nc_o_noNet: 'مفيش اتصال بالسيرفر دلوقتي — جرّب كمان شوية.',
-  nc_o_room: 'كود الأوضة', nc_o_copy: '🔗 انسخ لينك الدعوة', nc_o_copied: '✓ اتنسخ', nc_o_share: 'ابعت الكود أو اللينك لصاحبك عشان يدخل معاك.',
-  nc_o_host: 'المضيف', nc_o_guest: 'الضيف', nc_o_you: 'إنت', nc_o_wait: 'مستني لاعب تاني يدخل…', nc_o_connecting: 'بيتصل بالسيرفر…',
-  nc_o_swap: '🔄 بدّلوا مين المضيف', nc_o_level: 'المرحلة', nc_o_hostPicks: 'المضيف هو اللي بيختار المرحلة ويبدأ السباق.',
-  nc_o_start: '🏁 ابدأ السباق', nc_o_needP: 'لازم لاعب تاني يدخل الأوضة الأول.', nc_o_waitHost: 'مستني المضيف يبدأ السباق…', nc_o_leave: 'اخرج من الأوضة',
-  nc_o_full: 'الأوضة دي مليانة خلاص.', nc_o_joined: '{p} دخل الأوضة 👋', nc_o_left: '{p} خرج من الأوضة',
-  nc_o_leftT: '{p} خرج من السباق', nc_o_leftD: 'تقدر تكمّل السباق لوحدك وتسجّل وقتك، أو ترجع للقايمة.', nc_o_solo: '▶ كمّل لوحدك', nc_o_menu: 'القايمة الرئيسية',
-  nc_o_go: 'يلا!', nc_o_rivalFirst: '🏁 {p} وصّل الأول في {t} — كمّل عشان تسجّل وقتك', nc_o_gaveP: '🏳 {p} استسلم — وصّل الطرد وتكسب', nc_o_outP: '{p} خرج من السباق — وصّل الطرد وتكسب',
-  nc_o_win: '🏆 إنت الكسبان!', nc_o_lose: 'المرة دي خسرت 😅', nc_o_tie: 'تعادل! 🤝', nc_o_gaveUp: '🏳 استسلمت', nc_o_oppLeftN: 'منافسك خرج من السباق.',
-  nc_o_flying: 'لسه بيطير · {n}%', nc_o_stLeft: 'خرج', nc_o_stGave: 'استسلم',
-  nc_o_rematch: '🔁 عيد السباق', nc_o_next: 'المرحلة اللي بعدها ▶', nc_o_toRoom: 'ارجع للأوضة', nc_o_waitReq: 'مستني المضيف…', nc_o_wantsRe: '{p} عايز يعيد السباق',
-  nc_o_giveup: '🏳 استسلم', nc_o_back: '↻ ارجع لنقطة البداية', nc_o_clock: 'السباق شغّال — الساعة مش بتقف', nc_o_respawn: 'ارجع للبداية!',
-  nc_o_rival: 'المنافس', nc_o_defName: 'مندوب',
+  nc_o_room: 'كود الأوضة', nc_o_copy: '🔗 انسخ لينك الدعوة', nc_o_copied: '✓ اتنسخ', nc_o_share: 'ابعت الكود أو اللينك لصحابك (لحد ٤ لاعبين).',
+  nc_o_you: 'إنت', nc_o_wait: 'مستني لاعبين تانيين يدخلوا…', nc_o_connecting: 'بيتصل بالسيرفر…',
+  nc_o_mRun: '🏃 كل واحد على راحته', nc_o_mRace: '🏁 سباق',
+  nc_o_mRunD: 'اللي يخلّص المرحلة ويدوس «اللي بعدها» بيتنقل لوحده، والباقيين يكمّلوا على راحتهم.',
+  nc_o_mRaceD: 'سباق: كله بيتنقل مع بعض — المضيف هو اللي بينقلكم للمرحلة اللي بعدها.',
+  nc_o_level: 'مرحلة البداية', nc_o_hostPicks: 'المضيف بيختار مرحلة البداية وطريقة اللعب.',
+  nc_o_start: '🏁 يلا نبدأ', nc_o_newRun: '🔁 ابدأوا من الأول كلكم', nc_o_cont: '▶ كمّل',
+  nc_o_needP: 'لازم لاعب تاني على الأقل يدخل الأوضة.', nc_o_waitHost: 'مستني المضيف يبدأ…', nc_o_leave: 'اخرج من الأوضة',
+  nc_o_full: 'الأوضة دي مليانة (٤ لاعبين).', nc_o_joined: '{p} دخل الأوضة 👋', nc_o_left: '{p} خرج من الأوضة',
+  nc_o_newHost: '👑 {p} بقى المضيف', nc_o_youHost: '👑 إنت بقيت المضيف',
+  nc_o_raceOn: 'في سباق شغّال دلوقتي — هتدخل معاهم في المرحلة اللي جاية.', nc_o_joinRun: '🚀 دخلت معاهم — من مرحلة {n}',
+  nc_o_go: 'يلا!', nc_o_respawn: 'ارجع للبداية!', nc_o_clock: 'وإنت أونلاين الساعة مش بتقف', nc_o_back: '↻ ارجع لنقطة البداية',
+  nc_o_otherFin: '🏁 {p} وصّل في {t}',
+  nc_o_place: 'المركز {n} من {m} لحد دلوقتي', nc_o_yourBest: 'أحسن وقت ليك هنا {t}',
+  nc_o_flyP: 'لسه بيطير · {n}%', nc_o_flyL: 'لسه بيطير · مرحلة {n}', nc_o_inRoom: 'في الأوضة', nc_o_ready: 'جاهز',
+  nc_o_next: 'المرحلة اللي بعدها ▶', nc_o_nextAll: 'المرحلة اللي بعدها للكل ▶', nc_o_retry: '↻ جرّب تاني', nc_o_rematch: '🔁 عيدوا المرحلة',
+  nc_o_toRoom: '👥 الأوضة', nc_o_waitNext: 'مستني المضيف ينقلكم للمرحلة اللي بعدها…', nc_o_lastLvl: 'دي كانت آخر مرحلة! 🏆',
+  nc_o_lbHead: 'الترتيب: المراحل اللي خلصت · الوقت الكلي',
+  nc_o_aloneT: '{p} خرج — إنت لوحدك في الأوضة', nc_o_aloneD: 'تقدر تكمّل لوحدك، أو تستنى في الأوضة لحد ما حد يدخل.', nc_o_solo: '▶ كمّل لوحدك', nc_o_menu: 'القايمة الرئيسية',
+  nc_o_lv: 'م{n}', nc_o_rival: 'لاعب', nc_o_defName: 'مندوب',
 }, {
-  nc_o_btn: '🌐 Online Race', nc_o_title: 'Online Race', nc_o_intro: 'Race a friend on the same level at the same time — first to deliver wins!',
+  nc_o_btn: '🌐 Play Online', nc_o_title: 'Play Online',
+  nc_o_intro: 'Up to 4 players in one room. Everyone moves through the levels at their own pace, and players on your level fly beside you as ghosts.',
   nc_o_name: 'Your Name', nc_o_namePh: 'Type your name', nc_o_create: '➕ Create Room', nc_o_or: 'Or Join a Friend With a Code',
   nc_o_codePh: 'Code', nc_o_join: 'Join', nc_o_codeHint: 'Type the room code (4 letters or more).', nc_o_noNet: 'No connection to the server — try again in a bit.',
-  nc_o_room: 'Room Code', nc_o_copy: '🔗 Copy Invite Link', nc_o_copied: '✓ Copied', nc_o_share: 'Send the code or the link to your friend.',
-  nc_o_host: 'Host', nc_o_guest: 'Guest', nc_o_you: 'You', nc_o_wait: 'Waiting for a second player…', nc_o_connecting: 'Connecting…',
-  nc_o_swap: '🔄 Swap Host', nc_o_level: 'Level', nc_o_hostPicks: 'The host picks the level and starts the race.',
-  nc_o_start: '🏁 Start Race', nc_o_needP: 'A second player has to join first.', nc_o_waitHost: 'Waiting for the host to start the race…', nc_o_leave: 'Leave Room',
-  nc_o_full: 'This room is already full.', nc_o_joined: '{p} joined the room 👋', nc_o_left: '{p} left the room',
-  nc_o_leftT: '{p} left the race', nc_o_leftD: 'You can finish the race on your own and set your time, or go back to the menu.', nc_o_solo: '▶ Keep Racing Solo', nc_o_menu: 'Main Menu',
-  nc_o_go: 'GO!', nc_o_rivalFirst: '🏁 {p} delivered first in {t} — finish to set your time', nc_o_gaveP: '🏳 {p} gave up — deliver to win', nc_o_outP: '{p} left the race — deliver to win',
-  nc_o_win: '🏆 You Win!', nc_o_lose: 'You Lost This One 😅', nc_o_tie: "It's a Tie! 🤝", nc_o_gaveUp: '🏳 You Gave Up', nc_o_oppLeftN: 'Your opponent left the race.',
-  nc_o_flying: 'Still Flying · {n}%', nc_o_stLeft: 'Left', nc_o_stGave: 'Gave Up',
-  nc_o_rematch: '🔁 Rematch', nc_o_next: 'Next Level ▶', nc_o_toRoom: 'Back to Room', nc_o_waitReq: 'Waiting for the host…', nc_o_wantsRe: '{p} wants a rematch',
-  nc_o_giveup: '🏳 Give Up', nc_o_back: '↻ Back to Start', nc_o_clock: 'The race is on — the clock keeps running', nc_o_respawn: 'Back to start!',
-  nc_o_rival: 'Rival', nc_o_defName: 'Courier',
+  nc_o_room: 'Room Code', nc_o_copy: '🔗 Copy Invite Link', nc_o_copied: '✓ Copied', nc_o_share: 'Send the code or the link to your friends (up to 4 players).',
+  nc_o_you: 'You', nc_o_wait: 'Waiting for more players…', nc_o_connecting: 'Connecting…',
+  nc_o_mRun: '🏃 Online Run', nc_o_mRace: '🏁 Race',
+  nc_o_mRunD: 'Finish a level and press Next: only you move on. Everyone else keeps flying at their own pace.',
+  nc_o_mRaceD: 'Race: everyone moves on together — the host takes the room to the next level.',
+  nc_o_level: 'Starting Level', nc_o_hostPicks: 'The host picks the starting level and the mode.',
+  nc_o_start: '🏁 Start', nc_o_newRun: '🔁 New Run for Everyone', nc_o_cont: '▶ Continue',
+  nc_o_needP: 'At least one more player has to join first.', nc_o_waitHost: 'Waiting for the Host to Start…', nc_o_leave: 'Leave Room',
+  nc_o_full: 'This room is full (4 players).', nc_o_joined: '{p} joined the room 👋', nc_o_left: '{p} left the room',
+  nc_o_newHost: '👑 {p} is the host now', nc_o_youHost: "👑 You're the host now",
+  nc_o_raceOn: "A race is on right now — you'll join at the next level.", nc_o_joinRun: '🚀 Joining the run at level {n}',
+  nc_o_go: 'GO!', nc_o_respawn: 'Back to start!', nc_o_clock: 'Online, the clock keeps running', nc_o_back: '↻ Back to Start',
+  nc_o_otherFin: '🏁 {p} delivered in {t}',
+  nc_o_place: 'Place {n} of {m} so far', nc_o_yourBest: 'Your best here: {t}',
+  nc_o_flyP: 'Still Flying · {n}%', nc_o_flyL: 'Still Flying · Level {n}', nc_o_inRoom: 'In the Room', nc_o_ready: 'Ready',
+  nc_o_next: 'Next Level ▶', nc_o_nextAll: 'Next Level for Everyone ▶', nc_o_retry: '↻ Retry', nc_o_rematch: '🔁 Rematch',
+  nc_o_toRoom: '👥 Room', nc_o_waitNext: 'Waiting for the host to pick the next level…', nc_o_lastLvl: 'That was the last level! 🏆',
+  nc_o_lbHead: 'Leaderboard: Levels Done · Total Time',
+  nc_o_aloneT: "{p} Left — You're Alone in the Room", nc_o_aloneD: 'Keep flying solo, or wait in the room until someone joins.', nc_o_solo: '▶ Keep Flying Solo', nc_o_menu: 'Main Menu',
+  nc_o_lv: 'L{n}', nc_o_rival: 'Player', nc_o_defName: 'Courier',
 });
 
 // ---------------------------------------------------------------- saves
 const SAVE = Object.assign({ unlocked: 1, best: {}, medal: {}, flaw: {} }, lsGet(K_SAVE, {}) || {});
 const SET = Object.assign({ music: true, sfx: true, ghost: true }, lsGet(K_SET, {}) || {});
+// levels added after a save was made: finishing the old last level unlocks the first new one
+for (const k in SAVE.best) if (SAVE.best[k] > 0) SAVE.unlocked = Math.max(SAVE.unlocked || 1, Math.min(LEVELS.length, (k | 0) + 2));
 const saveGame = () => lsSet(K_SAVE, SAVE);
 const saveSet = () => lsSet(K_SET, SET);
 
@@ -532,10 +564,10 @@ function buildArt(Lv) {
 // ---------------------------------------------------------------- state
 let L = null, P = null, run = null, state = 'menu', curIdx = 0, wt = 0, menuIdx = 0;
 let ghost = null;            // { pts: [x, y, …] at 20 Hz } of the best run
-// online race: RACE = this race (both couriers fly the same level; the rival is an interpolated ghost), ON = the room / channel
-const RACE = { on: false, phase: 'off', rid: 0, startAt: 0, goAt: 0, endClock: 0, myT: null, oppT: null, oppOut: null, gaveUp: false, myP: 0, oppP: 0,
-  df: null, dStart: 1, buf: [], rtr: [], rv: null, sendT: 0, uiT: 0, req: false, oppReq: null, lastNum: 0, resSig: '', oppName: '', leftName: '' };
-const ON = { ch: null, code: '', ready: false, me: '', role: null, jt: 0, partner: null, hb: null, sel: 0, off: null, gone: new Set() };
+// online play: RACE = my current online level (clock, phase, progress), ON = the room / channel / other players
+const RACE = { on: false, phase: 'off', startAt: 0, goAt: 0, endClock: 0, myT: null, myP: 0, att: 0, df: null, dStart: 1, sendT: 0, uiT: 0, lastNum: 0, resSig: '', hudSig: '' };
+const ON = { ch: null, code: '', ready: false, readyAt: 0, me: '', jt: 0, cr: false, member: true, peers: new Map(), order: [], host: '', myCol: '#ff9a3d', hb: null,
+  s: 0, r: 0, mode: 'run', l0: 0, fl: {}, cfg: { l: 0, m: 'run' }, gone: new Set(), back: null, leftBack: null, leftName: '', lsig: '' };
 const cam = { x: 0, y: 0, z: 1, shake: 0, sx: 0, sy: 0, pathT: 0 };
 const parts = [], streaks = [];
 let hitStop = 0, flash = 0, slowmo = 1;
@@ -589,14 +621,14 @@ function shake(a) { cam.shake = Math.max(cam.shake, a); }
 
 // ---------------------------------------------------------------- level flow
 const newRun = () => ({ started: false, t: 0, done: false, rec: [], recT: 0, impact: 0, end: 0, endT: 0, result: null, idle: 0, beep: 0, fuelTick: 0, trailT: 0 });
-function startLevel(i, race) {
+function startLevel(i, race, introOn) {
   RACE.on = !!race;
   curIdx = clamp(i, 0, LEVELS.length - 1);
   L = compileLevel(curIdx);
   P = newPlayer();
   run = newRun();
   ghost = null;
-  if (!race) {                     // (no best-run ghost in a race: the rival is the ghost)
+  if (!race) {                     // (no best-run ghost online: the other players are the ghosts)
     const gd = lsGet(K_GHOST(curIdx), null);
     if (gd && Array.isArray(gd.p) && gd.p.length > 4) ghost = { pts: gd.p, t: gd.t };
   }
@@ -606,7 +638,7 @@ function startLevel(i, race) {
   state = 'play'; Music.drums = true; slowmo = 1; hitStop = 0; flash = 0;
   clearInputs();
   showScreen(null);
-  if (race) intro.hidden = true; else showIntro();
+  if (race && !introOn) intro.hidden = true; else showIntro();
   updateHudStatic();
 }
 function restartLevel() { if (RACE.on) raceRespawn(); else startLevel(curIdx); }
@@ -1165,7 +1197,7 @@ function render(dt) {
   drawDrones(vis);
   if (P && (state === 'play' || state === 'pause' || state === 'won' || state === 'lost' || state === 'result')) {
     drawGhost();
-    drawRival();
+    drawPeers();
     drawTrail();
     drawRope();
     if (!(state === 'lost' || (state === 'result' && run.result !== 'win'))) drawPlayer(dt);
@@ -1174,7 +1206,7 @@ function render(dt) {
   drawParticles(dt);
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   if (P && state === 'play') { drawStreaks(dt); drawOffscreen(); }
-  if (P && RACE.on && state !== 'menu') drawRivalUI();
+  if (P && RACE.on && state !== 'menu') drawPeersUI();
   // vignette + damage flash
   const vg = ctx.createRadialGradient(VW / 2, VH / 2, Math.min(VW, VH) * 0.35, VW / 2, VH / 2, Math.max(VW, VH) * 0.75);
   vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, flash > 0.01 ? `rgba(255,30,70,${0.25 + flash * 0.4})` : 'rgba(2,0,12,0.55)');
@@ -1603,10 +1635,10 @@ function showScreen(name, data) {
       <h3>${t('nc_h_haz_t')}</h3><p>${t('nc_h_haz')}</p>
       <h3>${t('nc_h_medal_t')}</h3><p>${t('nc_h_medal')}</p></div>`;
   } else if (name === 'pause' && RACE.on) {
-    h = `<h2>${t('nc_paused')}</h2><p class="sub">${esc(t('nc_lvl', { n: curIdx + 1 }))} · ${esc(t(L.def.name))}</p><p class="note">${t('nc_o_clock')}</p>
+    h = `<h2>${t('nc_paused')}</h2><p class="sub">${esc(t('nc_lvl', { n: curIdx + 1 }))} · ${esc(t(L.def.name))}</p>${RACE.phase === 'race' ? `<p class="note">${t('nc_o_clock')}</p>` : ''}
       <div class="col"><button class="btn big" data-act="resume" data-primary>${t('nc_resume')}</button>
       <button class="btn sec" data-act="restart">${t('nc_o_back')}</button>
-      <button class="btn sec" data-act="giveup">${t('nc_o_giveup')}</button>
+      <button class="btn sec" data-act="room">${t('nc_o_toRoom')}</button>
       <button class="btn sec" data-act="howtoP">${t('nc_howto')}</button></div>
       <div class="row">${toggleBtn('nc_music', 'music', SET.music)}${toggleBtn('nc_sfx', 'sfx', SET.sfx)}</div>
       <div class="row">${langBtn()}</div>`;
@@ -1641,6 +1673,7 @@ function showScreen(name, data) {
   panel.scrollTop = 0;
   if (name === 'online') wireOnline();
   if (name === 'race') RACE.resSig = resultSig();
+  if (name === 'lobby') ON.lsig = lobbySig();
   if (window.Mal3abPopButtons) window.Mal3abPopButtons();   // re-add 🏠 + 💬 bar (#panel has data-m3pop)
 }
 function showIntro() {
@@ -1750,7 +1783,7 @@ $('bPause').addEventListener('click', () => { AU.sfx('click'); if (state === 'pl
 $('bRestart').addEventListener('click', () => { AU.sfx('click'); if (state === 'play' || state === 'pause') restartLevel(); });
 document.addEventListener('langchange', () => {
   if (screen) showScreen(screen, screen === 'howto' ? { back: state === 'pause' ? 'pauseBack' : 'menu' } : undefined);
-  if (L) { updateHudStatic(); if (state === 'play' && !run.started && !RACE.on) showIntro(); }
+  if (L) { updateHudStatic(); if (state === 'play' && !run.started && (!RACE.on || RACE.phase === 'wait')) showIntro(); }
   if (RACE.on && RACE.phase === 'count') showCount();
   $('bMag').title = t('nc_mag'); $('bIn').title = t('nc_in'); $('bOut').title = t('nc_out');
 });
@@ -1792,21 +1825,34 @@ function frame(now) {
   document.body.classList.toggle('race', ingame && RACE.on);
 }
 
-// ---------------------------------------------------------------- online race (2 players, Supabase Realtime broadcast)
-//  Both couriers fly the same level at the same time. Each side runs its own physics and broadcasts its courier
-//  ~14×/s ('st'); the rival is drawn as an interpolated, non-colliding ghost. The host (room creator) picks the
-//  level and starts the synced 3-2-1 ('go'); finishing sends 'fin' with the race time, and the lower time wins.
-//  Crashing or running late puts you back at the start with the race clock still running.
-const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'roles', 'sel', 'go', 'st', 'fin', 'quit', 'lobby', 'rq'];
-const ONLINE_ACTS = new Set(['online', 'create', 'join', 'copy', 'swap', 'sel', 'start', 'leaveRoom', 'rematch', 'nextRace', 'room', 'solo', 'quitMenu', 'giveup']);
-const cEl = $('count'), cLvl = $('cLvl'), cNum = $('cNum');
-const rh = { me: $('rMe'), op: $('rOp'), meN: $('rMeN'), opN: $('rOpN'), meF: $('rMeF'), opF: $('rOpF'), meV: $('rMeV'), opV: $('rOpV') };
+// ---------------------------------------------------------------- online play (up to 4 players, Supabase Realtime broadcast)
+//  Room = broadcast channel "neon-courier-CODE". Nobody simulates for anybody else: every courier runs its own physics,
+//  hazards and level clock. Every player sends a heartbeat every 2 s ('hb': name, level, phase, level clock, finished
+//  levels) and — only while somebody else is on the same level — its courier ~10×/s ('st'), drawn there as a translucent,
+//  non-colliding ghost with a name tag. Players on other levels only show in the HUD list.
+//  The host (the room creator; if they leave, the next player in join order) picks the starting level and the mode and
+//  starts everyone together with a 3-2-1 ('go', tagged with a session id s and a round id r).
+//   • Online Run (default): after the start everybody moves on at their own pace — Next only moves you.
+//   • Race: everybody flies the same level; the host moves the whole room on (next level or rematch).
+//  Crashing or running late puts you back at the start with your level clock still running.
+const MAXP = 4;
+const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'go', 'st'];
+const ONLINE_ACTS = new Set(['online', 'create', 'join', 'copy', 'mode', 'sel', 'start', 'leaveRoom', 'quitMenu', 'oNext', 'oRetry', 'room', 'cont', 'solo']);
+const PCOL = ['#ff9a3d', '#b8ff4d', '#c38cff', '#ff5fa2'];
+const cEl = $('count'), cLvl = $('cLvl'), cNum = $('cNum'), raceBox = $('race');
 let localName = '';
 const myName = () => String((window.Auth && Auth.name && Auth.name()) || localName || t('nc_o_defName')).slice(0, 16);
 const newCode = () => { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 4; i++) s += A[Math.floor(Math.random() * A.length)]; return s; };
 const pageLink = () => location.href.split('?')[0].split('#')[0];
 const inviteLink = (code) => pageLink() + '?room=' + code;
-const maxUnlocked = () => Math.min(LEVELS.length, Math.max(SAVE.unlocked || 1, (ON.partner && ON.partner.ul) || 1));
+const iso = (n) => '⁨' + n + '⁩';   // a name inside a sentence keeps its own direction
+const clampL = (i) => clamp(i | 0, 0, LEVELS.length - 1);
+const hexA = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+const tint = (h, k) => { const n = parseInt(h.slice(1), 16), m = (c) => Math.round(c + (255 - c) * k); return `rgb(${m(n >> 16)},${m((n >> 8) & 255)},${m(n & 255)})`; };
+const isHost = () => !!ON.code && ON.host === ON.me;
+const others = () => { const a = []; for (const id of ON.order) { const q = ON.peers.get(id); if (q) a.push(q); } return a; };   // the other players in the room
+const maxUnlocked = () => { let u = SAVE.unlocked || 1; for (const q of others()) u = Math.max(u, q.ul || 1); return Math.min(LEVELS.length, u); };
+const modeName = (m) => t(m === 'race' ? 'nc_o_mRace' : 'nc_o_mRun');
 function toast(txt, ms) {
   const box = $('toasts'); if (!box) return;
   const d = document.createElement('div'); d.className = 'toast'; d.textContent = txt; box.appendChild(d);
@@ -1830,189 +1876,206 @@ function wireOnline() {
   }
 }
 
-// ---- channel
+// ---- channel + roster
 function netSend(ev, p) { if (!ON.ch || !ON.ready) return; try { ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me }, p || {}) }); } catch (e) {} }
-function joinRoom(code, role) {
+function joinRoom(code, create) {
   leaveRoom(true);
   code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
-  if (!code) return false;
+  if (code.length < 4) return false;
   if (!window.sb) { toast(t('nc_o_noNet')); return false; }
-  let id = ''; try { id = sessionStorage.getItem(SLUG + '-id-' + code) || ''; } catch (e) {}
-  if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem(SLUG + '-id-' + code, id); } catch (e) {} }
-  Object.assign(ON, { me: id, code, role: role || null, ready: false, jt: Date.now(), partner: null, off: null, gone: new Set() });
+  // same tab + same room → same player (id, join time, creator flag), so a reload rejoins in place
+  const key = SLUG + '-me-' + code;
+  let me = null; try { me = JSON.parse(sessionStorage.getItem(key) || 'null'); } catch (e) {}
+  if (!me || typeof me.id !== 'string' || !me.id) { me = { id: Math.random().toString(36).slice(2, 10), jt: Date.now(), cr: !!create }; try { sessionStorage.setItem(key, JSON.stringify(me)); } catch (e) {} }
+  Object.assign(ON, { me: me.id, jt: +me.jt || Date.now(), cr: !!me.cr, code, ready: false, readyAt: 0, member: true, peers: new Map(), gone: new Set(), order: [me.id], host: me.id,
+    s: 0, r: 0, mode: 'run', l0: 0, fl: {}, back: null, leftBack: null, leftName: '', lsig: '' });
+  ON.cfg.l = clamp(ON.cfg.l, 0, Math.min(LEVELS.length, SAVE.unlocked || 1) - 1);
   let ch;
   try { ch = sb.channel(SLUG + '-' + code, { config: { broadcast: { self: false, ack: false } } }); } catch (e) { ON.code = ''; toast(t('nc_o_noNet')); return false; }
   for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
   ch.subscribe((st) => {
     if (ON.ch !== ch) return;
-    if (st === 'SUBSCRIBED') { ON.ready = true; hello(true); if (screen === 'lobby') showScreen('lobby'); }
+    if (st === 'SUBSCRIBED') { ON.ready = true; ON.readyAt = performance.now(); hello(true); refreshLobby(true); }
     else if ((st === 'CHANNEL_ERROR' || st === 'TIMED_OUT') && !ON.ready) toast(t('nc_o_noNet'), 4000);
   });
   ON.ch = ch;
   try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
   clearInterval(ON.hb); ON.hb = setInterval(netBeat, 2000);
-  toLobby();
+  enterLobby();
   return true;
 }
 function leaveRoom(quiet) {
   if (ON.ch) { netSend('bye', {}); const ch = ON.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
-  clearInterval(ON.hb); ON.hb = null; ON.ch = null; ON.ready = false; ON.code = ''; ON.partner = null; ON.role = null;
+  clearInterval(ON.hb); ON.hb = null; ON.ch = null; ON.ready = false; ON.code = ''; ON.peers.clear(); ON.order = []; ON.host = ''; ON.s = 0; ON.r = 0; ON.fl = {};
   if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
 }
+function saveRun() { if (!ON.code || !ON.s) return; try { sessionStorage.setItem(SLUG + '-run-' + ON.code, JSON.stringify({ s: ON.s, lv: curIdx, fl: ON.fl })); } catch (e) {} }
+function loadRun() { try { return JSON.parse(sessionStorage.getItem(SLUG + '-run-' + ON.code) || 'null'); } catch (e) { return null; } }
+function myPh() { if (!RACE.on || !ON.s) return 'lobby'; return { count: 'count', wait: 'wait', race: 'fly', done: 'done' }[RACE.phase] || 'lobby'; }
 function beat() {
-  return { n: myName(), role: ON.role, jt: ON.jt, ph: RACE.on ? RACE.phase : 'off', rid: RACE.rid, sel: ON.sel, ul: SAVE.unlocked || 1,
-    ft: RACE.on && RACE.myT != null ? RACE.myT : undefined, gu: RACE.on && RACE.gaveUp ? 1 : undefined };
+  return { n: myName(), jt: ON.jt, cr: ON.cr ? 1 : 0, ul: SAVE.unlocked || 1, s: ON.s, r: ON.r, sm: ON.mode, sl: ON.l0, m: ON.cfg.m, sel: ON.cfg.l,
+    lv: RACE.on && ON.s ? curIdx : -1, ph: myPh(), lt: Math.round(raceClock() * 100) / 100, ft: RACE.myT != null ? RACE.myT : undefined, fl: ON.s ? ON.fl : undefined };
 }
 function hello(req) { netSend('hello', Object.assign(beat(), { req: !!req })); }
+const sendBeat = () => netSend('hb', beat());
 function netBeat() {
   if (!ON.ch) return;
-  netSend('hb', beat());
-  if (ON.partner && Date.now() - ON.partner.t > 9000) partnerGone();
+  sendBeat();
+  const now = Date.now();
+  for (const q of [...ON.peers.values()]) if (now - q.t > 9000) peerGone(q.id);
+  refreshLobby();
 }
-const otherRole = (r) => r === 'host' ? 'guest' : 'host';
-function resolveRoles(p) {
-  if (RACE.on && RACE.phase !== 'off' && ON.role) return;
-  const mineFirst = ON.jt < p.jt || (ON.jt === p.jt && ON.me < p.id);
-  if (!p.role && !ON.role) ON.role = mineFirst ? 'host' : 'guest';
-  else if (!ON.role) ON.role = otherRole(p.role);
-  else if (p.role === ON.role && !mineFirst) ON.role = otherRole(p.role);
+function cleanFl(o) {
+  const r = {}; if (!o || typeof o !== 'object') return r;
+  for (const k in o) { const i = k | 0, v = +o[k]; if (i >= 0 && i < LEVELS.length && isFinite(v) && v > 0) r[i] = v; }
+  return r;
 }
 function onNet(ev, p) {
-  if (!p || p.id === ON.me) return;
-  const now = Date.now();
-  if (ev === 'full') { if (p.to === ON.me) { leaveRoom(); toMenu(); showScreen('online'); toast(t('nc_o_full')); } return; }
+  if (!p || typeof p.id !== 'string' || p.id === ON.me || !ON.ch) return;
+  if (ev === 'full') { if (p.to === ON.me) { leaveRoom(); toMenu(); showScreen('online'); toast(t('nc_o_full'), 4000); } return; }
   if (ON.gone.has(p.id)) { if (ev === 'hello') ON.gone.delete(p.id); else return; }   // late packets after a 'bye' (only a fresh hello brings them back)
-  let Pn = ON.partner;
-  if (Pn && Pn.id !== p.id) {
-    if (now - Pn.t < 9000) { if (ev === 'hello') netSend('full', { to: p.id }); return; }   // a third player
-    partnerGone(true); Pn = null;
+  if (ev === 'bye') { ON.gone.add(p.id); peerGone(p.id); return; }
+  let q = ON.peers.get(p.id);
+  if (!q) {
+    if (ev === 'go') { onGo(p); return; }
+    if (ev !== 'hello' && ev !== 'hb') return;          // positions from someone we have not met yet: wait for their heartbeat
+    q = { id: p.id, n: '', jt: 0, cr: 0, t: 0, ul: 1, s: 0, r: 0, sm: 'run', sl: 0, m: 'run', sel: 0, lv: -1, ph: '', lt: 0, ltAt: 0, ft: null, fl: {},
+      mem: false, hi: false, fullSent: false, col: PCOL[0], buf: [], bufLv: -1, bufK: -1, off: null, rtr: [], rv: null, pr: 0 };
+    ON.peers.set(p.id, q);
   }
-  if (ev === 'bye') { ON.gone.add(p.id); if (Pn) partnerGone(); return; }
-  if (!Pn) {
-    Pn = ON.partner = { id: p.id, n: t('nc_o_rival'), role: null, t: now, ul: 1, ph: 'off', rid: -1 };
-    ON.off = null;
-    if (p.n) Pn.n = String(p.n).slice(0, 16);
-    toast(t('nc_o_joined', { p: Pn.n })); AU.sfx('beep');
-  }
-  Pn.t = now; if (p.n) Pn.n = String(p.n).slice(0, 16); if (p.ul) Pn.ul = p.ul | 0;
+  q.t = Date.now();
   if (ev === 'hello' || ev === 'hb') {
-    if ('role' in p) Pn.role = p.role;
-    Pn.ph = p.ph; Pn.rid = p.rid | 0;
-    const before = ON.role; resolveRoles(p);
-    if (Pn.role === 'host' && ON.role === 'guest' && p.sel != null && !RACE.on) setSel(p.sel, false);
-    if (ev === 'hello' && p.req) hello(false); else if (before !== ON.role) hello(false);
-    if (RACE.on && RACE.phase !== 'off') {
-      if (RACE.oppName !== Pn.n) RACE.oppName = Pn.n;
-      if (Pn.rid === RACE.rid && p.ph !== 'off') { if (p.ft != null) oppFinished(+p.ft); if (p.gu) oppOut('gave'); }   // (also repairs a lost 'fin' / 'quit')
-      else if ((RACE.phase === 'count' || RACE.phase === 'race') && performance.now() - RACE.startAt > 4000) oppOut('left');   // reloaded or back in the room
-    }
-    if (screen === 'lobby') showScreen('lobby');
+    updPeer(q, p);
+    afterRoster();
+    followHost();
+    if (ev === 'hello' && p.req) hello(false);
+    maybeJoinRun();
+    refreshLobby();
     return;
   }
-  switch (ev) {
-    case 'roles': ON.role = p.host === ON.me ? 'host' : 'guest'; Pn.role = otherRole(ON.role); if (screen === 'lobby') showScreen('lobby'); break;
-    case 'sel': if (ON.role === 'guest' && !RACE.on) setSel(p.l, false); break;
-    case 'go':
-      if (ON.role === 'host') { if (Pn.role === 'host') ON.role = 'guest'; else break; }
-      if (RACE.on && RACE.rid === (p.r | 0) && RACE.phase !== 'off') break;   // duplicate
-      ON.role = 'guest'; Pn.role = 'host';
-      raceBegin(p.l | 0, p.r | 0); break;
-    case 'st': if (RACE.on && (p.r | 0) === RACE.rid) addSnap(p); break;
-    case 'fin': if (RACE.on && (p.r | 0) === RACE.rid) oppFinished(+p.t); break;
-    case 'quit': if (RACE.on && (p.r | 0) === RACE.rid) oppOut('gave'); break;
-    case 'lobby': if (RACE.on && RACE.phase === 'done') toLobby(); break;
-    case 'rq':
-      if (ON.role !== 'host') break;
-      if (RACE.on && RACE.phase === 'done') hostStart(p.act === 'next' ? curIdx + 1 : curIdx);
-      else if (RACE.on) { RACE.oppReq = p.act; }
-      break;
+  if (ev === 'go') onGo(p);
+  else if (ev === 'st') addSnap(q, p);
+}
+function updPeer(q, p) {
+  const pph = q.ph, plv = q.lv;
+  if (p.n) q.n = String(p.n).slice(0, 16); if (!q.n) q.n = t('nc_o_rival');
+  q.jt = +p.jt || q.jt || Date.now(); q.cr = p.cr ? 1 : 0; q.ul = (p.ul | 0) || 1;
+  q.s = p.s | 0; q.r = p.r | 0; q.sm = p.sm === 'race' ? 'race' : 'run'; q.sl = clampL(p.sl); q.m = p.m === 'race' ? 'race' : 'run'; q.sel = clampL(p.sel);
+  q.lv = p.lv == null || p.lv < 0 ? -1 : clampL(p.lv);
+  q.ph = ['count', 'wait', 'fly', 'done'].includes(p.ph) ? p.ph : 'lobby';
+  q.lt = +p.lt || 0; q.ltAt = performance.now();
+  q.ft = p.ft != null && isFinite(+p.ft) ? +p.ft : null;
+  q.fl = cleanFl(p.fl);
+  // somebody flying my level just delivered
+  if (pph && q.hi && q.ph === 'done' && (pph !== 'done' || plv !== q.lv) && q.ft != null && RACE.on && ON.s && q.s === ON.s && q.lv === curIdx && RACE.myT == null) {
+    toast(t('nc_o_otherFin', { p: iso(q.n), t: fmt(q.ft) }), 3500); AU.sfx('beep');
   }
 }
-function partnerGone(silent) {
-  const Pn = ON.partner; if (!Pn) return; ON.partner = null;
-  const racing = RACE.on && (RACE.phase === 'count' || RACE.phase === 'race');
-  const wasIn = RACE.on && RACE.phase !== 'off' && RACE.oppT == null && !RACE.oppOut;
-  if (RACE.on && RACE.phase !== 'off' && RACE.oppT == null && !RACE.oppOut) RACE.oppOut = 'left';
-  if (racing && wasIn) {                    // mid-race: say so, offer to finish solo
-    RACE.leftName = Pn.n;
+// join order decides everything: the room creator first, then by join time (ties: id). The first MAXP are the room.
+function afterRoster() {
+  const all = [{ id: ON.me, jt: ON.jt, cr: ON.cr ? 1 : 0, me: true }];
+  for (const q of ON.peers.values()) all.push(q);
+  all.sort((a, b) => (b.cr - a.cr) || (a.jt - b.jt) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  const prevHost = ON.host, iAmHost = !!all[0].me, quiet = performance.now() - ON.readyAt < 2500;
+  ON.order = [];
+  all.forEach((x, i) => {
+    const mem = i < MAXP, col = PCOL[i % PCOL.length];
+    if (x.me) { ON.myCol = col; ON.member = mem; if (mem) ON.order.push(ON.me); return; }
+    x.col = col;
+    if (mem) {
+      ON.order.push(x.id);
+      if (!x.mem) { x.mem = true; if (!x.hi) { x.hi = true; if (!quiet) { toast(t('nc_o_joined', { p: iso(x.n) })); AU.sfx('beep'); } } }
+    } else {
+      x.mem = false;
+      if (iAmHost && !x.fullSent) { x.fullSent = true; netSend('full', { to: x.id }); }
+    }
+  });
+  ON.host = all[0].id;
+  if (prevHost && prevHost !== ON.host && prevHost !== ON.me && !ON.peers.has(prevHost)) {   // the host left: say who took over
+    if (ON.host === ON.me) toast(t('nc_o_youHost'), 3500);
+    else { const h = ON.peers.get(ON.host); if (h) toast(t('nc_o_newHost', { p: iso(h.n) }), 3500); }
+    if (screen === 'race') RACE.resSig = '';
+  }
+}
+function peerGone(id) {
+  const q = ON.peers.get(id); if (!q) return;
+  ON.peers.delete(id);
+  const wasMem = q.mem; q.mem = false;
+  afterRoster();
+  if (!wasMem) return;
+  if (ON.s && RACE.on && ON.order.length <= 1 && screen !== 'lobby' && screen !== 'online' && screen !== 'left') {   // the last other player left mid-run
+    ON.leftName = q.n; ON.leftBack = screen === 'race' ? 'race' : screen === 'pause' ? 'pause' : 'play';
     if (state === 'play') { state = 'pause'; clearInputs(); }
     showScreen('left');
-  } else {
-    if (!silent) toast(t('nc_o_left', { p: Pn.n }));
-    if (screen === 'lobby' || screen === 'race') showScreen(screen);
-  }
+  } else toast(t('nc_o_left', { p: iso(q.n) }));
+  if (screen === 'race') RACE.resSig = '';
+  refreshLobby();
 }
-function swapRoles() {
-  if (!ON.partner || !ON.role) return;
-  ON.role = otherRole(ON.role); ON.partner.role = otherRole(ON.role);
-  netSend('roles', { host: ON.role === 'host' ? ON.me : ON.partner.id });
-  showScreen('lobby');
+function followHost() {   // everybody shows the host's choice of starting level + mode
+  if (isHost()) return;
+  const h = ON.peers.get(ON.host); if (!h) return;
+  if (h.sel !== ON.cfg.l || h.m !== ON.cfg.m) { ON.cfg.l = h.sel; ON.cfg.m = h.m; if (state === 'menu' && screen === 'lobby') setBgLevel(ON.cfg.l); }
 }
-function setBgLevel(i) { if (!L || L.idx !== i) { L = compileLevel(i); cam.pathT = 0; cam.x = L.start.x; cam.y = L.start.y; } }
-function setSel(i, send) {
-  ON.sel = clamp(i | 0, 0, LEVELS.length - 1);
-  if (state === 'menu' && screen === 'lobby') setBgLevel(ON.sel);
-  if (send) netSend('sel', { l: ON.sel });
-  if (screen === 'lobby') showScreen('lobby');
-}
-function toLobby() {
-  RACE.on = false; RACE.phase = 'off'; hideCount();
-  state = 'menu'; Music.drums = false; clearInputs();
-  if (ON.role === 'host') ON.sel = clamp(ON.sel, 0, maxUnlocked() - 1);
-  setBgLevel(ON.sel);
-  showScreen('lobby');
+function maybeJoinRun() {   // a late joiner (or a reload) drops into the Online Run that is already going
+  if (ON.s || !ON.ready || !ON.member || screen !== 'lobby' || state !== 'menu') return;
+  const h = ON.peers.get(ON.host);
+  let src = h && h.s ? h : null;
+  if (!src) for (const q of others()) if (q.s && (!src || q.s > src.s)) src = q;
+  if (!src || src.sm !== 'run') return;                       // (a Race in progress: wait for the next level)
+  const sv = loadRun(), same = !!(sv && sv.s === src.s);
+  ON.s = src.s; ON.r = src.r; ON.mode = 'run'; ON.l0 = src.sl; ON.fl = same ? cleanFl(sv.fl) : {};
+  const lv = same ? clampL(sv.lv) : src.sl;
+  toast(t('nc_o_joinRun', { n: lv + 1 }), 3500);
+  beginLevel(lv, true);
 }
 
-// ---- race flow
-function hostStart(idx) {
-  const Pn = ON.partner;
-  if (!Pn) { toast(t('nc_o_needP')); return; }
-  if (ON.role !== 'host') return;
-  idx = clamp(idx | 0, 0, LEVELS.length - 1);
-  const rid = Math.max(RACE.rid, Pn.rid | 0) + 1, msg = { l: idx, r: rid };
-  netSend('go', msg);
-  setTimeout(() => { if (RACE.on && RACE.rid === rid) netSend('go', msg); }, 300);   // broadcasts have no ack: say it twice
-  raceBegin(idx, rid);
+// ---- run / race flow
+function onGo(p) {
+  const s = p.s | 0, r = p.r | 0;
+  if (!ON.code || !ON.member || s <= 0 || s < ON.s || (s === ON.s && r <= ON.r)) return;   // old or duplicate
+  if (s !== ON.s) { ON.l0 = clampL(p.l); ON.fl = {}; }
+  ON.s = s; ON.r = r; ON.mode = p.m === 'race' ? 'race' : 'run';
+  beginLevel(clampL(p.l), true);
 }
-function raceBegin(idx, rid) {
-  ON.sel = clamp(idx, 0, LEVELS.length - 1);
-  startLevel(ON.sel, true);
-  Object.assign(RACE, { phase: 'count', rid, startAt: performance.now(), goAt: 0, endClock: 0, myT: null, oppT: null, oppOut: null, gaveUp: false, myP: 0, oppP: 0,
-    buf: [], rtr: [], rv: null, sendT: 0, uiT: 0, req: false, oppReq: null, lastNum: 0, resSig: '', oppName: (ON.partner && ON.partner.n) || t('nc_o_rival'), leftName: '' });
+function hostGo(l, fresh) {   // fresh: a new run for the whole room (Start); otherwise the next Race level / a rematch
+  if (!isHost()) return;
+  if (fresh && ON.order.length < 2) { toast(t('nc_o_needP')); return; }
+  let s = ON.s, r = ON.r;
+  for (const q of others()) { s = Math.max(s, q.s | 0); r = Math.max(r, q.r | 0); }
+  const msg = { s: fresh ? s + 1 : ON.s, r: r + 1, l: clampL(l), m: fresh ? ON.cfg.m : ON.mode };
+  netSend('go', msg);
+  setTimeout(() => { if (ON.s === msg.s && ON.r === msg.r) netSend('go', msg); }, 300);   // broadcasts have no ack: say it twice
+  onGo(Object.assign({ id: ON.me }, msg));
+}
+function beginLevel(idx, count) {   // count: the shared 3-2-1 start; otherwise the clock starts with the first move
+  idx = clampL(idx);
+  ON.back = null; ON.leftBack = null;
+  startLevel(idx, true, !count);
+  RACE.att++;
+  Object.assign(RACE, { phase: count ? 'count' : 'wait', startAt: performance.now(), goAt: 0, endClock: 0, myT: null, myP: 0, sendT: 0, uiT: 0, lastNum: 0, resSig: '', hudSig: '' });
   RACE.df = distField(L);
   const W = L.W, sx = Math.floor(L.start.x / T), sy = Math.floor(L.start.y / T);
   let d = RACE.df[sy * W + sx]; if (!isFinite(d)) for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) { const v = RACE.df[(sy + j) * W + sx + i]; if (v + 1 < d) d = v + 1; }
   RACE.dStart = isFinite(d) && d > 0 ? d : 1;
-  ON.off = null;
-  showCount();
+  if (count) showCount(); else hideCount();
+  saveRun(); sendBeat();
+}
+function clockStart() {   // Online Run, later levels: the level clock starts with the first move (like single player)
+  if (RACE.phase === 'wait' && run && run.started) { RACE.phase = 'race'; RACE.goAt = performance.now() - run.t * 1000; sendBeat(); }
 }
 const raceClock = () => RACE.myT != null ? RACE.myT : RACE.phase === 'race' ? (performance.now() - RACE.goAt) / 1000 : RACE.phase === 'done' ? RACE.endClock : 0;
 function raceDelivered() {
+  clockStart();
   if (RACE.phase !== 'race' || RACE.myT != null) return;
-  RACE.myT = Math.round((performance.now() - RACE.goAt) / 10) / 100;
-  RACE.myP = 1; RACE.phase = 'done'; RACE.endClock = RACE.myT;
-  netSend('fin', { r: RACE.rid, t: RACE.myT, ul: SAVE.unlocked || 1 });
-  sendSt();
+  const tm = Math.round((performance.now() - RACE.goAt) / 10) / 100;
+  RACE.myT = tm; RACE.myP = 1; RACE.phase = 'done'; RACE.endClock = tm;
+  if (!(ON.fl[curIdx] <= tm)) ON.fl[curIdx] = tm;
+  saveRun(); sendBeat(); sendSt();
 }
-function oppFinished(tm) {
-  if (!RACE.on || RACE.oppT != null || !isFinite(tm)) return;
-  RACE.oppT = Math.round(tm * 100) / 100; RACE.oppP = 1;
-  if (RACE.myT == null && !RACE.gaveUp) { toast(t('nc_o_rivalFirst', { p: RACE.oppName, t: fmt(RACE.oppT) }), 5000); AU.sfx('beep'); }
-}
-function oppOut(kind) {
-  if (!RACE.on || RACE.oppOut || RACE.oppT != null) return;
-  RACE.oppOut = kind;
-  if (RACE.myT == null && !RACE.gaveUp) toast(t(kind === 'gave' ? 'nc_o_gaveP' : 'nc_o_outP', { p: RACE.oppName }), 4000);
-}
-function giveUp() {
-  if (!RACE.on || (RACE.phase !== 'count' && RACE.phase !== 'race')) return;
-  RACE.endClock = raceClock(); RACE.gaveUp = true; RACE.phase = 'done';
-  netSend('quit', { r: RACE.rid });
-  run.done = true; state = 'result'; clearInputs(); hideCount(); showScreen('race');
-}
-function raceRespawn() {
-  if (!RACE.on || (RACE.phase !== 'count' && RACE.phase !== 'race')) return;
+function raceRespawn() {   // R / ↻ / a crash: back to the start, the level clock keeps running
+  if (!RACE.on || RACE.phase === 'done') return;
   P = newPlayer(); run = newRun(); run.started = RACE.phase === 'race';
+  RACE.att++;
   cam.x = P.x; cam.y = P.y; slowmo = 1; hitStop = 0;
   if (screen === 'pause') showScreen(null);
   state = screen ? 'pause' : 'play'; Music.drums = true;
@@ -2020,14 +2083,49 @@ function raceRespawn() {
   ring(P.x, P.y, '#5ff3ff', 70, 0.5, 3); popup(P.x, P.y - 26, t('nc_o_respawn'), '#9ff4ff');
 }
 function raceAnimEnd() {   // the delivered / wrecked slow-motion finished
-  if (state === 'won' || RACE.phase === 'done') { state = 'result'; showScreen('race'); return; }
+  if (state === 'won' || RACE.phase === 'done') {
+    state = 'result';
+    if (screen === 'left') ON.leftBack = 'race'; else if (screen !== 'lobby') showScreen('race');
+    return;
+  }
   const why = run.result; raceRespawn();
   toast(t(why === 'late' ? 'nc_late' : 'nc_broken'));
 }
-function rematch(next) {
-  if (!ON.partner) return;
-  if (ON.role === 'host') hostStart(next ? curIdx + 1 : curIdx);
-  else { RACE.req = true; netSend('rq', { act: next ? 'next' : 'rematch' }); showScreen('race'); }
+function runNext() {
+  if (ON.mode === 'race') { if (isHost() && curIdx + 1 < LEVELS.length) hostGo(curIdx + 1, false); return; }
+  if (curIdx + 1 < LEVELS.length) beginLevel(curIdx + 1, false);   // only me
+}
+function runRetry() {
+  if (ON.mode === 'race') { if (isHost()) hostGo(curIdx, false); return; }
+  beginLevel(curIdx, false);
+}
+function setBgLevel(i) { if (!L || L.idx !== i) { L = compileLevel(i); cam.pathT = 0; cam.x = L.start.x; cam.y = L.start.y; } }
+function enterLobby() {   // the room screen while not in a run (the menu fly-through plays behind it)
+  RACE.on = false; RACE.phase = 'off'; hideCount();
+  state = 'menu'; Music.drums = false; clearInputs();
+  if (isHost()) ON.cfg.l = clamp(ON.cfg.l, 0, maxUnlocked() - 1);
+  setBgLevel(ON.cfg.l);
+  showScreen('lobby');
+}
+function openRoom() {   // 👥 Room: the room list over the paused level; nobody else is affected
+  if (!ON.s || !RACE.on) { enterLobby(); return; }
+  const from = screen === 'left' ? ON.leftBack : screen;
+  ON.back = from === 'race' || state === 'result' ? 'race' : 'play';
+  if (state === 'play') { state = 'pause'; clearInputs(); }
+  showScreen('lobby');
+}
+function contRoom() {
+  ON.back = null;
+  if (state === 'result') { showScreen('race'); return; }
+  if (state === 'pause') state = 'play';
+  clearInputs(); showScreen(null);
+}
+function soloBack() {
+  const b = ON.leftBack; ON.leftBack = null;
+  if (state === 'result') { showScreen('race'); return; }
+  if (b === 'pause') { showScreen('pause'); return; }
+  if (state === 'pause') state = 'play';
+  clearInputs(); showScreen(null);
 }
 function raceTick() {
   if (!RACE.on) return;
@@ -2038,101 +2136,109 @@ function raceTick() {
     if (left <= 0) {
       RACE.phase = 'race'; RACE.goAt = now; wt = 0;
       if (run && !run.done) { run.started = true; run.t = 0; }
-      setCount(t('nc_o_go'), true); AU.sfx('start');
+      setCount(t('nc_o_go'), true); AU.sfx('start'); sendBeat();
     }
   }
+  clockStart();
   if (!cEl.hidden && RACE.phase !== 'count' && !(RACE.phase === 'race' && now - RACE.goAt < 800)) hideCount();
-  // hazards stay in phase with the race clock, so both couriers meet the same lasers and doors
-  if (RACE.phase === 'race' && state === 'play') { const rt = (now - RACE.goAt) / 1000; if (Math.abs(wt - rt) > 0.25) wt = rt; }
-  if (P && RACE.df && RACE.myT == null && !RACE.gaveUp) RACE.myP = progressAt(P.x, P.y);
-  // broadcast my courier ~14×/s
-  if (ON.partner && (RACE.phase === 'count' || RACE.phase === 'race' || state === 'won' || state === 'lost') && now >= RACE.sendT) {
-    RACE.sendT = Math.max(RACE.sendT + 70, now - 70); sendSt();
-  }
-  if (screen === 'race' && now - RACE.uiT > 250) {
-    RACE.uiT = now;
-    if (resultSig() !== RACE.resSig) showScreen('race');
-    else { const e = $('rsOp'); if (e && RACE.oppT == null && !RACE.oppOut) e.textContent = t('nc_o_flying', { n: Math.round(RACE.oppP * 100) }); }
-  }
+  // Race: everybody started on the same GO, so the hazards stay in phase with that shared clock
+  if (ON.mode === 'race' && RACE.phase === 'race' && state === 'play') { const rt = (now - RACE.goAt) / 1000; if (Math.abs(wt - rt) > 0.25) wt = rt; }
+  if (P && RACE.df && RACE.myT == null) RACE.myP = progressAt(P.x, P.y, RACE.myP);
+  // my courier ~10×/s, only while somebody else is on this level
+  if (ON.s && (RACE.phase !== 'done' || state === 'won') && now >= RACE.sendT && needSt()) { RACE.sendT = Math.max(RACE.sendT + 100, now - 100); sendSt(); }
+  if (screen === 'race' && now - RACE.uiT > 250) { RACE.uiT = now; if (resultSig() !== RACE.resSig) showScreen('race'); else liveResult(); }
 }
+function needSt() { for (const q of ON.peers.values()) if (q.mem && q.s === ON.s && q.lv === curIdx && q.ph !== 'lobby') return true; return false; }
 function sendSt() {
-  const p = P; if (!p || !ON.ch) return;
+  const p = P; if (!p || !ON.ch || !RACE.on || !ON.s) return;
   const h = p.hook; let f = 0, hx, hy;
   if (h) { if (h.state === 'att') { f |= 1; const q = lastPiv(h); hx = q.x; hy = q.y; } else { f |= 2; hx = h.x; hy = h.y; } }
   if (p.stuck) f |= 4; if (I.mag) f |= 8; if (p.thrOn > 0) f |= 16;
-  if (run.result === 'win' || RACE.myT != null) f |= 64; else if (state === 'lost' || RACE.gaveUp) f |= 32;
-  netSend('st', { r: RACE.rid, ms: Math.round(performance.now()), x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),
-    a: Math.round(p.ang * 100) / 100, f, hx: hx != null ? Math.round(hx) : undefined, hy: hy != null ? Math.round(hy) : undefined, pr: Math.round(RACE.myP * 100) });
+  if (run.result === 'win' || RACE.myT != null) f |= 64; else if (state === 'lost') f |= 32;
+  netSend('st', { s: ON.s, lv: curIdx, k: RACE.att, ms: Math.round(performance.now()), x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),
+    an: Math.round(p.ang * 100) / 100, f, hx: hx != null ? Math.round(hx) : undefined, hy: hy != null ? Math.round(hy) : undefined, pr: Math.round(RACE.myP * 100) });
 }
-// ---- rival ghost: snapshot interpolation (~100 ms behind), short extrapolation when packets are late
-function addSnap(p) {
+// ---- ghosts of the players on my level: snapshot interpolation (~100 ms behind), short extrapolation when packets are late
+function addSnap(q, p) {
+  if (!RACE.on || !q.mem || (p.s | 0) !== ON.s || (p.lv | 0) !== curIdx) return;
+  if ((p.lv | 0) !== q.bufLv || (p.k | 0) !== q.bufK) { q.buf.length = 0; q.rtr.length = 0; q.bufLv = p.lv | 0; q.bufK = p.k | 0; }   // a new level / a restart: jump, don't slide
   const now = performance.now(), ms = +p.ms || 0, smp = now - ms;
-  if (ON.off == null || Math.abs(smp - ON.off) > 1500) ON.off = smp;     // sender clock → my clock
-  else if (smp < ON.off) ON.off = smp; else ON.off += (smp - ON.off) * 0.02;
-  const s = { t: ms + ON.off, x: +p.x, y: +p.y, vx: +p.vx || 0, vy: +p.vy || 0, a: +p.a || 0, f: p.f | 0, hx: p.hx, hy: p.hy };
+  if (q.off == null || Math.abs(smp - q.off) > 1500) q.off = smp;     // sender clock → my clock
+  else if (smp < q.off) q.off = smp; else q.off += (smp - q.off) * 0.02;
+  const s = { t: ms + q.off, at: now, x: +p.x, y: +p.y, vx: +p.vx || 0, vy: +p.vy || 0, a: +p.an || 0, f: p.f | 0, hx: p.hx, hy: p.hy };
   if (!isFinite(s.x) || !isFinite(s.y)) return;
-  const B = RACE.buf; if (B.length && s.t <= B[B.length - 1].t) return;
+  const B = q.buf; if (B.length && s.t <= B[B.length - 1].t) return;
   B.push(s); if (B.length > 40) B.shift();
-  if (p.pr != null && RACE.oppT == null) RACE.oppP = clamp((p.pr | 0) / 100, 0, 1);
+  if (p.pr != null) q.pr = clamp(p.pr | 0, 0, 100);
 }
-function rivalState() {
-  const B = RACE.buf; if (!B.length) return null;
-  const rt = performance.now() - 100;
+const peerHere = (q) => RACE.on && ON.s && q.mem && q.s === ON.s && q.lv === curIdx && (q.ph === 'count' || q.ph === 'wait' || q.ph === 'fly') && q.bufLv === curIdx && q.buf.length > 0;
+function peerState(q) {
+  const B = q.buf, now = performance.now(); if (!B.length || now - B[B.length - 1].at > 2500) return null;   // gone quiet (tab hidden…): hide
+  const rt = now - 100;
   while (B.length > 2 && B[1].t < rt - 400) B.shift();
   if (rt <= B[0].t) return B[0];
   let i = B.length - 1; while (i > 0 && B[i].t > rt) i--;
   const a = B[i], b = B[i + 1];
   if (!b) { const e = Math.min(0.12, (rt - a.t) / 1000); return { x: a.x + a.vx * e, y: a.y + a.vy * e, a: a.a, f: a.f, hx: a.hx, hy: a.hy }; }
   const u = clamp((rt - a.t) / Math.max(1, b.t - a.t), 0, 1);
-  if (Math.hypot(b.x - a.x, b.y - a.y) > 400) return u < 0.5 ? a : b;    // respawn: jump, don't slide
+  if (Math.hypot(b.x - a.x, b.y - a.y) > 400) return u < 0.5 ? a : b;
   return { x: lerp(a.x, b.x, u), y: lerp(a.y, b.y, u), a: angLerp(a.a, b.a, u), f: b.f, hx: b.hx, hy: b.hy };
 }
-function drawRival() {
-  if (!RACE.on || RACE.oppOut || RACE.oppT != null) { RACE.rv = null; RACE.rtr.length = 0; return; }
-  const s = rivalState(); RACE.rv = s;
-  if (!s || (s.f & 96)) { RACE.rtr.length = 0; return; }
-  const tr = RACE.rtr;
+function drawPeers() {
+  for (const q of ON.peers.values()) {
+    q.rv = null;
+    if (!peerHere(q)) { q.rtr.length = 0; continue; }
+    const s = peerState(q);
+    if (!s || (s.f & 96)) { q.rtr.length = 0; continue; }
+    q.rv = s; drawPeerGhost(q, s);
+  }
+}
+function drawPeerGhost(q, s) {
+  const col = q.col, tr = q.rtr;
   if (tr.length >= 2 && Math.hypot(s.x - tr[tr.length - 2], s.y - tr[tr.length - 1]) > 400) tr.length = 0;
   tr.push(s.x, s.y); if (tr.length > 44) tr.splice(0, 2);
   ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
-  for (let i = 2; i < tr.length; i += 2) { const k = i / tr.length; ctx.strokeStyle = `rgba(255,150,60,${k * 0.32})`; ctx.lineWidth = 1 + k * 4; ctx.beginPath(); ctx.moveTo(tr[i - 2], tr[i - 1]); ctx.lineTo(tr[i], tr[i + 1]); ctx.stroke(); }
+  for (let i = 2; i < tr.length; i += 2) { const k = i / tr.length; ctx.strokeStyle = hexA(col, k * 0.32); ctx.lineWidth = 1 + k * 4; ctx.beginPath(); ctx.moveTo(tr[i - 2], tr[i - 1]); ctx.lineTo(tr[i], tr[i + 1]); ctx.stroke(); }
   if ((s.f & 3) && s.hx != null) {
-    ctx.strokeStyle = 'rgba(255,190,120,0.45)'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.hx, s.hy); ctx.stroke();
-    ctx.fillStyle = 'rgba(255,220,180,0.6)'; ctx.beginPath(); ctx.arc(s.hx, s.hy, 3.5, 0, TAU); ctx.fill();
+    ctx.strokeStyle = hexA(col, 0.45); ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.hx, s.hy); ctx.stroke();
+    ctx.fillStyle = hexA(col, 0.6); ctx.beginPath(); ctx.arc(s.hx, s.hy, 3.5, 0, TAU); ctx.fill();
   }
-  const gr = ctx.createRadialGradient(s.x, s.y, 3, s.x, s.y, 28); gr.addColorStop(0, 'rgba(255,150,60,0.28)'); gr.addColorStop(1, 'rgba(255,150,60,0)');
+  const gr = ctx.createRadialGradient(s.x, s.y, 3, s.x, s.y, 28); gr.addColorStop(0, hexA(col, 0.28)); gr.addColorStop(1, hexA(col, 0));
   ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(s.x, s.y, 28, 0, TAU); ctx.fill();
-  if (s.f & 8) { ctx.strokeStyle = `rgba(255,120,60,${s.f & 4 ? 0.5 : 0.25})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(s.x, s.y, 16, 0, TAU); ctx.stroke(); }
+  if (s.f & 8) { ctx.strokeStyle = hexA(col, s.f & 4 ? 0.5 : 0.25); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(s.x, s.y, 16, 0, TAU); ctx.stroke(); }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 0.55;
   ctx.translate(s.x, s.y); ctx.rotate(s.a); ctx.scale(1.15, 1.15);
-  ctx.fillStyle = s.f & 8 ? '#ff9a3d' : '#6a4a3a'; ctx.fillRect(-14, -6, 5, 4); ctx.fillRect(-14, 2, 5, 4);
-  ctx.fillStyle = cargoColor(); ctx.strokeStyle = '#2a1206'; ctx.lineWidth = 1.5;
+  ctx.fillStyle = s.f & 16 ? col : '#4a3a5a'; ctx.fillRect(-14, -6, 5, 4); ctx.fillRect(-14, 2, 5, 4);
+  ctx.fillStyle = cargoColor(); ctx.strokeStyle = '#1a1030'; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.roundRect ? ctx.roundRect(-9, -18, 13, 10, 2.5) : ctx.rect(-9, -18, 13, 10); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#ffe4cc'; ctx.strokeStyle = '#ff9a3d'; ctx.lineWidth = 1.6;
+  ctx.fillStyle = tint(col, 0.78); ctx.strokeStyle = col; ctx.lineWidth = 1.6;
   ctx.beginPath(); ctx.ellipse(-1, 0, 11, 9.5, 0, 0, TAU); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#2a1206'; ctx.beginPath(); ctx.ellipse(4.5, 0, 5, 6.5, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#1a1030'; ctx.beginPath(); ctx.ellipse(4.5, 0, 5, 6.5, 0, 0, TAU); ctx.fill();
   ctx.restore();
 }
-function drawRivalUI() {   // screen space: name tag over the ghost, or an arrow at the edge when it's off screen
-  const s = RACE.rv; if (!s || (s.f & 96) || RACE.oppOut || RACE.oppT != null) return;
-  const z = cam.z, sx = VW / 2 + (s.x - cam.x) * z + cam.sx, sy = VH / 2 + (s.y - cam.y) * z + cam.sy, m = 34, nm = RACE.oppName || '';
-  ctx.save(); ctx.font = '700 12px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  if (sx > m && sx < VW - m && sy > m && sy < VH - m) {
-    const w = ctx.measureText(nm).width + 14, y = sy - 22 * z - 14;
-    ctx.globalAlpha = 0.85; ctx.fillStyle = 'rgba(40,14,8,0.8)'; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(sx - w / 2, y - 9, w, 18, 9) : ctx.rect(sx - w / 2, y - 9, w, 18); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,154,61,0.7)'; ctx.lineWidth = 1; ctx.stroke();
-    ctx.fillStyle = '#ffd9b8'; ctx.fillText(nm, sx, y + 0.5);
-  } else {
-    const cx = VW / 2, cy = VH / 2, dx = sx - cx, dy = sy - cy;
-    const k = Math.min((VW / 2 - m) / Math.abs(dx || 1e-6), (VH / 2 - m) / Math.abs(dy || 1e-6));
-    const x = clamp(cx + dx * k, m, VW - m), y = clamp(cy + dy * k, 120, VH - 110), a = Math.atan2(dy, dx);
-    ctx.translate(x, y);
-    ctx.fillStyle = 'rgba(40,14,8,0.75)'; ctx.beginPath(); ctx.arc(0, 0, 13, 0, TAU); ctx.fill();
-    ctx.strokeStyle = '#ff9a3d'; ctx.lineWidth = 2; ctx.stroke();
-    ctx.rotate(a); ctx.fillStyle = '#ff9a3d'; ctx.beginPath(); ctx.moveTo(21, 0); ctx.lineTo(13, -6); ctx.lineTo(13, 6); ctx.closePath(); ctx.fill(); ctx.rotate(-a);
-    ctx.fillStyle = '#ffd9b8'; ctx.font = '800 11px system-ui, sans-serif'; ctx.fillText(Array.from(nm)[0] || '?', 0, 0.5);
+function drawPeersUI() {   // screen space: a name tag over each ghost, or an arrow at the edge when it's off screen
+  const z = cam.z, m = 34;
+  for (const q of ON.peers.values()) {
+    const s = q.rv; if (!s) continue;
+    const sx = VW / 2 + (s.x - cam.x) * z + cam.sx, sy = VH / 2 + (s.y - cam.y) * z + cam.sy, nm = q.n || '', col = q.col;
+    ctx.save(); ctx.font = '700 12px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    if (sx > m && sx < VW - m && sy > m && sy < VH - m) {
+      const w = ctx.measureText(nm).width + 14, y = sy - 22 * z - 14;
+      ctx.globalAlpha = 0.85; ctx.fillStyle = 'rgba(16,10,34,0.82)'; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(sx - w / 2, y - 9, w, 18, 9) : ctx.rect(sx - w / 2, y - 9, w, 18); ctx.fill();
+      ctx.strokeStyle = hexA(col, 0.75); ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = tint(col, 0.6); ctx.fillText(nm, sx, y + 0.5);
+    } else {
+      const cx = VW / 2, cy = VH / 2, dx = sx - cx, dy = sy - cy;
+      const k = Math.min((VW / 2 - m) / Math.abs(dx || 1e-6), (VH / 2 - m) / Math.abs(dy || 1e-6));
+      const x = clamp(cx + dx * k, m, VW - m), y = clamp(cy + dy * k, 120, VH - 110), a = Math.atan2(dy, dx);
+      ctx.translate(x, y);
+      ctx.fillStyle = 'rgba(16,10,34,0.78)'; ctx.beginPath(); ctx.arc(0, 0, 13, 0, TAU); ctx.fill();
+      ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.stroke();
+      ctx.rotate(a); ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(21, 0); ctx.lineTo(13, -6); ctx.lineTo(13, 6); ctx.closePath(); ctx.fill(); ctx.rotate(-a);
+      ctx.fillStyle = tint(col, 0.6); ctx.font = '800 11px system-ui, sans-serif'; ctx.fillText(Array.from(nm)[0] || '?', 0, 0.5);
+    }
+    ctx.restore();
   }
-  ctx.restore();
 }
 // ---- progress along the level: distance (in cells) to the terminal over open space
 function distField(Lv) {
@@ -2154,30 +2260,47 @@ function distField(Lv) {
   }
   return dist;
 }
-function progressAt(x, y) {
-  const D = RACE.df; if (!D || !L) return 0;
+function progressAt(x, y, fb) {
+  const D = RACE.df; if (!D || !L) return fb || 0;
   const W = L.W, H = L.H, cx = Math.floor(x / T), cy = Math.floor(y / T);
   const at = (i, j) => (i >= 0 && j >= 0 && i < W && j < H) ? D[j * W + i] : Infinity;
   let d = at(cx, cy);
   if (!isFinite(d)) for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) d = Math.min(d, at(cx + i, cy + j) + 1);
-  if (!isFinite(d)) return RACE.myP;
+  if (!isFinite(d)) return fb || 0;
   return clamp(1 - d / RACE.dStart, 0, 0.99);
 }
-// ---- HUD + countdown
+// ---- HUD list (every player: name — level — time, ✅ when they delivered) + countdown
 function raceHud() {
-  const R = RACE;
-  setTxt(rh.meN, 'rmn', myName()); setTxt(rh.opN, 'ron', R.oppName || t('nc_o_rival'));
-  rh.meF.style.width = (R.myP * 100).toFixed(1) + '%'; rh.opF.style.width = (R.oppP * 100).toFixed(1) + '%';
-  setTxt(rh.meV, 'rmv', R.myT != null ? '✅ ' + fmt(R.myT) : R.gaveUp ? '🏳' : Math.round(R.myP * 100) + '%');
-  setTxt(rh.opV, 'rov', R.oppT != null ? '✅ ' + fmt(R.oppT) : R.oppOut === 'gave' ? '🏳' : R.oppOut ? '✖' : Math.round(R.oppP * 100) + '%');
-  rh.me.classList.toggle('done', R.myT != null); rh.op.classList.toggle('done', R.oppT != null);
+  if (!raceBox) return;
+  const now = performance.now(), race = ON.mode === 'race';
+  let h = '';
+  for (const id of ON.order) {
+    let n, col, lv, val, done = false, same = true, you = false;
+    if (id === ON.me) {
+      you = true; n = myName(); col = ON.myCol; lv = curIdx;
+      if (RACE.myT != null) { done = true; val = '✅ ' + fmt(RACE.myT); }
+      else if (RACE.phase === 'count') val = '…';
+      else val = race ? Math.round(RACE.myP * 100) + '%' : fmt(raceClock());
+    } else {
+      const q = ON.peers.get(id); if (!q) continue;
+      n = q.n; col = q.col; lv = q.s === ON.s ? q.lv : -1; same = lv === curIdx;
+      if (lv < 0) val = '⏳';
+      else if (q.ph === 'done' && q.ft != null) { done = true; val = '✅ ' + fmt(q.ft); }
+      else if (q.ph === 'count') val = '…';
+      else if (race && same) val = q.pr + '%';
+      else val = fmt(q.ph === 'fly' ? q.lt + (now - q.ltAt) / 1000 : q.ph === 'wait' ? 0 : q.lt);
+    }
+    h += `<div class="rr${you ? ' me' : ''}${done ? ' done' : ''}"><i style="background:${col};color:${col}"></i><span class="nm" dir="auto">${esc(n)}</span>`
+      + `<span class="lv${same && lv >= 0 ? ' same' : ''}">${lv >= 0 ? esc(t('nc_o_lv', { n: lv + 1 })) : '—'}</span><span class="v">${val}</span></div>`;
+  }
+  if (h !== RACE.hudSig) { RACE.hudSig = h; raceBox.innerHTML = h; }
 }
 function showCount() {
   if (!L) return;
   const d = L.def;
   let cargo = d.fragile ? t('nc_fragile') : (d.hot ? '' : t('nc_std'));
   if (d.hot) cargo += (cargo ? ' · ' : '') + t('nc_hot', { n: L.limit });
-  cLvl.innerHTML = `<small>${esc(t('nc_o_title'))} · ${esc(t('nc_lvl', { n: curIdx + 1 }))}</small>${esc(t(d.name))}<em>${esc(cargo)}</em>`;
+  cLvl.innerHTML = `<small>${esc(modeName(ON.mode))} · ${esc(t('nc_lvl', { n: curIdx + 1 }))}</small>${esc(t(d.name))}<em>${esc(cargo)}</em>`;
   cLvl.hidden = false; cEl.hidden = false;
   if (RACE.lastNum) cNum.textContent = String(RACE.lastNum);
 }
@@ -2187,10 +2310,37 @@ function setCount(txt, go) {
   cNum.classList.remove('pop'); void cNum.offsetWidth; cNum.classList.add('pop');
 }
 function hideCount() { if (cEl) cEl.hidden = true; }
+
 // ---- screens
-function resultSig() { const R = RACE; return [R.myT, R.oppT, R.oppOut, R.gaveUp, !!ON.partner, ON.role, R.req, R.oppReq].join('|'); }
+const lbStats = (fl) => { let n = 0, tot = 0; for (const k in fl) { n++; tot += fl[k]; } return { n, tot }; };
+function resultRows() {   // this level: everybody who delivered it (ranked), then "still flying" for the rest
+  const lv = curIdx, race = ON.mode === 'race', rows = [];
+  for (const id of ON.order) {
+    if (id === ON.me) { rows.push({ id, you: true, n: myName(), col: ON.myCol, t: race ? RACE.myT : (ON.fl[lv] != null ? ON.fl[lv] : RACE.myT), sk: '' }); continue; }
+    const q = ON.peers.get(id); if (!q) continue;
+    let tm = null, sk = 'room';
+    if (q.s === ON.s) {
+      tm = race ? (q.r === ON.r && q.lv === lv && q.ph === 'done' ? q.ft : null) : (q.fl[lv] != null ? q.fl[lv] : null);
+      if (tm == null) sk = q.lv === lv && q.ph !== 'lobby' ? 'here' : q.lv >= 0 ? 'lv' + q.lv : 'room';
+    }
+    rows.push({ id, n: q.n, col: q.col, t: tm, sk, q });
+  }
+  const k = (r) => r.t == null ? 1e9 : r.t;
+  return rows.sort((a, b) => k(a) - k(b));
+}
+const rowStatus = (r) => r.sk === 'here' ? t('nc_o_flyP', { n: r.q.pr }) : r.sk.startsWith('lv') ? t('nc_o_flyL', { n: (r.sk.slice(2) | 0) + 1 }) : t('nc_o_inRoom');
+function resultSig() { return [ON.mode, isHost(), getLang(), curIdx, RACE.myT, curIdx + 1 < LEVELS.length].concat(resultRows().map(r => r.id + ':' + r.n + ':' + r.t + ':' + r.sk)).join('|'); }
+function liveResult() {   // progress of the couriers still flying this level, in place (no re-render under the finger)
+  for (const el of panel.querySelectorAll('[data-pr]')) { const q = ON.peers.get(el.dataset.pr); if (q) el.textContent = t('nc_o_flyP', { n: q.pr }); }
+}
+function lobbySig() {
+  const a = [ON.ready, ON.host, ON.s, ON.mode, ON.l0, ON.cfg.l, ON.cfg.m, getLang(), maxUnlocked(), myPh(), curIdx, lbStats(ON.fl).tot, ON.member];
+  for (const q of others()) a.push(q.id, q.n, q.s, q.sm, q.lv, q.ph, lbStats(q.fl).tot);
+  return a.join('|');
+}
+function refreshLobby(force) { if (screen === 'lobby' && (force || lobbySig() !== ON.lsig)) showScreen('lobby'); }
 function onlineScreen(name) {
-  const Pn = ON.partner, host = ON.role === 'host';
+  const host = isHost();
   if (name === 'online') {
     const logged = !!(window.Auth && Auth.profile);
     const stored = (window.Auth && Auth.name && Auth.name()) || localName || '';
@@ -2204,79 +2354,93 @@ function onlineScreen(name) {
       <p class="msg" id="ncMsg"></p>`;
   }
   if (name === 'lobby') {
-    const d = LEVELS[ON.sel] || LEVELS[0], roleTxt = (r) => r === 'host' ? '👑 ' + t('nc_o_host') : r === 'guest' ? '🎮 ' + t('nc_o_guest') : '⏳';
-    const best = SAVE.best[ON.sel];
-    return `<div class="head"><h2>${t('nc_o_title')}</h2></div>
+    const sess = ON.s > 0, list = [];
+    let refS = ON.s; for (const q of others()) if (!sess && q.s > refS) refS = q.s;
+    const anySess = refS > 0;
+    for (const id of ON.order) {
+      if (id === ON.me) { list.push({ id, me: true, n: myName(), col: ON.myCol, s: ON.s, lv: RACE.on && ON.s ? curIdx : -1, ph: myPh(), fl: ON.fl }); continue; }
+      const q = ON.peers.get(id); if (q) list.push({ id, n: q.n, col: q.col, s: q.s, lv: q.lv, ph: q.ph, fl: q.fl });
+    }
+    for (const r of list) { r.in = anySess && r.s === refS; r.st = lbStats(r.in ? r.fl : {}); }
+    if (anySess) list.sort((a, b) => (b.st.n - a.st.n) || (a.st.tot - b.st.tot) || (ON.order.indexOf(a.id) - ON.order.indexOf(b.id)));
+    const status = (r) => !anySess ? t('nc_o_ready') : !r.in ? t('nc_o_inRoom') : (r.ph === 'done' ? '✅ ' : '✈️ ') + t('nc_lvl', { n: r.lv + 1 });
+    let h = `<div class="head"><h2>${t('nc_o_title')}</h2></div>
       <div class="codebox"><span>${t('nc_o_room')}</span><b>${esc(ON.code)}</b><button class="btn small" data-act="copy">${t('nc_o_copy')}</button></div>
-      <p class="sub">${t('nc_o_share')}</p>
-      <div class="plist">
-        <div class="pl me"><i></i><b dir="auto">${esc(myName())}</b><small>${t('nc_o_you')} · ${roleTxt(ON.role)}</small></div>
-        ${Pn ? `<div class="pl"><i></i><b dir="auto">${esc(Pn.n)}</b><small>${roleTxt(Pn.role)}</small></div>` : `<div class="pl wait">${t(ON.ready ? 'nc_o_wait' : 'nc_o_connecting')}</div>`}
-      </div>
-      ${Pn && ON.role ? `<div class="row"><button class="btn sec small" data-act="swap">${t('nc_o_swap')}</button></div>` : ''}
-      <div class="picker">${host ? `<button class="btn sec" data-act="sel" data-d="-1" ${ON.sel <= 0 ? 'disabled' : ''}>‹</button>` : ''}
-        <div class="grow"><small>${t('nc_o_level')}</small><b>${ON.sel + 1} · ${esc(t(d.name))} ${cargoTags(d)}</b><span class="md">${best ? medalIco(SAVE.medal[ON.sel]) + ' ' + fmt(best) : '—'}</span></div>
-        ${host ? `<button class="btn sec" data-act="sel" data-d="1" ${ON.sel >= maxUnlocked() - 1 ? 'disabled' : ''}>›</button>` : ''}</div>
-      ${host ? `<button class="btn big" data-act="start" data-primary ${Pn ? '' : 'disabled'}>${t('nc_o_start')}</button>${Pn ? `<p class="sub">${t('nc_o_hostPicks')}</p>` : `<p class="sub">${t('nc_o_needP')}</p>`}`
-        : `<p class="sub">${t(ON.role ? 'nc_o_waitHost' : 'nc_o_connecting')}</p>`}
-      <button class="btn sec" data-act="leaveRoom">${t('nc_o_leave')}</button>`;
+      ${ON.order.length < MAXP ? `<p class="sub">${t('nc_o_share')}</p>` : ''}
+      ${anySess ? `<p class="lbh">${t('nc_o_lbHead')}</p>` : ''}
+      <div class="plist">${list.map((r, i) => `<div class="pl${r.me ? ' me' : ''}">${anySess ? `<span class="rk">${i + 1}</span>` : ''}<i style="background:${r.col}"></i>
+        <div class="pi"><b dir="auto">${r.id === ON.host ? '👑 ' : ''}${esc(r.n)}</b><small>${r.me ? t('nc_o_you') + ' · ' : ''}${esc(status(r))}</small></div>
+        ${anySess ? `<span class="lb">✅ ${r.st.n} · ${r.st.n ? fmt(r.st.tot) : '—'}</span>` : ''}</div>`).join('')}
+        ${ON.order.length < 2 ? `<div class="pl wait">${t(ON.ready ? 'nc_o_wait' : 'nc_o_connecting')}</div>` : ''}</div>`;
+    if (!sess || host) {   // the host's settings for the (next) run; everybody else sees them read-only
+      const d = LEVELS[ON.cfg.l] || LEVELS[0], best = SAVE.best[ON.cfg.l];
+      h += `<div class="modes">${['run', 'race'].map(m => host ? `<button class="btn sec small${ON.cfg.m === m ? ' on' : ''}" data-act="mode" data-m="${m}">${modeName(m)}</button>`
+          : `<span class="mchip${ON.cfg.m === m ? ' on' : ''}">${modeName(m)}</span>`).join('')}</div>
+        <p class="sub small">${t(ON.cfg.m === 'race' ? 'nc_o_mRaceD' : 'nc_o_mRunD')}</p>
+        <div class="picker">${host ? `<button class="btn sec" data-act="sel" data-d="-1" ${ON.cfg.l <= 0 ? 'disabled' : ''}>‹</button>` : ''}
+        <div class="grow"><small>${t('nc_o_level')}</small><b>${ON.cfg.l + 1} · ${esc(t(d.name))} ${cargoTags(d)}</b><span class="md">${best ? medalIco(SAVE.medal[ON.cfg.l]) + ' ' + fmt(best) : '—'}</span></div>
+        ${host ? `<button class="btn sec" data-act="sel" data-d="1" ${ON.cfg.l >= maxUnlocked() - 1 ? 'disabled' : ''}>›</button>` : ''}</div>`;
+    } else h += `<p class="sub">${esc(modeName(ON.mode))} · ${esc(t('nc_o_level'))}: ${ON.l0 + 1}</p>`;
+    if (sess) {
+      h += `<button class="btn big" data-act="cont" data-primary>${t('nc_o_cont')}</button>`;
+      if (host) h += `<button class="btn sec" data-act="start" ${ON.order.length < 2 ? 'disabled' : ''}>${t('nc_o_newRun')}</button>`;
+    } else if (anySess) {
+      h += `<p class="note">${t('nc_o_raceOn')}</p>`;
+      if (host) h += `<button class="btn" data-act="start" ${ON.order.length < 2 ? 'disabled' : ''}>${t('nc_o_newRun')}</button>`;
+    } else if (host) {
+      h += `<button class="btn big" data-act="start" data-primary ${ON.order.length < 2 ? 'disabled' : ''}>${t('nc_o_start')}</button><p class="sub">${t(ON.order.length < 2 ? 'nc_o_needP' : 'nc_o_hostPicks')}</p>`;
+    } else h += `<p class="sub">${t(ON.ready ? 'nc_o_waitHost' : 'nc_o_connecting')}</p>`;
+    h += `<button class="btn sec" data-act="leaveRoom">${t('nc_o_leave')}</button>`;
+    return h;
   }
   if (name === 'left') {
-    return `<h2 class="bad">${esc(t('nc_o_leftT', { p: RACE.leftName || t('nc_o_rival') }))}</h2><p class="sub">${t('nc_o_leftD')}</p>
-      <div class="col"><button class="btn big" data-act="solo" data-primary>${t('nc_o_solo')}</button><button class="btn sec" data-act="quitMenu">${t('nc_o_menu')}</button></div>`;
+    return `<h2 class="bad">${esc(t('nc_o_aloneT', { p: ON.leftName || t('nc_o_rival') }))}</h2><p class="sub">${t('nc_o_aloneD')}</p>
+      <div class="col"><button class="btn big" data-act="solo" data-primary>${t('nc_o_solo')}</button><button class="btn sec" data-act="room">${t('nc_o_toRoom')}</button><button class="btn sec" data-act="quitMenu">${t('nc_o_menu')}</button></div>`;
   }
-  // race results
-  const R = RACE;
-  const me = { n: myName(), you: true, t: R.myT, st: R.myT != null ? 'fin' : R.gaveUp ? 'gave' : 'fly', p: R.myP };
-  const op = { n: R.oppName || t('nc_o_rival'), t: R.oppT, st: R.oppT != null ? 'fin' : R.oppOut === 'gave' ? 'gave' : R.oppOut ? 'left' : 'fly', p: R.oppP };
-  let out;
-  if (me.t != null && op.t != null) out = me.t < op.t ? 'win' : me.t > op.t ? 'lose' : 'tie';
-  else if (me.t != null) out = op.st === 'fly' ? 'win' : 'solo';
-  else out = op.t != null ? 'lose' : 'gave';
-  const ttl = { win: ['ok', 'nc_o_win'], lose: ['bad', 'nc_o_lose'], tie: ['ok', 'nc_o_tie'], solo: ['ok', op.st === 'gave' ? 'nc_o_win' : 'nc_delivered'], gave: ['bad', 'nc_o_gaveUp'] }[out];
-  const rows = [me, op].sort((a, b) => (a.t == null ? 1e9 : a.t) - (b.t == null ? 1e9 : b.t));
-  const stTxt = (r) => r.st === 'fin' ? fmt(r.t) : r.st === 'gave' ? t('nc_o_stGave') : r.st === 'left' ? t('nc_o_stLeft') : t('nc_o_flying', { n: Math.round(r.p * 100) });
-  const pos = (r, i) => r.st !== 'fin' ? '·' : out === 'tie' ? '🤝' : i === 0 ? '🥇' : '🥈';
-  const hasNext = curIdx + 1 < LEVELS.length && curIdx + 1 < maxUnlocked();
-  let h = `<h2 class="${ttl[0]}">${t(ttl[1])}</h2><p class="sub">${esc(t('nc_lvl', { n: curIdx + 1 }))} · ${esc(t(L.def.name))}</p>
-    <div class="rres">${rows.map((r, i) => `<div class="rrow${r.you ? ' me' : ''}"><span class="pos">${pos(r, i)}</span><b dir="auto">${esc(r.n)}${r.you ? ' · ' + t('nc_o_you') : ''}</b><span class="tm${r.st === 'fin' ? '' : ' fly'}" id="${r.you ? 'rsMe' : 'rsOp'}">${stTxt(r)}</span></div>`).join('')}</div>
-    ${op.st === 'left' ? `<p class="note">${t('nc_o_oppLeftN')}</p>` : ''}
-    ${host && R.oppReq && Pn ? `<p class="note">${esc(t('nc_o_wantsRe', { p: Pn.n }))}</p>` : ''}
+  // 'race': the small result card after delivering a level
+  const race = ON.mode === 'race', rows = resultRows(), fin = rows.filter(r => r.t != null), place = fin.findIndex(r => r.you) + 1;
+  const hasNext = curIdx + 1 < LEVELS.length, best = ON.fl[curIdx], md = ['🥇', '🥈', '🥉'];
+  let h = `<h2 class="ok">${t('nc_delivered')}</h2><p class="sub">${esc(t('nc_lvl', { n: curIdx + 1 }))} · ${esc(t(L.def.name))}</p>
+    <div class="bigtime">${fmt(RACE.myT)}</div>
+    <p class="sub">${place ? esc(t('nc_o_place', { n: place, m: fin.length })) : ''}${!race && best != null && best < RACE.myT ? ' · ' + esc(t('nc_o_yourBest', { t: fmt(best) })) : ''}</p>
+    <div class="rres">${rows.map(r => { const i = fin.indexOf(r); return `<div class="rrow${r.you ? ' me' : ''}"><span class="pos">${i >= 0 ? (md[i] || (i + 1) + '.') : '·'}</span><i style="background:${r.col}"></i>`
+      + `<b dir="auto">${esc(r.n)}${r.you ? ' · ' + t('nc_o_you') : ''}</b><span class="tm${r.t != null ? '' : ' fly'}"${r.sk === 'here' ? ` data-pr="${r.id}"` : ''}>${r.t != null ? fmt(r.t) : esc(rowStatus(r))}</span></div>`; }).join('')}</div>
     <div class="col">`;
-  if (Pn) {
-    h += `<button class="btn big" data-act="rematch" data-primary>${t('nc_o_rematch')}</button>${hasNext ? `<button class="btn" data-act="nextRace">${t('nc_o_next')}</button>` : ''}`;
-    if (!host && R.req) h += `<p class="sub">${t('nc_o_waitReq')}</p>`;
-  }
-  h += `<button class="btn sec" data-act="room" ${Pn ? '' : 'data-primary'}>${t('nc_o_toRoom')}</button><button class="btn sec" data-act="quitMenu">${t('nc_o_menu')}</button></div>`;
-  return h;
+  if (!race || host) {
+    h += hasNext ? `<button class="btn big" data-act="oNext" data-primary>${t(race ? 'nc_o_nextAll' : 'nc_o_next')}</button>` : `<p class="done">${t('nc_o_lastLvl')}</p>`;
+    h += `<div class="row2"><button class="btn sec" data-act="oRetry" ${hasNext ? '' : 'data-primary'}>${t(race ? 'nc_o_rematch' : 'nc_o_retry')}</button><button class="btn sec" data-act="room">${t('nc_o_toRoom')}</button></div>`;
+  } else h += `<p class="sub">${t('nc_o_waitNext')}</p><button class="btn sec" data-act="room" data-primary>${t('nc_o_toRoom')}</button>`;
+  return h + '</div>';
 }
 async function onlineAct(a, el) {
   switch (a) {
     case 'online': showScreen('online'); break;
-    case 'create': saveName(); if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return; joinRoom(newCode(), 'host'); break;
+    case 'create': saveName(); if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return; joinRoom(newCode(), true); break;
     case 'join': {
       saveName();
       const inp = $('ncCode'), code = (inp ? inp.value : '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
       if (code.length < 4) { const m = $('ncMsg'); if (m) m.textContent = t('nc_o_codeHint'); return; }
       if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return;
-      joinRoom(code, null); break;
+      joinRoom(code, false); break;
     }
     case 'copy': copyText(inviteLink(ON.code), el); break;
-    case 'swap': swapRoles(); break;
-    case 'sel': if (ON.role === 'host') setSel(clamp(ON.sel + (+el.dataset.d || 0), 0, maxUnlocked() - 1), true); break;
-    case 'start': hostStart(ON.sel); break;
+    case 'mode': if (isHost()) { ON.cfg.m = el && el.dataset.m === 'race' ? 'race' : 'run'; sendBeat(); showScreen('lobby'); } break;
+    case 'sel':
+      if (isHost()) { ON.cfg.l = clamp(ON.cfg.l + (+(el && el.dataset.d) || 0), 0, maxUnlocked() - 1); if (state === 'menu') setBgLevel(ON.cfg.l); sendBeat(); showScreen('lobby'); }
+      break;
+    case 'start': hostGo(ON.cfg.l, true); break;
     case 'leaveRoom': case 'quitMenu': toMenu(); break;
-    case 'rematch': rematch(false); break;
-    case 'nextRace': rematch(true); break;
-    case 'room': if (ON.partner) netSend('lobby', {}); toLobby(); break;
-    case 'solo': if (state === 'pause') state = 'play'; clearInputs(); showScreen(null); break;
-    case 'giveup': giveUp(); break;
+    case 'oNext': runNext(); break;
+    case 'oRetry': runRetry(); break;
+    case 'room': openRoom(); break;
+    case 'cont': contRoom(); break;
+    case 'solo': soloBack(); break;
   }
 }
 addEventListener('pagehide', () => { if (ON.ch) netSend('bye', {}); });
 window.Mal3abShareLink = () => ON.code ? inviteLink(ON.code) : pageLink();
 window.Mal3abPrepareInvite = async () => {
-  if (!ON.code) { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return pageLink(); joinRoom(newCode(), 'host'); }
+  if (!ON.code) { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return pageLink(); joinRoom(newCode(), true); }
   return inviteLink(ON.code);
 };
 
@@ -2296,7 +2460,9 @@ window.NeonCourier = {
   ascii: (i) => { const v = compileLevel(i); const rows = []; for (let y = 0; y < v.H; y++) rows.push(v.g.slice(y * v.W, (y + 1) * v.W).join('')); return rows.join('\n'); },
   path: (i) => compileLevel(i).path,
   overview: (on) => { camLock = on && L ? { x: L.W * T / 2, y: L.H * T / 2, z: Math.min(VW / (L.W * T), VH / (L.H * T)) * 0.98 } : null; },
-  race: RACE, net: ON, joinRoom, leaveRoom, hostStart, giveUp, respawn: raceRespawn, act, rival: () => RACE.rv, progress: () => RACE.myP,
+  race: RACE, net: ON, joinRoom, leaveRoom, hostGo, beginLevel, respawn: raceRespawn, act, progress: () => RACE.myP, clock: () => raceClock(),
+  peers: () => others().map(q => ({ id: q.id, n: q.n, lv: q.lv, ph: q.ph, s: q.s, fl: q.fl, ghost: !!q.rv, col: q.col })),
+  get wt() { return wt; }, set wt(v) { wt = v; }, setState: (v) => { state = v; },
 };
 
 // ---------------------------------------------------------------- boot
@@ -2313,7 +2479,7 @@ if (roomParam) {
   const go = async () => {
     if (tried || ON.code) return; tried = true;
     if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return;
-    joinRoom(roomParam, null);
+    joinRoom(roomParam, false);
   };
   if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(go, 4000); }
 }

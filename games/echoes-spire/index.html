@@ -149,6 +149,28 @@
   .ar .pill.wv { direction: rtl; }
   .toast { pointer-events: auto; cursor: pointer; }
 
+  /* ---------- online co-op ---------- */
+  #plist { position: fixed; top: calc(54px + var(--sat)); right: calc(8px + var(--sar)); z-index: 4; display: flex; flex-direction: column; gap: 3px; align-items: flex-end; pointer-events: none; }
+  #plist .pc { display: flex; align-items: center; gap: 5px; background: var(--glass); border: 1px solid var(--line); border-right: 3px solid var(--c); border-radius: 9px; padding: 2px 8px; font-size: 12px; font-weight: 700; max-width: 190px; white-space: nowrap; }
+  #plist .pc i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; box-shadow: 0 0 6px var(--c); }
+  #plist .pc b { overflow: hidden; text-overflow: ellipsis; max-width: 90px; } #plist .pc span { color: var(--accent); } #plist .pc em { font-style: normal; color: #9cff8a; }
+  #plist .pc.gone { opacity: .55; } #plist .pc.me b { color: var(--c); }
+  .roomcode { display: flex; align-items: center; gap: 10px; background: var(--card); border-radius: 14px; padding: 8px 10px; margin: 8px 0; flex-wrap: wrap; }
+  .roomcode span { color: var(--muted); font-size: 13px; } .roomcode b { font-size: 26px; letter-spacing: 4px; color: var(--accent); flex: 1; }
+  .plist { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 4px; }
+  .prow { display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, .04); border-inline-start: 4px solid var(--c); border-radius: 12px; padding: 8px 10px; }
+  .prow .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--c); flex: none; box-shadow: 0 0 8px var(--c); }
+  .prow b { display: block; font-size: 15px; } .prow small { color: var(--muted); font-size: 12.5px; }
+  .tin { width: 100%; min-width: 0; background: #0f1328; color: var(--text); border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; font: inherit; font-size: 16px; user-select: text; -webkit-user-select: text; }
+  .tin:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .tin.code { text-transform: uppercase; letter-spacing: 3px; font-weight: 800; text-align: center; }
+  .fl { display: flex; flex-direction: column; gap: 6px; font-weight: 700; color: #c3a6ff; margin: 8px 0; }
+  .or { text-align: center; color: var(--muted); margin: 10px 0; font-size: 13px; }
+  .joinrow .btn { flex: 0 0 auto; }
+  .msg { color: #ff9cb0; text-align: center; min-height: 1em; margin: 6px 0; font-size: 13px; }
+  .notmine { margin: 0; font-size: 13px; color: #c9cdf0; line-height: 1.4; }
+  .iname small.own { color: var(--c); }
+
   /* ---------- phones (portrait) ---------- */
   @media (max-width: 760px) {
     #hud { top: calc(6px + var(--sat)); left: calc(6px + var(--sal)); right: calc(6px + var(--sar)); gap: 6px; }
@@ -170,6 +192,7 @@
     .card { flex-direction: row; text-align: start; padding: 10px; gap: 10px; } .card .txt { align-items: flex-start; flex: 1; } .card .ic { height: auto; width: 56px; flex: none; }
     .grid2 { grid-template-columns: 1fr; }
     #toasts { top: calc(52px + var(--sat)); }
+    #plist { top: calc(80px + var(--sat)); right: calc(6px + var(--sar)); } #plist .pc { font-size: 11px; padding: 1px 6px; } #plist .pc b { max-width: 64px; }
     .toast { font-size: 13px; }
   }
   @media (max-width: 390px) { #beat { display: none; } .rl span { font-size: 10px; } }
@@ -191,8 +214,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793401000"></script>
-<script src="../../shared/net.js?v=1793401000"></script>
+<script src="../../shared/i18n.js?v=1793403000"></script>
+<script src="../../shared/net.js?v=1793403000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -213,6 +236,7 @@
     <button class="ib" data-mal3ab-chat title="Chat">💬</button>
   </div>
 </div>
+<div id="plist" hidden></div>
 <div id="bossbar" hidden><span id="bossName"></span><div class="bar"><i id="bossFill"></i></div></div>
 
 <div id="dock" hidden>
@@ -241,6 +265,7 @@
   <div class="mbtns" data-m3pop>
     <button class="btn big" id="mNew">▶</button>
     <button class="btn big sec" id="mCont" hidden></button>
+    <button class="btn big sec" id="mOnline">🌐</button>
     <div id="ascRow" hidden><button class="ib" id="ascL">◀</button><span id="ascV"></span><button class="ib" id="ascR">▶</button></div>
     <div class="row2"><button class="btn sec" id="mHow"></button><button class="btn sec" id="mSnd"></button></div>
   </div>
@@ -249,14 +274,15 @@
 
 <div id="modal" hidden><div class="box" id="mbox" data-m3pop></div></div>
 
-<script src="strings.js?v=1793401000"></script>
-<script src="data.js?v=1793401000"></script>
-<script src="audio.js?v=1793401000"></script>
-<script src="map.js?v=1793401000"></script>
-<script src="core.js?v=1793401000"></script>
-<script src="render.js?v=1793401000"></script>
-<script src="ui.js?v=1793401000"></script>
-<script src="../../shared/cloud.js?v=1793401000" data-game="echoes-spire" data-keys="echoes-spire-*"></script>
+<script src="strings.js?v=1793403000"></script>
+<script src="data.js?v=1793403000"></script>
+<script src="audio.js?v=1793403000"></script>
+<script src="map.js?v=1793403000"></script>
+<script src="core.js?v=1793403000"></script>
+<script src="render.js?v=1793403000"></script>
+<script src="ui.js?v=1793403000"></script>
+<script src="online.js?v=1793403000"></script>
+<script src="../../shared/cloud.js?v=1793403000" data-game="echoes-spire" data-keys="echoes-spire-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

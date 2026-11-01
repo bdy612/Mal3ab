@@ -164,7 +164,19 @@
   .relicbar { display: flex; gap: 3px; } .relicbar img { width: 22px; height: 22px; cursor: pointer; }
 
 
-  /* ---------- online (2 players) ---------- */
+  /* ---------- online (2-4 players) ---------- */
+  .team { background: rgba(0, 0, 0, .22); border: 1px solid rgba(255, 255, 255, .06); border-top: 3px solid var(--tc); border-radius: 12px; padding: 6px 8px 8px; margin: 8px 0; }
+  .team h4 { margin: 2px 2px 4px; display: flex; align-items: center; gap: 6px; color: var(--tc); font-size: 14px; }
+  .team h4 img { width: 20px; height: 22px; image-rendering: pixelated; object-fit: contain; }
+  .team h4 span { margin-inline-start: auto; color: var(--muted); font-size: 12px; font-weight: 700; }
+  .team .pl { border-inline-start: 4px solid var(--pc, transparent); margin-top: 5px; padding: 6px 8px; }
+  .team .pl.wait { border-inline-start-color: transparent; min-height: 44px; font-size: 13px; }
+  .pl .crown { font-size: 17px; line-height: 1; } .pl .mv { flex: none; padding: 6px 11px; font-size: 15px; }
+  .pl b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46vw; }
+  .note { background: rgba(255, 204, 51, .1); border: 1px solid rgba(255, 204, 51, .3); border-radius: 10px; padding: 7px 10px; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .winners { font-weight: 800; color: #ffd98a !important; }
+  .sw { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1px solid #0b0712; vertical-align: -1px; margin-inline-end: 4px; flex: none; }
+  .onl-h .hsend:not(.boss) { border-color: var(--mc, #5ab8ff); }
   .onl #bSpeed, .onl-h #bDeck { display: none !important; }
   .stat.goal b { color: #8fd0ff; }
   #hpanel { display: none; }
@@ -242,8 +254,8 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793400000"></script>
-<script src="../../shared/net.js?v=1793400000"></script>
+<script src="../../shared/i18n.js?v=1793403000"></script>
+<script src="../../shared/net.js?v=1793403000"></script>
 </head>
 <body>
 <canvas id="cv"></canvas>
@@ -280,12 +292,12 @@
 <div id="banner"><h2 id="banT"></h2><p id="banS"></p></div>
 <div id="toast"></div>
 <div id="scr"></div>
-<script src="dd-data.js?v=1793400000"></script>
-<script src="dd-art.js?v=1793400000"></script>
-<script src="dd-game.js?v=1793400000"></script>
-<script src="dd-ui.js?v=1793400000"></script>
-<script src="dd-online.js?v=1793400000"></script>
-<script src="../../shared/cloud.js?v=1793400000" data-game="deck-of-dungeons" data-keys="deck-of-dungeons-*"></script>
+<script src="dd-data.js?v=1793403000"></script>
+<script src="dd-art.js?v=1793403000"></script>
+<script src="dd-game.js?v=1793403000"></script>
+<script src="dd-ui.js?v=1793403000"></script>
+<script src="dd-online.js?v=1793403000"></script>
+<script src="../../shared/cloud.js?v=1793403000" data-game="deck-of-dungeons" data-keys="deck-of-dungeons-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

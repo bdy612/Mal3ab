@@ -148,10 +148,61 @@
     .card { padding: 14px; gap: 9px; }
     .logo { font-size: 40px; }
   }
+  /* online co-op */
+  input { user-select: text; -webkit-user-select: text; font-family: inherit; }
+  .btn.mint { background: var(--mint); color: #0c2a24; box-shadow: 0 4px 0 #3c9c89; } .btn.mint:active { box-shadow: 0 1px 0 #3c9c89; }
+  .btn:disabled { opacity: .45; cursor: default; filter: grayscale(.4); }
+  .card.lobby { width: min(500px, 100%); }
+  .fld { display: flex; flex-direction: column; gap: 5px; font-weight: 700; color: var(--muted); font-size: 14px; }
+  .fld input, input.code { background: #0f1220; border: 2px solid rgba(127, 227, 207, .35); color: var(--text); border-radius: 12px; padding: 10px 12px; font-size: 17px; font-weight: 800; min-width: 0; }
+  .fld input:focus, input.code:focus { outline: none; border-color: var(--accent); }
+  input.code { flex: 1; text-transform: uppercase; letter-spacing: 3px; text-align: center; max-width: 220px; }
+  .joinrow { flex-wrap: nowrap; }
+  .or { display: flex; align-items: center; gap: 10px; color: var(--muted); font-weight: 700; font-size: 14px; }
+  .or::before, .or::after { content: ''; flex: 1; height: 2px; background: rgba(154, 163, 199, .25); }
+  .msg { min-height: 1.2em; text-align: center; color: #ffb3c1; font-weight: 700; font-size: 14px; }
+  .muted { color: var(--muted) !important; font-size: 14px !important; }
+  .roomcode { display: flex; align-items: center; gap: 10px; background: var(--card2); border-radius: 14px; padding: 8px 10px 8px 14px; flex-wrap: wrap; }
+  .roomcode > span:first-child { color: var(--muted); font-weight: 700; }
+  .roomcode b { font-size: 26px; letter-spacing: 4px; color: var(--accent); direction: ltr; }
+  .sp { flex: 1; }
+  .plist { display: flex; flex-direction: column; gap: 6px; }
+  .pl { display: flex; align-items: center; gap: 9px; background: var(--card2); border-radius: 12px; padding: 8px 12px; min-height: 42px; flex-wrap: wrap; }
+  .pl b { font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+  .pl small { color: var(--muted); font-weight: 700; font-size: 13px; }
+  .pl.wait { color: var(--muted); font-style: italic; justify-content: center; font-size: 14px; border: 2px dashed rgba(154, 163, 199, .3); background: transparent; }
+  .pl .tag { background: rgba(15, 18, 32, .6); border-radius: 9px; padding: 3px 8px; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 4px; }
+  .pl .tag .coin { width: 13px; height: 13px; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px var(--ink), 0 0 0 4px rgba(255, 255, 255, .25); }
+  .crown { font-size: 16px; }
+  .picker { display: flex; align-items: center; gap: 8px; }
+  .picker .btn { font-size: 22px; padding: 6px 14px; }
+  .pk { flex: 1; display: flex; align-items: center; gap: 10px; background: linear-gradient(160deg, #2b3460, #20264a); border: 2px solid rgba(127, 227, 207, .25); border-radius: 14px; padding: 8px 12px; min-width: 0; }
+  .pk .ic { font-size: 28px; } .pk > div { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .pk small { color: var(--muted); font-weight: 700; } .pk b { color: var(--accent); font-size: 16px; }
+  .pk .st { color: var(--accent); letter-spacing: 1px; white-space: nowrap; } .pk .st .off { color: #485078; }
+  .goal .scl { display: block; color: var(--mint); margin-top: 4px; font-size: 13px; }
+  .cdown { text-align: center; font-weight: 900; font-size: 20px; color: var(--mint); }
+  .ar .card :is(.pl, .pk, .roomcode, .fld, .msg, .cdown, .or) { direction: rtl; }
+  #gcToast { position: fixed; left: 50%; top: calc(62px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 30; background: rgba(15, 18, 32, .94); border: 2px solid var(--mint);
+    border-radius: 14px; padding: 8px 16px; font-weight: 800; font-size: 15px; pointer-events: none; max-width: calc(100vw - 32px); text-align: center; box-shadow: 0 8px 24px rgba(0, 0, 0, .4); }
+  #gcToast.show { animation: toastIn .3s ease-out; }
+  @keyframes toastIn { from { transform: translate(-50%, -12px); opacity: 0; } }
+  #gcNote { position: fixed; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 7; background: rgba(15, 18, 32, .92); border: 2px solid #4cc9f0;
+    border-radius: 14px; padding: 8px 14px; font-weight: 800; font-size: 14px; pointer-events: none; max-width: calc(100vw - 32px); text-align: center; }
+  #gcChefs { display: none; position: fixed; right: max(8px, env(safe-area-inset-right)); bottom: max(8px, env(safe-area-inset-bottom)); z-index: 6; flex-direction: column; gap: 4px; align-items: flex-end; pointer-events: none; }
+  body.online.play #gcChefs { display: flex; }
+  #gcChefs .ch { display: flex; align-items: center; gap: 6px; background: rgba(15, 18, 32, .82); border-radius: 10px; padding: 3px 9px 3px 7px; font-size: 13px; font-weight: 800; border: 2px solid var(--c); }
+  #gcChefs .ch i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+  #gcChefs .ch em { font-style: normal; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #gcChefs .ch b { color: var(--accent); min-width: 14px; text-align: center; }
+  #gcChefs .ch b::before { content: '🍽 '; font-size: 11px; }
+  #gcChefs .ch.gone { opacity: .45; }
+  @media (max-width: 460px) { #gcChefs .ch { font-size: 12px; padding: 2px 7px 2px 5px; } #gcChefs .ch em { max-width: 72px; } .roomcode b { font-size: 22px; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793401000"></script>
-<script src="../../shared/net.js?v=1793401000"></script>
+<script src="../../shared/i18n.js?v=1793403000"></script>
+<script src="../../shared/net.js?v=1793403000"></script>
 </head>
 <body class="menu">
 <canvas id="c"></canvas>
@@ -171,8 +222,11 @@
 <div id="hint" hidden></div>
 <div id="banner"></div>
 <div id="ov"></div>
-<script src="chef.js?v=1793401000"></script>
-<script src="../../shared/cloud.js?v=1793401000" data-game="gravity-chef" data-keys="gravity-chef-*"></script>
+<div id="gcChefs"></div>
+<div id="gcNote" hidden></div>
+<div id="gcToast" hidden></div>
+<script src="chef.js?v=1793403000"></script>
+<script src="../../shared/cloud.js?v=1793403000" data-game="gravity-chef" data-keys="gravity-chef-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

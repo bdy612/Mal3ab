@@ -50,15 +50,34 @@
     gc_tip11: 'البوابات بتنقل الأكل من بوابة للتانية بنفس السرعة. الخط المنقط بيعدي من جوه البوابة.',
     gc_tip12: 'كل حاجة مع بعض: مصدّات وهوا ومغناطيس ونار وبوابات. الكابتن جعان، متكسفوش!',
     gc_tutDone: 'برافو! كده إنت فهمت اللعبة 👌',
+    gc_l13: 'ساعة الذروة', gc_l14: 'حلل في كل حتة', gc_l15: 'عاصفة جاذبية', gc_l16: 'متاهة المغناطيس', gc_l17: 'مخزن البوابات', gc_l18: 'نار وهوا',
+    gc_l19: 'حفلة المصدّات', gc_l20: 'عزومة الأدميرال',
+    gc_tip13: 'فيه شباكين تقديم! الطلبات جاية بسرعة، فارمي الطبق في أقرب شباك ليك.',
+    gc_tip14: 'حلتين في المطبخ! كل حلة بتطبخ أكلة واحدة في المرة، فوزّع الشوربة والرامن عليهم. والحيطة اللي في النص هتخليك تخبط الرمية.',
+    gc_tip15: 'عاصفة جاذبية! الجاذبية بتقلب كل كام ثانية وبتشد أقوى من الأول. بص على السهم وارمي معاها مش ضدها.',
+    gc_tip16: 'حيطان بتقسم المطبخ ومغناطيس بيلوي الرميات. لف الرمية حوالين الحيطان!',
+    gc_tip17: 'جوزين بوابات! الخط المنقط هيوريك الرمية هتطلع من أنهي بوابة.',
+    gc_tip18: 'شعلات نار وفتحات هوا مع بعض. الهوا ممكن يزق الأكل جوه النار، فاستنى اللحظة الصح!',
+    gc_tip19: 'مصدّات في كل حتة ومفيش حاجة متثبتة. كل الحلل والطاسات بتعوم، فارمي بسرعة وخبّط في المصدّات.',
+    gc_tip20: 'عزومة الأدميرال: حلتين وطاستين وشباكين وكل خطر في السفينة. الشغل الجماعي بيسهّلها!',
+    gc_oTitle: 'أونلاين مع صحابك', gc_oTag: 'اطبخوا مع بعض في نفس المطبخ — لحد ٤ شيفات!', gc_oName: 'اسمك', gc_oCreate: 'اعمل أوضة', gc_oOr: 'أو',
+    gc_oCodePh: 'كود الأوضة', gc_oJoin: 'ادخل', gc_oCodeHint: 'اكتب كود الأوضة (٤ حروف أو أرقام).', gc_oRoom: 'الأوضة', gc_oCopy: 'انسخ لينك الدعوة', gc_oCopied: 'اتنسخ!',
+    gc_oChefs: 'الشيفات ({n} من {m})', gc_oYou: 'إنت', gc_oHost: 'صاحب الأوضة', gc_oCook: 'شيف', gc_oWaiting: 'مستنيين شيفات… ابعت الكود لصحابك', gc_oConnecting: 'بيتوصل…',
+    gc_oPick: 'الشيفت', gc_oStart: 'ابدأ الشيفت', gc_oNeed: 'لازم شيف تاني يدخل الأول.', gc_oWaitHost: 'مستنيين صاحب الأوضة يبدأ…', gc_oLeave: 'اخرج من الأوضة',
+    gc_oFull: 'الأوضة مليانة (٤ شيفات).', gc_oNoNet: 'مفيش اتصال بالنت.', gc_oJoined: '{p} دخل المطبخ', gc_oLeft: '{p} خرج', gc_oNewHost: '{p} بقى صاحب الأوضة 👑',
+    gc_oYouHost: 'إنت بقيت صاحب الأوضة 👑', gc_oAlone: 'كل الشيفات خرجوا', gc_oAloneD: 'إنت لوحدك في المطبخ دلوقتي. تكمّل الشيفت لوحدك؟', gc_oSolo: 'كمّل لوحدك',
+    gc_oMenu: 'ارجع للقايمة', gc_oWatch: '👀 بتتفرج — هتطبخ معاهم من الشيفت الجاي', gc_oStartIn: 'الشيفت هيبدأ كمان {n}…', gc_oStartNow: 'ابدأ دلوقتي',
+    gc_oMenuT: 'القايمة', gc_oRunning: 'المطبخ لسه شغال وصحابك بيطبخوا!', gc_oLobby: 'ارجع للأوضة', gc_oTeam: 'شغل الشيفات', gc_oOrdersN: '{n} طلب',
+    gc_oReqSent: 'اتبعت لصاحب الأوضة…', gc_oTaken: 'حد تاني مسكها!', gc_oScale: '{n} شيفات: طلبات أكتر وهدف أعلى',
   }, {
     gc_sub: 'Space kitchen chaos', gc_tag: 'A spaceship kitchen with broken gravity! Fling ingredients off the walls into the pans and pots, and serve the crew before they starve.',
-    gc_play: 'Start cooking', gc_how: 'How to play', gc_shifts: 'Shifts', gc_sound: 'Sound', gc_music: 'Music', gc_on: 'on', gc_off: 'off',
-    gc_chef: 'Chef {p}', gc_shift: 'Shift {n}', gc_stars: 'Stars: {n} of {m}', gc_back: 'Back', gc_start: 'Start shift', gc_menu: 'Shift menu', gc_new: 'New',
+    gc_play: 'Start Cooking', gc_how: 'How to Play', gc_shifts: 'Shifts', gc_sound: 'Sound', gc_music: 'Music', gc_on: 'on', gc_off: 'off',
+    gc_chef: 'Chef {p}', gc_shift: 'Shift {n}', gc_stars: 'Stars: {n} of {m}', gc_back: 'Back', gc_start: 'Start Shift', gc_menu: 'Shift Menu', gc_new: 'New',
     gc_goalLine: 'Earn at least {a} coins to pass the shift.', gc_locked: 'Finish the previous shift first.',
-    gc_resume: 'Resume', gc_restart: 'Restart', gc_quit: 'Back to shifts', gc_paused: 'Paused',
-    gc_win: 'Shift complete!', gc_lose: 'Shift failed!', gc_whyStrikes: 'Too many hungry customers walked out.', gc_whyScore: 'You needed at least {a} coins.',
-    gc_coins: 'Coins', gc_served: 'Dishes served', gc_tipsL: 'Tips', gc_banks: 'Bank shots', gc_best: 'Best', gc_newBest: 'New best!',
-    gc_next: 'Next shift', gc_retry: 'Try again', gc_allDone: 'You cleared every shift! Best chef in the galaxy 🚀',
+    gc_resume: 'Resume', gc_restart: 'Restart', gc_quit: 'Back to Shifts', gc_paused: 'Paused',
+    gc_win: 'Shift Complete!', gc_lose: 'Shift Failed!', gc_whyStrikes: 'Too many hungry customers walked out.', gc_whyScore: 'You needed at least {a} coins.',
+    gc_coins: 'Coins', gc_served: 'Dishes Served', gc_tipsL: 'Tips', gc_banks: 'Bank Shots', gc_best: 'Best', gc_newBest: 'New Best!',
+    gc_next: 'Next Shift', gc_retry: 'Try Again', gc_allDone: 'You cleared every shift! Best chef in the galaxy 🚀',
     gc_timeUp: "Time's up!", gc_closed: 'Kitchen closed!', gc_go: "Let's cook!", gc_tenLeft: '10 seconds left!',
     gc_p_bank: 'Bank shot +{n}', gc_p_tip: 'Tip +{n}', gc_p_noorder: 'Nobody ordered that!', gc_p_chopfirst: 'Chop it first!', gc_p_nope: "Can't go here!",
     gc_p_wrongnext: 'Not next in the pot!', gc_p_busy: 'Busy!', gc_p_ready: 'Ready!', gc_p_burning: 'Burning!', gc_p_burnt: 'Burnt!', gc_p_scorched: 'Scorched!',
@@ -72,11 +91,11 @@
     gc_d_soup: 'Nebula soup', gc_d_ramen: 'Galaxy ramen', gc_d_stew: 'Planet stew',
     gc_s_board: 'chopping board', gc_s_pan: 'pan', gc_s_pot: 'pot', gc_s_hatch: 'serving hatch', gc_s_trash: 'trash airlock',
     gc_h1t: 'Grab', gc_h1: 'Tap any floating food. If a pan, pot or board holds food that is ready, tap it to take the food out.',
-    gc_h2t: 'Pull and fling', gc_h2: 'Pull back like a slingshot and let go. The dotted line shows where it flies and bounces. Time slows down a little while you aim.',
-    gc_h3t: 'Cook in order', gc_h3: 'The board chops, the pan fries and the pot boils ingredients in the order shown above it. Grab food as soon as it is done, before it burns!',
+    gc_h2t: 'Pull and Fling', gc_h2: 'Pull back like a slingshot and let go. The dotted line shows where it flies and bounces. Time slows down a little while you aim.',
+    gc_h3t: 'Cook in Order', gc_h3: 'The board chops, the pan fries and the pot boils ingredients in the order shown above it. Grab food as soon as it is done, before it burns!',
     gc_h4t: 'Serve', gc_h4: 'Fling the finished dish into the serving hatch before the customer runs out of patience. Bank shots off the walls earn bonus tips.',
     gc_h5t: 'Gravity', gc_h5: 'When the alarm sounds, gravity changes direction. Watch the arrow next to the orders!',
-    gc_keys: 'Desktop: mouse to grab and fling, right-click or Esc cancels a throw, P pauses.', gc_gotit: 'Got it!',
+    gc_keys: 'Desktop: mouse to grab and fling, right-click or Esc cancels a throw, P pauses.', gc_gotit: 'Got It!',
     gc_l1: 'First day in orbit', gc_l2: 'Chop chop', gc_l3: 'Hot pan', gc_l4: 'Gravity glitch', gc_l5: "Soup's on", gc_l6: 'Bumper bay',
     gc_l7: 'Vent lab', gc_l8: 'Magnet galley', gc_l9: 'Fire drill', gc_l10: 'Everything floats', gc_l11: 'Wormhole wok', gc_l12: "Captain's banquet",
     gc_tip1: 'Tap the floating egg to grab it, pull back and let go to fling it into the pan. When it dings, tap the pan and fling the fried egg into the serving hatch.',
@@ -92,6 +111,25 @@
     gc_tip11: 'Portals send food out of the other portal at the same speed. The aim line goes right through them.',
     gc_tip12: 'Everything at once: bumpers, vents, magnets, fire and portals. The captain is hungry, do not let him down!',
     gc_tutDone: 'Nice! Now you know how it works 👌',
+    gc_l13: 'Rush Hour', gc_l14: 'Pot Luck', gc_l15: 'Gravity Storm', gc_l16: 'Magnet Maze', gc_l17: 'Portal Pantry', gc_l18: 'Fire and Wind',
+    gc_l19: 'Bumper Bonanza', gc_l20: "Admiral's Feast",
+    gc_tip13: 'Two serving hatches! Orders come in fast, so fling each dish into whichever hatch is closer.',
+    gc_tip14: 'Two pots! Each pot cooks one recipe at a time, so split the soups and ramen between them. The wall in the middle means bank shots.',
+    gc_tip15: 'A gravity storm! Gravity flips every few seconds and pulls harder than ever. Watch the arrow and throw with it, not against it.',
+    gc_tip16: 'Walls split the kitchen and magnets bend every throw. Curve your shots around the walls!',
+    gc_tip17: 'Two pairs of portals! Watch the aim line to see which portal your throw comes out of.',
+    gc_tip18: 'Fire jets and air vents together. Vents can blow food straight into the flames, so time your throws!',
+    gc_tip19: 'Bumpers everywhere and nothing is bolted down. Every pot and pan floats, so throw fast and bounce off the bumpers.',
+    gc_tip20: "The admiral's feast: two pots, two pans, two hatches and every hazard on the ship. Teamwork makes it easier!",
+    gc_oTitle: 'Online Co-op', gc_oTag: 'Cook together in one kitchen — up to 4 chefs!', gc_oName: 'Your Name', gc_oCreate: 'Create Room', gc_oOr: 'Or',
+    gc_oCodePh: 'Room Code', gc_oJoin: 'Join', gc_oCodeHint: 'Type the room code (4 letters or digits).', gc_oRoom: 'Room', gc_oCopy: 'Copy Invite Link', gc_oCopied: 'Copied!',
+    gc_oChefs: 'Chefs ({n} of {m})', gc_oYou: 'You', gc_oHost: 'Host', gc_oCook: 'Chef', gc_oWaiting: 'Waiting for chefs… send the code to your friends', gc_oConnecting: 'Connecting…',
+    gc_oPick: 'Shift', gc_oStart: 'Start Shift', gc_oNeed: 'Another chef needs to join first.', gc_oWaitHost: 'Waiting for the host to start…', gc_oLeave: 'Leave Room',
+    gc_oFull: 'The room is full (4 chefs).', gc_oNoNet: 'No connection.', gc_oJoined: '{p} joined the kitchen', gc_oLeft: '{p} left', gc_oNewHost: '{p} is the new host 👑',
+    gc_oYouHost: 'You are the new host 👑', gc_oAlone: 'Everyone Else Left', gc_oAloneD: "You're alone in the kitchen now. Keep cooking solo?", gc_oSolo: 'Continue Solo',
+    gc_oMenu: 'Back to Menu', gc_oWatch: "👀 Watching — you'll cook from the next shift", gc_oStartIn: 'Starting in {n}…', gc_oStartNow: 'Start Now',
+    gc_oMenuT: 'Menu', gc_oRunning: 'The kitchen keeps running while your friends cook!', gc_oLobby: 'Back to Lobby', gc_oTeam: 'Team Work', gc_oOrdersN: '{n} Orders',
+    gc_oReqSent: 'Sent to the host…', gc_oTaken: 'Someone grabbed it!', gc_oScale: '{n} chefs: more orders, higher goal',
   });
 
   // ======================================================================================
@@ -193,6 +231,46 @@
       vents: [{ x: 0, y: 0, w: 300, h: 90, d: [1, 0], p: 700, per: 8, duty: 0.5, ph: 4 }], portals: [[230, 520, 880, 380]],
       ports: [['hatch', 'B', 330], ['trash', 'L', 520], ['tube', 'L', 130], ['tube', 'R', 260]], glitch: { every: [12, 16], dur: [6, 9], str: [140, 240], diag: 1 },
       init: ['egg', 'meat', 'tomato', 'mushroom', 'noodles', 'fish'] },
+    // ---- shifts 13-20: the same mechanics, mixed harder ----
+    { name: 'gc_l13', tip: 'gc_tip13', icon: '🛎️', time: 180, menu: { egg_f: 1, carrot_c: 1, steak: 1, fries: 1, mush_f: 1 }, every: [7, 10], maxQ: 4, patM: 0.95, done: 6, lives: 3, sm: 0.36,
+      st: [['board', 160, 470, 1], ['pan', 430, 300, 0], ['pan', 760, 470, 1]], ports: [['hatch', 'R', 180], ['hatch', 'T', 230], ['trash', 'T', 820], ['tube', 'L', 260], ['tube', 'B', 520]],
+      glitch: { every: [14, 18], dur: [6, 8], str: [140, 220] }, init: ['egg', 'carrot', 'meat', 'potato', 'mushroom'] },
+    { name: 'gc_l14', tip: 'gc_tip14', icon: '🥘', time: 200, menu: { soup: 2, ramen: 2, stew: 1 }, every: [10, 13], maxQ: 4, patM: 1.0, done: 6, lives: 3, sm: 0.36,
+      st: [['pot', 250, 470, 1], ['pot', 750, 470, 1], ['board', 500, 190, 0]], segs: [[500, 360, 500, 625]],
+      ports: [['hatch', 'T', 180], ['trash', 'T', 820], ['tube', 'L', 220], ['tube', 'R', 260]], glitch: { every: [16, 22], dur: [6, 9], str: [130, 200] },
+      init: ['tomato', 'mushroom', 'noodles', 'egg', 'carrot'] },
+    { name: 'gc_l15', tip: 'gc_tip15', icon: '⛈️', time: 180, menu: { fish_f: 1, steak: 1, fries: 1, egg_f: 1, mush_f: 1 }, every: [9, 12], maxQ: 4, patM: 1.0, done: 6, lives: 3, sm: 0.33,
+      st: [['board', 160, 160, 1], ['pan', 480, 320, 0], ['pan', 820, 160, 1]], bumpers: [[300, 460, 28], [700, 440, 28]],
+      ports: [['hatch', 'B', 500], ['trash', 'R', 450], ['tube', 'L', 380], ['tube', 'T', 680]], glitch: { every: [7, 10], dur: [5, 8], str: [180, 300], diag: 1 },
+      init: ['fish', 'meat', 'potato', 'egg'] },
+    { name: 'gc_l16', tip: 'gc_tip16', icon: '🧭', time: 200, menu: { stew: 2, soup: 1, steak: 1 }, every: [10, 13], maxQ: 3, patM: 1.05, done: 6, lives: 3, sm: 0.36,
+      st: [['board', 140, 470, 1], ['pot', 520, 480, 1], ['pan', 860, 140, 1]], segs: [[330, 0, 330, 290], [700, 625, 700, 340]],
+      mags: [{ x: 520, y: 210, R: 220, p: 620, per: 8, duty: 0.5, ph: 0 }, { x: 860, y: 450, R: 180, p: 560, per: 7, duty: 0.5, ph: 3.5 }],
+      ports: [['hatch', 'R', 300], ['trash', 'L', 200], ['tube', 'T', 160], ['tube', 'B', 400]], glitch: { every: [16, 22], dur: [6, 9], str: [130, 200] },
+      init: ['carrot', 'potato', 'meat', 'tomato', 'mushroom'] },
+    { name: 'gc_l17', tip: 'gc_tip17', icon: '🌀', time: 190, menu: { fish_f: 2, fries: 2, ramen: 1, egg_f: 1 }, every: [9, 12], maxQ: 4, patM: 1.0, done: 6, lives: 3, sm: 0.34,
+      st: [['board', 140, 140, 1], ['pan', 500, 470, 0], ['pan', 860, 470, 1], ['pot', 640, 160, 1]], segs: [[340, 300, 640, 300]],
+      portals: [[250, 470, 880, 260], [140, 360, 780, 80]],
+      ports: [['hatch', 'B', 300], ['trash', 'T', 300], ['tube', 'L', 250], ['tube', 'R', 130]], glitch: { every: [15, 20], dur: [6, 9], str: [130, 210] },
+      init: ['fish', 'potato', 'noodles', 'egg', 'fish'] },
+    { name: 'gc_l18', tip: 'gc_tip18', icon: '🔥', time: 200, menu: { steak: 1, stew: 1, fish_f: 1, mush_f: 1, egg_f: 1 }, every: [9, 12], maxQ: 4, patM: 1.0, done: 6, lives: 3, sm: 0.33,
+      st: [['board', 130, 300, 1], ['pan', 420, 160, 0], ['pan', 650, 470, 0], ['pot', 870, 300, 1]],
+      fires: [{ x: 290, y: 400, w: 70, h: 225, d: [0, -1], per: 6, duty: 0.4, ph: 0 }, { x: 560, y: 0, w: 70, h: 250, d: [0, 1], per: 6, duty: 0.4, ph: 3 }],
+      vents: [{ x: 700, y: 0, w: 300, h: 90, d: [-1, 0], p: 700, per: 7, duty: 0.5, ph: 2 }, { x: 0, y: 535, w: 280, h: 90, d: [1, 0], p: 700, per: 7, duty: 0.5, ph: 5 }],
+      ports: [['hatch', 'R', 520], ['trash', 'T', 200], ['tube', 'L', 160], ['tube', 'B', 820]], glitch: { every: [14, 19], dur: [6, 9], str: [140, 220] },
+      init: ['meat', 'carrot', 'potato', 'fish', 'mushroom'] },
+    { name: 'gc_l19', tip: 'gc_tip19', icon: '🎯', time: 200, menu: { soup: 1, ramen: 1, fries: 1, steak: 1, carrot_c: 1, fish_f: 1 }, every: [8, 11], maxQ: 4, patM: 1.0, done: 5, lives: 3, sm: 0.32,
+      st: [['board', 220, 170, 0], ['pan', 480, 470, 0], ['pan', 780, 180, 0], ['pot', 820, 470, 0]],
+      bumpers: [[350, 330, 30], [620, 300, 30], [150, 480, 26], [520, 140, 26], [650, 560, 24]],
+      ports: [['hatch', 'L', 300], ['trash', 'B', 160], ['tube', 'T', 760], ['tube', 'R', 320]], glitch: { every: [10, 14], dur: [6, 9], str: [150, 260], diag: 1 },
+      init: ['tomato', 'mushroom', 'noodles', 'egg', 'potato', 'meat'] },
+    { name: 'gc_l20', tip: 'gc_tip20', icon: '🎖️', time: 240, menu: { egg_f: 1, steak: 1, mush_f: 1, fish_f: 1, soup: 1, ramen: 1, stew: 1, fries: 1 }, every: [7, 10], maxQ: 5,
+      patM: 0.95, done: 5, lives: 3, sm: 0.31,
+      st: [['board', 110, 300, 1], ['pan', 330, 470, 0], ['pan', 700, 140, 1], ['pot', 570, 480, 1], ['pot', 870, 330, 0]], bumpers: [[420, 220, 28], [760, 430, 26]],
+      mags: [{ x: 230, y: 120, R: 180, p: 560, per: 9, duty: 0.5, ph: 1 }], fires: [{ x: 430, y: 470, w: 60, h: 155, d: [0, -1], per: 7, duty: 0.4, ph: 1 }],
+      vents: [{ x: 700, y: 535, w: 300, h: 90, d: [-1, 0], p: 650, per: 8, duty: 0.5, ph: 3 }], portals: [[150, 520, 620, 300]],
+      ports: [['hatch', 'R', 150], ['hatch', 'B', 220], ['trash', 'T', 820], ['tube', 'L', 140], ['tube', 'T', 360]], glitch: { every: [11, 15], dur: [6, 9], str: [140, 240], diag: 1 },
+      init: ['egg', 'meat', 'tomato', 'mushroom', 'noodles', 'fish', 'carrot'] },
   ];
   LEVELS.forEach((lv, i) => {
     lv.n = i + 1;
@@ -214,6 +292,16 @@
   const persist = () => { try { localStorage.setItem(SKEY, JSON.stringify(SAVE)); } catch (e) {} };
   const unlocked = (i) => i === 0 || (SAVE.stars[i] || 0) > 0;   // level index i opens once level number i (the previous one) has a star
   const totalStars = () => LEVELS.reduce((a, lv) => a + (SAVE.stars[lv.n] || 0), 0);
+
+  // online state (the room logic lives in the ONLINE section further down)
+  const NET = { on: false, ch: null, code: '', ready: false, me: '', jt: 0, host: '', ep: 0, peers: new Map(), roster: null, cols: {}, sel: 0, ph: 'lobby', hb: 0,
+    tmpN: 1, curs: {}, sendT: 0, curT: 0, lastEnd: null, subAt: 0, needT: 0, hostOk: true };
+  const FXQ = [];   // effects the host saw this tick (sounds, pops, bursts…), shipped with the next snapshot
+  const fxOn = () => NET.on && NET.host === NET.me && G && G.mode === 'play';
+  const fxq = (e) => { if (FXQ.length < 80) FXQ.push(e); };
+  const isGuest = () => NET.on && NET.host !== NET.me && G && G.mode === 'play';
+  const amHost = () => NET.on && NET.host === NET.me;
+  const myId = () => NET.on ? NET.me : 'solo';
 
   // ======================================================================================
   //  AUDIO (all synthesized)
@@ -282,6 +370,10 @@
     lose: () => [392, 330, 262, 196].forEach((f, i) => AU.tone(f, 0.38, 'triangle', 0.1, null, i * 0.16)),
     star: (i) => AU.tone(880 * Math.pow(1.26, i), 0.3, 'triangle', 0.12),
   };
+  // online: the host's kitchen sounds are replayed on every chef's device (UI and per-player sounds stay local)
+  const SFX0 = Object.assign({}, SFX);
+  const SFX_LOCAL = { click: 1, grab: 1, fling: 1, tick: 1, win: 1, lose: 1, star: 1 };
+  Object.keys(SFX0).forEach((k) => { SFX[k] = (a) => { SFX0[k](a); if (!SFX_LOCAL[k] && fxOn()) fxq(['s', k, typeof a === 'number' ? Math.round(a) : a]); }; });
 
   // a soft space-lounge loop (lookahead scheduler)
   const Music = {
@@ -433,6 +525,7 @@
       orders: [], score: 0, tips: 0, banks: 0, served: 0, strikes: 0, timeLeft: def.time || 0, nextOrder: 1.6, live: false, over: false, screen: 'title',
       gk: [], gBase: { x: 0, y: 0 }, gl: def.glitch ? { phase: 'calm', next: mode === 'demo' ? 3 : rnd(def.glitch.every[0] * 0.6, def.glitch.every[1] * 0.7), lastA: -1 } : null,
       held: null, aim: null, parts: [], pops: [], ghosts: [], coins: [], shake: 0, slow: 1, rejT: {}, flash: 0, bot: 2, tickS: -1, firstThrow: false, tutDone: false,
+      gone: {}, cs: {}, chefs: null, shiftId: 0, watch: false, introEnd: 0, synced: false,
     };
     G = w;
     (def.st || []).forEach(([t, x, y, bolt], i) => {
@@ -672,7 +765,7 @@
       if (!it.dead && isFood(it.kind) && inFire(it.x, it.y, it.r, G.T)) { it.scorch += h; if (it.scorch > 0.08) scorch(it); } else it.scorch = 0;
     }
     // held items can still get scorched
-    if (G.held && isFood(G.held.kind) && inFire(G.held.x, G.held.y, G.held.r, G.T)) scorch(G.held);
+    for (const it of G.items) if (it.held && !it.dead && isFood(it.kind) && inFire(it.x, it.y, it.r, G.T)) scorch(it);
     // drifting cookware
     for (const st of G.stations) {
       if (st.bolt) continue;
@@ -697,7 +790,11 @@
         else { st.x += nx * ov / 2; st.y += ny * ov / 2; o.x -= nx * ov / 2; o.y -= ny * ov / 2; const rv = (st.vx - o.vx) * nx + (st.vy - o.vy) * ny; if (rv < 0) { const j = -0.8 * rv; st.vx += j * nx; st.vy += j * ny; o.vx -= j * nx; o.vy -= j * ny; } }
       }
     }
-    // food bumping into food
+    collideItems(true);
+    if (G.items.some((i) => i.dead)) G.items = G.items.filter((i) => !i.dead);
+  }
+  // food bumping into food
+  function collideItems(snd) {
     const its = G.items;
     for (let i = 0; i < its.length; i++) {
       const a = its[i]; if (a.dead) continue;
@@ -710,11 +807,10 @@
         const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
         if (rv < 0) {
           const jj = -1.7 * rv / sum; a.vx -= jj * nx * ma; a.vy -= jj * ny * ma; b.vx += jj * nx * mb; b.vy += jj * ny * mb;
-          if (-rv > 120) { SFX.tonk(-rv * 0.6); a.sq = b.sq = Math.min(0.3, -rv / 1500); a.spin += rnd(-2, 2); b.spin += rnd(-2, 2); }
+          if (-rv > 120) { if (snd) SFX.tonk(-rv * 0.6); a.sq = b.sq = Math.min(0.3, -rv / 1500); a.spin += rnd(-2, 2); b.spin += rnd(-2, 2); }
         }
       }
     }
-    if (G.items.some((i) => i.dead)) G.items = G.items.filter((i) => !i.dead);
   }
 
   function handleEvents(it, ev) {
@@ -742,6 +838,7 @@
     it.dead = true;
     const [px, py] = tgPos(tg);
     G.ghosts.push({ kind: it.kind, x: it.x, y: it.y, tx: px, ty: py, t: 0, r: it.r, ang: it.ang });
+    if (fxOn()) fxq(['g', it.id, it.kind, Math.round(it.x), Math.round(it.y), Math.round(px), Math.round(py), Math.round(it.ang * 100) / 100]);
     tg.flash = 1;
     let bonus = 0;
     if (it.bounces > 0 && tg.t !== 'trash') { const n = Math.min(3, it.bounces); bonus = n * (tg.t === 'hatch' ? 10 : 5); G.banks++; }
@@ -753,36 +850,40 @@
         tg.list.push(it.kind); SFX.plop(); burst(px, py - 30, 10, '#7fd3ff', 150, 'dot', 5);
         if (tg.list.length >= POT[tg.rec].length) tg.c = { out: tg.rec, t: 0, cook: BOIL, ph: 'cook' };
         break;
-      case 'hatch': serve(it.kind, tg, bonus); bonus = 0; break;
-      case 'trash': SFX.trash(); pop(px + tg.nx * 30, py + tg.ny * 30, t('gc_p_recycled'), '#c9d3ff', 0.8); burst(px, py, 10, '#9aa3c7', 120, 'smoke', 8); break;
+      case 'hatch': serve(it.kind, tg, bonus, it.fl); bonus = 0; break;
+      case 'trash': SFX.trash(); pop(px + tg.nx * 30, py + tg.ny * 30, ['gc_p_recycled'], '#c9d3ff', 0.8); burst(px, py, 10, '#9aa3c7', 120, 'smoke', 8); break;
     }
-    if (bonus) { G.score += bonus; pop(px, py - 46, t('gc_p_bank', { n: bonus }), '#7fe3cf', 1); SFX.star(1); }
+    if (bonus) { G.score += bonus; pop(px, py - 46, ['gc_p_bank', { n: bonus }], '#7fe3cf', 1); SFX.star(1); }
     if (G.def.tut && !G.tutDone && tg.t === 'hatch') G.tutDone = true;
   }
   function reject(it, tg, why) {
     const n = performance.now(); if ((G.rejT[tg.id] || 0) > n) return; G.rejT[tg.id] = n + 900;
     const [px, py] = tgPos(tg);
-    pop(px, py - (tg.r || 30) - 18, t('gc_p_' + why), '#ff8fa3', 0.9); SFX.nope(); tg.rej = 1;
+    pop(px, py - (tg.r || 30) - 18, ['gc_p_' + why], '#ff8fa3', 0.9); SFX.nope(); tg.rej = 1;
   }
   function scorch(it) {
     it.kind = 'burnt'; it.r = KIND.burnt.r; it.scorch = 0;
     SFX.scorch(); burst(it.x, it.y, 14, '#5b5560', 120, 'smoke', 12); burst(it.x, it.y, 10, '#ff8a2b', 200, 'spark', 4);
-    pop(it.x, it.y - 34, t('gc_p_scorched'), '#ffb36b', 0.9);
+    pop(it.x, it.y - 34, ['gc_p_scorched'], '#ffb36b', 0.9);
   }
-  function serve(kind, port, bonus) {
+  function serve(kind, port, bonus, who) {
     const i = G.orders.findIndex((o) => o.d === kind); if (i < 0) return;
     const o = G.orders.splice(i, 1)[0];
     const base = DISH[kind].v, tip = Math.round(base * 0.6 * clamp(o.t / o.max, 0, 1));
     G.score += base + tip + bonus; G.tips += tip; G.served++;
+    if (who && G.cs[who]) { G.cs[who].s++; G.cs[who].c += base + tip + bonus; }
     const [px, py] = tgPos(port);
     pop(px + port.nx * 40, py + port.ny * 40 - 10, '+' + base, '#ffd34d', 1.25);
-    if (tip > 0) pop(px + port.nx * 40, py + port.ny * 40 + 22, t('gc_p_tip', { n: tip }), '#ffe08a', 0.85);
-    if (bonus) pop(px + port.nx * 40, py + port.ny * 40 + 50, t('gc_p_bank', { n: bonus }), '#7fe3cf', 0.85);
+    if (tip > 0) pop(px + port.nx * 40, py + port.ny * 40 + 22, ['gc_p_tip', { n: tip }], '#ffe08a', 0.85);
+    if (bonus) pop(px + port.nx * 40, py + port.ny * 40 + 50, ['gc_p_bank', { n: bonus }], '#7fe3cf', 0.85);
     SFX.serve(); G.shake = Math.max(G.shake, 3);
     burst(px, py, 26, '#ffd34d', 300, 'star', 7); burst(px, py, 14, '#ffffff', 200, 'dot', 4);
-    const [sx, sy] = toS(px, py), el = $('hScore'), r = el && el.getBoundingClientRect();
-    if (r) for (let k = 0; k < Math.min(12, 3 + Math.round((base + tip) / 10)); k++) G.coins.push({ x: sx + rnd(-20, 20), y: sy + rnd(-20, 20), tx: r.left + r.width / 2, ty: r.top + r.height / 2, t: -k * 0.05, vx: rnd(-200, 200), vy: rnd(-260, -60) });
+    coinFly(px, py, base + tip); if (fxOn()) fxq(['c', Math.round(px), Math.round(py), base + tip]);
     if (G.orders.length === 0) G.nextOrder = Math.min(G.nextOrder, 2.5);
+  }
+  function coinFly(px, py, amt) {
+    const [sx, sy] = toS(px, py), el = $('hScore'), r = el && el.getBoundingClientRect();
+    if (r) for (let k = 0; k < Math.min(12, 3 + Math.round(amt / 10)); k++) G.coins.push({ x: sx + rnd(-20, 20), y: sy + rnd(-20, 20), tx: r.left + r.width / 2, ty: r.top + r.height / 2, t: -k * 0.05, vx: rnd(-200, 200), vy: rnd(-260, -60) });
   }
   function addOrder() {
     const ks = Object.keys(G.def.menu); if (!ks.length) return;
@@ -843,13 +944,13 @@
       s.lastA = ai; const a = ai * TAU / n, str = rnd(gd.str[0], gd.str[1]);
       s.tx = Math.cos(a) * str; s.ty = Math.sin(a) * str; s.at = G.T + 3; s.until = s.at + rnd(gd.dur[0], gd.dur[1]); s.phase = 'warn'; s.beep = 0;
       G.gk.push({ t: s.at, x: s.tx, y: s.ty }, { t: s.until, x: 0, y: 0 });
-      if (G.mode === 'play') { SFX.alarm(); pop(W / 2, 70, t('gc_p_soon'), '#ff8fa3', 1.1); }
+      if (G.mode === 'play') { SFX.alarm(); pop(W / 2, 70, ['gc_p_soon'], '#ff8fa3', 1.1); }
     } else if (s.phase === 'warn') {
       if (G.T - s.beep > 0.75 && G.mode === 'play') { s.beep = G.T; SFX.alarm(); }
-      if (G.T >= s.at) { s.phase = 'on'; if (G.mode === 'play') { SFX.wub(); G.shake = 9; pop(W / 2, 80, t('gc_p_glitch'), '#d7b8ff', 1.2); } burst(W / 2, 40, 22, '#c79bff', 260, 'spark', 5); }
+      if (G.T >= s.at) { s.phase = 'on'; if (G.mode === 'play') { SFX.wub(); G.shake = 9; pop(W / 2, 80, ['gc_p_glitch'], '#d7b8ff', 1.2); } burst(W / 2, 40, 22, '#c79bff', 260, 'spark', 5); }
     } else if (s.phase === 'on' && G.T >= s.until) {
       s.phase = 'calm'; s.next = G.T + rnd(gd.every[0], gd.every[1]);
-      if (G.mode === 'play') { pop(W / 2, 80, t('gc_p_restored'), '#7fe3cf', 1); SFX.portal(); }
+      if (G.mode === 'play') { pop(W / 2, 80, ['gc_p_restored'], '#7fe3cf', 1); SFX.portal(); }
     }
   }
   function stationsUpdate(dt) {
@@ -860,24 +961,32 @@
       if (st.t === 'board') {
         if (c.ph === 'chop') {
           const hits = Math.floor(c.t / 0.25); if (hits > c.hits && hits <= 3) { c.hits = hits; SFX.thunk(); burst(st.x + 10, st.y - 4, 5, '#ffe6b3', 110, 'dot', 4); st.wob = 0.6; }
-          if (c.t >= 0.85) { c.ph = 'ready'; c.t = 0; SFX.ding(); pop(st.x, st.y - 62, t('gc_p_ready'), '#80ed99', 0.8); }
+          if (c.t >= 0.85) { c.ph = 'ready'; c.t = 0; SFX.ding(); pop(st.x, st.y - 62, ['gc_p_ready'], '#80ed99', 0.8); }
         }
         continue;
       }
       const doneWin = (G.def.done || 7) + (st.t === 'pot' ? 3 : 0);
+      stationParts(st, dt);
       if (c.ph === 'cook') {
-        if (Math.random() < dt * (st.t === 'pan' ? 14 : 6)) part(st.x + rnd(-st.r * 0.5, st.r * 0.5), st.y + rnd(-st.r * 0.5, st.r * 0.2) - (st.t === 'pot' ? 25 : 0), st.t === 'pan' ? { type: 'spark', col: '#ffe08a', vx: rnd(-50, 50), vy: rnd(-120, -40), life: 0.4, size: 3 } : { type: 'bubble', col: '#d8f4ff', vx: rnd(-10, 10), vy: rnd(-60, -30), life: 0.7, size: 5 });
-        if (c.t >= c.cook) { c.ph = 'done'; c.t = 0; SFX.ding(); pop(st.x, st.y - st.r - 24, t('gc_p_ready'), '#80ed99', 0.9); burst(st.x, st.y, 10, '#80ed99', 150, 'star', 5); }
+        if (c.t >= c.cook) { c.ph = 'done'; c.t = 0; SFX.ding(); pop(st.x, st.y - st.r - 24, ['gc_p_ready'], '#80ed99', 0.9); burst(st.x, st.y, 10, '#80ed99', 150, 'star', 5); }
       } else if (c.ph === 'done') {
-        if (Math.random() < dt * 4) part(st.x + rnd(-15, 15), st.y - st.r * 0.4, { type: 'steam', col: '#ffffff', vx: rnd(-10, 10), vy: rnd(-50, -30), life: 1, size: 8 });
-        if (c.t >= doneWin) { c.ph = 'warn'; c.t = 0; c.beep = 0; pop(st.x, st.y - st.r - 24, t('gc_p_burning'), '#ffb36b', 0.9); }
+        if (c.t >= doneWin) { c.ph = 'warn'; c.t = 0; c.beep = 0; pop(st.x, st.y - st.r - 24, ['gc_p_burning'], '#ffb36b', 0.9); }
       } else if (c.ph === 'warn') {
         if (c.t - c.beep > 0.45) { c.beep = c.t; SFX.beep(); }
-        if (Math.random() < dt * 12) part(st.x + rnd(-15, 15), st.y - st.r * 0.3, { type: 'smoke', col: '#7a7480', vx: rnd(-15, 15), vy: rnd(-70, -40), life: 1.1, size: 9 });
-        if (c.t >= 3) { c.ph = 'burnt'; c.out = 'burnt'; c.t = 0; SFX.poof(); burst(st.x, st.y, 18, '#4d4652', 160, 'smoke', 14); pop(st.x, st.y - st.r - 24, t('gc_p_burnt'), '#ff8fa3', 1); }
-      } else if (c.ph === 'burnt') {
-        if (Math.random() < dt * 3) part(st.x + rnd(-10, 10), st.y - 10, { type: 'smoke', col: '#5b5560', vx: rnd(-10, 10), vy: rnd(-40, -20), life: 1.4, size: 10 });
+        if (c.t >= 3) { c.ph = 'burnt'; c.out = 'burnt'; c.t = 0; SFX.poof(); burst(st.x, st.y, 18, '#4d4652', 160, 'smoke', 14); pop(st.x, st.y - st.r - 24, ['gc_p_burnt'], '#ff8fa3', 1); }
       }
+    }
+  }
+  function stationParts(st, dt) {
+    const c = st.c;
+    if (c.ph === 'cook') {
+      if (Math.random() < dt * (st.t === 'pan' ? 14 : 6)) part(st.x + rnd(-st.r * 0.5, st.r * 0.5), st.y + rnd(-st.r * 0.5, st.r * 0.2) - (st.t === 'pot' ? 25 : 0), st.t === 'pan' ? { type: 'spark', col: '#ffe08a', vx: rnd(-50, 50), vy: rnd(-120, -40), life: 0.4, size: 3 } : { type: 'bubble', col: '#d8f4ff', vx: rnd(-10, 10), vy: rnd(-60, -30), life: 0.7, size: 5 });
+    } else if (c.ph === 'done') {
+      if (Math.random() < dt * 4) part(st.x + rnd(-15, 15), st.y - st.r * 0.4, { type: 'steam', col: '#ffffff', vx: rnd(-10, 10), vy: rnd(-50, -30), life: 1, size: 8 });
+    } else if (c.ph === 'warn') {
+      if (Math.random() < dt * 12) part(st.x + rnd(-15, 15), st.y - st.r * 0.3, { type: 'smoke', col: '#7a7480', vx: rnd(-15, 15), vy: rnd(-70, -40), life: 1.1, size: 9 });
+    } else if (c.ph === 'burnt') {
+      if (Math.random() < dt * 3) part(st.x + rnd(-10, 10), st.y - 10, { type: 'smoke', col: '#5b5560', vx: rnd(-10, 10), vy: rnd(-40, -20), life: 1.4, size: 10 });
     }
   }
   const readyPh = (c) => c && (c.ph === 'done' || c.ph === 'warn' || c.ph === 'ready' || c.ph === 'burnt');
@@ -890,11 +999,13 @@
 
   function update(rdt) {
     if (!G) return;
-    const playing = G.mode === 'play' && G.screen === 'play';
+    if (isGuest()) { replicaUpdate(rdt); return; }   // online chef: the host runs the kitchen, we replay it
+    const online = NET.on && G.mode === 'play';
+    const playing = G.mode === 'play' && (G.screen === 'play' || (online && G.screen === 'opause'));
     const demo = G.mode === 'demo';
     if (!playing && !demo && G.screen !== 'intro' && G.screen !== 'ending') { tickFx(0); return; }
-    // slow motion while aiming
-    G.slow += ((G.held && playing ? 0.55 : 1) - G.slow) * Math.min(1, rdt * 8);
+    // slow motion while aiming (solo only: online the kitchen is shared)
+    G.slow += ((G.held && playing && !online ? 0.55 : 1) - G.slow) * Math.min(1, rdt * 8);
     const dt = rdt * G.slow;
     G.acc += dt; let n = 0;
     while (G.acc >= STEP && n < 10) { stepWorld(STEP); G.acc -= STEP; n++; }
@@ -911,7 +1022,7 @@
       const gone = G.orders.filter((o) => o.t <= 0);
       if (gone.length) {
         G.orders = G.orders.filter((o) => o.t > 0);
-        for (const o of gone) { G.strikes++; SFX.left(); G.shake = Math.max(G.shake, 6); pop(W / 2, H / 2, t('gc_p_left'), '#ff8fa3', 1.2); }
+        for (const o of gone) { G.strikes++; SFX.left(); G.shake = Math.max(G.shake, 6); pop(W / 2, H / 2, ['gc_p_left'], '#ff8fa3', 1.2); }
       }
       const sec = Math.ceil(G.timeLeft);
       if (sec <= 10 && sec !== G.tickS && sec > 0) { G.tickS = sec; SFX.tick(); if (sec === 10) banner(t('gc_tenLeft'), 1); }
@@ -924,6 +1035,7 @@
   }
   function tickFx(dt) {
     G.shake = Math.max(0, G.shake - dt * 30);
+    if (NET.on) netFx(dt);
     for (const p of G.ports) p.flash = Math.max(0, p.flash - dt * 2.5);
     for (const b of G.bumpers) b.flash = Math.max(0, b.flash - dt * 4);
     for (const p of G.parts) {
@@ -944,9 +1056,13 @@
   }
   function part(x, y, o) { if (G.parts.length > 380) return; const p = Object.assign({ x, y, vx: 0, vy: 0, life: 0.6, size: 5, col: '#fff', type: 'dot' }, o); p.max = p.life; G.parts.push(p); }
   function burst(x, y, n, col, sp, type, size) {
+    if (fxOn()) fxq(['b', Math.round(x), Math.round(y), n, col, sp, type || 'dot', size]);
     for (let i = 0; i < n; i++) { const a = rnd(0, TAU), v = rnd(sp * 0.3, sp); part(x, y, { vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: rnd(0.35, 0.75), col, type: type || 'dot', size: rnd(size * 0.6, size * 1.3) }); }
   }
-  function pop(x, y, text, col, size) { G.pops.push({ x, y, text, col, size: size || 1, life: 1.3, max: 1.3 }); }
+  function pop(x, y, text, col, size) {
+    if (fxOn()) fxq(['p', Math.round(x), Math.round(y), text, col, size || 1]);
+    G.pops.push({ x, y, text: Array.isArray(text) ? t(text[0], text[1]) : text, col, size: size || 1, life: 1.3, max: 1.3 });
+  }
 
   // the title-screen kitchen: food drifts, gravity glitches, and an invisible cook flings things now and then
   function demoBot(dt) {
@@ -965,13 +1081,13 @@
   let hoverW = null;
   function grabTarget(wx, wy, touch) {
     const pad = (touch ? 30 : 12) / L.s;
-    let best = null, bd = Infinity;
-    for (const it of G.items) { if (it.dead) continue; const d = Math.hypot(it.x - wx, it.y - wy) - it.r; if (d < pad && d < bd) { bd = d; best = { it }; } }
+    let best = null, bd = Infinity;   // food in another chef's hands can't be grabbed
+    for (const it of G.items) { if (it.dead || it.held) continue; const d = Math.hypot(it.x - wx, it.y - wy) - it.r; if (d < pad && d < bd) { bd = d; best = { it }; } }
     for (const st of G.stations) { if (!readyPh(st.c)) continue; const d = Math.hypot(st.x - wx, st.y - wy) - st.r; if (d < pad * 0.6 && d < bd) { bd = d; best = { st }; } }
     return best;
   }
   function grabIt(it) {
-    G.held = it; it.held = true; it.vx = it.vy = 0; G.aim = { x: it.x, y: it.y }; SFX.grab();
+    G.held = it; it.held = true; it.by = myId(); it.vx = it.vy = 0; G.aim = { x: it.x, y: it.y }; SFX.grab();
     burst(it.x, it.y, 8, '#ffd34d', 120, 'star', 4);
   }
   function pullVel() {
@@ -983,13 +1099,22 @@
   }
   function release(v) {
     const it = G.held; if (!it) return;
-    it.held = false; G.held = null; G.aim = null;
-    if (!v) { it.vx = rnd(-12, 12); it.vy = rnd(-12, 12); return; }
-    it.vx = v[0]; it.vy = v[1]; it.thrown = G.mode === 'play' ? 5 : 0; it.bounces = 0; it.spin = rnd(-5, 5);
-    SFX.fling(v[2] == null ? 0.6 : v[2]); burst(it.x, it.y, 10, '#ffffff', 180, 'dot', 4);
-    G.firstThrow = true;
+    G.held = null; G.aim = null;
+    if (v) v = [Math.round(v[0]), Math.round(v[1]), v[2]];
+    if (isGuest()) {   // tell the host; meanwhile our own screen predicts the throw
+      it.flAt = performance.now();
+      netSend(v ? 'fling' : 'rel', v ? { sh: G.shiftId, it: it.id, vx: v[0], vy: v[1], p: Math.round((v[2] == null ? 0.6 : v[2]) * 100) / 100, T: Math.round(G.T * 1000) / 1000 } : { sh: G.shiftId, it: it.id });
+    }
+    releaseItem(it, v, myId());
   }
-  const canInteract = () => G && (G.screen === 'play' || (G.mode === 'demo' && G.screen === 'title'));
+  function releaseItem(it, v, who) {
+    it.held = false; it.by = '';
+    if (!v) { it.vx = rnd(-12, 12); it.vy = rnd(-12, 12); return; }
+    it.vx = v[0]; it.vy = v[1]; it.thrown = G.mode === 'play' ? 5 : 0; it.bounces = 0; it.spin = rnd(-5, 5); it.fl = who;
+    SFX.fling(v[2] == null ? 0.6 : v[2]); burst(it.x, it.y, 10, '#ffffff', 180, 'dot', 4);
+    if (who === myId()) G.firstThrow = true;
+  }
+  const canInteract = () => G && !(G.mode === 'play' && G.watch) && (G.screen === 'play' || (G.mode === 'demo' && G.screen === 'title'));
   cv.addEventListener('pointerdown', (e) => {
     AU.init();
     if (!canInteract()) return;
@@ -1000,20 +1125,23 @@
     if (!tg) {
       burst(wx, wy, 5, 'rgba(255,255,255,.8)', 60, 'dot', 3);
       const busy = G.stations.find((s) => s.c && (s.c.ph === 'cook' || s.c.ph === 'chop') && Math.hypot(s.x - wx, s.y - wy) < s.r + 10);
-      if (busy && G.mode === 'play' && (G.rejT['tap' + busy.id] || 0) < performance.now()) { G.rejT['tap' + busy.id] = performance.now() + 800; pop(busy.x, busy.y - busy.r - 24, t('gc_p_cooking'), '#ffe08a', 0.8); }
+      if (busy && G.mode === 'play' && (G.rejT['tap' + busy.id] || 0) < performance.now()) { G.rejT['tap' + busy.id] = performance.now() + 800; G.pops.push({ x: busy.x, y: busy.y - busy.r - 24, text: t('gc_p_cooking'), col: '#ffe08a', size: 0.8, life: 1.3, max: 1.3 }); }
       return;
     }
     let it = tg.it;
-    if (tg.st) { it = takeFrom(tg.st); if (!it) return; }
+    if (tg.st) { it = takeOut(tg.st); if (!it) return; }
     ptr = { id: e.pointerId };
     try { cv.setPointerCapture(e.pointerId); } catch (er) {}
     grabIt(it);
+    if (isGuest()) guestGrab(it, tg.st);
     G.aim = { x: wx, y: wy };
+    sendCur(wx, wy, true);
     e.preventDefault();
   });
   cv.addEventListener('pointermove', (e) => {
     const [wx, wy] = toW(e.clientX, e.clientY);
     hoverW = [wx, wy];
+    sendCur(wx, wy, false);
     if (ptr && e.pointerId === ptr.id && G && G.held) { G.aim = { x: wx, y: wy }; }
     else if (G && canInteract() && e.pointerType === 'mouse') cv.style.cursor = grabTarget(wx, wy, false) ? 'grab' : 'default';
     if (G && G.held) cv.style.cursor = 'grabbing';
@@ -1030,10 +1158,10 @@
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'p' || e.key === 'P') {
       if (G && G.held && e.key === 'Escape') { ptr = null; release(null); return; }
-      if (G && G.mode === 'play') { if (G.screen === 'play') pauseGame(); else if (G.screen === 'pause') resumeGame(); }
+      if (G && G.mode === 'play') { if (G.screen === 'play') pauseGame(); else if (G.screen === 'pause' || G.screen === 'opause') resumeGame(); }
     }
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden && G && G.mode === 'play' && G.screen === 'play') pauseGame(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && G && G.mode === 'play' && G.screen === 'play' && !NET.on) pauseGame(); });
 
   // ======================================================================================
   //  DRAWING — food
@@ -1490,19 +1618,19 @@
     ctx.restore();
   }
   function drawItem(it) {
-    const [sx, sy] = toS(it.x, it.y);
+    const [sx, sy] = toS(it.x + (it.ex || 0), it.y + (it.ey || 0));
     ctx.save(); ctx.translate(sx, sy); ctx.scale(L.s, L.s);
     const wanted = G.mode === 'play' && G.orders.some((o) => o.d === it.kind);
     if (wanted) { ctx.beginPath(); ctx.arc(0, 0, it.r * 1.32 + Math.sin(G.T * 5) * 2, 0, TAU); ctx.fillStyle = 'rgba(255,211,77,.35)'; ctx.fill(); }
     if (it.held) {
-      ctx.save(); ctx.rotate(G.T * 2); ctx.setLineDash([7, 6]); ctx.strokeStyle = '#ffb703'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.arc(0, 0, it.r + 9, 0, TAU); ctx.stroke(); ctx.restore();
+      ctx.save(); ctx.rotate(G.T * 2); ctx.setLineDash([7, 6]); ctx.strokeStyle = NET.on && G.mode === 'play' ? colOf(it.by) : '#ffb703'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.arc(0, 0, it.r + 9, 0, TAU); ctx.stroke(); ctx.restore();
     }
     if (it.thrown > 4.6 && !it.held) { ctx.globalAlpha = 0.25; const [vx, vy] = vS(it.vx, it.vy); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(-vx * 0.03, -vy * 0.03, it.r * 0.9, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
     const w = Math.sin(G.T * 2.2 + it.ph) * 0.04 + it.sq * Math.cos(it.sqp);
     ctx.rotate(it.ang); ctx.scale(1 + w, 1 - w);
     const [vx, vy] = vS(it.vx, it.vy), sp = Math.hypot(vx, vy);
     let lx = sp > 5 ? vx / sp * Math.min(1, sp / 200) : Math.sin(G.T * 0.7 + it.ph) * 0.6, ly = sp > 5 ? vy / sp * Math.min(1, sp / 200) : Math.cos(G.T * 0.5 + it.ph) * 0.4;
-    if (it.held && G.aim) { const pv = pullVel(); if (pv) { const [ax, ay] = vS(pv[0], pv[1]), al = Math.hypot(ax, ay) || 1; lx = ax / al; ly = ay / al; } }
+    if (it === G.held && G.aim) { const pv = pullVel(); if (pv) { const [ax, ay] = vS(pv[0], pv[1]), al = Math.hypot(ax, ay) || 1; lx = ax / al; ly = ay / al; } }
     const ca = Math.cos(-it.ang), sa = Math.sin(-it.ang); const look = [lx * ca - ly * sa, lx * sa + ly * ca];
     if (G.T > it.blinkAt) { if (G.T > it.blinkAt + 0.13) it.blinkAt = G.T + rnd(2, 5); }
     const mood = it.held ? 'scared' : sp > 450 ? 'woo' : 'ok';
@@ -1543,9 +1671,10 @@
     // slingshot band
     ctx.save(); ctx.lineCap = 'round';
     const dx = px - ix, dy = py - iy, dl = Math.hypot(dx, dy) || 1, nx = -dy / dl, ny = dx / dl, rr2 = it.r * L.s;
-    ctx.strokeStyle = 'rgba(255,107,129,.9)'; ctx.lineWidth = Math.max(2, 5 * L.s);
-    ctx.beginPath(); ctx.moveTo(ix + nx * rr2, iy + ny * rr2); ctx.lineTo(px, py); ctx.lineTo(ix - nx * rr2, iy - ny * rr2); ctx.stroke();
-    ctx.beginPath(); ctx.arc(px, py, Math.max(5, 9 * L.s), 0, TAU); ctx.fillStyle = '#ff6b81'; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = OUT; ctx.stroke();
+    const bcol = NET.on && G.mode === 'play' ? colOf(NET.me) : '#ff6b81';
+    ctx.strokeStyle = bcol; ctx.globalAlpha = 0.9; ctx.lineWidth = Math.max(2, 5 * L.s);
+    ctx.beginPath(); ctx.moveTo(ix + nx * rr2, iy + ny * rr2); ctx.lineTo(px, py); ctx.lineTo(ix - nx * rr2, iy - ny * rr2); ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.beginPath(); ctx.arc(px, py, Math.max(5, 9 * L.s), 0, TAU); ctx.fillStyle = bcol; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = OUT; ctx.stroke();
     if (!v) { ctx.restore(); return; }
     // power arc
     ctx.strokeStyle = v[2] > 0.85 ? '#ff5d73' : '#ffd34d'; ctx.lineWidth = Math.max(3, 6 * L.s);
@@ -1682,11 +1811,12 @@
     G.stations.forEach(drawStation);
     G.bumpers.forEach(drawBumper);
     G.ghosts.forEach(drawGhost);
-    for (const it of G.items) if (!it.held) drawItem(it);
+    for (const it of G.items) if (it !== G.held) drawItem(it);
     G.fires.forEach(drawFire);
     drawParts();
     if (G.held) { if (G.aim) drawPreview(); drawItem(G.held); }
     ctx.restore();
+    drawChefs();
     G.ports.forEach(drawPort);
     drawGenerator();
     drawHintArrow();
@@ -1731,7 +1861,7 @@
   function updateHint() {
     const el = $('hint');
     G.hintAt = null;
-    if (!G || G.mode !== 'play' || G.screen !== 'play' || !G.def.tut) { if (!el.hidden) el.hidden = true; return; }
+    if (!G || G.mode !== 'play' || G.screen !== 'play' || !G.def.tut || G.watch) { if (!el.hidden) el.hidden = true; return; }
     let txt = '';
     if (G.held) txt = t('gc_hn_aim');
     else {
@@ -1755,7 +1885,12 @@
   // ======================================================================================
   const ov = $('ov');
   let howBack = 'title';
-  function setMode(play) { document.body.classList.toggle('play', play); document.body.classList.toggle('menu', !play); setTimeout(layout, 0); }
+  function setMode(play) {
+    document.body.classList.toggle('play', play); document.body.classList.toggle('menu', !play);
+    document.body.classList.toggle('online', !!(NET.on && G && G.mode === 'play' && G.chefs));
+    const note = $('gcNote'); if (note) { note.hidden = !(play && NET.on && G && G.watch); note.textContent = t('gc_oWatch'); }
+    setTimeout(layout, 0);
+  }
   function banner(text, big) {
     const b = $('banner'); b.textContent = text; b.classList.remove('show'); void b.offsetWidth; b.classList.add('show'); b.style.fontSize = big ? '' : '';
   }
@@ -1776,7 +1911,7 @@
       <div class="sub">${t('gc_sub')}</div>
       <p>${t('gc_tag')}</p>
       ${nm ? `<div class="chef">👨‍🍳 ${esc(t('gc_chef', { p: nm }))}</div>` : ''}
-      <div class="col" style="width:min(300px,100%)"><button class="btn big" data-act="levels">▶ ${t('gc_play')}</button><button class="btn sec" data-act="how">❓ ${t('gc_how')}</button></div>
+      <div class="col" style="width:min(300px,100%)"><button class="btn big" data-act="levels">▶ ${t('gc_play')}</button><button class="btn mint" data-act="online">🌐 ${t('gc_oTitle')}</button><button class="btn sec" data-act="how">❓ ${t('gc_how')}</button></div>
       <div class="tot">⭐ ${t('gc_stars', { n: tot, m: LEVELS.length * 3 })}</div>
     </div>`;
   }
@@ -1805,15 +1940,23 @@
   }
   function startShift() {
     if (!G || G.mode !== 'play') return;
-    G.screen = 'play'; G.live = true; ov.className = ''; ov.innerHTML = ''; setMode(true);
+    G.screen = 'play'; G.live = true; G.introEnd = 0; ov.className = ''; ov.innerHTML = '';
     if (G.gl) { const e = G.def.glitch.every; G.gl.next = G.T + rnd(e[0] * 0.6, e[1] * 0.7); }
+    hudStart();
+  }
+  function hudStart() {
+    setMode(true);
     $('hShift').textContent = t('gc_shift', { n: G.def.n });
     const s3 = G.def.stars[2]; $('hT1').style.left = (G.def.stars[0] / s3 * 100) + '%'; $('hT2').style.left = (G.def.stars[1] / s3 * 100) + '%';
     hudCache = {}; updateHud();
-    banner(t('gc_go'), 1); SFX.order();
+    banner(t('gc_go'), 1); SFX0.order();
   }
   function pauseGame() {
     if (!G || G.screen !== 'play') return;
+    if (NET.on && G.mode === 'play') {   // online the kitchen never stops: just open the menu
+      if (G.held) { ptr = null; release(null); }
+      G.screen = 'opause'; screenOPause(); return;
+    }
     if (G.held) { ptr = null; release(null); }
     G.screen = 'pause'; screenPause();
   }
@@ -1828,7 +1971,7 @@
       <div class="row"><button class="btn sec sm" data-act="sound">${SAVE.sound ? '🔊' : '🔇'} ${t('gc_sound')}</button><button class="btn sec sm" data-act="music">${SAVE.music ? '🎵' : '🎵✕'} ${t('gc_music')}</button><button class="btn sec sm" data-act="lang">${getLang() === 'ar' ? 'English' : 'العربية'}</button></div>
     </div>`;
   }
-  function resumeGame() { if (!G || G.screen !== 'pause') return; G.screen = 'play'; ov.className = ''; ov.innerHTML = ''; }
+  function resumeGame() { if (!G || (G.screen !== 'pause' && G.screen !== 'opause')) return; G.screen = 'play'; ov.className = ''; ov.innerHTML = ''; }
   function screenHow(back) {
     howBack = back; ov.className = 'dim';
     const rows = [['egg', 'gc_h1t', 'gc_h1'], ['@pan', 'gc_h2t', 'gc_h2'], ['@pot', 'gc_h3t', 'gc_h3'], ['@hatch', 'gc_h4t', 'gc_h4'], [null, 'gc_h5t', 'gc_h5']];
@@ -1844,22 +1987,28 @@
     if (G.over) return;
     G.over = true; G.live = false; G.screen = 'ending';
     if (G.held) { ptr = null; release(null); }
+    for (const it of G.items) if (it.held) releaseItem(it, null, it.by);
     $('hint').hidden = true;
-    const lv = G.def, sc = G.score;
+    const lv = G.def, sc = G.score, online = NET.on && !!G.chefs;
     let stars = 0; if (win) stars = sc >= lv.stars[2] ? 3 : sc >= lv.stars[1] ? 2 : 1;
-    const prevBest = SAVE.best[lv.n] || 0, newBest = sc > prevBest;
+    const prevBest = SAVE.best[lv.n] || 0, newBest = !online && sc > prevBest;   // co-op scores don't count as solo bests
     if (newBest) SAVE.best[lv.n] = sc;
-    if (stars > (SAVE.stars[lv.n] || 0)) SAVE.stars[lv.n] = stars;
+    if (stars > (SAVE.stars[lv.n] || 0) && !G.watch) SAVE.stars[lv.n] = stars;
     persist();
     G.result = { win, why, stars, newBest, best: Math.max(sc, prevBest) };
+    if (online) {
+      NET.ph = 'result';
+      if (amHost()) { NET.lastEnd = { sh: G.shiftId, r: { win, why, sc, sv: G.served, tp: G.tips, bk: G.banks, cs: G.cs } }; netSend('end', NET.lastEnd); }
+    }
     banner(why === 'strikes' ? t('gc_closed') : t('gc_timeUp'), 1);
     if (win) SFX.win(); else SFX.lose();
-    setTimeout(() => { if (G && G.over && G.mode === 'play') screenResult(); }, 1500);
+    const w = G; setTimeout(() => { if (G === w && G.over && G.mode === 'play' && G.screen === 'ending') screenResult(); }, 1500);
   }
   function screenResult() {
     G.screen = 'result'; ov.className = 'dim'; setMode(false);
     const R = G.result, lv = G.def, i = lv.n - 1, hasNext = i + 1 < LEVELS.length;
     const why = R.win ? '' : R.why === 'strikes' ? t('gc_whyStrikes') : t('gc_whyScore', { a: lv.stars[0] });
+    if (NET.on && G.chefs) { screenResultOnline(R, lv, hasNext, why); return; }
     ov.innerHTML = `<div data-m3pop class="card">
       <div class="kick">${t('gc_shift', { n: lv.n })} · ${t(lv.name)}</div>
       <h2>${R.win ? '🎉 ' + t('gc_win') : '😵 ' + t('gc_lose')}</h2>
@@ -1882,20 +2031,21 @@
     for (let k = 0; k < R.stars; k++) setTimeout(() => SFX.star(k), 480 + k * 280);
   }
   ov.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-act]'); if (!b) return;
+    const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
     AU.init(); SFX.click();
     const a = b.dataset.act;
+    if (onlineAct(a, b)) return;
     if (a === 'levels') { if (G && G.mode === 'play') newWorld(DEMO, 'demo'); screenLevels(); }
     else if (a === 'title') { screenTitle(); }
     else if (a === 'how') screenHow(G && G.screen === 'pause' ? 'pause' : 'title');
     else if (a === 'howdone') { if (howBack === 'pause') screenPause(); else screenTitle(); }
-    else if (a === 'level') { const i = +b.dataset.n; if (unlocked(i)) screenIntro(i); else { b.animate([{ transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'none' }], { duration: 220 }); SFX.nope(); } }
+    else if (a === 'level') { const i = +b.dataset.n; if (unlocked(i)) { if (NET.on) leaveRoom(); screenIntro(i); } else { b.animate([{ transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'none' }], { duration: 220 }); SFX.nope(); } }
     else if (a === 'start') startShift();
     else if (a === 'resume') resumeGame();
     else if (a === 'restart' || a === 'retry') { const i = G.def.n - 1; screenIntro(i); startShift(); }
     else if (a === 'next') { const i = G.def.n; screenIntro(i); }
-    else if (a === 'sound') { SAVE.sound = SAVE.sound ? 0 : 1; persist(); screenPause(); syncSoundBtn(); }
-    else if (a === 'music') { SAVE.music = SAVE.music ? 0 : 1; persist(); screenPause(); }
+    else if (a === 'sound') { SAVE.sound = SAVE.sound ? 0 : 1; persist(); G.screen === 'opause' ? screenOPause() : screenPause(); syncSoundBtn(); }
+    else if (a === 'music') { SAVE.music = SAVE.music ? 0 : 1; persist(); G.screen === 'opause' ? screenOPause() : screenPause(); }
     else if (a === 'lang') setLang(getLang() === 'ar' ? 'en' : 'ar');
   });
   $('bPause').addEventListener('click', () => { AU.init(); pauseGame(); });
@@ -1909,7 +2059,8 @@
     const sc = G.screen;
     if (ov.querySelector('.how')) { screenHow(howBack); return; }
     if (sc === 'title') screenTitle(); else if (sc === 'levels') screenLevels(); else if (sc === 'pause') screenPause(); else if (sc === 'result') screenResult();
-    else if (sc === 'intro') screenIntro(G.def.n - 1);
+    else if (sc === 'intro') { if (NET.on && G.chefs) screenIntroOnline(); else screenIntro(G.def.n - 1); }
+    else if (sc === 'online') screenOnline(); else if (sc === 'lobby') screenLobby(); else if (sc === 'opause') screenOPause(); else if (sc === 'lost') showAlone();
   }
   document.addEventListener('langchange', refreshScreen);
   document.addEventListener('mal3abready', () => { if (G && G.screen === 'title') screenTitle(); });
@@ -1927,6 +2078,8 @@
     const fw = Math.min(100, G.score / s[2] * 100).toFixed(1) + '%'; if (hudCache.fw !== fw) { hudCache.fw = fw; $('hFill').style.width = fw; }
     const lives = G.def.lives || 3, left = Math.max(0, lives - G.strikes);
     setTxt('hLives', '♥'.repeat(left) + '<span class="lost">' + '♥'.repeat(lives - left) + '</span>');
+    if (NET.on && G.chefs) setTxt('gcChefs', G.chefs.map((id) => { const c = G.cs[id] || {}, here = id === NET.me || NET.peers.has(id);
+      return `<span class="ch${here ? '' : ' gone'}" style="--c:${CHEF_COL[(c.k | 0) % 4]}"><i></i><em dir="auto">${esc(c.n || nameOfChef(id))}</em>${id === NET.host ? '👑' : ''}<b>${c.s | 0}</b></span>`; }).join(''));
   }
 
   // ======================================================================================
@@ -1937,6 +2090,10 @@
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000)); last = now;
     try {
       update(dt);
+      if (NET.on) {
+        netTick(dt);
+        if (G && G.screen === 'intro' && G.introEnd) { const el = $('gcCd'), n = Math.max(1, Math.ceil((G.introEnd - performance.now()) / 1000)); if (el && el._n !== n) { el._n = n; el.textContent = t('gc_oStartIn', { n }); } }
+      }
       hintClock -= dt; if (hintClock <= 0) { hintClock = 0.2; updateHint(); }
       updateHud();
       render();
@@ -1945,6 +2102,598 @@
   }
   window.addEventListener('resize', () => { layout(); });
   window.addEventListener('orientationchange', () => setTimeout(layout, 200));
+
+  // ======================================================================================
+  //  ONLINE CO-OP — Supabase Realtime broadcast room "gravity-chef-CODE", up to 4 chefs.
+  //  The host runs the real kitchen (physics, orders, scoring) and broadcasts snapshots 14x a second.
+  //  The other chefs replay those snapshots (predicting the physics in between) and send grab / fling
+  //  actions with their id. First grab wins: the host refuses a grab on food somebody already holds.
+  // ======================================================================================
+  const MAXP = 4, SNAP_HZ = 14;
+  const CHEF_COL = ['#ffb703', '#4cc9f0', '#ff6b9d', '#80ed99'];
+  const NET_EV = ['hello', 'hb', 'bye', 'full', 'room', 'go', 'st', 'cur', 'grab', 'grabR', 'rel', 'fling', 'end', 'req', 'lobby', 'need'];
+  const colOf = (id) => CHEF_COL[(NET.cols[id] | 0) % 4];
+  function myName() {
+    const a = playerName(); if (a) return a.slice(0, 16);
+    if (!SAVE.oname) { SAVE.oname = (getLang() === 'ar' ? 'شيف ' : 'Chef ') + (10 + Math.floor(Math.random() * 90)); persist(); }
+    return SAVE.oname;
+  }
+  const nameOfChef = (id) => id === NET.me ? myName() : (NET.peers.get(id) || {}).n || (G && G.cs && G.cs[id] && G.cs[id].n) || '…';
+  const newCode = () => { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 4; i++) s += A[Math.floor(Math.random() * A.length)]; return s; };
+  const pageLink = () => location.href.split('?')[0].split('#')[0];
+  const inviteLink = (c) => pageLink() + '?room=' + c;
+  const ulCount = () => { let n = 1; LEVELS.forEach((lv, i) => { if (unlocked(i)) n = Math.max(n, i + 1); }); return n; };
+  const roomIds = () => [NET.me, ...NET.peers.keys()].sort((a, b) => jtOf(a) - jtOf(b) || (a < b ? -1 : 1));
+  const jtOf = (id) => id === NET.me ? NET.jt : (NET.peers.get(id) || {}).jt || 0;
+  async function canGoOnline() { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; return true; }
+  function netSend(ev, p) { if (!NET.ch || !NET.ready) return; try { NET.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: NET.me }, p || {}) }); } catch (e) {} }
+
+  // -------- room --------
+  function joinRoom(code, create) {
+    leaveRoom(true);
+    if (!window.sb) { toast(t('gc_oNoNet')); return false; }
+    code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if (code.length < 4) return false;
+    let id = ''; try { id = sessionStorage.getItem('gravity-chef-id-' + code) || ''; } catch (e) {}
+    if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('gravity-chef-id-' + code, id); } catch (e) {} }
+    Object.assign(NET, { on: true, code, me: id, jt: Date.now(), ready: false, host: create ? id : '', ep: create ? 1 : 0, peers: new Map(), cols: { [id]: 0 },
+      roster: create ? [id] : null, ph: 'lobby', sel: create ? Math.max(0, Math.min(LEVELS.length - 1, SAVE.last || 0)) : 0, curs: {}, lastEnd: null, subAt: 0, hostOk: true });
+    const ch = sb.channel('gravity-chef-' + code, { config: { broadcast: { self: false, ack: false } } });
+    for (const ev of NET_EV) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+    ch.subscribe((st) => { if (st === 'SUBSCRIBED' && NET.ch === ch) { NET.ready = true; NET.subAt = performance.now(); hello(true); if (amHost()) sendRoom(); if (G.screen === 'lobby') screenLobby(); } });
+    NET.ch = ch;
+    try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
+    clearInterval(NET.hb); NET.hb = setInterval(netBeat, 2000);
+    toLobby();
+    return true;
+  }
+  function leaveRoom(quiet) {
+    if (NET.ch) { netSend('bye', {}); const ch = NET.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
+    clearInterval(NET.hb);
+    Object.assign(NET, { on: false, ch: null, ready: false, code: '', host: '', peers: new Map(), curs: {}, roster: null, lastEnd: null });
+    if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+    document.body.classList.remove('online'); const n = $('gcNote'); if (n) n.hidden = true;
+  }
+  function hello(req) { netSend('hello', { n: myName(), jt: NET.jt, ul: ulCount(), req: !!req, hs: NET.host, ep: NET.ep, ph: NET.ph }); }
+  function netBeat() {
+    if (!NET.ch) return;
+    netSend('hb', { n: myName(), jt: NET.jt, ul: ulCount(), hs: NET.host, ep: NET.ep, ph: NET.ph });
+    if (amHost()) sendRoom();
+    const now = Date.now();
+    for (const P of [...NET.peers.values()]) if (now - P.t > 9000) peerGone(P.id);
+    if (!NET.host && NET.ready && performance.now() - NET.subAt > 3500) { NET.ep = Math.max(1, NET.ep + 1); becomeHost(); }   // empty room: it's ours now
+  }
+  function sendRoom(to) {
+    netSend('room', { to: to || '', hs: NET.me, ep: NET.ep, jt: NET.jt, sel: NET.sel, ph: NET.ph, r: roomIds().map((id) => [id, nameOfChef(id), NET.cols[id] | 0, jtOf(id)]) });
+  }
+  function freeCol(id) {
+    const used = new Set([NET.me, ...NET.peers.keys()].filter((i) => i !== id && NET.cols[i] != null).map((i) => NET.cols[i]));
+    if (NET.cols[id] != null && !used.has(NET.cols[id])) return NET.cols[id];
+    let c = 0; while (used.has(c)) c++; return c;
+  }
+  function addPeer(p, quiet) {
+    const P = { id: p.id, n: String(p.n || '…').slice(0, 20), jt: p.jt || Date.now(), t: Date.now(), ul: p.ul || 1, tmp: {} };
+    NET.peers.set(p.id, P);
+    if (amHost()) NET.cols[p.id] = freeCol(p.id);
+    if (!quiet && performance.now() - NET.subAt > 2500) { toast(t('gc_oJoined', { p: P.n })); SFX0.order(); }
+    if (G.screen === 'lost') { G.screen = 'play'; ov.className = ''; ov.innerHTML = ''; }
+    if (G.screen === 'lobby') screenLobby();
+    return P;
+  }
+  // host claims: the higher epoch wins, then the earlier joiner
+  function claim(p) {
+    if (p.id === NET.host) { if (p.ep > NET.ep) NET.ep = p.ep; if (!NET.hostOk) { NET.hostOk = true; regrab(); } return; }
+    const mine = amHost();
+    const wins = p.ep > NET.ep || (p.ep === NET.ep && (!mine || (p.jt || 0) < NET.jt || ((p.jt || 0) === NET.jt && p.id < NET.me)));
+    if (!wins) return;
+    NET.host = p.id; NET.ep = p.ep; NET.hostOk = true;
+    if (mine && G.mode === 'play') { if (G.held) { ptr = null; release(null); } }
+    regrab();
+    if (G.screen === 'lobby') screenLobby();
+  }
+  function regrab() { if (isGuest() && G.held && !G.held.temp) netSend('grab', { sh: G.shiftId, it: G.held.id, x: Math.round(G.held.x), y: Math.round(G.held.y) }); }
+  function acceptPeer(p) {
+    if (amHost()) { if (NET.peers.size >= MAXP - 1) { netSend('full', { to: p.id }); return false; } return true; }
+    return !NET.roster || NET.roster.includes(p.id) || p.hs === p.id;
+  }
+  function onNet(ev, p) {
+    if (!p || !p.id || p.id === NET.me || !NET.on) return;
+    if (ev === 'full') { if (p.to === NET.me) { leaveRoom(); screenOnline(t('gc_oFull')); toast(t('gc_oFull')); } return; }
+    if (ev === 'bye') { if (NET.peers.has(p.id)) peerGone(p.id); return; }
+    if (p.hs === p.id && p.ep != null) claim(p);
+    else if (!NET.host && p.hs && p.ep >= NET.ep) { NET.host = p.hs; NET.ep = p.ep; }
+    let P = NET.peers.get(p.id);
+    if (!P) { if (!acceptPeer(p)) return; P = addPeer(p); }
+    P.t = Date.now(); if (p.n) P.n = String(p.n).slice(0, 20); if (p.ul) P.ul = p.ul; if (p.jt) P.jt = p.jt;
+    if (p.to && p.to !== NET.me) return;
+    const fromHost = p.id === NET.host;
+    switch (ev) {
+      case 'hello': if (p.req) hello(false); if (amHost()) { sendRoom(); hostCatchUp(P, p.ph); } if (G.screen === 'lobby') screenLobby(); break;
+      case 'hb': if (amHost() && p.ph !== NET.ph) hostCatchUp(P, p.ph); break;
+      case 'room': if (fromHost) onRoom(p); break;
+      case 'go': if (fromHost) guestGo(p); break;
+      case 'st': if (fromHost && !amHost()) applySnap(p); break;
+      case 'end': if (fromHost && G.mode === 'play' && G.shiftId === p.sh && p.r) guestEnd(p.r); break;
+      case 'lobby': if (fromHost && G.screen !== 'lobby' && G.screen !== 'online') toLobby(); break;
+      case 'need': if (amHost()) { sendGo(p.id); if (NET.ph === 'result' && NET.lastEnd) netSend('end', Object.assign({}, NET.lastEnd, { to: p.id })); } break;
+      case 'req': if (amHost() && NET.ph === 'result' && G.mode === 'play') { if (p.a === 'next') hostNext(); else if (p.a === 'retry') hostStart(G.def.n - 1); } break;
+      case 'cur': { const c = NET.curs[p.id] || (NET.curs[p.id] = { rx: p.x, ry: p.y }); c.x = p.x; c.y = p.y; c.t = performance.now(); if (c.rx == null) { c.rx = p.x; c.ry = p.y; } break; }
+      case 'grab': if (amHost()) hostGrab(P, p); break;
+      case 'fling': case 'rel': if (amHost()) hostFling(P, p, ev === 'fling'); break;
+      case 'grabR': if (fromHost) onGrabR(p); break;
+    }
+    if (ev === 'hb' && G.screen === 'lobby') screenLobby();
+  }
+  function onRoom(p) {
+    NET.roster = p.r.map((e) => e[0]); NET.cols = {};
+    for (const e of p.r) {
+      NET.cols[e[0]] = e[2];
+      if (e[0] === NET.me) continue;
+      const P = NET.peers.get(e[0]);
+      if (P) { P.n = String(e[1]).slice(0, 20); P.jt = e[3]; } else addPeer({ id: e[0], n: e[1], jt: e[3] });
+    }
+    for (const id of [...NET.peers.keys()]) if (!NET.roster.includes(id)) { NET.peers.delete(id); delete NET.curs[id]; }
+    if (NET.ph === 'lobby') NET.sel = p.sel | 0;
+    if (G.screen === 'lobby') screenLobby();
+  }
+  function peerGone(id) {
+    const P = NET.peers.get(id); if (!P) return;
+    NET.peers.delete(id); delete NET.curs[id];
+    if (NET.roster) NET.roster = NET.roster.filter((i) => i !== id);
+    if (amHost() && G.mode === 'play') for (const it of G.items) if (it.held && it.by === id) releaseItem(it, null, id);
+    let msg = t('gc_oLeft', { p: P.n });
+    if (id === NET.host) {   // the next chef in join order takes over the kitchen
+      NET.host = roomIds()[0]; NET.hostOk = false;
+      if (NET.host === NET.me) { NET.ep++; becomeHost(); msg += ' · ' + t('gc_oYouHost'); }
+      else msg += ' · ' + t('gc_oNewHost', { p: nameOfChef(NET.host) });
+    }
+    if (amHost()) sendRoom();
+    toast(msg);
+    if (NET.peers.size === 0 && G.mode === 'play' && ['play', 'opause', 'intro'].includes(G.screen)) showAlone();
+    else if (G.screen === 'lobby') screenLobby();
+  }
+  function becomeHost() {
+    NET.host = NET.me; NET.hostOk = true; NET.cols[NET.me] = freeCol(NET.me);
+    if (G.mode === 'play') {   // our replica becomes the real kitchen
+      if (G.held && G.held.temp) { G.held = null; G.aim = null; ptr = null; }
+      G.items = G.items.filter((it) => !it.temp);
+      for (const it of G.items) { if (it.held && it !== G.held && !NET.peers.has(it.by)) { it.held = false; it.by = ''; } it.flAt = 0; }
+      for (const st of G.stations) st.lock = 0;
+      for (const P of NET.peers.values()) P.tmp = {};
+      G.acc = 0; G.slow = 1;
+      if (G.screen === 'intro' && !G.introEnd) G.introEnd = performance.now() + 1500;
+    }
+    sendRoom(); hello(false);
+    if (G.screen === 'lobby') screenLobby();
+  }
+  function hostCatchUp(P, ph) {
+    if (NET.ph === 'play' && G.mode === 'play') sendGo(P.id);
+    else if (NET.ph === 'result' && G.mode === 'play' && NET.lastEnd) { sendGo(P.id); netSend('end', Object.assign({}, NET.lastEnd, { to: P.id })); }
+    else if (NET.ph === 'lobby' && ph && ph !== 'lobby') netSend('lobby', { to: P.id });
+  }
+  function toLobby() {
+    NET.ph = 'lobby'; ptr = null;
+    if (!G || G.mode !== 'demo') newWorld(DEMO, 'demo');
+    screenLobby();
+  }
+
+  // -------- shifts --------
+  // more chefs: orders come faster, the queue is longer and the coin goals scale up to match
+  function onlineDef(lv, n) {
+    if (n <= 1) return lv;
+    const f = 1 + 0.3 * (n - 1), r5 = (x) => Math.max(5, Math.round(x / 5) * 5);
+    return Object.assign({}, lv, { every: [lv.every[0] / f, lv.every[1] / f], maxQ: Math.min(6, lv.maxQ + (n >= 3 ? 2 : 1)), stars: lv.stars.map((v) => r5(v * f)), chefsN: n });
+  }
+  function buildShift(lv, chefs, sh, cs) {
+    newWorld(onlineDef(lv, chefs.length), 'play');
+    G.shiftId = sh; G.chefs = chefs.slice(0, MAXP); G.watch = !G.chefs.includes(NET.me);
+    if (cs) G.cs = cs; else { G.cs = {}; G.chefs.forEach((id) => { G.cs[id] = { s: 0, c: 0, n: nameOfChef(id), k: NET.cols[id] | 0 }; }); }
+    SAVE.last = lv.n - 1; persist();
+  }
+  function hostStart(i) {
+    if (!amHost() || !LEVELS[i]) return;
+    if (G.held) { ptr = null; G.held = null; }
+    NET.sel = i; NET.ph = 'play'; NET.lastEnd = null;
+    buildShift(LEVELS[i], roomIds(), 1 + Math.floor(Math.random() * 1e9));
+    G.screen = 'intro'; G.introEnd = performance.now() + 4000; screenIntroOnline();
+    sendGo();
+  }
+  function hostNext() { if (G.result && G.result.win && G.def.n < LEVELS.length) hostStart(G.def.n); }
+  function sendGo(to) {
+    if (G.mode !== 'play' || !G.shiftId) return;
+    netSend('go', { to: to || '', l: G.def.n, sh: G.shiftId, chefs: G.chefs, cs: G.cs, cd: G.screen === 'intro' ? Math.max(0, Math.round(G.introEnd - performance.now())) : 0 });
+  }
+  function guestGo(p) {
+    if (G.mode === 'play' && G.shiftId === p.sh) return;
+    const lv = LEVELS[(p.l | 0) - 1]; if (!lv || !Array.isArray(p.chefs)) return;
+    NET.ph = 'play'; NET.sel = lv.n - 1; ptr = null;
+    buildShift(lv, p.chefs, p.sh, p.cs);
+    G.items = [];
+    if (p.cd > 0) { G.screen = 'intro'; G.introEnd = performance.now() + p.cd; screenIntroOnline(); } else guestBegin();
+  }
+  function guestBegin() {
+    G.screen = 'play'; G.live = true; G.introEnd = 0; ov.className = ''; ov.innerHTML = '';
+    hudStart();
+  }
+  function guestEnd(r) {
+    if (G.over) return;
+    G.score = r.sc; G.served = r.sv; G.tips = r.tp; G.banks = r.bk; if (r.cs) G.cs = r.cs;
+    endShift(!!r.win, r.why);
+  }
+  function showAlone() {
+    G.screen = 'lost'; ov.className = 'dim';
+    if (G.held) { ptr = null; release(null); }
+    ov.innerHTML = `<div data-m3pop class="card small">
+      <h2>👋 ${t('gc_oAlone')}</h2><p class="center">${t('gc_oAloneD')}</p>
+      <button class="btn big" data-act="osolo">▶ ${t('gc_oSolo')}</button>
+      <button class="btn sec" data-act="leave">🏠 ${t('gc_oMenu')}</button>
+    </div>`;
+  }
+
+  // -------- actions: grab / fling --------
+  function takeOut(st) {   // tap a pan / pot / board that holds ready food
+    const it = takeFrom(st); if (!it) return null;
+    if (isGuest()) { it.id = 'L' + (NET.tmpN++); it.temp = performance.now(); st.lock = performance.now() + 800; }
+    return it;
+  }
+  function guestGrab(it, st) {
+    if (st) netSend('grab', { sh: G.shiftId, sid: st.id, tmp: it.id, x: Math.round(it.x), y: Math.round(it.y) });
+    else netSend('grab', { sh: G.shiftId, it: it.id, x: Math.round(it.x * 10) / 10, y: Math.round(it.y * 10) / 10 });
+  }
+  function sendCur(wx, wy, force) {
+    if (!NET.on || !G || G.mode !== 'play' || G.watch || G.screen !== 'play') return;
+    const n = performance.now(); if (!force && n - NET.curT < 70) return; NET.curT = n;
+    netSend('cur', { x: Math.round(wx), y: Math.round(wy) });
+  }
+  function hostGrab(P, m) {
+    const deny = () => netSend('grabR', { to: P.id, ok: 0, it: m.it || '', tmp: m.tmp || '' });
+    if (G.mode !== 'play' || G.shiftId !== m.sh || !['play', 'opause'].includes(G.screen) || !G.chefs.includes(P.id)) return deny();
+    for (const o of G.items) if (o.held && o.by === P.id) releaseItem(o, null, P.id);   // one item per chef
+    let it = null;
+    if (m.sid) {
+      const st = G.stations.find((s) => s.id === m.sid); if (!st || !readyPh(st.c)) return deny();
+      it = takeFrom(st); P.tmp[m.tmp] = it.id;
+    } else {
+      it = G.items.find((i) => i.id === m.it); if (!it || it.held || it.dead) return deny();   // first grab wins
+      const x = +m.x, y = +m.y;
+      if (isFinite(x) && isFinite(y) && Math.hypot(it.x - x, it.y - y) < 120) { it.x = clamp(x, it.r, W - it.r); it.y = clamp(y, it.r, H - it.r); }
+    }
+    it.held = true; it.by = P.id; it.vx = it.vy = 0; SFX0.grab();
+    netSend('grabR', { to: P.id, ok: 1, it: it.id, tmp: m.tmp || '' });
+  }
+  function hostFling(P, m, fl) {
+    if (G.mode !== 'play' || G.shiftId !== m.sh) return;
+    const id = P.tmp[m.it] || m.it, it = G.items.find((i) => i.id === id);
+    if (!it || !it.held || it.by !== P.id) return;
+    if (!fl) { releaseItem(it, null, P.id); return; }
+    let vx = +m.vx || 0, vy = +m.vy || 0; const sp = Math.hypot(vx, vy); if (sp > 1100) { vx *= 1100 / sp; vy *= 1100 / sp; }
+    releaseItem(it, [vx, vy, clamp(+m.p || 0.6, 0, 1)], P.id);
+    // lag compensation: the chef threw this a moment ago on their screen, so catch it up
+    const lag = clamp(G.T - (+m.T || G.T), 0, 0.3), ev = [];
+    for (let k = 0, n = Math.floor(lag / STEP); k < n && !it.dead; k++) {
+      it.thrown = Math.max(0, it.thrown - STEP); integrate(it, STEP, G.T - lag + k * STEP, false);
+      ev.length = 0; collideWorld(it, 0, ev); if (ev.length) handleEvents(it, ev);
+    }
+  }
+  function onGrabR(p) {
+    let it = G.items.find((i) => i.id === (p.tmp || p.it));
+    if (p.ok) {
+      if (p.tmp) { if (it) { it.id = p.it; it.temp = 0; } else if (G.gone[p.tmp]) G.gone[p.it] = G.gone[p.tmp]; }
+      return;
+    }
+    if (!it && p.it) it = G.items.find((i) => i.id === p.it);
+    if (it && it === G.held) { ptr = null; G.held = null; G.aim = null; }
+    if (it) { it.held = false; it.by = ''; it.flAt = 0; if (it.temp) G.items = G.items.filter((i) => i !== it); }
+    for (const st of G.stations) st.lock = 0;
+    if (it) pop(it.x, it.y - 40, ['gc_oTaken'], '#ff8fa3', 0.85);
+    SFX0.nope();
+  }
+
+  // -------- snapshots (host → everyone) --------
+  const r1 = (v) => Math.round(v * 10) / 10, r2 = (v) => Math.round(v * 100) / 100;
+  function snapEnc() {
+    const gl = G.gl;
+    return {
+      sh: G.shiftId, hs: NET.me, ep: NET.ep, jt: NET.jt, T: Math.round(G.T * 1000) / 1000, lv: G.live ? 1 : 0, tl: r2(G.timeLeft),
+      s: [G.score, G.tips, G.banks, G.served, G.strikes], no: r2(G.nextOrder), oid: G.oid, uid: G.uid, sk: r1(G.shake), cs: G.cs, td: G.tutDone ? 1 : 0,
+      it: G.items.filter((i) => !i.dead).map((i) => [i.id, i.kind, r1(i.x), r1(i.y), Math.round(i.vx), Math.round(i.vy), r2(i.ang), i.held ? i.by || '' : '', r1(i.thrown), i.bounces, r1(i.ph), i.ignore || '', r1(i.spin || 0), i.fl || '']),
+      st: G.stations.map((q) => [r1(q.x), r1(q.y), r1(q.vx), r1(q.vy), q.c ? [q.c.ph, q.c.k || '', q.c.out || '', r2(q.c.t), q.c.cook || 0, q.c.hits || 0] : 0,
+        q.rec || '', q.list.slice(), r2(q.flash), r2(q.rej), r2(q.wob || 0), r2(q.ph)]),
+      or: G.orders.map((o) => [o.id, o.d, r2(o.t), r1(o.max)]),
+      po: G.ports.map((q) => [q.next || '', r2(q.fire), r2(q.cd), r2(q.flash)]),
+      bf: G.bumpers.map((b) => r2(b.flash)),
+      gl: gl ? [gl.phase, r2(gl.next || 0), r1(gl.tx || 0), r1(gl.ty || 0), r2(gl.at || 0), r2(gl.until || 0), gl.lastA, r2(gl.beep || 0)] : 0,
+      gk: G.gk.map((k) => [r2(k.t), r1(k.x), r1(k.y)]), gb: [r1(G.gBase.x), r1(G.gBase.y)],
+      fx: FXQ.splice(0, FXQ.length),
+    };
+  }
+  function applySnap(s) {
+    if (G.mode !== 'play' || s.sh !== G.shiftId) {   // we're on the wrong shift: ask the host to catch us up
+      const n = performance.now(); if (n - NET.needT > 1500) { NET.needT = n; netSend('need', {}); } return;
+    }
+    const now = performance.now();
+    const d = s.T - G.T; if (!G.synced || Math.abs(d) > 0.5) { G.T = s.T; G.synced = true; } else G.T += d * 0.2;
+    const dl = clamp(G.T - s.T, -0.15, 0.15);
+    if (s.lv && G.screen === 'intro') guestBegin();
+    if (!G.over) { G.live = !!s.lv; G.timeLeft = s.tl - (s.lv ? dl : 0); }
+    [G.score, G.tips, G.banks, G.served, G.strikes] = s.s;
+    G.nextOrder = s.no; G.oid = s.oid; G.uid = Math.max(G.uid, s.uid); G.cs = s.cs || G.cs; G.shake = Math.max(G.shake, s.sk || 0); G.tutDone = !!s.td;
+    G.gBase = { x: s.gb[0], y: s.gb[1] }; G.gk = s.gk.map((k) => ({ t: k[0], x: k[1], y: k[2] }));
+    if (G.gl && s.gl) { const g = s.gl; Object.assign(G.gl, { phase: g[0], next: g[1], tx: g[2], ty: g[3], at: g[4], until: g[5], lastA: g[6], beep: g[7] }); }
+    const oldO = {}; G.orders.forEach((o) => { oldO[o.id] = o; });
+    G.orders = s.or.map((a) => ({ id: a[0], d: a[1], t: a[2] - (s.lv ? dl : 0), max: a[3], born: 0, in: oldO[a[0]] ? oldO[a[0]].in : 0 }));
+    s.po.forEach((a, i) => { const q = G.ports[i]; if (!q) return; q.next = a[0] || null; q.fire = a[1]; q.cd = a[2]; q.flash = Math.max(q.flash, a[3]); });
+    (s.bf || []).forEach((f, i) => { if (G.bumpers[i]) G.bumpers[i].flash = Math.max(G.bumpers[i].flash, f); });
+    s.st.forEach((a, i) => {
+      const q = G.stations[i]; if (!q) return;
+      q.x = a[0] + a[2] * dl; q.y = a[1] + a[3] * dl; q.vx = a[2]; q.vy = a[3]; q.ph = a[11];
+      q.flash = Math.max(q.flash, a[8]); q.rej = Math.max(q.rej, a[9]); q.wob = Math.max(q.wob || 0, a[10]);
+      if (q.lock && now < q.lock) return;   // we just took the food out: wait for the host to agree
+      const c = a[4];
+      q.c = c ? { ph: c[0], k: c[1] || undefined, out: c[2] || undefined, t: c[3] + dl, cook: c[4], hits: c[5], beep: 0 } : null;
+      q.rec = a[5] || null; q.list = a[6] || [];
+    });
+    const seen = new Set(), byId = new Map(G.items.map((i) => [i.id, i]));
+    for (const a of s.it) {
+      const [id, kind, x, y, vx, vy, ang, by, th, bo, ph, ig, spin, fl] = a;
+      if (!KIND[kind]) continue;
+      seen.add(id);
+      let it = byId.get(id);
+      if (!it) {
+        if (G.gone[id] != null && s.T < G.gone[id] + 0.4) continue;   // we saw it land already
+        delete G.gone[id];
+        it = mkItem(kind, x, y); it.id = id; it.ex = it.ey = 0; G.items.push(it);
+      }
+      if (it.kind !== kind) { it.kind = kind; it.r = KIND[kind].r; }
+      if (it === G.held) continue;                                      // our own hands: local and smooth
+      if (it.flAt && now - it.flAt < 1000 && by === NET.me) continue;   // the host hasn't seen our throw yet
+      if (by === NET.me && now - (it.relT || 0) > 1000) { it.relT = now; netSend('rel', { sh: G.shiftId, it: id }); }
+      it.held = !!by; it.by = by;
+      const nx = x + (by ? 0 : vx * dl), ny = y + (by ? 0 : vy * dl), ex = nx - it.x, ey = ny - it.y;
+      if (Math.hypot(ex, ey) > 150) { it.ex = it.ey = 0; } else { it.ex = (it.ex || 0) - ex; it.ey = (it.ey || 0) - ey; }
+      it.x = nx; it.y = ny; it.vx = by ? 0 : vx; it.vy = by ? 0 : vy; it.ang = ang; it.thrown = th; it.bounces = bo; it.ph = ph; it.ignore = ig || null; it.spin = spin; it.fl = fl;
+    }
+    G.items = G.items.filter((it) => seen.has(it.id) || it === G.held || (it.temp && now - it.temp < 2500));
+    for (const e of s.fx || []) playFx(e);
+  }
+  function playFx(e) {
+    switch (e[0]) {
+      case 's': if (SFX0[e[1]]) SFX0[e[1]](e[2]); break;
+      case 'p': pop(e[1], e[2], e[3], e[4], e[5]); break;
+      case 'b': burst(e[1], e[2], e[3], e[4], e[5], e[6], e[7]); break;
+      case 'c': coinFly(e[1], e[2], e[3]); break;
+      case 'g': if (G.gone[e[1]] == null && KIND[e[2]]) G.ghosts.push({ kind: e[2], x: e[3], y: e[4], tx: e[5], ty: e[6], t: 0, r: KIND[e[2]].r, ang: e[7] }); break;
+    }
+  }
+  // the replica: same physics as the host between snapshots, but no game rules (the host decides those)
+  function stepReplica(h) {
+    G.T += h;
+    const ev = [];
+    for (const it of G.items) {
+      if (it.held || it.dead) continue;
+      if (it.thrown > 0) it.thrown = Math.max(0, it.thrown - h);
+      integrate(it, h, G.T, false);
+      ev.length = 0; collideWorld(it, 0, ev);
+      for (const e of ev) {
+        if (e.e === 'bounce') { it.sq = Math.min(0.35, e.sp / 1400); it.sqp = 0; if (e.what === 'bumper' && e.obj) e.obj.flash = 1; }
+        else if (e.e === 'absorb') {   // predicted landing: show it right away
+          const [px, py] = tgPos(e.tg); G.gone[it.id] = G.T; e.tg.flash = 1;
+          G.ghosts.push({ kind: it.kind, x: it.x, y: it.y, tx: px, ty: py, t: 0, r: it.r, ang: it.ang });
+        }
+      }
+      it.ang += it.spin * h; it.spin *= Math.exp(-0.25 * h);
+      if (it.sq > 0.002) { it.sq *= Math.exp(-5 * h); it.sqp += 26 * h; }
+    }
+    for (const st of G.stations) {
+      if (st.bolt) continue;
+      st.x = clamp(st.x + st.vx * h, st.r, W - st.r); st.y = clamp(st.y + st.vy * h, st.r, H - st.r);
+    }
+    collideItems(false);
+    if (G.items.some((i) => i.dead)) G.items = G.items.filter((i) => !i.dead);
+  }
+  function replicaUpdate(rdt) {
+    if (!['play', 'opause', 'intro', 'ending'].includes(G.screen)) { tickFx(0); return; }
+    G.acc += rdt; let n = 0;
+    while (G.acc >= STEP && n < 10) { stepReplica(STEP); G.acc -= STEP; n++; }
+    if (n >= 10) G.acc = 0;
+    if (G.live && !G.over) {
+      G.timeLeft -= rdt;
+      for (const o of G.orders) { o.t -= rdt; o.in = Math.min(1, o.in + rdt * 3); }
+      const sec = Math.ceil(G.timeLeft);
+      if (sec <= 10 && sec !== G.tickS && sec > 0) { G.tickS = sec; SFX.tick(); if (sec === 10) banner(t('gc_tenLeft'), 1); }
+    }
+    for (const st of G.stations) {
+      st.flash = Math.max(0, st.flash - rdt * 3); st.rej = Math.max(0, st.rej - rdt * 3); st.wob = Math.max(0, (st.wob || 0) - rdt * 2);
+      if (st.c) { st.c.t += rdt; if (st.t !== 'board') stationParts(st, rdt); }
+    }
+    for (const q of G.ports) if (q.fire > 0) q.fire = Math.max(0, q.fire - rdt);
+    tickFx(rdt);
+  }
+  function netFx(dt) {   // every frame: ease snapshot corrections, glide the other chefs' hands
+    const k = Math.exp(-dt * 10);
+    for (const it of G.items) if (it.ex || it.ey) { it.ex *= k; it.ey *= k; if (Math.abs(it.ex) + Math.abs(it.ey) < 0.05) it.ex = it.ey = 0; }
+    const f = 1 - Math.exp(-dt * 16);
+    for (const id in NET.curs) { const c = NET.curs[id]; if (c.x == null) continue; c.rx += (c.x - c.rx) * f; c.ry += (c.y - c.ry) * f; }
+  }
+  function netTick(dt) {
+    if (!amHost() || !G || G.mode !== 'play') { FXQ.length = 0; return; }
+    if (G.screen === 'intro' && G.introEnd && performance.now() >= G.introEnd) startShift();
+    if (!['intro', 'play', 'opause', 'ending'].includes(G.screen) || !NET.peers.size || !NET.ready) { FXQ.length = 0; return; }
+    NET.sendT -= dt; if (NET.sendT > 0) return;
+    NET.sendT += 1 / SNAP_HZ; if (NET.sendT < 0) NET.sendT = 0;
+    netSend('st', snapEnc());
+  }
+
+  // -------- drawing the other chefs --------
+  function drawChefs() {
+    if (!NET.on || !G || G.mode !== 'play') return;
+    const now = performance.now();
+    for (const id in NET.curs) {
+      if (id === NET.me) continue;
+      const c = NET.curs[id]; if (c.x == null) continue;
+      const held = G.items.find((i) => i.held && i.by === id);
+      if (!held && now - c.t > 2500) continue;
+      const col = colOf(id), [sx, sy] = toS(c.rx, c.ry), s = Math.max(0.65, L.s);
+      ctx.save(); ctx.globalAlpha = held ? 1 : clamp(1 - (now - c.t - 1800) / 700, 0, 1);
+      if (held) {   // their slingshot band
+        const [ix, iy] = toS(held.x + (held.ex || 0), held.y + (held.ey || 0));
+        ctx.strokeStyle = col; ctx.lineWidth = Math.max(2, 4 * L.s); ctx.lineCap = 'round'; ctx.setLineDash([8 * s, 6 * s]);
+        ctx.beginPath(); ctx.moveTo(ix, iy); ctx.lineTo(sx, sy); ctx.stroke(); ctx.setLineDash([]);
+      }
+      // the hand: a chef's glove in their colour
+      ctx.translate(sx, sy); ctx.scale(s, s);
+      ctx.fillStyle = col; ctx.strokeStyle = OUT; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.ellipse(0, 0, 11, 12, 0, 0, TAU); ctx.fill(); ctx.stroke();
+      for (const [fx, fy] of [[-7, -11], [-2, -14], [3, -14], [8, -11]]) { ctx.beginPath(); ctx.ellipse(fx, fy, 3.2, 5.5, fx * 0.04, 0, TAU); ctx.fill(); ctx.stroke(); }
+      ctx.beginPath(); ctx.ellipse(-12, 1, 3.5, 6, -0.7, 0, TAU); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#ffffff'; ctx.beginPath(); rr(ctx, -10, 9, 20, 6, 3); ctx.fill(); ctx.stroke();
+      // name tag
+      const nm = nameOfChef(id); ctx.font = '800 13px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = 'ltr';
+      const tw = ctx.measureText(nm).width + 14;
+      ctx.fillStyle = col; ctx.beginPath(); rr(ctx, -tw / 2, 20, tw, 20, 10); ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = OUT; ctx.fillText(nm, 0, 30.5);
+      ctx.restore();
+    }
+  }
+
+  // -------- screens --------
+  let ovKey = '';
+  function setOv(cls, html) {   // only redraw a menu when it actually changed (no flicker on heartbeats)
+    if (html === ovKey && ov.firstElementChild && ov.firstElementChild === ov._el) return;
+    ov.className = cls; ov.innerHTML = html; ovKey = html; ov._el = ov.firstElementChild;
+    if (window.Mal3abPopButtons) window.Mal3abPopButtons();
+  }
+  function screenOnline(msg) {
+    if (!G || G.mode !== 'demo') newWorld(DEMO, 'demo');
+    G.screen = 'online'; setMode(false);
+    const logged = !!playerName();
+    setOv('dim', `<div data-m3pop class="card small">
+      <h2>🌐 ${t('gc_oTitle')}</h2>
+      <p class="center">${t('gc_oTag')}</p>
+      ${logged ? `<div class="chef center">👨‍🍳 ${esc(myName())}</div>` : `<label class="fld"><span>${t('gc_oName')}</span><input id="gcName" maxlength="16" value="${esc(myName())}" autocomplete="off" spellcheck="false" dir="auto"></label>`}
+      <button class="btn big" data-act="create">➕ ${t('gc_oCreate')}</button>
+      <div class="or"><span>${t('gc_oOr')}</span></div>
+      <div class="row joinrow"><input class="code" id="gcCode" maxlength="6" placeholder="${esc(t('gc_oCodePh'))}" autocomplete="off" spellcheck="false"><button class="btn" data-act="join">${t('gc_oJoin')}</button></div>
+      <div class="msg" id="gcMsg">${msg ? esc(msg) : ''}</div>
+      <button class="btn sec" data-act="title">${t('gc_back')}</button>
+    </div>`);
+    const nm = $('gcName'); if (nm) nm.oninput = () => { const v = nm.value.trim().slice(0, 16); if (v) { SAVE.oname = v; persist(); } };
+    const inp = $('gcCode'); if (inp) { inp.oninput = () => { inp.value = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); }; inp.onkeydown = (e) => { if (e.key === 'Enter') onlineAct('join', inp); }; }
+  }
+  function screenLobby() {
+    if (!NET.on) return;
+    G.screen = 'lobby'; setMode(false);
+    const host = amHost(), ids = roomIds();
+    const maxL = Math.min(LEVELS.length, Math.max(ulCount(), ...[...NET.peers.values()].map((q) => q.ul || 1)));
+    if (host) NET.sel = clamp(NET.sel, 0, maxL - 1);
+    const lv = LEVELS[clamp(NET.sel, 0, LEVELS.length - 1)], enough = ids.length >= 2;
+    const rows = ids.map((id) => `<div class="pl"><i class="dot" style="background:${colOf(id)}"></i><b dir="auto">${esc(nameOfChef(id))}</b>${id === NET.host ? '<span class="crown">👑</span>' : ''}<span class="sp"></span><small>${id === NET.me ? t('gc_oYou') + ' · ' : ''}${t(id === NET.host ? 'gc_oHost' : 'gc_oCook')}</small></div>`).join('');
+    setOv('dim', `<div data-m3pop class="card lobby">
+      <h2>🌐 ${t('gc_oTitle')}</h2>
+      <div class="roomcode"><span>${t('gc_oRoom')}</span><b>${esc(NET.code)}</b><span class="sp"></span><button class="btn sec sm" data-act="copy">🔗 ${t('gc_oCopy')}</button></div>
+      <h3>${t('gc_oChefs', { n: ids.length, m: MAXP })}</h3>
+      <div class="plist">${rows}${ids.length < MAXP ? `<div class="pl wait">${t(NET.ready ? 'gc_oWaiting' : 'gc_oConnecting')}</div>` : ''}</div>
+      <h3>${t('gc_oPick')}</h3>
+      <div class="picker">${host ? `<button class="btn sec sm" data-act="olv" data-d="-1" ${NET.sel <= 0 ? 'disabled' : ''}>‹</button>` : ''}
+        <div class="pk"><span class="ic">${lv.icon}</span><div><small>${t('gc_shift', { n: lv.n })}</small><b>${t(lv.name)}</b></div><span class="st">${starStr(SAVE.stars[lv.n] || 0)}</span></div>
+        ${host ? `<button class="btn sec sm" data-act="olv" data-d="1" ${NET.sel >= maxL - 1 ? 'disabled' : ''}>›</button>` : ''}</div>
+      <div class="tipbox">${t(lv.tip)}</div>
+      ${host ? `<button class="btn big" data-act="ostart" ${enough ? '' : 'disabled'}>▶ ${t('gc_oStart')}</button>${enough ? '' : `<p class="center muted">${t('gc_oNeed')}</p>`}`
+        : `<p class="center muted">${t('gc_oWaitHost')}</p>`}
+      <button class="btn sec" data-act="leave">🚪 ${t('gc_oLeave')}</button>
+    </div>`);
+  }
+  function screenIntroOnline() {
+    const lv = G.def, n = G.chefs.length, secs = Math.max(1, Math.ceil((G.introEnd - performance.now()) / 1000));
+    setMode(false); ovKey = '';
+    ov.className = 'dim';
+    ov.innerHTML = `<div data-m3pop class="card">
+      <div class="kick">${t('gc_shift', { n: lv.n })} · ${lv.icon}</div><h2>${t(lv.name)}</h2>
+      <div class="tipbox"><span class="new">${t('gc_new')}</span>${t(lv.tip)}</div>
+      <h3>${t('gc_menu')}</h3>
+      <div class="menu">${Object.keys(lv.menu).map((d) => `<div class="dish"><img src="${iconURL(d)}" alt=""><div class="dn"><b>${t('gc_d_' + d)}</b><div class="chain">${chainHTML(d)}</div></div><span class="val"><i class="coin"></i>${DISH[d].v}</span></div>`).join('')}</div>
+      <div class="goal">${t('gc_goalLine', { a: lv.stars[0] })}<span class="stl">★ ${lv.stars[0]} · ★★ ${lv.stars[1]} · ★★★ ${lv.stars[2]}</span>${n > 1 ? `<span class="scl">👨‍🍳 ${t('gc_oScale', { n })}</span>` : ''}</div>
+      ${G.watch ? `<p class="center why">${t('gc_oWatch')}</p>` : ''}
+      <div class="cdown" id="gcCd">${t('gc_oStartIn', { n: secs })}</div>
+      ${amHost() ? `<div class="row"><button class="btn big" data-act="ostartnow">▶ ${t('gc_oStartNow')}</button></div>` : ''}
+    </div>`;
+  }
+  function screenOPause() {
+    ovKey = ''; ov.className = 'dim';
+    ov.innerHTML = `<div data-m3pop class="card small">
+      <h2>⏸ ${t('gc_oMenuT')}</h2><p class="center">${t('gc_oRunning')}</p>
+      <button class="btn big" data-act="resume">▶ ${t('gc_resume')}</button>
+      ${amHost() ? `<button class="btn sec" data-act="oretry">🔄 ${t('gc_restart')}</button><button class="btn sec" data-act="olobby">🏠 ${t('gc_oLobby')}</button>` : ''}
+      <button class="btn sec" data-act="leave">🚪 ${t('gc_oLeave')}</button>
+      <div class="row"><button class="btn sec sm" data-act="sound">${SAVE.sound ? '🔊' : '🔇'} ${t('gc_sound')}</button><button class="btn sec sm" data-act="music">${SAVE.music ? '🎵' : '🎵✕'} ${t('gc_music')}</button><button class="btn sec sm" data-act="lang">${getLang() === 'ar' ? 'English' : 'العربية'}</button></div>
+    </div>`;
+  }
+  function screenResultOnline(R, lv, hasNext, why) {
+    G.screen = 'result'; setMode(false); ovKey = ''; ov.className = 'dim';
+    const team = Object.entries(G.cs || {}).sort((a, b) => b[1].s - a[1].s || b[1].c - a[1].c).map(([id, c]) => `<div class="pl"><i class="dot" style="background:${CHEF_COL[(c.k | 0) % 4]}"></i><b dir="auto">${esc(c.n || '…')}</b>${id === NET.me ? `<small>(${t('gc_oYou')})</small>` : ''}<span class="sp"></span><span class="tag">🍽 ${t('gc_oOrdersN', { n: c.s | 0 })}</span><span class="tag"><i class="coin"></i>${c.c | 0}</span></div>`).join('');
+    ov.innerHTML = `<div data-m3pop class="card">
+      <div class="kick">${t('gc_shift', { n: lv.n })} · ${t(lv.name)}</div>
+      <h2>${R.win ? '🎉 ' + t('gc_win') : '😵 ' + t('gc_lose')}</h2>
+      ${why ? `<p class="why">${why}</p>` : ''}
+      <div class="bigstars">${[1, 2, 3].map((k) => `<span class="${k <= R.stars ? 'on' : ''}" style="animation-delay:${0.2 + k * 0.28}s">★</span>`).join('')}</div>
+      <div class="stats">
+        <span>${t('gc_coins')}</span><b>${G.score}</b>
+        <span>${t('gc_served')}</span><b>${G.served}</b>
+        <span>${t('gc_tipsL')}</span><b>${G.tips}</b>
+        <span>${t('gc_banks')}</span><b>${G.banks}</b>
+      </div>
+      <h3>👨‍🍳 ${t('gc_oTeam')}</h3>
+      <div class="plist">${team}</div>
+      ${R.win && !hasNext ? `<p class="center">${t('gc_allDone')}</p>` : ''}
+      <div class="row">
+        ${R.win && hasNext ? `<button class="btn big" data-act="onext">▶ ${t('gc_next')}</button>` : ''}
+        <button class="btn ${R.win && hasNext ? 'sec' : 'big'}" data-act="oretry">🔄 ${t('gc_retry')}</button>
+      </div>
+      <div class="row">${amHost() ? `<button class="btn sec" data-act="olobby">🏠 ${t('gc_oLobby')}</button>` : ''}<button class="btn sec" data-act="leave">🚪 ${t('gc_oLeave')}</button></div>
+      <p class="center muted" id="gcReq"></p>
+    </div>`;
+    for (let k = 0; k < R.stars; k++) setTimeout(() => SFX.star(k), 480 + k * 280);
+  }
+  function copyText(text, btn) {
+    const done = () => { if (!btn) return; const o = btn.textContent; btn.textContent = t('gc_oCopied'); setTimeout(() => { btn.textContent = o; }, 1300); };
+    try { if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else done(); } catch (e) { done(); }
+  }
+  let toastT = 0;
+  function toast(msg) {
+    const el = $('gcToast'); if (!el) return;
+    el.textContent = msg; el.hidden = false; el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(() => { el.hidden = true; }, 3200);
+  }
+  // menu buttons for everything online; returns true when it handled the click
+  function onlineAct(a, b) {
+    switch (a) {
+      case 'online': screenOnline(); return true;
+      case 'create': (async () => { if (!(await canGoOnline())) return; joinRoom(newCode(), true); })(); return true;
+      case 'join': {
+        const inp = $('gcCode'), code = (inp ? inp.value : '').trim().toUpperCase();
+        if (code.length < 4) { const m = $('gcMsg'); if (m) m.textContent = t('gc_oCodeHint'); return true; }
+        (async () => { if (!(await canGoOnline())) return; joinRoom(code, false); })(); return true;
+      }
+      case 'copy': copyText(inviteLink(NET.code), b); return true;
+      case 'olv': if (amHost()) { NET.sel = Math.max(0, NET.sel + (+b.dataset.d)); screenLobby(); sendRoom(); } return true;
+      case 'ostart': if (amHost() && NET.peers.size) hostStart(NET.sel); return true;
+      case 'ostartnow': if (amHost() && G.screen === 'intro') startShift(); return true;
+      case 'leave': leaveRoom(); newWorld(DEMO, 'demo'); screenTitle(); return true;
+      case 'osolo': if (G.screen === 'lost') { G.screen = 'play'; ov.className = ''; ov.innerHTML = ''; } return true;
+      case 'olobby': if (amHost()) { netSend('lobby', {}); toLobby(); sendRoom(); } return true;
+      case 'onext': case 'oretry':
+        if (amHost()) { if (a === 'onext') hostNext(); else hostStart(G.def.n - 1); }
+        else { netSend('req', { a: a === 'onext' ? 'next' : 'retry' }); const r = $('gcReq'); if (r) r.textContent = t('gc_oReqSent'); }
+        return true;
+    }
+    return false;
+  }
+  addEventListener('pagehide', () => { if (NET.ch) netSend('bye', {}); });
+  window.Mal3abShareLink = () => NET.on && NET.code ? inviteLink(NET.code) : pageLink();
+  window.Mal3abPrepareInvite = async () => {
+    if (!NET.on) { if (!(await canGoOnline())) return pageLink(); joinRoom(newCode(), true); }
+    return inviteLink(NET.code);
+  };
+  window.Mal3abLiveInfo = () => ({ players: NET.on ? 1 + NET.peers.size : null, max: MAXP });
 
   // ======================================================================================
   //  TEST / SCRIPTING API
@@ -1976,8 +2725,9 @@
     aim(itemId, targetId) { const it = byId(itemId) || G.held, tg = byId(targetId); if (!it || !tg) return null; return findAim(it, tg); },
     shoot(itemId, targetId) {   // grab + find a shot that the preview says lands in the target + fling
       let it = itemId ? byId(itemId) : G.held; const tg = byId(targetId); if (!it || !tg) return false;
-      if (it.c !== undefined && it.t) { it = takeFrom(it); if (!it) return false; }
-      if (G.held !== it) { if (G.held) release(null); grabIt(it); }
+      let st = null;
+      if (it.c !== undefined && it.t) { st = it; it = takeOut(it); if (!it) return false; }
+      if (G.held !== it) { if (G.held) release(null); if (it.held) return false; grabIt(it); if (isGuest()) guestGrab(it, st); }
       const a = findAim(it, tg); if (!a) { release(null); return false; }
       release([a.vx, a.vy, 0.6]); return true;
     },
@@ -1987,6 +2737,8 @@
     nextAction() { const a = nextAction(); return a && { kind: a.kind, item: a.item && a.item.id, to: a.to && a.to.id, st: a.st && a.st.id }; },
     forceEnd(win) { if (win) G.score = Math.max(G.score, G.def.stars[2]); endShift(!!win, win ? 'score' : 'strikes'); },
     toScreen: (x, y) => toS(x, y), toWorld: (x, y) => toW(x, y),
+    net: { get state() { return NET; }, create: () => joinRoom(newCode(), true), join: (c) => joinRoom(c, false), leave: () => { leaveRoom(); newWorld(DEMO, 'demo'); screenTitle(); },
+      start: (n) => hostStart((n || 1) - 1), act: (a) => onlineAct(a, { dataset: {} }), isHost: () => amHost(), isGuest: () => isGuest(), peers: () => [...NET.peers.values()].map((q) => ({ id: q.id, n: q.n })) },
   };
 
   // ======================================================================================
@@ -1998,5 +2750,12 @@
   $('bLang').textContent = getLang() === 'ar' ? 'English' : 'العربية';
   screenTitle();
   document.addEventListener('pointerdown', () => AU.init(), { once: true });
+  // invite links: ?room=CODE joins that kitchen
+  const roomParam = new URLSearchParams(location.search).get('room');
+  if (roomParam) {
+    let tried = false;
+    const go = async () => { if (tried || NET.on) return; tried = true; if (!(await canGoOnline())) return; joinRoom(roomParam, false); };
+    if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(go, 4000); }
+  }
   requestAnimationFrame(frame);
 })();

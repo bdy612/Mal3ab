@@ -144,7 +144,7 @@ function field(tx, ty, dwarf) {
 function computeFields() {
   S.fieldV = field(S.V[0], S.V[1]); S.fieldE = field(S.E[0], S.E[1]);
   S.fieldDV = field(S.V[0], S.V[1], true); S.fieldDE = field(S.E[0], S.E[1], true);
-  if (S.ctl && S.ctl.flag) flagFields();
+  if (S.ctl) for (let i = 0; i < MAXS; i++) flagFields(i);
 }
 G.computeFields = computeFields;
 function walkField(x, y, f) {   // follow a distance field downhill from (x, y)
@@ -153,34 +153,46 @@ function walkField(x, y, f) {   // follow a distance field downhill from (x, y)
   return out;
 }
 G.pathTiles = () => walkField(S.E[0], S.E[1], S.fieldV);   // current main route entrance -> vault (for drawing)
-G.routeTiles = () => {   // the Heroes' planned route: entrance -> route flag -> vault
-  const c = S.ctl; if (!c || !c.flag || !c.fN) return G.pathTiles();
-  return walkField(S.E[0], S.E[1], c.fN).concat(walkField(c.flag[0], c.flag[1], S.fieldV).slice(1));
+G.routeTiles = (slot) => {   // a Heroes player's planned route: entrance -> their route flag -> vault
+  const F = S.ctl && S.ctl.fl[slot | 0]; if (!F || !F.fN) return G.pathTiles();
+  return walkField(S.E[0], S.E[1], F.fN).concat(walkField(F.x, F.y, S.fieldV).slice(1));
 };
 
 // ---------------------------------------------------------------- player-controlled heroes (online mode)
-// S.ctl exists during an online match. While S.ctl.ai is false a real player leads the heroes:
-// they choose who goes in next, plant a route flag the party walks through, and trigger the abilities below.
+// S.ctl exists during an online match. While S.ctl.ai is false, 1-3 real players lead the heroes together.
+// Every hero belongs to one Heroes player (h.own = their slot 0-2, dealt out at wave start): each player sends
+// their own heroes, plants their own route flag that only their heroes walk through, and triggers the
+// abilities below for their own heroes, each with their own cooldowns.
 const CMD_CD = G.CMD_CD = { heal: 7, scorch: 6, charge: 14, boss: 8, retreat: 2 };
-const AUTO_SEND = G.AUTO_SEND = 3.5, SEND_GAP = 0.45;
-G.newCtl = (goal) => (S.ctl = { flag: null, fN: null, fD: null, cd: { heal: 0, scorch: 0, charge: 0, boss: 0, retreat: 0 }, sendCd: 0, ai: false, goal: goal || 100 });
+const AUTO_SEND = G.AUTO_SEND = 3.5, SEND_GAP = 0.45, MAXS = G.MAX_SLOTS = 3;
+G.SLOT_COL = ['#5ab8ff', '#5fdc7a', '#ff8ad8'];
+const SLOT_RGB = ['90,184,255', '95,220,122', '255,138,216'];
+const mkCd = () => ({ heal: 0, scorch: 0, charge: 0, boss: 0, retreat: 0 });
+// slots: the Heroes players playing right now (slot numbers); names: every slot's player name (for the flag tags)
+G.newCtl = (goal) => (S.ctl = { fl: [null, null, null], cd: [mkCd(), mkCd(), mkCd()], slots: [0], names: [], me: -1, sendCd: 0, ai: false, goal: goal || 100 });
 const ctlOn = () => !!S.ctl && !S.ctl.ai;
 G.ctlOn = ctlOn;
-function flagFields() {
-  const c = S.ctl, j = idx(c.flag[0], c.flag[1]);
-  if (walkCost(j) < 0) { c.flag = null; c.fN = c.fD = null; return; }   // a collapse landed on the flag
-  c.fN = field(c.flag[0], c.flag[1]); c.fD = field(c.flag[0], c.flag[1], true);
-  if (c.fN[idx(S.E[0], S.E[1])] >= 1e9) { c.flag = null; c.fN = c.fD = null; }
+function flagFields(i) {
+  const c = S.ctl, F = c.fl[i]; if (!F) return;
+  if (walkCost(idx(F.x, F.y)) < 0) { c.fl[i] = null; return; }   // a collapse landed on the flag
+  F.fN = field(F.x, F.y); F.fD = field(F.x, F.y, true);
+  if (F.fN[idx(S.E[0], S.E[1])] >= 1e9) c.fl[i] = null;
 }
-G.setFlag = (x, y) => {   // x < 0 removes the flag; returns true when the flag changed
-  const c = S.ctl; if (!c) return false;
-  if (x == null || x < 0) { c.flag = null; c.fN = c.fD = null; }
+G.setFlag = (slot, x, y) => {   // x < 0 removes that player's flag; returns true when the flag changed
+  const c = S.ctl; slot = slot | 0; if (!c || slot < 0 || slot >= MAXS) return false;
+  if (x == null || x < 0) c.fl[slot] = null;
   else {
     if (!inb(x, y) || S.terr[idx(x, y)] !== T_FLOOR || walkCost(idx(x, y)) < 0) return false;
-    c.flag = [x, y]; flagFields(); if (!c.flag) return false;
+    c.fl[slot] = { x, y, fN: null, fD: null }; flagFields(slot); if (!c.fl[slot]) return false;
   }
-  for (const h of S.heroes) if (h.state === 'in') h.via = false;
+  for (const h of S.heroes) if (h.state === 'in' && (h.own | 0) === slot) h.via = false;
   return true;
+};
+G.flagOf = (slot) => { const F = S.ctl && S.ctl.fl[slot]; return F ? [F.x, F.y] : null; };
+// deal a wave's heroes out to the Heroes players: everyone gets a fair share of every hero type
+G.dealOwners = (groups, slots, wave) => {
+  const n = slots && slots.length ? slots.length : 1; let k = wave || 0;
+  return groups.map(([, cnt]) => { const o = []; for (let i = 0; i < cnt; i++) o.push(slots && slots.length ? slots[(k++) % n] : 0); return o; });
 };
 
 // ---------------------------------------------------------------- cards
@@ -371,7 +383,7 @@ function updateMon(m, dt) {
 }
 
 // ---------------------------------------------------------------- heroes
-function spawnHero(cls, x, y) {
+function spawnHero(cls, x, y, own) {
   const d = DD.HEROES[cls], sc = S.scale;
   const hp = d.hp * sc.hp;
   const h = {
@@ -379,7 +391,7 @@ function spawnHero(cls, x, y) {
     loot: Math.round(d.loot * sc.loot), state: 'in', carry: 0, fight: null, atkCd: 0.6, burn: null, poison: [], chill: 0, chillT: 0, chillSlow: 0.4,
     frozen: 0, frozenImm: 0, stun: 0, wet: 0, rust: 0, blind: 0, grab: 0, slimed: 0, grabbed: [], dig: 0, digTile: -1, abilT: 2 + rand() * 2, abil2T: 6,
     charge: 0, boss: !!d.boss, size: d.size || (cls === 'dwarf' ? 0.9 : 1), enraged: false, flip: false, walk: rand() * 4, flash: 0, dotAcc: 0, dotT: 0,
-    ox: (rand() - 0.5) * 0.22, oy: (rand() - 0.5) * 0.22, floodSlow: 0, chillAcc: 0, aura: false, dead: false, moving: false, born: S.time
+    ox: (rand() - 0.5) * 0.22, oy: (rand() - 0.5) * 0.22, floodSlow: 0, chillAcc: 0, aura: false, dead: false, moving: false, born: S.time, own: own | 0
   };
   S.heroes.push(h);
   if (h.boss) { S.boss = h; S.shake = 0.8; sfx('boss'); G.on.boss(h); }
@@ -387,10 +399,10 @@ function spawnHero(cls, x, y) {
 }
 G.spawnHero = spawnHero;
 function fieldOf(h) {
-  const dw = h.def.dig, c = S.ctl;
-  if (c && c.flag && !h.via && !c.ai) {   // player route: walk to the flag first, then on to the goal
-    if (h.cx === c.flag[0] && h.cy === c.flag[1]) h.via = true;
-    else { const f = dw ? c.fD : c.fN; if (f && f[idx(h.cx, h.cy)] < 1e9) return f; h.via = true; }
+  const dw = h.def.dig, c = S.ctl, F = c && !c.ai && !h.via ? c.fl[h.own | 0] : null;
+  if (F) {   // player route: walk to the owner's flag first, then on to the goal
+    if (h.cx === F.x && h.cy === F.y) h.via = true;
+    else { const f = dw ? F.fD : F.fN; if (f && f[idx(h.cx, h.cy)] < 1e9) return f; h.via = true; }
   }
   return h.state === 'in' ? (dw ? S.fieldDV : S.fieldV) : (dw ? S.fieldDE : S.fieldE);
 }
@@ -413,6 +425,7 @@ function speedMul(h) {
   if (h.carry > 0 && has('chains')) m *= 0.65;
   if (h.charge > 0) m = Math.max(m, 1) * 3;
   if (h.enraged) m *= 1.4;
+  if (h.song) m *= 1.2;
   return m;
 }
 function hurt(h, amt, type, dot) {
@@ -455,7 +468,7 @@ function killHero(h) {
   if (h.dead) return; h.dead = true;
   if (h.fight) h.fight = null;
   sfx('die');
-  const col = { squire: '#4f7cc4', rogue: '#2f5d3a', knight: '#c9d1de', cleric: '#ece6d6', mage: '#3d47c9', dwarf: '#d9772b', paladin: '#ffcc33' }[h.cls] || '#ff4d6d';
+  const col = { squire: '#4f7cc4', rogue: '#2f5d3a', knight: '#c9d1de', cleric: '#ece6d6', mage: '#3d47c9', dwarf: '#d9772b', paladin: '#ffcc33', bard: '#c0392b', seraphine: '#fff2a8' }[h.cls] || '#ff4d6d';
   burst(h.x, h.y, h.boss ? 70 : 16, col, h.boss ? 4 : 2.2, h.boss ? 1.2 : 0.6, 0.08, 1.2, false);
   burst(h.x, h.y - 0.2, 6, '#e8e2ff', 0.8, 1.0, 0.06, -1.2, true);
   if (h === S.boss) { S.boss = null; S.shake = 1; sfx('boom'); }
@@ -568,7 +581,13 @@ function bossPower(h) {
     ring(h.x, h.y, 2.5, '#e070ff'); sfx('boom'); S.shake = Math.max(S.shake, 0.5);
     for (const s of S.structs) { if (s.id === 'collapse') continue; if (dist(h.x, h.y, s.x + 0.5, s.y + 0.5) <= 2.5) { s.dis = Math.max(s.dis, 3); if (s.mon && !s.mon.dead) { s.mon.hp -= 50 * S.scale.dmg; if (s.mon.hp <= 0) monDie(s.mon); } } }
     burst(h.x, h.y, 60, '#e070ff', 4, 0.8, 0.1, 0, true);
-  } else if (c === 'aldric') { for (let i = 0; i < 2; i++) { const k = spawnHero('squire', h.cx, h.cy); k.x = h.x + (rand() - 0.5) * 0.4; k.y = h.y + (rand() - 0.5) * 0.4; k.state = h.state; k.via = h.via; } ring(h.x, h.y, 1.5, '#ffcc33'); sfx('horn'); }
+  } else if (c === 'seraphine') {   // Sunburst: heal and cleanse the heroes around her (and a little of herself)
+    ring(h.x, h.y, 2.5, '#fff2a8'); sfx('heal'); burst(h.x, h.y, 50, '#fff2a8', 3, 0.8, 0.09, -0.5, true);
+    for (const o of S.heroes) if (!o.dead && dist(o.x, o.y, h.x, h.y) <= 2.5) {
+      o.hp = Math.min(o.maxHp, o.hp + o.maxHp * (o === h ? 0.05 : 0.25)); o.burn = null; o.poison = []; o.chill = 0; o.frozen = 0; o.stun = 0; o.blind = 0;
+      if (o !== h) burst(o.x, o.y, 5, '#fff2a8', 1, 0.6, 0.06, -1.5, true);
+    }
+  } else if (c === 'aldric') { for (let i = 0; i < 2; i++) { const k = spawnHero('squire', h.cx, h.cy, h.own); k.x = h.x + (rand() - 0.5) * 0.4; k.y = h.y + (rand() - 0.5) * 0.4; k.state = h.state; k.via = h.via; } ring(h.x, h.y, 1.5, '#ffcc33'); sfx('horn'); }
 }
 function ability(h, dt) {
   if (h.frozen > 0 || h.stun > 0) return;
@@ -591,16 +610,19 @@ function ability(h, dt) {
       for (let i = 0; i < 3; i++) { h.tx = h.ty = null; const ok = pickNext(h); if (!ok || h.tx == null) break; h.x = h.tx + 0.5; h.y = h.ty + 0.5; h.cx = h.tx; h.cy = h.ty; h.tx = h.ty = null; if ((h.state === 'in' && h.cx === S.V[0] && h.cy === S.V[1])) break; }
       burst(h.x, h.y, 30, '#e070ff', 2.5, 0.6, 0.08, 0, true); sfx('spell');
     }
+  } else if (c === 'seraphine') {
+    if (h.abilT <= 0) { h.abilT = 8; if (!man) bossPower(h); }
   } else if (c === 'aldric') {
     if (h.abilT <= 0) { h.abilT = 9; if (!man) bossPower(h); }
     if (!h.enraged && h.hp < h.maxHp * 0.5) { h.enraged = true; h.hp += h.maxHp * 0.1; text(h.x, h.y - 1.1, '!!!', '#ff4d6d', 1.4); S.shake = 1; sfx('boss'); burst(h.x, h.y, 50, '#ff4d6d', 3.5, 0.8, 0.1, 0, true); }
   }
 }
 // a party command from the Heroes player -> { ok, err }
-G.heroCmd = (k) => {
-  const c = S.ctl; if (!ctlOn() || S.mode !== 'wave' || !(k in CMD_CD)) return { ok: false, err: '' };
-  if (c.cd[k] > 0) return { ok: false, err: 'dd_oCooldown' };
-  const live = S.heroes.filter(h => !h.dead && !h.gone), free = (h) => h.frozen <= 0 && h.stun <= 0;
+G.heroCmd = (k, slot) => {   // slot: the Heroes player giving the command; it only moves their own heroes
+  const c = S.ctl; slot = slot | 0; const cd = c && c.cd[slot];
+  if (!ctlOn() || S.mode !== 'wave' || !(k in CMD_CD) || !cd) return { ok: false, err: '' };
+  if (cd[k] > 0) return { ok: false, err: 'dd_oCooldown' };
+  const live = S.heroes.filter(h => !h.dead && !h.gone && (h.own | 0) === slot), free = (h) => h.frozen <= 0 && h.stun <= 0;
   let ok = false, err = '';
   if (k === 'heal') {
     for (const h of live) if (h.cls === 'cleric' && free(h) && h.blind <= 0) { clericHeal(h, 0.3, 2.2, true); ok = true; }
@@ -613,18 +635,18 @@ G.heroCmd = (k) => {
     for (const h of live) if (!h.boss && free(h)) { h.charge = 1.5; h.fight = null; text(h.x, h.y - 0.8, '!!', '#ffcc33', 0.9); ok = true; }
     if (ok) sfx('horn'); else err = 'dd_oNoHeroes';
   } else if (k === 'boss') {
-    const b = S.boss; if (b && !b.dead && !b.gone) { bossPower(b); ok = true; } else err = 'dd_oNoBoss';
+    const b = S.boss; if (b && !b.dead && !b.gone && (b.own | 0) === slot) { bossPower(b); ok = true; } else err = 'dd_oNoBoss';
   } else if (k === 'retreat') {
     for (const h of live) if (h.state === 'in') { h.state = 'flee'; h.via = true; h.fight = null; h.retreat = 1.5; h.retreated = true; h.tx = h.ty = null; text(h.x, h.y - 0.7, '«', '#c9d1de', 0.9); ok = true; }
     if (ok) sfx('escape'); else err = 'dd_oNoHeroes';
   }
-  if (ok) c.cd[k] = CMD_CD[k];
+  if (ok) cd[k] = CMD_CD[k];
   return { ok, err };
 };
 // the Heroes player picks which hero walks in next (queued a moment apart)
-G.sendHero = (cls) => {
+G.sendHero = (cls, slot) => {   // slot given: only one of that player's own heroes
   if (!ctlOn() || S.mode !== 'wave') return false;
-  const Q = S.spawnQ, i = Q.findIndex(q => !q.now && q.cls === cls); if (i < 0) return false;
+  const Q = S.spawnQ, i = Q.findIndex(q => !q.now && q.cls === cls && (slot == null || (q.own | 0) === slot)); if (i < 0) return false;
   const [e] = Q.splice(i, 1); e.now = true;
   let j = 0; while (j < Q.length && Q[j].now) j++;
   Q.splice(j, 0, e); return true;
@@ -778,14 +800,14 @@ G.startWave = () => {
   const run = S.run; if (!run || S.mode !== 'build') return false;
   const groups = G.waveDef(run.act, run.wave, run.dread), dread = run.dread;
   const gi = run.act * DD.WAVES_PER_ACT + run.wave;
-  S.scale = { hp: [1, 1.6, 2.25][run.act] * (1 + 0.07 * run.wave) * (1 + 0.12 * dread), sp: 1 + 0.02 * dread, dmg: [1, 1.35, 1.75][run.act], loot: 1 + 0.25 * run.act };
-  const list = [];
-  for (const [c, n] of groups) { if (DD.HEROES[c].boss) { list.push({ cls: c, k: 0.6 }); continue; } for (let i = 0; i < n; i++) list.push({ cls: c, k: (i + 0.5) / n + (c.charCodeAt(0) % 7) * 0.004 }); }
+  S.scale = { hp: [1, 1.6, 2.25, 2.9][run.act] * (1 + 0.07 * run.wave) * (1 + 0.12 * dread), sp: 1 + 0.02 * dread, dmg: [1, 1.35, 1.75, 2.1][run.act], loot: 1 + 0.25 * run.act };
+  const list = [], own = G.dealOwners(groups, S.ctl ? S.ctl.slots : null, run.wave);
+  groups.forEach(([c, n], g) => { if (DD.HEROES[c].boss) { list.push({ cls: c, k: 0.6, own: own[g][0] }); return; } for (let i = 0; i < n; i++) list.push({ cls: c, k: (i + 0.5) / n + (c.charCodeAt(0) % 7) * 0.004, own: own[g][i] }); });
   list.sort((a, b) => a.k - b.k);
-  const gap = [1.15, 1.0, 0.88][run.act] * (1 - 0.03 * dread);
-  S.spawnQ = list.map((e, i) => ({ cls: e.cls, gap: DD.HEROES[e.cls].boss || (list[i + 1] && DD.HEROES[list[i + 1].cls].boss) ? 2.6 : gap * (0.85 + rand() * 0.3) }));
+  const gap = [1.15, 1.0, 0.88, 0.82][run.act] * (1 - 0.03 * dread);
+  S.spawnQ = list.map((e, i) => ({ cls: e.cls, own: e.own, gap: DD.HEROES[e.cls].boss || (list[i + 1] && DD.HEROES[list[i + 1].cls].boss) ? 2.6 : gap * (0.85 + rand() * 0.3) }));
   S.waveTotal = list.length; S.spawnT = 0.8; S.wt = 0; S.mode = 'wave'; run.bountyWave = 0; run.globalWave = gi;
-  if (S.ctl) { for (const k in S.ctl.cd) S.ctl.cd[k] = 0; S.ctl.sendCd = 0; if (ctlOn()) S.spawnT = AUTO_SEND; }
+  if (S.ctl) { for (const cd of S.ctl.cd) for (const k in cd) cd[k] = 0; S.ctl.sendCd = 0; if (ctlOn()) S.spawnT = AUTO_SEND; }
   sfx('horn'); S.version++;
   return true;
 };
@@ -798,16 +820,16 @@ G.step = (dt) => {
   const run = S.run;
   S.wt += dt; if (run) run.stats.time += dt;
   const c = S.ctl;
-  if (c) { for (const k in c.cd) if (c.cd[k] > 0) c.cd[k] = Math.max(0, c.cd[k] - dt); if (c.sendCd > 0) c.sendCd -= dt; }
+  if (c) { for (const cd of c.cd) for (const k in cd) if (cd[k] > 0) cd[k] = Math.max(0, cd[k] - dt); if (c.sendCd > 0) c.sendCd -= dt; }
   if (S.spawnQ.length) {
     S.spawnT -= dt;
     if (ctlOn()) {   // player sends heroes; if they wait too long the next one walks in by itself
-      if ((S.spawnQ[0].now && c.sendCd <= 0) || S.spawnT <= 0) { const q = S.spawnQ.shift(); spawnHero(q.cls, S.E[0], S.E[1]); c.sendCd = SEND_GAP; S.spawnT = AUTO_SEND; }
-    } else if (S.spawnT <= 0) { const q = S.spawnQ.shift(); spawnHero(q.cls, S.E[0], S.E[1]); S.spawnT = q.gap; }
+      if ((S.spawnQ[0].now && c.sendCd <= 0) || S.spawnT <= 0) { const q = S.spawnQ.shift(); spawnHero(q.cls, S.E[0], S.E[1], q.own); c.sendCd = SEND_GAP; S.spawnT = AUTO_SEND; }
+    } else if (S.spawnT <= 0) { const q = S.spawnQ.shift(); spawnHero(q.cls, S.E[0], S.E[1], q.own); S.spawnT = q.gap; }
   }
   // paladin aura
-  const pals = S.heroes.filter(h => h.cls === 'paladin' && !h.dead);
-  for (const h of S.heroes) h.aura = pals.some(p => dist(p.x, p.y, h.x, h.y) < 1.6);
+  const pals = S.heroes.filter(h => h.cls === 'paladin' && !h.dead), bards = S.heroes.filter(h => h.cls === 'bard' && !h.dead);
+  for (const h of S.heroes) { h.aura = pals.some(p => dist(p.x, p.y, h.x, h.y) < 1.6); h.song = bards.some(b => b !== h && dist(b.x, b.y, h.x, h.y) < 1.8); }   // bard: nearby heroes march faster
   for (const m of S.mons) m.engaged = 0;
   for (const h of S.heroes) if (h.fight && !h.fight.dead) h.fight.engaged++;
   for (const h of S.heroes) if (!h.dead && !h.gone) updateHero(h, dt);
@@ -952,7 +974,7 @@ G.render = (ctx) => {
   // floor pieces
   for (const s of S.structs) if (!A.TALL[s.id] && s.kind !== 'monster' && s.id !== 'collapse') drawFloorPiece(ctx, s);
   // main route hint while building
-  if (S.mode === 'build' || S.mode === 'menu' || (S.showFlag && S.ctl && S.ctl.flag)) drawRoute(ctx);
+  if (S.mode === 'build' || S.mode === 'menu' || (S.showFlag && S.ctl && S.ctl.fl.some(Boolean))) drawRoute(ctx);
   drawLinks(ctx);
   if (S.sel >= 0 && S.run) drawPlacement(ctx);
   // depth-sorted sprites
@@ -1009,18 +1031,28 @@ function drawVault(ctx) {
 }
 const tm = () => S.time;
 function drawRoute(ctx) {
-  const fl = S.showFlag && S.ctl && S.ctl.flag, T = L.T, path = fl ? G.routeTiles() : G.pathTiles(); if (path.length < 2) return;
-  ctx.fillStyle = fl ? 'rgba(110,190,255,0.32)' : 'rgba(255,183,3,0.20)';
-  for (let i = 1; i < path.length - 1; i++) { const [x, y] = path[i], [sx, sy] = P(x + 0.5, y + 0.5), ph = (tm() * 2 - i * 0.35) % 1; const s = T * (0.08 + 0.05 * (ph < 0 ? ph + 1 : ph)); ctx.fillRect(sx - s, sy - s, s * 2, s * 2); }
+  const c = S.ctl, T = L.T, own = S.showFlag && c ? c.slots.filter(i => c.fl[i]) : [];
+  const dots = (path, col) => { if (path.length < 2) return; ctx.fillStyle = col; for (let i = 1; i < path.length - 1; i++) { const [x, y] = path[i], [sx, sy] = P(x + 0.5, y + 0.5), ph = (tm() * 2 - i * 0.35) % 1; const s = T * (0.08 + 0.05 * (ph < 0 ? ph + 1 : ph)); ctx.fillRect(sx - s, sy - s, s * 2, s * 2); } };
+  // the main route while building (on a Heroes page: only while some Heroes player has no flag)
+  if ((S.mode === 'build' || S.mode === 'menu') && (!S.showFlag || !c || own.length < c.slots.length)) dots(G.pathTiles(), 'rgba(255,183,3,0.20)');
+  for (const i of own) dots(G.routeTiles(i), `rgba(${SLOT_RGB[i]},${i === c.me ? 0.4 : 0.22})`);
 }
-function drawFlag(ctx) {   // the Heroes player's route flag (only drawn on the Heroes page)
-  const c = S.ctl; if (!S.showFlag || !c || !c.flag) return;
-  const T = L.T, [sx, sy] = P(c.flag[0], c.flag[1]), wv = Math.sin(tm() * 5) * T * 0.04;
+function drawFlag(ctx) {   // every Heroes player's route flag in their colour, with a name tag (only on Heroes pages)
+  const c = S.ctl; if (!S.showFlag || !c) return;
+  c.fl.forEach((F, i) => { if (F) drawOneFlag(ctx, F.x, F.y, G.SLOT_COL[i], c.names.length > 1 ? c.names[i] || '' : '', i === c.me); });
+}
+function drawOneFlag(ctx, fx, fy, col, tag, mine) {
+  const T = L.T, [sx, sy] = P(fx, fy), wv = Math.sin(tm() * 5) * T * 0.04;
   ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.beginPath(); ctx.ellipse(sx + T * 0.4, sy + T * 0.84, T * 0.18, T * 0.06, 0, 0, Math.PI * 2); ctx.fill();
   ctx.fillStyle = '#3a2614'; ctx.fillRect(Math.round(sx + T * 0.37), Math.round(sy + T * 0.1), Math.max(2, Math.round(T * 0.06)), Math.round(T * 0.74));
   ctx.beginPath(); ctx.moveTo(sx + T * 0.43, sy + T * 0.12); ctx.lineTo(sx + T * 0.84, sy + T * 0.25 + wv); ctx.lineTo(sx + T * 0.43, sy + T * 0.42); ctx.closePath();
-  ctx.fillStyle = '#5ab8ff'; ctx.fill(); ctx.lineWidth = Math.max(1.5, T * 0.035); ctx.strokeStyle = '#0b0712'; ctx.stroke();
-  ctx.fillStyle = '#e8f4ff'; ctx.fillRect(Math.round(sx + T * 0.5), Math.round(sy + T * 0.22 + wv * 0.5), Math.max(2, Math.round(T * 0.08)), Math.max(2, Math.round(T * 0.08)));
+  ctx.fillStyle = col; ctx.fill(); ctx.lineWidth = Math.max(1.5, T * 0.035); ctx.strokeStyle = '#0b0712'; ctx.stroke();
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(Math.round(sx + T * 0.5), Math.round(sy + T * 0.22 + wv * 0.5), Math.max(2, Math.round(T * 0.08)), Math.max(2, Math.round(T * 0.08)));
+  if (tag) {   // name tag under the pole
+    const fs = Math.max(9, Math.round(T * 0.22)), str = tag.length > 9 ? tag.slice(0, 8) + '…' : tag;
+    ctx.font = `900 ${fs}px "Trebuchet MS", Tahoma, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.lineWidth = Math.max(2, fs * 0.25); ctx.strokeStyle = '#0b0712'; ctx.strokeText(str, sx + T * 0.4, sy + T * 0.98); ctx.fillStyle = mine ? '#ffffff' : col; ctx.fillText(str, sx + T * 0.4, sy + T * 0.98);
+  }
 }
 function drawLinks(ctx) {
   const T = L.T;
@@ -1169,6 +1201,10 @@ function drawHero(ctx, h) {
   const fr = h.moving ? Math.floor(h.walk * 2) % 2 : 0, spr = A.hero(h.cls, fr);
   const bob = h.moving ? Math.abs(Math.sin(h.walk * Math.PI)) * w * 0.05 : 0, fall = h.fall > 0 ? (h.fall -= 1 / 60, h.fall * T * 0.3) : 0;
   shadow(ctx, sx, sy + T * 0.32, w * (h.boss ? 1.1 : 0.9));
+  const C = S.ctl; if (S.showFlag && C && C.names.length > 1) {   // whose hero is this: a ring in the owner's colour
+    ctx.strokeStyle = G.SLOT_COL[h.own | 0] || '#5ab8ff'; ctx.globalAlpha = (h.own | 0) === C.me ? 0.95 : 0.5; ctx.lineWidth = Math.max(1.5, T * ((h.own | 0) === C.me ? 0.06 : 0.035));
+    ctx.beginPath(); ctx.ellipse(sx, sy + T * 0.32, w * 0.44, w * 0.16, 0, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1;
+  }
   if (h.boss) { const gl = ctx.createRadialGradient(sx, sy, 2, sx, sy, T); gl.addColorStop(0, h.enraged ? 'rgba(255,60,90,0.35)' : 'rgba(255,200,80,0.22)'); gl.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = gl; ctx.fillRect(sx - T, sy - T, T * 2, T * 2); }
   ctx.save(); ctx.translate(Math.round(sx), Math.round(sy + T * 0.32 - bob + fall)); if (h.flip) ctx.scale(-1, 1);
   if (h.swing > 0) ctx.rotate(0.12);
@@ -1191,6 +1227,7 @@ function drawHeroUI(ctx, h) {
   if (h.grab > 0) { ctx.drawImage(A.glyph('coin', '#ffcc33'), Math.round(sx + T * 0.14), Math.round(top), Math.round(T * 0.2), Math.round(T * 0.2)); }
   if (h.dig > 0) { ctx.drawImage(A.glyph('gear', '#e8c07a'), Math.round(sx + T * 0.14), Math.round(top), Math.round(T * 0.2), Math.round(T * 0.2)); }
   if (h.blind > 0) { ctx.fillStyle = 'rgba(230,236,255,0.5)'; ctx.fillRect(sx - T * 0.15, top + T * 0.12, T * 0.3, T * 0.06); }
+  if (h.cls === 'bard' && h.moving) { const b = Math.sin(tm() * 5 + h.id) * T * 0.05; ctx.drawImage(A.glyph('note', '#ffd98a'), Math.round(sx + T * 0.16), Math.round(top - T * 0.3 + b), Math.round(T * 0.2), Math.round(T * 0.2)); }
 }
 function drawProj(ctx) {
   const T = L.T;
@@ -1215,7 +1252,7 @@ function glow(ctx, x, y, r, col, a) { const [sx, sy] = P(x, y), R = r * L.T, g =
 function drawLights(ctx) {
   const T = L.T, t0 = tm(), pal = A.PAL[S.act];
   ctx.globalCompositeOperation = 'lighter';
-  const tc = S.act === 2 ? 'rgba(106,240,208,A)' : S.act === 1 ? 'rgba(255,122,42,A)' : 'rgba(255,170,70,A)';
+  const tc = S.act === 3 ? 'rgba(120,190,255,A)' : S.act === 2 ? 'rgba(106,240,208,A)' : S.act === 1 ? 'rgba(255,122,42,A)' : 'rgba(255,170,70,A)';
   for (const [x, y] of S.torches || []) {
     const [bx, by] = screenBelow(x, y), fx = (x + bx) / 2 + 0.5, fy = (y + by) / 2 + 0.5;
     const fl = 0.22 + 0.06 * Math.sin(t0 * 9 + x * 3) + 0.04 * Math.sin(t0 * 23 + y);
@@ -1237,7 +1274,7 @@ function drawLights(ctx) {
   for (const [x, y] of S.torches || []) {
     const [sx, sy] = P(x, y); let fx = sx + T * 0.5, fy = sy + T * 0.66;
     ctx.fillStyle = '#3a2a1a'; ctx.fillRect(fx - T * 0.04, fy, T * 0.08, T * 0.16);
-    const f = Math.floor(t0 * 10 + x) % 3, c1 = S.act === 2 ? '#6af0d0' : '#ff9a3a', c2 = S.act === 2 ? '#d0fff4' : '#ffe27a';
+    const f = Math.floor(t0 * 10 + x) % 3, c1 = S.act === 3 ? '#8ac8ff' : S.act === 2 ? '#6af0d0' : '#ff9a3a', c2 = S.act === 3 ? '#e8f4ff' : S.act === 2 ? '#d0fff4' : '#ffe27a';
     ctx.fillStyle = c1; ctx.fillRect(fx - T * 0.06, fy - T * (0.12 + f * 0.02), T * 0.12, T * (0.14 + f * 0.02)); ctx.fillStyle = c2; ctx.fillRect(fx - T * 0.025, fy - T * 0.06, T * 0.05, T * 0.07);
   }
 }

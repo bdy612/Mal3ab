@@ -529,9 +529,9 @@ function showTip(sx,sy,x,y){const tip=document.getElementById('tip'); if(!inb(x,
 
 // ───────────────────────── Save / load / loop ─────────────────────────
 // in an online room the shared city goes to its own slot (cityhall-online); the single-player save is never touched
-function saveGame(){if(window.CHO&&CHO.on()) return CHO.save(); try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));toast('City saved.');}catch(e){toast('Could not save (browser storage blocked).');}}
+function saveGame(){if(window.CHO&&CHO.live()) return CHO.save(); try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));toast('City saved.');}catch(e){toast('Could not save (browser storage blocked).');}}
 function loadGame(){try{const s=localStorage.getItem('cityhall-save'); if(!s) return false; S=JSON.parse(s); S.stats={}; return true;}catch(e){return false;}}
-function newGame(){if(window.CHO&&CHO.on()&&!CHO.newCity()) return; S=newState(); closeModals(); goTo(Math.floor(N/2),Math.floor(N/2)); simulate(); buildBar(); updateHUD(); toast('New city founded. Build roads from City Hall and zone homes.'); if(window.CHO) CHO.afterNewCity();}
+function newGame(){if(window.CHO&&CHO.live()&&!CHO.newCity()) return; S=newState(); closeModals(); goTo(Math.floor(N/2),Math.floor(N/2)); simulate(); buildBar(); updateHUD(); toast('New city founded. Build roads from City Hall and zone homes.'); if(window.CHO) CHO.afterNewCity();}
 if(!loadGame()) S=newState();
 goTo(Math.floor(N/2),Math.floor(N/2)); G.cam.z=1.15;
 simulate(); buildBar(); updateHUD(); setSpeed(1);

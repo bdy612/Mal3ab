@@ -18,7 +18,7 @@
     ab_paused: 'وقفة', ab_resume: 'كمّل', ab_restart: 'ابدأ اليوم من الأول', ab_menu: 'القايمة الرئيسية', ab_back: 'رجوع',
     ab_win: 'اليوم خلص بنجاح!', ab_lose: 'المحل قفل بدري…', ab_lose_strikes: 'زباين كتير مشيوا زعلانين.', ab_lose_hearts: 'القلوب مجمعتش الهدف ({h} من {g}).',
     ab_next: 'اليوم اللي بعده', ab_retry: 'جرّب تاني', ab_sum_hearts: 'القلوب', ab_sum_tips: 'البقشيش', ab_sum_perfect: 'مشروبات مظبوطة', ab_best: 'أحسن نتيجة: {n} قلب',
-    ab_endless: 'خلّصت الـ12 يوم! الليالي اللانهائية مستنياك… والزباين بيبقوا أصعب.',
+    ab_endless: 'خلّصت الـ20 يوم! الليالي اللانهائية مستنياك… والزباين بيبقوا أصعب.',
     ab_r3: 'تحفة! ده بالظبط اللي حاسس بيه!', ab_r2: 'حلو أوي، قريب جدًا. شكرًا!', ab_r1: 'امم… مش أوي، بس ماشي.', ab_r0: 'إيه ده؟! ده مش مزاجي خالص!', ab_rangry: 'مش قادر أستنى أكتر من كده!',
     ab_v3: 'مظبوط!', ab_v2: 'جميل!', ab_v1: 'ماشي', ab_v0: 'وحش!', ab_combo: 'كومبو ×{n}', ab_late: 'اتأخرت!',
     ab_buy: 'اشتري', ab_owned: 'عندك ✓', ab_wallet: 'معاك {n} بقشيش', ab_cant: 'محتاج بقشيش أكتر', ab_locked: 'مقفول', ab_ok: 'تمام',
@@ -30,7 +30,7 @@
     ab_h4: 'الترمومتر: المشروب السخن أدفى والمتلّج أسقع. وفيه مكونات بتتفاعل مع الحرارة لحظة ما تحطها (70° وأكتر أو 30° وأقل).',
     ab_h5: 'قدّم قبل ما صبر الزبون يخلص. كل ما المثلثين يتطابقوا أكتر وتقدّم أسرع، تاخد قلوب وبقشيش أكتر.',
     ab_h6: 'اجمع قلوب كفاية عشان تعدّي اليوم، واصرف البقشيش على ديكور بيساعدك.',
-    ab_keys: 'الكيبورد: 1-9 و0 وQ W E R للمكونات، ↑↓ للحرارة، Space للتقديم، Backspace للكبّ، P أو Esc للوقفة.',
+    ab_keys: 'الكيبورد: 1-9 و0 ومن Q لحد P للمكونات، ↑↓ للحرارة، Space للتقديم، Backspace للكبّ، P أو Esc للوقفة.',
     ab_c1: 'ده طلب الزبون. المثلث الدهبي على اللوحة هو المزاج اللي عايزه.',
     ab_c2: 'اسحب مكوّن للكوباية — أو دوس عليه. شوف مثلث مشروبك بيتحرك!',
     ab_c3: 'خلّي مثلثك يغطي المثلث الدهبي. الترمومتر بيظبط الدفا.',
@@ -68,6 +68,20 @@
     ab_dc_crystal: 'كورة الكريستال', ab_dd_crystal: 'قراية مزاج الزباين الغامضين ببلاش.',
     ab_dc_aquarium: 'حوض سمك منوّر', ab_dd_aquarium: 'البقشيش بيزيد 10٪.',
     ab_stats: 'قدّمت {a} مشروب — منهم {b} مظبوطين', ab_hello: 'أهلاً يا {p}! المحل مستنيك.',
+    // days 13-20
+    ab_i_sakura: 'ورق الساكورا', ab_d_sakura: 'منوّر وهادي وفيه دفا خفيف. في المتلّج بيفتّح أكتر.',
+    ab_i_mirror: 'مية المراية', ab_d_mirror: 'بتقلب النور والكآبة — المشروب المنوّر يبقى كئيب والعكس.',
+    ab_i_aurora: 'ضباب الشفق', ab_d_aurora: 'ساقع ومنوّر ومجنون شوية. في المتلّج بيلمع أكتر.',
+    ab_i_dreamtea: 'شاي الأحلام', ab_d_dreamtea: 'هادي وكئيب شوية. في الكوباية السخنة بيروّق أكتر.',
+    ab_i_comet: 'تراب المذنّب', ab_d_comet: 'بيقوّي كل المشاعر مرة ونص — عكس ملح العدم.',
+    ab_i_lava: 'كراميل البركان', ab_d_lava: 'دافي وكئيب ومجنون. في السخونية بيفرقع، وفي المتلّج بيتحجّر.',
+    ab_cr_chick: 'كتكوت عنقاء', ab_cr_jelly: 'قنديل القمر', ab_cr_robot: 'روبوت بالزمبلك', ab_cr_bat: 'خفاش نعسان', ab_cr_sheep: 'خروف السحاب',
+    ab_x_mirror: 'اتقلب!', ab_x_amplify: 'اتقوّى!', ab_x_bloom: 'فتّح!', ab_x_soothe: 'روّق…', ab_x_stone: 'اتحجّر!',
+    ab_tip_sakura: 'ورق الساكورا بيفتّح أكتر في الكوباية المتلّجة (30° وأقل).',
+    ab_tip_mirror: 'مية المراية بتقلب المنوّر ↔ الكئيب. حطها لما مشروبك يبقى عكس المطلوب في النور بالظبط.',
+    ab_tip_comet: 'تراب المذنّب بيقوّي المشروب كله مرة ونص — حلو للزباين اللي مزاجهم قوي أوي.',
+    ab_tip_lava: 'كراميل البركان بيفرقع في الكوباية السخنة (70° وأكتر) وبيتحجّر في المتلّجة.',
+    ab_tip_finale: 'آخر يوم في الموسم! الزباين صعبين أوي — وريهم أحلى مشروبات عندك.',
   };
   const EN = {
     ab_title: 'Alchemy Barista', ab_sub: 'A cozy cafe for magical creatures — brew every customer exactly the mood they ordered',
@@ -83,7 +97,7 @@
     ab_paused: 'Paused', ab_resume: 'Resume', ab_restart: 'Restart day', ab_menu: 'Main menu', ab_back: 'Back',
     ab_win: 'Day complete!', ab_lose: 'The cafe closed early…', ab_lose_strikes: 'Too many customers left unhappy.', ab_lose_hearts: 'Not enough mood hearts ({h} of {g}).',
     ab_next: 'Next day', ab_retry: 'Try again', ab_sum_hearts: 'Hearts', ab_sum_tips: 'Tips', ab_sum_perfect: 'Perfect drinks', ab_best: 'Best: {n} hearts',
-    ab_endless: 'You finished all 12 days! Endless nights await… and the customers get pickier.',
+    ab_endless: 'You finished all 20 days! Endless nights await… and the customers get pickier.',
     ab_r3: 'Perfect! That is exactly how I feel!', ab_r2: 'Mmm, so close. Thank you!', ab_r1: 'Hmm… not quite, but okay.', ab_r0: 'Ew! That is not my mood at all!', ab_rangry: 'I can\'t wait any longer!',
     ab_v3: 'Perfect!', ab_v2: 'Lovely!', ab_v1: 'Okay', ab_v0: 'Yuck!', ab_combo: 'Combo ×{n}', ab_late: 'Too slow!',
     ab_buy: 'Buy', ab_owned: 'Owned ✓', ab_wallet: '{_}You have {n} tips', ab_cant: 'Need more tips', ab_locked: 'Locked', ab_ok: 'Got it',
@@ -95,7 +109,7 @@
     ab_h4: 'The thermometer: hot drinks feel warmer, iced drinks colder. Some ingredients react to the temperature the moment you add them (70° and up, or 30° and below).',
     ab_h5: 'Serve before their patience runs out. The closer the triangles match and the faster you serve, the more hearts and tips you get.',
     ab_h6: 'Collect enough hearts to pass the day, and spend your tips on decor that helps you.',
-    ab_keys: 'Keyboard: 1-9, 0 and Q W E R for ingredients, ↑↓ for heat, Space to serve, Backspace to dump, P or Esc to pause.',
+    ab_keys: 'Keyboard: 1-9, 0 and Q to P for ingredients, ↑↓ for heat, Space to serve, Backspace to dump, P or Esc to pause.',
     ab_c1: 'This is the order. The gold triangle on the board is the mood they want.',
     ab_c2: 'Drag an ingredient into the cup — or tap it. Watch your brew\'s triangle move!',
     ab_c3: 'Make your triangle cover the gold one. The thermometer fine-tunes warmth.',
@@ -133,6 +147,20 @@
     ab_dc_crystal: 'Crystal ball', ab_dd_crystal: 'Read mysterious moods for free.',
     ab_dc_aquarium: 'Glowfish tank', ab_dd_aquarium: 'Tips go up by 10%.',
     ab_stats: 'You have served {a} drinks — {b} of them perfect.', ab_hello: 'Welcome, {p}! The cafe awaits.',
+    // days 13-20
+    ab_i_sakura: 'Sakura petals', ab_d_sakura: 'Bright, calm and a little warm. Blooms brighter when iced.',
+    ab_i_mirror: 'Mirror water', ab_d_mirror: 'Flips bright and gloomy — a bright drink turns gloomy, and back again.',
+    ab_i_aurora: 'Aurora mist', ab_d_aurora: 'Cold, bright and a little wild. Shines even more when iced.',
+    ab_i_dreamtea: 'Dream tea', ab_d_dreamtea: 'Calm and a little gloomy. In a hot cup it soothes even more.',
+    ab_i_comet: 'Comet dust', ab_d_comet: 'Makes every feeling 1.5× stronger — the opposite of void salt.',
+    ab_i_lava: 'Lava caramel', ab_d_lava: 'Warm, gloomy and wild. Erupts when hot, turns to stone when iced.',
+    ab_cr_chick: 'Phoenix chick', ab_cr_jelly: 'Moon jelly', ab_cr_robot: 'Clockwork robot', ab_cr_bat: 'Sleepy bat', ab_cr_sheep: 'Cloud sheep',
+    ab_x_mirror: 'Flipped!', ab_x_amplify: 'Stronger!', ab_x_bloom: 'Blooms!', ab_x_soothe: 'Soothing…', ab_x_stone: 'Turned to stone!',
+    ab_tip_sakura: 'Sakura petals bloom brighter in an iced cup (30° or below).',
+    ab_tip_mirror: 'Mirror water flips bright ↔ gloomy. Add it when your drink\'s brightness is the exact opposite of the order.',
+    ab_tip_comet: 'Comet dust makes the whole drink 1.5× stronger — great for customers with very strong moods.',
+    ab_tip_lava: 'Lava caramel erupts in a hot cup (70° and up) and turns to stone in an iced one.',
+    ab_tip_finale: 'The last day of the season! The customers are very picky — show them your best brews.',
   };
   // order phrases: [Egyptian Arabic, English, warm, bright, chaotic]
   const PHRASES = [
@@ -176,6 +204,19 @@
     ['عطسة ساحر', 'a wizard\'s sneeze', 0, 0.3, 0.45],
     ['شروق الشمس', 'a sunrise', 0.3, 0.55, 0],
     ['صباح يوم اتنين', 'a Monday morning', -0.15, -0.35, 0.2],
+    // moods from day 13 on
+    ['نزهة تحت شجر الساكورا', 'a cherry blossom picnic', 0.2, 0.45, -0.2, 13],
+    ['أول حلم لروبوت', 'a robot\'s first dream', -0.2, 0.15, -0.3, 13],
+    ['ديسكو قناديل البحر', 'a jellyfish disco', -0.15, 0.4, 0.5, 14],
+    ['حدوتة قبل النوم لخفاش', 'a bat\'s bedtime story', -0.1, -0.45, -0.4, 14],
+    ['تهويدة بركان', 'a volcano\'s lullaby', 0.5, -0.25, -0.2, 15],
+    ['قوس قزح بالمقلوب', 'an upside-down rainbow', 0, -0.4, 0.35, 15],
+    ['الشفق القطبي', 'the northern lights', -0.45, 0.4, 0.2, 16],
+    ['موكب لعب بالزمبلك', 'a clockwork parade', 0.1, 0.25, 0.5, 17],
+    ['خروف بيعدّ النجوم', 'a sheep counting stars', 0, 0.3, -0.5, 18],
+    ['نار مخيم نص الليل', 'a midnight bonfire', 0.5, -0.4, 0.3, 18],
+    ['متاهة مرايات', 'a hall of mirrors', -0.2, 0.05, 0.5, 19],
+    ['جبل تلج بيسيح', 'a melting glacier', -0.4, -0.2, 0.3, 20],
   ];
   const TPL = [
     ['عايز حاجة طعمها زي {a} وريحتها زي {b}.', 'I need something that tastes like {a} and smells like {b}.'],
@@ -184,6 +225,8 @@
     ['ممكن تعملّي {a}؟ وزوّد عليه رشة {b}.', 'Could you brew me {a}? Add a splash of {b}.'],
     ['النهارده مزاجي زي {a} ومعاه {b}.', 'Today my mood is {a} mixed with {b}.'],
     ['كوباية {a} متقلّبة مع {b}، لو سمحت!', 'One cup of {a}, stirred with {b}, please!'],
+    ['اعملّي {a}… وفي الآخر رشّ عليه شوية {b}.', 'Brew me {a}… and sprinkle a little {b} on top.', 13],
+    ['مزاجي النهارده: {a} فوقه {b}.', 'My mood today: {a} with {b} on top.', 16],
   ];
   PHRASES.forEach((p, i) => { AR['ab_p' + i] = '{_}' + p[0]; EN['ab_p' + i] = '{_}' + p[1]; });
   TPL.forEach((p, i) => { AR['ab_t' + i] = p[0]; EN['ab_t' + i] = p[1]; });
@@ -207,10 +250,17 @@
     { id: 'pollen', day: 8, v: [0.15, 0.35, 0.25], color: '#ff8fc8', color2: '#ffd0ea', shape: 'vial', fx: 'rainbow', lid: '#c060a0' },
     { id: 'void', day: 9, special: 'halve', v: [0, 0, 0], color: '#1d1828', color2: '#2e2640', shape: 'pot', fx: 'void', lid: '#3a3448' },
     { id: 'sand', day: 10, special: 'time', v: [0, 0, -0.1], color: '#e6c47c', color2: '#f5dca0', shape: 'hourglass', fx: '', lid: '#8a5a2e' },
+    // days 13-20
+    { id: 'sakura', day: 13, v: [0.1, 0.25, -0.3], cold: [0, 0.4, -0.35], coldFx: 'bloom', color: '#ffb3cf', color2: '#ffe3ee', shape: 'vial', fx: 'petals', lid: '#c0607e' },
+    { id: 'mirror', day: 14, special: 'mirror', v: [0, 0, 0], color: '#bfe9ff', color2: '#f0fbff', shape: 'flask', fx: 'mirror', lid: '#7aa8c8' },
+    { id: 'aurora', day: 15, v: [-0.25, 0.3, 0.25], cold: [-0.35, 0.45, 0.35], coldFx: 'glow', color: '#5fe0b8', color2: '#c09bff', shape: 'tall', fx: 'aurora', lid: '#3a7a6a' },
+    { id: 'dreamtea', day: 16, v: [0.1, -0.15, -0.4], hot: [0.25, -0.05, -0.55], hotFx: 'soothe', color: '#9a7ac8', color2: '#d4c0f0', shape: 'pot', fx: 'bubbles', lid: '#5a4a7a' },
+    { id: 'comet', day: 17, special: 'amplify', v: [0, 0, 0], color: '#2f3580', color2: '#7f8fff', shape: 'jar', fx: 'comet', lid: '#c99a3a' },
+    { id: 'lava', day: 19, v: [0.3, -0.25, 0.25], hot: [0.5, -0.3, 0.45], cold: [0.05, -0.2, 0], hotFx: 'erupt', coldFx: 'stone', color: '#d8442a', color2: '#ffa63a', shape: 'jar', fx: 'lava', lid: '#3a2420' },
   ];
   const INGM = {}; ING.forEach((g, i) => { INGM[g.id] = g; g.idx = i; g.rgb = hex2rgb(g.color); });
-  const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'q', 'w', 'e', 'r'];
-  const PH = PHRASES.map(p => ({ v: [p[2], p[3], p[4]] }));
+  const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
+  const PH = PHRASES.map(p => ({ v: [p[2], p[3], p[4]], day: p[5] || 1 }));
   const CREATURES = {
     dragon: { day: 1, tip: 12, pat: 0.85, hues: [135, 160, 0, 280, 25] },
     ghost: { day: 1, tip: 8, pat: 1.05, hues: [0] },
@@ -221,6 +271,11 @@
     fox: { day: 5, tip: 10, pat: 0.9, hues: [24, 200, 0, 300] },
     owl: { day: 7, tip: 10, pat: 1.05, hues: [28, 10, 210] },
     golem: { day: 7, tip: 9, pat: 1.2, hues: [185, 120, 300, 40] },
+    chick: { day: 13, tip: 13, pat: 0.8, hues: [18, 40, 330] },
+    jelly: { day: 15, tip: 11, pat: 1.1, hues: [270, 200, 320] },
+    robot: { day: 17, tip: 12, pat: 1.0, hues: [35, 190, 0] },
+    bat: { day: 18, tip: 10, pat: 0.95, hues: [270, 230, 340] },
+    sheep: { day: 20, tip: 14, pat: 1.0, hues: [null, 200, 300] },
   };
   const DECOR = [
     { id: 'lights', price: 30, tips: 0.05 }, { id: 'plant', price: 45 }, { id: 'candles', price: 60, tips: 0.05 },
@@ -261,7 +316,11 @@
   }
   let save = loadSave();
   function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
-  const has = (id) => !!save.decor[id];
+  // online co-op state (the café of a room has its own coins + decor, so the solo save is never touched)
+  const NET = { on: false, ch: null, code: '', ready: false, me: '', jt: 0, name: '', peers: {}, hostId: '', roster: [], room: { md: 1, co: 0, dc: {}, d: 1 }, D: null, seenEv: -1, focus: '', claimT: 0, joinedAt: 0, lastSnap: 0, msg: '' };
+  let decorOverride = null;   // shop previews draw one decor item at a time
+  const has = (id) => !!(decorOverride || (NET.on ? NET.room.dc : save.decor))[id];
+  const coins = () => NET.on ? NET.room.co : save.tips;
   const tipBonus = () => DECOR.reduce((s, d) => s + (has(d.id) && d.tips ? d.tips : 0), 0);
   const patBonus = () => has('plant') ? 4 : 0;
   const drainMul = () => has('musicbox') ? 0.85 : 1;
@@ -271,17 +330,19 @@
   const peekCost = () => has('crystal') ? 0 : 5;
 
   // ============================================================ difficulty
+  const LAST_DAY = 20;   // designed days; endless nights after that
   function dayCfg(d) {
-    const N = [3, 4, 4, 5, 5, 6, 6, 6, 7, 7, 8, 8];
-    const n = d <= 12 ? N[d - 1] : Math.min(10, 8 + Math.floor((d - 12) / 3));
+    const N = [3, 4, 4, 5, 5, 6, 6, 6, 7, 7, 8, 8, 8, 8, 9, 9, 9, 10, 10, 10];
+    const n = d <= LAST_DAY ? N[d - 1] : Math.min(12, 10 + Math.floor((d - LAST_DAY) / 3));
+    const late = Math.max(0, Math.min(d, LAST_DAY) - 12);   // days 13-20 ramp up gently: less patience, tighter matches, more mysteries
     return {
       d, n,
-      patience: Math.max(24, 62 - d * 3),
-      tol: Math.max(0.7, 1.05 - d * 0.03),
+      patience: d <= 12 ? Math.max(24, 62 - d * 3) : 26 - late * 0.6,
+      tol: d <= 12 ? Math.max(0.7, 1.05 - d * 0.03) : 0.7 - late * 0.0125,
       depth: Math.min(6, 2 + Math.floor((d + 1) / 2)),
       scale: Math.min(1.3, 0.8 + d * 0.04),
-      mystery: d < 4 ? 0 : Math.min(0.45, 0.2 + (d - 4) * 0.035),
-      goal: Math.ceil(n * Math.min(2.0, 1.3 + d * 0.06)),
+      mystery: d < 4 ? 0 : d <= 12 ? Math.min(0.45, 0.2 + (d - 4) * 0.035) : 0.45 + late * 0.0125,
+      goal: Math.ceil(n * (d <= 12 ? Math.min(2.0, 1.3 + d * 0.06) : 2.0 + late * 0.035)),
     };
   }
   const ingsFor = (d) => ING.filter(g => g.day <= d);
@@ -291,10 +352,12 @@
   function effectOf(g, zone) {
     if (zone === 'hot' && g.hot) return { v: g.hot, fx: g.hotFx };
     if (zone === 'cold' && g.cold) return { v: g.cold, fx: g.coldFx };
-    return { v: g.v, fx: g.special === 'halve' ? 'halve' : g.special === 'time' ? 'time' : null };
+    return { v: g.v, fx: g.special === 'halve' ? 'halve' : g.special === 'time' ? 'time' : g.special === 'mirror' ? 'mirror' : g.special === 'amplify' ? 'amplify' : null };
   }
   function applyTo(mix, g, zone) {
     if (g.special === 'halve') return mix.map(x => x * 0.5);
+    if (g.special === 'mirror') return [mix[0], -mix[1], mix[2]];
+    if (g.special === 'amplify') return mix.map(x => clamp(x * 1.5, -1, 1));
     const e = effectOf(g, zone).v; return mix.map((x, k) => clamp(x + e[k], -1, 1));
   }
   const tempW = (T) => (T - 50) / 50 * TEMP_W;
@@ -319,9 +382,9 @@
     return { steps: best.s, mix: best.m, eff: [w, best.m[1], best.m[2]], d: best.d };
   }
   function genOrder(cfg) {
-    const ings = ingsFor(cfg.d); let best = null;
+    const ings = ingsFor(cfg.d), pool = PH.map((p, i) => i).filter(i => PH[i].day <= cfg.d); let best = null;
     for (let tries = 0; tries < 45; tries++) {
-      const a = Math.floor(Math.random() * PH.length), b = Math.floor(Math.random() * PH.length);
+      const a = pick(pool), b = pick(pool);
       if (a === b) continue;
       if (tries < 32 && (S.usedP.has(a) || S.usedP.has(b))) continue;
       const raw = [0, 1, 2].map(k => clamp((PH[a].v[k] + PH[b].v[k]) * cfg.scale, -0.95, 0.95));
@@ -334,7 +397,7 @@
     }
     if (!best) { const r = solve([0.4, 0.4, 0], ings, cfg.depth); best = { a: 2, b: 38, raw: [0.4, 0.4, 0], target: r.eff, recipe: r.steps, err: r.d }; }
     S.usedP.add(best.a); S.usedP.add(best.b);
-    best.tpl = Math.floor(Math.random() * TPL.length);
+    best.tpl = pick(TPL.map((p, i) => i).filter(i => (TPL[i][2] || 1) <= cfg.d));
     return best;
   }
 
@@ -1117,12 +1180,12 @@
         const f = cu.patience / cu.patienceMax;
         cu.mood = f < 0.3 ? 'impatient' : (pours.length && pours[pours.length - 1].t < 0.8 ? 'wow' : 'idle');
         if (f < 0.3 && !cu.warned) { cu.warned = true; Snd.play('warn'); floatText('!', cu.head[0] + L.custS * 0.25, cu.topY, '#ffcf4a', 34, 1); }
-        if (cu.patience <= 0) timeoutCust();
+        if (cu.patience <= 0) { if (NET.on) cu.patience = 0; else timeoutCust(); }   // online: the host decides when a customer gives up
         break;
       }
       case 'drink': cu.x = L.custX; cu.mood = cup.st > 0.6 ? 'drink' : 'wow'; if (cup.st >= 1.4) finishServe(); break;
-      case 'react': cu.x = L.custX; if (cu.pt > 2.1) { cu.phase = 'leave'; cu.pt = 0; Snd.play('whoosh'); hideBubble(); } break;
-      case 'leave': cu.x = lerp(L.custX, off, easeIO(cu.pt / 0.9)); if (cu.pt >= 0.9) { if (cu.demo) spawnDemo(); else nextCustomer(); } break;
+      case 'react': cu.x = L.custX; if (cu.pt > (NET.on ? 1.5 : 2.1)) { cu.phase = 'leave'; cu.pt = 0; Snd.play('whoosh'); hideBubble(); } break;
+      case 'leave': cu.x = lerp(L.custX, off, easeIO(cu.pt / 0.9)); if (cu.pt >= 0.9) { if (cu.demo) spawnDemo(); else if (NET.on) { S.cust = null; netIdle(); } else nextCustomer(); } break;
     }
   }
   function drawCust(c) {
@@ -1166,17 +1229,17 @@
     showBubble(); Snd.play('magic');
     const cu = S.cust;
     if (S.tut && S.tut.active && S.tut.step === 0) setCoach('ab_c1', 'board', true);
-    if (S.custIdx === 0 && S.tipKey) { setCoach(S.tipKey, S.tipKey === 'ab_tip_mystery' ? 'bubble' : 'shelf', true); S.tipKey = null; }
+    if (S.custIdx === 0 && S.tipKey) { setCoach(S.tipKey, S.tipKey === 'ab_tip_mystery' || S.tipKey === 'ab_tip_finale' ? 'bubble' : 'shelf', true); S.tipKey = null; }
     if (cu.order.mystery) floatText('?', cu.head ? cu.head[0] : L.custX, (cu.topY || L.counterY - L.custS) - 10, '#d8b4ff', 34);
   }
-  function timeoutCust() {
+  function timeoutCust() { S.combo = 0; strike(); timeoutFx(); if (S.tut) S.tut.active = false; setCoach(null); }
+  function timeoutFx() {
     const cu = S.cust; cu.result = { acc: 0, hearts: 0, tips: 0, timeout: true }; cu.phase = 'react'; cu.pt = 0; cu.mood = 'angry';
-    S.combo = 0; strike(); shake = 10; Snd.play('bad');
+    shake = 10; Snd.play('bad');
     if (cupLevel() > 0) { cup.state = 'dumping'; Snd.play('drain'); }
     parts.push({ type: 'cloud', x: cu.head[0], y: cu.topY - 30, vx: 0, vy: -5, life: 0, max: 2 });
     floatText(t('ab_late'), cu.head[0], cu.topY - 20, '#ff8a8a', L.port ? 22 : 28);
     showReaction(t('ab_rangry'), 0);
-    if (S.tut) S.tut.active = false; setCoach(null);
   }
   function strike() { S.strikes++; if (S.strikes >= strikeLimit()) S.failPending = true; updateHud(); }
   function canBrew() { return S.screen === 'play' && S.cust && S.cust.phase === 'order' && (cup.state === 'idle'); }
@@ -1188,7 +1251,7 @@
     Snd.init();
     const zone = zoneOf(cup.T), e = effectOf(g, zone);
     cup.mix = applyTo(cup.mix, g, zone);
-    if (g.special === 'time' && S.cust) S.cust.patience = Math.min(S.cust.patienceMax, S.cust.patience + 8);
+    if (g.special === 'time' && S.cust) { S.cust.patience = Math.min(S.cust.patienceMax, S.cust.patience + 8); if (NET.on) netAct({ a: 'time', u: S.cust.uid }); }
     cup.doses.push({ id, zone });
     cup.layers.push({ col: g.rgb.slice(), vol: 0, target: 1, blend: 0 });
     pours.push({ g, t: 0, sx: fromX != null ? fromX : (j ? j.x : L.cupX), sy: fromY != null ? fromY : (j ? j.y : L.cupY), w: j ? j.w : 50, h: j ? j.h : 64, zone, fx: e.fx, splashed: false });
@@ -1212,6 +1275,11 @@
       case 'fade': burst(x, y, 12, { type: 'wisp', sp0: 10, sp1: 40, s0: 6, s1: 10, l0: 1, l1: 1.6 }); Snd.play('frost'); say('fade', '#c9b8e8'); break;
       case 'fizzle': burst(x, y, 10, { type: 'snow', sp0: 20, sp1: 80, s0: 8, s1: 12 }); Snd.play('frost'); say('fizzle', '#bfe8ff'); break;
       case 'halve': burst(x, y, 16, { type: 'ring', col: '#b9a8ff', sp0: 5, sp1: 30, s0: 4, s1: 8 }); Snd.play('magic'); say('halve', '#d3c8ff'); break;
+      case 'mirror': burst(x, y, 18, { type: 'ring', col: '#cfeeff', sp0: 10, sp1: 50, s0: 4, s1: 9 }); burst(x, y, 10, { type: 'spark2', cols: ['#ffffff', '#bfe9ff'], sp0: 40, sp1: 120 }); Snd.play('magic'); say('mirror', '#cfeeff'); break;
+      case 'amplify': burst(x, y, 22, { type: 'spark2', cols: ['#ffe58a', '#9fb0ff', '#ffffff'], sp0: 70, sp1: 230 }); shake = Math.max(shake, 6); Snd.play('magic'); Snd.play('thunder'); say('amplify', '#ffe58a'); break;
+      case 'bloom': burst(x, y, 16, { type: 'heart', cols: ['#ffb3cf', '#ffe3ee'], sp0: 30, sp1: 110, up: 60, s0: 7, s1: 12 }); Snd.play('frost'); say('bloom', '#ffc0d8'); break;
+      case 'soothe': burst(x, y - 10, 6, { type: 'note', col: '#e0d4ff', sp0: 20, sp1: 60, up: 40, s0: 12, s1: 18, l0: 0.9, l1: 1.4 }); Snd.play('magic'); say('soothe', '#d8c8ff'); break;
+      case 'stone': burst(x, y, 12, { type: 'drop', cols: ['#8a7f7a', '#5a504c'], sp0: 40, sp1: 120, up: 100 }); Snd.play('drain'); say('stone', '#c8bdb8'); break;
       case 'time': burst(x, y, 12, { type: 'spark2', col: '#ffe08a', sp0: 30, sp1: 100 }); Snd.play('magic'); say('time', '#ffe08a'); if (S.cust && S.cust.head) floatText('+8', S.cust.head[0], S.cust.topY - 10, '#ffe08a', 22); break;
     }
   }
@@ -1233,23 +1301,41 @@
     const cu = S.cust; if (!canBrew()) return;
     if (!cup.doses.length) { toast(t('ab_empty')); return; }
     Snd.init();
-    const m = effMood(cup.mix, cup.T), acc = accuracy(m, cu.order.target), pf = clamp(cu.patience / cu.patienceMax, 0, 1);
-    const hearts = acc >= 0.8 ? 3 : acc >= 0.55 ? 2 : acc >= 0.3 ? 1 : 0;
-    const base = CREATURES[cu.type].tip, combo = hearts === 3 ? S.combo + 1 : 0;
-    const tips = hearts ? Math.round(base * (0.35 + 0.65 * acc) * (0.55 + 0.45 * pf) * (1 + tipBonus())) + (hearts === 3 ? 2 + Math.min(combo - 1, 5) : 0) : 0;
-    cu.result = { acc, hearts, tips, combo };
+    const m = effMood(cup.mix, cup.T);
+    if (NET.on) cu.result = null;   // online: the host scores the drink (finishServe waits for its verdict)
+    else {
+      const acc = accuracy(m, cu.order.target), pf = clamp(cu.patience / cu.patienceMax, 0, 1);
+      const hearts = acc >= 0.8 ? 3 : acc >= 0.55 ? 2 : acc >= 0.3 ? 1 : 0;
+      const base = CREATURES[cu.type].tip, combo = hearts === 3 ? S.combo + 1 : 0;
+      const tips = hearts ? Math.round(base * (0.35 + 0.65 * acc) * (0.55 + 0.45 * pf) * (1 + tipBonus())) + (hearts === 3 ? 2 + Math.min(combo - 1, 5) : 0) : 0;
+      cu.result = { acc, hearts, tips, combo };
+    }
     cu.phase = 'drink'; cu.pt = 0; cup.state = 'serving'; cup.st = 0;
+    if (NET.on) { cu.netRes = null; NET.focus = ''; netAct({ a: 'srv', u: cu.uid, m: m.map(v => Math.round(v * 1000) / 1000) }); }
     Snd.play('whoosh'); setTimeout(() => Snd.play('gulp'), 600);
     if (S.tut) { S.tut.active = false; setCoach(null); }
     if (S.coach) setCoach(null);
     hideBubble(true); updateActions();
   }
   function finishServe() {
-    const cu = S.cust, r = cu.result; if (cu.phase !== 'drink') return;
-    cu.phase = 'react'; cu.pt = 0; cu.mood = r.hearts >= 2 ? 'happy' : r.hearts === 1 ? 'idle' : 'angry';
+    const cu = S.cust; if (cu.phase !== 'drink') return;
+    if (NET.on) {   // online: show the host's verdict (normally here long before the drink is finished)
+      if (!cu.netRes && cu.pt < 3.5) return;
+      const e = cu.netRes;
+      if (!e || e.rej) { cu.phase = 'react'; cu.pt = 0; cu.mood = 'sad'; cu.result = { acc: 0, hearts: 0, tips: 0, timeout: true }; showReaction(t('ab_o_toolate'), 0); return; }
+      cu.result = { acc: e.ac / 100, hearts: e.h, tips: e.tp, combo: e.cb };
+      serveFx(cu, cu.result); updateHud(); return;
+    }
+    const r = cu.result;
     S.hearts += r.hearts; S.tipsToday += r.tips; save.tips += r.tips; save.served++;
     if (r.hearts === 3) { S.perfects++; save.perfects++; S.combo = r.combo; } else S.combo = 0;
-    if (r.hearts === 0) { strike(); shake = 9; }
+    if (r.hearts === 0) strike();
+    serveFx(cu, r);
+    persist(); updateHud();
+  }
+  function serveFx(cu, r) {
+    cu.phase = 'react'; cu.pt = 0; cu.mood = r.hearts >= 2 ? 'happy' : r.hearts === 1 ? 'idle' : 'angry';
+    if (r.hearts === 0) shake = 9;
     const hx = cu.head[0], hy = cu.topY;
     const vcol = ['#ff8a8a', '#ffc27a', '#ffe17a', '#8dffa8'][r.hearts];
     floatText(t('ab_v' + r.hearts) + ' ' + Math.round(r.acc * 100) + '%', hx, hy - 24, vcol, L.port ? 22 : 30, 1.6);
@@ -1263,7 +1349,6 @@
     if (r.hearts === 3) burst(hx, hy + L.custS * 0.3, 16, { type: 'spark2', cols: ['#fff6c0', '#ffd25a'], sp0: 60, sp1: 200 });
     if (r.hearts === 0) parts.push({ type: 'cloud', x: hx, y: hy - 30, vx: 0, vy: -5, life: 0, max: 2 });
     showReaction(t('ab_r' + r.hearts), r.hearts, r.tips);
-    persist(); updateHud();
   }
   function nextCustomer() {
     S.cust = null; S.custIdx++;
@@ -1278,7 +1363,8 @@
   }
   function peek() {
     const cu = S.cust; if (!cu || cu.revealed || cu.phase !== 'order') return;
-    const cost = peekCost(); if (save.tips < cost) { toast(t('ab_cant')); return; }
+    const cost = peekCost(); if (coins() < cost) { toast(t('ab_cant')); return; }
+    if (NET.on) { netAct({ a: 'peek', u: cu.uid }); return; }   // shared coins: the host pays and reveals it for everyone
     save.tips -= cost; cu.revealed = true; persist(); Snd.play('magic'); updateHud(); showBubble();
     burst(L.boardG.cx, L.boardG.cy, 16, { type: 'spark2', cols: ['#d8b4ff', '#fff6c0'], sp0: 40, sp1: 140 });
   }
@@ -1287,7 +1373,7 @@
   function startDay(d) {
     S.dayNum = d; S.cfg = dayCfg(d); S.custList = makeCustList(S.cfg); S.custIdx = 0; S.hearts = 0; S.strikes = 0; S.tipsToday = 0; S.perfects = 0; S.combo = 0; S.failPending = false; S.usedP = new Set();
     S.tut = d === 1 && !save.best[1] ? { active: true, step: 0 } : null;
-    S.tipKey = d === 3 ? 'ab_tip_phoenix' : d === 4 ? 'ab_tip_mystery' : d === 9 ? 'ab_tip_void' : d === 10 ? 'ab_tip_sand' : null;
+    S.tipKey = ({ 3: 'ab_tip_phoenix', 4: 'ab_tip_mystery', 9: 'ab_tip_void', 10: 'ab_tip_sand', 13: 'ab_tip_sakura', 14: 'ab_tip_mirror', 17: 'ab_tip_comet', 19: 'ab_tip_lava', 20: 'ab_tip_finale' })[d] || null;
     parts.length = 0; texts.length = 0; pours.length = 0; setCoach(null);
     layoutJars(); buildBg();
     S.screen = 'intro'; showOverlay('intro');
@@ -1297,6 +1383,7 @@
     $('hud').classList.add('ingame'); updateHud(); updateActions(); spawnCustomer();
   }
   function endDay(win, why) {
+    if (NET.on) return;   // online days end on the host and never touch the solo save
     S.screen = 'end'; hideBubble(); setCoach(null); updateActions();
     const d = S.dayNum, maxH = S.cfg.n * 3;
     const stars = win ? (S.hearts >= maxH * 0.9 ? 3 : S.hearts >= (S.cfg.goal + maxH) / 2 ? 2 : 1) : 0;
@@ -1311,16 +1398,24 @@
     S.screen = 'title'; hideBubble(); setCoach(null); $('hud').classList.remove('ingame');
     S.dayNum = Math.max(1, save.maxDay); S.cfg = null; layoutJars(); buildBg(); spawnDemo(); demoCup(); updateActions(); showOverlay('title');
   }
-  function pause() { if (S.screen !== 'play') return; S.screen = 'paused'; showOverlay('pause'); }
-  function resume() { if (S.screen !== 'paused') return; hideOverlay(); S.screen = 'play'; }
+  function pause() {
+    if (S.screen !== 'play') return;
+    S.screen = 'paused'; showOverlay(NET.on ? 'opause' : 'pause');
+    // online: hand my customer back to the queue while I'm away (I pick one again when I come back)
+    if (NET.on && pCount() > 1 && S.cust && S.cust.uid && (S.cust.phase === 'order' || S.cust.phase === 'enter')) { netAct({ a: 'drop', u: S.cust.uid }); S.cust = null; NET.focus = ''; hideBubble(); updateActions(); }
+  }
+  function resume() { if (S.screen !== 'paused') return; hideOverlay(); S.screen = 'play'; if (NET.on) netIdle(); }
 
   // ============================================================ DOM UI
   const ui = { bubble: $('bubble'), actions: $('actions'), serve: $('serveBtn'), dump: $('dumpBtn'), tip: $('tip'), coach: $('coach'), toast: $('toast'), overlay: $('overlay'), box: $('box') };
+  const qEl = $('queue');   // online: the shared customer queue
   const svg = (n, col, s) => A.iconSvg(n, col, s);
   function placeDom() {
     const b = L.bubble; Object.assign(ui.bubble.style, { left: b.x + 'px', top: b.y + 'px', width: b.w + 'px', maxHeight: b.maxH + 'px' });
     const a = L.actions; Object.assign(ui.actions.style, { left: a.x + 'px', top: a.y + 'px', width: a.w + 'px', height: a.h + 'px' });
     document.body.classList.toggle('port', L.port); document.body.classList.toggle('short', !!L.short);
+    if (L.port) Object.assign(qEl.style, { left: '6px', top: (L.top + 4) + 'px', width: Math.max(120, L.bubble.x - 12) + 'px' });   // above the customer, beside the order
+    else Object.assign(qEl.style, { left: '10px', top: (L.counterY + 8) + 'px', width: Math.min(L.W * 0.36, L.cupX - cupDims().w - 30) + 'px' });   // on the free counter, left of the cup
     if (!L.port) Object.assign(ui.coach.style, { left: '10px', top: (L.counterY + 8) + 'px', width: Math.min(L.W * 0.36, 440) + 'px', bottom: 'auto', right: 'auto' });
     else Object.assign(ui.coach.style, { left: '6px', top: (L.top + 6) + 'px', width: (L.W * 0.43 - 8) + 'px', bottom: 'auto', right: 'auto' });   // over the customer, clear of the jars
   }
@@ -1335,20 +1430,21 @@
   function showBubble() {
     const cu = S.cust; if (!cu || !cu.order) return;
     const o = cu.order, cost = peekCost();
-    ui.bubble.innerHTML = `<div class="who">${t('ab_cr_' + cu.type)}${o.mystery ? `<span class="myst">${svg('orb', '#c79bff', 14)}</span>` : ''}</div>
+    ui.bubble.innerHTML = `<div class="who">${NET.on ? `<i class="pdot" style="background:${colOf(NET.me)}"></i>` : ''}${t('ab_cr_' + cu.type)}${o.mystery ? `<span class="myst">${svg('orb', '#c79bff', 14)}</span>` : ''}</div>
       <div class="poem">${orderHtml(o, !o.mystery)}</div>
       ${o.mystery && !cu.revealed ? `<div class="mnote">${t('ab_mystery')}</div><button class="peek" id="peekBtn">${svg('orb', '#2a1440', 14)} ${cost ? t('ab_peek_cost', { n: cost }) : t('ab_peek') + ' (' + t('ab_free') + ')'}</button>` : ''}
       <div class="pat"><i id="patBar"></i></div>`;
-    ui.bubble.hidden = false; ui.bubble.classList.remove('react'); requestAnimationFrame(() => ui.bubble.classList.add('show'));
+    ui.bubble.hidden = false; ui.bubble.dataset.idle = ''; ui.bubble.classList.remove('react', 'dim'); requestAnimationFrame(() => ui.bubble.classList.add('show'));
     const pb = $('peekBtn'); if (pb) pb.onclick = (e) => { e.stopPropagation(); peek(); };
     updateActions();
   }
   function showReaction(line, hearts, tips) {
     let hs = ''; for (let i = 0; i < 3; i++) hs += svg('heart', i < hearts ? '#ff5d7a' : 'rgba(80,40,50,.25)', 20);
+    ui.bubble.dataset.idle = '';
     ui.bubble.innerHTML = `<div class="who">${t('ab_cr_' + S.cust.type)}</div><div class="poem">${line}</div><div class="hearts">${hs}${tips ? `<span class="tipv">+${tips}<i class="coin"></i></span>` : ''}</div>`;
     ui.bubble.hidden = false; ui.bubble.classList.remove('dim'); ui.bubble.classList.add('show', 'react');
   }
-  function hideBubble(keep) { if (keep) { ui.bubble.classList.add('dim'); return; } ui.bubble.classList.remove('show', 'dim'); ui.bubble.hidden = true; }
+  function hideBubble(keep) { if (keep) { ui.bubble.classList.add('dim'); return; } ui.bubble.classList.remove('show', 'dim'); ui.bubble.hidden = true; ui.bubble.dataset.idle = ''; }
   function updatePatience() {
     const el = $('patBar'); if (!el || !S.cust || S.cust.phase !== 'order') return;
     const f = clamp(S.cust.patience / S.cust.patienceMax, 0, 1); el.style.width = (f * 100).toFixed(1) + '%';
@@ -1363,9 +1459,17 @@
   }
   function updateHud() {
     $('langBtn').textContent = getLang() === 'ar' ? 'English' : 'العربية';
-    $('sTips').innerHTML = `<i class="coin"></i>${save.tips}`;
+    $('sTips').innerHTML = `<i class="coin"></i>${coins()}`;
     $('pauseBtn').innerHTML = svg('pause', '#eef0ff', 16);
     if (!S.cfg) return;
+    if (NET.on && NET.D) {   // online: the shared day from the host
+      const D = NET.D;
+      $('sDay').textContent = t('ab_day', { n: D.d });
+      $('sCust').textContent = Math.min(D.dn, D.n) + '/' + D.n;
+      $('sHearts').innerHTML = `${svg('heart', '#ff6b8b', L.port ? 13 : 15)}${D.h}<small>/${D.g}</small>`;
+      let s2 = ''; if (L.port || D.sl > 6) s2 = `<b class="${D.sk ? 'on' : ''}">✕</b>${D.sk}<small>/${D.sl}</small>`; else for (let i = 0; i < D.sl; i++) s2 += `<b class="${i < D.sk ? 'on' : ''}">✕</b>`;
+      $('sStrikes').innerHTML = s2; return;
+    }
     $('sDay').textContent = t('ab_day', { n: S.dayNum });
     $('sCust').textContent = Math.min(S.custIdx + 1, S.cfg.n) + '/' + S.cfg.n;
     $('sHearts').innerHTML = `${svg('heart', '#ff6b8b', L.port ? 13 : 15)}${S.hearts}<small>/${S.cfg.goal}</small>`;
@@ -1439,7 +1543,7 @@
       case 'aquarium': aquariumArt(c, w * 0.1, h * 0.85, w * 0.8, h * 0.6, t2); break;
     }
   }
-  function drawDecorOne(c, id) { const keep = save.decor; save.decor = { [id]: 1 }; try { drawDecor(c, 'wall'); } finally { save.decor = keep; } }
+  function drawDecorOne(c, id) { decorOverride = { [id]: 1 }; try { drawDecor(c, 'wall'); } finally { decorOverride = null; } }
   function renderOverlay() {
     const kind = ui.overlay.dataset.kind; if (!kind) return;
     const B = ui.box; let h = '';
@@ -1447,6 +1551,7 @@
     if (kind === 'title') {
       h = `<div class="logo">${svg('cup', '#ffb703', 44)}<h1>${t('ab_title')}</h1></div><p class="sub">${t('ab_sub')}</p>
         <button class="btn big" data-act="continue">${save.maxDay > 1 ? t('ab_continue', { n: save.maxDay }) : t('ab_play')}</button>
+        <button class="btn" data-act="online">${svg('heart', '#1a1200', 16)} ${t('ab_o_online')}</button>
         <div class="row"><button class="btn sec" data-act="days">${t('ab_days')}</button><button class="btn sec" data-act="shop">${t('ab_shop')}</button><button class="btn sec" data-act="how">${t('ab_how')}</button></div>
         ${sndRow}${save.served ? `<p class="muted">${t('ab_stats', { a: save.served, b: save.perfects })}</p>` : ''}${playerName() ? `<p class="muted small">${t('ab_hello', { p: esc(playerName()) })}</p>` : ''}`;
     } else if (kind === 'how' || kind === 'how2') {
@@ -1454,7 +1559,7 @@
       h = `<h2>${t('ab_how')}</h2><div class="how">${[1, 2, 3, 4, 5, 6].map(i => `<div class="hrow">${svg(ic[i - 1], '#ffb703', 22)}<span>${t('ab_h' + i)}</span></div>`).join('')}</div><p class="muted small">${t('ab_keys')}</p>
         <button class="btn" data-act="${kind === 'how2' ? 'backpause' : 'back'}">${t('ab_back')}</button>`;
     } else if (kind === 'days') {
-      const n = Math.max(12, save.maxDay);
+      const n = Math.max(LAST_DAY, save.maxDay);
       let g = ''; for (let d = 1; d <= n; d++) {
         const lock = d > save.maxDay, st = save.stars[d] || 0;
         g += `<button class="day ${lock ? 'lock' : ''}" ${lock ? 'disabled' : `data-act="day" data-d="${d}"`}><b>${d}</b><span>${lock ? svg('lock', 'rgba(255,255,255,.35)', 14) : [1, 2, 3].map(i => svg('star', i <= st ? '#ffb703' : 'rgba(255,255,255,.2)', 12)).join('')}</span></button>`;
@@ -1469,11 +1574,8 @@
       h = `<h2>${t('ab_shop')}</h2><p class="wallet"><i class="coin"></i>${t('ab_wallet', { _: '', n: save.tips })}</p><div class="list">${items}</div>
         <button class="btn" data-act="${kind === 'shop2' ? 'backend' : 'back'}">${t('ab_back')}</button>`;
     } else if (kind === 'intro') {
-      const c = S.cfg, d = c.d, newI = ING.filter(g => g.day === d), newC = Object.keys(CREATURES).filter(k => CREATURES[k].day === d && d > 1);
-      let cards = '';
-      for (const g of newI) cards += `<div class="card">${previewCanvas('ing', g.id)}<div><em>${t('ab_new_ing')}</em><b>${t('ab_i_' + g.id)}</b><small>${t('ab_d_' + g.id)}</small></div></div>`;
-      for (const k of newC) cards += `<div class="card">${previewCanvas('cr', k)}<div><em>${t('ab_new_cust')}</em><b>${t('ab_cr_' + k)}</b></div></div>`;
-      h = `<h2>${t('ab_day', { n: d })}</h2>${d > 12 && d === save.maxDay ? `<p class="muted">${t('ab_endless')}</p>` : ''}
+      const c = S.cfg, d = c.d, cards = introCards(d);
+      h = `<h2>${t('ab_day', { n: d })}</h2>${d > LAST_DAY && d === save.maxDay ? `<p class="muted">${t('ab_endless')}</p>` : ''}
         <div class="facts"><span>${svg('cup', '#ffb703', 18)} ${t('ab_customers', { n: c.n })}</span><span>${svg('heart', '#ff6b8b', 18)} ${t('ab_goal', { n: c.goal })}</span></div>
         <p class="muted small">${t('ab_strikes_lim', { n: strikeLimit() })}</p>${cards}
         ${save.best[d] ? `<p class="muted small">${t('ab_best', { n: save.best[d] })}</p>` : ''}
@@ -1488,12 +1590,20 @@
       h = `<h2>${r.win ? t('ab_win') : t('ab_lose')}</h2>${r.win ? `<div class="stars">${stars}</div>` : `<p class="sub">${r.why === 'strikes' ? t('ab_lose_strikes') : t('ab_lose_hearts', { h: r.hearts, g: r.goal })}</p>`}
         <div class="sum"><div>${svg('heart', '#ff6b8b', 20)}<b>${r.hearts}<small>/${r.maxH}</small></b><span>${t('ab_sum_hearts')}</span></div>
         <div><i class="coin big"></i><b>+${r.tips}</b><span>${t('ab_sum_tips')}</span></div><div>${svg('star', '#ffd25a', 20)}<b>${r.perfects}</b><span>${t('ab_sum_perfect')}</span></div></div>
-        ${r.win && r.d === 12 ? `<p class="muted">${t('ab_endless')}</p>` : ''}
+        ${r.win && r.d === LAST_DAY ? `<p class="muted">${t('ab_endless')}</p>` : ''}
         ${r.win ? `<button class="btn big" data-act="next">${t('ab_next')}</button>` : `<button class="btn big" data-act="retry">${t('ab_retry')}</button>`}
         <div class="row"><button class="btn sec" data-act="shop2">${t('ab_shop')}</button>${r.win ? `<button class="btn sec" data-act="retry">${t('ab_retry')}</button>` : ''}<button class="btn sec" data-act="menu">${t('ab_menu')}</button></div>`;
     }
+    else h = onlineOverlay(kind, sndRow);
     B.innerHTML = h; B.scrollTop = 0; if (window.Mal3abPopButtons) window.Mal3abPopButtons();   // re-add 🏠 + 💬 bar (#box has data-m3pop)
+    if (kind === 'online') onlineInputs();
     requestAnimationFrame(paintPreviews);
+  }
+  function introCards(d) {
+    let cards = '';
+    for (const g of ING.filter(x => x.day === d)) cards += `<div class="card">${previewCanvas('ing', g.id)}<div><em>${t('ab_new_ing')}</em><b>${t('ab_i_' + g.id)}</b><small>${t('ab_d_' + g.id)}</small></div></div>`;
+    for (const k of Object.keys(CREATURES).filter(k2 => CREATURES[k2].day === d && d > 1)) cards += `<div class="card">${previewCanvas('cr', k)}<div><em>${t('ab_new_cust')}</em><b>${t('ab_cr_' + k)}</b></div></div>`;
+    return cards;
   }
   ui.overlay.addEventListener('click', (e) => {
     const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
@@ -1507,7 +1617,7 @@
       case 'how': showOverlay('how'); break;
       case 'how2': showOverlay('how2'); break;
       case 'back': showOverlay('title'); break;
-      case 'backpause': showOverlay('pause'); break;
+      case 'backpause': showOverlay(NET.on ? 'opause' : 'pause'); break;
       case 'backend': showOverlay('end'); break;
       case 'day': startDay(+b.dataset.d); break;
       case 'open': openCafe(); break;
@@ -1519,6 +1629,7 @@
       case 'sound': save.sound = !save.sound; persist(); Snd.setGains(); renderOverlay(); break;
       case 'music': save.music = !save.music; persist(); Snd.setGains(); renderOverlay(); break;
       case 'buy': buy(b.dataset.id); break;
+      default: onlineClick(act, b); break;
       case 'reset': if (confirm(t('ab_reset_q'))) { const snd = save.sound, mus = save.music; save = JSON.parse(JSON.stringify(DEF)); save.sound = snd; save.music = mus; persist(); layout(); goTitle(); } break;
     }
   });
@@ -1584,13 +1695,14 @@
     else if (k === ' ' || k === 'enter') { serve(); e.preventDefault(); }
     else if (k === 'backspace' || k === 'delete') { dump(); e.preventDefault(); }
   });
-  window.addEventListener('resize', () => { layout(); updateHud(); if (S.screen === 'play' && S.cust && S.cust.phase === 'order') showBubble(); });
+  window.addEventListener('resize', () => { layout(); updateHud(); if (S.screen === 'play' && S.cust && S.cust.phase === 'order') showBubble(); if (NET.on) renderQueue(true); });
   document.addEventListener('visibilitychange', () => { if (document.hidden && S.screen === 'play') pause(); });
   document.addEventListener('langchange', () => {
     buildBg(); updateHud(); renderOverlay(); if (S.coach) setCoach(S.coach.key, S.coach.target, S.coach.tip);
     if (S.cust && S.cust.phase === 'order') showBubble(); else if (S.cust && S.cust.phase === 'react' && S.cust.result) showReaction(S.cust.result.timeout ? t('ab_rangry') : t('ab_r' + S.cust.result.hearts), S.cust.result.hearts, S.cust.result.tips);
     ui.serve.innerHTML = `${svg('cup', '#1a1200', 20)}<span>${t('ab_serve')}</span>`; ui.dump.textContent = t('ab_dump');
     if (ui.tip.dataset.id) showTip(null);
+    if (NET.on) { renderQueue(true); if (ui.bubble.dataset.idle === '1') { ui.bubble.dataset.idle = ''; netIdle(); } }
   });
 
   // ============================================================ main loop
@@ -1651,9 +1763,501 @@
   }
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 
+  // ============================================================ online co-op café (Supabase Realtime broadcast, up to 4 baristas)
+  // The host runs the customer queue, the day clock, the strikes and the shared coins, and broadcasts the whole day ~8×/s.
+  // Every barista brews in their own cup on their own screen and sends "claim" / "serve" / "buy" actions; any barista can serve any free customer.
+  addStrings({
+    ab_o_online: 'أونلاين مع صحابك', ab_o_title: 'الكافيه الأونلاين', ab_o_sub: 'شغّلوا كافيه واحد مع بعض — لحد 4 باريستا، نفس الزباين ومحفظة واحدة للكل.',
+    ab_o_name: 'اسمك', ab_o_create: 'اعمل أوضة', ab_o_code: 'الكود', ab_o_join: 'ادخل', ab_o_codehint: 'اكتب كود الأوضة (4 حروف).',
+    ab_o_note: 'الأيام الأونلاين ليها بقشيش وديكور مشتركين لوحدهم — تقدّمك لوحدك في أمان.', ab_o_roomcode: 'كود الأوضة', ab_o_copy: 'انسخ لينك الدعوة', ab_o_copied: 'اتنسخ!',
+    ab_o_you: 'إنت', ab_o_host: 'الهوست', ab_o_barista: 'باريستا', ab_o_waitp: 'مستنيين باريستا…', ab_o_wallet: 'محفظة المحل: {n}', ab_o_connecting: 'بيوصل…',
+    ab_o_start: 'ابدأ اليوم', ab_o_need: 'مستنيين باريستا كمان على الأقل.', ab_o_waithost: 'مستنيين الهوست…', ab_o_leave: 'اخرج من الأوضة',
+    ab_o_rules: 'كلكم بتخدموا نفس الزباين. الكروت بتوضّح مين بيخدم مين — دوس على زبون فاضي عشان تخدمه.', ab_o_team: '{n} باريستا في الوردية',
+    ab_o_waitopen: 'مستنيين الهوست يفتح المحل…', ab_o_crew: 'الباريستا', ab_o_served: 'خدم', ab_o_gone: 'مشي', ab_o_lobby: 'ارجع للأوضة',
+    ab_o_shopnote: 'محل مشترك — أي حد يقدر يشتري ببقشيش المحل، والديكور بيبان عند الكل.', ab_o_stillopen: 'المحل لسه فاتح وإنت مش موجود — صحابك بيكمّلوا شغل.', ab_o_held: 'المحل واقف لحد ما ترجع.',
+    ab_o_alone: 'الباقيين كلهم مشيوا', ab_o_alone2: 'تقدر تكمّل اليوم لوحدك — وصحابك يقدروا يرجعوا بكود الأوضة.', ab_o_solo: 'كمّل لوحدك',
+    ab_o_full: 'الأوضة دي مليانة (4 باريستا بالكتير).', ab_o_nonet: 'مفيش اتصال بسيرفر الأونلاين.', ab_o_joined: '{p} دخل الكافيه!', ab_o_left: '{p} مشي من الكافيه.',
+    ab_o_lefthost: '{p} مشي — {h} بقى الهوست دلوقتي.', ab_o_youhost: '{p} مشي — إنت بقيت الهوست دلوقتي.', ab_o_taken: '{p} بيخدم الزبون ده خلاص.', ab_o_srv: '{p} قدّم لـ{c} {h}', ab_o_out: '{c} مشي زعلان!',
+    ab_o_bought: '{p} اشترى {x}!', ab_o_free: 'فاضي', ab_o_noq: 'لسه مفيش زباين…', ab_o_idle: 'كل الزباين معاهم باريستا — اللي جاي في السكة!', ab_o_toolate: 'أوبس، حد تاني سبقك!',
+  }, {
+    ab_o_online: 'Online Co-op', ab_o_title: 'Online Café', ab_o_sub: 'Run one café together — up to 4 baristas, the same customers and one shared wallet.',
+    ab_o_name: 'Your Name', ab_o_create: 'Create Room', ab_o_code: 'Code', ab_o_join: 'Join', ab_o_codehint: 'Type the 4-letter room code.',
+    ab_o_note: 'Online days have their own shared coins and decor — your solo progress stays safe.', ab_o_roomcode: 'Room Code', ab_o_copy: 'Copy Invite Link', ab_o_copied: 'Copied!',
+    ab_o_you: 'You', ab_o_host: 'Host', ab_o_barista: 'Barista', ab_o_waitp: 'Waiting for a barista…', ab_o_wallet: 'Café Wallet: {n}', ab_o_connecting: 'Connecting…',
+    ab_o_start: 'Start the Day', ab_o_need: 'Waiting for at least one more barista to join.', ab_o_waithost: 'Waiting for the host…', ab_o_leave: 'Leave Room',
+    ab_o_rules: 'Everyone serves the same customers. The cards show who is serving whom — tap a free customer to serve them.', ab_o_team: '{n} baristas on shift',
+    ab_o_waitopen: 'Waiting for the host to open the café…', ab_o_crew: 'Barista', ab_o_served: 'Served', ab_o_gone: 'left', ab_o_lobby: 'Back to Lobby',
+    ab_o_shopnote: 'Shared shop — anyone can buy with the café coins, and the decor shows up for everyone.', ab_o_stillopen: 'The café stays open while you are away — your friends keep serving.', ab_o_held: 'The café waits for you.',
+    ab_o_alone: 'Everyone Else Left', ab_o_alone2: 'You can finish the day alone — friends can still rejoin with the room code.', ab_o_solo: 'Continue Solo',
+    ab_o_full: 'That room is full (4 baristas max).', ab_o_nonet: 'No connection to the online server.', ab_o_joined: '{p} joined the café!', ab_o_left: '{p} left the café.',
+    ab_o_lefthost: '{p} left — {h} is the host now.', ab_o_youhost: '{p} left — you are the host now.', ab_o_taken: '{p} is already serving that customer.', ab_o_srv: '{p} served {c} {h}', ab_o_out: '{c} left unhappy!',
+    ab_o_bought: '{p} bought {x}!', ab_o_free: 'Free', ab_o_noq: 'No customers yet…', ab_o_idle: 'Every customer has a barista — the next one is on the way!', ab_o_toolate: 'Oh, someone else got to me first!',
+  });
+  const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'st', 'act'];
+  const PCOL = ['#ffb703', '#5ec8ff', '#ff6fae', '#7ee36a'], MAXP = 4;
+  const newCode = () => { const AL = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s2 = ''; for (let i = 0; i < 4; i++) s2 += AL[Math.floor(Math.random() * AL.length)]; return s2; };
+  const pageLink = () => location.href.split('?')[0].split('#')[0];
+  const inviteLink = (code) => pageLink() + '?room=' + code;
+  const netName = () => (NET.name || playerName() || t('ab_o_barista')).slice(0, 16);
+  const isHost = () => NET.on && !!NET.me && NET.hostId === NET.me;
+  const pCount = () => 1 + Object.keys(NET.peers).length;
+  const beats = (a, b) => a.jt < b.jt || (a.jt === b.jt && a.id < b.id);   // who is "older" in the room (decides the next host)
+  function alivePlayers() { const a = [{ id: NET.me, n: netName(), jt: NET.jt }]; for (const id in NET.peers) a.push(NET.peers[id]); return a.sort((x, y) => beats(x, y) ? -1 : 1); }
+  const rosterOf = (id) => NET.roster.find(r => r.id === id);
+  function nameOf(id) { if (id === NET.me) return netName(); const r = rosterOf(id) || NET.peers[id] || (NET.D && NET.D.st && NET.D.st[id]); return (r && r.n) || '…'; }
+  function colOf(id) { const r = rosterOf(id), st = NET.D && NET.D.st && NET.D.st[id]; const c = r ? r.c : st ? st.c : null; return c == null ? '#9aa0c0' : PCOL[c % 4]; }
+  function nsend(ev, p) { if (!NET.ch || !NET.ready) return; try { NET.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: NET.me }, p || {}) }); } catch (e) {} }
+  function netAct(p) { if (!NET.on) return; if (isHost()) hostAct(NET.me, p); else nsend('act', p); }
+  function saveRoom() { try { sessionStorage.setItem('ab-online-room-' + NET.code, JSON.stringify(NET.room)); } catch (e) {} }
+
+  // ---------- host: the shared day ----------
+  function freshD() { return { ph: 'lobby', sq: 0, d: NET.room.d, n: 0, g: 0, sl: 3, sp: 0, dn: 0, h: 0, tp: 0, pf: 0, sk: 0, uc: 0, ek: 0, ls: [], cs: [], st: {}, ev: [], r: null, nx: 0, T: 0, endAt: 0 }; }
+  function hostRoster() {   // everyone keeps their colour for as long as they stay
+    const used = new Set(), R = [];
+    for (const p of alivePlayers()) { const o = rosterOf(p.id); R.push({ id: p.id, n: p.n, c: o && !used.has(o.c) ? o.c : -1 }); if (o && !used.has(o.c)) used.add(o.c); }
+    for (const r of R) if (r.c < 0) { let c = 0; while (used.has(c)) c++; used.add(c); r.c = c; }
+    NET.roster = R;
+    const D = NET.D; if (D && D.ph !== 'lobby') for (const r of R) { const s2 = D.st[r.id]; if (s2) { s2.n = r.n; s2.c = r.c; } else D.st[r.id] = { n: r.n, c: r.c, s: 0, t: 0, h: 0, p: 0, cb: 0 }; }
+  }
+  function pushEv(e) { const D = NET.D; e.k = ++D.ek; D.ev.push(e); if (D.ev.length > 16) D.ev.shift(); }
+  function sendSnap() {
+    if (!isHost() || !NET.D) return;
+    hostRoster();
+    const D = NET.D;
+    nsend('st', { host: NET.me, R: NET.roster, room: NET.room, D: { ph: D.ph, sq: D.sq, d: D.d, n: D.n, g: D.g, sl: D.sl, sp: D.sp, dn: D.dn, h: D.h, tp: D.tp, pf: D.pf, sk: D.sk, uc: D.uc, ek: D.ek, ls: D.ls,
+      cs: D.cs.map(c => Object.assign({}, c, { p: Math.round(c.p * 10) / 10 })), st: D.st, ev: D.ev, r: D.r, end: D.endAt ? 1 : 0 } });
+    NET.lastSnap = performance.now(); saveRoom();
+  }
+  function hostStartDay(d) {
+    if (!isHost()) return;
+    d = clamp(d | 0, 1, Math.max(1, NET.room.md));
+    const P = pCount(), cfg = dayCfg(d), n = Math.min(18, Math.round(cfg.n * (1 + 0.5 * (P - 1)))), D = NET.D;   // more baristas → more customers
+    Object.assign(D, { ph: 'intro', sq: D.sq + 1, d, n, g: Math.ceil(n * cfg.goal / cfg.n), sl: strikeLimit() + (P - 1), sp: 0, dn: 0, h: 0, tp: 0, pf: 0, sk: 0,
+      ls: makeCustList(Object.assign({}, cfg, { n })), cs: [], st: {}, r: null, nx: 0.6, T: 0, endAt: 0 });
+    NET.room.d = d; S.usedP = new Set();
+    sendSnap(); netApply();
+  }
+  function hostOpen() { const D = NET.D; if (!isHost() || D.ph !== 'intro') return; D.ph = 'play'; D.nx = 0.5; D.T = 0; sendSnap(); netApply(); }
+  function hostSpawn() {
+    const D = NET.D, cfg = dayCfg(D.d), types = Object.keys(CREATURES).filter(k => CREATURES[k].day <= D.d);
+    const type = CREATURES[D.ls[D.sp]] ? D.ls[D.sp] : pick(types), cr = CREATURES[type], o = genOrder(cfg);
+    const my = D.sp > 0 && Math.random() < cfg.mystery, pm = Math.round((cfg.patience * cr.pat * 1.2 + patBonus()) * 10) / 10;   // a little extra patience: the queue is shared
+    D.cs.push({ u: ++D.uc, ty: type, hu: pick(cr.hues), a: o.a, b: o.b, tl: o.tpl, tg: o.target.map(v => Math.round(v * 1000) / 1000), my: my ? 1 : 0, rv: my ? 0 : 1, p: pm, pm, by: '' });
+    D.sp++;
+  }
+  function hostTick(dt) {
+    const D = NET.D; if (!D || D.ph !== 'play' || NET.hold) return;
+    D.T += dt;
+    const dm = drainMul();
+    for (let i = D.cs.length - 1; i >= 0; i--) {
+      const c = D.cs[i]; c.p -= dt * dm;
+      if (c.p <= 0) { D.cs.splice(i, 1); D.sk++; D.dn++; const s2 = D.st[c.by]; if (s2) s2.cb = 0; pushEv({ t: 'out', u: c.u, by: c.by, ty: c.ty }); }
+    }
+    if (!D.endAt) {
+      if (D.sk >= D.sl) D.endAt = D.T + 1.8;
+      else if (D.sp >= D.n && !D.cs.length) D.endAt = D.T + 3.2;   // let the last reaction play
+      else {
+        const P = pCount(), maxWait = P <= 1 ? 1 : Math.min(MAXP, P + 1);
+        if (D.sp < D.n && D.cs.length < maxWait) { D.nx -= dt; if (D.nx <= 0) { hostSpawn(); D.nx = 1.6; } } else D.nx = Math.max(D.nx, 0.9);
+      }
+    }
+    if (D.endAt && D.T >= D.endAt) hostEndDay();
+  }
+  function hostServe(pid, u, m) {
+    const D = NET.D; if (D.ph !== 'play') return;
+    const i = D.cs.findIndex(c => c.u === u), c = D.cs[i];
+    if (!c || (c.by && c.by !== pid && rosterOf(c.by)) || !Array.isArray(m) || m.length !== 3 || !m.every(Number.isFinite)) { pushEv({ t: 'rej', to: pid, u }); return; }
+    m = m.map(v => clamp(v, -1, 1));
+    const acc = clamp(1 - dist3(m, c.tg) / dayCfg(D.d).tol, 0, 1), pf = clamp(c.p / c.pm, 0, 1);
+    const hearts = acc >= 0.8 ? 3 : acc >= 0.55 ? 2 : acc >= 0.3 ? 1 : 0;
+    const s2 = D.st[pid] || (D.st[pid] = { n: nameOf(pid), c: (rosterOf(pid) || { c: 0 }).c, s: 0, t: 0, h: 0, p: 0, cb: 0 });
+    const combo = hearts === 3 ? (s2.cb || 0) + 1 : 0;   // same scoring as solo; combos are per barista
+    const tips = hearts ? Math.round(CREATURES[c.ty].tip * (0.35 + 0.65 * acc) * (0.55 + 0.45 * pf) * (1 + tipBonus())) + (hearts === 3 ? 2 + Math.min(combo - 1, 5) : 0) : 0;
+    D.cs.splice(i, 1); D.dn++; D.h += hearts; D.tp += tips; NET.room.co += tips;
+    s2.s++; s2.t += tips; s2.h += hearts; s2.cb = combo; if (hearts === 3) { s2.p++; D.pf++; }
+    if (!hearts) D.sk++;
+    pushEv({ t: 'srv', u, by: pid, ty: c.ty, h: hearts, tp: tips, ac: Math.round(acc * 100), cb: combo });
+  }
+  function hostAct(pid, p) {
+    const D = NET.D; if (!D || !p) return;
+    const c = D.cs.find(x => x.u === p.u);
+    switch (p.a) {
+      case 'claim': if (D.ph !== 'play' || !c || (c.by && c.by !== pid && rosterOf(c.by))) break; for (const o of D.cs) if (o.by === pid) o.by = ''; c.by = pid; break;
+      case 'drop': if (c && c.by === pid) c.by = ''; break;
+      case 'srv': hostServe(pid, p.u, p.m); break;
+      case 'time': if (c && D.ph === 'play') c.p = Math.min(c.pm, c.p + 8); break;
+      case 'peek': { if (!c || c.rv) break; const cost = peekCost(); if (NET.room.co < cost) { pushEv({ t: 'poor', to: pid }); break; } NET.room.co -= cost; c.rv = 1; pushEv({ t: 'peek', by: pid, u: c.u }); break; }
+      case 'buy': {
+        const dc = DECOR.find(x => x.id === p.x); if (!dc || D.ph === 'play' || NET.room.dc[dc.id]) break;
+        if (NET.room.co < dc.price) { pushEv({ t: 'poor', to: pid }); break; }
+        NET.room.co -= dc.price; NET.room.dc[dc.id] = 1; pushEv({ t: 'buy', by: pid, x: dc.id }); break;
+      }
+      default: return;
+    }
+    sendSnap(); netApply();
+  }
+  function hostEndDay() {
+    const D = NET.D, maxH = D.n * 3, win = D.sk < D.sl && D.h >= D.g;
+    const stars = win ? (D.h >= maxH * 0.9 ? 3 : D.h >= (D.g + maxH) / 2 ? 2 : 1) : 0;
+    if (win) NET.room.md = Math.max(NET.room.md, D.d + 1);
+    D.cs = []; D.ph = 'end'; D.endAt = 0;
+    D.r = { win, why: D.sk >= D.sl ? 'strikes' : 'hearts', d: D.d, hearts: D.h, goal: D.g, maxH, tips: D.tp, perfects: D.pf, stars };
+    sendSnap(); netApply();
+  }
+  function hostToLobby() { const D = NET.D; if (!isHost()) return; D.ph = 'lobby'; D.cs = []; D.endAt = 0; sendSnap(); netApply(); }
+  function becomeHost() {   // the old host left: carry on from the last shared snapshot
+    NET.hostId = NET.me;
+    if (!NET.D) NET.D = freshD();
+    const D = NET.D; D.nx = 1; D.T = 0; D.endAt = D.end ? 1.5 : 0; D.st = D.st || {}; D.ev = D.ev || []; D.cs = D.cs || [];
+    for (const c of D.cs) if (c.by && c.by !== NET.me && !NET.peers[c.by]) c.by = '';
+    sendSnap();
+  }
+
+  // ---------- connection ----------
+  function joinRoom(code, create) {
+    leaveRoom(true);
+    if (!window.sb) { toast(t('ab_o_nonet')); return false; }
+    code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if (code.length < 4) return false;
+    let id = '', jt = 0; try { id = sessionStorage.getItem('ab-online-id-' + code) || ''; jt = +sessionStorage.getItem('ab-online-jt-' + code) || 0; } catch (e) {}
+    if (!id || !jt) { id = Math.random().toString(36).slice(2, 10); jt = Date.now(); try { sessionStorage.setItem('ab-online-id-' + code, id); sessionStorage.setItem('ab-online-jt-' + code, String(jt)); } catch (e) {} }
+    let room = null; try { room = JSON.parse(sessionStorage.getItem('ab-online-room-' + code) || 'null'); } catch (e) {}
+    Object.assign(NET, { on: true, code, me: id, jt, ready: false, peers: {}, hostId: create ? id : '', roster: [], seenEv: -1, focus: '', joinedAt: Date.now(), msg: '', viewSq: -1, dsig: null, osig: '', qsig: '', aloneShown: false });
+    NET.room = Object.assign({ md: Math.max(1, save.maxDay), co: 0, dc: {}, d: 1 }, room || {});
+    NET.D = create ? freshD() : null;
+    const ch = sb.channel('alchemy-' + code, { config: { broadcast: { self: false, ack: false } } });
+    for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+    ch.subscribe((st) => {
+      if (st === 'SUBSCRIBED' && NET.ch === ch) { NET.ready = true; NET.joinedAt = Date.now(); hello(true); if (isHost()) sendSnap(); refreshOverlay('lobby'); }
+    });
+    NET.ch = ch;
+    try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
+    clearInterval(NET.hbT); NET.hbT = setInterval(netBeat, 2000);
+    clearInterval(NET.simI); NET.simT = 0; NET.simI = setInterval(netSim, 100);   // a timer, not rAF: the host keeps the café running in a background tab
+    layout(); enterLobbyView();
+    return true;
+  }
+  function leaveRoom(quiet) {
+    const was = NET.on;
+    if (NET.ch) { nsend('bye', {}); const ch = NET.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
+    clearInterval(NET.hbT); clearInterval(NET.simI);
+    Object.assign(NET, { on: false, ch: null, ready: false, code: '', peers: {}, hostId: '', roster: [], D: null, focus: '' });
+    showQueue(false);
+    if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+    if (was) { S.cust = null; layout(); }
+  }
+  function hello(req) { nsend('hello', { n: netName(), jt: NET.jt, host: NET.hostId, req: !!req }); }
+  function netBeat() {
+    if (!NET.ch) return;
+    nsend('hb', { n: netName(), jt: NET.jt, host: NET.hostId });
+    const now = Date.now();
+    for (const id of Object.keys(NET.peers)) if (now - NET.peers[id].t > 9000) peerGone(id);
+    if (NET.ready && (!NET.hostId || (NET.hostId !== NET.me && !NET.peers[NET.hostId])) && now - NET.joinedAt > 2500) {   // nobody runs the café: the oldest player takes over
+      const nh = alivePlayers()[0]; NET.hostId = nh.id; if (nh.id === NET.me) { becomeHost(); netApply(); }
+    }
+    if (isHost() && (!NET.D || NET.D.ph !== 'play')) sendSnap();
+  }
+  function netSim() {
+    if (!NET.on) return;
+    const now = performance.now(), dt = NET.simT ? Math.min(1.5, (now - NET.simT) / 1000) : 0; NET.simT = now;
+    NET.hold = pCount() === 1 && S.screen === 'paused';   // alone and paused: the café waits
+    if (!isHost()) return;
+    hostTick(dt);
+    if (NET.D && NET.D.ph === 'play' && now - NET.lastSnap > 120) { sendSnap(); netApply(); }
+  }
+  function onNet(ev, p) {
+    if (!p || !p.id || p.id === NET.me || !NET.on) return;
+    const now = Date.now();
+    if (ev === 'full') { if (p.to === NET.me) { leaveRoom(); goTitle(); NET.msg = t('ab_o_full'); showOverlay('online'); } return; }
+    if (ev === 'bye') { if (NET.peers[p.id]) peerGone(p.id); return; }
+    let P = NET.peers[p.id];
+    if (!P) {
+      if (pCount() >= MAXP) { if (isHost() && ev !== 'act') nsend('full', { to: p.id }); return; }   // a 5th barista gets "room full"
+      P = NET.peers[p.id] = { id: p.id, n: p.n || '…', jt: p.jt || now, t: now };
+      if (now - NET.joinedAt > 2500) { toast(t('ab_o_joined', { p: P.n })); Snd.play('bell'); }   // (the people already here answer my hello right after I arrive)
+      if (isHost()) sendSnap();
+    }
+    P.t = now; if (p.n) P.n = String(p.n).slice(0, 16); if (p.jt) P.jt = p.jt;
+    if (ev === 'hello' || ev === 'hb') {
+      if (ev === 'hello' && p.req) { hello(false); if (isHost()) sendSnap(); }
+      if (p.host === p.id && NET.hostId !== p.id) {   // they say they run the café
+        if (isHost()) { if (beats(P, { id: NET.me, jt: NET.jt })) NET.hostId = p.id; else sendSnap(); }
+        else NET.hostId = p.id;
+      } else if (!NET.hostId && p.host && p.host !== NET.me) NET.hostId = p.host;
+      refreshOverlay('lobby');
+      return;
+    }
+    if (ev === 'st') {
+      if (isHost()) { if (!beats(P, { id: NET.me, jt: NET.jt })) { sendSnap(); return; } }   // two hosts: the older one wins
+      NET.hostId = p.id;
+      if (Array.isArray(p.R)) NET.roster = p.R;
+      if (p.room) NET.room = p.room;
+      if (p.D) { NET.D = p.D; saveRoom(); netApply(); }
+      return;
+    }
+    if (ev === 'act' && isHost()) hostAct(p.id, p);
+  }
+  function peerGone(id) {
+    const P = NET.peers[id]; if (!P) return; delete NET.peers[id];
+    if (id === NET.hostId) {
+      const nh = alivePlayers()[0]; NET.hostId = nh.id;
+      toast(nh.id === NET.me ? t('ab_o_youhost', { p: P.n }) : t('ab_o_lefthost', { p: P.n, h: nh.n }));
+      if (nh.id === NET.me) becomeHost();
+    } else toast(t('ab_o_left', { p: P.n }));
+    if (isHost() && NET.D) { for (const c of NET.D.cs) if (c.by === id) c.by = ''; sendSnap(); }
+    if ((S.screen === 'play' || S.screen === 'paused') && pCount() === 1 && !NET.aloneShown && NET.D && NET.D.ph === 'play') {   // the day can go on: offer to finish it solo
+      NET.aloneShown = true; S.screen = 'paused'; showOverlay('oalone');
+    }
+    netApply(); refreshOverlay('lobby'); refreshOverlay('oend');
+  }
+
+  // ---------- every screen follows the shared day ----------
+  function netCfg() { const D = NET.D, c = dayCfg(D.d); c.n = D.n; c.goal = D.g; return c; }
+  function netApply() {
+    const D = NET.D; if (!NET.on || !D) return;
+    const dsig = Object.keys(NET.room.dc || {}).sort().join(',');
+    if (dsig !== NET.dsig) { NET.dsig = dsig; layout(); }   // new shared decor
+    if (NET.seenEv < 0) NET.seenEv = D.ek;   // just arrived: don't replay old news
+    else for (const e of D.ev || []) if (e.k > NET.seenEv) { NET.seenEv = e.k; try { onEvent(e); } catch (er) { console.warn(er); } }
+    if (D.ph === 'lobby') { if (S.screen !== 'lobby') enterLobbyView(); else { refreshOverlay('lobby'); refreshOverlay('oshop'); } }
+    else if (D.ph === 'intro') { if (S.screen !== 'intro' || NET.viewSq !== D.sq) enterIntroView(); else refreshOverlay('ointro'); }
+    else if (D.ph === 'play') { if ((S.screen !== 'play' && S.screen !== 'paused') || NET.viewSq !== D.sq) enterPlayView(); syncPlay(); }
+    else if (D.ph === 'end') { if (S.screen !== 'end' || NET.viewSq !== D.sq) enterEndView(); else { refreshOverlay('oend'); refreshOverlay('oshop'); } }
+    updateHud();
+  }
+  function enterLobbyView() {
+    S.screen = 'lobby'; S.cust = null; S.cfg = null; S.tut = null; NET.focus = ''; hideBubble(); setCoach(null); showQueue(false); $('hud').classList.remove('ingame');
+    S.dayNum = Math.max(1, save.maxDay); layoutJars(); buildBg(); spawnDemo(); demoCup(); updateActions(); updateHud(); showOverlay('lobby');
+  }
+  function enterIntroView() {
+    const D = NET.D; NET.viewSq = D.sq;
+    S.dayNum = D.d; S.cfg = netCfg(); S.cust = null; S.tut = null; S.tipKey = null; NET.focus = '';
+    parts.length = 0; texts.length = 0; pours.length = 0; setCoach(null); hideBubble(); showQueue(false); $('hud').classList.remove('ingame');
+    layout(); resetCup(); S.screen = 'intro'; updateActions(); showOverlay('ointro');
+  }
+  function enterPlayView() {
+    const D = NET.D; NET.viewSq = D.sq;
+    if (S.dayNum !== D.d || !S.cfg) { S.dayNum = D.d; layout(); }
+    S.cfg = netCfg(); S.tut = null; S.tipKey = null; setCoach(null);
+    hideOverlay(); S.screen = 'play'; S.cust = null; NET.focus = ''; resetCup(); cup.pop = 0.2;
+    $('hud').classList.add('ingame'); showQueue(true); updateActions();
+    NET.aloneShown = pCount() === 1;
+  }
+  function enterEndView() {
+    const D = NET.D, r = D.r; NET.viewSq = D.sq;
+    S.screen = 'end'; NET.focus = ''; hideBubble(); setCoach(null); showQueue(false); updateActions();
+    if (S.cust && (S.cust.phase === 'enter' || S.cust.phase === 'order')) { S.cust.phase = 'leave'; S.cust.pt = 0; }
+    if (r) {
+      Snd.play(r.win ? 'win' : 'lose');
+      if (r.win) for (let i = 0; i < 4; i++) setTimeout(() => burst(rand(L.W * 0.2, L.W * 0.8), rand(L.H * 0.2, L.H * 0.5), 24, { type: 'spark2', cols: ['#ffd25a', '#ff9ab8', '#9fe6ff', '#b5e48c'], sp0: 60, sp1: 260 }), i * 220);
+    }
+    setTimeout(() => { if (NET.on && S.screen === 'end' && ui.overlay.dataset.kind !== 'oshop') showOverlay('oend'); }, 450);
+  }
+  function syncPlay() {
+    const D = NET.D, cu = S.cust, now = performance.now();
+    S.cfg.n = D.n; S.cfg.goal = D.g;
+    if (cu && cu.uid && (cu.phase === 'enter' || cu.phase === 'order')) {
+      const c = D.cs.find(x => x.u === cu.uid);
+      if (!c) { if (!cu.lost) cu.lost = now; else if (now - cu.lost > 800) { cu.phase = 'leave'; cu.pt = 0; hideBubble(); NET.focus = ''; } }
+      else if (c.by && c.by !== NET.me) { toast(t('ab_o_taken', { p: nameOf(c.by) })); S.cust = null; NET.focus = ''; hideBubble(); updateActions(); }
+      else {
+        cu.lost = 0; cu.patience = c.p; cu.patienceMax = c.pm;
+        if (c.rv && !cu.revealed) { cu.revealed = true; if (cu.phase === 'order') showBubble(); }
+        if (!c.by && now - NET.claimT > 1500) { NET.claimT = now; netAct({ a: 'claim', u: c.u }); }
+      }
+    }
+    if (!S.cust) netIdle();
+    renderQueue();
+  }
+  function netIdle() {   // no customer in front of me: take the oldest free one, or say the next is on the way
+    if (!NET.on || !NET.D || NET.D.ph !== 'play' || S.screen !== 'play' || S.cust) return;
+    const c = NET.D.cs.filter(x => !x.by || !rosterOf(x.by)).sort((a, b) => a.u - b.u)[0];
+    if (c) { focusOn(c.u, true); return; }
+    if (ui.bubble.dataset.idle !== '1') {
+      ui.bubble.innerHTML = `<div class="poem">${t('ab_o_idle')}</div>`; ui.bubble.dataset.idle = '1';
+      ui.bubble.hidden = false; ui.bubble.classList.remove('react'); ui.bubble.classList.add('show', 'dim');
+    }
+  }
+  function focusOn(u, auto) {
+    const D = NET.D, c = D && D.cs.find(x => x.u === u); if (!c) return;
+    if (c.by && c.by !== NET.me && rosterOf(c.by)) { if (!auto) toast(t('ab_o_taken', { p: nameOf(c.by) })); return; }
+    const cu = S.cust;
+    if (cu && cu.uid === u) return;
+    if (cu && cu.phase !== 'enter' && cu.phase !== 'order') { if (!auto) toast(t('ab_busy')); return; }
+    if (cup.state !== 'idle') { resetCup(); cup.pop = 0.2; cup.disp = [0, 0, 0]; }
+    S.cust = { uid: c.u, type: c.ty, hue: c.hu, phase: 'enter', pt: cu ? 0.45 : 0, at: rand(0, 10), x: -L.custS, patience: c.p, patienceMax: c.pm,
+      order: { a: c.a, b: c.b, tpl: c.tl, target: c.tg, mystery: !!c.my }, revealed: !!c.rv, mood: 'idle', blink: 0, blinkT: rand(1, 3), look: 0,
+      head: [L.custX, L.counterY - L.custS * 0.6], topY: L.counterY - L.custS };
+    NET.focus = u; NET.claimT = performance.now();
+    hideBubble(); Snd.play('bell'); updateActions(); renderQueue(true);
+    netAct({ a: 'claim', u });
+  }
+  function onEvent(e) {
+    const cu = S.cust, mineView = !!(cu && cu.uid && cu.uid === e.u);
+    switch (e.t) {
+      case 'srv':
+        if (mineView && cu.phase === 'drink') cu.netRes = e;   // my drink: shown when the cup is empty
+        else {
+          if (mineView) { S.cust = null; NET.focus = ''; hideBubble(); updateActions(); }
+          if (e.by !== NET.me) { toast(t('ab_o_srv', { p: nameOf(e.by), c: t('ab_cr_' + e.ty), h: (e.h ? '♥'.repeat(e.h) : '✕') + (e.tp ? ' +' + e.tp : '') })); Snd.play(e.h >= 2 ? 'coin' : 'meh'); if (e.tp) pulseHud('sTips'); }
+        }
+        break;
+      case 'out':
+        if (mineView && (cu.phase === 'order' || cu.phase === 'enter')) { timeoutFx(); NET.focus = ''; }
+        else { toast(t('ab_o_out', { c: t('ab_cr_' + e.ty) })); Snd.play('warn'); }
+        break;
+      case 'rej': if (e.to === NET.me && mineView) cu.netRes = { rej: 1 }; break;
+      case 'poor': if (e.to === NET.me) toast(t('ab_cant')); break;
+      case 'peek': if (mineView && !cu.revealed) { cu.revealed = true; Snd.play('magic'); if (cu.phase === 'order') showBubble(); if (L.boardG) burst(L.boardG.cx, L.boardG.cy, 16, { type: 'spark2', cols: ['#d8b4ff', '#fff6c0'], sp0: 40, sp1: 140 }); } break;
+      case 'buy': toast(t('ab_o_bought', { p: nameOf(e.by), x: t('ab_dc_' + e.x) })); Snd.play('buy'); break;
+    }
+  }
+
+  // ---------- the customer queue (who is serving whom) ----------
+  function showQueue(on) { qEl.hidden = !on; if (on) renderQueue(true); else NET.qsig = ''; }
+  function renderQueue(force) {
+    if (qEl.hidden || !NET.D) return;
+    const D = NET.D, cs = D.cs.slice().sort((a, b) => a.u - b.u);
+    const sig = cs.map(c => c.u + ':' + c.by + ':' + c.rv).join('|') + '#' + NET.focus + '#' + getLang() + '#' + NET.roster.map(r => r.id + r.c + r.n).join();
+    if (force || sig !== NET.qsig) {
+      NET.qsig = sig;
+      qEl.innerHTML = cs.map(c => {
+        const me = c.by === NET.me, by = c.by && rosterOf(c.by) ? c.by : '', col = by ? colOf(by) : '';
+        return `<button class="qc${me ? ' me' : ''}${by && !me ? ' busy' : ''}" data-u="${c.u}"${col ? ` style="--pc:${col}"` : ''} title="${esc(t('ab_cr_' + c.ty))}"><canvas data-ty="${c.ty}" data-hu="${c.hu == null ? '' : c.hu}"></canvas>${c.my && !c.rv ? '<em>?</em>' : ''}<i class="qp"><b></b></i><span>${by ? esc(me ? t('ab_o_you') : nameOf(by)) : t('ab_o_free')}</span></button>`;
+      }).join('') || `<span class="qe">${t(D.sp >= D.n ? 'ab_o_idle' : 'ab_o_noq')}</span>`;
+      qEl.querySelectorAll('canvas').forEach(paintChip);
+    }
+    for (const el of qEl.querySelectorAll('.qc')) {
+      const c = D.cs.find(x => x.u === +el.dataset.u), b = el.querySelector('.qp b'); if (!c || !b) continue;
+      const f = clamp(c.p / c.pm, 0, 1); b.style.width = (f * 100).toFixed(1) + '%'; b.style.background = f > 0.55 ? '#5fd38a' : f > 0.3 ? '#ffc94a' : '#ff6b6b';
+    }
+  }
+  function paintChip(cv2) {
+    const d = Math.min(2, window.devicePixelRatio || 1), w = cv2.clientWidth || 34, h = cv2.clientHeight || 30;
+    cv2.width = Math.round(w * d); cv2.height = Math.round(h * d); const c = cv2.getContext('2d'); c.setTransform(d, 0, 0, d, 0, 0);
+    c.save(); c.translate(w / 2, h * 0.98); A.drawCreature(c, cv2.dataset.ty, h * 0.82, 1.3, { mood: 'idle', hue: cv2.dataset.hu === '' ? null : +cv2.dataset.hu }); c.restore();
+  }
+  qEl.addEventListener('click', (e) => { const b = e.target.closest('.qc'); if (!b) return; Snd.init(); Snd.play('click'); if (S.screen === 'play') focusOn(+b.dataset.u, false); });
+
+  // ---------- online menus ----------
+  function overlaySig(kind) {
+    const D = NET.D;
+    return kind + JSON.stringify([NET.roster, NET.hostId, NET.room, NET.ready, getLang(), pCount(), D && [D.ph, D.d, D.n, D.g, D.sl, D.r, D.ph === 'play' ? 0 : D.st]]);
+  }
+  function refreshOverlay(kind) { if (ui.overlay.hidden || ui.overlay.dataset.kind !== kind) return; if (overlaySig(kind) !== NET.osig) renderOverlay(); }
+  function onlineOverlay(kind, sndRow) {
+    NET.osig = overlaySig(kind);
+    const D = NET.D, host = isHost(), leaveBtn = `<button class="btn sec small danger" data-act="oleave">${t('ab_o_leave')}</button>`;
+    const wallet = `<p class="wallet"><i class="coin"></i>${t('ab_o_wallet', { n: NET.room.co })}</p>`;
+    if (kind === 'online') {
+      return `<h2>${t('ab_o_title')}</h2><p class="sub">${t('ab_o_sub')}</p>
+        <label class="fld"><span>${t('ab_o_name')}</span><input id="abName" maxlength="16" autocomplete="off" value="${esc(netName())}"></label>
+        <button class="btn big" data-act="ocreate">${t('ab_o_create')}</button>
+        <div class="orow"><input id="abCode" maxlength="5" placeholder="${t('ab_o_code')}" autocomplete="off" spellcheck="false"><button class="btn" data-act="ojoin">${t('ab_o_join')}</button></div>
+        <p class="muted small" id="abMsg">${NET.msg ? esc(NET.msg) : t('ab_o_note')}</p>
+        <button class="btn sec" data-act="back">${t('ab_back')}</button>`;
+    }
+    if (kind === 'lobby') {
+      const R = NET.roster.length && rosterOf(NET.me) ? NET.roster : alivePlayers().map((p, i) => ({ id: p.id, n: p.n, c: i }));
+      let pl = R.map(r => `<div class="pl" style="--pc:${PCOL[r.c % 4]}"><i></i><b>${esc(r.n)}</b>${r.id === NET.me ? `<small>(${t('ab_o_you')})</small>` : ''}<span class="role">${r.id === NET.hostId ? '👑 ' + t('ab_o_host') : t('ab_o_barista')}</span></div>`).join('');
+      for (let i = R.length; i < MAXP; i++) pl += `<div class="pl empty"><i></i><span>${t('ab_o_waitp')}</span></div>`;
+      const day = NET.room.d, ok = pCount() >= 2;
+      return `<h2>${t('ab_o_title')}</h2>
+        <div class="code"><small>${t('ab_o_roomcode')}</small><b>${esc(NET.code)}</b></div>
+        <button class="btn sec small" data-act="ocopy">${t('ab_o_copy')}</button>
+        <div class="plist">${pl}</div>
+        <div class="dayrow">${host ? `<button class="btn sec small" data-act="oday" data-d="-1" ${day <= 1 ? 'disabled' : ''}>−</button>` : ''}<b>${t('ab_day', { n: day })}</b>${host ? `<button class="btn sec small" data-act="oday" data-d="1" ${day >= NET.room.md ? 'disabled' : ''}>+</button>` : ''}</div>
+        ${wallet}${!NET.ready || (!host && !D) ? `<p class="muted small">${t('ab_o_connecting')}</p>` : ''}
+        ${host ? `<button class="btn big" data-act="ostart" ${ok ? '' : 'disabled'}>${t('ab_o_start')}</button>${ok ? '' : `<p class="muted small">${t('ab_o_need')}</p>`}` : `<p class="muted">${t('ab_o_waithost')}</p>`}
+        <div class="row"><button class="btn sec" data-act="oshop">${t('ab_shop')}</button>${leaveBtn}</div>
+        <p class="muted small">${t('ab_o_rules')}</p>`;
+    }
+    if (kind === 'ointro' && D) {
+      return `<h2>${t('ab_day', { n: D.d })}</h2><p class="muted small">${t('ab_o_team', { n: pCount() })}</p>
+        <div class="facts"><span>${svg('cup', '#ffb703', 18)} ${t('ab_customers', { n: D.n })}</span><span>${svg('heart', '#ff6b8b', 18)} ${t('ab_goal', { n: D.g })}</span></div>
+        <p class="muted small">${t('ab_strikes_lim', { n: D.sl })}</p>${introCards(D.d)}
+        ${host ? `<button class="btn big" data-act="oopen">${t('ab_open')}</button>` : `<p class="muted">${t('ab_o_waitopen')}</p>`}${leaveBtn}`;
+    }
+    if (kind === 'oend' && D && D.r) {
+      const r = D.r, stars = [1, 2, 3].map(i => svg('star', i <= r.stars ? '#ffb703' : 'rgba(255,255,255,.18)', 40)).join('');
+      const rows = Object.keys(D.st).map(id => [id, D.st[id]]).sort((a, b) => b[1].t - a[1].t || b[1].s - a[1].s).map(([id, s2]) =>
+        `<tr style="--pc:${PCOL[(s2.c || 0) % 4]}"><td><i></i>${esc(s2.n)}${id === NET.me ? ` <small>(${t('ab_o_you')})</small>` : id !== NET.me && !NET.peers[id] ? ` <small>(${t('ab_o_gone')})</small>` : ''}</td><td>${s2.s}</td><td>${s2.h}</td><td>+${s2.t}</td></tr>`).join('');
+      return `<h2>${r.win ? t('ab_win') : t('ab_lose')}</h2>${r.win ? `<div class="stars">${stars}</div>` : `<p class="sub">${r.why === 'strikes' ? t('ab_lose_strikes') : t('ab_lose_hearts', { h: r.hearts, g: r.goal })}</p>`}
+        <div class="sum"><div>${svg('heart', '#ff6b8b', 20)}<b>${r.hearts}<small>/${r.maxH}</small></b><span>${t('ab_sum_hearts')}</span></div>
+        <div><i class="coin big"></i><b>+${r.tips}</b><span>${t('ab_sum_tips')}</span></div><div>${svg('star', '#ffd25a', 20)}<b>${r.perfects}</b><span>${t('ab_sum_perfect')}</span></div></div>
+        <table class="crew"><thead><tr><th>${t('ab_o_crew')}</th><th>${t('ab_o_served')}</th><th>${svg('heart', '#ff6b8b', 14)}</th><th><i class="coin"></i></th></tr></thead><tbody>${rows}</tbody></table>
+        ${wallet}${r.win && r.d === LAST_DAY ? `<p class="muted">${t('ab_endless')}</p>` : ''}
+        ${host ? `${r.win ? `<button class="btn big" data-act="onext">${t('ab_next')}</button>` : `<button class="btn big" data-act="oretry">${t('ab_retry')}</button>`}
+          <div class="row"><button class="btn sec" data-act="oshop">${t('ab_shop')}</button>${r.win ? `<button class="btn sec" data-act="oretry">${t('ab_retry')}</button>` : ''}<button class="btn sec" data-act="olobby">${t('ab_o_lobby')}</button></div>`
+        : `<p class="muted">${t('ab_o_waithost')}</p><div class="row"><button class="btn sec" data-act="oshop">${t('ab_shop')}</button></div>`}${leaveBtn}`;
+    }
+    if (kind === 'oshop') {
+      const items = DECOR.map(dc => {
+        const own = !!NET.room.dc[dc.id], can = NET.room.co >= dc.price;
+        return `<div class="item ${own ? 'own' : ''}">${previewCanvas('dc', dc.id)}<div class="it"><b>${t('ab_dc_' + dc.id)}</b><small>${t('ab_dd_' + dc.id)}</small></div>
+          ${own ? `<span class="owned">${t('ab_owned')}</span>` : `<button class="btn small ${can ? '' : 'sec'}" data-act="obuy" data-id="${dc.id}" ${can ? '' : 'disabled'}><i class="coin"></i>${dc.price}</button>`}</div>`;
+      }).join('');
+      return `<h2>${t('ab_shop')}</h2><p class="muted small">${t('ab_o_shopnote')}</p>${wallet}<div class="list">${items}</div><button class="btn" data-act="oshopback">${t('ab_back')}</button>`;
+    }
+    if (kind === 'opause') {
+      return `<h2>${t('ab_paused')}</h2><p class="muted">${t(pCount() > 1 ? 'ab_o_stillopen' : 'ab_o_held')}</p><button class="btn big" data-act="resume">${t('ab_resume')}</button>
+        <div class="row"><button class="btn sec" data-act="how2">${t('ab_how')}</button></div>${sndRow}${leaveBtn}`;
+    }
+    if (kind === 'oalone') {
+      return `<h2>${t('ab_o_alone')}</h2><p class="sub">${t('ab_o_alone2')}</p><button class="btn big" data-act="resume">${t('ab_o_solo')}</button><button class="btn sec" data-act="oleave">${t('ab_menu')}</button>`;
+    }
+    return '';
+  }
+  function onlineInputs() {
+    const code = $('abCode'), nm = $('abName');
+    if (code) { code.oninput = () => { code.value = code.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); }; code.onkeydown = (e) => { if (e.key === 'Enter') netStart(false); }; }
+    if (nm) nm.onkeydown = (e) => { if (e.key === 'Enter') netStart(true); };
+  }
+  async function netStart(create) {
+    const nm = $('abName'), cd = $('abCode'), msg = $('abMsg');
+    const name = (nm ? nm.value : '').trim().slice(0, 16);
+    if (name) { NET.name = name; try { if (window.Auth && !Auth.profile && Auth.setGuestName) Auth.setGuestName(name); } catch (e) {} }
+    let code = '';
+    if (!create) { code = (cd ? cd.value : '').trim().toUpperCase(); if (code.length < 4) { if (msg) msg.textContent = t('ab_o_codehint'); return; } }
+    if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return;
+    joinRoom(create ? newCode() : code, create);
+  }
+  function copyText(text, btn) {
+    const done = () => { if (!btn) return; const o = btn.textContent; btn.textContent = t('ab_o_copied'); setTimeout(() => { btn.textContent = o; }, 1300); };
+    try { if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else done(); } catch (e) { done(); }
+  }
+  function onlineClick(act, b) {
+    const D = NET.D;
+    switch (act) {
+      case 'online': NET.msg = ''; showOverlay('online'); break;
+      case 'ocreate': netStart(true); break;
+      case 'ojoin': netStart(false); break;
+      case 'ocopy': copyText(inviteLink(NET.code), b); break;
+      case 'oday': if (isHost()) { NET.room.d = clamp(NET.room.d + (+b.dataset.d), 1, NET.room.md); sendSnap(); renderOverlay(); } break;
+      case 'ostart': if (isHost()) { if (pCount() < 2) toast(t('ab_o_need')); else hostStartDay(NET.room.d); } break;
+      case 'oopen': hostOpen(); break;
+      case 'onext': if (isHost() && D && D.r && D.r.win) hostStartDay(D.r.d + 1); break;
+      case 'oretry': if (isHost() && D && D.r) hostStartDay(D.r.d); break;
+      case 'olobby': hostToLobby(); break;
+      case 'oshop': showOverlay('oshop'); break;
+      case 'oshopback': showOverlay(D && D.ph === 'end' ? 'oend' : 'lobby'); break;
+      case 'obuy': netAct({ a: 'buy', x: b.dataset.id }); break;
+      case 'oleave': leaveRoom(); goTitle(); break;
+    }
+  }
+  addEventListener('pagehide', () => { if (NET.ch) nsend('bye', {}); });
+  window.Mal3abShareLink = () => NET.code ? inviteLink(NET.code) : pageLink();
+  window.Mal3abPrepareInvite = async () => {
+    if (!NET.code) { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return pageLink(); joinRoom(newCode(), true); }
+    return inviteLink(NET.code);
+  };
+  window.Mal3abLiveInfo = () => NET.on ? { players: pCount(), max: MAXP } : {};
+
   // ============================================================ test / script API
   window.AlchemyBarista = {
-    S, cup, ING, save: () => save,
+    S, cup, ING, CREATURES, LAST_DAY, dayCfg, save: () => save,
+    // online
+    NET, joinRoom, leaveRoom, focusOn, newCode, netStart,
+    net() { const D = NET.D; return { on: NET.on, code: NET.code, me: NET.me, host: NET.hostId, isHost: isHost(), players: pCount(), roster: NET.roster.map(r => ({ id: r.id, n: r.n, c: r.c })), room: JSON.parse(JSON.stringify(NET.room)), focus: NET.focus, ph: D && D.ph, D: D && JSON.parse(JSON.stringify(D)), overlay: ui.overlay.hidden ? '' : ui.overlay.dataset.kind, screen: S.screen, cust: S.cust && { uid: S.cust.uid, phase: S.cust.phase, type: S.cust.type } }; },
     get screen() { return S.screen; },
     state() { const cu = S.cust; return { screen: S.screen, day: S.dayNum, custIdx: S.custIdx, customers: S.cfg && S.cfg.n, hearts: S.hearts, goal: S.cfg && S.cfg.goal, strikes: S.strikes, tips: save.tips, phase: cu && cu.phase, type: cu && cu.type, target: cu && cu.order && cu.order.target, mood: effMood(cup.mix, cup.T), T: cup.T, doses: cup.doses.length, mystery: cu && cu.order && cu.order.mystery, revealed: cu && cu.revealed, maxDay: save.maxDay, result: S.lastResult }; },
     startDay, openCafe, addIngredient: (id) => addIng(id), serve, dump, peek, pause, resume, menu: goTitle,
@@ -1674,4 +2278,11 @@
     _jars: () => jars.map(j => ({ id: j.g.id, x: j.x, y: j.y, w: j.w, h: j.h })), _cup: () => ({ x: L.cupX, y: L.cupY }), _th: () => Object.assign({}, L.th), _layout: () => L,
   };
   boot();
+  // opening the page with ?room=CODE joins that café
+  const roomParam = new URLSearchParams(location.search).get('room');
+  if (roomParam) {
+    let tried = false;
+    const go = async () => { if (tried || NET.on) return; tried = true; if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return; joinRoom(roomParam, false); };
+    if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(go, 4000); }
+  }
 })();

@@ -222,6 +222,45 @@ function drawEnemy(c, e, t) {
       if (shell) { c.strokeStyle = `rgba(140,90,255,${0.35 + Math.sin(t * 5) * 0.15})`; c.lineWidth = 3; c.beginPath(); c.arc(x, fy, r * 1.45, 0, TAU); c.stroke(); }
       break;
     }
+    case 'siren': {      // a hooded singer; her dashed ring is the area she hurries along
+      c.save(); c.setLineDash([4, 8]); c.lineDashOffset = t * 30; c.strokeStyle = 'rgba(255,190,90,0.26)'; c.lineWidth = 1.4;
+      c.beginPath(); c.arc(x, y, e.def.hasteR, 0, TAU); c.stroke(); c.restore();
+      c.save(); c.translate(x, fy);
+      c.fillStyle = dark(r); c.beginPath(); c.moveTo(0, -r * 1.3); c.quadraticCurveTo(r * 1.05, -r * 0.5, r * 0.85, r * 0.95); c.lineTo(-r * 0.85, r * 0.95); c.quadraticCurveTo(-r * 1.05, -r * 0.5, 0, -r * 1.3); c.fill();
+      c.strokeStyle = 'rgba(255,190,90,0.8)'; c.lineWidth = 1.3; c.stroke();
+      c.fillStyle = '#ffd27a'; c.beginPath(); c.ellipse(0, -r * 0.15, r * 0.22, r * 0.3 + Math.sin(t * 8) * 1, 0, 0, TAU); c.fill();
+      c.strokeStyle = 'rgba(255,200,110,0.7)'; c.lineWidth = 1.2;
+      for (let k = 1; k <= 2; k++) { const rr = r * 0.5 + k * 4 + ((t * 12) % 4); c.beginPath(); c.arc(0, -r * 0.15, rr, -0.7, 0.7); c.stroke(); c.beginPath(); c.arc(0, -r * 0.15, rr, Math.PI - 0.7, Math.PI + 0.7); c.stroke(); }
+      c.fillStyle = '#fff1c9'; c.beginPath(); c.arc(-r * 0.3, -r * 0.65, 1.4, 0, TAU); c.arc(r * 0.3, -r * 0.65, 1.4, 0, TAU); c.fill();
+      c.restore(); break;
+    }
+    case 'flicker': {    // a spinning shard that fades out of the song on every other bar
+      const ph = e.phased;
+      c.save(); c.globalAlpha *= ph ? 0.32 : 1; c.translate(x, fy); c.rotate(t * 1.5 + e.ph);
+      c.fillStyle = dark(r); c.beginPath(); c.moveTo(0, -r * 1.3); c.lineTo(r * 0.9, 0); c.lineTo(0, r * 1.3); c.lineTo(-r * 0.9, 0); c.closePath(); c.fill();
+      c.strokeStyle = ph ? 'rgba(200,220,255,0.9)' : 'rgba(150,255,240,0.85)'; c.lineWidth = 1.5; if (ph) c.setLineDash([3, 3]); c.stroke();
+      c.restore();
+      if (!ph) eyes('#b8fff2', r * 0.35, 1.4);
+      break;
+    }
+    case 'conductor': {  // the Silent Conductor: long coat, baton sweeping on the beat
+      c.globalCompositeOperation = 'lighter'; glow(c, '255,200,110', x, fy, r * 2.4, 0.3); c.globalCompositeOperation = 'source-over';
+      c.save(); c.translate(x, fy);
+      c.fillStyle = dark(r); c.beginPath(); c.moveTo(-r * 0.7, -r * 0.4); c.lineTo(-r * 1.1, r * 1.1 + Math.sin(t * 3) * 2); c.lineTo(0, r * 0.7); c.lineTo(r * 1.1, r * 1.1 + Math.sin(t * 3 + 1) * 2); c.lineTo(r * 0.7, -r * 0.4); c.closePath(); c.fill();
+      c.beginPath(); c.arc(0, -r * 0.3, r * 0.85, 0, TAU); c.fill();
+      c.strokeStyle = 'rgba(255,214,120,0.85)'; c.lineWidth = 2.2; c.stroke();
+      c.beginPath(); c.arc(0, -r * 1.25, r * 0.42, 0, TAU); c.fillStyle = '#0d0820'; c.fill(); c.stroke();
+      c.fillStyle = '#ffe9b0'; c.beginPath(); c.arc(-r * 0.15, -r * 1.3, 1.8, 0, TAU); c.arc(r * 0.15, -r * 1.3, 1.8, 0, TAU); c.fill();
+      const ba = -0.9 + Math.sin(t * 4.2) * 0.8, bx = r * 0.6 + Math.cos(ba) * r * 1.3, by = -r * 0.5 + Math.sin(ba) * r * 1.3;
+      c.strokeStyle = '#fff3d1'; c.lineWidth = 2.4; c.lineCap = 'round'; c.beginPath(); c.moveTo(r * 0.6, -r * 0.5); c.lineTo(bx, by); c.stroke();
+      c.globalCompositeOperation = 'lighter'; glow(c, '255,240,200', bx, by, 9, 0.9); c.globalCompositeOperation = 'source-over';
+      c.restore(); break;
+    }
+  }
+  if (e.fast > 1.05) {     // hurried by a siren or the conductor's fermata: speed streaks behind it
+    const b = (e.ang || 0) + Math.PI, ox = Math.cos(b) * r, oy = Math.sin(b) * r;
+    c.strokeStyle = 'rgba(255,200,110,0.6)'; c.lineWidth = 1.3;
+    for (let k = -1; k <= 1; k++) { const px = -Math.sin(b) * k * r * 0.5, py = Math.cos(b) * k * r * 0.5; c.beginPath(); c.moveTo(x + ox + px, fy + oy + py); c.lineTo(x + ox * 2.1 + px, fy + oy * 2.1 + py); c.stroke(); }
   }
   if (e.hitT > 0) { c.globalCompositeOperation = 'lighter'; glow(c, '255,255,255', x, fy, r * 1.6, e.hitT * 4); c.globalCompositeOperation = 'source-over'; }
   if (e.stun > 0) {
@@ -374,7 +413,7 @@ function render(cx) {
   objs.push({ y: 6, spire: true });
   objs.sort((p, q) => p.y - q.y);
   for (const o of objs) {
-    if (o.r) { const r = o.r; drawRes(cx, r.role, r.note, r.lvl, r.x, r.y, t, { fire: r.fireT, muted: r.silenced || r.retune > 0 }); if (r.retune > 0) drawRetune(cx, r, t); }
+    if (o.r) { const r = o.r; if (G.online && r.owner) drawOwner(cx, r); drawRes(cx, r.role, r.note, r.lvl, r.x, r.y, t, { fire: r.fireT, muted: r.silenced || r.retune > 0 }); if (r.retune > 0) drawRetune(cx, r, t); }
     else if (o.e) drawEnemy(cx, o.e, t);
     else drawSpire(cx, t);
   }
@@ -511,8 +550,18 @@ function drawRing(c, g, t) {
   }
   c.globalCompositeOperation = 'source-over';
 }
+function drawOwner(c, r) {
+  const col = ESNet.colOf(r.owner), gone = ESNet.isGone(r.owner);
+  c.save(); c.strokeStyle = col; c.globalAlpha = gone ? 0.5 : 0.95; c.lineWidth = 2.6; if (gone) c.setLineDash([4, 4]);
+  c.beginPath(); c.ellipse(r.x, r.y + 4, 21, 8.5, 0, 0, TAU); c.stroke(); c.restore();
+}
 function drawSelection(c, r, t) {
   const R = rangeOf(r), col = NOTES[r.note].rgb;
+  if (G.online && r.owner) {     // name tag of the owner above the selected resonator
+    const s = G.view.s, fs = 12 / s, nm = ESNet.nameOf(r.owner);
+    c.font = `800 ${fs}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.lineWidth = 3 / s; c.strokeStyle = 'rgba(5,3,15,0.85)'; c.strokeText(nm, r.x, r.y - 50); c.fillStyle = ESNet.colOf(r.owner); c.fillText(nm, r.x, r.y - 50);
+  }
   if (R > 0) {
     c.fillStyle = `rgba(${col},0.06)`; c.beginPath(); c.arc(r.x, r.y, R, 0, TAU); c.fill();
     c.strokeStyle = `rgba(${col},0.5)`; c.lineWidth = 1.5; c.stroke();

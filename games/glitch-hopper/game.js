@@ -115,39 +115,59 @@ addStrings({
   gh_t_frag: 'Every glitch, one after another. Each part needs a specific glitch — learn the order.',
   gh_t_kernel: 'The final level: everything at once, with the defrag right behind you. Good luck!',
 });
-// online race
+// online: Run + Race, up to 4 players
 addStrings({
-  gh_online: 'سباق أونلاين', gh_onDesc: 'اتسابق مع صاحبك على نفس المرحلة — نفس الجليتشات في نفس اللحظة. اللي يوصل البورت الأول يكسب!',
+  gh_online: 'العب أونلاين', gh_onDesc: 'العب مع لحد ٣ من صحابك في نفس الغرفة — كل واحد على سرعته، أو سباق على نفس المرحلة.',
   gh_onName: 'اسمك', gh_onAs: 'هتلعب باسم {p}', gh_onCreate: '＋ اعمل غرفة', gh_onOr: '— أو ادخل غرفة صاحبك —', gh_onCodePh: 'الكود', gh_onJoin: 'ادخل',
   gh_onCodeHint: 'اكتب كود الغرفة (٤ حروف)', gh_onRoom: 'الغرفة', gh_onCopy: '🔗 انسخ لينك الدعوة', gh_onCopied: 'اتنسخ ✓',
-  gh_onHost: 'المضيف', gh_onGuest: 'ضيف', gh_onYou: 'إنت', gh_onWait: '⏳ مستني صاحبك يدخل… ابعتله اللينك أو الكود', gh_onConnecting: 'بيتصل…',
-  gh_onSwap: '⇄ بدّلوا المضيف', gh_onPick: 'المضيف بيختار المرحلة', gh_onStart: '▶ ابدأ السباق', gh_onNeed: 'لازم صاحبك يدخل الأول',
-  gh_onWaitHost: 'مستني المضيف يبدأ السباق…', gh_onInRace: 'المضيف لسه في سباق… استنى شوية', gh_onLeave: 'اخرج من الغرفة', gh_onFull: 'الغرفة دي مليانة',
-  gh_onNoNet: 'مفيش اتصال بالنت', gh_onJoined: '{p} دخل الغرفة', gh_onLeft: '{p} خرج', gh_onLost: '{p} خرج من السباق',
-  gh_onLostD: 'صاحبك فصل. تقدر تكمّل الجري لوحدك، أو ترجع للغرفة تستناه.', gh_onKeep: '▶ كمّل لوحدك', gh_onLobby: '↩ ارجع للغرفة',
-  gh_onRace: 'سباق', gh_onGo: 'يلا!', gh_onVs: 'ضد {p}', gh_onRules: 'نفس الجليتشات لينا إحنا الاتنين · التجميد بيثبّت الجليتش ليك إنت بس',
+  gh_onHost: 'المضيف', gh_onYou: 'إنت', gh_onWait: '⏳ مستني صحابك يدخلوا… ابعتلهم اللينك أو الكود', gh_onConnecting: 'بيتصل…',
+  gh_onPlayers: 'اللعيبة ({n} من {m})', gh_onMakeHost: '👑 خليه المضيف', gh_onNewHost: '👑 {p} بقى المضيف',
+  gh_onModeRun: 'جري حر: كل واحد على سرعته', gh_onModeRunD: 'اللي يخلّص مرحلة يدوس "المرحلة الجاية" ويكمّل لوحده — ومحدش بيستنى حد.',
+  gh_onModeRace: 'سباق: كلنا بننقل مع بعض', gh_onModeRaceD: 'كلكم على نفس المرحلة بنفس الجليتشات، والمضيف بينقل الغرفة كلها مع بعض.',
+  gh_onPick: 'المضيف بيختار مرحلة البداية', gh_onStart: '▶ ابدأ السباق', gh_onStartRun: '▶ ابدأ الجري', gh_onNewRun: '↻ جري جديد للكل',
+  gh_onNeed: 'لازم صاحب واحد على الأقل يدخل الأول', gh_onWaitHost: 'مستني المضيف يبدأ…', gh_onInRace: 'فيه سباق شغال… هتدخل الجولة الجاية',
+  gh_onRunOn: 'فيه جري شغال بدأ من مرحلة {n} — اللي يدخل متأخر بيبدأ منها.', gh_onBack: '▶ ارجع للجري — مرحلة {n}', gh_onJoinRun: '▶ ادخل الجري — من مرحلة {n}',
+  gh_onLeave: 'اخرج من الغرفة', gh_onFull: 'الغرفة دي مليانة (٤ لعيبة)', gh_onNoNet: 'مفيش اتصال بالنت',
+  gh_onJoined: '{p} دخل الغرفة', gh_onLeft: '{p} خرج',
+  gh_onLost: 'كل اللي معاك خرجوا من السباق', gh_onLostD: 'محدش فاضل معاك. تقدر تكمّل الجري لوحدك، أو ترجع للغرفة.', gh_onKeep: '▶ كمّل لوحدك', gh_onLobby: '↩ ارجع للغرفة',
+  gh_onRace: 'سباق', gh_onRunT: 'جري حر', gh_onGo: 'يلا!', gh_onVs: 'ضد {p}', gh_onWith: 'مع {p}',
+  gh_onRules: 'نفس الجليتشات للكل في نفس اللحظة · التجميد بيثبّت الجليتش ليك إنت بس', gh_onRunRules: 'كل واحد بساعته · هتشوف اللي معاك في نفس المرحلة بس',
   gh_onFirst: '{p} وصل البورت! فاضلّك {s} ثانية', gh_onFirstT: '⚡ {p} وصل البورت الأول!',
-  gh_onWin: '🏆 إنت كسبت!', gh_onLose: '{p} كسب!', gh_onDraw: 'تعادل بالظبط!', gh_onNone: 'محدش وصل البورت', gh_onPend: 'مستني {p}…',
+  gh_onWin: '🏆 إنت كسبت!', gh_onLose: '{p} كسب!', gh_onDraw: 'تعادل بالظبط!', gh_onNone: 'محدش وصل البورت', gh_onPend: 'مستني الباقيين…',
   gh_onRunning: 'لسه بيجري… {n}%', gh_onRunningS: 'لسه بيجري… {s}ث', gh_onDnf: 'موصلش', gh_onGaveUp: 'استسلم', gh_onQuit: 'خرج',
   gh_onRematch: '↻ ماتش تاني', gh_onAsked: 'طلبت من المضيف ✓', gh_onWants: '{p} عايز: {a}',
-  gh_onGiveUp: '🏳 استسلم', gh_onRaceMenu: 'السباق شغال!', gh_onRaceMenuD: 'الساعة مش بتقف في السباق — صاحبك لسه بيجري.',
-  gh_onPlayer: 'لاعب', gh_onPartner: 'صاحبك', gh_onLevel: 'المرحلة {n} / {m}', gh_onBehind: '+{t}',
+  gh_onGiveUp: '🏳 استسلم', gh_onRaceMenu: 'السباق شغال!', gh_onRaceMenuD: 'الساعة مش بتقف في السباق — الباقيين لسه بيجروا.',
+  gh_onRunMenuD: 'ساعتك واقفة — والباقيين مكمّلين على سرعتهم.',
+  gh_onPlayer: 'لاعب', gh_onLevel: 'المرحلة {n} / {m}', gh_onBehind: '+{t}',
+  gh_onStill: 'لسه بيلعب', gh_onStillL: 'لسه بيلعب · مرحلة {n}', gh_onInRoom: 'في الغرفة', gh_onNotIn: 'مش في الجري',
+  gh_onRoomB: '↩ الغرفة', gh_onRunDone: '🎉 خلّصت كل المراحل!', gh_onLvTimes: 'أوقات مرحلة {n}',
+  gh_onSum: 'المراحل اللي خلّصتها: {n} · الوقت الكلي: {t}', gh_onBoard: 'المراحل · الوقت الكلي',
 }, {
-  gh_online: 'Online Race', gh_onDesc: 'Race a friend on the same level — the same glitches at the same moment. First to the exit port wins!',
+  gh_online: 'Play Online', gh_onDesc: 'Play with up to 3 friends in one room — everyone at their own pace, or a race on the same level.',
   gh_onName: 'Your Name', gh_onAs: 'Playing as {p}', gh_onCreate: '＋ Create Room', gh_onOr: '— Or Join a Friend’s Room —', gh_onCodePh: 'Code', gh_onJoin: 'Join',
   gh_onCodeHint: 'Type the 4-Letter Room Code', gh_onRoom: 'Room', gh_onCopy: '🔗 Copy Invite Link', gh_onCopied: 'Copied ✓',
-  gh_onHost: 'Host', gh_onGuest: 'Guest', gh_onYou: 'You', gh_onWait: '⏳ Waiting for Your Friend… Send Them the Link or the Code', gh_onConnecting: 'Connecting…',
-  gh_onSwap: '⇄ Swap Host', gh_onPick: 'The Host Picks the Level', gh_onStart: '▶ Start Race', gh_onNeed: 'Your Friend Has to Join First',
-  gh_onWaitHost: 'Waiting for the Host to Start…', gh_onInRace: 'The Host Is Still in a Race… Hang On', gh_onLeave: 'Leave Room', gh_onFull: 'That Room Is Full',
-  gh_onNoNet: 'No Connection', gh_onJoined: '{p} Joined the Room', gh_onLeft: '{p} Left', gh_onLost: '{p} Left the Race',
-  gh_onLostD: 'Your friend disconnected. Keep running on your own, or go back to the room and wait for them.', gh_onKeep: '▶ Keep Running Solo', gh_onLobby: '↩ Back to Room',
-  gh_onRace: 'Race', gh_onGo: 'GO!', gh_onVs: 'vs {p}', gh_onRules: 'Same Glitches for Both of You · A Freeze Only Locks Your Own Glitch',
+  gh_onHost: 'Host', gh_onYou: 'You', gh_onWait: '⏳ Waiting for Friends… Send Them the Link or the Code', gh_onConnecting: 'Connecting…',
+  gh_onPlayers: 'Players ({n}/{m})', gh_onMakeHost: '👑 Make Host', gh_onNewHost: '👑 {p} Is the Host Now',
+  gh_onModeRun: 'Run: Everyone at Their Own Pace', gh_onModeRunD: 'Finish a level, press Next and move on alone — nobody waits for anybody.',
+  gh_onModeRace: 'Race: Everyone Moves On Together', gh_onModeRaceD: 'Everyone races the same level with the same glitches, and the host moves the room on together.',
+  gh_onPick: 'The Host Picks the Starting Level', gh_onStart: '▶ Start Race', gh_onStartRun: '▶ Start Run', gh_onNewRun: '↻ New Run for Everyone',
+  gh_onNeed: 'At Least One Friend Has to Join First', gh_onWaitHost: 'Waiting for the Host to Start…', gh_onInRace: 'A Race Is On… You Will Join the Next Round',
+  gh_onRunOn: 'A run is on. It started at Level {n} — late joiners start there too.', gh_onBack: '▶ Back to the Run — Level {n}', gh_onJoinRun: '▶ Join the Run — From Level {n}',
+  gh_onLeave: 'Leave Room', gh_onFull: 'That Room Is Full (4 Players)', gh_onNoNet: 'No Connection',
+  gh_onJoined: '{p} Joined the Room', gh_onLeft: '{p} Left',
+  gh_onLost: 'Everyone Else Left the Race', gh_onLostD: 'Nobody is left with you. Keep running on your own, or go back to the room.', gh_onKeep: '▶ Keep Running Solo', gh_onLobby: '↩ Back to Room',
+  gh_onRace: 'Race', gh_onRunT: 'Online Run', gh_onGo: 'GO!', gh_onVs: 'vs {p}', gh_onWith: 'With {p}',
+  gh_onRules: 'Same Glitches for Everyone · A Freeze Only Locks Your Own Glitch', gh_onRunRules: 'Everyone Has Their Own Clock · You See Players on Your Level',
   gh_onFirst: '{p} Reached the Port! {s}s Left', gh_onFirstT: '⚡ {p} Reached the Port First!',
-  gh_onWin: '🏆 You Win!', gh_onLose: '{p} Wins!', gh_onDraw: 'Dead Heat — Draw!', gh_onNone: 'Nobody Reached the Port', gh_onPend: 'Waiting for {p}…',
+  gh_onWin: '🏆 You Win!', gh_onLose: '{p} Wins!', gh_onDraw: 'Dead Heat — Draw!', gh_onNone: 'Nobody Reached the Port', gh_onPend: 'Waiting for the Others…',
   gh_onRunning: 'Still Running… {n}%', gh_onRunningS: 'Still Running… {s}s', gh_onDnf: 'DNF', gh_onGaveUp: 'Gave Up', gh_onQuit: 'Left',
   gh_onRematch: '↻ Rematch', gh_onAsked: 'Asked the Host ✓', gh_onWants: '{p} Wants: {a}',
-  gh_onGiveUp: '🏳 Give Up', gh_onRaceMenu: 'The Race Is Still On!', gh_onRaceMenuD: 'The clock does not stop in a race — your friend is still running.',
-  gh_onPlayer: 'Player', gh_onPartner: 'Friend', gh_onLevel: 'Level {n} / {m}', gh_onBehind: '+{t}',
+  gh_onGiveUp: '🏳 Give Up', gh_onRaceMenu: 'The Race Is Still On!', gh_onRaceMenuD: 'The clock does not stop in a race — the others are still running.',
+  gh_onRunMenuD: 'Your clock is stopped — the others keep playing at their own pace.',
+  gh_onPlayer: 'Player', gh_onLevel: 'Level {n} / {m}', gh_onBehind: '+{t}',
+  gh_onStill: 'Still Playing', gh_onStillL: 'Still Playing · Level {n}', gh_onInRoom: 'In the Room', gh_onNotIn: 'Not in the Run',
+  gh_onRoomB: '↩ Room', gh_onRunDone: '🎉 Run Complete!', gh_onLvTimes: 'Level {n} Times',
+  gh_onSum: 'Levels Finished: {n} · Total Time: {t}', gh_onBoard: 'Levels · Total Time',
 });
 
 // ------------------------------------------------------------------ save data
@@ -305,7 +325,7 @@ function resize() {
 }
 
 // ------------------------------------------------------------------ view / camera
-function hudBand() { return (VW < 720 ? 106 : 68) + (RACE.on ? RACE_BAND : 0); }
+function hudBand() { return (VW < 720 ? 106 : 68) + (RACE.on && RACE.m === 'race' ? RACE_BAND : 0); }
 function fitView(v, snap) {
   const L = v.L, portrait = VH > VW * 1.1;
   const top = v.attract ? 0 : hudBand(), bottom = (!v.attract && touchMode && portrait) ? Math.min(220, VH * 0.26) : 0;
@@ -377,10 +397,11 @@ function buildPaths(L) {
 
 // ------------------------------------------------------------------ session
 let mode = 'menu', cur = null, attract = null, T0 = 0, acc = 0, testInput = null, holdLoop = false, endTok = 0;
-// online race state (see the "online race" section below)
+// online state (see the "online" section below). RACE = the level I am playing online (m: 'run' | 'race'); ON = the room.
 const RACE_BAND = 26, GRACE = 10, GHOST_C = '#2de2ff', NOIN = { l: false, r: false, jump: false, freeze: false };
-const RACE = { on: false, li: 0, sel: 0, round: 0, phase: '', countEnd: 0, lastCount: 0, goAt: 0, goSent: 0, goFlash: 0, me: null, op: null, buf: [], graceEnd: 0, myDoneAt: 0, stT: 0, uiT: 0, vote: '', voteSent: '', gFlip: 1, gpos: null, opName: '' };
-const ON = { ch: null, code: '', ready: false, me: '', role: null, jt: 0, partner: null, hb: null, sig: '' };
+const RACE = { on: false, m: 'run', li: 0, round: 0, phase: '', countEnd: 0, lastCount: 0, goAt: 0, goSent: 0, goFlash: 0, me: null, graceEnd: 0, graceBy: '', firstFinAt: 0,
+  myDoneAt: 0, stT: 0, uiT: 0, vote: null, voteSent: '', roster: new Map(), forced: new Set(), cardSig: '' };
+const ON = { ch: null, code: '', ready: false, me: '', jt: 0, slot: -1, peers: new Map(), hb: null, sig: '', host: '', settled: false, sel: 0, gm: 'run', run: null, my: { r: 0, li: 0, fin: {} } };
 const fx = { g: 0, gMax: 0.45, shake: 0, banner: null, flash: 0, frost: 0 };
 const parts = [];
 
@@ -415,7 +436,7 @@ addEventListener('keydown', (e) => {
   if (mode === 'play') {
     if (a) { keys[a] = true; e.preventDefault(); }
     if (e.code === 'Escape' || e.code === 'KeyP') { if (RACE.on) raceMenu(); else pause(); e.preventDefault(); }
-    else if (e.code === 'KeyR' && !e.repeat && !RACE.on) { restart(); e.preventDefault(); }
+    else if (e.code === 'KeyR' && !e.repeat && !(RACE.on && RACE.m === 'race')) { if (RACE.on) startOnlineLevel(RACE.li, false); else restart(); e.preventDefault(); }
     return;
   }
   if (a) keys[a] = true;
@@ -430,8 +451,10 @@ addEventListener('keydown', (e) => {
   if ((mode === 'win' || mode === 'lose') && e.code === 'KeyR') { e.preventDefault(); startLevel(cur.li, true); }
 });
 addEventListener('keyup', (e) => { const a = KEYMAP[e.code]; if (a) keys[a] = false; });
-addEventListener('blur', () => { for (const k in keys) keys[k] = false; if (mode === 'play' && !RACE.on) pause(); });   // a race never pauses
-document.addEventListener('visibilitychange', () => { if (document.hidden && mode === 'play' && !RACE.on) pause(); });
+// a race never pauses; an online run opens its menu (your own clock stops, the others play on)
+const autoPause = () => { if (mode !== 'play') return; if (!RACE.on) pause(); else if (RACE.m === 'run') raceMenu(); };
+addEventListener('blur', () => { for (const k in keys) keys[k] = false; autoPause(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) autoPause(); });
 
 // touch buttons: one layer tracks every finger and lights the buttons under them
 const TB = { l: $('tL'), r: $('tR'), j: $('tJ'), f: $('tF') }, tRects = {};
@@ -725,7 +748,7 @@ const rnd = Math.random;
 function frame(now) {
   const dt = Math.min(0.05, Math.max(0, (now - lastNow) / 1000)); lastNow = now; TT += dt;
   pollPad();
-  if (cur && !holdLoop && (mode === 'play' || (RACE.on && RACE.phase !== 'count' && (mode === 'rmenu' || mode === 'lost')))) {
+  if (cur && !holdLoop && (mode === 'play' || (RACE.on && RACE.m === 'race' && RACE.phase !== 'count' && (mode === 'rmenu' || mode === 'lost')))) {
     acc += dt; let n = 0;
     while (acc >= C.DT && n < 8) { tick(); acc -= C.DT; n++; }
     if (n >= 8) acc = 0;
@@ -921,7 +944,7 @@ function drawWorld(v, st, dt, shx, shy) {
     }
   }
   drawObjects(v, st);
-  if (s && RACE.on) drawGhost(v, dt);
+  if (s && RACE.on) drawGhosts(v, dt);
   if (s) drawPlayer(v, st, dt);
   // particles
   for (let i = parts.length - 1; i >= 0; i--) {
@@ -1037,7 +1060,7 @@ function drawHUD(v, dt) {
   if (prog_ > 0.8) { ctx.globalAlpha = 0.4 + 0.4 * Math.sin(TT * 10); ctx.fillStyle = '#ff3b6b'; ctx.fillRect(0, 0, VW * prog_, 4); ctx.globalAlpha = 1; }
   // level label
   const lx = 60;
-  hudText((RACE.on ? t('gh_onRace') + ' · ' : '') + t('gh_lvl', { n: v.li + 1 }).toUpperCase(), lx, 22, `800 11px ${MONO}`, RACE.on ? GHOST_C : '#ffb703');
+  hudText((RACE.on ? t(RACE.m === 'race' ? 'gh_onRace' : 'gh_onRunT') + ' · ' : '') + t('gh_lvl', { n: v.li + 1 }).toUpperCase(), lx, 22, `800 11px ${MONO}`, RACE.on ? GHOST_C : '#ffb703');
   ctx.font = `700 14px ${SANS}`;
   hudText(fitText(lvName(lv), narrow ? VW - lx - 150 : Math.max(60, (VW - 470) / 2 - lx - 6)), lx, 40, `700 14px ${SANS}`, '#eef0ff');
   // time / defrag / freezes
@@ -1135,7 +1158,7 @@ function drawHUD(v, dt) {
     ctx.globalAlpha = 1;
   }
   ctx.textBaseline = 'alphabetic';
-  if (RACE.on) drawRaceHUD(v, dt);
+  if (RACE.on) drawOnlineHUD(v, dt);
   // touch freeze counter
   const tf = $('tFn'); if (tf && tf.textContent !== String(s.charges)) { tf.textContent = s.charges; $('tF').classList.toggle('empty', s.charges <= 0); }
 }
@@ -1179,37 +1202,63 @@ function postFX(v, st, dt) {
   ctx.drawImage(vign, 0, 0);
 }
 
-// ------------------------------------------------------------------ online race
-// Two players race the same level at the same time. Each side runs its own physics; both glitch clocks run on
-// race time since GO and the host's clock keeps the guest's in step. ~13 position packets a second go both ways
-// (the rival is drawn as an interpolated ghost), and each side announces its own finish time.
-// Room: Supabase Realtime broadcast channel "glitch-hopper-CODE". Roles: host (picks the level, starts) / guest.
-const ONLINE_MODES = ['online', 'lobby', 'rmenu', 'lost', 'rresult'];
-const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'roles', 'sel', 'go', 'st', 'fin', 'vote', 'lobby'];
+// ------------------------------------------------------------------ online: Run + Race, up to 4 players
+// Room: Supabase Realtime broadcast channel "glitch-hopper-CODE"; every message carries the sender's id.
+// Host: the creator, then the earliest joiner still in the room (or whoever the host hands the 👑 to). The host picks the
+// mode and the starting level and starts rounds. A 5th player gets "room full".
+// RUN (default): after one shared 3-2-1 everyone plays on their own — own physics, own glitch clock, exactly like
+//   single-player — and presses Next Level whenever they finish. Players on your level are drawn as ghosts; everyone is in
+//   the room list (level, time, ✅, levels finished). A late joiner starts at the run's starting level.
+// RACE: everyone races the same level on one shared glitch clock (the host keeps it in step); the host moves the room on.
+// Each device simulates only its own packet and sends ~13 position packets a second; finishes go out as 'fin' and are
+// repeated in every heartbeat, so a lost packet never loses a result.
+const ONLINE_MODES = ['online', 'lobby', 'rmenu', 'lost', 'rresult', 'rcard'];
+const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'crown', 'sel', 'go', 'st', 'fin', 'vote', 'lobby'];
+const MAXP = 4, PCOL = ['#2de2ff', '#ff5fb8', '#9dff4f', '#b98cff'], PCOL_D = ['#0b5b78', '#6e1450', '#2c5e10', '#45297a'], ME_C = '#ffb703';
 const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const newCode = () => { let c = ''; for (let i = 0; i < 4; i++) c += ALPHA[Math.floor(Math.random() * ALPHA.length)]; return c; };
 const pageLink = () => location.href.split('?')[0].split('#')[0];
 const inviteLink = (code) => pageLink() + '?room=' + code;
 const myName = () => { let n = ''; try { n = (window.Auth && Auth.name && Auth.name()) || ''; } catch (e) {} return String(n || t('gh_onPlayer')).slice(0, 24); };
-const opName = () => (ON.partner && ON.partner.n) || RACE.opName || t('gh_onPartner');
 const iso = (n) => '\u2068' + n + '\u2069';   // a name inside a sentence keeps its own direction
-const isHost = () => ON.role === 'host';
-const otherRole = (r) => r === 'host' ? 'guest' : 'host';
 const fmt2 = (x) => { if (x == null || !isFinite(x)) return '--'; const m = Math.floor(x / 60), s = x - m * 60; return m + ':' + (s < 10 ? '0' : '') + s.toFixed(2); };
 async function canGoOnline() { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; return true; }
+const byJoin = (a, b) => (a.jt - b.jt) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+const everyone = () => [{ id: ON.me, jt: ON.jt, n: myName(), sl: ON.slot }].concat([...ON.peers.values()]).sort(byJoin);
+const hostId = () => everyone()[0].id;
+const isHost = () => hostId() === ON.me;
+function slotOf(id) {   // colour slot each player claims on joining; join order until it is known
+  const q = id === ON.me ? { sl: ON.slot } : ON.peers.get(id) || RACE.roster.get(id);
+  if (q && q.sl >= 0) return q.sl % MAXP;
+  return Math.max(0, everyone().findIndex(p => p.id === id)) % MAXP;
+}
+const colFor = (id) => id === ON.me ? ME_C : PCOL[slotOf(id)];   // you are always the amber packet on your own screen
+const nameOf = (id) => id === ON.me ? myName() : ((ON.peers.get(id) || RACE.roster.get(id) || {}).n || t('gh_onPlayer'));
+const myPh = () => !RACE.on ? 'lobby' : (mode === 'rcard' || mode === 'rresult') ? 'card' : 'play';
+const idKey = (c) => 'glitch-hopper-id-' + c, runKey = (c) => 'glitch-hopper-run-' + c;
+const ssGet = (k) => { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { return null; } };
+const ssSet = (k, v) => { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const saveMy = () => { if (ON.code) ssSet(runKey(ON.code), ON.my); };
+const encodeFin = (fin) => Object.keys(fin).map(k => [+k, Math.round(fin[k].t * 100) / 100, fin[k].de | 0, fin[k].nf ? 1 : 0, fin[k].why || '']);
+function decodeFin(a) { const o = {}; if (Array.isArray(a)) for (const e of a) if (Array.isArray(e) && e[0] >= 0 && e[0] < LV.length) o[e[0] | 0] = { t: +e[1] || 0, de: e[2] | 0, nf: !!e[3], why: String(e[4] || '') }; return o; }
 
+// ---- room
 function netSend(ev, p) { if (!ON.ch || !ON.ready) return; try { ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me }, p || {}) }); } catch (e) {} }
-function joinRoom(code, role) {
+function joinRoom(code, create) {
   leaveRoom(true);
   if (!window.sb) { toast(t('gh_onNoNet')); return false; }
   code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if (code.length < 4) return false;
-  let id = ''; try { id = sessionStorage.getItem('glitch-hopper-id-' + code) || ''; } catch (e) {}
-  if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('glitch-hopper-id-' + code, id); } catch (e) {} }
-  ON.me = id; ON.code = code; ON.role = role || null; ON.ready = false; ON.jt = Date.now(); ON.partner = null; ON.sig = '';
-  RACE.round = 0; RACE.sel = clamp(RACE.sel | 0, 0, LV.length - 1);
+  let me = ssGet(idKey(code));   // a reload rejoins as the same player (and keeps the crown / run progress)
+  if (!me || typeof me !== 'object' || !me.id) me = { id: Math.random().toString(36).slice(2, 10), jt: Date.now() };
+  if (create) me.jt = Math.min(+me.jt || 1, 1);   // the creator is the host
+  ssSet(idKey(code), me);
+  const my = ssGet(runKey(code));
+  Object.assign(ON, { me: me.id, jt: +me.jt || Date.now(), code, ready: false, peers: new Map(), slot: -1, host: me.id, settled: false, sig: '', run: null,
+    my: my && typeof my === 'object' && my.fin && typeof my.fin === 'object' ? { r: my.r | 0, li: clamp(my.li | 0, 0, LV.length - 1), fin: my.fin } : { r: 0, li: 0, fin: {} } });
+  ON.sel = clamp(ON.sel | 0, 0, LV.length - 1);
   const ch = sb.channel('glitch-hopper-' + code, { config: { broadcast: { self: false, ack: false } } });
-  for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
-  ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch) { ON.ready = true; hello(true); if (mode === 'lobby') renderScreen(); } });
+  for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { if (ON.ch === ch) try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+  ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch && !ON.ready) { ON.ready = true; hello(true); setTimeout(() => settle(ch), 1500); if (mode === 'lobby') renderScreen(); } });
   ON.ch = ch;
   try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
   clearInterval(ON.hb); ON.hb = setInterval(netBeat, 2000);
@@ -1218,110 +1267,193 @@ function joinRoom(code, role) {
 }
 function leaveRoom(quiet) {
   if (ON.ch) { netSend('bye', {}); const ch = ON.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
-  clearInterval(ON.hb); ON.ch = null; ON.ready = false; ON.code = ''; ON.partner = null; ON.role = null;
+  clearInterval(ON.hb); ON.ch = null; ON.ready = false; ON.code = ''; ON.peers = new Map(); ON.settled = false; ON.run = null; ON.slot = -1;
   if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
 }
-const phaseName = () => RACE.on ? (RACE.me && RACE.me.done ? 'result' : 'race') : 'lobby';
-function hello(req) { netSend('hello', { n: myName(), role: ON.role, jt: ON.jt, req: !!req, ph: phaseName(), sel: RACE.sel, r: RACE.round }); }
+function settle(ch) {   // everyone already here has answered our hello: take a colour, or find the room full
+  if (ON.ch !== ch) return;
+  ON.settled = true; claimSlot();
+  if (ON.slot < 0) { roomFull(); return; }
+  ON.host = hostId(); hello(false); refreshUI();
+}
+function roomFull() { leaveRoom(); RACE.on = false; cur = null; setMode('online'); if (!attract) makeAttract(); renderScreen(); toast(t('gh_onFull'), 3); }
+function claimSlot() {
+  const mine = { id: ON.me, jt: ON.jt }, used = new Set(); let ahead = 0;
+  for (const q of ON.peers.values()) if (byJoin(q, mine) < 0) { ahead++; if (q.sl >= 0) used.add(q.sl); }
+  if (ahead >= MAXP) { ON.slot = -2; return; }
+  if (ON.slot >= 0 && !used.has(ON.slot)) return;
+  ON.slot = -2; for (let i = 0; i < MAXP; i++) if (!used.has(i)) { ON.slot = i; break; }
+}
+function statusPayload() {
+  const s = RACE.on && cur && cur.s;
+  return { n: myName(), jt: ON.jt, sl: ON.slot, ph: myPh(), r: ON.my.r, li: ON.my.li, lt: s ? Math.round(s.time * 10) / 10 : 0, f: encodeFin(ON.my.fin),
+    sel: ON.sel, gm: ON.gm, run: ON.run ? [ON.run.r, ON.run.m, ON.run.l] : null };
+}
+function hello(req) { netSend('hello', Object.assign(statusPayload(), { req: !!req })); }
 function netBeat() {
   if (!ON.ch) return;
-  netSend('hb', { n: myName(), role: ON.role, jt: ON.jt, ph: phaseName(), sel: RACE.sel, r: RACE.round });
-  if (ON.partner && Date.now() - ON.partner.t > 9000) partnerGone();
+  netSend('hb', statusPayload());
+  const now = Date.now(); for (const q of [...ON.peers.values()]) if (now - q.t > 9000) peerGone(q);
 }
-function resolveRoles(p) {
-  if (RACE.on && ON.role) return;
-  const mineFirst = ON.jt < p.jt || (ON.jt === p.jt && ON.me < p.id);
-  if (!p.role && !ON.role) ON.role = mineFirst ? 'host' : 'guest';
-  else if (!ON.role) ON.role = otherRole(p.role);
-  else if (p.role === ON.role && !mineFirst) ON.role = otherRole(p.role);
+function checkHost() {
+  const h = hostId(); if (h === ON.host) return;
+  ON.host = h;
+  if (ON.settled) { toast(t('gh_onNewHost', { p: iso(nameOf(h)) }), 2.6); Snd.play('check'); }
+  refreshUI();
 }
+function peerGone(q, silent) {
+  if (!ON.peers.has(q.id)) return;
+  ON.peers.delete(q.id);
+  if (!silent) toast(t('gh_onLeft', { p: iso(q.n) }));
+  checkHost();
+  if (RACE.on && RACE.m === 'race' && RACE.me && !RACE.me.done && ![...ON.peers.keys()].some(id => RACE.roster.has(id))
+    && (mode === 'play' || mode === 'count' || mode === 'rmenu')) { for (const k in keys) keys[k] = false; setMode('lost'); renderScreen(); return; }   // the last rival left the race
+  refreshUI();
+}
+function applyCrown(to, jt) {
+  if (!isFinite(jt)) return;
+  if (to === ON.me) { ON.jt = jt; ssSet(idKey(ON.code), { id: ON.me, jt }); } else { const q = ON.peers.get(to); if (q) q.jt = jt; }
+  checkHost();
+}
+function makeHost(id) {   // hand the 👑 over: the new host gets the earliest join time
+  if (!isHost() || !ON.peers.has(id)) return;
+  const jt = Math.min(ON.jt, ...[...ON.peers.values()].map(q => q.jt)) - 1;
+  netSend('crown', { to: id, jt }); applyCrown(id, jt);
+}
+function setPeerRound(q, r) { if (r !== q.r) { q.r = r; q.fin = {}; q.buf = []; q.finAt = 0; q.p = 0; } }
+function setPeerLevel(q, li) { if (li !== q.li) { q.li = li; q.buf = []; q.p = 0; } }
+function setFin(q, fin) { for (const k in fin) if (!fin[k].nf && (!q.fin[k] || q.fin[k].t !== fin[k].t)) q.finAt = Date.now(); q.fin = fin; }
 function onNet(ev, p) {
-  if (!p || p.id === ON.me) return;
+  if (!p || !p.id || p.id === ON.me) return;
   const now = Date.now();
-  if (ev === 'full') { if (p.to === ON.me) { leaveRoom(); showMenu(); setMode('online'); renderScreen(); toast(t('gh_onFull')); } return; }
-  let Pt = ON.partner;
-  if (Pt && Pt.id !== p.id) {
-    if (now - Pt.t < 9000) { if (ev === 'hello') netSend('full', { to: p.id }); return; }   // a third player
-    partnerGone(true); Pt = null;
+  if (ev === 'full') { if (p.to === ON.me) roomFull(); return; }
+  let q = ON.peers.get(p.id);
+  if (ev === 'bye') { if (q) peerGone(q); return; }
+  if (ev === 'crown') { applyCrown(p.to, +p.jt); return; }
+  if (!q) {
+    if (ev !== 'hello' && ev !== 'hb') return;   // strangers introduce themselves first
+    const later = byJoin({ id: p.id, jt: +p.jt || now }, { id: ON.me, jt: ON.jt }) > 0;
+    if (ON.peers.size >= MAXP - 1 && later) { if (isHost()) netSend('full', { to: p.id }); return; }   // a 5th player
+    q = { id: p.id, n: '…', jt: +p.jt || now, sl: -1, t: now, ph: '', r: 0, li: -1, lt: 0, de: 0, fin: {}, buf: [], gFlip: 1, gpos: null, p: 0, finAt: 0, stAt: 0 };
+    ON.peers.set(p.id, q);
+    if (p.n) q.n = String(p.n).slice(0, 24);
+    if (ON.settled) { toast(t('gh_onJoined', { p: iso(q.n) })); Snd.play('check'); }
   }
-  if (ev === 'bye') { if (Pt) partnerGone(); return; }
-  if (!Pt) {
-    Pt = ON.partner = { id: p.id, n: p.n || '…', role: null, t: now, ph: '', r: 0 };
-    toast(t('gh_onJoined', { p: iso(Pt.n) })); Snd.play('check');
-  }
-  Pt.t = now; if (p.n) Pt.n = String(p.n).slice(0, 24);
+  q.t = now; if (p.n) q.n = String(p.n).slice(0, 24);
   if (ev === 'hello' || ev === 'hb') {
-    if ('role' in p) Pt.role = p.role; Pt.ph = p.ph || ''; Pt.r = p.r | 0;
-    const before = ON.role; resolveRoles(p);
-    if (Pt.role === 'host' && !isHost() && p.sel != null && !RACE.on) RACE.sel = clamp(p.sel | 0, 0, LV.length - 1);
-    if (ev === 'hello' && p.req) hello(false); else if (before !== ON.role) hello(false);
-    // the rival reloaded / left this race: their run is over
-    if (RACE.on && RACE.op && !RACE.op.done && p.ph === 'lobby' && Pt.r !== RACE.round && performance.now() - RACE.goSent > 4000) opFinished(RACE.op.t || 0, true, RACE.op.de || 0, 'quit');
-    // the host went back to the room: follow
-    if (RACE.on && !isHost() && Pt.role === 'host' && mode === 'rresult' && p.ph === 'lobby') toLobby();
-    if (mode === 'lobby') lobbyRefresh();
+    if (p.jt != null && isFinite(+p.jt)) q.jt = +p.jt;
+    if (p.sl != null) q.sl = p.sl | 0;
+    q.ph = p.ph || 'lobby'; setPeerRound(q, p.r | 0); setPeerLevel(q, p.li | 0); setFin(q, decodeFin(p.f));
+    if (q.ph === 'lobby') q.lt = 0; else if (p.lt != null && now - q.stAt > 1000) q.lt = +p.lt || 0;
+    if (Array.isArray(p.run)) noteRun(p.run[0] | 0, p.run[1], p.run[2] | 0);
+    checkHost();
+    if (q.id === ON.host) { if (p.sel != null) ON.sel = clamp(p.sel | 0, 0, LV.length - 1); if (p.gm === 'run' || p.gm === 'race') ON.gm = p.gm; }
+    if (ON.settled) { const was = ON.slot; claimSlot(); if (ON.slot < 0) { roomFull(); return; } if (was !== ON.slot) hello(false); }
+    if (ev === 'hello' && p.req) hello(false);
+    peerChanged(q);
     return;
   }
   switch (ev) {
-    case 'roles': ON.role = p.host === ON.me ? 'host' : 'guest'; Pt.role = otherRole(ON.role); if (mode === 'lobby') lobbyRefresh(); break;
-    case 'sel': if (!isHost() && !RACE.on) { RACE.sel = clamp(p.l | 0, 0, LV.length - 1); if (mode === 'lobby') lobbyRefresh(); } break;
-    case 'go':
-      if ((p.r | 0) <= RACE.round && RACE.on) break;   // duplicate
-      ON.role = 'guest'; Pt.role = 'host'; RACE.goSent = performance.now();
-      startRace(p.l | 0, p.r | 0); break;
-    case 'st': onSt(p); break;
-    case 'fin': if (RACE.on && (p.r | 0) === RACE.round) opFinished(+p.t, !!p.nf, p.de | 0, p.why); break;
-    case 'vote': if (RACE.on && isHost() && (p.r | 0) === RACE.round && (p.a === 'rematch' || p.a === 'next')) { RACE.vote = p.a; if (mode === 'rresult') renderScreen(); Snd.play('ui'); } break;
-    case 'lobby': if (mode !== 'lobby' && ON.code) toLobby(); break;
+    case 'sel': if (q.id === ON.host) { ON.sel = clamp(p.l | 0, 0, LV.length - 1); if (p.gm === 'run' || p.gm === 'race') ON.gm = p.gm; refreshUI(); } break;
+    case 'go': if ((p.r | 0) > ON.my.r) { setPeerRound(q, p.r | 0); beginRound(p.r | 0, p.m, p.l | 0); } break;
+    case 'st': onSt(q, p); break;
+    case 'fin': onFin(q, p); break;
+    case 'vote': if (RACE.on && RACE.m === 'race' && isHost() && (p.r | 0) === RACE.round && (p.a === 'rematch' || p.a === 'next')) { RACE.vote = { n: q.n, a: p.a }; if (mode === 'rresult') renderScreen(); Snd.play('ui'); } break;
+    case 'lobby': if (RACE.on && RACE.m === 'race' && (p.r | 0) === RACE.round && mode === 'rresult') toLobby(); break;   // the host ended the race round
   }
 }
-function partnerGone(silent) {
-  const Pt = ON.partner; if (!Pt) return; ON.partner = null;
-  if (!silent) toast(t('gh_onLeft', { p: iso(Pt.n) }));
-  if (RACE.on) {
-    RACE.opName = Pt.n; RACE.op.left = true; RACE.graceEnd = 0;
-    if (mode === 'play' || mode === 'count' || mode === 'rmenu') { for (const k in keys) keys[k] = false; setMode('lost'); renderScreen(); }
-    else if (mode === 'rresult') renderScreen();
-  } else if (mode === 'lobby') renderScreen();
+function onSt(q, p) {
+  setPeerRound(q, p.r | 0); setPeerLevel(q, p.li | 0);
+  q.ph = p.c ? 'card' : 'play'; q.lt = +p.t || 0; q.de = p.de | 0; q.p = clamp(+p.p || 0, 0, 1); q.stAt = Date.now();
+  const b = q.buf;
+  b.push({ t: performance.now(), x: +p.x || 0, y: +p.y || 0, vx: +p.vx || 0, vy: +p.vy || 0, f: p.f < 0 ? -1 : 1, fl: !!p.fl, d: !!p.d, fz: !!p.fz });
+  if (b.length > 40) b.splice(0, b.length - 40);
+  const s = cur && cur.s;
+  if (RACE.on && RACE.m === 'race' && q.r === RACE.round) {
+    if (!RACE.roster.has(q.id)) RACE.roster.set(q.id, { n: q.n, sl: slotOf(q.id) });
+    // keep the shared glitch clock in step with the host
+    if (q.id === ON.host && p.g != null && s && s.shared && RACE.phase === 'race' && !RACE.me.done && !s.won && !s.lost) {
+      const d = +p.g - s.gt; if (Math.abs(d) > 0.3 && Math.abs(d) < 60) s.gt += d;
+    }
+  }
 }
-function swapRoles() {
-  if (!ON.partner || !ON.role) return;
-  ON.role = otherRole(ON.role); ON.partner.role = otherRole(ON.role);
-  netSend('roles', { host: isHost() ? ON.me : ON.partner.id });
-  renderScreen();
+function onFin(q, p) {
+  const r = p.r | 0, li = p.li | 0; if (li < 0 || li >= LV.length) return;
+  setPeerRound(q, r);
+  const fin = Object.assign({}, q.fin); fin[li] = { t: +p.t || 0, de: p.de | 0, nf: !!p.nf, why: String(p.why || '') };
+  setFin(q, fin);
+  peerChanged(q);
 }
-function lobbyRefresh() {   // re-draw the lobby only when something on it changed
-  const Pt = ON.partner, sig = [ON.ready, ON.role, RACE.sel, Pt ? Pt.id + Pt.n + Pt.role + Pt.ph : '', getLang()].join('|');
-  if (sig !== ON.sig) renderScreen();
+function peerChanged(q) {
+  if (RACE.on && RACE.m === 'race' && q.r === RACE.round) {   // a rival reached the port: everyone still running gets a last chance
+    const f = q.fin[RACE.li];
+    if (f && !f.nf) {
+      if (!RACE.firstFinAt) RACE.firstFinAt = performance.now();
+      if (RACE.me && !RACE.me.done && !RACE.graceEnd) { RACE.graceEnd = performance.now() + GRACE * 1000; RACE.graceBy = q.n; toast(t('gh_onFirstT', { p: iso(q.n) }), 2.6); Snd.play('deny'); }
+    }
+  }
+  refreshUI();
+}
+const lobbySig = () => JSON.stringify([ON.ready, ON.settled, ON.host, ON.sel, ON.gm, ON.run, ON.my.r, ON.my.li, encodeFin(ON.my.fin), getLang(),
+  everyone().map(p => p.id === ON.me ? [p.id, ON.slot] : [p.id, p.n, p.sl, p.ph, p.r, p.li, encodeFin(p.fin)])]);
+function cardSig() {
+  if (mode === 'rcard') return JSON.stringify([ON.host, getLang(), levelRows(RACE.li).map(r => [r.id, r.n, r.f && r.f.t, r.st]), encodeFin(ON.my.fin)]);
+  const o = outcome();
+  return JSON.stringify([ON.host, getLang(), o.w, o.rows.map(r => [r.id, r.n, r.f && [r.f.t, r.f.nf, r.f.why], r.here]), RACE.vote, ON.peers.size > 0, RACE.voteSent]);
+}
+function refreshUI() {   // re-draw a room screen only when something on it changed
+  if (mode === 'lobby') { if (lobbySig() !== ON.sig) renderScreen(); }
+  else if (mode === 'rcard' || mode === 'rresult') { if (cardSig() !== RACE.cardSig) renderScreen(); }
 }
 
-// ---- race flow
-function toLobby() {
-  endTok++; RACE.on = false; RACE.phase = ''; cur = null; parts.length = 0; fx.banner = null; fx.g = 0;
-  document.body.classList.remove('rev');
-  if (!attract) makeAttract();
-  setMode('lobby'); renderScreen();
+// ---- rounds
+function noteRun(r, m, l) { if (r > 0 && (!ON.run || r > ON.run.r)) ON.run = { r, m: m === 'race' ? 'race' : 'run', l: clamp(l | 0, 0, LV.length - 1) }; }
+function hostStart(gm, li) {
+  if (!isHost()) return;
+  if (!ON.peers.size) { toast(t('gh_onNeed')); return; }
+  if (gm) ON.gm = gm; if (li != null) ON.sel = clamp(li | 0, 0, LV.length - 1);
+  let r = Math.max(ON.run ? ON.run.r : 0, ON.my.r); for (const q of ON.peers.values()) r = Math.max(r, q.r); r++;
+  netSend('go', { r, l: ON.sel, m: ON.gm }); RACE.goSent = performance.now();
+  beginRound(r, ON.gm, ON.sel);
 }
-function hostStart(li) {
-  if (!ON.partner) { toast(t('gh_onNeed')); return; }
-  li = clamp(li | 0, 0, LV.length - 1);
-  const r = Math.max(RACE.round, (ON.partner && ON.partner.r) || 0) + 1;
-  netSend('go', { l: li, r }); RACE.goSent = performance.now();
-  startRace(li, r);
+function beginRound(r, m, l) {   // everyone in the room starts together with a 3-2-1
+  m = m === 'race' ? 'race' : 'run'; l = clamp(l | 0, 0, LV.length - 1);
+  ON.run = { r, m, l }; ON.my = { r, li: l, fin: {} }; saveMy();
+  RACE.m = m; RACE.round = r;
+  RACE.roster = new Map(); for (const q of ON.peers.values()) RACE.roster.set(q.id, { n: q.n, sl: slotOf(q.id) });
+  startOnlineLevel(l, true);
 }
-function startRace(li, round) {
+function startOnlineLevel(li, countdown) {
   li = clamp(li | 0, 0, LV.length - 1);
   endTok++;
-  RACE.opName = opName();
-  Object.assign(RACE, { on: true, li, sel: li, round, phase: 'count', me: { done: false }, op: { done: false, p: 0, de: 0, t: 0 }, buf: [], graceEnd: 0, myDoneAt: 0,
-    vote: '', voteSent: '', countEnd: performance.now() + 3000, lastCount: 4, goAt: 0, goFlash: 0, gFlip: 1, gpos: null, stT: 0 });
+  ON.my.li = li; saveMy();
+  Object.assign(RACE, { on: true, li, phase: countdown ? 'count' : 'race', me: { done: false }, graceEnd: 0, graceBy: '', firstFinAt: 0, myDoneAt: 0,
+    vote: null, voteSent: '', countEnd: performance.now() + 3000, lastCount: 4, goAt: countdown ? 0 : performance.now(), goFlash: 0, stT: 0, forced: new Set(), cardSig: '' });
   cur = newView(li, false);
-  C.startShared(cur.s);
+  if (RACE.m === 'race') C.startShared(cur.s);   // a run keeps the normal single-player clock
   parts.length = 0; fx.g = 0; fx.shake = 0; fx.banner = null; fx.flash = 0; fx.frost = 0; acc = 0;
   for (const k in keys) keys[k] = false;
   document.body.classList.remove('rev');
   scr.innerHTML = ''; scr.className = '';
-  Snd.init(); setMode('count');
+  Snd.init();
+  if (countdown) setMode('count'); else { Snd.play('start'); setMode('play'); }
+  if (ON.ready) sendSt();
+}
+function resumeRun() { if (!ON.run || ON.run.m !== 'run' || ON.my.r !== ON.run.r) return; RACE.m = 'run'; RACE.round = ON.my.r; startOnlineLevel(ON.my.li, false); }
+function joinRun() {   // a late joiner starts at the run's starting level
+  const run = ON.run; if (!run || run.m !== 'run') return;
+  ON.my = { r: run.r, li: run.l, fin: {} }; saveMy();
+  RACE.m = 'run'; RACE.round = run.r; RACE.roster = new Map();
+  startOnlineLevel(run.l, true);
+}
+function toLobby() {
+  endTok++;
+  if (RACE.on && RACE.m === 'run' && ON.my.fin[ON.my.li] && ON.my.li < LV.length - 1) { ON.my.li++; saveMy(); }   // "back to the run" picks up at the next level
+  RACE.on = false; RACE.phase = ''; cur = null; parts.length = 0; fx.banner = null; fx.g = 0;
+  document.body.classList.remove('rev');
+  if (!attract) makeAttract();
+  setMode('lobby'); renderScreen();
+  if (ON.ready) hello(false);
 }
 function raceFrame(now, dt) {
   const s = cur && cur.s; if (!s || !RACE.me) return;
@@ -1335,86 +1467,124 @@ function raceFrame(now, dt) {
     }
   }
   if (RACE.goFlash > 0) RACE.goFlash -= dt;
-  // the race clock is wall time: a hidden tab or slow frames never stop it
-  if (RACE.goAt && s.began && !s.won && !s.lost && !RACE.me.done) {
-    const lag = (now - RACE.goAt) / 1000 - s.time;
-    if (lag > 0.1) { s.time += lag; s.gt += lag; }
+  if (RACE.m === 'race') {
+    // the race clock is wall time: a hidden tab or slow frames never stop it
+    if (RACE.goAt && s.began && !s.won && !s.lost && !RACE.me.done) { const lag = (now - RACE.goAt) / 1000 - s.time; if (lag > 0.1) { s.time += lag; s.gt += lag; } }
+    // a rival finished: a short last chance, then this run is over
+    if (RACE.graceEnd && !RACE.me.done && now >= RACE.graceEnd) { s.lost = true; Snd.play('lose'); raceFinish(true, 'grace'); }
   }
-  // the rival finished: a short last chance, then this run is over
-  if (RACE.graceEnd && !RACE.me.done && now >= RACE.graceEnd) { s.lost = true; Snd.play('lose'); raceFinish(true, 'grace'); }
-  if (ON.ready && ON.partner) {
-    const iv = (RACE.phase === 'race' && !RACE.me.done) ? 75 : 400;
-    if (now - RACE.stT >= iv) { RACE.stT = now; sendSt(); }
-  }
-  if (mode === 'rresult' && now - RACE.uiT > 250) { RACE.uiT = now; resultLive(now); }
+  if (ON.ready && ON.peers.size) { const iv = (mode === 'play' && !RACE.me.done) ? 75 : 400; if (now - RACE.stT >= iv) { RACE.stT = now; sendSt(); } }
+  if ((mode === 'rresult' || mode === 'rcard') && now - RACE.uiT > 250) { RACE.uiT = now; resultLive(now); }
 }
 const progOf = (s) => s.won ? 1 : clamp((s.x + P.w / 2 - s.L.start.x - 0.5) / Math.max(1, s.L.exit.x - s.L.start.x), 0, 1);
 function sendSt() {
-  const s = cur.s, me = RACE.me, r2 = (x) => Math.round(x * 100) / 100;
-  const o = { r: RACE.round, x: r2(s.x), y: r2(s.y), vx: Math.round(s.vx * 10) / 10, vy: Math.round(s.vy * 10) / 10, f: s.face < 0 ? -1 : 1, fl: s.active.flip ? 1 : 0,
-    d: s.dead ? 1 : 0, p: Math.round(progOf(s) * 1000) / 1000, t: r2(s.time), de: s.deaths, fz: s.freezeT > 0 ? 1 : 0 };
-  if (isHost() && RACE.phase === 'race' && !me.done) o.g = Math.round(s.gt * 1000) / 1000;   // the host's glitch clock
-  if (me.done) { o.dn = 1; o.ft = r2(me.t); o.nf = me.dnf ? 1 : 0; o.why = me.why; }
+  const s = cur && cur.s; if (!s || !RACE.on) return;
+  const r2 = (x) => Math.round(x * 100) / 100;
+  const o = { r: RACE.round, li: RACE.li, x: r2(s.x), y: r2(s.y), vx: Math.round(s.vx * 10) / 10, vy: Math.round(s.vy * 10) / 10, f: s.face < 0 ? -1 : 1, fl: s.active.flip ? 1 : 0,
+    d: s.dead ? 1 : 0, p: Math.round(progOf(s) * 1000) / 1000, t: Math.round(s.time * 10) / 10, de: s.deaths, fz: s.freezeT > 0 ? 1 : 0, c: (mode === 'rcard' || mode === 'rresult') ? 1 : 0 };
+  if (RACE.m === 'race' && isHost() && RACE.phase === 'race' && !RACE.me.done) o.g = Math.round(s.gt * 1000) / 1000;   // the host's glitch clock
   netSend('st', o);
 }
-function onSt(p) {
-  if (!RACE.on || (p.r | 0) !== RACE.round) return;
-  const b = RACE.buf;
-  b.push({ t: performance.now(), x: +p.x || 0, y: +p.y || 0, vx: +p.vx || 0, vy: +p.vy || 0, f: p.f < 0 ? -1 : 1, fl: !!p.fl, d: !!p.d, fz: !!p.fz });
-  if (b.length > 40) b.splice(0, b.length - 40);
-  const o = RACE.op; if (!o.done) { o.p = clamp(+p.p || 0, 0, 1); o.t = +p.t || 0; } o.de = p.de | 0;
-  if (p.dn) opFinished(+p.ft, !!p.nf, p.de | 0, p.why);
-  // keep the shared glitch clock in step with the host
-  const s = cur && cur.s;
-  if (!isHost() && p.g != null && s && s.shared && RACE.phase === 'race' && !RACE.me.done && !s.won && !s.lost) {
-    const d = +p.g - s.gt; if (Math.abs(d) > 0.3 && Math.abs(d) < 60) s.gt += d;
-  }
-}
-function opFinished(tm, dnf, de, why) {
-  const o = RACE.op; if (!o || o.done) return;
-  Object.assign(o, { done: true, t: isFinite(tm) ? tm : 0, dnf: !!dnf, de: de | 0, why: why || '' });
-  if (!dnf) {
-    o.p = 1;
-    if (!RACE.me.done) { RACE.graceEnd = performance.now() + GRACE * 1000; toast(t('gh_onFirstT', { p: iso(opName()) }), 2.6); Snd.play('deny'); }
-  }
-  if (mode === 'rresult') renderScreen();
-}
-function raceFinish(dnf, why) {
+function raceFinish(dnf, why) {   // my level is over (port reached, defrag complete, out of time, gave up)
   const me = RACE.me, s = cur && cur.s; if (!me || me.done || !s) return;
-  Object.assign(me, { done: true, t: s.time, dnf: !!dnf, de: s.deaths, why: why || '' });
+  Object.assign(me, { done: true, won: !dnf, t: s.time, dnf: !!dnf, de: s.deaths, why: why || '' });
   RACE.myDoneAt = performance.now(); RACE.phase = 'done'; RACE.graceEnd = 0;
-  const msg = { r: RACE.round, t: Math.round(me.t * 100) / 100, nf: me.dnf ? 1 : 0, de: me.de, why: me.why };
-  netSend('fin', msg);
-  [400, 1300].forEach(ms => setTimeout(() => { if (RACE.on && RACE.round === msg.r) netSend('fin', msg); }, ms));   // broadcast is fire-and-forget
+  if (!dnf && !RACE.firstFinAt) RACE.firstFinAt = RACE.myDoneAt;
+  const li = RACE.li, f = { t: Math.round(me.t * 100) / 100, de: me.de, nf: me.dnf, why: me.why };
+  if (RACE.m === 'run') { const old = ON.my.fin[li]; if (!dnf && (!old || f.t < old.t)) ON.my.fin[li] = f; }   // a run keeps your best time per level
+  else ON.my.fin[li] = f;
+  saveMy();
+  const keep = ON.my.fin[li];
+  if (keep && (RACE.m === 'race' || !dnf)) {
+    const msg = { r: RACE.round, li, t: keep.t, de: keep.de, nf: keep.nf ? 1 : 0, why: keep.why || '' };
+    netSend('fin', msg);
+    [400, 1300].forEach(ms => setTimeout(() => { if (ON.my.r === msg.r) netSend('fin', msg); }, ms));   // broadcast is fire-and-forget
+  }
   const tok = ++endTok;
-  setTimeout(() => { if (tok === endTok && RACE.on) { setMode('rresult'); renderScreen(); } }, why === 'quit' ? 0 : dnf ? 900 : 750);
+  setTimeout(() => { if (tok === endTok && RACE.on) { setMode(RACE.m === 'race' ? 'rresult' : 'rcard'); renderScreen(); if (ON.ready) sendSt(); } }, why === 'quit' ? 0 : dnf ? 900 : 750);
 }
 function raceMenu() { if (!RACE.on || mode !== 'play') return; for (const k in keys) keys[k] = false; setMode('rmenu'); renderScreen(); }
-function raceResume() { if (mode !== 'rmenu' && mode !== 'lost') return; for (const k in keys) keys[k] = false; setMode(RACE.phase === 'count' ? 'count' : 'play'); scr.innerHTML = ''; scr.className = ''; }
-function outcome() {
-  const me = RACE.me, op = RACE.op, opDone = op.done || op.left;
-  const meOk = me.done && !me.dnf, opOk = op.done && !op.dnf;
-  let w = '';
-  if (meOk && opOk) w = Math.abs(me.t - op.t) < 0.005 ? 'tie' : me.t < op.t ? 'me' : 'op';
-  else if (meOk) w = 'me'; else if (opOk) w = 'op'; else if (me.done && opDone) w = 'none';
-  return { w, final: me.done && opDone };
+function raceResume() { if (mode !== 'rmenu' && mode !== 'lost') return; for (const k in keys) keys[k] = false; setMode(RACE.phase === 'count' ? 'count' : 'play'); scr.innerHTML = ''; scr.className = ''; acc = 0; }
+
+// ---- results
+function raceRows() {   // race: everyone who started this round, finishers first by time
+  const li = RACE.li, me = RACE.me, s = cur && cur.s, rows = [];
+  rows.push({ id: ON.me, me: true, n: myName(), f: me && me.done ? { t: me.t, nf: me.dnf, why: me.why, de: me.de } : null, here: true, p: s ? progOf(s) : 0, de: s ? s.deaths : 0 });
+  for (const [id, info] of RACE.roster) {
+    const q = ON.peers.get(id), inR = !!q && q.r === RACE.round;
+    let f = inR ? q.fin[li] || null : null;
+    if (!f && RACE.forced.has(id)) f = { t: 0, nf: true, why: 'grace' };
+    rows.push({ id, me: false, n: q ? q.n : info.n, f, here: !!q, p: inR ? q.p : 0, de: f ? f.de | 0 : inR ? q.de : 0 });
+  }
+  const rank = (r) => r.f && !r.f.nf ? 0 : !r.f && r.here ? 1 : r.f ? 2 : 3;
+  return rows.sort((a, b) => rank(a) - rank(b) || (rank(a) === 0 ? a.f.t - b.f.t : rank(a) === 1 ? b.p - a.p : 0));
 }
-function opStatus(now) {
-  const o = RACE.op;
-  if (o.done) return o.dnf ? t(o.why === 'quit' ? 'gh_onGaveUp' : 'gh_onDnf') : fmt2(o.t);
-  if (o.left) return t('gh_onQuit');
-  if (RACE.me.done && !RACE.me.dnf) return t('gh_onRunningS', { s: Math.max(0, Math.ceil(GRACE - (now - RACE.myDoneAt) / 1000)) });
-  return t('gh_onRunning', { n: Math.round(o.p * 100) });
+function outcome() {
+  const rows = raceRows(), fin = rows.filter(r => r.f && !r.f.nf), final = rows.every(r => r.f || !r.here);
+  let w = '';
+  if (fin.length) w = fin.length > 1 && Math.abs(fin[0].f.t - fin[1].f.t) < 0.005 ? 'tie' : fin[0].me ? 'me' : 'op';   // race time is wall time: the first finisher cannot be beaten
+  else if (final) w = 'none';
+  return { w, final, rows, fin };
+}
+function rowStatus(r, now) {
+  if (r.f) return r.f.nf ? t(r.f.why === 'quit' ? 'gh_onGaveUp' : 'gh_onDnf') : fmt2(r.f.t);
+  if (!r.here) return t('gh_onQuit');
+  if (RACE.firstFinAt) return t('gh_onRunningS', { s: Math.max(0, Math.ceil(GRACE - (now - RACE.firstFinAt) / 1000)) });
+  return t('gh_onRunning', { n: Math.round(r.p * 100) });
 }
 function resultLive(now) {
-  // their finish packet never came: after the last chance + a margin, call it
-  if (!RACE.op.done && !RACE.op.left && RACE.me.done && !RACE.me.dnf && now - RACE.myDoneAt > (GRACE + 5) * 1000) { opFinished(RACE.op.t, true, RACE.op.de, 'grace'); return; }
-  const el = $('ghOpSt'); if (el) { const txt = opStatus(now); if (el.textContent !== txt) { el.textContent = txt; el.classList.toggle('txt', !/\d:\d/.test(txt)); } }
+  if (mode === 'rresult') {
+    // finish packets that never came: after the last chance + a margin, call it
+    if (RACE.firstFinAt && now - RACE.firstFinAt > (GRACE + 5) * 1000) {
+      let ch = false;
+      for (const [id] of RACE.roster) { const q = ON.peers.get(id); if (q && !(q.r === RACE.round && q.fin[RACE.li]) && !RACE.forced.has(id)) { RACE.forced.add(id); ch = true; } }
+      if (ch) { renderScreen(); return; }
+    }
+    const rows = raceRows();
+    for (const el of scr.querySelectorAll('[data-st]')) {
+      const r = rows.find(x => x.id === el.dataset.st); if (!r) continue;
+      const txt = rowStatus(r, now); if (el.textContent !== txt) { el.textContent = txt; el.classList.toggle('txt', !/\d:\d/.test(txt)); }
+    }
+  }
+  refreshUI();
+}
+function statusOf(id, li) {   // where a player is right now, for rows without a time on this level
+  if (id === ON.me) return RACE.me && RACE.me.done && !RACE.me.won ? t('gh_onDnf') : t('gh_onStill');
+  const q = ON.peers.get(id); if (!q) return '';
+  if (q.r !== ON.my.r) return t('gh_onNotIn');
+  if (q.ph === 'lobby') return t('gh_onInRoom');
+  return q.li === li ? t('gh_onStill') : t('gh_onStillL', { n: q.li + 1 });
+}
+function levelRows(li) {   // run: this level's times (best per player), then everyone still on their way
+  const r = ON.my.r, rows = [];
+  for (const p of everyone()) {
+    const me = p.id === ON.me, q = me ? null : ON.peers.get(p.id);
+    const f = me ? ON.my.fin[li] : (q.r === r ? q.fin[li] : null), ok = f && !f.nf ? f : null;
+    rows.push({ id: p.id, me, n: me ? myName() : q.n, f: ok, st: ok ? '' : statusOf(p.id, li) });
+  }
+  return rows.sort((a, b) => (a.f ? 0 : 1) - (b.f ? 0 : 1) || (a.f && b.f ? a.f.t - b.f.t : 0));
+}
+function board() {   // run leaderboard: levels finished, then total time
+  const r = ON.run ? ON.run.r : ON.my.r, now = Date.now();
+  return everyone().map(p => {
+    const me = p.id === ON.me, q = me ? null : ON.peers.get(p.id);
+    const inRun = r > 0 && (me ? ON.my.r === r : q.r === r), fin = !inRun ? {} : me ? ON.my.fin : q.fin;
+    let k = 0, tot = 0; for (const li in fin) if (!fin[li].nf) { k++; tot += fin[li].t; }
+    const li = me ? ON.my.li : q.li, ph = me ? myPh() : q.ph, lf = fin[li];
+    const ok = !!lf && !lf.nf && (me ? ph === 'card' && RACE.me && RACE.me.won : ph === 'card' || now - q.finAt < 4000);
+    return { id: p.id, jt: p.jt, me, n: me ? myName() : q.n, inRun, k, tot, li, ph, lt: me ? (RACE.on && cur && cur.s ? cur.s.time : 0) : q.lt, ok };
+  }).sort((a, b) => (b.inRun - a.inRun) || (b.k - a.k) || (a.tot - b.tot) || byJoin(a, b));
+}
+function peerStatus(p) {   // lobby row
+  if (p.ph === 'lobby' || !p.ph) return t('gh_onInRoom');
+  const lv = t('gh_lvl', { n: p.li + 1 });
+  if (p.ph === 'card') return '✅ ' + lv;
+  return (ON.run && ON.run.m === 'race' && p.r === ON.run.r ? t('gh_onRace') + ' · ' : '') + lv;
 }
 
-// ---- ghost + race HUD
-function ghostNow() {
-  const b = RACE.buf; if (!b.length) return null;
+// ---- ghosts + online HUD
+function ghostNow(b) {
+  if (!b.length) return null;
   const rt = performance.now() - 110;   // ~1.5 packets behind: always two to blend between
   let i = b.length - 1; while (i > 0 && b[i].t > rt) i--;
   const a = b[i], c = b[i + 1];
@@ -1424,57 +1594,90 @@ function ghostNow() {
   if (Math.abs(c.x - a.x) + Math.abs(c.y - a.y) > 3) return k < 0.5 ? a : c;   // respawn: jump, don't slide
   return { x: lerp(a.x, c.x, k), y: lerp(a.y, c.y, k), fl: k < 0.5 ? a.fl : c.fl, f: c.f, d: k < 0.5 ? a.d : c.d, fz: c.fz };
 }
-function drawGhost(v, dt) {
-  const g = ghostNow(); RACE.gpos = g; if (!g) return;
-  RACE.gFlip = lerp(RACE.gFlip, g.fl ? -1 : 1, 1 - Math.exp(-dt * 14));
-  if ((g.d || RACE.op.left) && !RACE.op.done) return;   // wiped / respawning, or gone
-  const w = P.w, h = P.h, cx = g.x + w / 2, cy = g.y + h / 2, done = RACE.op.done && !RACE.op.dnf;
-  const a = done ? 0.28 : 0.5 + 0.08 * Math.sin(TT * 6), jx = Math.sin(TT * 37) > 0.93 ? 0.06 : 0;   // a little packet glitch
-  if (g.fz) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.18; ctx.fillStyle = '#7df9ff'; ctx.beginPath(); ctx.arc(cx, cy, 0.65, 0, 7); ctx.fill(); ctx.globalCompositeOperation = 'source-over'; }
-  ctx.save(); ctx.translate(cx + jx, cy); ctx.scale(1, RACE.gFlip);
-  ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = a * 0.45; ctx.fillStyle = GHOST_C; rr(ctx, -w / 2 - 0.1, -h / 2 - 0.1, w + 0.2, h + 0.2, 0.2); ctx.fill();
-  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a * 0.7; rr(ctx, -w / 2, -h / 2, w, h, 0.13); ctx.fillStyle = '#0b5b78'; ctx.fill();
-  ctx.globalAlpha = Math.min(1, a + 0.3); ctx.lineWidth = 0.05; ctx.strokeStyle = GHOST_C; ctx.setLineDash([0.12, 0.08]); ctx.lineDashOffset = -TT * 0.5; ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle = '#e4fcff'; ctx.fillRect(g.f * 0.07 - 0.15, -0.1, 0.09, 0.15); ctx.fillRect(g.f * 0.07 + 0.06, -0.1, 0.09, 0.15);
-  ctx.restore(); ctx.globalAlpha = 1;
+// only players on the same level (and the same run / race round) are drawn in your world
+const ghostVisible = (q) => RACE.on && q.r === RACE.round && q.li === RACE.li && q.ph !== 'lobby' && q.buf.length > 0 && Date.now() - q.stAt < 3000;
+function drawGhosts(v, dt) {
+  for (const q of ON.peers.values()) {
+    q.gpos = null; if (!ghostVisible(q)) continue;
+    const g = ghostNow(q.buf); if (!g) continue;
+    q.gFlip = lerp(q.gFlip || 1, g.fl ? -1 : 1, 1 - Math.exp(-dt * 14));
+    const f = q.fin[RACE.li], raceDone = RACE.m === 'race' && f;
+    if ((g.d && !raceDone) || (raceDone && f.nf)) continue;   // wiped / respawning, or out of the race
+    q.gpos = g;
+    const sl = slotOf(q.id), col = PCOL[sl], dark = PCOL_D[sl], faded = q.ph === 'card' || !!raceDone;
+    const w = P.w, h = P.h, cx = g.x + w / 2, cy = g.y + h / 2;
+    const a = faded ? 0.28 : 0.5 + 0.08 * Math.sin(TT * 6 + sl), jx = Math.sin(TT * 37 + sl * 2) > 0.93 ? 0.06 : 0;   // a little packet glitch
+    if (g.fz) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.18; ctx.fillStyle = '#7df9ff'; ctx.beginPath(); ctx.arc(cx, cy, 0.65, 0, 7); ctx.fill(); ctx.globalCompositeOperation = 'source-over'; }
+    ctx.save(); ctx.translate(cx + jx, cy); ctx.scale(1, q.gFlip);
+    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = a * 0.45; ctx.fillStyle = col; rr(ctx, -w / 2 - 0.1, -h / 2 - 0.1, w + 0.2, h + 0.2, 0.2); ctx.fill();
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a * 0.7; rr(ctx, -w / 2, -h / 2, w, h, 0.13); ctx.fillStyle = dark; ctx.fill();
+    ctx.globalAlpha = Math.min(1, a + 0.3); ctx.lineWidth = 0.05; ctx.strokeStyle = col; ctx.setLineDash([0.12, 0.08]); ctx.lineDashOffset = -TT * 0.5; ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#f2fdff'; ctx.fillRect(g.f * 0.07 - 0.15, -0.1, 0.09, 0.15); ctx.fillRect(g.f * 0.07 + 0.06, -0.1, 0.09, 0.15);
+    ctx.restore(); ctx.globalAlpha = 1;
+  }
 }
 function pill(txt, x, y, col, bg, size = 11) {
   ctx.font = `800 ${size}px ${SANS}`; const w = ctx.measureText(txt).width + 12;
   ctx.globalAlpha = 0.85; rr(ctx, x - w / 2, y - size * 0.8, w, size * 1.6, 6); ctx.fillStyle = bg; ctx.fill(); ctx.globalAlpha = 1;
   hudText(txt, x, y, `800 ${size}px ${SANS}`, col, 'center');
 }
-function drawRaceHUD(v, dt) {
-  const s = v.s, now = performance.now(), base = VW < 720 ? 106 : 68, narrow = VW < 720;
-  ctx.textBaseline = 'middle';
-  // progress track: you (amber) vs the rival (cyan), exit port on the right
-  const x0 = 16, x1 = VW - 34, y = base + 18, ly = base + 7, me = progOf(s), op = RACE.op;
+function drawRunList(v) {   // the room list: rank, colour, name, level, time on it, ✅ just finished, ✓ levels finished
+  const rows = board(), narrow = VW < 720, x0 = 8, rh = 17, w = Math.min(VW - 16, narrow ? 262 : 290), y0 = v.top + 6;
+  rows.forEach((p, i) => {
+    const y = y0 + i * (rh + 2), cy = y + rh / 2 + 0.5, xr = x0 + w - 6;
+    ctx.globalAlpha = 0.82; rr(ctx, x0, y, w, rh, 6); ctx.fillStyle = p.me ? 'rgba(58,40,6,.92)' : 'rgba(8,10,28,.86)'; ctx.fill(); ctx.globalAlpha = 1;
+    if (p.me) { ctx.strokeStyle = 'rgba(255,183,3,.55)'; ctx.lineWidth = 1; ctx.stroke(); }
+    hudText(String(i + 1), x0 + 8, cy, `800 10px ${MONO}`, '#8aa0d8', 'center');
+    ctx.fillStyle = colFor(p.id); rr(ctx, x0 + 16, y + 4, 9, 9, 2); ctx.fill();
+    hudText('✓' + p.k, xr, cy, `800 10px ${MONO}`, p.k ? '#39ff88' : '#5c6aa8', 'right');
+    let left;
+    const st = !p.inRun ? t('gh_onNotIn') : p.ph === 'lobby' ? t('gh_onInRoom') : '';
+    if (st) { ctx.font = `700 10px ${SANS}`; const s2 = fitText(st, 110); hudText(s2, xr - 28, cy, `700 10px ${SANS}`, '#8aa0d8', 'right'); ctx.font = `700 10px ${SANS}`; left = xr - 28 - ctx.measureText(s2).width; }
+    else {
+      if (p.ok) hudText('✅', xr - 31, cy, `700 10px ${SANS}`, '#39ff88', 'center');
+      hudText(fmt(p.lt), xr - 40, cy, `800 10px ${MONO}`, p.ok ? '#39ff88' : '#eef0ff', 'right');
+      const lv = t('gh_lvl', { n: p.li + 1 }); ctx.font = `700 10px ${SANS}`; hudText(lv, xr - 84, cy, `700 10px ${SANS}`, '#ffd36b', 'right'); ctx.font = `700 10px ${SANS}`; left = xr - 84 - ctx.measureText(lv).width;
+    }
+    ctx.font = `700 11px ${SANS}`; hudText(fitText(p.n, Math.max(20, left - 6 - (x0 + 30))), x0 + 30, cy, `700 11px ${SANS}`, p.me ? '#ffd36b' : '#eef0ff');
+  });
+}
+function drawRaceTrack(v) {   // progress track: you (amber) and every rival, exit port on the right
+  const s = v.s, base = VW < 720 ? 106 : 68, x0 = 16, x1 = VW - 34, y = base + 18, ly = base + 7;
   ctx.fillStyle = 'rgba(8,10,28,.55)'; ctx.fillRect(0, base, VW, RACE_BAND);
   ctx.fillStyle = 'rgba(255,255,255,.1)'; rr(ctx, x0, y - 2, x1 - x0, 4, 2); ctx.fill();
   ctx.strokeStyle = '#39ff88'; ctx.lineWidth = 2; rr(ctx, x1 + 6, y - 7, 14, 14, 3); ctx.stroke(); ctx.fillStyle = '#39ff88'; ctx.fillRect(x1 + 10, y - 1.5, 6, 3);
-  const mx = x0 + (x1 - x0) * me, ox = x0 + (x1 - x0) * op.p, faded = op.left || (op.done && op.dnf);
-  const ol = (op.done ? (op.dnf ? '✖ ' : '✓ ') : '') + iso(opName()), myL = t('gh_onYou');
-  ctx.font = `800 10px ${SANS}`; const ow = ctx.measureText(ol).width, mw = ctx.measureText(myL).width;
-  // labels ride above their dots and push apart when the two are close
-  let cm = mx, co = ox; const need = (mw + ow) / 2 + 8;
-  if (Math.abs(co - cm) < need) { const mid = (cm + co) / 2, sg = co >= cm ? 1 : -1; cm = mid - sg * need / 2; co = mid + sg * need / 2; }
-  const lo0 = 2, hi0 = VW - 2, fit = (c, w) => clamp(c, lo0 + w / 2, hi0 - w / 2);
-  let fm = fit(cm, mw), fo = fit(co, ow);
-  if (Math.abs(fo - fm) < need - 0.5) { if (fm !== cm) fo = fm + Math.sign(co - cm || 1) * need; else if (fo !== co) fm = fo - Math.sign(co - cm || 1) * need; }
-  ctx.globalAlpha = faded ? 0.4 : 1;
-  ctx.fillStyle = GHOST_C; ctx.beginPath(); ctx.arc(ox, y, 5, 0, 7); ctx.fill();
-  hudText(ol, fo, ly, `800 10px ${SANS}`, GHOST_C, 'center'); ctx.globalAlpha = 1;
-  ctx.fillStyle = '#ffb703'; rr(ctx, mx - 5, y - 5, 10, 10, 2); ctx.fill(); ctx.strokeStyle = '#fff1c1'; ctx.lineWidth = 1; ctx.stroke();
-  hudText(myL, fm, ly, `800 10px ${SANS}`, '#ffd36b', 'center');
-  // name tag over the ghost, or an arrow at the edge when it is off screen
-  const g = RACE.gpos;
-  if (g && !((g.d || op.left) && !op.done)) {
-    const sx = v.offX + (g.x + P.w / 2 - v.cam.x) * v.ts, sy = v.top + v.offY + (g.y + P.h / 2 - v.cam.y) * v.ts, up = RACE.gFlip < 0 ? 1 : -1;
-    if (sx > 0 && sx < VW && sy > v.top && sy < v.top + v.ah) pill(iso(opName()), sx, sy + up * (v.ts * 0.62 + 9), '#dffbff', 'rgba(6,40,60,.85)', narrow ? 10 : 11);
+  const items = [];
+  for (const [id, info] of RACE.roster) {
+    const q = ON.peers.get(id), f = q && q.r === RACE.round ? q.fin[RACE.li] : null, pr = f && !f.nf ? 1 : q ? q.p : 0;
+    items.push({ x: x0 + (x1 - x0) * pr, col: PCOL[slotOf(id)], label: (f ? (f.nf ? '✖ ' : '✓ ') : '') + iso(q ? q.n : info.n), faded: !q || (f && f.nf) || RACE.forced.has(id) });
+  }
+  for (const it of items) { ctx.globalAlpha = it.faded ? 0.4 : 1; ctx.fillStyle = it.col; ctx.beginPath(); ctx.arc(it.x, y, 5, 0, 7); ctx.fill(); }
+  ctx.globalAlpha = 1;
+  const mx = x0 + (x1 - x0) * progOf(s);
+  ctx.fillStyle = ME_C; rr(ctx, mx - 5, y - 5, 10, 10, 2); ctx.fill(); ctx.strokeStyle = '#fff1c1'; ctx.lineWidth = 1; ctx.stroke();
+  // labels ride above their dots; one that would overlap a label already drawn is skipped (its colour still tells who it is)
+  const drawn = []; ctx.font = `800 10px ${SANS}`;
+  for (const it of [{ x: mx, col: '#ffd36b', label: t('gh_onYou') }].concat(items)) {
+    const w = ctx.measureText(it.label).width, cx = clamp(it.x, w / 2 + 2, VW - w / 2 - 2);
+    if (drawn.some(d => Math.abs(d.cx - cx) < (d.w + w) / 2 + 4)) continue;
+    drawn.push({ cx, w }); ctx.globalAlpha = it.faded ? 0.4 : 1; hudText(it.label, cx, ly, `800 10px ${SANS}`, it.col, 'center'); ctx.font = `800 10px ${SANS}`;
+  }
+  ctx.globalAlpha = 1;
+}
+function drawOnlineHUD(v, dt) {
+  const now = performance.now(), narrow = VW < 720;
+  ctx.textBaseline = 'middle';
+  if (RACE.m === 'race') drawRaceTrack(v); else if (ON.peers.size) drawRunList(v);
+  // name tag over each ghost, or an arrow at the edge when it is off screen
+  for (const q of ON.peers.values()) {
+    const g = q.gpos; if (!g) continue;
+    const col = PCOL[slotOf(q.id)], sx = v.offX + (g.x + P.w / 2 - v.cam.x) * v.ts, sy = v.top + v.offY + (g.y + P.h / 2 - v.cam.y) * v.ts, up = q.gFlip < 0 ? 1 : -1;
+    if (sx > 0 && sx < VW && sy > v.top && sy < v.top + v.ah) pill(iso(q.n), sx, sy + up * (v.ts * 0.62 + 9), col, 'rgba(6,10,30,.88)', narrow ? 10 : 11);
     else {
       const ex = clamp(sx, 22, VW - 22), ey = clamp(sy, v.top + 18, v.top + v.ah - 18), an = Math.atan2(sy - ey, sx - ex);
-      ctx.save(); ctx.translate(ex, ey); ctx.rotate(an); ctx.fillStyle = GHOST_C; ctx.globalAlpha = 0.85;
+      ctx.save(); ctx.translate(ex, ey); ctx.rotate(an); ctx.fillStyle = col; ctx.globalAlpha = 0.85;
       ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(-4, -7); ctx.lineTo(-4, 7); ctx.closePath(); ctx.fill(); ctx.restore(); ctx.globalAlpha = 1;
-      pill(iso(opName()), clamp(ex - Math.cos(an) * 30, 40, VW - 40), clamp(ey - Math.sin(an) * 20, v.top + 14, v.top + v.ah - 14), '#dffbff', 'rgba(6,40,60,.85)', 10);
+      pill(iso(q.n), clamp(ex - Math.cos(an) * 30, 40, VW - 40), clamp(ey - Math.sin(an) * 20, v.top + 14, v.top + v.ah - 14), col, 'rgba(6,10,30,.88)', 10);
     }
   }
   const midY = v.top + v.ah / 2;
@@ -1487,15 +1690,17 @@ function drawRaceHUD(v, dt) {
     ctx.fillStyle = '#ff2e88'; ctx.fillText(txt, VW / 2 - 4, midY); ctx.fillStyle = '#2de2ff'; ctx.fillText(txt, VW / 2 + 4, midY);
     ctx.fillStyle = col; ctx.fillText(txt, VW / 2, midY); ctx.globalAlpha = 1;
     if (counting) {
-      pill(t('gh_onVs', { p: iso(opName()) }), VW / 2, midY + fs * 0.62, GHOST_C, 'rgba(8,10,28,.8)', narrow ? 13 : 15);
-      ctx.font = `600 ${narrow ? 11 : 13}px ${SANS}`; hudText(fitText(t('gh_onRules'), VW - 24), VW / 2, midY + fs * 0.62 + 28, `600 ${narrow ? 11 : 13}px ${SANS}`, '#c6cdf2', 'center');
+      const names = [...ON.peers.values()].map(q => q.n).join(getLang() === 'ar' ? '، ' : ', ');
+      if (names) { ctx.font = `800 ${narrow ? 13 : 15}px ${SANS}`; pill(fitText(t(RACE.m === 'race' ? 'gh_onVs' : 'gh_onWith', { p: iso(names) }), VW - 40), VW / 2, midY + fs * 0.62, GHOST_C, 'rgba(8,10,28,.8)', narrow ? 13 : 15); }
+      const rl = t(RACE.m === 'race' ? 'gh_onRules' : 'gh_onRunRules');
+      ctx.font = `600 ${narrow ? 11 : 13}px ${SANS}`; hudText(fitText(rl, VW - 24), VW / 2, midY + fs * 0.62 + 28, `600 ${narrow ? 11 : 13}px ${SANS}`, '#c6cdf2', 'center');
     }
   }
-  // the rival made it: last-chance countdown
-  if (RACE.graceEnd && !RACE.me.done) {
+  // a rival made it: last-chance countdown
+  if (RACE.m === 'race' && RACE.graceEnd && !RACE.me.done) {
     const sl = Math.max(0, Math.ceil((RACE.graceEnd - now) / 1000));
     ctx.globalAlpha = 0.75 + 0.25 * Math.sin(TT * 8);
-    pill(t('gh_onFirst', { p: iso(opName()), s: sl }), VW / 2, v.top + 22, '#ffffff', 'rgba(150,20,60,.85)', narrow ? 12 : 14);
+    pill(t('gh_onFirst', { p: iso(RACE.graceBy), s: sl }), VW / 2, v.top + 22, '#ffffff', 'rgba(150,20,60,.85)', narrow ? 12 : 14);
     ctx.globalAlpha = 1;
   }
   ctx.textBaseline = 'alphabetic';
@@ -1503,9 +1708,11 @@ function drawRaceHUD(v, dt) {
 
 // ---- screens
 function onlineScreen() {
-  const Pt = ON.partner, host = isHost(), lv = LV[RACE.sel] || LV[0];
+  const host = isHost(), lv = LV[ON.sel] || LV[0];
   const kinds = (l) => { const k = []; (l.seq || []).forEach(x => x.split('+').forEach(g => { if (g !== 'none' && !k.includes(g)) k.push(g); })); return k.length ? k : ['none']; };
-  const roleName = (r) => r ? t(r === 'host' ? 'gh_onHost' : 'gh_onGuest') : t('gh_onConnecting');
+  const sound = `<div class="row"><button class="btn sec small" data-act="sfx">${sets.sfx ? '🔊' : '🔇'} ${esc(t('gh_sound'))}: ${esc(t(sets.sfx ? 'gh_on' : 'gh_off'))}</button>
+      <button class="btn sec small" data-act="music">${sets.music ? '🎵' : '🔇'} ${esc(t('gh_music'))}: ${esc(t(sets.music ? 'gh_on' : 'gh_off'))}</button></div>`;
+  const center = (txt) => `<p class="muted" style="text-align:center">${esc(txt)}</p>`;
   if (mode === 'online') {
     const acct = window.Auth && Auth.profile, nm = (window.Auth && Auth.name && Auth.name()) || '';
     return `<div data-m3pop class="panel onp"><h2>🌐 ${esc(t('gh_online'))}</h2><p>${esc(t('gh_onDesc'))}</p>
@@ -1517,59 +1724,96 @@ function onlineScreen() {
       <div class="row" style="margin-top:10px"><button class="btn sec" data-act="menu">← ${esc(t('gh_back'))}</button></div></div>`;
   }
   if (mode === 'lobby') {
-    ON.sig = [ON.ready, ON.role, RACE.sel, Pt ? Pt.id + Pt.n + Pt.role + Pt.ph : '', getLang()].join('|');
+    ON.sig = lobbySig();
+    const n = ON.peers.size + 1, run = ON.run && ON.run.m === 'run' ? ON.run : null, inRun = !!run && ON.my.r === run.r;
+    const raceOn = ON.run && ON.run.m === 'race' && [...ON.peers.values()].some(q => q.r === ON.run.r && q.ph !== 'lobby');
+    const list = board().map(p => {
+      const me = p.id === ON.me, isH = p.id === ON.host;
+      const sub = [me ? t('gh_onYou') : '', isH ? t('gh_onHost') : '', me ? '' : peerStatus(p.me ? p : ON.peers.get(p.id))].filter(Boolean).join(' · ');
+      const sc = run && p.inRun ? `<span class="sc"><b>✓ ${p.k}</b><small>${esc(fmt2(p.tot))}</small></span>` : '';
+      const mk = host && !me ? `<button class="btn sec small mk" data-act="crown" data-id="${esc(p.id)}" title="${esc(t('gh_onMakeHost'))}" aria-label="${esc(t('gh_onMakeHost'))}">👑</button>` : '';
+      return `<div class="pl${me ? ' me' : ''}"><i style="background:${colFor(p.id)}"></i><div class="nm"><b>${isH ? '👑 ' : ''}<bdi>${esc(p.n)}</bdi></b><small>${esc(sub)}</small></div>${sc}${mk}</div>`;
+    }).join('') + (n < 2 ? `<div class="pl wait">${esc(t(ON.ready ? 'gh_onWait' : 'gh_onConnecting'))}</div>` : '');
+    const modeBtn = (m) => `<button class="mode${ON.gm === m ? ' on' : ''}" data-act="gm" data-m="${m}" ${host ? '' : 'disabled'}><b>${m === 'run' ? '🏃' : '🏁'} ${esc(t(m === 'run' ? 'gh_onModeRun' : 'gh_onModeRace'))}</b><small>${esc(t(m === 'run' ? 'gh_onModeRunD' : 'gh_onModeRaceD'))}</small></button>`;
     const picker = `<div class="picker">${host ? `<button class="btn sec small" data-act="sel" data-d="-1" aria-label="-">‹</button>` : ''}
-        <div class="pk"><small>${esc(t('gh_onLevel', { n: RACE.sel + 1, m: LV.length }))}</small><b dir="auto">${esc(lvName(lv))}</b><span class="gi">${kinds(lv).map(k => `<img src="${ICON[k]}" alt="">`).join('')}</span></div>
+        <div class="pk"><small>${esc(t('gh_onLevel', { n: ON.sel + 1, m: LV.length }))}</small><b dir="auto">${esc(lvName(lv))}</b><span class="gi">${kinds(lv).map(k => `<img src="${ICON[k]}" alt="">`).join('')}</span></div>
         ${host ? `<button class="btn sec small" data-act="sel" data-d="1" aria-label="+">›</button>` : ''}</div>`;
+    let acts = '';
+    if (run) {
+      acts += center(t('gh_onRunOn', { n: run.l + 1 }));
+      acts += inRun ? `<button class="btn block" data-act="rback">${esc(t('gh_onBack', { n: ON.my.li + 1 }))}</button>` : `<button class="btn block" data-act="rjoin">${esc(t('gh_onJoinRun', { n: run.l + 1 }))}</button>`;
+    }
+    if (host) {
+      const lbl = run && ON.gm === 'run' ? t('gh_onNewRun') : t(ON.gm === 'run' ? 'gh_onStartRun' : 'gh_onStart');
+      acts += `<button class="btn ${run ? 'sec ' : ''}block" data-act="start" ${n > 1 ? '' : 'disabled'} style="margin-top:6px">${esc(lbl)}</button>` + (n > 1 ? '' : center(t('gh_onNeed')));
+    } else if (!run) acts += center(t(raceOn ? 'gh_onInRace' : 'gh_onWaitHost'));
     return `<div data-m3pop class="panel onp"><h2>🌐 ${esc(t('gh_online'))}</h2>
       <div class="roomcode"><span>${esc(t('gh_onRoom'))}</span><b>${esc(ON.code)}</b><button class="btn small" data-act="copy">${esc(t('gh_onCopy'))}</button></div>
-      <div class="plist">
-        <div class="pl me"><i></i><div><b><bdi>${esc(myName())}</bdi></b><small>${esc(t('gh_onYou'))} · ${esc(roleName(ON.role))}</small></div></div>
-        ${Pt ? `<div class="pl op"><i></i><div><b><bdi>${esc(Pt.n)}</bdi></b><small>${esc(t('gh_onPartner'))} · ${esc(roleName(Pt.role))}</small></div></div>`
-            : `<div class="pl wait">${esc(t(ON.ready ? 'gh_onWait' : 'gh_onConnecting'))}</div>`}
-      </div>
-      ${Pt && ON.role ? `<div class="row"><button class="btn sec small" data-act="swap">${esc(t('gh_onSwap'))}</button></div>` : ''}
-      <div class="muted" style="text-align:center;margin-top:8px">${esc(t('gh_onPick'))}</div>
+      <div class="plh"><span>${esc(t('gh_onPlayers', { n, m: MAXP }))}</span>${run ? `<span>${esc(t('gh_onBoard'))}</span>` : ''}</div>
+      <div class="plist">${list}</div>
+      <div class="modes">${host ? modeBtn('run') + modeBtn('race') : modeBtn(ON.gm)}</div>
+      <div class="muted" style="text-align:center">${esc(t('gh_onPick'))}</div>
       ${picker}
-      ${host ? `<button class="btn block" data-act="start" ${Pt ? '' : 'disabled'}>${esc(t('gh_onStart'))}</button>${Pt ? '' : `<p class="muted" style="text-align:center">${esc(t('gh_onNeed'))}</p>`}`
-             : `<p class="muted" style="text-align:center">${esc(t(Pt && Pt.ph && Pt.ph !== 'lobby' ? 'gh_onInRace' : 'gh_onWaitHost'))}</p>`}
+      <div class="col">${acts}</div>
       <div class="row" style="margin-top:8px"><button class="btn sec small" data-act="leave">${esc(t('gh_onLeave'))}</button></div></div>`;
   }
   if (mode === 'rmenu') {
-    return `<div data-m3pop class="panel" style="text-align:center"><h2>⏱ ${esc(t('gh_onRaceMenu'))}</h2><p>${esc(t('gh_onRaceMenuD'))}</p>
+    if (RACE.m === 'race') return `<div data-m3pop class="panel" style="text-align:center"><h2>⏱ ${esc(t('gh_onRaceMenu'))}</h2><p>${esc(t('gh_onRaceMenuD'))}</p>
       <div class="col" style="margin-top:8px"><button class="btn block" data-act="rresume">▶ ${esc(t('gh_resume'))}</button>
       <button class="btn sec block" data-act="giveup">${esc(t('gh_onGiveUp'))}</button>
-      <button class="btn sec block" data-act="leave">${esc(t('gh_onLeave'))}</button>
-      <div class="row"><button class="btn sec small" data-act="sfx">${sets.sfx ? '🔊' : '🔇'} ${esc(t('gh_sound'))}: ${esc(t(sets.sfx ? 'gh_on' : 'gh_off'))}</button>
-      <button class="btn sec small" data-act="music">${sets.music ? '🎵' : '🔇'} ${esc(t('gh_music'))}: ${esc(t(sets.music ? 'gh_on' : 'gh_off'))}</button></div></div></div>`;
+      <button class="btn sec block" data-act="leave">${esc(t('gh_onLeave'))}</button>${sound}</div></div>`;
+    return `<div data-m3pop class="panel" style="text-align:center"><h2>❚❚ ${esc(t('gh_paused'))}</h2>
+      <div class="lvtag">${esc(t('gh_onRunT'))} · ${esc(t('gh_lvl', { n: RACE.li + 1 }))} · ${esc(lvName(LV[RACE.li]))}</div><p>${esc(t('gh_onRunMenuD'))}</p>
+      <div class="col pcol" style="margin-top:8px"><button class="btn block" data-act="rresume">▶ ${esc(t('gh_resume'))}</button>
+      <button class="btn sec block" data-act="rretry">↻ ${esc(t('gh_restart'))}</button>
+      <button class="btn sec block" data-act="room">${esc(t('gh_onRoomB'))}</button>
+      <button class="btn sec block" data-act="leave">${esc(t('gh_onLeave'))}</button>${sound}</div></div>`;
   }
   if (mode === 'lost') {
-    return `<div data-m3pop class="panel" style="text-align:center"><h2 class="bad">${esc(t('gh_onLost', { p: iso(opName()) }))}</h2><p>${esc(t('gh_onLostD'))}</p>
+    return `<div data-m3pop class="panel" style="text-align:center"><h2 class="bad">${esc(t('gh_onLost'))}</h2><p>${esc(t('gh_onLostD'))}</p>
       <div class="col" style="margin-top:8px">${RACE.me && !RACE.me.done ? `<button class="btn block" data-act="keep">${esc(t('gh_onKeep'))}</button>` : ''}
       <button class="btn sec block" data-act="tolobby">${esc(t('gh_onLobby'))}</button>
       <button class="btn sec block" data-act="leave">⌂ ${esc(t('gh_menu'))}</button></div></div>`;
   }
-  if (mode === 'rresult') {
-    const { w } = outcome(), me = RACE.me, op = RACE.op, now = performance.now(), last = RACE.li >= LV.length - 1;
-    const title = w === 'me' ? t('gh_onWin') : w === 'op' ? t('gh_onLose', { p: iso(opName()) }) : w === 'tie' ? t('gh_onDraw') : w === 'none' ? t('gh_onNone') : t('gh_onPend', { p: iso(opName()) });
-    const cls = w === 'me' || w === 'tie' ? 'good' : w === 'op' || w === 'none' ? 'bad' : '';
-    const myTxt = me.dnf ? t(me.why === 'quit' ? 'gh_onGaveUp' : 'gh_onDnf') : fmt2(me.t);
-    const gap = (w === 'me' || w === 'op') && !me.dnf && op.done && !op.dnf ? t('gh_onBehind', { t: Math.abs(me.t - op.t).toFixed(2) }) : '';
-    const row = (who) => {
-      const mine = who === 'me', win = w === who, b = mine ? me : op;
-      return `<div class="rr ${mine ? 'me' : 'op'}${win ? ' win' : ''}"><span class="md">${win ? '🥇' : (w && w !== 'tie' && w !== 'none' ? '🥈' : '·')}</span><i></i>
-        <div class="nm"><b><bdi>${esc(mine ? myName() : opName())}</bdi></b><small>${esc(mine ? t('gh_onYou') : t('gh_onPartner'))} · ✖ ${b.de | 0}</small></div>
-        <span class="tm${/\d:\d/.test(mine ? myTxt : opStatus(now)) ? '' : ' txt'}"${mine ? '' : ' id="ghOpSt"'}>${esc(mine ? myTxt : opStatus(now))}</span>${!win && gap ? `<span class="gap">${esc(gap)}</span>` : ''}</div>`;
+  const medal = (i) => i < 0 ? '·' : ['🥇', '🥈', '🥉'][i] || String(i + 1);
+  if (mode === 'rresult') {   // race results
+    RACE.cardSig = cardSig();
+    const o = outcome(), now = performance.now(), last = RACE.li >= LV.length - 1, best = o.fin.length ? o.fin[0].f.t : 0;
+    const title = o.w === 'me' ? t('gh_onWin') : o.w === 'op' ? t('gh_onLose', { p: iso(o.fin[0].n) }) : o.w === 'tie' ? t('gh_onDraw') : o.w === 'none' ? t('gh_onNone') : t('gh_onPend');
+    const cls = o.w === 'me' || o.w === 'tie' ? 'good' : o.w === 'op' || o.w === 'none' ? 'bad' : '';
+    const row = (r) => {
+      const i = o.fin.indexOf(r), txt = rowStatus(r, now), gap = i > 0 ? t('gh_onBehind', { t: (r.f.t - best).toFixed(2) }) : '';
+      return `<div class="rr${r.me ? ' me' : ''}${i === 0 ? ' win' : ''}"><span class="md">${medal(i)}</span><i style="background:${colFor(r.id)}"></i>
+        <div class="nm"><b><bdi>${esc(r.n)}</bdi></b><small>${esc(r.me ? t('gh_onYou') : r.id === ON.host ? t('gh_onHost') : '')}${r.de ? ' · ✖ ' + (r.de | 0) : ''}</small></div>
+        <span class="tm${/\d:\d/.test(txt) ? '' : ' txt'}" data-st="${esc(r.id)}">${esc(txt)}</span>${gap ? `<span class="gap">${esc(gap)}</span>` : ''}</div>`;
     };
-    const order = w === 'op' ? ['op', 'me'] : ['me', 'op'], can = !!ON.partner;
-    const note = host ? (RACE.vote && can ? t('gh_onWants', { p: iso(opName()), a: RACE.vote === 'next' ? t('gh_nextLvl') : t('gh_onRematch').replace('↻ ', '') }) : '') : (RACE.voteSent ? t('gh_onAsked') : '');
+    const can = ON.peers.size > 0, v = RACE.vote;
+    const note = host ? (v && can ? t('gh_onWants', { p: iso(v.n), a: v.a === 'next' ? t('gh_nextLvl') : t('gh_onRematch').replace('↻ ', '') }) : '') : (RACE.voteSent ? t('gh_onAsked') : '');
     return `<div data-m3pop class="panel" style="text-align:center"><h2 class="${cls}">${esc(title)}</h2>
-      <div class="lvtag">${esc(t('gh_onRace'))} · ${esc(t('gh_lvl', { n: RACE.li + 1 }))} · ${esc(lvName(RACE.lv || LV[RACE.li]))}</div>
-      <div class="rres">${order.map(row).join('')}</div>
+      <div class="lvtag">${esc(t('gh_onRace'))} · ${esc(t('gh_lvl', { n: RACE.li + 1 }))} · ${esc(lvName(LV[RACE.li]))}</div>
+      <div class="rres">${o.rows.map(row).join('')}</div>
       <div class="vote">${esc(note)}</div>
-      <div class="row"><button class="btn${host && RACE.vote === 'rematch' ? ' pulse' : ''}" data-act="rematch" ${can ? '' : 'disabled'}>${esc(t('gh_onRematch'))}</button>
-        ${last ? '' : `<button class="btn${host && RACE.vote === 'next' ? ' pulse' : ' sec'}" data-act="rnext" ${can ? '' : 'disabled'}>▶ ${esc(t('gh_nextLvl'))}</button>`}
+      <div class="row"><button class="btn${host && v && v.a === 'rematch' ? ' pulse' : ''}" data-act="rematch" ${can ? '' : 'disabled'}>${esc(t('gh_onRematch'))}</button>
+        ${last ? '' : `<button class="btn${host && v && v.a === 'next' ? ' pulse' : ' sec'}" data-act="rnext" ${can ? '' : 'disabled'}>▶ ${esc(t('gh_nextLvl'))}</button>`}
         ${host || !can ? `<button class="btn sec" data-act="tolobby">${esc(t('gh_onLobby'))}</button>` : `<button class="btn sec" data-act="leave">${esc(t('gh_onLeave'))}</button>`}</div></div>`;
+  }
+  if (mode === 'rcard') {   // run: my result on this level + everyone's times on it
+    RACE.cardSig = cardSig();
+    const li = RACE.li, me = RACE.me, last = li >= LV.length - 1, won = !!me.won, f = ON.my.fin[li];
+    const title = won ? (last ? t('gh_onRunDone') : t('gh_win')) : t('gh_lose');
+    const rows = levelRows(li), fins = rows.filter(r => r.f), sum = board().find(p => p.me) || { k: 0, tot: 0 };
+    const row = (r) => { const i = fins.indexOf(r); return `<div class="rr${r.me ? ' me' : ''}${i === 0 ? ' win' : ''}"><span class="md">${medal(i)}</span><i style="background:${colFor(r.id)}"></i>
+        <div class="nm"><b><bdi>${esc(r.n)}</bdi></b><small>${esc(r.me ? t('gh_onYou') : r.id === ON.host ? t('gh_onHost') : '')}</small></div>
+        <span class="tm${r.f ? '' : ' txt'}">${esc(r.f ? fmt2(r.f.t) : r.st)}</span></div>`; };
+    return `<div data-m3pop class="panel" style="text-align:center"><h2 class="${won ? 'good' : 'bad'}">${esc(title)}</h2>
+      <div class="lvtag">${esc(t('gh_onRunT'))} · ${esc(t('gh_lvl', { n: li + 1 }))} · ${esc(lvName(LV[li]))}</div>
+      <div class="stats"><div><small>${esc(t('gh_time'))}</small><b>${won ? fmt2(me.t) : fmt(me.t)}</b></div><div><small>${esc(t('gh_best'))}</small><b>${f ? fmt2(f.t) : '--'}</b></div><div><small>${esc(t('gh_deaths'))}</small><b>${me.de | 0}</b></div></div>
+      <div class="muted">${esc(t('gh_onLvTimes', { n: li + 1 }))}</div>
+      <div class="rres">${rows.map(row).join('')}</div>
+      <p class="muted">${esc(t('gh_onSum', { n: sum.k, t: fmt2(sum.tot) }))}</p>
+      <div class="row">${won && !last ? `<button class="btn" data-act="cnext">▶ ${esc(t('gh_nextLvl'))}</button>` : ''}
+        <button class="btn${won && !last ? ' sec' : ''}" data-act="rretry">↻ ${esc(t('gh_retry'))}</button>
+        <button class="btn sec" data-act="room">${esc(t('gh_onRoomB'))}</button></div></div>`;
   }
   return '';
 }
@@ -1587,25 +1831,32 @@ function copyText(text, btn) {
 }
 function fallbackCopy(text) { try { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); } catch (e) {} }
 function onlineAct(a, b) {
+  const runOn = RACE.on && RACE.m === 'run';
   switch (a) {
     case 'online': setMode('online'); if (!attract) makeAttract(); renderScreen(); return true;
-    case 'create': saveName(); (async () => { if (!(await canGoOnline())) return; joinRoom(newCode(), 'host'); })(); return true;
+    case 'create': saveName(); (async () => { if (!(await canGoOnline())) return; joinRoom(newCode(), true); })(); return true;
     case 'join': {
       const inp = $('ghCode'), code = (inp ? inp.value : '').trim().toUpperCase();
       if (code.length < 4) { const m = $('ghMsg'); if (m) m.textContent = t('gh_onCodeHint'); return true; }
-      saveName(); (async () => { if (!(await canGoOnline())) return; joinRoom(code, null); })(); return true;
+      saveName(); (async () => { if (!(await canGoOnline())) return; joinRoom(code, false); })(); return true;
     }
     case 'copy': copyText(inviteLink(ON.code), b); return true;
-    case 'swap': swapRoles(); return true;
-    case 'sel': if (isHost()) { RACE.sel = (RACE.sel + (+b.dataset.d) + LV.length) % LV.length; netSend('sel', { l: RACE.sel }); renderScreen(); } return true;
-    case 'start': if (isHost()) hostStart(RACE.sel); return true;
+    case 'crown': makeHost(b.dataset.id); return true;
+    case 'gm': if (isHost() && (b.dataset.m === 'run' || b.dataset.m === 'race')) { ON.gm = b.dataset.m; netSend('sel', { l: ON.sel, gm: ON.gm }); renderScreen(); } return true;
+    case 'sel': if (isHost()) { ON.sel = (ON.sel + (+b.dataset.d) + LV.length) % LV.length; netSend('sel', { l: ON.sel, gm: ON.gm }); renderScreen(); } return true;
+    case 'start': if (isHost()) hostStart(); return true;
+    case 'rback': resumeRun(); return true;
+    case 'rjoin': joinRun(); return true;
     case 'leave': leaveRoom(); showMenu(); return true;
     case 'rresume': case 'keep': raceResume(); return true;
+    case 'rretry': if (runOn) startOnlineLevel(RACE.li, false); return true;
+    case 'cnext': if (runOn && RACE.li < LV.length - 1) startOnlineLevel(RACE.li + 1, false); return true;
+    case 'room': toLobby(); return true;
     case 'giveup': if (RACE.on && cur && RACE.me && !RACE.me.done) { cur.s.lost = true; Snd.play('lose'); raceFinish(true, 'quit'); } return true;
-    case 'tolobby': if (isHost()) netSend('lobby', {}); toLobby(); return true;
+    case 'tolobby': if (isHost() && RACE.on && RACE.m === 'race') netSend('lobby', { r: RACE.round }); toLobby(); return true;
     case 'rematch': case 'rnext': {
       const act = a === 'rematch' ? 'rematch' : 'next';
-      if (isHost()) hostStart(act === 'next' ? RACE.li + 1 : RACE.li);
+      if (isHost()) hostStart('race', act === 'next' ? RACE.li + 1 : RACE.li);
       else { RACE.voteSent = act; netSend('vote', { a: act, r: RACE.round }); renderScreen(); }
       return true;
     }
@@ -1615,9 +1866,10 @@ function onlineAct(a, b) {
 addEventListener('pagehide', () => { if (ON.ch) netSend('bye', {}); });
 window.Mal3abShareLink = () => ON.code ? inviteLink(ON.code) : pageLink();
 window.Mal3abPrepareInvite = async () => {
-  if (!ON.code) { if (!(await canGoOnline())) return pageLink(); joinRoom(newCode(), 'host'); }
+  if (!ON.code) { if (!(await canGoOnline())) return pageLink(); joinRoom(newCode(), true); }
   return ON.code ? inviteLink(ON.code) : pageLink();
 };
+window.Mal3abLiveInfo = () => ON.code ? { players: ON.peers.size + 1, max: MAXP } : {};
 
 // ------------------------------------------------------------------ boot
 document.body.classList.toggle('touch', touchMode);
@@ -1632,7 +1884,7 @@ requestAnimationFrame(frame);
   const roomParam = new URLSearchParams(location.search).get('room');
   if (roomParam) {
     let tried = false;
-    const join = async () => { if (tried || ON.code) return; tried = true; if (!(await canGoOnline())) return; joinRoom(roomParam, null); };
+    const join = async () => { if (tried || ON.code) return; tried = true; if (!(await canGoOnline())) return; joinRoom(roomParam, false); };
     if (window.Mal3abReady) join(); else { document.addEventListener('mal3abready', join, { once: true }); setTimeout(join, 4000); }
   }
 }
@@ -1665,8 +1917,9 @@ window.GlitchHopper = {
   resetProgress() { prog = { unlocked: 1, lv: {} }; saveProg(); if (mode === 'menu' || mode === 'levels') renderScreen(); },
   unlockAll() { prog.unlocked = LV.length; saveProg(); if (mode === 'levels' || mode === 'menu') renderScreen(); },
   online: {
-    get ON() { return ON; }, get RACE() { return RACE; }, get ghost() { return RACE.gpos; },
-    joinRoom, leaveRoom, hostStart, newCode, act: (a, d) => onlineAct(a, { dataset: d || {} }), outcome: () => RACE.me ? outcome() : null,
+    get ON() { return ON; }, get RACE() { return RACE; }, board, levelRows: (li) => levelRows(li == null ? RACE.li : li), isHost, hostId,
+    ghosts: () => [...ON.peers.values()].filter(q => q.gpos).map(q => q.n), joinRoom, leaveRoom, hostStart, newCode,
+    act: (a, d) => onlineAct(a, { dataset: d || {} }), outcome: () => RACE.me && RACE.m === 'race' ? outcome() : null,
   },
 };
 })();

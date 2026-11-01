@@ -316,6 +316,118 @@
     c.stroke(); c.restore();
     return { head: [0, -s * 0.72], mouth: [0, -s * 0.61], top: -s * 0.93 };
   };
+  // --- days 13+ ---
+  CR.chick = (c, s, t, o) => {   // baby phoenix
+    const h = o.hue == null ? 18 : o.hue, body = hsl(h + 18, 92, 60), dark = hsl(h, 85, 47), belly = hsl(h + 35, 100, 83);
+    const hop = o.mood === 'happy' ? Math.abs(Math.sin(t * 10)) * s * 0.04 : 0;
+    c.save(); c.translate(0, -hop);
+    for (let i = -1; i <= 1; i++) { c.save(); c.translate(s * 0.2, -s * 0.2); c.rotate(0.95 + i * 0.35 + Math.sin(t * 6 + i) * 0.1); icon(c, 'flame', 0, -s * 0.12, s * 0.2, i ? hsl(h + 8, 95, 55) : '#ffd34d'); c.restore(); }
+    c.strokeStyle = '#e08a2a'; c.lineWidth = s * 0.025; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(-s * 0.08, -s * 0.07); c.lineTo(-s * 0.09, 0); c.moveTo(s * 0.08, -s * 0.07); c.lineTo(s * 0.09, 0); c.stroke();
+    const g = c.createRadialGradient(-s * 0.08, -s * 0.42, s * 0.05, 0, -s * 0.32, s * 0.36); g.addColorStop(0, belly); g.addColorStop(0.5, body); g.addColorStop(1, dark);
+    c.fillStyle = g; ell(c, 0, -s * 0.32, s * 0.27, s * 0.29); c.fill();
+    c.fillStyle = belly; ell(c, 0, -s * 0.24, s * 0.15, s * 0.16); c.fill();
+    const fl = Math.sin(t * 4) * 0.15 + (o.mood === 'happy' ? Math.sin(t * 16) * 0.4 : 0);
+    c.fillStyle = dark; ell(c, -s * 0.26, -s * 0.3, s * 0.07, s * 0.13, 0.5 + fl); c.fill(); ell(c, s * 0.26, -s * 0.3, s * 0.07, s * 0.13, -0.5 - fl); c.fill();
+    c.fillStyle = body; circ(c, 0, -s * 0.62, s * 0.18); c.fill();
+    for (let i = -1; i <= 1; i++) { const fk = 1 + Math.sin(t * 9 + i * 2) * 0.12; icon(c, 'flame', i * s * 0.07, -s * 0.82 - (i ? 0 : s * 0.03), s * 0.16 * fk, i ? '#ff7a2a' : '#ffd34d'); }
+    eyes(c, -s * 0.07, s * 0.07, -s * 0.65, s * 0.045, o);
+    cheeks(c, -s * 0.12, s * 0.12, -s * 0.57, s * 0.03);
+    c.fillStyle = '#ffb02e'; c.beginPath(); c.moveTo(-s * 0.045, -s * 0.575); c.lineTo(s * 0.045, -s * 0.575); c.lineTo(0, -s * 0.51); c.closePath(); c.fill();
+    if (o.mood === 'happy' || o.mood === 'wow' || o.mood === 'drink') mouth(c, 0, -s * 0.5, s * 0.03, o);
+    c.restore();
+    return { head: [0, -s * 0.62 - hop], mouth: [0, -s * 0.54 - hop], top: -s * 0.92 - hop };
+  };
+  CR.jelly = (c, s, t, o) => {   // moon jellyfish
+    const h = o.hue == null ? 270 : o.hue, fy = -s * 0.2 + Math.sin(t * 1.8) * s * 0.04;
+    c.save(); c.translate(0, fy);
+    const gl = c.createRadialGradient(0, -s * 0.55, s * 0.05, 0, -s * 0.5, s * 0.55); gl.addColorStop(0, hsl(h, 90, 75, 0.35)); gl.addColorStop(1, hsl(h, 90, 75, 0));
+    c.fillStyle = gl; circ(c, 0, -s * 0.5, s * 0.55); c.fill();
+    c.strokeStyle = hsl(h, 80, 80, 0.8); c.lineWidth = s * 0.022; c.lineCap = 'round';
+    for (let i = 0; i < 5; i++) { const x0 = (i - 2) * s * 0.075; c.beginPath(); c.moveTo(x0, -s * 0.42); for (let k = 1; k <= 6; k++) c.lineTo(x0 + Math.sin(t * 3 + i * 1.3 + k * 0.9) * s * 0.03 * (k / 3), -s * 0.42 + k * s * 0.07); c.stroke(); }
+    const g = c.createLinearGradient(0, -s * 0.85, 0, -s * 0.4); g.addColorStop(0, hsl(h, 85, 84, 0.95)); g.addColorStop(1, hsl(h, 75, 62, 0.88));
+    c.fillStyle = g; c.beginPath(); c.moveTo(-s * 0.3, -s * 0.42); c.bezierCurveTo(-s * 0.33, -s * 0.84, s * 0.33, -s * 0.84, s * 0.3, -s * 0.42);
+    for (let i = 0; i < 6; i++) { const x = s * 0.3 - i * s * 0.1; c.quadraticCurveTo(x - s * 0.05, -s * 0.35, x - s * 0.1, -s * 0.42); }
+    c.closePath(); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.45)'; ell(c, -s * 0.13, -s * 0.71, s * 0.07, s * 0.032, -0.4); c.fill();
+    icon(c, 'moon', s * 0.14, -s * 0.7, s * 0.09, 'rgba(255,250,220,.85)');
+    eyes(c, -s * 0.09, s * 0.09, -s * 0.56, s * 0.045, o, 'dot');
+    cheeks(c, -s * 0.16, s * 0.16, -s * 0.49, s * 0.035, 0.4);
+    mouth(c, 0, -s * 0.48, s * 0.04, o);
+    c.restore();
+    return { head: [0, -s * 0.58 + fy], mouth: [0, -s * 0.48 + fy], top: -s * 0.8 + fy };
+  };
+  CR.robot = (c, s, t, o) => {   // clockwork robot
+    const h = o.hue == null ? 35 : o.hue, metal = hsl(h, 32, 62), dark = hsl(h, 28, 40), light = hsl(h, 40, 78);
+    c.save(); c.translate(s * 0.26, -s * 0.3); c.scale(Math.cos(t * 3), 1); c.fillStyle = '#c99a3a';   // wind-up key
+    ell(c, s * 0.09, -s * 0.045, s * 0.06, s * 0.04); c.fill(); ell(c, s * 0.09, s * 0.045, s * 0.06, s * 0.04); c.fill(); c.fillRect(0, -s * 0.012, s * 0.09, s * 0.024); c.restore();
+    c.fillStyle = dark; c.fillRect(-s * 0.14, -s * 0.1, s * 0.08, s * 0.1); c.fillRect(s * 0.06, -s * 0.1, s * 0.08, s * 0.1);
+    c.fillStyle = metal; rr(c, -s * 0.25, -s * 0.48, s * 0.5, s * 0.4, s * 0.06); c.fill();
+    c.fillStyle = light; rr(c, -s * 0.22, -s * 0.46, s * 0.2, s * 0.05, s * 0.025); c.fill();
+    c.save(); c.translate(0, -s * 0.29); c.rotate(t * 1.5); c.fillStyle = '#e0b04a';   // chest gear
+    for (let i = 0; i < 8; i++) { c.save(); c.rotate(i * Math.PI / 4); c.fillRect(-s * 0.015, -s * 0.1, s * 0.03, s * 0.04); c.restore(); }
+    circ(c, 0, 0, s * 0.075); c.fill(); c.fillStyle = dark; circ(c, 0, 0, s * 0.025); c.fill(); c.restore();
+    const sw = Math.sin(t * 2.5) * 0.2 + (o.mood === 'happy' ? Math.sin(t * 14) * 0.6 : 0);
+    c.strokeStyle = dark; c.lineWidth = s * 0.04; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(-s * 0.25, -s * 0.38); c.lineTo(-s * 0.34, -s * 0.22 - sw * s * 0.1); c.moveTo(s * 0.25, -s * 0.38); c.lineTo(s * 0.34, -s * 0.22 + sw * s * 0.1); c.stroke();
+    c.fillStyle = dark; c.fillRect(-s * 0.05, -s * 0.54, s * 0.1, s * 0.07);
+    c.fillStyle = metal; rr(c, -s * 0.2, -s * 0.86, s * 0.4, s * 0.33, s * 0.07); c.fill();
+    c.fillStyle = '#1d2238'; rr(c, -s * 0.16, -s * 0.8, s * 0.32, s * 0.2, s * 0.05); c.fill();
+    c.strokeStyle = dark; c.lineWidth = s * 0.02; c.beginPath(); c.moveTo(0, -s * 0.86); c.lineTo(0, -s * 0.96); c.stroke();
+    c.fillStyle = `rgba(255,90,90,${0.6 + 0.4 * Math.sin(t * 5)})`; circ(c, 0, -s * 0.98, s * 0.03); c.fill();
+    c.fillStyle = light; circ(c, -s * 0.21, -s * 0.7, s * 0.025); c.fill(); circ(c, s * 0.21, -s * 0.7, s * 0.025); c.fill();
+    eyes(c, -s * 0.065, s * 0.065, -s * 0.73, s * 0.04, Object.assign({}, o, { glow: '#7ff6ff' }), 'glow');
+    c.save(); c.strokeStyle = '#7ff6ff'; c.shadowColor = '#7ff6ff'; c.shadowBlur = s * 0.03; c.lineWidth = s * 0.018; c.lineCap = 'round'; c.beginPath();
+    if (o.mood === 'happy' || o.mood === 'drink' || o.mood === 'wow') { c.moveTo(-s * 0.05, -s * 0.655); c.quadraticCurveTo(0, -s * 0.62, s * 0.05, -s * 0.655); }
+    else if (o.mood === 'sad' || o.mood === 'angry' || o.mood === 'impatient') { c.moveTo(-s * 0.05, -s * 0.635); c.quadraticCurveTo(0, -s * 0.665, s * 0.05, -s * 0.635); }
+    else { c.moveTo(-s * 0.04, -s * 0.645); c.lineTo(s * 0.04, -s * 0.645); }
+    c.stroke(); c.restore();
+    return { head: [0, -s * 0.7], mouth: [0, -s * 0.645], top: -s * 1.0 };
+  };
+  CR.bat = (c, s, t, o) => {   // sleepy bat in a nightcap
+    const h = o.hue == null ? 270 : o.hue, fur = hsl(h, 22, 33), furL = hsl(h, 25, 46), wing = hsl(h, 30, 24), inner = hsl(h + 60, 45, 72);
+    const fl = Math.sin(t * 3) * 0.12 + (o.mood === 'happy' ? Math.sin(t * 15) * 0.45 : 0);
+    for (const sd of [-1, 1]) {
+      c.save(); c.translate(sd * s * 0.18, -s * 0.42); c.scale(sd, 1); c.rotate(-0.15 - fl);
+      c.fillStyle = wing; c.beginPath(); c.moveTo(0, 0); c.lineTo(s * 0.22, -s * 0.2); c.lineTo(s * 0.4, -s * 0.12);
+      c.quadraticCurveTo(s * 0.34, -s * 0.04, s * 0.38, s * 0.06); c.quadraticCurveTo(s * 0.28, 0, s * 0.27, s * 0.1); c.quadraticCurveTo(s * 0.16, s * 0.04, 0, s * 0.12); c.closePath(); c.fill();
+      c.strokeStyle = furL; c.lineWidth = s * 0.01; c.beginPath(); c.moveTo(s * 0.02, 0); c.lineTo(s * 0.22, -s * 0.2); c.moveTo(s * 0.02, s * 0.02); c.lineTo(s * 0.33, -s * 0.02); c.stroke();
+      c.restore();
+    }
+    c.fillStyle = fur; ell(c, 0, -s * 0.36, s * 0.24, s * 0.3); c.fill();
+    c.fillStyle = furL; ell(c, 0, -s * 0.28, s * 0.14, s * 0.18); c.fill();
+    c.fillStyle = wing; ell(c, -s * 0.08, -s * 0.04, s * 0.05, s * 0.035); c.fill(); ell(c, s * 0.08, -s * 0.04, s * 0.05, s * 0.035); c.fill();
+    for (const sd of [-1, 1]) {
+      c.fillStyle = fur; c.beginPath(); c.moveTo(sd * s * 0.06, -s * 0.72); c.lineTo(sd * s * 0.2, -s * 0.94); c.lineTo(sd * s * 0.22, -s * 0.66); c.fill();
+      c.fillStyle = inner; c.beginPath(); c.moveTo(sd * s * 0.1, -s * 0.72); c.lineTo(sd * s * 0.19, -s * 0.87); c.lineTo(sd * s * 0.19, -s * 0.69); c.fill();
+    }
+    c.fillStyle = fur; circ(c, 0, -s * 0.62, s * 0.19); c.fill();
+    c.save(); c.translate(-s * 0.03, -s * 0.77); c.rotate(-0.3);
+    c.fillStyle = hsl(h + 180, 50, 58); c.beginPath(); c.moveTo(-s * 0.1, 0); c.quadraticCurveTo(0, -s * 0.2, s * 0.19 + Math.sin(t * 1.5) * s * 0.01, -s * 0.15); c.lineTo(s * 0.1, 0); c.closePath(); c.fill();
+    c.fillStyle = '#fff'; c.fillRect(-s * 0.11, -s * 0.02, s * 0.22, s * 0.035); circ(c, s * 0.2, -s * 0.15, s * 0.035); c.fill(); c.restore();
+    eyes(c, -s * 0.07, s * 0.07, -s * 0.63, s * 0.045, Object.assign({}, o, { blink: o.mood === 'idle' || !o.mood ? Math.max(o.blink || 0, 0.45) : o.blink }));
+    cheeks(c, -s * 0.12, s * 0.12, -s * 0.56, s * 0.03, 0.4);
+    mouth(c, 0, -s * 0.53, s * 0.035, o);
+    if (o.mood !== 'happy') { c.fillStyle = '#fff'; for (const sd of [-1, 1]) { c.beginPath(); c.moveTo(sd * s * 0.028, -s * 0.527); c.lineTo(sd * s * 0.017, -s * 0.5); c.lineTo(sd * s * 0.006, -s * 0.527); c.fill(); } }
+    return { head: [0, -s * 0.62], mouth: [0, -s * 0.53], top: -s * 0.95 };
+  };
+  CR.sheep = (c, s, t, o) => {   // fluffy cloud sheep
+    const wool = o.hue == null ? '#f4f6ff' : hsl(o.hue, 60, 90), shade = o.hue == null ? '#d3d9f0' : hsl(o.hue, 40, 77), face = '#4a3f5c';
+    const br = 1 + Math.sin(t * 2) * 0.02;
+    c.fillStyle = face; for (const x of [-0.14, -0.05, 0.05, 0.14]) { rr(c, s * x - s * 0.025, -s * 0.13, s * 0.05, s * 0.13, s * 0.02); c.fill(); }
+    const puffs = [[0, -0.36, 0.2], [-0.18, -0.3, 0.14], [0.18, -0.3, 0.14], [-0.12, -0.46, 0.14], [0.12, -0.46, 0.14], [0, -0.22, 0.15], [-0.25, -0.4, 0.1], [0.25, -0.4, 0.1]];
+    c.fillStyle = shade; for (const [x, y, r] of puffs) { circ(c, s * x, s * y + s * 0.015, s * r * br); c.fill(); }
+    c.fillStyle = wool; for (const [x, y, r] of puffs) { circ(c, s * x, s * y, s * r * br); c.fill(); }
+    const ew = Math.sin(t * 2.2) * 0.15;
+    c.fillStyle = face; ell(c, -s * 0.17, -s * 0.64, s * 0.07, s * 0.03, 0.4 + ew); c.fill(); ell(c, s * 0.17, -s * 0.64, s * 0.07, s * 0.03, -0.4 - ew); c.fill();
+    ell(c, 0, -s * 0.62, s * 0.14, s * 0.16); c.fill();
+    c.fillStyle = '#e9dcec'; ell(c, 0, -s * 0.545, s * 0.075, s * 0.05); c.fill();
+    c.fillStyle = wool; for (const [x, y, r] of [[-0.07, -0.78, 0.07], [0.07, -0.78, 0.07], [0, -0.82, 0.08]]) { circ(c, s * x, s * y, s * r); c.fill(); }
+    icon(c, 'star', s * 0.09, -s * 0.87, s * 0.08, '#ffe58a');
+    eyes(c, -s * 0.055, s * 0.055, -s * 0.645, s * 0.035, o);
+    mouth(c, 0, -s * 0.545, s * 0.03, o);
+    return { head: [0, -s * 0.62], mouth: [0, -s * 0.545], top: -s * 0.92 };
+  };
 
   function drawCreature(c, type, s, t, o) {
     o = o || {};
@@ -442,6 +554,26 @@
       c.fillStyle = 'rgba(255,190,120,.4)'; for (let i = 0; i < 3; i++) { const k = (t * 0.6 + i * 0.33) % 1; ell(c, Math.sin(i * 3) * w * 0.15, level * (1 - k * 0.9), w * 0.07, h * 0.02); c.fill(); }
     } else if (fx === 'moon') {
       icon(c, 'moon', 0, level * 0.5, w * 0.3, 'rgba(255,255,255,.75)');
+    } else if (fx === 'petals') {
+      for (let i = 0; i < 5; i++) { const k = (t * 0.25 + i * 0.2) % 1; c.save(); c.translate(Math.sin(i * 4.1 + t) * w * 0.11, level * (0.12 + k * 0.8)); c.rotate(t + i); c.fillStyle = i % 2 ? '#ff8fb8' : '#fff0f6'; ell(c, 0, 0, w * 0.065, w * 0.035); c.fill(); c.restore(); }
+    } else if (fx === 'mirror') {
+      const sx = ((t * 0.5) % 1.6 - 0.5) * w;
+      c.fillStyle = 'rgba(255,255,255,.55)'; c.beginPath(); c.moveTo(sx - w * 0.3, 0); c.lineTo(sx - w * 0.12, 0); c.lineTo(sx + w * 0.18, level); c.lineTo(sx, level); c.closePath(); c.fill();
+      c.strokeStyle = 'rgba(110,160,205,.7)'; c.lineWidth = w * 0.025; c.beginPath(); c.moveTo(-w * 0.3, level * 0.5); c.lineTo(w * 0.3, level * 0.5); c.stroke();
+    } else if (fx === 'aurora') {
+      ['rgba(120,255,200,.6)', 'rgba(180,140,255,.55)', 'rgba(120,220,255,.55)'].forEach((cl, i) => {
+        c.strokeStyle = cl; c.lineWidth = w * 0.07; c.beginPath();
+        for (let k = 0; k <= 8; k++) { const x = -w * 0.4 + k * w * 0.1, y = level * (0.28 + i * 0.22) + Math.sin(t * 2 + k * 0.9 + i * 2) * h * 0.03; k ? c.lineTo(x, y) : c.moveTo(x, y); }
+        c.stroke();
+      });
+    } else if (fx === 'comet') {
+      c.fillStyle = '#fff'; for (let i = 0; i < 6; i++) { c.globalAlpha = 0.5 + 0.5 * Math.sin(t * 4 + i * 1.7); circ(c, Math.sin(i * 7.7) * w * 0.25, level * (0.15 + (i * 0.15) % 0.8), w * 0.02); c.fill(); }
+      c.globalAlpha = 1;
+      const k = (t * 0.7) % 1, x = -w * 0.25 + k * w * 0.5, y = level * (0.8 - k * 0.5);
+      c.strokeStyle = 'rgba(255,230,150,.7)'; c.lineWidth = w * 0.045; c.lineCap = 'round'; c.beginPath(); c.moveTo(x - w * 0.2, y + level * 0.15); c.lineTo(x, y); c.stroke();
+      icon(c, 'star', x, y, w * 0.13, '#ffe58a');
+    } else if (fx === 'lava') {
+      for (let i = 0; i < 4; i++) { const k = (t * 0.3 + i * 0.25) % 1, y = level * (0.1 + k * 0.8), x = Math.sin(i * 2.3 + t * 0.8) * w * 0.18; c.fillStyle = i % 2 ? 'rgba(255,225,95,.8)' : 'rgba(255,140,40,.75)'; ell(c, x, y, w * (0.07 + 0.03 * Math.sin(t * 2 + i)), w * 0.06); c.fill(); }
     }
   }
 

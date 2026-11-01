@@ -7,7 +7,7 @@ const $ = (id) => document.getElementById(id);
 const cv = $('c'), cx = cv.getContext('2d');
 const UI = window.UI = { armed: 'bell', note: 0, sel: null, modal: null, tutStep: -1 };
 const esc = (s) => String(s).replace(/[<>&"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]));
-const ROMAN_EN = ['I', 'II', 'III', '∞'], ROMAN_AR = ['1', '2', '3', '∞'];
+const ROMAN_EN = ['I', 'II', 'III', 'IV', '∞'], ROMAN_AR = ['1', '2', '3', '4', '∞'];
 const ROMAN = new Proxy([], { get: (o, k) => (getLang() === 'ar' ? ROMAN_AR : ROMAN_EN)[k] });
 const noteName = (n) => t('es_n' + n);
 const homeHref = '../../play.html';
@@ -40,11 +40,11 @@ function nearestSocket(wx, wy) {
 // ---------------------------------------------------------------- HUD + dock
 const cache = {};
 function setText(id, v) { if (cache[id] !== v) { cache[id] = v; const el = $(id); if (el) el.textContent = v; } }
-function actLabel() { return G.act <= 3 ? t('es_actS', { n: ROMAN[G.act - 1] }) : t('es_endlessS'); }
+function actLabel() { return G.act <= FINAL_ACT ? t('es_actS', { n: ROMAN[G.act - 1] }) : t('es_endlessS'); }
 function hudTick() {
   if (G.phase === 'menu') return;
   setText('hpV', String(Math.ceil(G.hp))); setText('hpM', '/' + G.maxHp); setText('shV', String(G.shards));
-  setText('wvA', actLabel()); setText('wvV', G.act <= 3 ? G.wave + '/' + WAVES_PER_ACT : String(G.wave));
+  setText('wvA', actLabel()); setText('wvV', G.act <= FINAL_ACT ? G.wave + '/' + WAVES_PER_ACT : String(G.wave));
   const bn = G.beatT > 0.35 ? G.beatN : -1;
   if (cache.beat !== bn) { cache.beat = bn; document.querySelectorAll('#beat i').forEach((el, i) => el.classList.toggle('on', i === bn)); }
   if (G.boss) { const k = clamp(G.boss.hp / G.boss.max, 0, 1); const v = Math.round(k * 1000) / 10 + '%'; if (cache.boss !== v) { cache.boss = v; $('bossFill').style.width = v; } }
@@ -55,10 +55,10 @@ function hudTick() {
   if (cache.hp2 !== G.hp) { if (cache.hp2 != null && G.hp < cache.hp2) { const p = $('hpPill'); p.classList.remove('hurt'); void p.offsetWidth; p.classList.add('hurt'); } cache.hp2 = G.hp; }
   const go = $('goBtn');
   let gt;
-  if (G.phase === 'build') gt = '▶ ' + t('es_start');
+  if (G.phase === 'build') gt = G.online ? ESNet.goLabel() : '▶ ' + t('es_start');
   else if (G.phase === 'wave') gt = '👾 ' + (G.spawnQ.length - G.spawnIdx + G.enemies.length);
   else gt = '…';
-  if (cache.go !== gt + G.phase) { cache.go = gt + G.phase; go.textContent = gt; go.classList.toggle('idle', G.phase !== 'build'); }
+  if (cache.go !== gt + G.phase) { cache.go = gt + G.phase; go.textContent = gt; go.classList.toggle('idle', G.phase !== 'build' || (G.online && ESNet.amReady())); }
 }
 function buildPalette() {
   $('notes').innerHTML = NOTES.map((n, i) => `<button class="nt${i === UI.note ? ' on' : ''}" data-n="${i}" style="--c:${n.col}" title="${esc(noteName(i))} (${n.k})">${esc(noteName(i))}</button>`).join('');
@@ -75,6 +75,14 @@ function refreshAfford() {
 $('notes').addEventListener('click', (e) => { const b = e.target.closest('.nt'); if (!b) return; setNote(+b.dataset.n); });
 $('roles').addEventListener('click', (e) => { const b = e.target.closest('.rl'); if (!b) return; armRole(b.dataset.r); });
 $('goBtn').addEventListener('click', () => { ESAudio.init(); if (G.phase === 'build') beginWave(); });
+// player actions: solo runs them directly, online they go through the host (online.js), which owns the simulation
+function doRetune(r, n) { if (G.online) { if (ESNet.mine(r) && r.note !== n) ESNet.req('retune', { rid: r.id, n }); return; } retuneRes(r, n); }
+function doUpgrade(r) {
+  if (!G.online) return upgradeRes(r);
+  const c = upgCost(r); if (!ESNet.mine(r) || c == null || G.shards < c) return false;
+  ESNet.req('upgrade', { rid: r.id }); return true;
+}
+function doSell(r) { if (!G.online) return sellRes(r); if (!ESNet.mine(r)) return 0; const v = sellValue(r); ESNet.req('sell', { rid: r.id }); return v; }
 function setNote(n) {
   UI.note = n; ESAudio.sfx('retune', n);
   document.querySelectorAll('#notes .nt').forEach((b, i) => b.classList.toggle('on', i === n));
@@ -88,6 +96,7 @@ function armRole(r) {
   select(null); G.ghost = null;
 }
 function beginWave() {
+  if (G.online) { ESNet.goPress(); return; }
   if (!startWave()) return;
   select(null); G.preview = null;
   if (UI.tutStep >= 0 && UI.tutStep < 9) { UI.tutStep = 9; G.profile.tut = 1; saveProfile(); }
@@ -124,23 +133,29 @@ function renderInsp() {
   const r = UI.sel;
   if (!r || !G.res.includes(r)) { select(null); return; }
   const up = upgCost(r), sv = sellValue(r);
-  const key = [r.id, r.lvl, r.note, G.shards >= (up || 0), sv, r.mult, r.silenced, getLang(), G.links.length, G.chords.length].join('|');
+  const mine = !G.online || ESNet.mine(r);
+  const key = [r.id, r.lvl, r.note, G.shards >= (up || 0), sv, r.mult, r.silenced, getLang(), G.links.length, G.chords.length, mine, G.online && ESNet.isGone(r.owner)].join('|');
   if (UI.inspKey === key && !$('insp').hidden) return;
   UI.inspKey = key;
-  $('insp').innerHTML = `
-    <div class="ihead"><img src="${resIcon(r.role, r.note)}" alt="">
-      <div class="iname"><b>${esc(t('es_r_' + r.role))} <small>${esc(t('es_lv', { n: r.lvl }))}</small></b><span class="st">${statsLine(r)}</span><span class="hz">${harmBadges(r)}</span></div>
-      <button class="ib ix" title="Esc">✕</button></div>
-    <div class="irow"><div class="inotes">${NOTES.map((n, i) => `<button class="nt sm${i === r.note ? ' on' : ''}" data-n="${i}" style="--c:${n.col}">${esc(noteName(i))}</button>`).join('')}</div>
+  const owner = G.online && r.owner ? ` <small class="own" style="--c:${ESNet.colOf(r.owner)}">● ${esc(ESNet.nameOf(r.owner))}</small>` : '';
+  // someone else's resonator (online): read-only — only its owner can retune, upgrade or sell it
+  const row = !mine ? `<div class="irow"><p class="notmine">🔒 ${esc(t('es_notYours', { p: ESNet.nameOf(r.owner) }))}</p></div>`
+    : `<div class="irow"><div class="inotes">${NOTES.map((n, i) => `<button class="nt sm${i === r.note ? ' on' : ''}" data-n="${i}" style="--c:${n.col}">${esc(noteName(i))}</button>`).join('')}</div>
       <button class="btn iup" ${up == null || G.shards < up ? 'disabled' : ''}>${up == null ? esc(t('es_max')) : '⬆ ' + esc(t('es_upgrade')) + ' <b>' + up + '◆</b>'}</button>
       <button class="btn sec isell">${esc(t('es_sell'))} <b>+${sv}◆</b></button></div>`;
+  $('insp').innerHTML = `
+    <div class="ihead"><img src="${resIcon(r.role, r.note)}" alt="">
+      <div class="iname"><b>${esc(t('es_r_' + r.role))} <small>${esc(t('es_lv', { n: r.lvl }))}</small>${owner}</b><span class="st">${statsLine(r)}</span><span class="hz">${harmBadges(r)}</span></div>
+      <button class="ib ix" title="Esc">✕</button></div>
+    ${row}`;
 }
 $('insp').addEventListener('click', (e) => {
   const r = UI.sel; if (!r) return;
   if (e.target.closest('.ix')) { select(null); return; }
-  const n = e.target.closest('.nt'); if (n) { retuneRes(r, +n.dataset.n); UI.inspKey = null; renderInsp(); return; }
-  if (e.target.closest('.iup')) { if (!upgradeRes(r)) { ESAudio.sfx('error'); toast(t('es_noShards')); } UI.inspKey = null; renderInsp(); return; }
-  if (e.target.closest('.isell')) { const v = sellRes(r); floatText(r.x, r.y - 30, '+' + v + '◆', '#ffd166', 14); select(null); }
+  if (G.online && !ESNet.mine(r)) return;
+  const n = e.target.closest('.nt'); if (n) { doRetune(r, +n.dataset.n); UI.inspKey = null; renderInsp(); return; }
+  if (e.target.closest('.iup')) { if (!doUpgrade(r)) { ESAudio.sfx('error'); toast(t('es_noShards')); } UI.inspKey = null; renderInsp(); return; }
+  if (e.target.closest('.isell')) { const v = doSell(r); floatText(r.x, r.y - 30, '+' + v + '◆', '#ffd166', 14); select(null); }
 });
 
 // ---------------------------------------------------------------- toasts, banners, boss bar
@@ -166,7 +181,7 @@ UI.bossBar = (e) => { $('bossbar').hidden = !e; if (e) { $('bossName').textConte
 UI.discover = (k) => { toast(`✨ ${esc(t('es_disc'))} <b>${esc(t('es_h_' + k))}</b><br><small>${esc(t('es_hd_' + k))}</small>`, 5200); };
 UI.newEnemy = (type) => { if (ENEMIES[type].boss) return; toast(`<img class="ti" src="${enemyIcon(type)}" alt=""> <b>${esc(t('es_e_' + type))}</b> — ${esc(t('es_ed_' + type))}`, 5200); };
 UI.structure = () => { UI.inspKey = null; if (UI.sel) renderInsp(); };
-UI.act = () => { G.later.push({ t: G.t + 0.2, fn: () => banner(G.act <= 3 ? t('es_actN', { n: ROMAN[G.act - 1] }) : t('es_endlessT'), t('es_act' + Math.min(G.act, 4))) }); };
+UI.act = () => { G.later.push({ t: G.t + 0.2, fn: () => banner(G.act <= FINAL_ACT ? t('es_actN', { n: ROMAN[G.act - 1] }) : t('es_endlessT'), t('es_act' + Math.min(G.act, ACTS.length))) }); };
 
 // ---------------------------------------------------------------- phases
 UI.phase = () => {
@@ -207,17 +222,17 @@ UI.draft = () => {
     else { ic = `<img src="${resIcon(b.role, 2)}" alt="">`; title = t('es_bAttune', { p: t('es_r_' + b.role) }); desc = t('es_bAttuneD', { p: t('es_r_' + b.role), n: (G.attune[b.role] + 1) * 15 }); tag = t('es_tagBoon'); }
     return `<button class="card ${cls}" data-pick="${i}"><i class="kk">${i + 1}</i>${ic}<div class="txt"><span class="tag">${esc(tag)}</span><b>${esc(title)}</b><p>${esc(desc)}</p></div></button>`;
   }).join('');
-  showModal(`<h2>${esc(after ? t('es_actClear') : t('es_chooseBoon'))}</h2><p class="sub">${esc(after ? t('es_relicPick') : t('es_boonSub'))}</p><div class="cards">${cards}</div>`, 'draft');
+  showModal(`<h2>${esc(after ? t('es_actClear') : t('es_chooseBoon'))}</h2><p class="sub">${esc(after ? t('es_relicPick') : t('es_boonSub'))}${G.online ? ' ' + esc(t('es_coopNote')) : ''}</p><div class="cards">${cards}</div>`, 'draft');
 };
 function openPause() {
-  if (!(G.phase === 'build' || G.phase === 'wave' || G.phase === 'cleared')) return;
-  G.paused = true;
-  const rel = G.relics.length ? `<div class="rlist">${G.relics.map(id => `<div><span>${RELIC_BY[id].ic}</span><div><b>${esc(t('es_rl_' + id))}</b><small>${esc(t('es_rld_' + id))}</small></div></div>`).join('')}</div>` : '';
+  if (!(G.phase === 'build' || G.phase === 'wave' || G.phase === 'cleared' || (G.online && G.phase === 'draft'))) return;
+  if (!G.online) G.paused = true;      // online games keep running: this is just a menu
+  const rel = G.relics.length ? `<div class="rlist">${G.relics.map(id => `<div><span>${RELIC_BY[id].ic}</span><div><b>${esc(t('es_rl_' + id))}${G.online && G.relicBy && G.relicBy[id] ? ` <small style="color:${ESNet.colOf(G.relicBy[id])}">● ${esc(ESNet.nameOf(G.relicBy[id]))}</small>` : ''}</b><small>${esc(t('es_rld_' + id))}</small></div></div>`).join('')}</div>` : '';
   const att = ROLE_ORDER.filter(r => G.attune[r]).map(r => `${esc(t('es_r_' + r))} +${G.attune[r] * 15}%`).join(' · ');
-  showModal(`<h2><i class="pz"></i> ${esc(t('es_paused'))}</h2><p class="sub">${esc(actLabel())} · ${esc(G.act <= 3 ? t('es_waveN', { n: G.wave, m: WAVES_PER_ACT }) : t('es_endlessN', { n: G.wave }))}${G.asc ? ' · ' + esc(t('es_asc', { n: G.asc })) : ''}</p>
+  showModal(`<h2>${G.online ? '☰ ' + esc(t('es_roomMenu')) : `<i class="pz"></i> ${esc(t('es_paused'))}`}</h2>${G.online ? `<p class="sub">${esc(t('es_liveNote'))}</p>` : ''}<p class="sub">${esc(actLabel())} · ${esc(G.act <= FINAL_ACT ? t('es_waveN', { n: G.wave, m: WAVES_PER_ACT }) : t('es_endlessN', { n: G.wave }))}${G.asc ? ' · ' + esc(t('es_asc', { n: G.asc })) : ''}</p>
     <div class="col">${btn('big', 'resume', '▶ ' + esc(t('es_resume')))}${btn('sec', 'how', '❓ ' + esc(t('es_how')))}
     <div class="row2">${btn('sec', 'snd', G.settings.mute ? '🔇 ' + esc(t('es_soundOff')) : '🔊 ' + esc(t('es_soundOn')))}<button class="btn sec langbtn" data-act="lang">${getLang() === 'ar' ? 'English' : 'العربية'}</button></div>
-    ${btn('sec', 'menu', '↩ ' + esc(t('es_toMenu')))}${btn('sec danger', 'restart', '⟳ ' + esc(t('es_restart')))}</div>
+    ${G.online ? btn('sec danger', 'leave', '🚪 ' + esc(t('es_leaveRoom'))) : btn('sec', 'menu', '↩ ' + esc(t('es_toMenu'))) + btn('sec danger', 'restart', '⟳ ' + esc(t('es_restart')))}</div>
     ${rel ? `<h3>${esc(t('es_relics'))}</h3>${rel}` : ''}${att ? `<p class="sub">${esc(t('es_attunedL'))}: ${att}</p>` : ''}
     <p class="sub tiny">${esc(t('es_saveNote'))}</p>`, 'pause');
 }
@@ -244,14 +259,14 @@ UI.gameover = () => {
   showModal(`<h2 class="red">💔 ${esc(t('es_fallen'))}</h2><p class="sub">${esc(t('es_reached', { p: reachLabel(runSummary()) }))}</p>
     <div class="statg"><div><b>${G.score}</b><span>${esc(t('es_score'))}</span></div><div><b>${G.kills}</b><span>${esc(t('es_kills'))}</span></div><div><b>${b ? b.score : 0}</b><span>${esc(t('es_best'))}</span></div></div>
     ${isBest ? `<p class="newbest">🏆 ${esc(t('es_newBest'))}</p>` : ''}
-    <div class="col">${btn('big', 'again', '⟳ ' + esc(t('es_tryAgain')))}${btn('sec', 'menu', '↩ ' + esc(t('es_toMenu')))}</div>`, 'over');
+    <div class="col">${G.online ? ESNet.endButtons(false) : btn('big', 'again', '⟳ ' + esc(t('es_tryAgain'))) + btn('sec', 'menu', '↩ ' + esc(t('es_toMenu')))}</div>`, 'over');
 };
 UI.victory = () => {
   const P = G.profile;
   showModal(`<h2>🌟 ${esc(t('es_victory'))}</h2><p class="sub">${esc(t('es_victorySub'))}</p>
     <div class="statg"><div><b>${G.score}</b><span>${esc(t('es_score'))}</span></div><div><b>${G.kills}</b><span>${esc(t('es_kills'))}</span></div><div><b>${Math.ceil(G.hp)}/${G.maxHp}</b><span>${esc(t('es_spire'))}</span></div></div>
     ${P.ascMax > G.asc ? `<p class="newbest">⛰ ${esc(t('es_ascUnlocked', { n: P.ascMax }))}</p>` : ''}
-    <div class="col">${btn('big', 'endless', '∞ ' + esc(t('es_goEndless')))}${btn('sec', 'menu', '↩ ' + esc(t('es_toMenu')))}</div>`, 'won');
+    <div class="col">${G.online ? ESNet.endButtons(true) : btn('big', 'endless', '∞ ' + esc(t('es_goEndless'))) + btn('sec', 'menu', '↩ ' + esc(t('es_toMenu')))}</div>`, 'won');
 };
 function reachLabel(s) {
   if (!s) return '—';
@@ -264,7 +279,7 @@ function confirmBox(msg, yes, onYes) {
 }
 $('modal').addEventListener('click', (e) => {
   const pk = e.target.closest('[data-pick]');
-  if (pk && UI.modal === 'draft') { if (pickBoon(+pk.dataset.pick)) hideModal(); return; }
+  if (pk && UI.modal === 'draft') { if (G.online) ESNet.pick(+pk.dataset.pick); else if (pickBoon(+pk.dataset.pick)) hideModal(); return; }
   const a = e.target.closest('[data-act]'); if (!a) return;
   ESAudio.init();
   switch (a.dataset.act) {
@@ -280,6 +295,7 @@ $('modal').addEventListener('click', (e) => {
     case 'endless': hideModal(); goEndless(); break;
     case 'yes': { const f = UI.onConfirm; hideModal(); if (f) f(); break; }
     case 'no': hideModal(); if (G.phase !== 'menu') { G.paused = false; } break;
+    default: if (window.ESNet) ESNet.act(a.dataset.act, a.dataset, a);     // online menu, lobby and room buttons
   }
 });
 
@@ -287,9 +303,10 @@ $('modal').addEventListener('click', (e) => {
 function refreshMenu() {
   const s = savedRun(), P = G.profile;
   $('mCont').hidden = !s;
-  if (s) $('mCont').innerHTML = '⟳ ' + esc(t('es_continue')) + `<small>${esc(s.act <= 3 ? t('es_actS', { n: ROMAN[s.act - 1] }) + ' · ' + t('es_waveN', { n: s.wave, m: WAVES_PER_ACT }) : t('es_endlessN', { n: s.wave }))}</small>`;
+  if (s) $('mCont').innerHTML = '⟳ ' + esc(t('es_continue')) + `<small>${esc(s.act <= FINAL_ACT ? t('es_actS', { n: ROMAN[s.act - 1] }) + ' · ' + t('es_waveN', { n: s.wave, m: WAVES_PER_ACT }) : t('es_endlessN', { n: s.wave }))}</small>`;
   $('mNew').textContent = '▶ ' + t('es_newRun');
   $('mHow').textContent = '❓ ' + t('es_how');
+  $('mOnline').textContent = '🌐 ' + t('es_online');
   $('mSnd').textContent = G.settings.mute ? '🔇 ' + t('es_soundOff') : '🔊 ' + t('es_soundOn');
   $('ascRow').hidden = !P.ascMax;
   UI.asc = clamp(UI.asc == null ? P.ascMax : UI.asc, 0, P.ascMax);
@@ -308,6 +325,7 @@ $('mNew').addEventListener('click', () => {
 });
 $('mCont').addEventListener('click', () => { ESAudio.init(); if (continueRun()) afterStart(); });
 $('mHow').addEventListener('click', () => { ESAudio.init(); openHow(); });
+$('mOnline').addEventListener('click', () => { ESAudio.init(); ESNet.openMenu(); });
 $('mSnd').addEventListener('click', () => { ESAudio.init(); toggleMute(); refreshMenu(); });
 $('ascL').addEventListener('click', () => { UI.asc = Math.max(0, (UI.asc || 0) - 1); refreshMenu(); ESAudio.sfx('click'); });
 $('ascR').addEventListener('click', () => { UI.asc = Math.min(G.profile.ascMax, (UI.asc || 0) + 1); refreshMenu(); ESAudio.sfx('click'); });
@@ -350,6 +368,7 @@ function tapAt(sx, sy, d) {
   if (UI.sel) { select(null); if (!(so && UI.armed)) return; }
   if (so && UI.armed && (G.phase === 'build' || G.phase === 'wave')) {
     if (G.shards < costOf(UI.armed)) { ESAudio.sfx('error'); toast('◆ ' + esc(t('es_noShards'))); return; }
+    if (G.online) { if (!G.unlocked.includes(UI.armed)) return; ESNet.req('place', { role: UI.armed, n: UI.note, s: so.i }); G.ghost = null; tutorialAfterPlace(); return; }
     const r = placeRes(UI.armed, UI.note, so.i);
     if (r) {
       ESAudio.sfx('place', r.note); burst(r.x, r.y - 14, NOTES[r.note].rgb, 16, 110); addRing(r.x, r.y, 50, NOTES[r.note].rgb, 0, 'fx', { dur: 0.45 });
@@ -360,7 +379,7 @@ function tapAt(sx, sy, d) {
 }
 function tutorialAfterPlace() {
   if (UI.tutStep === 0) { UI.tutStep = 1; toast('🔗 ' + esc(t('es_tut2')), 7500); }
-  else if (UI.tutStep === 1 && G.res.length >= 2) { UI.tutStep = 2; toast('▶ ' + esc(t('es_tut3')), 7000); }
+  else if (UI.tutStep === 1 && G.res.length >= (G.online ? 1 : 2)) { UI.tutStep = 2; toast('▶ ' + esc(t('es_tut3')), 7000); }
 }
 cv.addEventListener('pointerdown', (e) => {
   ESAudio.init();
@@ -389,7 +408,8 @@ addEventListener('keydown', (e) => {
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   ESAudio.init();
   const k = e.key, inGame = G.phase !== 'menu';
-  if (UI.modal === 'draft') { if (/^[1-3]$/.test(k)) { if (pickBoon(+k - 1)) hideModal(); } return; }
+  if (UI.modal === 'draft') { if (/^[1-3]$/.test(k)) { if (G.online) ESNet.pick(+k - 1); else if (pickBoon(+k - 1)) hideModal(); } return; }
+  if (UI.modal === 'lobby' || UI.modal === 'waitpick') return;
   if (k === 'Escape') {
     if (UI.modal === 'how' && inGame) { openPause(); return; }
     if (UI.modal === 'pause') { resume(); return; }
@@ -402,14 +422,14 @@ addEventListener('keydown', (e) => {
   if (UI.modal || !inGame) { if (k === 'Enter' && !inGame && !UI.modal) $(savedRun() ? 'mCont' : 'mNew').click(); return; }
   if (/^[1-5]$/.test(k)) { armRole(ROLE_ORDER[+k - 1]); return; }
   const ni = { c: 0, d: 1, e: 2, g: 3, a: 4 }[k.toLowerCase()];
-  if (ni != null) { if (UI.sel) { retuneRes(UI.sel, ni); UI.inspKey = null; renderInsp(); } else setNote(ni); return; }
-  if ((k === 'u' || k === 'U') && UI.sel) { if (!upgradeRes(UI.sel)) ESAudio.sfx('error'); UI.inspKey = null; renderInsp(); return; }
-  if ((k === 'x' || k === 'X' || k === 'Delete' || k === 'Backspace') && UI.sel) { e.preventDefault(); const r = UI.sel; const v = sellRes(r); floatText(r.x, r.y - 30, '+' + v + '◆', '#ffd166', 14); select(null); return; }
+  if (ni != null) { if (UI.sel) { doRetune(UI.sel, ni); UI.inspKey = null; renderInsp(); } else setNote(ni); return; }
+  if ((k === 'u' || k === 'U') && UI.sel) { if (!doUpgrade(UI.sel)) ESAudio.sfx('error'); UI.inspKey = null; renderInsp(); return; }
+  if ((k === 'x' || k === 'X' || k === 'Delete' || k === 'Backspace') && UI.sel) { e.preventDefault(); const r = UI.sel; if (G.online && !ESNet.mine(r)) return; const v = doSell(r); floatText(r.x, r.y - 30, '+' + v + '◆', '#ffd166', 14); select(null); return; }
   if (k === ' ' || k === 'Enter') { e.preventDefault(); if (G.phase === 'build') beginWave(); return; }
   if (k === 'f' || k === 'F') { cycleSpeed(); return; }
   if (k === 'm' || k === 'M') { toggleMute(); toast(G.settings.mute ? '🔇' : '🔊', 900); }
 });
-function cycleSpeed() { G.speed = G.speed >= 3 ? 1 : G.speed + 1; $('spdBtn').textContent = G.speed + '×'; $('spdBtn').classList.toggle('on', G.speed > 1); ESAudio.sfx('click'); }
+function cycleSpeed() { if (G.online && !ESNet.amHost()) return; G.speed = G.speed >= 3 ? 1 : G.speed + 1; $('spdBtn').textContent = G.speed + '×'; $('spdBtn').classList.toggle('on', G.speed > 1); ESAudio.sfx('click'); }
 $('spdBtn').addEventListener('click', () => { ESAudio.init(); cycleSpeed(); });
 $('pauseBtn').addEventListener('click', () => { ESAudio.init(); openPause(); });
 
@@ -423,6 +443,7 @@ document.addEventListener('langchange', () => {
   else if (UI.modal === 'draft') UI.draft();
   else if (UI.modal === 'over') UI.gameover();
   else if (UI.modal === 'won') UI.victory();
+  else if (window.ESNet) ESNet.relabel();
   if (G.boss) UI.bossBar(G.boss);
 });
 document.querySelectorAll('.langbtn').forEach(b => b.addEventListener('click', () => setLang(getLang() === 'ar' ? 'en' : 'ar')));
@@ -435,7 +456,7 @@ addEventListener('resize', () => {
   }, 60);
 });
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) { if (G.phase === 'wave' && !G.paused) openPause(); ESAudio.suspend(); }
+  if (document.hidden) { if (G.phase === 'wave' && !G.paused && !G.online) openPause(); ESAudio.suspend(); }
   else ESAudio.resume();
 });
 document.addEventListener('mal3abready', () => { if (G.phase === 'menu') refreshMenu(); });
@@ -451,6 +472,7 @@ function frame(now) {
     G.curSpeed = n;
     for (let i = 0; i < n; i++) { G.audioLead = -(dt * (n - 1 - i)) / n; update(dt); }
   }
+  if (G.online) ESNet.tick(now);
   render(cx);
   hudTick();
 }
@@ -487,7 +509,7 @@ window.EchoesSpire = {
   sim: (sec, step) => { step = step || 1 / 30; G.curSpeed = 1; G.audioLead = 0; for (let x = 0; x < sec; x += step) { if (!G.paused) update(step); } return window.EchoesSpire.state(); },
   pause: openPause, resume, setSpeed: (n) => { G.speed = clamp(n | 0, 1, 3); $('spdBtn').textContent = G.speed + '×'; },
   skipWave: () => { if (G.phase !== 'wave') return false; G.spawnIdx = G.spawnQ.length; for (const e of G.enemies) e.dead = true; G.enemies = []; return true; },
-  win: () => { G.act = 3; G.wave = WAVES_PER_ACT; G.phase = 'wave'; G.enemies = []; G.spawnQ = []; G.spawnIdx = 0; victory(); return true; },
+  win: () => { G.act = FINAL_ACT; G.wave = WAVES_PER_ACT; G.phase = 'wave'; G.enemies = []; G.spawnQ = []; G.spawnIdx = 0; victory(); return true; },
   lose: () => { if (G.phase !== 'wave') { G.phase = 'wave'; } G.hp = 0; lose(); return true; },
   analyze: () => analyze(G.res), openHow, openPause, layout,
 };

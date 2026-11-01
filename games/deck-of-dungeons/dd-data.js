@@ -11,7 +11,7 @@ addStrings({
   dd_newRun: 'جولة جديدة', dd_continue: 'كمّل الجولة', dd_howto: 'إزاي تلعب', dd_codex: 'الموسوعة', dd_records: 'الأرقام القياسية',
   dd_dread: 'رعب {n}', dd_dreadLbl: 'مستوى الرعب', dd_dreadHint: 'اكسب جولة عشان يتفتح المستوى اللي بعده: الأبطال بيبقوا أقوى وأكتر.',
   dd_dreadLocked: 'مقفول', dd_act: 'الفصل {n}', dd_wave: 'الموجة {n}/{m}', dd_waveShort: 'موجة {n}',
-  dd_act1: 'المقبرة المنسية', dd_act2: 'الأعماق المنصهرة', dd_act3: 'عرش العضم',
+  dd_act1: 'المقبرة المنسية', dd_act2: 'الأعماق المنصهرة', dd_act3: 'عرش العضم', dd_act4: 'بوابة الهاوية',
   dd_loot: 'الكنز', dd_mana: 'مانا', dd_deck: 'الكوتشينة', dd_discardPile: 'المحروق', dd_drawPile: 'لسه هتتسحب',
   dd_start: 'ابدأ الموجة', dd_incoming: 'جايين:', dd_left: 'فاضل {n}', dd_waveOn: 'الموجة شغالة',
   dd_speed: 'السرعة', dd_pause: 'وقفة', dd_paused: 'اللعبة واقفة', dd_resume: 'كمّل', dd_abandon: 'سيب الجولة',
@@ -34,7 +34,7 @@ addStrings({
   dd_pickCard: 'ضيف كارت للكوتشينة', dd_orRemove: 'شيل كارت', dd_orUpgrade: 'طوّر كارت', dd_skip: 'فوّت (+{n} كنز)',
   dd_chooseRemove: 'اختار الكارت اللي هتشيله', dd_chooseUpgrade: 'اختار الكارت اللي هتطوّره', dd_or: 'أو',
   dd_minDeck: 'لازم يفضل معاك 6 كروت على الأقل.', dd_relicTitle: 'اختار أثر سحري', dd_relicSub: 'الأثر بيفضل معاك طول الجولة.',
-  dd_victory: 'الملك البطل وقع!', dd_victorySub: 'الزنزانة بتاعتك بقت أسطورة. الأبطال هيخافوا يقربوا تاني.',
+  dd_victory: 'سيرافين وقعت!', dd_victorySub: 'الزنزانة بتاعتك بقت أسطورة. الأبطال هيخافوا يقربوا تاني.',
   dd_defeat: 'الخزنة اتسرقت كلها!', dd_defeatSub: 'الأبطال فضّوا الكنز. ابني زنزانة أقوى المرة الجاية.',
   dd_reached: 'وصلت للفصل {a} — الموجة {w}', dd_sKills: 'أبطال اتقتلوا', dd_sStolen: 'كنز اتسرق', dd_sRecovered: 'كنز رجع',
   dd_sCombos: 'كومبوهات اتعملت', dd_sCards: 'كروت اتلعبت', dd_sTime: 'الوقت', dd_sLoot: 'الكنز في الآخر', dd_sScore: 'النقط',
@@ -57,7 +57,7 @@ addStrings({
   dd_how3: 'الأوض بتغيّر شكل الزنزانة: الانهيار بيقفل مربع، فالأبطال يلفوا من طريق أطول قدام الأبراج بتاعتك.',
   dd_how4: 'حط الحاجات جنب بعض عشان تعمل كومبو. برج رماة + بركة حمم = سهام نار بتضرب 3 أضعاف في الفرسان اللابسين دروع!',
   dd_how5: 'البطل اللي ياخد كنز بيجري راجع للمدخل. اقتله وهو خارج عشان ترجّعه. وكل بطل بيموت بيوقّع فلوس للخزنة.',
-  dd_how6: 'بعد كل موجة: ضيف كارت جديد، أو شيل كارت، أو طوّر كارت. اكسب 3 فصول والملك البطل عشان تفوز.',
+  dd_how6: 'بعد كل موجة: ضيف كارت جديد، أو شيل كارت، أو طوّر كارت. اصمد 4 فصول واهزم سيرافين عشان تفوز.',
   dd_how7: 'خلي بالك: اللص بيفك الفخاخ، الكاهن بيعالج، الساحر بيحرق حاجاتك، والقزم بيحفر في الردم.',
   dd_how8: 'لو حطيت نفس الكارت على نفس الحاجة بتقوّيها لحد مستوى 3.',
 
@@ -114,7 +114,9 @@ addStrings({
   dd_h_paladin: 'بالادين', dd_hd_paladin: 'محارب مقدس لابس درع. الأبطال اللي جنبه بياخدوا ضرر أقل.',
   dd_h_brannoc: 'السير برانوك الجريء', dd_hd_brannoc: 'زعيم الفصل الأول. درع ضخم، وكل شوية بيهجم لقدام ومش بيهمه الفخاخ.',
   dd_h_vexa: 'الساحرة ڤيكسا', dd_hd_vexa: 'زعيمة الفصل التاني. النار مش بتأثر فيها، بتنط لقدام وبتحرق كل حاجة حواليها.',
-  dd_h_aldric: 'الملك البطل ألدريك', dd_hd_aldric: 'الزعيم الأخير. بيستدعي مغامرين، ولما يتعوّر بيتجنن ويجري أسرع.',
+  dd_h_aldric: 'الملك البطل ألدريك', dd_hd_aldric: 'زعيم الفصل التالت. بيستدعي مغامرين، ولما يتعوّر بيتجنن ويجري أسرع.',
+  dd_h_bard: 'المغنّي', dd_hd_bard: 'بيغنّي وهو ماشي، فالأبطال اللي جنبه بيمشوا أسرع 20%.',
+  dd_h_seraphine: 'سيرافين حاملة الفجر', dd_hd_seraphine: 'الزعيمة الأخيرة. كل شوية تطلّع نور الفجر: بيعالج الأبطال اللي حواليها ويشيل عنهم الحرق والسم والتلج.',
 
   // ---------- relics ----------
   dd_r_emberHeart: 'قلب الجمر', dd_rd_emberHeart: 'ضرر النار +35%.',
@@ -135,7 +137,7 @@ addStrings({
   dd_newRun: 'New run', dd_continue: 'Continue run', dd_howto: 'How to play', dd_codex: 'Codex', dd_records: 'Records',
   dd_dread: 'Dread {n}', dd_dreadLbl: 'Dread level', dd_dreadHint: 'Win a run to unlock the next level: heroes get tougher and more numerous.',
   dd_dreadLocked: 'Locked', dd_act: 'Act {n}', dd_wave: 'Wave {n}/{m}', dd_waveShort: 'Wave {n}',
-  dd_act1: 'The Forgotten Crypt', dd_act2: 'The Molten Deep', dd_act3: 'Throne of Bones',
+  dd_act1: 'The Forgotten Crypt', dd_act2: 'The Molten Deep', dd_act3: 'Throne of Bones', dd_act4: 'The Abyss Gate',
   dd_loot: 'Loot', dd_mana: 'Mana', dd_deck: 'Deck', dd_discardPile: 'Discard', dd_drawPile: 'Draw pile',
   dd_start: 'Start wave', dd_incoming: 'Incoming:', dd_left: '{n} left', dd_waveOn: 'Wave in progress',
   dd_speed: 'Speed', dd_pause: 'Pause', dd_paused: 'Paused', dd_resume: 'Resume', dd_abandon: 'Abandon run',
@@ -158,7 +160,7 @@ addStrings({
   dd_pickCard: 'Add a card to your deck', dd_orRemove: 'Remove a card', dd_orUpgrade: 'Upgrade a card', dd_skip: 'Skip (+{n} loot)',
   dd_chooseRemove: 'Choose a card to remove', dd_chooseUpgrade: 'Choose a card to upgrade', dd_or: 'or',
   dd_minDeck: 'You must keep at least 6 cards.', dd_relicTitle: 'Choose a relic', dd_relicSub: 'Relics stay with you for the whole run.',
-  dd_victory: 'The Hero-King has fallen!', dd_victorySub: 'Your dungeon is now a legend. Heroes will think twice before coming back.',
+  dd_victory: 'Seraphine has fallen!', dd_victorySub: 'Your dungeon is now a legend. Heroes will think twice before coming back.',
   dd_defeat: 'Your vault was emptied!', dd_defeatSub: 'The heroes cleaned out your hoard. Build a nastier dungeon next time.',
   dd_reached: 'Reached act {a} — wave {w}', dd_sKills: 'Heroes slain', dd_sStolen: 'Loot stolen', dd_sRecovered: 'Loot recovered',
   dd_sCombos: 'Combos formed', dd_sCards: 'Cards played', dd_sTime: 'Time', dd_sLoot: 'Final loot', dd_sScore: 'Score',
@@ -180,7 +182,7 @@ addStrings({
   dd_how3: 'Rooms reshape the dungeon: Collapse blocks a tile, so heroes take a longer way past your towers.',
   dd_how4: 'Place pieces next to each other to form combos. Archer Tower + Lava Pool = fire arrows that deal triple damage to armored knights!',
   dd_how5: 'Heroes who grab loot run back to the entrance. Kill them on the way out to recover it. Every slain hero also drops coins into your vault.',
-  dd_how6: 'After each wave: add a new card, remove one, or upgrade one. Survive 3 acts and defeat the Hero-King to win.',
+  dd_how6: 'After each wave: add a new card, remove one, or upgrade one. Survive 4 acts and defeat Seraphine to win.',
   dd_how7: 'Watch out: rogues disarm traps, clerics heal, mages burn your rooms, and dwarves dig through rubble.',
   dd_how8: 'Playing the same card on the same piece empowers it, up to level 3.',
 
@@ -234,7 +236,9 @@ addStrings({
   dd_h_paladin: 'Paladin', dd_hd_paladin: 'Armored holy warrior. Nearby heroes take less damage.',
   dd_h_brannoc: 'Sir Brannoc the Bold', dd_hd_brannoc: 'Act I boss. Massive armor, and every few seconds he charges ahead, ignoring traps.',
   dd_h_vexa: 'Archmage Vexa', dd_hd_vexa: 'Act II boss. Immune to fire; blinks ahead and burns everything around her.',
-  dd_h_aldric: 'Aldric the Hero-King', dd_hd_aldric: 'Final boss. Summons squires, and when hurt he becomes furious and fast.',
+  dd_h_aldric: 'Aldric the Hero-King', dd_hd_aldric: 'Act III boss. Summons squires, and when hurt he becomes furious and fast.',
+  dd_h_bard: 'Bard', dd_hd_bard: 'Sings while marching: nearby heroes move 20% faster.',
+  dd_h_seraphine: 'Seraphine the Dawnbringer', dd_hd_seraphine: 'Final boss. Her Sunburst heals nearby heroes and clears their burns, poison and frost.',
 
   dd_r_emberHeart: 'Ember heart', dd_rd_emberHeart: 'Fire damage +35%.',
   dd_r_frostCrown: 'Frost crown', dd_rd_frostCrown: 'Two chills are enough to freeze, and freezes last 50% longer.',
@@ -321,11 +325,13 @@ DD.HEROES = {
   mage:    { hp: 60, sp: 0.92, ar: 0, dmg: 5, loot: 6, bounty: 2, fireRes: 0.5, scorch: 5 },
   dwarf:   { hp: 125, sp: 0.78, ar: 0.3, dmg: 14, loot: 8, bounty: 2, dig: true },
   paladin: { hp: 210, sp: 0.72, ar: 0.5, dmg: 16, loot: 10, bounty: 3, aura: true },
+  bard:    { hp: 75, sp: 1.0, ar: 0.1, dmg: 5, loot: 7, bounty: 2, song: true },
   brannoc: { hp: 1300, sp: 0.6, ar: 0.6, dmg: 30, loot: 30, bounty: 15, boss: true, size: 1.35 },
   vexa:    { hp: 1500, sp: 0.7, ar: 0.1, dmg: 20, loot: 40, bounty: 20, boss: true, fireRes: 1, size: 1.3 },
-  aldric:  { hp: 3800, sp: 0.55, ar: 0.5, dmg: 40, loot: 60, bounty: 30, boss: true, size: 1.45 }
+  aldric:  { hp: 3800, sp: 0.55, ar: 0.5, dmg: 40, loot: 60, bounty: 30, boss: true, size: 1.45 },
+  seraphine: { hp: 4400, sp: 0.58, ar: 0.35, dmg: 34, loot: 70, bounty: 35, boss: true, fireRes: 0.3, size: 1.4 }
 };
-DD.HERO_ORDER = ['squire', 'rogue', 'knight', 'cleric', 'mage', 'dwarf', 'paladin', 'brannoc', 'vexa', 'aldric'];
+DD.HERO_ORDER = ['squire', 'rogue', 'knight', 'cleric', 'mage', 'dwarf', 'paladin', 'bard', 'brannoc', 'vexa', 'aldric', 'seraphine'];
 
 DD.RELICS = {
   emberHeart: { g: 'flame', col: '#ff7a2f' }, frostCrown: { g: 'crown', col: '#9be7ff' }, boneRing: { g: 'skull', col: '#e8e2d0' },
@@ -366,6 +372,16 @@ DD.MAPS = [
     '#.#...#...#.#',
     '#.###.#.###.#',
     '#...........#',
+    '#############'] },
+  { name: 'dd_act4', rows: [
+    '#############',
+    '#...#...#...#',
+    '#.#.#.#.#.#.#',
+    '#.#...#...#.#',
+    'E...~~~~~...V',
+    '#.#...#...#.#',
+    '#.#.#.#.#.#.#',
+    '#...#...#...#',
     '#############'] }
 ];
 
@@ -391,6 +407,13 @@ DD.WAVES = [
     [['knight', 6], ['paladin', 3], ['cleric', 3], ['rogue', 6]],
     [['paladin', 4], ['mage', 4], ['dwarf', 3], ['rogue', 6], ['cleric', 3], ['knight', 4]],
     [['paladin', 3], ['knight', 4], ['cleric', 3], ['mage', 2], ['aldric', 1]]
+  ],
+  [
+    [['bard', 2], ['knight', 5], ['rogue', 6], ['squire', 6]],
+    [['paladin', 3], ['bard', 2], ['mage', 4], ['dwarf', 3], ['cleric', 2]],
+    [['knight', 6], ['bard', 3], ['cleric', 3], ['rogue', 7]],
+    [['paladin', 4], ['dwarf', 4], ['bard', 3], ['mage', 4], ['cleric', 3], ['rogue', 5]],
+    [['paladin', 3], ['knight', 4], ['bard', 2], ['cleric', 3], ['mage', 2], ['seraphine', 1]]
   ]
 ];
 DD.WAVES_PER_ACT = 5;

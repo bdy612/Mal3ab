@@ -112,6 +112,40 @@
   .sum { display: flex; gap: 10px; width: 100%; } .sum div { flex: 1; background: var(--card2); border-radius: 14px; padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
   .sum b { font-size: 22px; } .sum b small { color: var(--muted); font-size: 14px; } .sum span { color: var(--muted); font-size: 12.5px; }
 
+
+  /* online co-op */
+  #queue { position: fixed; z-index: 6; display: flex; gap: 6px; pointer-events: none; }
+  #queue > * { pointer-events: auto; }
+  .qc { --pc: rgba(255,255,255,.22); flex: 1 1 0; min-width: 0; max-width: 88px; height: 62px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 2px; padding: 3px 3px 4px; border-radius: 12px; border: 2px solid var(--pc); background: rgba(15,18,32,.74); color: var(--text); font-family: inherit; font-weight: 700; font-size: 11px; cursor: pointer; transition: transform .1s; }
+  .qc:active { transform: scale(.95); }
+  .qc canvas { width: 100%; flex: 1 1 auto; min-height: 0; display: block; }
+  .qc .qp { display: block; width: 100%; height: 4px; border-radius: 2px; background: rgba(255,255,255,.15); overflow: hidden; flex: none; }
+  .qc .qp b { display: block; height: 100%; width: 100%; background: #5fd38a; }
+  .qc span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.15; color: var(--pc); flex: none; }
+  .qc:not(.busy):not(.me) span { color: var(--muted); }
+  .qc.me { box-shadow: 0 0 0 2px var(--pc), 0 0 14px var(--pc); background: rgba(48,34,22,.9); }
+  .qc.busy { opacity: .8; cursor: default; }
+  .qc em { position: absolute; top: 1px; right: 5px; font-style: normal; font-weight: 900; font-size: 13px; color: #d8b4ff; }
+  .qe { color: var(--muted); font-size: 12px; align-self: center; background: rgba(15,18,32,.7); padding: 5px 9px; border-radius: 9px; }
+  body.port .qc, body.short .qc { height: 46px; border-radius: 10px; font-size: 10px; padding: 2px 2px 3px; }
+  .pdot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .plist { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .pl { --pc: #888; display: flex; align-items: center; gap: 8px; width: 100%; background: rgba(255,255,255,.05); border-radius: 12px; padding: 8px 12px; text-align: start; min-height: 40px; }
+  .pl i { width: 14px; height: 14px; border-radius: 50%; background: var(--pc); flex: none; box-shadow: 0 0 8px var(--pc); }
+  .pl b { color: var(--pc); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .pl small { color: var(--muted); }
+  .pl .role { margin-inline-start: auto; color: var(--muted); font-size: 13px; white-space: nowrap; }
+  .pl.empty { opacity: .45; } .pl.empty i { background: transparent; border: 2px dashed rgba(255,255,255,.45); box-shadow: none; } .pl.empty span { color: var(--muted); font-size: 13px; }
+  .code { display: flex; flex-direction: column; align-items: center; gap: 2px; } .code small { color: var(--muted); }
+  .code b { font-size: 34px; letter-spacing: 6px; color: var(--accent); font-family: 'Courier New', monospace; direction: ltr; }
+  .dayrow { display: flex; align-items: center; gap: 12px; } .dayrow b { font-size: 18px; min-width: 84px; }
+  .fld { display: flex; flex-direction: column; gap: 4px; width: 100%; text-align: start; color: var(--muted); font-size: 13px; }
+  #box input { background: #0f1220; color: var(--text); border: 2px solid var(--card2); border-radius: 12px; padding: 10px 12px; font-family: inherit; font-weight: 600; font-size: 16px; width: 100%; outline: none; user-select: text; -webkit-user-select: text; }
+  #box input:focus { border-color: var(--accent); }
+  .orow { display: flex; gap: 8px; width: 100%; } .orow input { flex: 1; min-width: 0; text-transform: uppercase; letter-spacing: 3px; text-align: center; direction: ltr; }
+  table.crew { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .crew th { color: var(--muted); font-weight: 600; font-size: 12px; padding: 4px; } .crew td { padding: 6px 4px; border-top: 1px solid rgba(255,255,255,.07); }
+  .crew td:first-child { text-align: start; color: var(--pc); font-weight: 700; } .crew td small { color: var(--muted); font-weight: 600; }
+  .crew td i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--pc); margin-inline-end: 6px; }
   /* phones */
   body.port #hud, body.short #hud { height: 48px; padding: 0 6px; gap: 4px; }
   body.short #hud { height: 44px; }
@@ -134,8 +168,8 @@
   @media (max-height: 520px) { #box { padding: 14px; gap: 8px; } #box h1 { font-size: 26px; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793401000"></script>
-<script src="../../shared/net.js?v=1793401000"></script>
+<script src="../../shared/i18n.js?v=1793403000"></script>
+<script src="../../shared/net.js?v=1793403000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -163,10 +197,11 @@
 <div id="tip" hidden></div>
 <div id="coach" hidden></div>
 <div id="toast" hidden></div>
+<div id="queue" hidden></div>
 <div id="overlay" hidden><div id="box" data-m3pop></div></div>
-<script src="art.js?v=1793401000"></script>
-<script src="game.js?v=1793401000"></script>
-<script src="../../shared/cloud.js?v=1793401000" data-game="alchemy-barista" data-keys="alchemy-barista-*"></script>
+<script src="art.js?v=1793403000"></script>
+<script src="game.js?v=1793403000"></script>
+<script src="../../shared/cloud.js?v=1793403000" data-game="alchemy-barista" data-keys="alchemy-barista-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>

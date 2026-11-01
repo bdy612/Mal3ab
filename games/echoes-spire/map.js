@@ -72,7 +72,7 @@ function resample(pts, step) {
 
 // ------------------------------------------------------------------------
 function genMap(seed, act, orient) {
-  const A = ACTS[Math.min(act, 4) - 1];
+  const A = ACTS[Math.min(act, ACTS.length) - 1];
   const [W, H] = orient === 'p' ? [740, 1120] : orient === 'l' ? [1180, 740] : [960, 960];
   const nP = A.paths;
   let best = null;
