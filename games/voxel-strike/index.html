@@ -83,7 +83,11 @@
   .slot b { display: block; font-size: 19px; } .slot.on { border-color: var(--accent); color: #fff; background: rgba(0, 0, 0, .6); }
   .slot.off { opacity: .4; }
   #mini { position: absolute; left: 12px; top: 12px; background: rgba(0, 0, 0, .42); border-radius: 12px; padding: 6px 10px; display: flex; flex-direction: column; gap: 3px; font-size: 13px; min-width: 190px; }
-  #mini .mr { display: grid; grid-template-columns: 22px 10px 1fr 26px; align-items: center; gap: 6px; position: relative; padding-bottom: 3px; }
+  #mini .mr { display: grid; grid-template-columns: 22px 10px 1fr 26px 24px 24px; align-items: center; gap: 6px; position: relative; padding-bottom: 3px; }
+  #mini.nolives .mr { grid-template-columns: 22px 10px 1fr 26px 24px; }
+  #mini .mr .dd, #mini .mr .lv { text-align: right; color: #ffb4b4; } #mini .mr .lv { color: #ff8fa3; }
+  #mini .mr.hd { font-size: 11px; opacity: .75; padding-bottom: 0; } #mini .mr.hd b, #mini .mr.hd span { text-align: right; }
+  .rulesp small.warn { color: #ffb703; display: block; margin-top: 4px; }
   #mini .mr i { width: 10px; height: 10px; border-radius: 3px; } #mini .mr .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 110px; }
   #mini .mr b { text-align: right; } #mini .mr.me .nm, #mini .mr.me b { color: var(--accent); }
   #mini .bar { position: absolute; left: 38px; right: 0; bottom: 0; height: 2px; background: rgba(255, 255, 255, .12); border-radius: 2px; } #mini .bar s { display: block; height: 100%; border-radius: 2px; }
@@ -109,11 +113,15 @@
   #touch .fire { width: 86px; height: 86px; font-size: 34px; right: calc(26px + env(safe-area-inset-right)); bottom: 110px; }
   #touch .aim { right: calc(124px + env(safe-area-inset-right)); bottom: 168px; }
   #touch .jump { right: calc(30px + env(safe-area-inset-right)); bottom: 210px; }
+  #touch .run { left: max(160px, calc(env(safe-area-inset-left) + 160px)); bottom: 84px; width: 48px; height: 48px; font-size: 20px; }
+  #sprint { position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%); font-size: 22px; opacity: 0; transition: opacity .15s; pointer-events: none; text-shadow: 0 2px 6px #000; }
+  #sprint.on { opacity: .9; }
   #touch .reload { right: calc(130px + env(safe-area-inset-right)); bottom: 98px; }
   #touch .nade { right: calc(188px + env(safe-area-inset-right)); bottom: 150px; width: 48px; height: 48px; font-size: 19px; }
   #touch .next { right: calc(98px + env(safe-area-inset-right)); bottom: 238px; width: 48px; height: 48px; font-size: 18px; }
   #touch .pause { right: calc(12px + env(safe-area-inset-right)); top: max(10px, env(safe-area-inset-top)); width: 44px; height: 44px; font-size: 18px; }
   #touch .score { left: max(12px, env(safe-area-inset-left)); top: max(10px, env(safe-area-inset-top)); width: 44px; height: 44px; font-size: 18px; }
+  @media (pointer: fine) and (max-width: 1250px) { #hpbar, #shbar { width: 120px; } #hpbox { bottom: 76px; } #shbox { bottom: 126px; } }
   @media (pointer: coarse) {
     #hpbox { left: 12px; bottom: 12px; padding: 6px 10px; font-size: 16px; } #hpbar { width: 110px; } #shbox { left: 12px; bottom: 52px; padding: 4px 10px; font-size: 13px; } #shbar { width: 110px; }
     #ammo { top: max(10px, env(safe-area-inset-top)); bottom: auto; right: auto; left: calc(66px + env(safe-area-inset-left)); text-align: left; padding: 5px 10px; } #ammo b { font-size: 20px; }
@@ -136,6 +144,7 @@
   <div id="dmg"></div>
   <div id="dirs"><i></i></div>
   <div id="top"></div>
+  <div id="sprint">🏃</div>
   <div id="waitbox" hidden></div>
   <div id="feed"></div>
   <div id="mini" hidden></div>
@@ -154,6 +163,7 @@
   <div class="tb fire" data-b="fire">🔥</div>
   <div class="tb aim" data-b="aim">🎯</div>
   <div class="tb jump" data-b="jump">⤒</div>
+  <div class="tb run" data-b="run">🏃</div>
   <div class="tb reload" data-b="reload">↻</div>
   <div class="tb nade" data-b="nade">💣</div>
   <div class="tb pause" data-b="pause">⏸</div>
@@ -168,7 +178,7 @@
 <div class="screen" id="rules" hidden></div>
 
 <script src="world.js?v=1793401000"></script>
-<script src="strike.js?v=1793402000"></script>
+<script src="strike.js?v=1793404000"></script>
 <script src="../../shared/cloud.js?v=1793401000" data-game="voxelstrike" data-keys="vstrike-settings,vstrike-stats,vstrike-menu"></script>
 </body>
 </html>

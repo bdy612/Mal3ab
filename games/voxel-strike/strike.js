@@ -26,13 +26,13 @@ addStrings({
   vs_diff: 'المستوى', vs_bots: 'البوتات', vs_play: '▶ العب', vs_create: '➕ اعمل غرفة', vs_join: 'ادخل', vs_code: 'الكود',
   vs_copyLink: '🔗 انسخ اللينك', vs_copied: 'اتنسخ ✓', vs_settings: '⚙ الإعدادات', vs_sens: 'حساسية الماوس', vs_vol: 'الصوت', vs_fov: 'مجال الرؤية',
   vs_back: 'رجوع', vs_resume: '▶ كمّل', vs_leave: 'اخرج من الماتش', vs_paused: 'متوقف',
-  vs_help: 'WASD تتحرك · Shift جري · Space نط · كليك شمال يضرب · كليك يمين نيشان · R حشو · 6 أو العجلة للقنبلة (دوس مطوّل عشان تنشن وسيب ترمي) · G رمية سريعة · Tab النتيجة',
+  vs_help: 'WASD تتحرك · Shift (أو W مرتين) جري 🏃 · Space نط · كليك شمال يضرب · كليك يمين نيشان · R حشو · 6 أو العجلة للقنبلة (دوس مطوّل عشان تنشن وسيب ترمي) · G رمية سريعة · Tab النتيجة',
   vs_helpTouch: 'العصاية للحركة · اسحب في الشاشة عشان تبص · 🔥 ضرب · 🎯 نيشان · ⤒ نط · 💣 دوس واسحب صباعك عشان تنشن القنبلة',
   vs_respawn: 'هترجع بعد {n}', vs_killedBy: 'قتلك {p}', vs_wave: 'الموجة', vs_left: 'فاضل', vs_waveClear: 'الموجة خلصت! ✓',
   vs_over: 'انتهى الماتش', vs_gameOver: 'خسرت!', vs_youWin: 'كسبت! 🏆', vs_won: '{p} كسب', vs_reached: 'وصلت للموجة {n}', vs_best: 'أحسن رقم: الموجة {n}',
   vs_rules: '⚙ إعدادات الماتش', vs_rulesT: 'إعدادات الماتش', vs_botN: 'عدد البوتات', vs_allLv: 'مستوى كل البوتات', vs_mixed: 'مختلط', vs_eachBot: 'كل بوت لوحده',
   vs_bot: 'بوت', vs_target: 'عدد القتلات للفوز', vs_noLimit: 'من غير حد', vs_lives: 'الأرواح (كام مرة تموت وترجع)', vs_inf: '∞ ما لا نهاية',
-  vs_hc: '💀 هاردكور', vs_hcDesc: 'أي ضربة بتموّت على طول، واللي يموت بيفضل ميت لآخر الماتش.', vs_save: '✓ تمام', vs_out: 'خلصت أرواحك — بتتفرج لحد آخر الماتش',
+  vs_hc: '💀 هاردكور', vs_hcDesc: 'أي ضربة بتموّت على طول (مهما كانت الصحة والدرع)، واللي يموت بيفضل ميت لآخر الماتش.', vs_hcHp: '💀 الهاردكور شغال: أي ضربة بتموّت، فالصحة والدرع مش بيفرقوا. اقفله لو عايز الصحة تشتغل.', vs_manyBots: '⚠️ بوتات كتير أوي ممكن تتقّل الجهاز', vs_tooMany: 'البوتات أكتر من {n} — كلهم بنفس المستوى والصحة اللي فوق', vs_save: '✓ تمام', vs_out: 'خلصت أرواحك — بتتفرج لحد آخر الماتش',
   vs_lastStand: 'آخر واحد يفضل عايش يكسب', vs_livesLeft: 'أرواح', vs_sum: '{b} بوت · {l} · {t} · {v}', vs_sumT: 'أول واحد يوصل {n}', vs_sumL: '{n} أرواح',
   vs_fists: 'إيدك', vs_minigun: 'ميني جن', vs_railgun: 'ريل جن', vs_start: 'السلاح في الأول', vs_stAll: 'كل الأسلحة', vs_stPistol: 'مسدس بس', vs_stNone: 'من غير سلاح (إيدك بس)',
   vs_pickups: 'أسلحة أقوى وعلاج على الخريطة', vs_pkOff: 'مفيش', vs_pkNormal: 'عادي', vs_pkLots: 'كتير', vs_drops: 'صناديق بتنزل من السما', vs_dropIn: '📦 صندوق إمدادات نازل من السما!', vs_crate: '📦 الصندوق: {w} + صحة كاملة + ذخيرة', vs_ammoRule: 'الطلقات', vs_amNormal: 'عادي', vs_amInf: 'لا نهائية ∞', vs_reloadRule: 'الريلود', vs_rlNormal: 'عادي (كل سلاح بوقته)', vs_rlCustom: 'وقت واحد لكل الأسلحة', vs_rlNone: 'من غير ريلود', vs_rlSec: 'وقت الريلود (ثواني)', vs_onDeath: 'لما حد يموت', vs_shield: '🛡️ هيلث احتياطي (درع)', vs_shOn: 'شغال (العلاج الزيادة ← درع)', vs_shOff: 'مقفول', vs_shGot: '+{n} درع 🛡️', vs_myHp: 'صحة اللاعيبة', vs_myShield: 'الدرع في الأول (اللاعيبة)', vs_botHp: 'صحة كل البوتات', vs_botShield: 'الدرع في الأول (البوتات)', vs_hpHint: 'العادي 100', vs_shMax: 'أقصى درع', vs_dKeep: 'تفضل معاه أسلحته زي ما هي', vs_dLose: 'تضيع أسلحته (من غير ما توقع)', vs_dDrop: 'يوقّع كل أسلحته على الأرض', vs_alive: 'عايشين', vs_spec: 'بتتفرج — WASD تتحرك، الماوس تبص، Space/Shift فوق وتحت',
@@ -49,13 +49,13 @@ addStrings({
   vs_diff: 'Level', vs_bots: 'Bots', vs_play: '▶ Play', vs_create: '➕ Create room', vs_join: 'Join', vs_code: 'Code',
   vs_copyLink: '🔗 Copy link', vs_copied: 'Copied ✓', vs_settings: '⚙ Settings', vs_sens: 'Mouse sensitivity', vs_vol: 'Volume', vs_fov: 'Field of view',
   vs_back: 'Back', vs_resume: '▶ Resume', vs_leave: 'Leave match', vs_paused: 'Paused',
-  vs_help: 'WASD move · Shift sprint · Space jump · Left click shoot · Right click aim · R reload · 6 or the wheel for the grenade (hold to aim, let go to throw) · G quick throw · Tab scores',
+  vs_help: 'WASD move · Shift (or double-tap W) sprint 🏃 · Space jump · Left click shoot · Right click aim · R reload · 6 or the wheel for the grenade (hold to aim, let go to throw) · G quick throw · Tab scores',
   vs_helpTouch: 'Stick to move · drag the screen to look · 🔥 shoot · 🎯 aim · ⤒ jump · 💣 hold to aim the grenade, let go to throw',
   vs_respawn: 'Back in {n}', vs_killedBy: 'Eliminated by {p}', vs_wave: 'Wave', vs_left: 'left', vs_waveClear: 'Wave cleared! ✓',
   vs_over: 'Match over', vs_gameOver: 'Game over!', vs_youWin: 'You win! 🏆', vs_won: '{p} wins', vs_reached: 'You reached wave {n}', vs_best: 'Best: wave {n}',
   vs_rules: '⚙ Match settings', vs_rulesT: 'Match settings', vs_botN: 'Number of bots', vs_allLv: 'Level for all bots', vs_mixed: 'Mixed', vs_eachBot: 'Each bot',
   vs_bot: 'Bot', vs_target: 'Kills to win', vs_noLimit: 'No limit', vs_lives: 'Lives (how many times you can die)', vs_inf: '∞ Unlimited',
-  vs_hc: '💀 Hardcore', vs_hcDesc: 'Any hit kills instantly, and whoever dies stays dead until the match ends.', vs_save: '✓ Done', vs_out: 'Out of lives — watching until the match ends',
+  vs_hc: '💀 Hardcore', vs_hcDesc: 'Any hit kills instantly (whatever the health and shield), and whoever dies stays dead until the match ends.', vs_hcHp: '💀 Hardcore is on: any hit kills, so health and shield don\'t count. Turn it off to use them.', vs_manyBots: '⚠️ A huge number of bots can slow your device down', vs_tooMany: 'More than {n} bots — they all use the level and health above', vs_save: '✓ Done', vs_out: 'Out of lives — watching until the match ends',
   vs_lastStand: 'Last one standing wins', vs_livesLeft: 'lives', vs_sum: '{b} bots · {l} · {t} · {v}', vs_sumT: 'first to {n}', vs_sumL: '{n} lives',
   vs_fists: 'Fists', vs_minigun: 'Minigun', vs_railgun: 'Railgun', vs_start: 'Weapons at the start', vs_stAll: 'All weapons', vs_stPistol: 'Pistol only', vs_stNone: 'No weapons (fists only)',
   vs_pickups: 'Better weapons and heals on the map', vs_pkOff: 'Off', vs_pkNormal: 'Normal', vs_pkLots: 'Lots', vs_drops: 'Supply Drops From The Sky', vs_dropIn: '📦 Supply drop incoming!', vs_crate: '📦 Crate: {w} + full health + ammo', vs_ammoRule: 'Ammo', vs_amNormal: 'Normal', vs_amInf: 'Infinite ∞', vs_reloadRule: 'Reload', vs_rlNormal: 'Normal (each weapon its own time)', vs_rlCustom: 'Same time for every weapon', vs_rlNone: 'No reload', vs_rlSec: 'Reload time (seconds)', vs_onDeath: 'When Someone Dies', vs_shield: '🛡️ Spare Health (Shield)', vs_shOn: 'On (Extra Healing → Shield)', vs_shOff: 'Off', vs_shGot: '+{n} Shield 🛡️', vs_myHp: 'Players\' Health', vs_myShield: 'Starting Shield (Players)', vs_botHp: 'Health For All Bots', vs_botShield: 'Starting Shield (Bots)', vs_hpHint: 'Normal is 100', vs_shMax: 'Max Shield', vs_dKeep: 'Keep Their Weapons', vs_dLose: 'Lose Weapons (Nothing Drops)', vs_dDrop: 'Drop All Weapons On The Ground', vs_alive: 'alive', vs_spec: 'Spectating — WASD to move, mouse to look, Space/Shift up and down',
@@ -303,7 +303,7 @@ function spawn(f) {
   if (G.mode !== 'waves') { const R = rules();
     if (f.local) { f.maxHp = R.php; f.shStart = R.psh; } else if (f.bot && !f.remote) { f.maxHp = (R.bhps && R.bhps[f.idx]) || R.bhp; f.shStart = R.bsh; } }
   if (!f.remote) f.shMax = G.mode !== 'waves' ? rules().shmax : SHIELD_MAX;
-  f.pos.copy(spawnPoint(f, G.mode === 'waves' && f.bot)); f.vel.set(0, 0, 0); f.hp = f.maxHp; f.shield = Math.min(f.shStart || 0, f.shMax || SHIELD_MAX); f.alive = true; refill(f);
+  f.pos.copy(spawnPoint(f, G.mode === 'waves' && f.bot)); f.vel.set(0, 0, 0); unstick(f); f.hp = f.maxHp; f.shield = Math.min(f.shStart || 0, f.shMax || SHIELD_MAX); f.alive = true; refill(f);
   f.yaw = Math.atan2(-(W / 2 - f.pos.x), -(D / 2 - f.pos.z)); f.pitch = 0; f.reloadT = 0; f.fireCD = 0.3; f.heat = 0; f.spawnT = G.t;
   f.model.root.rotation.set(0, 0, 0); f.ai = {}; startLoadout(f);
   if (f.local) { $('dead').hidden = true; $('dead').classList.remove('spec'); G.spec = null; G.ads = false; hudAll(); }
@@ -708,10 +708,24 @@ function physics(f, dt, wx, wz, speed, jump) {
   const r = G.world.move(f.pos, f.vel, dt, 0.3, 1.8);
   f.onGround = r.ground; f.wall = r.wall;
   if (f.pos.y < -5) f.pos.y = G.world.groundAt(Math.floor(f.pos.x), Math.floor(f.pos.z));
+  unstick(f);
+}
+// nobody may stand inside a block (a block placed on them, a bad spawn, a squeeze): move to the nearest free spot
+function unstick(f) {
+  const w = G.world; if (w.boxFree(f.pos.x, f.pos.y, f.pos.z, 0.3, 1.8)) return false;
+  const bx = Math.floor(f.pos.x) + 0.5, bz = Math.floor(f.pos.z) + 0.5, by = Math.floor(f.pos.y);
+  for (let up = 0; up <= 3; up++) if (w.boxFree(f.pos.x, by + up, f.pos.z, 0.3, 1.8)) { f.pos.y = by + up; f.vel.y = Math.max(0, f.vel.y); return true; }
+  for (let r = 1; r <= 4; r++) for (let dy = 0; dy <= 2; dy++) for (let dx = -r; dx <= r; dx++) for (let dz = -r; dz <= r; dz++) {
+    if (Math.max(Math.abs(dx), Math.abs(dz)) !== r) continue;
+    const x = bx + dx, z = bz + dz, y = by + dy;
+    if (x < 1 || z < 1 || x > W - 1 || z > D - 1) continue;
+    if (w.boxFree(x, y, z, 0.3, 1.8)) { f.pos.set(x, y, z); f.vel.set(0, 0, 0); return true; }
+  }
+  f.pos.y = w.groundAt(Math.floor(f.pos.x), Math.floor(f.pos.z)); f.vel.set(0, 0, 0); return true;   // last resort: stand on top of this column
 }
 const keys = {};
 const key = (c) => keys[c] ? 1 : 0;
-const TOUCH = { mx: 0, my: 0, jump: false, sprint: false };
+const TOUCH = { mx: 0, my: 0, jump: false, sprint: false, run: false };
 // out of lives: fly the camera around to watch the rest of the match
 function spectate(f, dt) {
   if (!G.spec) G.spec = { pos: new V3(f.pos.x, f.pos.y + 3, f.pos.z) };
@@ -731,8 +745,10 @@ function localUpdate(dt) {
   let mx = key('KeyD') - key('KeyA') + TOUCH.mx, mz = key('KeyS') - key('KeyW') + TOUCH.my;
   const len = Math.hypot(mx, mz); if (len > 1) { mx /= len; mz /= len; }
   const s = Math.sin(f.yaw), c = Math.cos(f.yaw), wx = mx * c + mz * s, wz = -mx * s + mz * c;
-  const sprint = (key('ShiftLeft') || key('ShiftRight') || TOUCH.sprint) && mz < -0.3 && !G.ads;
-  physics(f, dt, wx, wz, G.ads ? 3.3 : sprint ? 7.3 : 5.4, key('Space') || TOUCH.jump);
+  if (mz >= 0.3 || len < 0.1) G.sprintTap = false;                      // double-tap W keeps sprinting until you stop or walk back
+  const sprint = (key('ShiftLeft') || key('ShiftRight') || TOUCH.sprint || TOUCH.run || G.sprintTap) && len > 0.1 && mz < 0.3 && !G.ads && f.reloadT <= 0;
+  G.sprinting = sprint;
+  physics(f, dt, wx, wz, G.ads ? 3.3 : sprint ? 8.6 : 5.4, key('Space') || TOUCH.jump);
   if (G.fireHeld) {                                   // automatic guns keep firing; the others fire once per press
     const g = GUNS[f.weapon];
     if (f.weapon === 'blocks' || (g && g.auto)) fire(f); else if (!G.fired && fire(f)) G.fired = true;
@@ -1009,7 +1025,9 @@ addEventListener('pagehide', () => { if (NET.ch) send('bye', { id: G.me && G.me.
 // HUD
 // ---------------------------------------------------------------------
 function hudAll() { hudHp(); hudAmmo(); hudSlots(); }
-function hudHp() { const me = G.me; if (!me) return; hudShield(me); const v = Math.max(0, Math.round(me.hp)); $('hpnum').textContent = v; const b = $('hpbar').firstElementChild; b.style.width = clamp(v / me.maxHp * 100, 0, 100) + '%'; b.style.background = v > 60 ? 'var(--ok)' : v > 30 ? 'var(--accent)' : 'var(--red)'; }
+function hudHp() { const me = G.me; if (!me) return; hudShield(me);
+  if (G.mode !== 'waves' && rules().hardcore) { $('hpnum').textContent = me.alive ? '💀 1' : '0'; $('shbox').hidden = true; const b = $('hpbar').firstElementChild; b.style.width = me.alive ? '100%' : '0'; b.style.background = 'var(--red)'; return; }
+  const v = Math.max(0, Math.round(me.hp)); $('hpnum').textContent = v; const b = $('hpbar').firstElementChild; b.style.width = clamp(v / me.maxHp * 100, 0, 100) + '%'; b.style.background = v > 60 ? 'var(--ok)' : v > 30 ? 'var(--accent)' : 'var(--red)'; }
 function hudShield(me) {
   const box = $('shbox'); if (!box) return; const v = Math.round(me.shield || 0);
   box.hidden = !(v > 0); if (v > 0) { box.querySelector('i').style.width = clamp(v / (me.shMax || SHIELD_MAX) * 100, 0, 100) + '%'; box.querySelector('span').textContent = v; }
@@ -1033,7 +1051,7 @@ function hudFrame(dt) {
   $('dmg').style.opacity = G.hurtA.toFixed(2);
   const dirs = $('dirs'); if (G.hurtFrom && G.hurtA > 0.05) { const a = Math.atan2(-(G.hurtFrom.x - me.pos.x), -(G.hurtFrom.z - me.pos.z)); dirs.firstElementChild.style.transform = `rotate(${-angDiff(me.yaw, a)}rad)`; dirs.style.opacity = G.hurtA; } else dirs.style.opacity = 0;
   const g = GUNS[me.weapon], scoped = G.ads && g && g.scope && camera.fov < SET.fov / 2;
-  $('scope').hidden = !scoped; $('cross').style.display = scoped ? 'none' : '';
+  $('scope').hidden = !scoped; $('cross').style.display = scoped ? 'none' : ''; $('sprint').classList.toggle('on', !!G.sprinting && me.alive);
   const gap = 6 + (g ? (g.spread * (1 + me.heat + (me.onGround ? 0 : 1.6) + (Math.hypot(me.vel.x, me.vel.z) > 1.2 ? 0.8 : 0))) * 340 : 0);
   const cs = $('cross').children; cs[0].style.transform = `translate(-50%,${-gap - 9}px)`; cs[1].style.transform = `translate(-50%,${gap}px)`; cs[2].style.transform = `translate(${-gap - 9}px,-50%)`; cs[3].style.transform = `translate(${gap}px,-50%)`;
   if ((hudT -= dt) > 0) return; hudT = 0.2;
@@ -1051,8 +1069,10 @@ function hudFrame(dt) {
   mini.hidden = !target || G.over;
   if (target) {
     const rank = ranking(); let list = rank.slice(0, 5); if (!list.includes(me)) list = list.slice(0, 4).concat(me);
-    mini.innerHTML = list.map(f => { const i = rank.indexOf(f) + 1, col = '#' + f.color.toString(16).padStart(6, '0');
-      return `<div class="mr ${f === me ? 'me' : ''}" style="${isOut(f) ? 'opacity:.45' : ''}"><span class="rk">${i <= 3 ? ['🥇', '🥈', '🥉'][i - 1] : i}</span><i style="background:${col}"></i><span class="nm">${esc(f === me ? t('vs_you') : f.name)}</span><b>${f.kills}</b><span class="bar"><s style="width:${Math.min(100, f.kills / target * 100)}%;background:${col}"></s></span></div>`; }).join('');
+    const lives = RL.lives > 0, lv = (f) => isOut(f) ? '💀' : Math.max(0, RL.lives - f.deaths);
+    mini.classList.toggle('nolives', !lives);
+    mini.innerHTML = `<div class="mr hd"><span></span><i></i><span class="nm"></span><b title="${t('vs_kills')}">🎯</b><span title="${t('vs_deaths')}">☠</span>${lives ? `<span title="${t('vs_livesCol')}">❤</span>` : ''}</div>` + list.map(f => { const i = rank.indexOf(f) + 1, col = '#' + f.color.toString(16).padStart(6, '0');
+      return `<div class="mr ${f === me ? 'me' : ''}" style="${isOut(f) ? 'opacity:.45' : ''}"><span class="rk">${i <= 3 ? ['🥇', '🥈', '🥉'][i - 1] : i}</span><i style="background:${col}"></i><span class="nm">${esc(f === me ? t('vs_you') : f.name)}</span><b>${f.kills}</b><span class="dd">${f.deaths}</span>${lives ? `<span class="lv">${lv(f)}</span>` : ''}<span class="bar"><s style="width:${Math.min(100, f.kills / target * 100)}%;background:${col}"></s></span></div>`; }).join('');
   }
   if (me.reloadT > 0) hudAmmo();
   $('clickHint').hidden = touchMode || locked() || G.paused || G.over || !G.running;
@@ -1085,7 +1105,7 @@ function renderBoard(show) {
 // ---------------------------------------------------------------------
 const SCREENS = ['menu', 'pause', 'end', 'settings', 'lb', 'rules'];
 // ---------- match settings (bots, each bot's level, kills to win, lives, hardcore), kept per mode ----------
-const LVS = ['easy', 'medium', 'hard'], MAX_BOTS = 40;
+const LVS = ['easy', 'medium', 'hard'], MAX_BOTS = Infinity, BOT_LIST_MAX = 60;   // no limit on bots; huge numbers just get slow
 function getRules(kind) {
   const all = lsGet('vstrike-rules', {}), m = lsGet('vstrike-menu', {});
   const def = kind === 'dm' ? { bots: m.bots != null ? m.bots : 5, lv: m.diff || 'medium', target: DM_TARGET } : { bots: m.obots != null ? m.obots : 0, lv: m.olv || 'medium', target: ONLINE_TARGET };
@@ -1113,11 +1133,11 @@ function openRules(kind) {
   const draw = () => {
     const lvs = r.lvs || Array(r.bots).fill(r.lv), mixed = lvs.some(l => l !== lvs[0]);
     $('rules').innerHTML = `<div class="panel wide rulesp" data-m3pop><h2>${t('vs_rulesT')} — ${kind === 'dm' ? t('vs_dm') : t('vs_online')}</h2>
-      <label>${t('vs_botN')}<div class="row"><button class="btn sec small" data-n="-1">−</button><input type="number" id="rBots" min="0" max="${MAX_BOTS}" value="${r.bots}"><button class="btn sec small" data-n="1">+</button></div></label>
+      <label>${t('vs_botN')}<div class="row"><button class="btn sec small" data-n="-1">−</button><input type="number" id="rBots" min="0" value="${r.bots}"><button class="btn sec small" data-n="1">+</button><button class="btn sec small" data-n="10">+10</button></div>${r.bots > 50 ? `<small class="warn">${t('vs_manyBots')}</small>` : ''}</label>
       ${r.bots ? `<label>${t('vs_allLv')}<select id="rAll">${mixed ? opt('mixed', t('vs_mixed'), 'mixed') : ''}${LVS.map(k => opt(k, t('vs_' + k), mixed ? '' : lvs[0])).join('')}</select></label>
       <div class="two"><label>🤖❤ ${t('vs_botHp')}<input type="number" id="rBhp" min="1" max="1000" value="${r.bhp}"><small>${t('vs_hpHint')}</small></label>
       <label>🤖🛡️ ${t('vs_botShield')}<input type="number" id="rBsh" min="0" max="1000" value="${r.bsh}"></label></div>
-      <div class="blist"><div class="small">${t('vs_eachBot')}</div>${lvs.map((l, i) => `<div class="bi"><span>🤖 ${t('vs_bot')} ${i + 1}</span><span class="bictl"><select data-i="${i}">${LVS.map(k => opt(k, t('vs_' + k), l)).join('')}</select><input type="number" class="bhp" data-h="${i}" min="1" max="1000" value="${(r.bhps && r.bhps[i]) || r.bhp}" title="❤ HP"></span></div>`).join('')}</div>` : ''}
+      ${r.bots > BOT_LIST_MAX ? `<small>${t('vs_tooMany', { n: BOT_LIST_MAX })}</small>` : `<div class="blist"><div class="small">${t('vs_eachBot')}</div>${lvs.map((l, i) => `<div class="bi"><span>🤖 ${t('vs_bot')} ${i + 1}</span><span class="bictl"><select data-i="${i}">${LVS.map(k => opt(k, t('vs_' + k), l)).join('')}</select><input type="number" class="bhp" data-h="${i}" min="1" max="1000" value="${(r.bhps && r.bhps[i]) || r.bhp}" title="❤ HP"></span></div>`).join('')}</div>`}` : ''}
       <div class="two"><label>❤ ${t('vs_myHp')}<input type="number" id="rPhp" min="1" max="1000" value="${r.php}"><small>${t('vs_hpHint')}</small></label>
       <label>🛡️ ${t('vs_myShield')}<input type="number" id="rPsh" min="0" max="1000" value="${r.psh}"></label></div>
       <div class="two"><label>${t('vs_target')}<input type="number" id="rTarget" min="0" max="9999" value="${r.target}"><small>${t('vs_numHint')}</small></label>
@@ -1133,6 +1153,7 @@ function openRules(kind) {
       <div class="two"><label>🛡️ ${t('vs_shMax')}<input type="number" id="rShMax" min="1" max="1000" value="${r.shmax}"><small>${t('vs_hpHint')}</small></label><span></span></div>
       <label class="tog"><span><input type="checkbox" id="rHard" ${r.hardcore ? 'checked' : ''}> ${t('vs_hc')}</span><small>${t('vs_hcDesc')}</small></label>
       <button class="btn" id="rDone">${t('vs_save')}</button></div>`;
+    if (r.hardcore) { $('rules').querySelectorAll('#rPhp,#rPsh,#rBhp,#rBsh,#rShMax,.bhp').forEach(i => { i.disabled = true; i.title = t('vs_hcHp'); }); const n = document.createElement('small'); n.className = 'warn'; n.textContent = t('vs_hcHp'); $('rPhp').parentElement.appendChild(n); }
     const redraw = () => setTimeout(draw, 0);   // never rebuild the panel from inside one of its own events
     const setBots = (n) => { n = Math.max(0, Math.min(MAX_BOTS, n | 0)); if (n === r.bots) return; const old = r.lvs || Array(r.bots).fill(r.lv); r.bots = n; r.lvs = Array.from({ length: n }, (_, i) => old[i] || old[old.length - 1] || r.lv); redraw(); };
     $('rules').querySelectorAll('[data-n]').forEach(b => b.onclick = () => setBots(r.bots + +b.dataset.n));
@@ -1300,6 +1321,7 @@ document.addEventListener('keydown', (e) => {
   const me = G.me; if (!me) return;
   if (e.code.startsWith('Digit')) { const n = +e.code.slice(5); if (n >= 1 && n <= SLOTS.length) switchWeapon(me, SLOTS[n - 1]); }
   if (e.code === 'KeyR') startReload(me);
+  if (e.code === 'KeyW' && !e.repeat) { const now = performance.now(); if (now - (G.lastW || 0) < 300) G.sprintTap = true; G.lastW = now; }
   if (e.code === 'KeyG' && !e.repeat && me.nades > 0 && me.alive) G.nadeAim = true;
   if (e.code === 'KeyQ' && !e.repeat) { const i = SLOTS.indexOf(me.weapon); switchWeapon(me, SLOTS[(i + SLOTS.length - 1) % SLOTS.length]); }
   if (['Space', 'Tab'].includes(e.code)) e.preventDefault();
@@ -1324,13 +1346,14 @@ addEventListener('blur', () => { for (const k in keys) keys[k] = false; G.fireHe
     if (k === 'fire') { if (me.weapon === 'nade') { if (me.nades > 0) G.nadeAim = 'click'; } else { G.fireHeld = true; G.fired = false; } }
     if (k === 'aim') G.ads = !G.ads && !!GUNS[me.weapon];
     if (k === 'jump') TOUCH.jump = true;
+    if (k === 'run') { TOUCH.run = !TOUCH.run; }
     if (k === 'reload') startReload(me);
     if (k === 'nade' && me.nades > 0) G.nadeAim = true;
     if (k === 'next') { const i = SLOTS.indexOf(me.weapon); switchWeapon(me, SLOTS[(i + 1) % SLOTS.length]); }
     if (k === 'pause') openPause();
     if (k === 'score') renderBoard(!G.boardOpen);
   };
-  const release = (b) => { b.classList.remove('held'); const k = b.dataset.b; if (k === 'fire') { G.fireHeld = false; G.fired = false; if (G.nadeAim === 'click') { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } } if (k === 'jump') TOUCH.jump = false; if (k === 'nade' && G.nadeAim) { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } };
+  const release = (b) => { const k = b.dataset.b; b.classList.toggle('held', k === 'run' && TOUCH.run); if (k === 'fire') { G.fireHeld = false; G.fired = false; if (G.nadeAim === 'click') { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } } if (k === 'jump') TOUCH.jump = false; if (k === 'nade' && G.nadeAim) { G.nadeAim = false; if (G.me && !G.paused) throwNade(G.me); } };
   T.addEventListener('touchstart', (e) => {
     e.preventDefault();
     for (const tch of e.changedTouches) {
@@ -1375,7 +1398,7 @@ function frame() {
     if (G.spec && !me.alive) camera.position.copy(G.spec.pos); else camera.position.set(me.pos.x, me.pos.y + (me.alive ? 1.55 : 0.6), me.pos.z);
     if (G.shake > 0) camera.position.add(new V3((Math.random() - 0.5) * G.shake * 0.3, (Math.random() - 0.5) * G.shake * 0.3, (Math.random() - 0.5) * G.shake * 0.3));
     camera.rotation.set(me.pitch, me.yaw, me.alive || G.spec ? 0 : 0.5);
-    const g = GUNS[me.weapon], target = G.ads && g ? SET.fov / g.zoom : SET.fov;
+    const g = GUNS[me.weapon], target = G.ads && g ? SET.fov / g.zoom : SET.fov + (G.sprinting && me.alive ? 9 : 0);
     if (Math.abs(camera.fov - target) > 0.05) { camera.fov += (target - camera.fov) * Math.min(1, dt * 14); camera.updateProjectionMatrix(); }
   } else {
     camera.position.set(W / 2 + Math.cos(orbit) * 46, 26, D / 2 + Math.sin(orbit) * 46);
