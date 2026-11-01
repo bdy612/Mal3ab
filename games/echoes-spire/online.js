@@ -106,6 +106,7 @@
         toast('👋 ' + esc(t('es_joinedP', { p: P.n }))); ESAudio.sfx('pick'); hello(false);
         if (ON.stage === 'run') { addPlayer(p.id, P.n, false); syncMine(); markDirty(); }
       } else if (ON.stage === 'run' && G.players && G.players[p.id] && G.players[p.id].gone) { addPlayer(p.id, P.n, false); markDirty(); }   // came back (reload)
+      if (G.players && G.players[p.id] && p.n && G.players[p.id].n !== p.n) { G.players[p.id].n = p.n; markDirty(); }      // renamed
     } else if (p.id === ON.host && p.mem) setMem(p.mem);
     switch (ev) {
       case 'hello': if (p.req) hello(false); renderLobby(); break;
@@ -195,7 +196,7 @@
   function earn(gold) {
     const L = live(); if (!L.length) return;
     const share = gold * teamMul(L.length) / L.length;
-    for (const P of L) { P.frac += share; const w = Math.floor(P.frac); P.shards += w; P.frac -= w; }
+    for (const P of L) { P.frac = (P.frac || 0) + share; const w = Math.floor(P.frac); P.shards = (P.shards || 0) + w; P.frac -= w; }
     syncMine();
   }
   function waveBonus(bonus) {
@@ -329,8 +330,10 @@
   }
   function waitModal() {
     const L = live().filter(P => !P.picked);
-    showModal(`<h2>⏳ ${esc(t('es_waitOthers'))}</h2><div class="plist">${L.map(P => prow(P.n, P_COLS[P.col], '…', P.id === ON.host)).join('')}</div>
-      ${amHost() && L.length ? `<div class="col">${btn('sec', 'skipWait', '⏩ ' + esc(t('es_skipWait')))}</div>` : ''}`, 'waitpick');
+    const html = `<h2>⏳ ${esc(t('es_waitOthers'))}</h2><div class="plist">${L.map(P => prow(P.n, P_COLS[P.col], '…', P.id === ON.host)).join('')}</div>
+      ${amHost() && L.length ? `<div class="col">${btn('sec', 'skipWait', '⏩ ' + esc(t('es_skipWait')))}</div>` : ''}`;
+    if (UI.modal === 'waitpick' && ON.waitH === html) return;
+    ON.waitH = html; showModal(html, 'waitpick');
   }
 
   // ---------------------------------------------------------------- run start (host)
@@ -411,6 +414,7 @@
       Object.assign(P, { id, n, col, shards: sh, unlocked: ul.map(i => ROLE_ORDER[i]), attune: Object.fromEntries(ROLE_ORDER.map((r, i) => [r, at[i] | 0])), drafts: dr, gone: !!gone, draft });
       if (!keepReady) P.ready = !!rd;
       if (!keepPick) P.picked = !!pk;
+      if (P.frac == null) P.frac = 0;
       pl[id] = P;
     }
     G.players = pl;
@@ -586,13 +590,27 @@
     const foot = host
       ? `<div class="col"><button class="btn big" data-act="netStart" ${n < 2 ? 'disabled' : ''}>▶ ${esc(t('es_startRun'))}</button></div>${n < 2 ? `<p class="sub">${esc(t('es_needPlayers'))}</p>` : ''}`
       : `<p class="sub">${esc(t(ON.ready && ON.host ? 'es_waitHost' : 'es_connecting'))}</p>`;
-    const html = `<h2>🌐 ${esc(t('es_online'))}</h2>
+    // no account: the player types a name here (also after opening an invite link, which joins straight away)
+    const nameRow = authName() ? '' : `<label class="fl">${esc(t('es_yourName'))}<input id="esLName" class="tin" maxlength="16" value="${esc(myName())}" autocomplete="off" spellcheck="false" dir="auto"></label>`;
+    const html = `<h2>🌐 ${esc(t('es_online'))}</h2>${nameRow}
       <div class="roomcode"><span>${esc(t('es_room'))}</span><b>${esc(ON.code)}</b><button class="btn sec" data-act="netCopy">📋 ${esc(t('es_copyLink'))}</button></div>
       <div class="plist">${rows}</div><p class="sub tiny">${n}/${NET_MAX}</p>
       <p class="sub l">${esc(t('es_coopHint'))}</p>${foot}
       <div class="col">${btn('sec', 'leave', '🚪 ' + esc(t('es_leaveRoom')))}</div>`;
     if (UI.modal === 'lobby' && ON.lobbyH === html) return;       // heartbeats must not redraw (and steal clicks from) the lobby
+    const typing = document.activeElement && document.activeElement.id === 'esLName';
     ON.lobbyH = html; showModal(html, 'lobby');
+    const ni = $('esLName');
+    if (ni) {
+      if (typing) { ni.focus(); const n2 = ni.value.length; try { ni.setSelectionRange(n2, n2); } catch (e) {} }
+      ni.oninput = () => {
+        const v = ni.value.trim().slice(0, 16); if (!v) return;
+        lsSet('echoes-spire-name', v);
+        const m = ON.mem.find(x => x.id === ON.me); if (m) m.n = v;
+        clearTimeout(ON.nameTm); ON.nameTm = setTimeout(() => { hello(false); }, 350);
+      };
+      ni.onkeydown = (e) => { if (e.key === 'Enter') ni.blur(); };
+    }
   }
   function endButtons(won) {
     const lv = btn('sec', 'leave', '🚪 ' + esc(t('es_leaveRoom')));
