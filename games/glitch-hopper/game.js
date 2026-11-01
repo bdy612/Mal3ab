@@ -64,7 +64,7 @@ addStrings({
   gh_t_ghostshift: 'الحجارة الزرقا هتختفي من قدامك بس هتفضل موجودة. كمّل نط ومتبطلش.',
   gh_t_cache: 'سقف، بعدين كوبري أزرق، بعدين سقف بتحكم معكوس. التلج هيساعدك.',
   gh_t_frag: 'كل الجليتشات ورا بعض. كل جزء محتاج جليتش معين — اعرف الترتيب.',
-  gh_t_kernel: 'آخر مرحلة: كل حاجة مع بعض والديفراج وراك. بالتوفيق يا بطل!',
+  gh_t_kernel: 'نهاية الهارد الأول: كل حاجة مع بعض والديفراج وراك. وبعدها القطاعات العميقة!',
 }, {
   gh_title: 'Glitch Hopper', gh_tag: 'You are a rogue data packet escaping a defragmenting drive — and the rules glitch every 5 seconds!',
   gh_play: 'Play', gh_continue: 'Continue — Level {n}', gh_levels: 'Levels', gh_how: 'How to Play', gh_back: 'Back', gh_menu: 'Menu',
@@ -113,7 +113,31 @@ addStrings({
   gh_t_ghostshift: 'The blue stepping stones vanish from view but stay solid. Keep hopping.',
   gh_t_cache: 'The ceiling, then a blue bridge, then the ceiling again with mirrored controls. Freezes help.',
   gh_t_frag: 'Every glitch, one after another. Each part needs a specific glitch — learn the order.',
-  gh_t_kernel: 'The final level: everything at once, with the defrag right behind you. Good luck!',
+  gh_t_kernel: 'The end of the first drive: everything at once, with the defrag right behind you. The deep sectors come next!',
+});
+// deep sectors: levels 16–23
+addStrings({
+  gh_n_reboot: 'ريستارت', gh_n_rink: 'تزحلق بالمقلوب', gh_n_blink: 'الكوبري اللي بيرمش', gh_n_ceiling: 'مطاردة على السقف',
+  gh_n_vault: 'خزنة البتات', gh_n_blackout: 'الكهربا قاطعة', gh_n_overclock: 'أوفركلوك', gh_n_core: 'الكور دامب',
+  gh_t_reboot: 'هارد جديد! الجاذبية بتتقلب فوق حفرة شوك طويلة — استنى فوق العمود لحد ما ترجع طبيعي. وبعدين التحكم بيتعكس.',
+  gh_t_rink: 'الحفرتين محتاجين تلج عشان تعدّيهم — والتانية ممكن تيجي والتحكم معكوس. التجميد ❄ هيديك وقت.',
+  gh_t_blink: 'كوبري أحمر وأزرق فوق الشوك. نط على الحتة اللي هتبقى صلبة قبل ما اللي تحتك تختفي!',
+  gh_t_ceiling: 'الأرض كلها شوك والبورت فوق في السقف — والديفراج وراك. امشي على السقف ونط فوق شوكه.',
+  gh_t_vault: 'الحيطان الحمرا بتفتح في التبديل بس. عدّي الكوبري الأزرق، وبعدين اطلع السلم الأحمر والأزرق للبورت.',
+  gh_t_blackout: 'الحجارة بتختفي بعد ٥ ثواني. والبت الدهبي جنب سقف مش باين — هتوصله لما الجاذبية تتقلب بس.',
+  gh_t_overclock: 'الديفراج سريع جدًا! نطات بالتلج وكوبري أزرق متزحلق — متقفش خالص.',
+  gh_t_core: 'آخر مرحلة: كل جليتش وراه التاني، نقطتين حفظ، والديفراج وراك. طلّع الباكت برّه!',
+}, {
+  gh_n_reboot: 'Reboot', gh_n_rink: 'Mirror Rink', gh_n_blink: 'Blink Bridge', gh_n_ceiling: 'Ceiling Chase',
+  gh_n_vault: 'Bit Vault', gh_n_blackout: 'Blackout', gh_n_overclock: 'Overclock', gh_n_core: 'Core Dump',
+  gh_t_reboot: 'A new drive! Gravity flips over a long spike pit — wait above the pillar until it flips back. Then the controls reverse.',
+  gh_t_rink: 'Both gaps need ice to clear — and the second may come with mirrored controls. A freeze ❄ buys you time.',
+  gh_t_blink: 'A red and blue bridge over spikes. Hop onto the half that is about to turn solid before the one under you vanishes!',
+  gh_t_ceiling: 'The whole floor is spikes and the port is on the ceiling — with the defrag behind you. Walk the ceiling and hop its spikes.',
+  gh_t_vault: 'The red walls only open in Bit Shift. Cross the blue bridge, then climb the red and blue stairs to the port.',
+  gh_t_blackout: 'The stepping stones vanish after 5 seconds. The golden bit hangs by a ceiling you cannot see — reach it when gravity flips.',
+  gh_t_overclock: 'The defrag is fast! Ice jumps and a slippery blue bridge — never stop moving.',
+  gh_t_core: 'The final level: every glitch in turn, two checkpoints and the defrag behind you. Get the packet out!',
 });
 // online: Run + Race, up to 4 players
 addStrings({
@@ -174,6 +198,8 @@ addStrings({
 let prog = lsGet(SAVE, null);
 if (!prog || typeof prog !== 'object') prog = { unlocked: 1, lv: {} };
 if (!prog.lv) prog.lv = {};
+// levels added later (16–23): a level you already finished keeps the one after it open, so beating the old last level unlocks level 16
+LV.forEach((lv, i) => { const r = prog.lv[lv.id]; if (r && r.s && r.s[0]) prog.unlocked = Math.max(prog.unlocked || 1, Math.min(LV.length, i + 2)); });
 let sets = Object.assign({ sfx: true, music: true, hinted: false }, lsGet(SETS, {}));
 const saveProg = () => lsSet(SAVE, prog), saveSets = () => lsSet(SETS, sets);
 const starsOf = (lv) => (prog.lv[lv.id] && prog.lv[lv.id].s) || [false, false, false];
