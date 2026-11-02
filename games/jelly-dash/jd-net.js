@@ -153,7 +153,8 @@ NET.tick = (dt) => {
   if (NET.tileQ.length && NET.tileT <= 0 && S) { netSend('ev', { e: { k: 'tl', r: S.serial, a: NET.tileQ.splice(0, 60) } }); NET.tileT = 0.1; }
   if (NET.isHost() && S && NET.showT <= 0) NET.sendShow();
   if (!G.round || G.round.fake || !S || NET.sendT > 0) return;
-  NET.sendT = 1 / 12.5;
+  // fewer updates per player in big rooms, so a full room stays under the realtime message limits
+  const n = 1 + NET.peers.size; NET.sendT = 1 / (n >= 6 ? 6 : n >= 4 ? 8 : n >= 3 ? 10 : 12.5);
   const pl = { r: S.serial }; let any = false;
   const me = G.byId.get(NET.me);
   if (me && me.kind === 'p' && !me.out && (me.visible || me.dead > 0)) { pl.p = pack(me); any = true; }

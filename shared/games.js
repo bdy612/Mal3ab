@@ -71,11 +71,14 @@
     { href: 'games/turbo-goal/index.html', icon: '🏎️', key: 'turbogoal', isNew: true, modes: ['online', 'bot', 'local'],
       ar: ['سوق عربيتك وشوط الكورة العملاقة في جون الخصم.', 'W/S بنزين، A/D لف، Space نط (مرتين = شقلبة)، Shift تيربو، Ctrl انزلاق.', 'تقدر تطلع على الحيطان والسقف وتطير بالتيربو.', 'لو خبطت حد وانت في أقصى سرعة بتفجّره!'],
       en: ['Drive your rocket car and smash the giant ball into the other goal.', 'W/S throttle, A/D steer, Space jump (twice = flip), Shift boost, Ctrl powerslide.', 'Drive up walls and across the ceiling, and fly with boost.', 'Hit someone at supersonic speed to demolish them!'] },
+    { href: 'games/jelly-dash/index.html', icon: '🍬', key: 'jellydash', isNew: true, modes: ['online', 'bot', 'local'],
+      ar: ['جولات إقصائية: سباقات عقبات، صمود على أرض بتقع، وخطف الشرايط — كل جولة بيتأهل عدد أقل.', 'WASD تجري، Space تنط، Shift تزحلق، E تمسك اللي جنبك.', 'لو وقعت في سباق بترجع لآخر علم، بس في جولات الصمود الوقعة بتطلّعك.', 'آخر جولة نهائي: اخطف التاج 👑 أو كن آخر واحد واقف.'],
+      en: ['Knockout rounds: obstacle races, survival on falling floors and tail grabs — fewer qualify each round.', 'WASD run, Space jump, Shift dive, E grab whoever is next to you.', 'Fall in a race and you respawn at the last flag; in survival rounds a fall knocks you out.', 'The last round is a final: grab the crown 👑 or be the last jelly standing.'] },
   ];
   // the key a game page announces itself under (games/<folder>/… or games/<file>.html)
   const liveKey = (href) => { const m = href.match(/games\/([^/]+)\//) || href.match(/games\/([^/.]+)\.html/); return m ? m[1] : ''; };
   for (const g of G) g.live = liveKey(g.href);
   window.MAL3AB_GAMES = G;
-  window.MAL3AB_READY = ['turbogoal', 'colorstorm', 'chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];
+  window.MAL3AB_READY = ['jellydash', 'turbogoal', 'colorstorm', 'chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];
   window.Mal3abLiveKey = liveKey;
 })();

@@ -315,7 +315,8 @@ function pushState(j, s) {   // s: { ts (s), x, y, z, vx, vy, vz, yaw, st, g, gr
 }
 function remoteStep(j, dt) {
   const b = j.buf; if (!b.length || j.out) return;
-  const rt = now() - 0.12; let a = b[0], c = null;
+  const gap = b.length > 1 ? b[b.length - 1].ts - b[b.length - 2].ts : 0.08;   // big rooms send less often → stay a little further behind
+  const rt = now() - clamp(gap * 1.5, 0.12, 0.3); let a = b[0], c = null;
   for (let i = b.length - 1; i >= 0; i--) if (b[i].ts <= rt) { a = b[i]; c = b[i + 1] || null; break; }
   let x, y, z, yaw;
   if (c) { const k = clamp((rt - a.ts) / Math.max(0.001, c.ts - a.ts), 0, 1); x = lerp(a.x, c.x, k); y = lerp(a.y, c.y, k); z = lerp(a.z, c.z, k); yaw = a.yaw + angDiff(a.yaw, c.yaw) * k; }
@@ -585,9 +586,11 @@ const MENU = (() => {
       const base = (j === ms.mine || j === ms.win) ? 0.5 : 0;
       if (!j.grounded) { m.vy -= 22 * dt; j.pos.y += m.vy * dt; if (j.pos.y <= base) { j.pos.y = base; j.grounded = true; j.sqv -= Math.min(6, -m.vy * 0.4); m.vy = 0; } }
       animJelly(j, dt, t);
+      if (j !== ms.mine && j !== ms.win && ms.mode !== 'menu') j.m.root.visible = false;   // keep the stage clear for your jelly / the winner
     }
+    if (ms.mine) ms.mine.m.root.visible = ms.mode !== 'end'; if (ms.win) ms.win.m.root.visible = ms.mode === 'end';
     const w = innerWidth, h = innerHeight; cam.aspect = w / h; cam.fov = w < h ? 62 : 50; cam.updateProjectionMatrix();
-    if (ms.mode === 'custom') { cam.position.set(Math.sin(t * 0.2) * 0.6, 1.9, 2.2 + 4.6); cam.lookAt(0, w < h ? 0.4 : 0.7, 2.2); }
+    if (ms.mode === 'custom') { cam.position.set(Math.sin(t * 0.2) * 0.6, 1.7, 2.2 + (w < h ? 8 : 6.5)); cam.lookAt(0, w < h ? -1.4 : -0.5, 2.2); }
     else if (ms.mode === 'end') { cam.position.set(Math.sin(t * 0.3) * 1.5, 2.2, 2.2 + 6.2); cam.lookAt(0, w < h ? -0.6 : 0.2, 2.2); }
     else { const a = t * 0.08; cam.position.set(Math.sin(a) * 14, 5.2, Math.cos(a) * 14); cam.lookAt(0, w < h ? 2.6 : 0.6, 0); }
   };

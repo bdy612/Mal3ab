@@ -222,13 +222,13 @@ function dressScene(scene, seed, focus) {
   scene.add(sun); scene.add(sun.target); scene.userData.sun = sun;
   // puffy clouds around
   const r = mulberry(seed || 7), f = focus || { x: 0, z: 60, span: 120 };
+  const puffs = new THREE.InstancedMesh(cloudGeo, cloudMat, 16 * 5), o = new THREE.Object3D(), grp = new THREE.Object3D(); let np = 0;   // all clouds in one draw call
   for (let i = 0; i < 16; i++) {
-    const grp = new THREE.Group(), n = 3 + (r() * 3 | 0);
-    for (let k = 0; k < n; k++) { const m = new THREE.Mesh(cloudGeo, cloudMat); const s = 3 + r() * 4; m.scale.set(s * 1.3, s * 0.8, s); m.position.set((k - n / 2) * 4.2, r() * 2, r() * 3); grp.add(m); }
-    const side = r() < 0.5 ? -1 : 1, low = r() < 0.4;
-    grp.position.set(f.x + side * (45 + r() * 90), low ? -28 - r() * 8 : 18 + r() * 40, f.z + (r() - 0.5) * (f.span + 160));
-    grp.rotation.y = r() * TAU; scene.add(grp);
+    const n = 3 + (r() * 3 | 0), side = r() < 0.5 ? -1 : 1, low = r() < 0.4;
+    grp.position.set(f.x + side * (45 + r() * 90), low ? -28 - r() * 8 : 18 + r() * 40, f.z + (r() - 0.5) * (f.span + 160)); grp.rotation.y = r() * TAU; grp.updateMatrix();
+    for (let k = 0; k < n; k++) { const sc = 3 + r() * 4; o.scale.set(sc * 1.3, sc * 0.8, sc); o.position.set((k - n / 2) * 4.2, r() * 2, r() * 3); o.updateMatrix(); o.matrix.premultiply(grp.matrix); puffs.setMatrixAt(np++, o.matrix); }
   }
+  puffs.count = np; puffs.frustumCulled = false; scene.add(puffs);
   return sun;
 }
 
@@ -239,7 +239,11 @@ const JG = {
   cheek: new THREE.SphereGeometry(0.07, 10, 6), cone: new THREE.ConeGeometry(0.2, 0.5, 16), ball: new THREE.SphereGeometry(0.08, 10, 8),
   tailSeg: new THREE.SphereGeometry(0.12, 10, 8), crownG: null
 };
-const eyeMat = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 90 });
+const eyeMat = new THREE.MeshPhongMaterial({ shininess: 90, map: canvasTex(128, 64, (g, w, h) => {
+  g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+  g.fillStyle = '#1b1530'; g.beginPath(); g.ellipse(w * 0.25, h * 0.52, w * 0.085, h * 0.2, 0, 0, TAU); g.fill();
+  g.fillStyle = '#fff'; g.beginPath(); g.ellipse(w * 0.268, h * 0.4, w * 0.022, h * 0.05, 0, 0, TAU); g.fill();
+}, false) });
 const pupilMat = new THREE.MeshPhongMaterial({ color: 0x1b1530, shininess: 120 });
 const shineMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const cheekMat = new THREE.MeshBasicMaterial({ color: 0xff7aa8, transparent: true, opacity: 0.55, depthWrite: false });
@@ -284,15 +288,13 @@ function makeJellyMesh(col, cos) {
   for (const s of [1, -1]) {
     const e = new THREE.Group(); e.position.set(s * 0.155, 1.06, 0.355); e.rotation.y = s * 0.28;
     const w = new THREE.Mesh(JG.eye, eyeMat); w.scale.set(1, 1.2, 0.62); e.add(w);
-    const p = new THREE.Mesh(JG.pupil, pupilMat); p.position.set(-s * 0.01, -0.01, 0.075); p.scale.set(1, 1.15, 0.6); e.add(p);
-    const sh = new THREE.Mesh(JG.shine, shineMat); sh.position.set(0.03, 0.05, 0.13); e.add(sh);
     parts.add(e); eyes.push(e);
     const ch = new THREE.Mesh(JG.cheek, cheekMat); ch.position.set(s * 0.27, 0.9, 0.33); ch.scale.set(1, 0.6, 0.4); parts.add(ch);
   }
   const arms = [];
-  for (const s of [1, -1]) { const a = new THREE.Group(); a.position.set(s * 0.43, 0.74, 0.02); const m = new THREE.Mesh(JG.arm, bodyMat(col)); m.position.y = -0.14; m.castShadow = true; a.add(m); a.rotation.z = s * 0.45; parts.add(a); arms.push(a); }
+  for (const s of [1, -1]) { const a = new THREE.Group(); a.position.set(s * 0.43, 0.74, 0.02); const m = new THREE.Mesh(JG.arm, bodyMat(col)); m.position.y = -0.14; a.add(m); a.rotation.z = s * 0.45; parts.add(a); arms.push(a); }
   const feet = [];
-  for (const s of [1, -1]) { const f = new THREE.Mesh(JG.foot, darkMat(col)); f.scale.set(1, 0.62, 1.25); f.position.set(s * 0.19, 0.08, 0.05); f.castShadow = true; root.add(f); feet.push(f); }
+  for (const s of [1, -1]) { const f = new THREE.Mesh(JG.foot, darkMat(col)); f.scale.set(1, 0.62, 1.25); f.position.set(s * 0.19, 0.08, 0.05); root.add(f); feet.push(f); }
   const hat = costumeMesh(cos | 0, col); hat.position.y += 1.38; parts.add(hat);
   // a candy ribbon tail (shown in the tail round)
   const tail = new THREE.Group(); tail.position.set(0, 0.62, -0.42); tail.visible = false; parts.add(tail);

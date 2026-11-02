@@ -229,7 +229,7 @@ const JD_ROUNDS = (() => {
     B.set({ killY: -8, view: 0, ai: 'sweep', arena: { x: 0, z: 0, r: 13 } });
     B.cyl(0, -1, 0, 13.2, 2, candyMat(CC.pink, 'ring', CC.white), { seg: 48 });
     B.cyl(0, -2.6, 0, 12.4, 1.4, candyMat(CC.rose), { noCol: true, seg: 48 });
-    const lowA = (T) => 0.75 * T + 0.0068 * T * T, hiA = (T) => Math.PI / 2 - (0.55 * T + 0.0052 * T * T);
+    const lowA = (T) => 0.75 * T + 0.0092 * T * T, hiA = (T) => Math.PI / 2 - (0.55 * T + 0.0062 * T * T);
     B.bar(0, 0.62, 0, 26.6, 0, 0, { angle: lowA, base: 0, th: 0.6, c: CC.red });
     B.bar(0, 2.25, 0, 22, 0, 0, { angle: hiA, post: false, th: 0.6, c: CC.teal });
     B.cyl(0, 1.5, 0, 0.7, 3, candyMat(CC.lemon, 'stripe', CC.orange, true), { cast: true });
