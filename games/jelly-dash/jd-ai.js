@@ -1,0 +1,120 @@
+// Jelly Dash — bots: follow the course path, jump bars and gaps, wait for punchers, hunt tails, hop between falling tiles
+'use strict';
+
+const BOTLV = [
+  { spd: 0.8, react: 0.22, err: 0.3, wait: 0.45, dive: 0.1 },     // easy
+  { spd: 0.9, react: 0.13, err: 0.13, wait: 0.8, dive: 0.45 },    // normal
+  { spd: 0.975, react: 0.075, err: 0.045, wait: 0.95, dive: 0.85 } // hard
+];
+function botInit(j, lvl, r) {
+  r = r || Math.random; lvl = clamp(lvl | 0, 0, 2);
+  const L = BOTLV[lvl]; j.lvl = lvl; j.spd = L.spd + (r() - 0.5) * 0.05;
+  j.aiS = { t: r() * 0.3, pi: 0, lat: (r() - 0.5) * 1.4, lane: r() < 0.5 ? 0 : 1, wait: 0, stuck: 0, tx: 0, tz: 0, re: 0, diveAt: 0, ti: -1, slack: 0.4 + r() * 0.6 };
+  botResetPath(j);
+}
+function botResetPath(j) {
+  const a = j.aiS; if (!a) return; const P = W.path; a.pi = 0;
+  for (let i = 0; i < P.length - 1; i++) if (P[i + 1].z <= j.pos.z + 0.3 && Math.abs(P[i + 1].y - j.pos.y) < 3) a.pi = i + 1; else if (P[i + 1].z > j.pos.z + 0.3) break;
+  a.wait = 0; a.stuck = 0; a.ti = -1;
+}
+const nodeX = (n, a) => Array.isArray(n.x) ? n.x[a.lane % n.x.length] : n.x;
+
+function botStep(j, dt, T, ents) {
+  const a = j.aiS, inp = j.ai; if (!a) return inp;
+  const L = BOTLV[j.lvl] || BOTLV[1];
+  inp.jump = false; inp.dive = false;
+  if (a.diveAt > 0) { a.diveAt -= dt; if (a.diveAt <= 0 && !j.grounded && j.st === 0) inp.dive = true; }
+  // stuck: wants to move but isn't
+  const hs = Math.hypot(j.vel.x, j.vel.z);
+  if (j.st === 0 && j.grounded && Math.hypot(inp.x, inp.z) > 0.5 && hs < 1.1) a.stuck += dt; else a.stuck = Math.max(0, a.stuck - dt * 2);
+  a.t -= dt; if (a.t > 0) return inp;
+  const tick = L.react * (0.7 + Math.random() * 0.6); a.t = tick;
+  if (j.st !== 0 || j.fin || T < 0) { inp.x = inp.z = 0; inp.grab = false; return inp; }
+  let tx = j.pos.x, tz = j.pos.z, mag = 1, tY = j.pos.y;
+  inp.grab = false;
+  if (W.ai === 'path') {
+    const P = W.path; if (!P.length) return inp;
+    while (a.pi < P.length - 1) {
+      const nd = P[a.pi], nx = P[a.pi + 1], ndx = nodeX(nd, a), nnx = nodeX(nx, a);
+      let dx = nnx - ndx, dz = nx.z - nd.z; const dl = Math.hypot(dx, dz) || 1; dx /= dl; dz /= dl;
+      const px = j.pos.x - nnx, pz = j.pos.z - nx.z;
+      if (px * dx + pz * dz > -0.45 && j.pos.y > nx.y - 2.5) { a.pi++; a.lat = (Math.random() - 0.5) * 1.6; a.wait = 0; } else break;
+    }
+    const ti = Math.min(a.pi + 1, P.length - 1), tn = P[ti];
+    tx = nodeX(tn, a) + a.lat * tn.w; tz = tn.z; tY = tn.y;
+    if (tn.f === 'crown' && W.crown) { tx = W.crown.x; tz = W.crown.z; const d = Math.hypot(tx - j.pos.x, tz - j.pos.z); if (d < 2.4 && j.grounded) { inp.jump = true; } if (d < 2.6) inp.grab = true; }
+  } else if (W.ai === 'sweep' || W.ai === 'tiles') {
+    const A = W.arena; a.re -= tick;
+    let need = a.re <= 0 || Math.hypot(a.tx - j.pos.x, a.tz - j.pos.z) < 0.9;
+    if (W.ai === 'tiles') {
+      const under = j.gObj && j.gObj.tile >= 0 ? W.tiles[j.gObj.tile] : null, tgt = a.ti >= 0 ? W.tiles[a.ti] : null;
+      if (!tgt || tgt.st !== 0 || (under && under.st !== 0 && Math.hypot(a.tx - j.pos.x, a.tz - j.pos.z) < 1.5) || Math.abs(tgt.y - j.pos.y) > 1.5) need = true;
+      if (need && j.grounded) {
+        let best = -1, bs = -1e9;
+        for (let k = 0; k < 18; k++) {
+          const i = (Math.random() * W.tiles.length) | 0, t = W.tiles[i];
+          if (t.st !== 0 || Math.abs(t.y - j.pos.y) > 1.2) continue;
+          const d = Math.hypot(t.x - j.pos.x, t.z - j.pos.z); if (d < 1.6 || d > 8) continue;
+          const sc = -Math.abs(d - 3.5) - Math.hypot(t.x - A.x, t.z - A.z) * 0.15 + Math.random() * 1.5;
+          if (sc > bs) { bs = sc; best = i; }
+        }
+        if (best >= 0) { a.ti = best; a.tx = W.tiles[best].x; a.tz = W.tiles[best].z; a.re = 1.5 + Math.random() * 2; }
+      }
+      mag = 0.85;
+    } else {
+      if (need) { const an = Math.random() * TAU, rr = Math.sqrt(Math.random()) * A.r * 0.6; a.tx = A.x + Math.cos(an) * rr; a.tz = A.z + Math.sin(an) * rr; a.re = 1.5 + Math.random() * 2.5; }
+      mag = 0.55 + a.slack * 0.3;
+      if (Math.hypot(j.pos.x - A.x, j.pos.z - A.z) > A.r - 2.5) { a.tx = A.x; a.tz = A.z; mag = 1; }
+    }
+    tx = a.tx; tz = a.tz;
+  } else if (W.ai === 'tail') {
+    const A = W.arena; let best = null, bd = 1e9;
+    for (const o of ents) { if (o === j || o.out || o.gone || !o.visible) continue; if (j.tail ? !o.tail : o.tail) { const d = Math.hypot(o.pos.x - j.pos.x, o.pos.z - j.pos.z); if (d < bd) { bd = d; best = o; } } }
+    if (j.tail) {
+      if (best && bd < 7) { tx = j.pos.x - (best.pos.x - j.pos.x) * 3; tz = j.pos.z - (best.pos.z - j.pos.z) * 3; }
+      else { a.re -= tick; if (a.re <= 0) { a.tx = (Math.random() - 0.5) * 20; a.tz = (Math.random() - 0.5) * 20; a.re = 2; } tx = a.tx; tz = a.tz; mag = 0.6; }
+      const lim = A.sq - 2.5; if (Math.abs(tx) > lim || Math.abs(tz) > lim) { tx = clamp(tx, -lim, lim) * 0.6; tz = clamp(tz, -lim, lim) * 0.6; }
+    } else if (best) {
+      tx = best.pos.x + best.vel.x * 0.3; tz = best.pos.z + best.vel.z * 0.3;
+      if (bd < 1.9) inp.grab = true;
+      if (bd < 4 && bd > 2.6 && Math.random() < L.dive * 0.25) inp.dive = true;
+      if (best.pos.y > j.pos.y + 0.8 && bd < 5 && j.grounded) inp.jump = true;
+    }
+  }
+  let dx = tx - j.pos.x, dz = tz - j.pos.z; const dl = Math.hypot(dx, dz);
+  if (dl < 0.3) { inp.x = inp.z = 0; return inp; }
+  dx /= dl; dz /= dl;
+  // danger: a bar or puncher about to reach me
+  const sp = PHYS.run * j.spd, tau = 0.17 + L.react * 0.5;
+  const fx = j.pos.x + dx * sp * tau, fz = j.pos.z + dz * sp * tau;
+  if (j.grounded) {
+    const low = dangerAt(fx, j.pos.y + 0.55, fz, 0.65, T + tau) || dangerAt(j.pos.x, j.pos.y + 0.55, j.pos.z, 0.6, T + tau * 0.8);
+    if (low) {
+      const high = dangerAt(fx, j.pos.y + 2.1, fz, 0.5, T + tau + 0.15);
+      if (!high) { if (Math.random() > L.err) inp.jump = true; }
+      else if (Math.random() < L.wait) {
+        if (dangerAt(j.pos.x, j.pos.y + 1, j.pos.z, 0.7, T + 0.35)) { dx = -dx; dz = -dz; mag = 0.8; } else mag = 0;
+      }
+    } else if (W.ai === 'path' && Math.random() < L.wait) {
+      // a puncher that would hit me a bit further along: hold back
+      const f2x = j.pos.x + dx * 2.2, f2z = j.pos.z + dz * 2.2;
+      if (dangerAt(f2x, j.pos.y + 1.1, f2z, 0.8, T + 0.45) && dangerAt(f2x, j.pos.y + 2.2, f2z, 0.6, T + 0.45)) mag = 0;
+    }
+    // gaps and steps
+    const g1 = groundY(j.pos.x + dx * 1.05, j.pos.z + dz * 1.05, j.pos.y + 0.6);
+    if (g1 < j.pos.y - 1.3 && mag > 0) {
+      let land = 0;
+      for (const d of [2.2, 3, 3.8, 4.6]) { const gy = groundY(j.pos.x + dx * d, j.pos.z + dz * d, j.pos.y + 1.7); if (gy > j.pos.y - 3.5 && gy > tY - 4) { land = d; break; } }
+      if (land || a.wait > 2.4) {
+        if (Math.random() > L.err * 0.6) { inp.jump = true; a.wait = 0; if ((land >= 3.8 || !land) && Math.random() < L.dive) a.diveAt = 0.26; }
+      } else { mag = 0; a.wait += tick; }
+    } else {
+      const g0 = groundY(j.pos.x + dx * 0.85, j.pos.z + dz * 0.85, j.pos.y + 2.2);
+      if (g0 > j.pos.y + 0.32) inp.jump = true;
+    }
+    if (a.stuck > 0.45) { inp.jump = true; if (a.stuck > 2.4) { a.lat = (Math.random() - 0.5) * 1.8; a.stuck = 0; a.lane = 1 - a.lane; } }
+    if (Math.random() < 0.012) inp.jump = true;
+  }
+  inp.x = dx * mag; inp.z = dz * mag;
+  return inp;
+}
