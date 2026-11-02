@@ -13,7 +13,7 @@
     cc_par1: 'خلّصها في لفّة واحدة وخد ٣ نجوم', cc_par2: 'خلّصها في لفّتين وخد ٣ نجوم', cc_parN: 'خلّصها في {n} لفّات وخد ٣ نجوم', cc_best: 'أحسن نتيجة: {n} لفّة',
     cc_out: 'اللفّات خلصت!', cc_outMsg: 'الطرد موصلش. الغي آخر لفّة وجرّب خطة تانية.', cc_fried: 'اتحرقت! بنقدّم الوقت…', cc_fell: 'وقعت في الفراغ! بنقدّم الوقت…',
     cc_lost: 'الطرد ضاع في اللفّة دي', cc_ff: 'بنقدّم الوقت…', cc_rewind: 'بنرجّع الزمن…', cc_tip: 'نصيحة:', cc_sound: 'الصوت', cc_soundOn: '🔊', cc_soundOff: '🔇',
-    cc_starsTotal: '⭐ {n} من {m}', cc_allDone: 'خلّصت كل المراحل! إنت أسطورة التوصيل 🎉', cc_locked: 'مقفولة', cc_drop: 'نزّل', cc_hint: 'نصيحة', cc_pause: 'وقفة',
+    cc_starsTotal: '⭐ {n} من {m}', cc_allDone: 'خلّصت كل المراحل! إنت أسطورة التوصيل 🎉', cc_locked: 'مقفولة', cc_drop: 'نزّل', cc_hint: 'تلميح', cc_pause: 'وقفة',
     cc_menu: 'القائمة', cc_newBest: 'رقم جديد!', cc_hello: '👤 {p}',
     cc_hw1: '📦 شيل الطرد ووصّله لمنصة التسليم اللي بتنوّر.',
     cc_hw2: '⏱ كل لفّة ١٠ ثواني بس. لما الوقت يخلص الزمن بيلف — وكل نسخة قديمة منك بتعيد اللي عملته بالظبط.',
@@ -23,8 +23,8 @@
     cc_hw6: '🟫 الأرض المشقّقة بتقع بعد ما تدوس عليها، والأرض المخططة بتقع في الوقت المكتوب عليها. والصندوق اللي يقع في حفرة بيسدّها.',
     cc_hw7: '⏩ السيور بتحرّك أي حاجة عليها، وفتحات الحيطان بتعدّي الطرد بس.',
     cc_hw8: '⭐ لفّات أقل = نجوم أكتر.',
-    cc_keys: '⌨️ الأسهم أو WASD للحركة · مسافة تنزّل/تشيل الطرد · R تعيد اللفّة · U تلغي آخر لفّة · Enter تخلّص اللفّة · P وقفة',
-    cc_touch: '📱 الأسهم اللي على الشاشة أو اسحب بصباعك · ✋ تنزّل/تشيل الطرد · ⏭ تخلّص اللفّة',
+    cc_keys: '⌨️ الأسهم أو WASD للحركة · مسافة تنزّل/تشيل الطرد · R تعيد اللفّة · U تلغي آخر لفّة · Enter تخلّص اللفّة · P وقفة · H تلميح',
+    cc_touch: '📱 الأسهم اللي على الشاشة أو اسحب بصباعك · ✋ تنزّل/تشيل الطرد · ⏭ تخلّص اللفّة · 💡 تلميح',
     cc_n1: 'أول وردية', cc_n2: 'الصدى', cc_n3: 'شيل تقيل', cc_n4: 'سلك سخن', cc_n5: 'درع الخردة', cc_n6: 'السير السريع', cc_n7: 'بيتفتت',
     cc_n8: 'تذكرة رايح بس', cc_n9: 'ماس كهربا', cc_n10: 'تتابع', cc_n11: 'آخر كوبري', cc_n12: 'وزن تقيل', cc_n13: 'التوقيت المظبوط', cc_n14: 'آخر توصيلة',
     cc_h1: 'امشي على الطرد عشان تشيله، ووصّله لمنصة التسليم اللي بتنوّر.',
@@ -41,6 +41,15 @@
     cc_h12: 'بابين وصندوق واحد. نسختك تقدر تدوس على بلاطة، والصندوق على التانية.',
     cc_h13: 'البلاطة بتفتح باب الدخول وبتقفل باب الخروج، والليزر بيرجع يشتغل لما تتساب. نسختك لازم تسيبها في اللحظة المظبوطة.',
     cc_h14: 'كل اللي اتعلمته: سدّ الشعاع، دوس على البلاطة، سيبها في الوقت الصح، واعدي قبل ما الأرض تقع.',
+    cc_n15: 'خلّيه مفتوح', cc_n16: 'رمشة', cc_n17: 'اقفل على الشعاع', cc_n18: 'عصفورين بحجر', cc_n19: 'امسك الباب', cc_n20: 'الحاوي', cc_n21: 'العد التنازلي', cc_n22: 'الفريق كامل',
+    cc_h15: 'الباب مش بيقفل على روبوت واقف في نصّه.',
+    cc_h16: 'الزرار ده بيطفي الليزر ثانيتين بس.',
+    cc_h17: 'الباب المقفول بيوقّف الليزر زي الحيطة بالظبط.',
+    cc_h18: 'شكلها تلات مهام… بس نسخة واحدة تقدر تعمل اتنين منهم.',
+    cc_h19: 'البلاطة بتفتح باب وبتقفل التاني. حد لازم يقف في الباب التاني قبل ما يتقفل.',
+    cc_h20: 'الزرار والبلاطة جنب بعض — نسخة شاطرة تقدر تشتغل على الاتنين.',
+    cc_h21: 'تلات نسخ، تلات مهام، والأرض بتقع ورا الطرد. ركّز في التوقيت.',
+    cc_h22: 'أربع مهام لأربع نسخ — أو أربع صحاب أونلاين في لفّة واحدة!',
   }, {
     cc_sub: 'Time-loop deliveries', cc_tag: 'You only get 10 seconds… but your past selves have your back.', cc_play: 'Play', cc_continue: 'Continue', cc_levels: 'Levels', cc_howto: 'How to play',
     cc_back: 'Back', cc_level: 'Level {n}', cc_loop: 'Loop {n}/{m}', cc_sec: 's', cc_ready: 'Move to start the loop', cc_readyEcho: 'Your echoes are ready — move to start',
@@ -59,8 +68,8 @@
     cc_hw6: '🟫 Cracked floor falls right after you step on it; striped floor falls at the time printed on it. A crate pushed into a hole fills it.',
     cc_hw7: '⏩ Belts move everything on them, and wall slots only let packages through.',
     cc_hw8: '⭐ Fewer loops = more stars.',
-    cc_keys: '⌨️ Arrows / WASD move · Space drop / pick up · R restart loop · U undo last loop · Enter end loop · P pause',
-    cc_touch: '📱 D-pad or swipe to move · ✋ drop / pick up · ⏭ end loop',
+    cc_keys: '⌨️ Arrows / WASD move · Space drop / pick up · R restart loop · U undo last loop · Enter end loop · P pause · H hint',
+    cc_touch: '📱 D-pad or swipe to move · ✋ drop / pick up · ⏭ end loop · 💡 hint',
     cc_n1: 'First Shift', cc_n2: 'Echo', cc_n3: 'Heavy Lifting', cc_n4: 'Hot Wire', cc_n5: 'Scrap Shield', cc_n6: 'Express Belt', cc_n7: 'Crumble',
     cc_n8: 'One-Way Ticket', cc_n9: 'Short Circuit', cc_n10: 'Relay', cc_n11: 'Last Bridge', cc_n12: 'Dead Weight', cc_n13: 'Perfect Timing', cc_n14: 'Final Delivery',
     cc_h1: 'Walk onto the package to grab it, then carry it to the glowing delivery pad.',
@@ -77,33 +86,278 @@
     cc_h12: 'Two doors, one crate. Your echo can hold one plate and the crate the other.',
     cc_h13: 'The plate opens the way in but locks the way out, and the laser comes back on when it is released. Your echo has to let go at just the right moment.',
     cc_h14: 'Everything you have learned: block the beam, hold the plate, let go at the right moment, and cross before the floor falls.',
+    cc_n15: 'Doorstop', cc_n16: 'Blink', cc_n17: 'Beam Shutter', cc_n18: 'Two Birds', cc_n19: 'Hold the Door', cc_n20: 'Juggler', cc_n21: 'Countdown', cc_n22: 'Full Crew',
+    cc_h15: 'A door can’t close on a bot standing in its doorway.',
+    cc_h16: 'This switch turns the laser off for just 2 seconds.',
+    cc_h17: 'A closed door stops a laser just like a wall.',
+    cc_h18: 'Looks like three jobs… but one self can do two of them.',
+    cc_h19: 'The plate opens one door and locks the other. Someone has to stand in that doorway before it locks.',
+    cc_h20: 'The switch and the plate sit side by side — one busy self can work both.',
+    cc_h21: 'Three selves, three jobs, and the floor falls behind the package. Mind the timing.',
+    cc_h22: 'Four jobs for four selves — or four friends online in a single loop!',
   });
-  // online co-op
+  // online co-op (up to 4 couriers)
   addStrings({
-    cc_online: 'العب أونلاين مع صاحبك', cc_onTitle: 'أونلاين مع صاحبك', cc_onDesc: 'ساعيين في نفس المرحلة ونفس اللفّة — واحد يدوس على البلاطة والتاني يعدّي، وكل لفّة نسخكم الاتنين بتساعدكم.',
+    cc_online: 'العب أونلاين مع صحابك', cc_onTitle: 'أونلاين مع صحابك', cc_onDesc: 'لحد ٤ سُعاة في نفس المرحلة ونفس اللفّة — واحد يدوس على البلاطة والتاني يعدّي، وكل لفّة نسخكم كلكم بتساعدكم.',
     cc_create: '➕ اعمل أوضة', cc_or: 'أو', cc_codePh: 'كود الأوضة', cc_join: 'ادخل', cc_codeHint: 'اكتب كود الأوضة (٤ حروف)', cc_yourName: 'اسمك',
-    cc_room: 'الأوضة', cc_copyLink: '🔗 انسخ لينك الدعوة', cc_copied: 'اتنسخ ✓', cc_you: 'إنت', cc_partner: 'صاحبك', cc_hostR: 'صاحب الأوضة', cc_c1: 'الساعي ١', cc_c2: 'الساعي ٢',
-    cc_waitPartner: 'مستني صاحبك يدخل… ابعتله اللينك', cc_connecting: 'بيوصل…', cc_swap: '⇄ بدّلوا الأدوار', cc_levelOf: 'المرحلة', cc_start: '▶ ابدأ',
-    cc_needPartner: 'لازم صاحبك يدخل الأول', cc_waitHost: 'مستني صاحب الأوضة يبدأ…', cc_hostPicks: 'اختيار صاحب الأوضة', cc_leave: 'اخرج من الأوضة', cc_toRoom: '🚪 ارجع للأوضة',
-    cc_full: 'الأوضة مليانة — فيها اتنين خلاص', cc_noNet: 'مفيش اتصال بالنت', cc_joinedP: '{p} دخل الأوضة 👋', cc_leftP: '{p} خرج',
-    cc_partnerLost: 'صاحبك خرج', cc_partnerLostD: 'تقدر تكمّل لوحدك — نسخكم القديمة لسه معاك.', cc_continueSolo: '▶ كمّل لوحدك',
-    cc_readyCo: 'أي حد فيكم يتحرك يبدأ اللفّة', cc_readyCoEcho: 'نسخكم مستنياكم — اتحركوا وابدأوا', cc_friedCo: 'اتحرقت! صاحبك لسه بيلعب…', cc_fellCo: 'وقعت! صاحبك لسه بيلعب…',
-    cc_waitDone: 'خلّصت — مستني صاحبك يخلّص…', cc_pausedBy: 'وقّفها {p}', cc_retry: '↺ حاول تاني', cc_team: '👥 {a} + {b}', cc_courier: 'ساعي', cc_waitReq: 'مستني صاحب الأوضة…',
-    cc_hwCo: '🌐 أونلاين: كل واحد بيحرّك ساعيه في نفس الوقت. لما اللفّة تخلص، لفّتكم إنتوا الاتنين بتتحوّل نسخ بتساعدكم. ⏭ يعني «أنا خلّصت» — اللفّة بتتقدّم لما الاتنين يخلّصوا.',
-    cc_rejoin: 'صاحبك رجع — بنعيد اللفّة',
+    cc_room: 'الأوضة', cc_copyLink: '🔗 انسخ لينك الدعوة', cc_copied: 'اتنسخ ✓', cc_you: 'إنت', cc_partner: 'صاحبك', cc_hostR: 'صاحب الأوضة',
+    cc_c1: 'الساعي ١', cc_c2: 'الساعي ٢', cc_c3: 'الساعي ٣', cc_c4: 'الساعي ٤',
+    cc_waitPartner: 'مستنيين صحابك (لحد ٤)… ابعتلهم اللينك', cc_connecting: 'بيوصل…', cc_swap: '🎨 غيّر لونك', cc_levelOf: 'المرحلة', cc_start: '▶ ابدأ',
+    cc_needPartner: 'لازم واحد صاحبك على الأقل يدخل الأول', cc_waitHost: 'مستني صاحب الأوضة يبدأ…', cc_hostPicks: 'اختيار صاحب الأوضة', cc_leave: 'اخرج من الأوضة', cc_toRoom: '🚪 ارجع للأوضة',
+    cc_full: 'الأوضة مليانة — فيها ٤ خلاص', cc_noNet: 'مفيش اتصال بالنت', cc_joinedP: '{p} دخل الأوضة 👋', cc_leftP: '{p} خرج',
+    cc_partnerLost: 'بقيت لوحدك', cc_partnerLostD: 'الباقيين خرجوا. تقدر تكمّل لوحدك — نسخكم القديمة لسه معاك.', cc_continueSolo: '▶ كمّل لوحدك',
+    cc_readyCo: 'أي حد فيكم يتحرك يبدأ اللفّة', cc_readyCoEcho: 'نسخكم مستنياكم — اتحركوا وابدأوا', cc_friedCo: 'اتحرقت! الباقيين لسه بيلعبوا…', cc_fellCo: 'وقعت! الباقيين لسه بيلعبوا…',
+    cc_waitDone: 'خلّصت — مستني الباقيين يخلّصوا…', cc_pausedBy: 'وقّفها {p}', cc_retry: '↺ حاول تاني', cc_team: '👥 {a}', cc_courier: 'ساعي', cc_waitReq: 'مستني صاحب الأوضة…',
+    cc_hwCo: '🌐 أونلاين (لحد ٤): كل واحد بيحرّك ساعيه في نفس الوقت. لما اللفّة تخلص، لفّات كل السُعاة بتتحوّل نسخ بتساعدكم كلكم. ⏭ يعني «أنا خلّصت» — اللفّة بتتقدّم لما الكل يخلّص.',
+    cc_rejoin: '{p} دخل — بنعيد اللفّة', cc_joinNext: '{p} هيدخل من اللفّة الجاية', cc_spectate: '👀 هتدخل من اللفّة الجاية — اتفرّج دلوقتي',
+    cc_newHost: '👑 {p} بقى صاحب الأوضة', cc_hostTook: '👑 إنت بقيت صاحب الأوضة — بنعيد اللفّة', cc_waitFriends: 'مستني صحاب تانيين…',
   }, {
-    cc_online: 'Online Co-op', cc_onTitle: 'Online Co-op', cc_onDesc: 'Two couriers, one level, one loop — one holds the plate while the other runs. Every loop, both of your runs become echoes that help you.',
+    cc_online: 'Online Co-op', cc_onTitle: 'Online Co-op', cc_onDesc: 'Up to 4 couriers, one level, one loop — one holds the plate while another runs. Every loop, all of your runs become echoes that help you.',
     cc_create: '➕ Create Room', cc_or: 'or', cc_codePh: 'Room Code', cc_join: 'Join', cc_codeHint: 'Type the room code (4 letters)', cc_yourName: 'Your Name',
-    cc_room: 'Room', cc_copyLink: '🔗 Copy Invite Link', cc_copied: 'Copied ✓', cc_you: 'You', cc_partner: 'Partner', cc_hostR: 'Host', cc_c1: 'Courier 1', cc_c2: 'Courier 2',
-    cc_waitPartner: 'Waiting for your partner… send them the link', cc_connecting: 'Connecting…', cc_swap: '⇄ Swap Roles', cc_levelOf: 'Level', cc_start: '▶ Start',
-    cc_needPartner: 'Your partner needs to join first', cc_waitHost: 'Waiting for the host to start…', cc_hostPicks: 'Host’s Pick', cc_leave: 'Leave Room', cc_toRoom: '🚪 Back To Room',
-    cc_full: 'That room is full', cc_noNet: 'No connection', cc_joinedP: '{p} joined 👋', cc_leftP: '{p} left',
-    cc_partnerLost: 'Your Partner Left', cc_partnerLostD: 'You can carry on solo — your shared echoes stay with you.', cc_continueSolo: '▶ Continue Solo',
-    cc_readyCo: 'Either Of You Moves To Start', cc_readyCoEcho: 'Your Echoes Are Ready — Move To Start', cc_friedCo: 'Fried! Your partner is still going…', cc_fellCo: 'You fell! Your partner is still going…',
-    cc_waitDone: 'Done — waiting for your partner…', cc_pausedBy: 'Paused by {p}', cc_retry: '↺ Retry', cc_team: '👥 {a} + {b}', cc_courier: 'Courier', cc_waitReq: 'Waiting for the host…',
-    cc_hwCo: '🌐 Online: each player drives their own courier at the same time. When the loop ends, both of your runs become echoes. ⏭ means “I’m done” — the loop moves on once you both are.',
-    cc_rejoin: 'Your partner is back — restarting the loop',
+    cc_room: 'Room', cc_copyLink: '🔗 Copy Invite Link', cc_copied: 'Copied ✓', cc_you: 'You', cc_partner: 'Partner', cc_hostR: 'Host',
+    cc_c1: 'Courier 1', cc_c2: 'Courier 2', cc_c3: 'Courier 3', cc_c4: 'Courier 4',
+    cc_waitPartner: 'Waiting for friends (up to 4)… send them the link', cc_connecting: 'Connecting…', cc_swap: '🎨 Change Colour', cc_levelOf: 'Level', cc_start: '▶ Start',
+    cc_needPartner: 'At least one friend needs to join first', cc_waitHost: 'Waiting for the host to start…', cc_hostPicks: 'Host’s Pick', cc_leave: 'Leave Room', cc_toRoom: '🚪 Back To Room',
+    cc_full: 'That room is full (4 couriers)', cc_noNet: 'No connection', cc_joinedP: '{p} joined 👋', cc_leftP: '{p} left',
+    cc_partnerLost: 'You’re On Your Own', cc_partnerLostD: 'Everyone else left. You can carry on solo — your shared echoes stay with you.', cc_continueSolo: '▶ Continue Solo',
+    cc_readyCo: 'Anyone Moves To Start', cc_readyCoEcho: 'Your Echoes Are Ready — Move To Start', cc_friedCo: 'Fried! The others are still going…', cc_fellCo: 'You fell! The others are still going…',
+    cc_waitDone: 'Done — waiting for the others…', cc_pausedBy: 'Paused by {p}', cc_retry: '↺ Retry', cc_team: '👥 {a}', cc_courier: 'Courier', cc_waitReq: 'Waiting for the host…',
+    cc_hwCo: '🌐 Online (up to 4): each player drives their own courier at the same time. When the loop ends, every courier’s run becomes an echo for everyone. ⏭ means “I’m done” — the loop moves on once everyone is.',
+    cc_rejoin: '{p} joined — restarting the loop', cc_joinNext: '{p} joins at the next loop', cc_spectate: '👀 You join at the next loop — watch for now',
+    cc_newHost: '👑 {p} is the host now', cc_hostTook: '👑 You’re the host now — restarting the loop', cc_waitFriends: 'Waiting for more friends…',
   });
+  // hints: 3 steps per level (nudge → concrete → near-solution). Keys cc_x{level}_{step}, online co-op variants end in "c".
+  // {U} {R} {D} {L} become direction words, turned with the board when a wide level is shown sideways on a tall phone.
+  addStrings({
+    cc_hint: 'تلميح', cc_hintTitle: '💡 تلميح · مرحلة {n}', cc_hintNext: '🔓 اكشف الخطوة {n} من {m}', cc_hintCo: '🌐 نسخة الأونلاين',
+    cc_hintNote: 'التلميح مش بياخد منك نجوم — بس هيتكتب «استخدمت تلميح» في الآخر.', cc_hintBy: '💡 {p} فتح تلميح ({n}/{m})', cc_hintOpenedBy: 'فتحه {p}',
+    cc_hintUsed: '💡 استخدمت تلميح ({n}/{m})', cc_stuck: 'محتاس؟ دوس 💡 (H) وخد تلميح.',
+    cc_d1: 'لفوق', cc_d2: 'يمين', cc_d3: 'لتحت', cc_d4: 'شمال',
+    cc_x1_1: 'امشي على الطرد 📦 عشان تشيله — من غير ما تدوس أي زرار. وبعدين وصّله للمنصة اللي بتنوّر.',
+    cc_x1_2: 'الطرد في آخر الممر اللي تحت. والمنصة بتوصلها من تحت، من الناحية التانية.',
+    cc_x1_3: 'امشي خطوتين {D}، و٣ {R}، وخطوتين {D}، و٣ {L} لحد الطرد. وبعدين على طول {R} في الممر اللي تحت، وخطوتين {U} على المنصة.',
+    cc_x1_3c: 'واحد بس فيكم يشيل الطرد: خطوتين {D}، ٣ {R}، خطوتين {D}، ٣ {L} لحد الطرد، وبعدين على طول {R} وخطوتين {U} على المنصة. الباقيين يدوسوا ⏭.',
+    cc_x2_1: 'لازم حاجة تفضل فاتحة الباب وإنت شايل الطرد.',
+    cc_x2_2: 'البلاطة الزرقا بتفتح الباب طول ما حد واقف عليها بس — والحد ده ممكن يكون نسختك القديمة.',
+    cc_x2_3: 'اللفّة ١: امشي خطوتين {U} على البلاطة واقف عليها طول اللفّة (أو دوس ⏭). اللفّة ٢: ادخل من الباب المفتوح، شيل الطرد ووصّله للمنصة.',
+    cc_x2_2c: 'واحد فيكم يقف على البلاطة الزرقا، والتاني يشيل الطرد.',
+    cc_x2_3c: 'واحد فيكم يمشي خطوتين {U} على البلاطة ويفضل واقف. التاني يدخل من الباب المفتوح، يشيل الطرد ويوصّله — لفّة واحدة كفاية.',
+    cc_x3_1: 'إنت لوحدك المرة دي. الصناديق بتعمل حاجتين: تدوس على البلاطة، وتسدّ الحفرة.',
+    cc_x3_2: 'زقّ الصندوق القريب على البلاطة الزرقا عشان الباب يفتح. وزقّ الصندوق البعيد في الحفرة عشان يبقى كوبري.',
+    cc_x3_3: 'زقّ الصندوق القريب خطوتين {D}، لِف حواليه وزقّه {L} على البلاطة. ادخل من الباب، زقّ الصندوق التاني {R} في الحفرة، شيل الطرد واعدي على الحفرة اللي اتسدّت للمنصة.',
+    cc_x3_1c: 'وإنتوا مع بعض أسهل: الساعي يقدر يدوس على البلاطة زي الصندوق بالظبط.',
+    cc_x3_3c: 'واحد فيكم يمشي ٣ خطوات {D} على البلاطة ويفضل واقف. التاني يدخل من الباب، يزقّ الصندوق التاني {R} في الحفرة، يشيل الطرد ويعدّي على الحفرة المسدودة للمنصة.',
+    cc_x4_1: 'الزرار بيفتح الباب البعيد ثانيتين بس — مش هتلحق تجري لحد هناك.',
+    cc_x4_2: 'خليك إنت عند الباب الأول، وسيب نسختك القديمة تدوس الزرار في الوقت المظبوط.',
+    cc_x4_3: 'اللفّة ١: استنى حوالي ٣ ثواني، وبعدين خطوة {L} على الزرار. اللفّة ٢: شيل الطرد، اجري {R} و{D} لحد الباب، واستنى هناك لحد ما يفتح.',
+    cc_x4_2c: 'واحد فيكم يستنى عند الزرار، والتاني يوصّل الطرد لحد الباب.',
+    cc_x4_3c: 'واحد فيكم يفضل جنب الزرار. التاني يشيل الطرد ويجري {R} و{D} لحد الباب. أول ما يوصل ويستنى هناك — دوس خطوة {L} على الزرار!',
+    cc_x5_1: 'الليزر بيحرق أي روبوت يدخل في الشعاع — بس الخردة بتاعته بتسد الشعاع.',
+    cc_x5_2: 'ضحّي بلفّة: خلّي نسختك الأولى تدخل في الشعاع جنب الليزر على طول، والخردة تحمي كل اللي وراها.',
+    cc_x5_3: 'اللفّة ١: امشي خطوتين {D} جوّه الشعاع واتحرق — دي الخطة. اللفّة ٢: ٣ {R}، ٤ {D}، ٣ {L} لحد الطرد؛ وبعدين ٣ {R}، خطوتين {U}، خطوتين {R}، خطوتين {U}، و٤ {R} للمنصة.',
+    cc_x5_2c: 'واحد فيكم يبقى الدرع — والباقيين في أمان ورا الخردة.',
+    cc_x5_3c: 'واحد فيكم يمشي خطوتين {D} في الشعاع على طول. وبعدها اللي شايل الطرد: ٣ {R}، ٤ {D}، ٣ {L} للطرد؛ وبعدين ٣ {R}، ٢ {U}، ٢ {R}، ٢ {U}، ٤ {R} للمنصة.',
+    cc_x6_1: 'الطرد راكب السير ورايح على الحفرة على طول. امسكه قبل ما يقع!',
+    cc_x6_2: 'الروبوت مش بيعدي من الفتحة اللي في الحيطة، بس الطرد بيعدي. السير اللي رايح ناحية المنصة بيعدّيه.',
+    cc_x6_3: 'اجري ٤ {R} على السير وسيبه يوديك {D} — هتشيل الطرد. في الآخر خطوة {R} على السير التاني ودوس ✋ (مسافة) عشان تنزّله — والسير يكمّل الباقي.',
+    cc_x6_3c: 'واحد بس فيكم يمسك الطرد: ٤ {R} على السير وسيبه يوديك {D}، وبعدين خطوة {R} ودوس ✋ عشان تنزّله على السير التاني. الباقيين يدوسوا ⏭.',
+    cc_x7_1: 'الأرض المشقّقة بتقع بعد ما أي حاجة تلمسها على طول — وإنت لازم ترجع من نفس الطريق.',
+    cc_x7_2: 'الصندوق اللي يقع في حفرة بيسدّها على طول. استخدم الصندوقين عشان البلاطتين المشقّقين يبقوا أرض ناشفة.',
+    cc_x7_3: 'زقّ الصندوق القريب {L} على أول شق. وبعدين هات الصندوق التاني {D} وزقّه على طول {L} لحد ما يعدّي الشق التاني. شيل الطرد، زقّ الصندوق ده {R} في الحفرة الجديدة، وارجع للمنصة.',
+    cc_x7_1c: 'واحد بس فيكم يعدّي — كل ساعي يدوس على شق بيوقّعه بدري. الباقيين يفضلوا مكانهم ويدوسوا ⏭.',
+    cc_x8_1: 'البلاطة المشقّقة بتستحمل مرة واحدة — اللي يطلع هناك مش هيعرف يرجع تاني.',
+    cc_x8_2: 'ابعت الطرد على السير من الفتحة اللي في الحيطة، وخلّي نسخة تانية مستنياه في الناحية التانية.',
+    cc_x8_3: 'اللفّة ١: امشي ٤ {U} فوق الشق، شيل الطرد، خطوتين {R} وخطوة {D} على السير، ودوس ✋ عشان تنزّله. اللفّة ٢: خطوة {R} واستنى — لما الطرد يوصل آخر السير، امشي عليه، ووصّله للمنصة.',
+    cc_x8_2c: 'واحد فيكم يبعت الطرد، والتاني يستلمه. واحد بس اللي يعدّي الشق!',
+    cc_x8_3c: 'اللي هيبعت: ٤ {U} فوق الشق، شيل الطرد، ٢ {R}، ١ {D} ونزّله (✋) على السير. اللي هيستلم: خطوة {R} واستنى؛ لما الطرد يوصل آخر السير امشي عليه ووصّله للمنصة.',
+    cc_x9_1: 'مشكلتين: الباب محتاج حد على البلاطة، وفيه ليزر حارس المنصة.',
+    cc_x9_2: 'نسختك الأولى تمسك البلاطة. وبعدين سدّ الشعاع بالصندوق: زقّه {L} لحد أول فتحة، وبعدين {D} في صف الليزر.',
+    cc_x9_3: 'اللفّة ١: خطوتين {D} على البلاطة واستنى. اللفّة ٢: ادخل من الباب، زقّ الصندوق خطوتين {L}، لِف للناحية التانية وزقّه خطوتين {D} في الشعاع. شيل الطرد وامشي {D} من الفتحة التانية للمنصة.',
+    cc_x9_3c: 'واحد فيكم خطوتين {D} على البلاطة ويفضل. التاني يدخل من الباب، يزقّ الصندوق خطوتين {L} وبعدين خطوتين {D} في الشعاع، يشيل الطرد ويمشي {D} من الفتحة التانية للمنصة. (لو إنتوا تلاتة، التالت يقدر يبقى الدرع بدل الصندوق.)',
+    cc_x10_1: 'تلات مهام: حد يمسك البلاطة، حد يسد الليزر، وحد يجري بالطرد.',
+    cc_x10_2: 'نسخة تقف على البلاطة. نسخة تانية تدخل في الليزر من أوله عشان الخردة تسد الشعاع. والتالتة تلف من الناحية التانية.',
+    cc_x10_3: 'اللفّة ١: ٥ {L} على البلاطة واستنى. اللفّة ٢: ٥ {L}، وبعدين ٣ {D} في الشعاع. اللفّة ٣: ٥ {R}، ٣ {D}، ٥ {L} لحد الباب، خطوتين {D} من الباب، ٥ {L} للطرد، و٥ {R} للمنصة.',
+    cc_x10_2c: 'قسّموا الشغل: واحد على البلاطة، واحد درع، وواحد يجري. إنتوا اتنين بس؟ اعملوها في لفّتين: البلاطة والدرع الأول، وبعدين اللي بيجري.',
+    cc_x10_3c: 'اللي على البلاطة: ٥ {L}. الدرع: ٥ {L} و٣ {D} في الشعاع. اللي بيجري: استنى لحد ما الدرع يتحرق، وبعدين ٥ {R}، ٣ {D}، ٥ {L}، ٢ {D} من الباب، ٥ {L} للطرد و٥ {R} للمنصة.',
+    cc_x11_1: 'الكوبري بيقع بعد ٣ ثواني — بدري أوي عشان تجيب الطرد وتعدّي بيه.',
+    cc_x11_2: 'الطرد يقدر يسافر لوحده: السير بيعدّيه من الفتحة للناحية التانية. بس لازم حد يكون مستنيه هناك.',
+    cc_x11_3: 'اللفّة ١: هات الطرد (١ {R}، ٢ {U}، ٣ {L})، امشي ٤ {D} للسير، اركبه لحد آخره جنب الحيطة ودوس ✋ هناك. اللفّة ٢: اجري {R} على الكوبري على طول واستنى على المنصة؛ لما الطرد يوصل آخر السير خطوة {D} عليه وارجع {U}.',
+    cc_x11_2c: 'واحد فيكم يبعت الطرد، والتاني يستلمه في الناحية التانية.',
+    cc_x11_3c: 'اللي هيستلم: اجري {R} على الكوبري على طول واستنى على المنصة. اللي هيبعت: هات الطرد (١ {R}، ٢ {U}، ٣ {L})، امشي ٤ {D}، اركب السير لآخره ونزّله (✋) هناك. اللي هيستلم: خطوة {D} على الطرد وبعدين {U} على المنصة.',
+    cc_x12_1: 'بابين وبلاطتين — بس البلاطة التانية ورا الباب الأول.',
+    cc_x12_2: 'نسختك تمسك البلاطة الأولى. وإنت زقّ الصندوق من الباب ده لحد البلاطة التانية.',
+    cc_x12_3: 'اللفّة ١: خطوتين {D} على البلاطة واستنى. اللفّة ٢: زقّ الصندوق {R} على طول لحد البلاطة التانية، امشي {D} من الباب اللي فتح، شيل الطرد اللي على {L} واجري {R} للمنصة.',
+    cc_x12_3c: 'واحد فيكم خطوتين {D} على البلاطة الأولى. التاني يزقّ الصندوق {R} على البلاطة التانية (أو تالت يقف عليها بنفسه). وبعدين {D} من الباب اللي فتح، شيل الطرد اللي على {L} واجري {R} للمنصة.',
+    cc_x13_1: 'البلاطة بتعمل تلات حاجات مرة واحدة: بتفتح الباب الأولاني، بتطفي الليزر، وبتقفل الباب التاني.',
+    cc_x13_2: 'نسختك تقف على البلاطة وإنت داخل تجيب الطرد، وبعدين تنزل من عليها بعد ما تبعد عن خط الليزر.',
+    cc_x13_3: 'اللفّة ١: خطوتين {D} على البلاطة، استنى حوالي ثانيتين، وبعدين خطوة {U} من عليها. اللفّة ٢: اجري من الباب الأولاني، شيل الطرد، امشي {R} برّه خط الليزر واستنى عند الباب التاني — هيفتح لما نسختك تنزل. وبعدين {D} للمنصة.',
+    cc_x13_2c: 'اتفقوا: اللي على البلاطة ينزل من عليها بس لما اللي بيجري يبعد عن خط الليزر.',
+    cc_x13_3c: 'اللي على البلاطة: خطوتين {D}. اللي بيجري: ادخل من الباب الأولاني، شيل الطرد واستنى عند الباب التاني. دلوقتي انزل من على البلاطة! الباب التاني بيفتح — يلا {D} للمنصة.',
+    cc_x14_1: 'كل اللي اتعلمته: امسك البلاطة، سدّ الليزر، سيبها في الوقت الصح — واسبق الأرض اللي بتقع.',
+    cc_x14_2: 'البلاطة بتفتح باب النص وبتقفل الباب اللي جنب المنصة. اللي على البلاطة ينزل بعد ما اللي بيجري يعدّي باب النص. واوصل للبلاطة قبل ما الأرض المخططة تقع.',
+    cc_x14_3: 'اللفّة ١: ٥ {L} على البلاطة، استنى حوالي ثانيتين، وبعدين خطوة {R} من عليها. اللفّة ٢: ٥ {L}، وبعدين خطوتين {D} في الشعاع. اللفّة ٣: خطوة {D} واستنى الدرع، وبعدين {D}، ٣ {R}، خطوتين {D} من باب النص؛ ولما الباب التاني يفتح شيل الطرد واجري {L} للمنصة.',
+    cc_x14_2c: 'تلات مهام: البلاطة، الدرع، واللي بيجري. إنتوا اتنين بس؟ اللفّة الأولى: واحد يبقى الدرع. اللفّة التانية: واحد يمسك البلاطة والتاني يجري.',
+    cc_x14_3c: 'اللي على البلاطة: ٥ {L} (قبل ما الأرض المخططة تقع). الدرع: ٥ {L} وخطوتين {D} في الشعاع. اللي بيجري: خطوة {D}، استنى الدرع، وبعدين {D}، ٣ {R} وخطوتين {D} من باب النص. دلوقتي انزل من على البلاطة! واللي بيجري يشيل الطرد ويجري {L} للمنصة.',
+    cc_x15_1: 'الزرار بيفتح الباب ثانيتين — مش كفاية تجيب الطرد وترجع.',
+    cc_x15_2: 'الباب مش بيقفل وفيه روبوت واقف في نصّه. نسختك القديمة تقدر تبقى «سدّادة» للباب.',
+    cc_x15_3: 'اللفّة ١: ٣ {R} — على الزرار وبعدين جوّه الباب — واقف مكانك. اللفّة ٢: عدّي من الباب المفتوح، هات الطرد، ارجع من نفس الباب وروح للمنصة.',
+    cc_x15_3c: 'واحد فيكم ٣ {R} على الزرار وجوّه الباب ويفضل واقف. التاني يعدّي، يجيب الطرد، يرجع من الباب المسنود ويروح للمنصة.',
+    cc_x16_1: 'لازم تعدّي من خط الليزر مرتين — والزرار في ناحية البداية بس.',
+    cc_x16_2: 'خلّي نسختك القديمة تدوس الزرار مرتين: مرة وإنت رايح ومرة وإنت راجع. انزل من عليه وادخل عليه تاني عشان يتداس تاني.',
+    cc_x16_3: 'اللفّة ١: خطوة {R}، استنى حوالي ثانية، خطوة {R} على الزرار، خطوة {L} لورا، وعند حوالي ٣ ثواني ادخل عليه تاني. اللفّة ٢: اجري للفتحة، عدّي والشعاع مطفي، شيل الطرد، ارجع واستنى الرمشة التانية.',
+    cc_x16_2c: 'واحد فيكم على الزرار، والتاني يعدّي والشعاع مطفي.',
+    cc_x16_3c: 'اللي على الزرار: اقف جنبه وادخل عليه أول ما زميلك يوصل للفتحة. اللي بيجري: عدّي، هات الطرد وارجع للفتحة. اللي على الزرار: انزل وادخل عليه تاني عشان يعدّي راجع.',
+    cc_x17_1: 'مفيش صندوق، ولو اتحرقت هنا هتسد طريقك الوحيد. بس الباب المقفول بيوقّف الليزر برضه.',
+    cc_x17_2: 'لما حد يقف على البلاطة، الباب بيتقفل — قدّام الليزر على طول.',
+    cc_x17_3: 'اللفّة ١: ٤ {L} على البلاطة واستنى. اللفّة ٢: استنى لحد ما الباب يتقفل، وبعدين امشي {D} من صف الليزر، شيل الطرد اللي على {L}، ارجع {U} لصف الليزر وروح {R} و{U} للمنصة.',
+    cc_x17_3c: 'واحد فيكم ٤ {L} على البلاطة. أول ما الباب يتقفل، التاني يمشي {D} من صف الليزر، يشيل الطرد اللي على {L}، يرجع ويروح {R} و{U} للمنصة.',
+    cc_x18_1: 'شكلها تلات مهام: تمسك البلاطة، تسد الليزر، وتشيل الطرد. بس نسختين كفاية.',
+    cc_x18_2: 'البلاطة جوّه شعاع الليزر بالظبط. اللي يقف عليها يتحرق — والخردة بتاعته تفضل دايسة على البلاطة وسادّة الشعاع.',
+    cc_x18_3: 'اللفّة ١: خطوتين {D} على البلاطة واتحرق. اللفّة ٢: ٤ {R}، ٢ {D}، ٢ {R} من الباب المفتوح و٢ {U} للطرد؛ وبعدين ٢ {D}، ٢ {L}، ٢ {D} و٤ {L} للمنصة.',
+    cc_x18_2c: 'واحد فيكم ياخدها في وشّه على البلاطة، والتاني يجري.',
+    cc_x18_3c: 'واحد فيكم خطوتين {D} على البلاطة ويتحرق. اللي بيجري: ٤ {R}، ٢ {D}، ٢ {R} من الباب و٢ {U} للطرد، وبعدين ٢ {D}، ٢ {L}، ٢ {D} و٤ {L} للمنصة.',
+    cc_x19_1: 'البلاطة بتفتح الباب الأولاني وبتطفي الليزر — بس كمان بتقفل الباب اللي جنب الليزر. والكوبري المخطط بيقع بعد ٢٫٤ ثانية.',
+    cc_x19_2: 'الصندوق يقدر يمسك البلاطة. ونسختك القديمة لازم تقف جوّه الباب التاني قبل ما البلاطة تتداس.',
+    cc_x19_3: 'اللفّة ١: اجري {R} على الكوبري المخطط على طول، روح للباب البعيد وخطوة {D} جوّاه؛ واستنى هناك. اللفّة ٢: استنى لحد ما نسختك تبقى جوّه الباب، وبعدين زقّ الصندوق {D} على البلاطة، روح {R} من الباب الأولاني، شيل الطرد وامشي {U} من الباب للمنصة.',
+    cc_x19_3c: 'السدّادة: اجري {R} على الكوبري المخطط على طول وخطوة {D} جوّه الباب البعيد. اللي بيجري: أول ما السدّادة توصل، زقّ الصندوق {D} على البلاطة، روح {R} من الباب، شيل الطرد وامشي {U} من الباب للمنصة.',
+    cc_x20_1: 'مهمتين في ناحية البداية: ترمّش الليزر وتمسك البلاطة — والاتنين جنب بعض.',
+    cc_x20_2: 'نسخة واحدة تقدر تعمل الاتنين: تدوس الزرار، تنط على البلاطة، وترجع تنط على الزرار وإنت راجع.',
+    cc_x20_3: 'اللفّة ١: خطوتين {R} على الزرار وخطوة {R} على البلاطة، استنى حوالي ٤ ثواني، وبعدين خطوة {L} على الزرار تاني. اللفّة ٢: عدّي الفتحة والشعاع مطفي، ادخل من الباب للطرد، ارجع للفتحة واستنى الرمشة التانية.',
+    cc_x20_2c: 'واحد فيكم يشغّل الزرار والبلاطة، والتاني يجيب الطرد.',
+    cc_x20_3c: 'اللي بيشغّل: دوس الزرار لما زميلك يوصل للفتحة، وبعدين اقف على البلاطة وهو داخل من الباب، وبعدين ارجع على الزرار وهو راجع. اللي بيجري: عدّي، هات الطرد من ورا الباب وارجع.',
+    cc_x21_1: 'البلاطة ماسكة بابين مرة واحدة، والزرار بيفتح الباب اللي جنب المنصة ثانيتين — وأرضية أوضة الطرد بتقع بعد ٤٫٨ ثانية.',
+    cc_x21_2: 'تلات نسخ: واحدة على البلاطة طول اللفّة، واحدة مستنية عند الزرار، وواحدة بتجري.',
+    cc_x21_3: 'اللفّة ١: ٦ {L} على البلاطة واستنى. اللفّة ٢: ٥ {R}، استنى، وادخل على الزرار عند حوالي ٦٫٥ ثانية. اللفّة ٣: ٣ {R} و٤ {D} لأوضة الطرد، شيل الطرد اللي في آخرها، اطلع بسرعة وامشي {L} في الممر — الباب هيفتح لما نسختك تدوس الزرار.',
+    cc_x21_2c: 'واحد على البلاطة، واحد على الزرار، وواحد بيجري. إنتوا اتنين بس؟ لفّة اللي على البلاطة الأول، وبعدين الزرار واللي بيجري مع بعض.',
+    cc_x21_3c: 'اللي على البلاطة: ٦ {L} واستنى. اللي على الزرار: ٥ {R} واستنى جنبه. اللي بيجري: ٣ {R} و٤ {D} لأوضة الطرد، شيل الطرد اللي في آخرها، اطلع قبل ما الأرض تقع وامشي {L} في الممر. اللي على الزرار: ادخل عليه لما اللي بيجري يوصل للباب!',
+    cc_x22_1: 'أربع مهام لأربع نسخ: بلاطتين، درع للّيزر، وواحد بيجري. مثالية لأربع صحاب أونلاين!',
+    cc_x22_2: 'بلاطة بتفتح باب أوضة الطرد والباب الأخراني، والتانية بتفتح باب النص. الدرع بيدخل الشعاع من عند البلاطة اللي على {L}. وأرضية أوضة الطرد بتقع بعد ٤٫٤ ثانية.',
+    cc_x22_3: 'اللفّة ١: ٦ {L} على البلاطة واستنى. اللفّة ٢: ٦ {R} على البلاطة التانية واستنى. اللفّة ٣: ٦ {L}، وبعدين خطوتين {D} في الشعاع. اللفّة ٤: خطوتين {L} وخطوة {D}، استنى الدرع، وبعدين خطوتين {D} من الباب، شيل الطرد اللي على {L}، ارجع خطوتين {U}، ٤ {R} في صف الليزر، خطوتين {D} من باب النص و٤ {R} من الباب الأخراني للمنصة.',
+    cc_x22_2c: 'إنتوا أربعة؟ لفّة واحدة! أقل؟ قسّموا المهام على لفّتين — اللي على البلاطات الأول، وبعدين الدرع واللي بيجري.',
+    cc_x22_3c: 'اللي على البلاطات: واحد ٦ {L} وواحد ٦ {R}. الدرع: ٦ {L} وبعدين خطوتين {D} في الشعاع. اللي بيجري: ٢ {L}، ١ {D}، استنى الدرع، ٢ {D} من الباب للطرد اللي على {L}، ارجع ٢ {U}، ٤ {R}، ٢ {D} من باب النص و٤ {R} للمنصة.',
+  }, {
+    cc_hint: 'Hint', cc_hintTitle: '💡 Hint · Level {n}', cc_hintNext: '🔓 Show step {n} of {m}', cc_hintCo: '🌐 Online co-op version',
+    cc_hintNote: 'Hints don’t cost stars — the win screen just says “hint used”.', cc_hintBy: '💡 {p} opened a hint ({n}/{m})', cc_hintOpenedBy: 'opened by {p}',
+    cc_hintUsed: '💡 Hint used ({n}/{m})', cc_stuck: 'Stuck? Press 💡 (H) for a hint.',
+    cc_d1: 'up', cc_d2: 'right', cc_d3: 'down', cc_d4: 'left',
+    cc_x1_1: 'Walk onto the package 📦 to pick it up — no button needed. Then bring it to the glowing pad.',
+    cc_x1_2: 'The package sits at the end of the bottom corridor. You reach the pad from below, on the far side.',
+    cc_x1_3: 'Go {D} 2, {R} 3, {D} 2 and {L} 3 to grab the package. Then go all the way {R} along the bottom and {U} 2 onto the pad.',
+    cc_x1_3c: 'Only one of you needs to carry it: {D} 2, {R} 3, {D} 2, {L} 3 to grab it, then all the way {R} and {U} 2 onto the pad. The others can just press ⏭.',
+    cc_x2_1: 'Something has to keep the door open while you carry the package.',
+    cc_x2_2: 'The blue plate holds the door open only while someone stands on it — and that someone can be your past self.',
+    cc_x2_3: 'Loop 1: go {U} 2 onto the plate and stay there for the whole loop (or tap ⏭). Loop 2: walk through the open door, grab the package and take it to the pad.',
+    cc_x2_2c: 'One of you stands on the blue plate; another one carries.',
+    cc_x2_3c: 'One of you goes {U} 2 onto the plate and stays. Another walks through the open door, grabs the package and delivers it — one loop is enough.',
+    cc_x3_1: 'You’re alone this time. Crates can do two jobs: hold a plate down, and fill a hole.',
+    cc_x3_2: 'Push the near crate onto the blue plate to open the door. Push the far crate into the pit to make a bridge.',
+    cc_x3_3: 'Push the near crate {D} 2, walk around it and push it {L} onto the plate. Go through the door, push the other crate {R} into the pit, grab the package and walk over the filled hole to the pad.',
+    cc_x3_1c: 'Together it’s easier: a courier can hold the plate just as well as a crate.',
+    cc_x3_3c: 'One of you goes {D} 3 onto the plate and stays. Another goes through the door, pushes the other crate {R} into the pit, grabs the package and crosses the filled hole to the pad.',
+    cc_x4_1: 'The switch opens the far door for only 2 seconds — too short to run there yourself.',
+    cc_x4_2: 'Be at the door first, and let your past self press the switch for you at the right moment.',
+    cc_x4_3: 'Loop 1: wait about 3 seconds, then step {L} onto the switch. Loop 2: grab the package, run {R} and {D} to the door, and wait there until it opens.',
+    cc_x4_2c: 'One of you waits at the switch while another carries the package to the door.',
+    cc_x4_3c: 'One of you stays by the switch. Another grabs the package and runs {R} and {D} to the door. When the runner is waiting there, step {L} onto the switch!',
+    cc_x5_1: 'The laser fries any bot that steps into its beam — but a fried bot’s scrap blocks the beam.',
+    cc_x5_2: 'Sacrifice one loop: walk your first self into the beam right next to the laser, so its wreck shields everything behind it.',
+    cc_x5_3: 'Loop 1: walk {D} 2 into the beam and get fried — that’s the plan. Loop 2: go {R} 3, {D} 4 and {L} 3 to grab the package; then {R} 3, {U} 2, {R} 2, {U} 2 and {R} 4 to the pad.',
+    cc_x5_2c: 'One of you becomes the shield — the others stay safe behind the scrap.',
+    cc_x5_3c: 'One of you walks {D} 2 straight into the beam. Then the runner goes {R} 3, {D} 4, {L} 3 for the package and {R} 3, {U} 2, {R} 2, {U} 2, {R} 4 to the pad.',
+    cc_x6_1: 'The package rides the belt straight toward the hole. Catch it before it falls!',
+    cc_x6_2: 'Bots can’t fit through the wall slot, but packages can. The belt that heads for the pad carries it through.',
+    cc_x6_3: 'Run {R} 4 onto the belt and let it carry you {D} — you’ll grab the package. At the end, step {R} onto the other belt and press ✋ (Space) to drop it — the belt does the rest.',
+    cc_x6_3c: 'Only one of you needs to catch it: {R} 4 onto the belt, ride it {D}, then step {R} and press ✋ to drop it on the other belt. The others can just press ⏭.',
+    cc_x7_1: 'Cracked floor collapses right after anything touches it — and you have to come back the same way.',
+    cc_x7_2: 'A crate that falls into a hole fills it for good. Use both crates to turn the two cracked tiles into solid floor.',
+    cc_x7_3: 'Push the near crate {L} onto the first crack. Then bring the other crate {D} and push it all the way {L} past the second crack. Grab the package, push that crate back {R} into the new hole, and walk home to the pad.',
+    cc_x7_1c: 'Only one of you should cross — every courier who steps on a crack makes it fall early. The others stay put and press ⏭.',
+    cc_x8_1: 'The cracked tile only holds once — whoever crosses it can’t come back.',
+    cc_x8_2: 'Send the package down the belt through the wall slot, and have another self waiting on the other side.',
+    cc_x8_3: 'Loop 1: go {U} 4 over the crack, grab the package, go {R} 2 and {D} 1 onto the belt and press ✋ to drop it. Loop 2: go {R} 1 and wait — when the package reaches the end of the belt, step onto it, then take it to the pad.',
+    cc_x8_2c: 'One of you sends the package, another catches it. Only one of you crosses the crack!',
+    cc_x8_3c: 'Sender: go {U} 4 over the crack, grab the package, {R} 2, {D} 1 and drop it (✋) on the belt. Catcher: go {R} 1 and wait; step onto the package when it reaches the end of the belt, then take it to the pad.',
+    cc_x9_1: 'Two problems: the door needs someone on the plate, and a laser guards the pad.',
+    cc_x9_2: 'Your first self holds the plate. Then block the beam with the crate: push it {L} to the first gap, then {D} into the laser row.',
+    cc_x9_3: 'Loop 1: go {D} 2 onto the plate and stay. Loop 2: go through the door, push the crate {L} 2, step around to the other side and push it {D} 2 into the beam. Grab the package and take the other gap {D} to the pad.',
+    cc_x9_3c: 'One of you goes {D} 2 onto the plate and stays. Another goes through the door, pushes the crate {L} 2 and then {D} 2 into the beam, grabs the package and takes the other gap {D} to the pad. (Three of you? The third can be the shield instead of the crate.)',
+    cc_x10_1: 'Three jobs: hold the plate, block the laser, and run with the package.',
+    cc_x10_2: 'One self stands on the plate. Another walks into the laser at its start so the wreck blocks the beam. The third goes around the other side.',
+    cc_x10_3: 'Loop 1: go {L} 5 onto the plate and stay. Loop 2: go {L} 5, then {D} 3 into the beam. Loop 3: go {R} 5, {D} 3, {L} 5 to the door, {D} 2 through it, {L} 5 for the package and {R} 5 back onto the pad.',
+    cc_x10_2c: 'Split the jobs: plate holder, shield, runner. Only two of you? Do it in two loops — plate holder and shield first, then the runner.',
+    cc_x10_3c: 'Holder: {L} 5 onto the plate. Shield: {L} 5 and {D} 3 into the beam. Runner: wait until the shield is fried, then {R} 5, {D} 3, {L} 5, {D} 2 through the door, {L} 5 for the package and {R} 5 to the pad.',
+    cc_x11_1: 'The bridge falls at 3 seconds — too soon to fetch the package and still carry it across.',
+    cc_x11_2: 'The package can travel alone: the belt carries it through the wall slot to the far side. Someone just has to be waiting there.',
+    cc_x11_3: 'Loop 1: fetch the package ({R} 1, {U} 2, {L} 3), go {D} 4 to the belt, ride it to its end by the wall and press ✋ there. Loop 2: run {R} across the bridge right away and wait on the pad; when the package reaches the end of the belt, step {D} onto it and back {U}.',
+    cc_x11_2c: 'One of you sends the package, another catches it on the far side.',
+    cc_x11_3c: 'Catcher: run {R} across the bridge right away and wait on the pad. Sender: fetch the package ({R} 1, {U} 2, {L} 3), go {D} 4, ride the belt to its end and drop it (✋) there. Catcher: step {D} onto the package, then {U} onto the pad.',
+    cc_x12_1: 'Two doors and two plates — but the second plate is behind the first door.',
+    cc_x12_2: 'Your echo holds the first plate. You push the crate through that door onto the second plate.',
+    cc_x12_3: 'Loop 1: go {D} 2 onto the plate and stay. Loop 2: push the crate {R} all the way onto the second plate, go {D} through the door that opens, grab the package on the {L} and run {R} to the pad.',
+    cc_x12_3c: 'One of you goes {D} 2 onto the first plate. Another pushes the crate {R} onto the second plate (or a third courier just stands on it). Then go {D} through the door that opens, grab the package on the {L} and run {R} to the pad.',
+    cc_x13_1: 'The plate does three things at once: it opens the first door, switches the laser off, and locks the second door.',
+    cc_x13_2: 'Your echo stands on the plate while you go in and grab the package, then steps off once you are out of the laser’s line.',
+    cc_x13_3: 'Loop 1: go {D} 2 onto the plate, wait about 2 seconds, then step {U} off it. Loop 2: run through the first door, grab the package, go {R} out of the laser’s line and wait at the second door — it opens when your echo steps off. Then go {D} to the pad.',
+    cc_x13_2c: 'Agree on it: the plate holder steps off only once the runner is out of the laser’s line.',
+    cc_x13_3c: 'Holder: go {D} 2 onto the plate. Runner: through the first door, grab the package and wait at the second door. Holder: step off now! The second door opens — runner, go {D} to the pad.',
+    cc_x14_1: 'Everything you’ve learned: hold the plate, block the laser, let go at the right moment — and beat the falling floor.',
+    cc_x14_2: 'The plate opens the middle door but locks the door by the pad. The plate holder steps off once the runner is through the middle door. Reach the plate before the striped floor falls.',
+    cc_x14_3: 'Loop 1: go {L} 5 onto the plate, wait about 2 seconds, then step {R} off. Loop 2: go {L} 5, then {D} 2 into the beam. Loop 3: step {D} 1 and wait for the shield, then {D}, {R} 3 and {D} 2 through the middle door; when the other door opens, grab the package and run {L} to the pad.',
+    cc_x14_2c: 'Three jobs: plate holder, shield, runner. Only two of you? First loop: one becomes the shield. Second loop: one holds the plate, the other runs.',
+    cc_x14_3c: 'Holder: {L} 5 onto the plate (before the striped floor falls). Shield: {L} 5 and {D} 2 into the beam. Runner: {D} 1, wait for the shield, then {D}, {R} 3 and {D} 2 through the middle door. Holder: step off now! Runner: grab the package and run {L} to the pad.',
+    cc_x15_1: 'The switch opens the door for 2 seconds — not long enough to fetch the package and come back.',
+    cc_x15_2: 'A door can’t close while a bot stands in its doorway. Your past self can be the doorstop.',
+    cc_x15_3: 'Loop 1: go {R} 3 — over the switch and into the doorway — and stay there. Loop 2: walk through the propped-open door, fetch the package, come back through and go to the pad.',
+    cc_x15_3c: 'One of you goes {R} 3, over the switch into the doorway, and stays put. Another walks through, fetches the package, comes back through the propped door and goes to the pad.',
+    cc_x16_1: 'You have to cross the laser’s line twice — and the switch is only on the start side.',
+    cc_x16_2: 'Let your past self press the switch twice: once as you go, once as you come back. Step off it and back on to press it again.',
+    cc_x16_3: 'Loop 1: step {R} 1, wait about a second, step {R} onto the switch, step back {L}, and at about 3 seconds step onto it again. Loop 2: run to the gap, cross while the beam is off, grab the package, come back and wait for the second blink.',
+    cc_x16_2c: 'One of you works the switch; another crosses while the beam is off.',
+    cc_x16_3c: 'Switch operator: stand next to the switch and step on it when the runner reaches the gap. Runner: cross, grab the package and come back to the gap. Operator: step off and on again so the runner can cross home.',
+    cc_x17_1: 'No crate, and getting fried here would block your only path. But a closed door stops a laser too.',
+    cc_x17_2: 'Standing on the plate slams the door shut — right in front of the laser.',
+    cc_x17_3: 'Loop 1: go {L} 4 onto the plate and stay. Loop 2: wait until the door slams shut, then go {D} through the laser row, grab the package on the {L}, come back {U} to the laser row and head {R} and {U} to the pad.',
+    cc_x17_3c: 'One of you goes {L} 4 onto the plate. When the door slams shut, another goes {D} through the laser row, grabs the package on the {L}, comes back and heads {R} and {U} to the pad.',
+    cc_x18_1: 'It looks like three jobs: hold the plate, block the laser, carry the package. But two selves are enough.',
+    cc_x18_2: 'The plate sits right in the laser’s beam. A self standing on it gets fried — and its wreck keeps the plate down and blocks the beam.',
+    cc_x18_3: 'Loop 1: go {D} 2 onto the plate and get fried. Loop 2: go {R} 4, {D} 2, {R} 2 through the open door and {U} 2 to the package; then {D} 2, {L} 2, {D} 2 and {L} 4 to the pad.',
+    cc_x18_2c: 'One of you takes the hit on the plate; another runs.',
+    cc_x18_3c: 'One of you goes {D} 2 onto the plate and gets fried. The runner goes {R} 4, {D} 2, {R} 2 through the door and {U} 2 for the package, then {D} 2, {L} 2, {D} 2 and {L} 4 to the pad.',
+    cc_x19_1: 'The plate opens the first door and switches the laser off — but it also locks the door by the laser. And the striped bridge falls at 2.4 seconds.',
+    cc_x19_2: 'The crate can hold the plate. Your past self has to stand in the lockable doorway before the plate goes down.',
+    cc_x19_3: 'Loop 1: run {R} across the striped bridge straight away, go to the far door and step {D} into its doorway; stay there. Loop 2: wait until your echo is in the doorway, then push the crate {D} onto the plate, go {R} through the first door, grab the package and go {U} through the doorway to the pad.',
+    cc_x19_3c: 'Doorstop: run {R} across the striped bridge right away and step {D} into the far doorway. Runner: once the doorstop is in place, push the crate {D} onto the plate, go {R} through the door, grab the package and go {U} through the doorway to the pad.',
+    cc_x20_1: 'Two jobs on the start side: blink the laser and hold the plate — and they sit right next to each other.',
+    cc_x20_2: 'One past self can do both: press the switch, hop onto the plate, then hop back onto the switch for the trip home.',
+    cc_x20_3: 'Loop 1: go {R} 2 onto the switch and {R} 1 onto the plate, stay about 4 seconds, then step {L} back onto the switch. Loop 2: cross the gap while the beam is off, go through the door to the package, come back to the gap and wait for the second blink.',
+    cc_x20_2c: 'One of you is the operator — switch and plate — and another fetches.',
+    cc_x20_3c: 'Operator: step on the switch when the runner reaches the gap, then stand on the plate while the runner goes through the door, then back onto the switch for the trip home. Runner: cross, fetch the package through the door and cross back.',
+    cc_x21_1: 'The plate holds two doors at once, the switch opens the door by the pad for 2 seconds — and the package room floor falls at 4.8 seconds.',
+    cc_x21_2: 'Three selves: one stays on the plate the whole loop, one waits by the switch, one runs.',
+    cc_x21_3: 'Loop 1: go {L} 6 onto the plate and stay. Loop 2: go {R} 5, wait, and step onto the switch at about 6.5 seconds. Loop 3: go {R} 3 and {D} 4 into the package room, grab the package at the far end, hurry back out and go {L} along the corridor — the door opens when your echo hits the switch.',
+    cc_x21_2c: 'One holder, one switcher, one runner. Only two of you? Do the plate holder’s loop first, then the switcher and the runner together.',
+    cc_x21_3c: 'Holder: {L} 6 onto the plate and stay. Switcher: {R} 5 and wait by the switch. Runner: {R} 3 and {D} 4 into the package room, grab the package at the far end, get out before the floor falls and go {L} along the corridor. Switcher: step on when the runner reaches the door!',
+    cc_x22_1: 'Four jobs, four selves: two plates, one laser shield and one runner. Perfect for four friends online!',
+    cc_x22_2: 'One plate opens the package-room door and the last door; the other opens the middle one. The shield walks into the beam from the plate on the {L}. The package room floor falls at 4.4 seconds.',
+    cc_x22_3: 'Loop 1: go {L} 6 onto the plate and stay. Loop 2: go {R} 6 onto the other plate and stay. Loop 3: go {L} 6, then {D} 2 into the beam. Loop 4: go {L} 2 and {D} 1, wait for the shield, then {D} 2 through the door, grab the package on the {L}, come back {U} 2, go {R} 4 along the laser row, {D} 2 through the middle door and {R} 4 through the last door to the pad.',
+    cc_x22_2c: 'Four of you? One loop! Fewer? Spread the jobs over two loops — the plate holders first, then the shield and the runner.',
+    cc_x22_3c: 'Holders: one goes {L} 6, one goes {R} 6. Shield: {L} 6, then {D} 2 into the beam. Runner: {L} 2, {D} 1, wait for the shield, {D} 2 through the door for the package on the {L}, back {U} 2, {R} 4, {D} 2 through the middle door and {R} 4 to the pad.',
+  });
+  // which steps have an online co-op variant, and the tiles each step lights up (map letters, or "x,y" in the level's own layout)
+  const HINT_CO = { 1: [3], 2: [2, 3], 3: [1, 3], 4: [2, 3], 5: [2, 3], 6: [3], 7: [1], 8: [2, 3], 9: [3], 10: [2, 3], 11: [2, 3], 12: [3], 13: [2, 3], 14: [2, 3],
+    15: [3], 16: [2, 3], 17: [3], 18: [2, 3], 19: [3], 20: [2, 3], 21: [2, 3], 22: [2, 3] };
+  const HINT_HL = {
+    1: [['P'], ['P'], ['P', 'G']], 2: [['a', 'A'], ['a'], ['a', 'P', 'G']], 3: [['X', 'a'], ['3,2', 'a', '7,3', '9,3'], ['a', '9,3', 'P', 'G']],
+    4: [['1', 'A'], ['1', 'A'], ['1', 'P', 'A', 'G']], 5: [['L'], ['1,3'], ['1,3', 'P', 'G']], 6: [['P', '5,5'], ['=', '6,4'], ['6,4', 'G']],
+    7: [['%'], ['X', '%'], ['X', '%', 'P', 'G']], 8: [['%'], ['3,2', '=', '3,5'], ['P', '3,2', '3,5', 'G']], 9: [['a', 'A', 'L'], ['a', 'X', '5,5'], ['a', 'X', '5,5', 'P', 'G']],
+    10: [['a', 'L', 'P'], ['a', '1,4'], ['a', '1,4', 'A', 'P', 'G']], 11: [['*'], ['=', '12,5'], ['P', '9,5', '12,5', 'G']], 12: [['a', 'b'], ['a', 'X', 'b'], ['a', 'b', 'B', 'P', 'G']],
+    13: [['a', 'A', 'B', 'L'], ['a', 'P'], ['a', 'P', 'B', 'G']], 14: [['a', 'L', '+', '*'], ['a', 'A', 'B', '+'], ['a', '1,3', 'A', 'B', 'P', 'G']],
+    15: [['1', 'A'], ['A'], ['1', 'A', 'P', 'G']], 16: [['1', '6,4'], ['1'], ['1', '6,4', 'P', 'G']], 17: [['L', 'B'], ['a', 'B'], ['a', 'B', 'P', 'G']],
+    18: [['a', 'L', 'A'], ['a'], ['a', 'A', 'P', 'G']], 19: [['a', 'A', 'B', '*'], ['X', 'a', 'B'], ['*', 'B', 'X', 'a', 'P', 'G']],
+    20: [['1', 'b'], ['1', 'b'], ['1', 'b', '6,4', 'B', 'P', 'G']], 21: [['b', '1', '*'], ['b', '1'], ['b', '1', 'B', 'A', 'P', 'G']],
+    22: [['a', 'b', 'L'], ['a', 'b', '1,3'], ['a', 'b', '1,3', 'A', 'B', 'P', 'G']],
+  };
+  const HINT_N = 3;
 
   // ------------------------------------------------------------------ save data
   const SAVE_KEY = 'chrono-courier-progress', SET_KEY = 'chrono-courier-settings';
@@ -189,7 +443,7 @@
   // ------------------------------------------------------------------ DOM
   const $ = (id) => document.getElementById(id);
   const cv = $('c'), ctx = cv.getContext('2d');
-  const ov = $('ov'), banner = $('banner'), tipEl = $('tip'), padEl = $('pad');
+  const ov = $('ov'), banner = $('banner'), tipEl = $('tip'), hintEl = $('hint'), padEl = $('pad');
   const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && matchMedia('(pointer: coarse)').matches);
 
   // ------------------------------------------------------------------ state
@@ -202,11 +456,12 @@
     // co-op: net = null (solo) | { host: true|false }. slots = owners of this loop's live couriers (0 = Courier 1 / host, 1 = Courier 2 / guest)
     net: null, coopLvl: false, myOwn: 0, slots: [0], curs: [], done: [false], round: 0, roundSizes: [], loopId: 0, histBase: 0, histSlots: [0],
     pausedBy: '', pName: '', sel: 0, evT: 0, meDeadShown: false,
+    hintStep: 0, hintBy: '', hintMin: false,   // hint steps revealed in this level run (shared by everyone online), and who opened the last one
   };
-  const PCOL = ['#3cf2d0', '#ff5fa2'];   // Courier 1 cyan, Courier 2 pink — their echoes keep the same tint
+  const PCOL = ['#3cf2d0', '#ff5fa2', '#b8ff4a', '#a08bff'];   // Courier 1 cyan, 2 pink, 3 lime, 4 violet — their echoes keep the same tint
   const isHost = () => !!(G.net && G.net.host), isGuest = () => !!(G.net && !G.net.host);
-  const coopOn = () => !!G.net && G.slots.length > 1;   // two live couriers this loop
-  const mySlot = () => Math.max(0, G.slots.indexOf(G.myOwn));
+  const coopOn = () => !!G.net && G.slots.length > 1;   // two or more live couriers this loop
+  const mySlot = () => G.slots.indexOf(G.myOwn);   // -1 = watching this loop (joined mid-loop online)
 
   // ------------------------------------------------------------------ level rotation (tall phones get wide levels turned 90°)
   const ROTC = { '^': '>', '>': 'v', 'v': '<', '<': '^' };
@@ -263,7 +518,7 @@
     else if (k === 'KeyU' || k === 'KeyZ' || k === 'Backspace') { e.preventDefault(); undoLoop(); }
     else if (k === 'Enter' || k === 'KeyF') { e.preventDefault(); endLoopNow(); }
     else if (k === 'Escape' || k === 'KeyP') pause();
-    else if (k === 'KeyH') toggleTip();
+    else if (k === 'KeyH') toggleHint();
   });
   addEventListener('keyup', (e) => { if (KEYS[e.code]) releaseDir(KEYS[e.code]); });
   addEventListener('blur', () => { clearInput(); if (G.scene === 'play' && !G.overlay && (G.phase === 'run') && !G.net) pause(); });
@@ -307,7 +562,7 @@
   }
   bSound.onclick = () => { Snd.init(); Snd.mute(!settings.mute); refreshTopLabels(); Snd.play('click'); };
   bLang.onclick = () => { setLang(getLang() === 'ar' ? 'en' : 'ar'); };
-  $('bHint').onclick = () => toggleTip();
+  $('bHint').onclick = () => { Snd.init(); toggleHint(); };
   $('bRestart').onclick = () => restartLoop();
   $('bUndo').onclick = () => undoLoop();
   $('bEnd').onclick = () => endLoopNow();
@@ -317,7 +572,7 @@
     const play = G.scene === 'play';
     $('playBtns').hidden = !play || !!G.overlay; $('lvlName').hidden = !play;
     $('menuBtns').hidden = play && !G.overlay;
-    if (G.overlay) tipEl.hidden = true;
+    if (G.overlay) { tipEl.hidden = true; hintEl.hidden = true; }
     document.body.classList.toggle('playing', play);
     padEl.hidden = !(play && isTouch);
     if (play && G.L) {
@@ -341,13 +596,79 @@
   let tipTimer = 0;
   function showTip(auto) {
     if (!G.L) return;
-    tipEl.innerHTML = `<b>💡 ${t('cc_tip')}</b> ${t('cc_h' + G.L.id)}<button class="x" aria-label="close">×</button>`;
+    tipEl.innerHTML = `<b>💡 ${t('cc_tip')}</b> ${t('cc_h' + G.L.id)}<br><span class="small">${t('cc_stuck')}</span><button class="x" aria-label="close">×</button>`;
     tipEl.hidden = false; placeTip();
     clearTimeout(tipTimer);
     if (auto) tipTimer = setTimeout(() => { tipEl.hidden = true; }, 8000);
   }
-  function toggleTip() { if (tipEl.hidden) showTip(false); else tipEl.hidden = true; }
   tipEl.onclick = () => { tipEl.hidden = true; };
+
+  // ------------------------------------------------------------------ hints (💡 / H): three steps per level, revealed one at a time
+  // Using a hint costs nothing — the win screen just says "hint used". Online, any courier can open the next step and everyone sees it.
+  function hintDirs(s) {   // {U} {R} {D} {L} -> words, turned with the board on tall phones
+    return s.replace(/\{([URDL])\}/g, (m, k) => {
+      const d = { U: 1, R: 2, D: 3, L: 4 }[k], ld = G.rot ? d % 4 + 1 : d, w = t('cc_d' + ld);
+      return getLang() === 'en' ? w.toLowerCase() : w;
+    });
+  }
+  function hintText(i) {
+    const id = G.L.id, co = G.coopLvl && HINT_CO[id] && HINT_CO[id].includes(i);
+    return hintDirs(t('cc_x' + id + '_' + i + (co ? 'c' : '')));
+  }
+  function renderHint() {
+    if (!G.L || !G.hintStep) { hintEl.hidden = true; return; }
+    const n = G.hintStep, id = G.L.id;
+    hintEl.classList.toggle('mini', !!G.hintMin);
+    if (G.hintMin) {   // while the loop runs the panel shrinks to one line so the board stays visible (the tiles stay lit)
+      hintEl.innerHTML = `<div class="hh" data-h="open"><b>${t('cc_hintTitle', { n: id })} · ${n}/${HINT_N}</b><span class="hmore">▾</span><button class="x" data-h="x" aria-label="close">×</button></div>`;
+    } else {
+    let items = '';
+    for (let i = 1; i <= n; i++) items += `<li class="${i === n ? 'cur' : ''}"><i>${i}</i><span>${escapeHtml(hintText(i))}</span></li>`;
+    hintEl.innerHTML = `<div class="hh"><b>${t('cc_hintTitle', { n: id })}</b>${G.coopLvl ? `<span class="hco">${t('cc_hintCo')}</span>` : ''}<button class="x" data-h="x" aria-label="close">×</button></div>
+      <ol>${items}</ol>
+      ${n < HINT_N ? `<div class="hrow"><button class="btn sm" data-h="next">${t('cc_hintNext', { n: n + 1, m: HINT_N })}</button></div>` : ''}
+      <div class="hnote">${G.hintBy ? escapeHtml(t('cc_hintOpenedBy', { p: G.hintBy })) + ' · ' : ''}${t('cc_hintNote')}</div>`;
+    }
+    hintEl.querySelectorAll('[data-h]').forEach(b => b.addEventListener('click', (e) => {
+      e.stopPropagation(); Snd.init(); Snd.play('click');
+      const h = b.dataset.h;
+      if (h === 'next') revealHint(); else if (h === 'open') { G.hintMin = false; showHint(); } else hintEl.hidden = true;
+    }));
+  }
+  function minimizeHint() { if (!hintEl.hidden && !G.hintMin) { G.hintMin = true; renderHint(); placeTip(); } }
+  function showHint() {
+    if (!G.L || G.scene !== 'play' || G.overlay) return;
+    tipEl.hidden = true; renderHint(); hintEl.hidden = !G.hintStep; placeTip();
+  }
+  function revealHint() {
+    if (!G.L || G.hintStep >= HINT_N) return;
+    G.hintStep++; G.hintBy = ''; G.hintMin = false;
+    if (G.net && othersCount()) netSend('hint', { li: G.li, s: G.hintStep, n: myName() });
+    showHint();
+  }
+  function toggleHint() {
+    if (G.scene !== 'play' || G.overlay || !G.L) return;
+    if (!hintEl.hidden && G.hintMin) { G.hintMin = false; showHint(); return; }
+    if (!hintEl.hidden) { hintEl.hidden = true; return; }
+    G.hintMin = false;
+    if (!G.hintStep) revealHint(); else showHint();
+  }
+  function onNetHint(p, P) {   // another courier opened a hint step: show everyone the same text
+    if (G.scene !== 'play' || !G.L || p.li !== G.li || !(p.s > G.hintStep)) return;
+    G.hintStep = Math.min(HINT_N, p.s | 0); G.hintBy = P ? P.n : ''; G.hintMin = false;
+    toast(t('cc_hintBy', { p: G.hintBy, n: G.hintStep, m: HINT_N }));
+    if (!G.overlay) showHint();
+  }
+  // the tiles the current hint step talks about (canonical map letters or "x,y", turned with the board)
+  function hintTiles() {
+    if (!G.L || !G.hintStep || hintEl.hidden || !HINT_HL[G.L.id]) return null;
+    const spec = HINT_HL[G.L.id][G.hintStep - 1] || [], map = G.L.map, out = [];
+    for (const k of spec) {
+      if (k.includes(',')) { const q = k.split(',').map(Number); out.push(lXY(q[0], q[1])); continue; }
+      for (let y = 0; y < map.length; y++) for (let x = 0; x < map[y].length; x++) if (map[y][x] === k) out.push(lXY(x, y));
+    }
+    return out;
+  }
 
   // ------------------------------------------------------------------ overlays
   function openOverlay(name, html, clear) {
@@ -382,8 +703,8 @@
       if (!(await canGoOnline())) return; joinRoom(code, null);
     },
     copy: (b) => copyText(inviteLink(ON.code), b),
-    swap: () => swapRoles(),
-    lvSel: (b) => { if (ON.role !== 'host') return; const mx = Math.max(maxUnlockedIdx(), ON.partner ? ON.partner.ul | 0 : 0); G.sel = Math.max(0, Math.min(mx, G.sel + (+b.dataset.d))); netSend('sel', { l: G.sel }); showLobby(); },
+    swap: () => changeSeat(),
+    lvSel: (b) => { if (!amHost()) return; G.sel = Math.max(0, Math.min(teamMaxIdx(), G.sel + (+b.dataset.d))); netSend('sel', { l: G.sel }); showLobby(); },
     startOn: () => startOnline(),
     leave: () => { leaveRoom(); G.net = null; showMenu(); },
     room: () => { netSend('lobby', {}); toLobby(); },
@@ -458,7 +779,7 @@
       <p class="small" id="ccReq"></p>
     </div>`);
   }
-  function teamLine() { return G.coopLvl && G.pName ? `<div class="who">${t('cc_team', { a: escapeHtml(G.myOwn ? G.pName : myName()), b: escapeHtml(G.myOwn ? myName() : G.pName) })}</div>` : ''; }
+  function teamLine() { const n = teamNames(); return G.coopLvl && n.length > 1 ? `<div class="who" dir="auto">${escapeHtml(t('cc_team', { a: n.join(' + ') }))}</div>` : ''; }
   function showWin(again) {
     const L = G.L, st = G.lastStars, used = G.lastLoops, last = G.li >= LEVELS.length - 1, on = !!G.net;
     let stars = '';
@@ -468,7 +789,7 @@
       ${teamLine()}
       <div class="bigstars">${stars}</div>
       <p><b style="color:var(--text)">${used <= 2 ? t('cc_in' + used) : t('cc_inN', { n: used })}</b>${G.newBest ? ` · <span style="color:var(--cyan)">${t('cc_newBest')}</span>` : ''}<br>
-      <span class="small">${L.par <= 2 ? t('cc_par' + L.par) : t('cc_parN', { n: L.par })}</span></p>
+      <span class="small">${L.par <= 2 ? t('cc_par' + L.par) : t('cc_parN', { n: L.par })}</span>${G.hintStep ? `<br><span class="small hused">${t('cc_hintUsed', { n: G.hintStep, m: HINT_N })}</span>` : ''}</p>
       ${last ? `<p>${t('cc_allDone')}</p>` : ''}
       <div class="col">
         ${last ? '' : `<button class="btn" data-act="next">▶ ${t('cc_next')}</button>`}
@@ -512,25 +833,27 @@
   }
   function showLobby() {
     G.scene = 'lobby';
-    const P = ON.partner, me = ON.role, host = me === 'host';
-    const mx = Math.max(maxUnlockedIdx(), P ? P.ul | 0 : 0);
+    const host = amHost(), ms = members(), seated = mySeat() !== undefined, mx = teamMaxIdx();
     G.sel = Math.max(0, Math.min(mx, G.sel | 0));
     const L = LEVELS[G.sel], cst = coopStarsOf(L.id);
-    const roleTxt = (r) => r === 'host' ? `${t('cc_c1')} · ${t('cc_hostR')}` : r === 'guest' ? t('cc_c2') : t('cc_connecting');
-    const dot = (r) => `<span class="pdot" style="background:${r === 'guest' ? PCOL[1] : r === 'host' ? PCOL[0] : '#59607f'}"></span>`;
     const lvTxt = `<b>${L.id} · ${t('cc_n' + L.id)}</b><span class="st">${'★'.repeat(cst)}<i>${'★'.repeat(3 - cst)}</i></span>`;
+    let rows = '';
+    for (const m of ms) {
+      const me = m.id === ON.me, crown = m.id === ON.host ? ' 👑' : '';
+      rows += `<div class="pl"><span class="pdot" style="background:${PCOL[m.seat]};color:${PCOL[m.seat]}"></span><div><b dir="auto">${escapeHtml(nameOf(m.id))}${crown}</b>
+        <small>${me ? t('cc_you') + ' · ' : ''}${t('cc_c' + (m.seat + 1))}${m.id === ON.host ? ' · ' + t('cc_hostR') : ''}</small></div></div>`;
+    }
+    if (!seated) rows += `<div class="pl wait">${t('cc_connecting')}</div>`;
+    else if (ms.length < MAXP) rows += `<div class="pl wait">${t(!ON.ready ? 'cc_connecting' : ms.length < 2 ? 'cc_waitPartner' : 'cc_waitFriends')}</div>`;
+    const enough = ms.length >= 2;
     openOverlay('lobby', `<div class="box">
       <h2>🌐 ${t('cc_onTitle')}</h2>
       <div class="roomcode"><span>${t('cc_room')}</span><b>${escapeHtml(ON.code)}</b><button class="btn sec sm" data-act="copy">${t('cc_copyLink')}</button></div>
-      <div class="plist">
-        <div class="pl">${dot(me)}<div><b dir="auto">${escapeHtml(myName())}</b><small>${t('cc_you')} · ${roleTxt(me)}</small></div></div>
-        ${P ? `<div class="pl">${dot(P.role)}<div><b dir="auto">${escapeHtml(P.n)}</b><small>${t('cc_partner')} · ${roleTxt(P.role)}</small></div></div>`
-          : `<div class="pl wait">${t(ON.ready ? 'cc_waitPartner' : 'cc_connecting')}</div>`}
-      </div>
-      ${P && me ? `<div class="row"><button class="btn sec sm" data-act="swap">${t('cc_swap')}</button></div>` : ''}
+      <div class="plist">${rows}</div>
+      ${seated ? `<div class="row"><button class="btn sec sm" data-act="swap">${t('cc_swap')}</button></div>` : ''}
       ${host ? `<div class="picker"><button class="btn sec sm" data-act="lvSel" data-d="-1" ${G.sel <= 0 ? 'disabled' : ''}>‹</button><div class="grow"><small>${t('cc_levelOf')}</small>${lvTxt}</div><button class="btn sec sm" data-act="lvSel" data-d="1" ${G.sel >= mx ? 'disabled' : ''}>›</button></div>
-        <div class="col"><button class="btn" data-act="startOn" ${P ? '' : 'disabled'}>${t('cc_start')}</button></div>${P ? '' : `<p class="small">${t('cc_needPartner')}</p>`}`
-        : me === 'guest' ? `<div class="picker"><div class="grow"><small>${t('cc_levelOf')} · ${t('cc_hostPicks')}</small>${lvTxt}</div></div><p class="small">${t('cc_waitHost')}</p>` : ''}
+        <div class="col"><button class="btn" data-act="startOn" ${enough ? '' : 'disabled'}>${t('cc_start')}</button></div>${enough ? '' : `<p class="small">${t('cc_needPartner')}</p>`}`
+        : seated ? `<div class="picker"><div class="grow"><small>${t('cc_levelOf')} · ${t('cc_hostPicks')}</small>${lvTxt}</div></div><p class="small">${t('cc_waitHost')}</p>` : ''}
       <div class="row"><button class="btn sec sm" data-act="leave">${t('cc_leave')}</button></div>
     </div>`, true);
   }
@@ -558,8 +881,9 @@
   function prepLevel(i) {
     const L0 = LEVELS[i];
     G.li = i; G.L = L0; G.scene = 'play'; G.loops = []; G.round = 0; G.roundSizes = []; G.pausedBy = '';
+    G.hintStep = 0; G.hintBy = ''; hintEl.hidden = true;
     if (!G.net) { G.myOwn = 0; G.coopLvl = false; G.slots = [0]; }
-    else { G.coopLvl = true; G.slots = G.net.host ? (ON.partner ? [0, 1] : [0]) : [0, 1]; if (ON.partner) G.pName = ON.partner.n; }
+    else { G.coopLvl = true; G.myOwn = mySeat() === undefined ? -1 : mySeat(); G.slots = G.net.host ? liveSeats() : [G.myOwn]; }
     // turn wide levels sideways on tall screens when that makes the tiles clearly bigger (each player decides for their own screen)
     const vw = innerWidth, vh = innerHeight, H0 = L0.map.length, W0 = Math.max(...L0.map.map(r => r.length));
     const fit = (W, H) => Math.min((vw - 24) / W, (vh - 120 - (isTouch ? 176 : 0)) / (H + 0.7));
@@ -578,12 +902,13 @@
   }
   function beginLoop(netLid) {
     const lv = G.lv;
+    if (isHost()) G.slots = liveSeats();   // online: everyone in the room right now drives a courier this loop
     G.loopId = netLid !== undefined ? netLid : G.loopId + 1;
     G.histBase = G.loops.length; G.histSlots = G.slots.slice();
     G.w = E.newWorld(lv, G.loops.length + G.slots.length);
     G.hist = [E.clone(G.w)];
     G.curs = G.slots.map(() => ({ acts: [], path: [[lv.spawn.x, lv.spawn.y]], marks: [] }));
-    G.cur = G.curs[mySlot()] || G.curs[0];
+    G.cur = mySlot() >= 0 ? G.curs[mySlot()] : null;   // null = watching this loop
     G.done = G.slots.map(() => false);
     G.phase = 'ready'; G.acc = 0; G.simTime = 0; G.lostShown = false; G.meDeadShown = false; G.evT = 0;
     G.desync = G.loops.map(() => -1);
@@ -591,25 +916,27 @@
     G.colAnim = []; G.fx = G.fx.filter(p => p.keep);
     clearInput(); clearRemote();
     const co = coopOn();
-    setBanner(G.round ? (co ? 'cc_readyCoEcho' : 'cc_readyEcho') : (co ? 'cc_readyCo' : 'cc_ready'), '', true);
+    if (G.net && mySlot() < 0) setBanner('cc_spectate', 'warn', true);
+    else setBanner(G.round ? (co ? 'cc_readyCoEcho' : 'cc_readyEcho') : (co ? 'cc_readyCo' : 'cc_ready'), '', true);
+    if (layoutNeedsLanes()) layout();
     updateTop();
     if (isHost()) { ON.evHist = []; sendLoop(); }
   }
   function startRun() {
     if (G.phase !== 'ready') return;
     G.phase = 'run'; G.acc = 0;
-    setBanner(null); tipEl.hidden = true;
+    setBanner(null); tipEl.hidden = true; minimizeHint();
     Snd.play('start');
     doTick();   // the first input acts right away
   }
-  function me() { return G.loops.length + mySlot(); }
+  function me() { return mySlot() < 0 ? -1 : G.loops.length + mySlot(); }
   // one 0.2 s tick of the authoritative world (solo, or the host online): echoes replay, live couriers act
   function doTick() {
-    const w = G.w, base = G.loops.length, ms = mySlot(), i = base + ms, b = w.bots[i];
+    const w = G.w, base = G.loops.length, ms = mySlot(), i = ms >= 0 ? base + ms : -1, b = ms >= 0 ? w.bots[i] : { dead: 0 };
     const acts = G.loops.map(L => L.acts[w.t] | 0);
     G.slots.forEach((own, k) => {
       const bk = w.bots[base + k];
-      const a = (G.phase === 'run' && !bk.dead && !G.done[k]) ? (k === ms ? sample(i) : sampleRemote()) : 0;
+      const a = (G.phase === 'run' && !bk.dead && !G.done[k]) ? (k === ms ? sample(i) : sampleRemote(own)) : 0;
       acts.push(a); G.curs[k].acts.push(a);
     });
     E.step(G.lv, w, acts);
@@ -637,7 +964,7 @@
     stDirty();
   }
   function endLoop() {
-    // every live courier's run becomes an echo (online: both of them, each keeping its owner's tint)
+    // every live courier's run becomes an echo (online: all of them, each keeping its owner's tint)
     G.curs.forEach((c, k) => {
       const acts = c.acts.slice(); while (acts.length < TICKS) acts.push(0);
       G.loops.push({ acts, path: c.path.slice(), marks: c.marks.slice(), own: G.slots[k], round: G.round });
@@ -686,7 +1013,7 @@
     if (G.phase !== 'run') return;
     G.phase = 'ff'; G.acc = 0; setBanner('cc_ff', 'warn');
   }
-  // online ⏭: "I'm done for this loop" — that courier waits; the loop fast-forwards when both are done (or wrecked)
+  // online ⏭: "I'm done for this loop" — that courier waits; the loop fast-forwards when everyone is done (or wrecked)
   function markDone(k) {
     if (!G.w || k < 0 || k >= G.slots.length) return;
     if (G.phase === 'ready') { G.phase = 'run'; G.acc = 0; setBanner(null); tipEl.hidden = true; }
@@ -700,9 +1027,9 @@
   function pause() {
     if (G.scene !== 'play' || G.overlay || G.phase === 'done') return;
     clearInput(); G.pausedBy = ''; showPause();
-    if (G.net && ON.partner) netSend('pause', { on: true });
+    if (G.net && othersCount()) netSend('pause', { on: true });
   }
-  function resume() { closeOverlay(); if (G.net && ON.partner) netSend('pause', { on: false }); }
+  function resume() { closeOverlay(); if (G.net && othersCount()) netSend('pause', { on: false }); }
   function nextLevel() {
     if (isGuest()) { reqHost('next'); return; }
     if (G.li < LEVELS.length - 1) startLevel(G.li + 1); else if (G.net) { netSend('lobby', {}); toLobby(); } else showLevels();
@@ -764,7 +1091,8 @@
     const touch = isTouch, side = touch && vw > vh * 1.15;
     padEl.classList.toggle('side', side);
     const padB = touch && !side ? 178 : 0, padS = side ? 172 : 0;
-    const tlH = 46 + (lv.maxLoops - 1) * (G.coopLvl ? 6 : 5);
+    const tlH = 46 + (lv.maxLoops - 1) * (G.coopLvl ? Math.min(9, 3 * Math.max(2, G.slots.length)) : 5);
+    G.tlLanes = G.coopLvl ? Math.max(2, G.slots.length) : 1;
     const availW = vw - 24 - padS * 2, availH = vh - top - padB - 10 - tlH - 14;
     const vW = lv.W - 2 + 2 * RIM, vH = lv.H - 2 + 2 * RIM;
     s = Math.floor(Math.min(availW / vW, availH / (vH + 0.32 + 0.34), 80));
@@ -780,14 +1108,17 @@
     G.bannerY = Math.max(top + 4, FR.y0 - s * 0.32 - 34);
     if (G.bannerY < top + 2) G.bannerY = top + 2;
     renderBanner();
-    if (!tipEl.hidden) placeTip();
+    if (!tipEl.hidden || !hintEl.hidden) placeTip();
   }
-  function placeTip() {
-    const below = TL.y + TL.h + 10, h = tipEl.offsetHeight || 64;
-    tipEl.style.top = (G.lv && !isTouch && below + h < vh - 6 ? below : topBottom() + 6) + 'px';
+  function placeTip() {   // the start tip and the hint panel sit under the timeline when there is room, else under the top bar
+    for (const el of [tipEl, hintEl]) {
+      if (el.hidden) continue;
+      const below = TL.y + TL.h + 10, h = el.offsetHeight || 64;
+      el.style.top = (G.lv && !isTouch && below + h < vh - 6 ? below : topBottom() + 6) + 'px';
+    }
   }
   addEventListener('resize', layout);
-  document.addEventListener('langchange', () => { refreshTopLabels(); renderBanner(); rerender(); if (!tipEl.hidden && G.L) showTip(false); });
+  document.addEventListener('langchange', () => { refreshTopLabels(); renderBanner(); rerender(); if (!tipEl.hidden && G.L) showTip(false); if (!hintEl.hidden && G.L) showHint(); });
 
   // ------------------------------------------------------------------ art helpers
   function hash(x, y, k) { let h = (x * 374761393 + y * 668265263 + (k || 0) * 982451653) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; }
@@ -1183,10 +1514,10 @@
   function botCol(bi) {
     if (!G.coopLvl) return LOOPC[bi % LOOPC.length];
     const base = G.histBase, own = bi < base ? (G.loops[bi] ? G.loops[bi].own : 0) : G.histSlots[bi - base];
-    return PCOL[own | 0];
+    return PCOL[(own | 0) % PCOL.length];
   }
   function drawWorld(w, wp, a, ghostAlphaMul) {
-    const lv = G.lv, W = lv.W, H = lv.H, base = Math.min(G.histBase, w.bots.length - 1), mine = Math.min(w.bots.length - 1, base + Math.max(0, G.histSlots.indexOf(G.myOwn)));
+    const lv = G.lv, W = lv.W, H = lv.H, base = Math.min(G.histBase, w.bots.length - 1), myK = G.histSlots.indexOf(G.myOwn), mine = myK < 0 ? -1 : Math.min(w.bots.length - 1, base + myK);
     const ea = ease(a);
     // slab under the board
     const fw = FR.x1 - FR.x0, fh = FR.y1 - FR.y0;
@@ -1283,7 +1614,7 @@
       let vx = pb.x + (b.x - pb.x) * ea, vyy = pb.y + (b.y - pb.y) * ea;
       const num = live ? 0 : G.coopLvl ? ((G.loops[bi] && G.loops[bi].round) | 0) + 1 : bi + 1;
       const o = { dir: b.dir, ghost: !live, me: isMe && G.phase !== 'rewind', num, alpha: live ? 1 : 0.8 * (ghostAlphaMul || 1), wreck: b.dead === 1 && (pb.dead === 1 || a > 0.3), desync: !live && G.desync[bi] >= 0 && G.desync[bi] <= w.t,
-        tag: live && !isMe && G.phase !== 'rewind' ? (G.pName || t('cc_c' + (G.histSlots[bi - base] + 1))).slice(0, 12) : null };
+        tag: live && !isMe && G.coopLvl && G.phase !== 'rewind' ? seatName(G.histSlots[bi - base]).slice(0, 12) : null };
       if (b.dead === 2) { o.scale = 1 - a * 0.8; o.rot = a * 4; o.alpha *= 1 - a; }
       if (b.dead === 1) o.jit = pb.dead === 1 ? 0 : (R() - 0.5) * s * 0.08 * (1 - a);
       if (b.x !== pb.x || b.y !== pb.y) o.hop = Math.sin(ea * Math.PI) * s * 0.05;
@@ -1328,6 +1659,18 @@
     }
     // smoke from wrecks
     if (G.phase !== 'rewind') w.bots.forEach(b => { if (b.dead === 1 && R() < 0.08) G.fx.push({ k: 'smoke', x: b.x + 0.5 + (R() - .5) * .2, y: b.y + 0.3, vx: (R() - .5) * .2, vy: -.4 - R() * .3, life: 0, max: 1.4, r: .1 + R() * .08 }); });
+    // hint: light up the tiles the open hint step talks about
+    const ht = hintTiles();
+    if (ht && ht.length) {
+      const pu = 0.5 + 0.5 * Math.sin(G.time * 5);
+      ctx.save(); ctx.lineWidth = Math.max(2, s * 0.07); ctx.setLineDash([s * 0.16, s * 0.1]); ctx.lineDashOffset = -G.time * s * 0.5;
+      for (const q of ht) {
+        const X = ox + q[0] * s, Y = oy + q[1] * s, m = s * (0.04 - 0.03 * pu);
+        ctx.fillStyle = `rgba(255,183,3,${0.10 + 0.12 * pu})`; rr(X + m, Y + m - s * 0.12, s - 2 * m, s - 2 * m, s * 0.18); ctx.fill();
+        ctx.strokeStyle = `rgba(255,214,102,${0.65 + 0.35 * pu})`; ctx.stroke();
+      }
+      ctx.restore();
+    }
   }
 
   function drawFx(dt) {
@@ -1352,20 +1695,21 @@
 
   // ------------------------------------------------------------------ timeline (10 s bar + one lane per echo)
   function drawTimeline(w) {
-    const { x, y, w: tw, h } = TL, lv = G.lv, n = G.round, maxL = lv.maxLoops, base = G.histBase, laneH = G.coopLvl ? 3 : 5;
+    const { x, y, w: tw, h } = TL, lv = G.lv, n = G.round, maxL = lv.maxLoops, base = G.histBase, laneH = G.coopLvl ? Math.max(1.5, Math.min(3, (h - 44) / Math.max(1, G.loops.length))) : 5;
     const elapsed = G.phase === 'rewind' ? Math.max(0, 1 - G.rewindT / 0.9) * TICKS * TICK : Math.min(TICKS, w.t + (G.phase === 'run' ? G.acc / TICK : 0)) * TICK;
     const left = Math.max(0, TICKS * TICK - elapsed), warn = left < 3 && G.phase === 'run';
     ctx.fillStyle = 'rgba(10,13,28,.86)'; rr(x, y, tw, h, 12); ctx.fill();
     ctx.strokeStyle = warn ? `rgba(255,93,115,${0.4 + 0.4 * Math.sin(G.time * 10)})` : 'rgba(255,255,255,.08)'; ctx.lineWidth = 1; rr(x + 0.5, y + 0.5, tw - 1, h - 1, 12); ctx.stroke();
-    const col = G.coopLvl ? PCOL[G.myOwn] : LOOPC[Math.min(n, maxL - 1) % LOOPC.length];
+    const col = G.coopLvl ? PCOL[Math.max(0, G.myOwn) % PCOL.length] : LOOPC[Math.min(n, maxL - 1) % LOOPC.length];
     // loop pill (dots = loops available)
     ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
     const ly = y + 15;
     for (let i = 0; i < maxL; i++) {
       const cxp = x + 14 + i * 13;
-      if (i < n && G.coopLvl) {   // a finished co-op loop: half Courier 1, half Courier 2
-        ctx.fillStyle = PCOL[0]; ctx.beginPath(); ctx.arc(cxp, ly, 4.5, Math.PI / 2, Math.PI * 1.5); ctx.fill();
-        ctx.fillStyle = PCOL[1]; ctx.beginPath(); ctx.arc(cxp, ly, 4.5, -Math.PI / 2, Math.PI / 2); ctx.fill();
+      if (i < n && G.coopLvl) {   // a finished co-op loop: one slice per courier who ran it
+        const owners = G.loops.filter(Lp => Lp.round === i).map(Lp => Lp.own | 0), k = Math.max(1, owners.length);
+        owners.forEach((o, j) => { ctx.fillStyle = PCOL[o % PCOL.length]; ctx.beginPath(); ctx.moveTo(cxp, ly); ctx.arc(cxp, ly, 4.5, -Math.PI / 2 + j * 6.2832 / k, -Math.PI / 2 + (j + 1) * 6.2832 / k); ctx.fill(); });
+        if (!owners.length) { ctx.fillStyle = PCOL[0]; ctx.beginPath(); ctx.arc(cxp, ly, 4.5, 0, 7); ctx.fill(); }
         continue;
       }
       ctx.beginPath(); ctx.arc(cxp, ly, 4.5, 0, 7);
@@ -1505,24 +1849,120 @@
     drawTimeline(G.w);
   }
 
-  // ------------------------------------------------------------------ online co-op (Supabase Realtime broadcast room "chrono-courier-CODE")
+  // ------------------------------------------------------------------ online co-op (Supabase Realtime broadcast room "chrono-courier-CODE"), up to 4 couriers
   // The host runs the authoritative loop (doTick: echoes, plates, doors, the package, the timer) and streams the world ~12–15×/s.
-  // The guest sends only its own inputs and draws what the host sends, animating between ticks. Positions travel in the level's
+  // Everyone else sends only their own inputs and draws what the host sends, animating between ticks. Positions travel in the level's
   // canonical orientation, so each player can still get wide levels turned sideways on a tall phone.
-  const ON = { ch: null, code: '', ready: false, me: '', role: null, jt: 0, partner: null, hb: null, lastSt: 0, dirty: false, needT: 0, evHist: [] };
-  const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'roles', 'sel', 'loop', 'st', 'in', 'req', 'pause', 'lobby', 'need'];
+  // Room: the host keeps a roster of seats (0–3 = Courier 1–4 = colour). The creator is host; if the host leaves, the earliest joiner
+  // still in the room takes over (everyone works out the same answer from the join times) and restarts the current loop.
+  const MAXP = 4, LIVE_MS = 9000;
+  const ON = { ch: null, code: '', ready: false, me: '', jt: 0, host: null, created: false, subAt: 0, peers: {}, seats: {}, hb: null, lastSt: 0, dirty: false, needT: 0, evHist: [], bringT: 0 };
+  const NET_EVENTS = ['hello', 'hb', 'bye', 'full', 'ro', 'seat', 'sel', 'loop', 'st', 'in', 'req', 'pause', 'lobby', 'need', 'hint'];
   const CODE_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const newCode = () => { let c = ''; for (let i = 0; i < 4; i++) c += CODE_ABC[Math.floor(Math.random() * CODE_ABC.length)]; return c; };
   const pageLink = () => location.href.split('?')[0].split('#')[0];
   const inviteLink = (code) => pageLink() + '?room=' + code;
-  const otherRole = (r) => r === 'host' ? 'guest' : 'host';
   function myName() {
     const a = window.Auth && Auth.name && Auth.name(); if (a) return String(a).slice(0, 16);
     let n = ''; try { n = localStorage.getItem(NAME_KEY) || ''; } catch (e) {}
     return n || t('cc_courier');
   }
   async function canGoOnline() { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; return true; }
-  function netSend(ev, p) { if (!ON.ch || !ON.ready) return; try { ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me }, p || {}) }); } catch (e) {} }
+  function netSend(ev, p) { if (!ON.ch || !ON.ready) return; try { ON.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: ON.me, jt: ON.jt }, p || {}) }); } catch (e) {} }
+
+  // ---- who is in the room
+  const peerLive = (P) => !!P && !P.gone && Date.now() - P.t < LIVE_MS;
+  const isLiveId = (id) => id === ON.me ? !!ON.code : peerLive(ON.peers[id]);
+  const livePeers = () => Object.values(ON.peers).filter(peerLive);
+  const seatOf = (id) => ON.seats[id];
+  const mySeat = () => ON.seats[ON.me];
+  const jtOf = (id) => id === ON.me ? ON.jt : (ON.peers[id] ? ON.peers[id].jt : Infinity);
+  const amHost = () => !!ON.code && ON.host === ON.me;
+  function nameOf(id) { return id === ON.me ? myName() : (ON.peers[id] ? ON.peers[id].n : '…'); }
+  function members() {   // seated players still here (me included), by seat
+    const out = [];
+    for (const id in ON.seats) if (isLiveId(id)) out.push({ id, seat: ON.seats[id] });
+    return out.sort((a, b) => a.seat - b.seat);
+  }
+  const liveSeats = () => members().map(m => m.seat);
+  const othersCount = () => members().filter(m => m.id !== ON.me).length;
+  const SEATN = {};   // last known name per seat, so echoes and the win screen keep the names of players who left
+  function seatName(seat) { for (const id in ON.seats) if (ON.seats[id] === seat) return (SEATN[seat] = nameOf(id)); return SEATN[seat] || t('cc_c' + ((seat | 0) + 1)); }
+  function teamNames() {   // everyone who drove a courier in this level (echo owners + this loop's couriers)
+    const seats = [...new Set(G.loops.map(L => L.own | 0).concat(G.slots))].filter(x => x >= 0).sort((a, b) => a - b);
+    return seats.map(seatName);
+  }
+  const teamMaxIdx = () => Math.max(maxUnlockedIdx(), ...livePeers().filter(P => seatOf(P.id) !== undefined).map(P => P.ul | 0));
+  const layoutNeedsLanes = () => G.coopLvl && G.slots.length > (G.tlLanes || 1);
+
+  // ---- host: seats and the roster
+  function freeSeat() { const used = new Set(Object.values(ON.seats)); for (let k = 0; k < MAXP; k++) if (!used.has(k)) return k; return -1; }
+  function rosterList() { return Object.keys(ON.seats).filter(isLiveId).map(id => [id, ON.seats[id], nameOf(id)]); }
+  function hostSeatAll() {   // give seats to newcomers (5th player: "room full"), drop the ones who left
+    if (!amHost()) return false;
+    const before = JSON.stringify(ON.seats);
+    for (const id in ON.seats) if (!isLiveId(id)) { if (id !== ON.me && ON.peers[id]) peerGone(id); else delete ON.seats[id]; }
+    if (mySeat() === undefined) { const k = freeSeat(); if (k >= 0) ON.seats[ON.me] = k; }
+    for (const P of livePeers().sort((a, b) => a.jt - b.jt)) {
+      if (seatOf(P.id) !== undefined || P.full) continue;
+      const k = freeSeat();
+      if (k < 0) { P.full = true; netSend('full', { to: P.id }); continue; }
+      ON.seats[P.id] = k; P.seated = true; toast(t('cc_joinedP', { p: P.n })); Snd.init(); Snd.play('pick');
+    }
+    const changed = JSON.stringify(ON.seats) !== before;
+    if (changed) { netSend('ro', { s: rosterList() }); if (G.overlay === 'lobby') showLobby(); }
+    return changed;
+  }
+  function applyRoster(list, from) {   // everyone else: take the host's seats
+    if (from !== ON.host || amHost() || !Array.isArray(list)) return;
+    const old = ON.seats, seats = {};
+    for (const q of list) {
+      if (!Array.isArray(q)) continue;
+      const id = String(q[0]), k = q[1] | 0; if (k < 0 || k >= MAXP) continue;
+      seats[id] = k;
+      if (id !== ON.me) { const P = ON.peers[id] || (ON.peers[id] = { id, n: '…', jt: Infinity, t: Date.now(), ul: 0, ph: 'lobby' }); P.seated = true; if (q[2]) P.n = String(q[2]).slice(0, 16); }
+    }
+    ON.seats = seats;
+    for (const id in seats) if (old[id] === undefined && id !== ON.me && id !== from && G.overlay === 'lobby') toast(t('cc_joinedP', { p: nameOf(id) }));
+    if (G.scene === 'play' && G.net && mySeat() !== undefined && G.myOwn !== mySeat() && mySlot() < 0) G.myOwn = mySeat();
+    if (G.overlay === 'lobby') showLobby();
+  }
+
+  // ---- host election: the creator first; after that the earliest joiner still here. Everyone reaches the same answer.
+  function setHost(h) {
+    const prev = ON.host; if (h === prev) return;
+    ON.host = h;
+    if (prev && ON.code) toast(t('cc_newHost', { p: nameOf(h) }));
+    if (amHost()) {
+      hostSeatAll(); netSend('ro', { s: rosterList() });
+      if (G.scene === 'play' && G.net && !G.net.host) becomeHost();
+    } else if (G.net && G.net.host) { G.net.host = false; G.loopId = -1; askLoop(); }   // two hosts met: the later one steps down
+    if (G.overlay === 'lobby') showLobby();
+  }
+  function electHost() {
+    if (!ON.code || (ON.host && isLiveId(ON.host))) return;
+    const ms = members();
+    if (!ms.length && !ON.created && Date.now() - ON.subAt < 2500) return;   // just arrived: give the room a moment to say hello
+    const pool = ms.length ? ms.map(m => m.id) : [ON.me];
+    pool.sort((a, b) => jtOf(a) - jtOf(b) || (a < b ? -1 : 1));
+    setHost(pool[0]);
+  }
+  function adoptHost(h) {   // someone told us who the host is
+    if (!h || h === ON.host || !isLiveId(h)) return;
+    if (!ON.host || !isLiveId(ON.host)) { setHost(h); return; }
+    if (jtOf(h) < jtOf(ON.host) || (jtOf(h) === jtOf(ON.host) && h < ON.host)) setHost(h);
+  }
+  // the host left mid-level: take over the simulation with every echo recorded so far and restart the current loop
+  function becomeHost() {
+    G.net.host = true; for (const k in RINS) delete RINS[k];
+    if (G.phase === 'done') return;   // the win screen stays; Next / Retry run from here now
+    if (G.overlay && G.overlay !== 'win') closeOverlay();
+    const n = G.roundSizes.reduce((a, b) => a + b, 0);
+    if (G.loops.length > n) G.loops.length = n;
+    G.round = G.roundSizes.length;
+    beginLoop();
+    toast(t('cc_hostTook'));
+  }
 
   // local (maybe rotated) <-> canonical level coordinates and directions
   const cXY = (x, y) => G.rot ? [y, G.H0 - 1 - x] : [x, y];
@@ -1546,8 +1986,8 @@
   const unpackEv = (e) => { const o = Object.assign({}, e); if (e.x !== undefined) { const p = lXY(e.x, e.y); o.x = p[0]; o.y = p[1]; } return o; };
   // host: keep the last few ticks of events so a dropped snapshot doesn't lose a sound, a spark or a timeline mark
   function noteEvents(w) {
-    const gi = G.loops.length + G.slots.indexOf(1);
-    ON.evHist.push({ t: w.t, ev: w.ev.filter(e => (e.e !== 'step' && e.e !== 'bump') || e.b === gi).map(packEv) });
+    const base = G.loops.length, mine = base + mySlot();
+    ON.evHist.push({ t: w.t, ev: w.ev.filter(e => (e.e !== 'step' && e.e !== 'bump') || (e.b >= base && e.b !== mine)).map(packEv) });
     while (ON.evHist.length > 4) ON.evHist.shift();
   }
   function packSt() {
@@ -1580,46 +2020,47 @@
     return w;
   }
 
-  // host -> guest: the loop set-up (level, loop id, every echo recorded so far) and the world snapshots
+  // host -> everyone: the loop set-up (level, loop id, every echo recorded so far, who drives which courier) and the world snapshots
   function stDirty() { if (!isHost()) return; ON.dirty = true; netPump(); }
   function netPump() {   // a snapshot right after each tick, plus a keep-alive copy every 80 ms (≈12–15 per second)
-    if (!isHost() || !ON.partner || G.scene !== 'play' || !G.w || !NM) return;
+    if (!isHost() || !othersCount() || G.scene !== 'play' || !G.w || !NM) return;
     const now = performance.now(), gap = now - ON.lastSt;
     if ((ON.dirty && gap >= 60) || gap >= 80) { ON.dirty = false; ON.lastSt = now; netSend('st', packSt()); }
   }
   function sendLoop() {
     const nl = G.newLvl ? 1 : 0; G.newLvl = false;
-    if (!isHost() || !ON.partner) return;
-    netSend('loop', { li: G.li, lid: G.loopId, rd: G.round, rs: G.roundSizes, sl: G.slots, nl, hn: myName(),
+    if (!isHost() || !othersCount()) return;
+    netSend('loop', { li: G.li, lid: G.loopId, rd: G.round, rs: G.roundSizes, sl: G.slots, nl, hs: G.hintStep, ro: rosterList(),
       recs: G.loops.map(r => ({ o: r.own | 0, r: r.round | 0, a: r.acts.map(cD).join(''), p: [].concat(...r.path.map(q => cXY(q[0], q[1]))), m: r.marks })) });
     ON.dirty = true; ON.lastSt = 0; netPump();
   }
   function askLoop() { const now = performance.now(); if (now - ON.needT > 700) { ON.needT = now; netSend('need', {}); } }
   function applyLoop(p) {
-    if (ON.role === 'host') return;
-    ON.role = 'guest'; if (ON.partner) { ON.partner.role = 'host'; if (p.hn) ON.partner.n = String(p.hn).slice(0, 16); }
+    if (amHost() || p.id !== ON.host) return;
+    if (p.ro) applyRoster(p.ro, p.id);
     const fresh = G.scene !== 'play' || !isGuest() || p.li !== G.li || (p.nl && p.lid !== G.loopId);
     if (!fresh && p.lid === G.loopId) return;   // we already have this loop
     if (G.overlay) closeOverlay();
-    if (fresh) { G.net = { host: false }; G.myOwn = 1; prepLevel(p.li); }
+    if (fresh) { G.net = { host: false }; prepLevel(p.li); }
+    G.myOwn = mySeat() === undefined ? -1 : mySeat();
     G.loops = (p.recs || []).map(r => {
       const path = []; for (let k = 0; k + 1 < r.p.length; k += 2) path.push(lXY(r.p[k], r.p[k + 1]));
       return { own: r.o | 0, round: r.r | 0, acts: Array.from(r.a, ch => lD(+ch)), path, marks: r.m || [] };
     });
     G.round = p.rd | 0; G.roundSizes = (p.rs || []).slice(); G.slots = (p.sl || [0, 1]).slice();
-    if (ON.partner) G.pName = ON.partner.n;
+    if ((p.hs | 0) > G.hintStep) G.hintStep = Math.min(HINT_N, p.hs | 0);
     beginLoop(p.lid);
     if (fresh) { layout(); showTip(true); Snd.init(); Snd.play('start'); }
   }
   function applySt(p) {
-    if (!isGuest() || G.scene !== 'play' || !G.w) return;
+    if (!isGuest() || G.scene !== 'play' || !G.w || p.id !== ON.host) return;
     if (p.li !== G.li || p.lid !== G.loopId || p.nb !== G.w.bots.length) { askLoop(); return; }
-    const prevPh = G.phase, prevRd = G.round, base = G.loops.length, ms = mySlot(), mine = base + ms;
+    const prevPh = G.phase, prevRd = G.round, base = G.loops.length, ms = mySlot(), mine = ms >= 0 ? base + ms : -1;
     G.round = p.rd | 0;
     if (p.t !== G.w.t) {
       const prevT = G.w.t, nw = unpackSt(p);
       G.w = nw; G.hist.push(nw); G.acc = 0;
-      const b = nw.bots[mine]; if (b) G.cur.path.push([b.x, b.y]);
+      const b = mine >= 0 ? nw.bots[mine] : null; if (b && G.cur) G.cur.path.push([b.x, b.y]);
       G.loops.forEach((L, gi) => {
         const q = L.path[nw.t], gb = nw.bots[gi];
         if (G.desync[gi] < 0 && q && gb && gb.dead !== 2 && (q[0] !== gb.x || q[1] !== gb.y)) G.desync[gi] = nw.t;
@@ -1632,13 +2073,13 @@
       G.evT = pack.t;
       const evs = pack.ev.map(unpackEv);
       effects(evs, mine);
-      for (const ev of evs) if (ev.b === mine && /^(pick|drop|fry|fall)$/.test(ev.e)) G.cur.marks.push({ t: pack.t, e: ev.e });
+      if (G.cur) for (const ev of evs) if (ev.b === mine && /^(pick|drop|fry|fall)$/.test(ev.e)) G.cur.marks.push({ t: pack.t, e: ev.e });
     }
     G.done = (p.dn || []).map(Boolean);
     G.phase = p.ph;
-    const b = G.w.bots[mine];
+    const b = mine >= 0 ? G.w.bots[mine] : null;
     if (G.phase !== prevPh) {
-      if (prevPh === 'ready' && (G.phase === 'run' || G.phase === 'ff')) { setBanner(null); tipEl.hidden = true; Snd.play('start'); }
+      if (prevPh === 'ready' && (G.phase === 'run' || G.phase === 'ff')) { if (mine >= 0) setBanner(null); tipEl.hidden = true; minimizeHint(); Snd.play('start'); }
       if (G.phase === 'ff') setBanner(b && b.dead ? (b.dead === 1 ? 'cc_fried' : 'cc_fell') : 'cc_ff', b && b.dead ? 'bad' : 'warn');
       else if (G.phase === 'rewind') { G.rewindT = 0; setBanner('cc_rewind', 'warn'); Snd.play('rewind'); G.flash = 0.5; }
       else if (G.phase === 'done') { G.doneT = 0; G.doneAt = performance.now(); onDelivered(); }
@@ -1651,7 +2092,7 @@
     if (G.phase !== prevPh || G.round !== prevRd) updateTop();
   }
   function guestUpdate(dt) {
-    if (G.phase === 'run') { G.acc = Math.min(TICK, G.acc + dt); G.simTime += dt; }   // animate the last tick (smooths both couriers)
+    if (G.phase === 'run') { G.acc = Math.min(TICK, G.acc + dt); G.simTime += dt; }   // animate the last tick (smooths every courier)
     else if (G.phase === 'ff') { G.acc = Math.min(0.035, G.acc + dt); G.simTime += dt * 6; }
     else if (G.phase === 'rewind') G.rewindT = Math.min(0.9, G.rewindT + dt);
     else if (G.phase === 'done') {
@@ -1661,7 +2102,7 @@
     for (let d = 0; d < G.doorVis.length; d++) { const tg = G.w.open[d]; G.doorVis[d] += (tg - G.doorVis[d]) * Math.min(1, dt * 14); }
   }
 
-  // guest -> host: inputs. Taps and the action button carry counters, so a resent or late message never doubles a step.
+  // guests -> host: inputs. Taps and the action button carry counters, so a resent or late message never doubles a step.
   // The last few taps travel with every message, so taps that arrive bunched up (network jitter) still each give one step.
   const GIN = { ts: 0, as: 0, taps: [], last: 0 };
   function netIn(kind, d) {
@@ -1670,27 +2111,30 @@
   }
   function sendIn(withHold) {
     GIN.last = performance.now();
-    netSend('in', { lid: G.loopId, jt: ON.jt, h: withHold && held.length ? cD(held[held.length - 1]) : 0, tq: GIN.taps, as: GIN.as });
+    netSend('in', { lid: G.loopId, h: withHold && held.length ? cD(held[held.length - 1]) : 0, tq: GIN.taps, as: GIN.as });
   }
-  const RIN = { h: 0, ts: 0, as: 0, q: [], pa: false, jt: 0 };
-  function clearRemote() { RIN.h = 0; RIN.q = []; RIN.pa = false; }
-  function sampleRemote() { let a = 0; if (RIN.pa) { a = 5; RIN.pa = false; } else if (RIN.q.length) a = RIN.q.shift(); else if (RIN.h) a = RIN.h; return a; }
+  const RINS = {};   // host: one input buffer per remote seat
+  const rin = (seat) => RINS[seat] || (RINS[seat] = { h: 0, ts: 0, as: 0, q: [], pa: false, jt: -1 });
+  function clearRemote(seat) { for (const k in RINS) if (seat === undefined || +k === seat) { const R = RINS[k]; R.h = 0; R.q = []; R.pa = false; } }
+  function sampleRemote(seat) { const R = rin(seat); let a = 0; if (R.pa) { a = 5; R.pa = false; } else if (R.q.length) a = R.q.shift(); else if (R.h) a = R.h; return a; }
   function applyIn(p) {
     if (!isHost() || G.scene !== 'play' || !G.w) return;
-    if (p.jt !== RIN.jt) { RIN.jt = p.jt; RIN.ts = 0; RIN.as = 0; RIN.q = []; }
-    const fresh = p.lid === G.loopId && G.slots.length > 1;   // inputs meant for an older loop are dropped
+    const seat = seatOf(p.id); if (seat === undefined) return;
+    const R = rin(seat), k = G.slots.indexOf(seat);
+    if (p.jt !== R.jt) { R.jt = p.jt; R.ts = 0; R.as = 0; R.q = []; }
+    const fresh = p.lid === G.loopId && k >= 0 && !G.done[k];   // inputs meant for an older loop (or from a watcher) are dropped
     for (const tp of (Array.isArray(p.tq) ? p.tq : [])) {
-      if (!(tp[0] > RIN.ts)) continue;
-      RIN.ts = tp[0];
-      if (fresh) { RIN.q.push(lD(tp[1] | 0)); if (RIN.q.length > 2) RIN.q.shift(); }
+      if (!(tp[0] > R.ts)) continue;
+      R.ts = tp[0];
+      if (fresh) { R.q.push(lD(tp[1] | 0)); if (R.q.length > 2) R.q.shift(); }
     }
-    if (p.as > RIN.as) { RIN.as = p.as; if (fresh) RIN.pa = true; }
-    RIN.h = fresh ? lD(p.h | 0) : 0;
-    if (fresh && G.phase === 'ready' && !G.overlay && (RIN.q.length || RIN.pa || RIN.h)) startRun();
+    if (p.as > R.as) { R.as = p.as; if (fresh) R.pa = true; }
+    R.h = fresh ? lD(p.h | 0) : 0;
+    if (fresh && G.phase === 'ready' && !G.overlay && (R.q.length || R.pa || R.h)) startRun();
   }
-  function handleReq(act) {
+  function handleReq(act, id) {
     if (!isHost() || G.scene !== 'play') return;
-    if (act === 'end') { if (!G.overlay) markDone(G.slots.indexOf(1)); }
+    if (act === 'end') { const k = G.slots.indexOf(seatOf(id)); if (!G.overlay && k >= 0) markDone(k); }
     else if (act === 'restartLoop') restartLoop();
     else if (act === 'undo') undoLoop();
     else if (act === 'restartLevel') startLevel(G.li);
@@ -1701,17 +2145,19 @@
     else if (G.overlay === 'pause' || (G.overlay === 'howto' && subFrom === 'pause')) closeOverlay();
   }
 
-  // room: join / leave / heartbeat / roles
+  // room: join / leave / heartbeat / roster
   function joinRoom(code, role) {
     leaveRoom(true);
     if (!window.sb) { toast(t('cc_noNet')); return false; }
     code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if (!code) return false;
     let id = ''; try { id = sessionStorage.getItem('chrono-courier-id-' + code) || ''; } catch (e) {}
     if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('chrono-courier-id-' + code, id); } catch (e) {} }
-    ON.me = id; ON.code = code; ON.role = role || null; ON.ready = false; ON.jt = Date.now(); ON.partner = null;
+    ON.me = id; ON.code = code; ON.ready = false; ON.jt = Date.now(); ON.peers = {}; ON.seats = {};
+    ON.created = role === 'host'; ON.host = ON.created ? id : null; ON.subAt = Date.now();
+    if (ON.created) ON.seats[id] = 0;
     const ch = sb.channel('chrono-courier-' + code, { config: { broadcast: { self: false, ack: false } } });
     for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
-    ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch) { ON.ready = true; hello(true); if (G.overlay === 'lobby') showLobby(); } });
+    ch.subscribe((st) => { if (st === 'SUBSCRIBED' && ON.ch === ch) { ON.ready = true; ON.subAt = Date.now(); hello(true); if (G.overlay === 'lobby') showLobby(); } });
     ON.ch = ch;
     try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
     window.Mal3abShareLink = () => inviteLink(code);
@@ -1722,103 +2168,135 @@
   }
   function leaveRoom(quiet) {
     if (ON.ch) { netSend('bye', {}); const ch = ON.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
-    clearInterval(ON.hb); ON.ch = null; ON.ready = false; ON.code = ''; ON.partner = null; ON.role = null;
+    clearInterval(ON.hb); ON.ch = null; ON.ready = false; ON.code = ''; ON.peers = {}; ON.seats = {}; ON.host = null; ON.created = false;
     window.Mal3abShareLink = () => pageLink();
     if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
   }
   const netPh = () => G.scene === 'play' && G.net ? 'play' : 'lobby';
-  function hello(req) { netSend('hello', { n: myName(), role: ON.role, jt: ON.jt, req: !!req, ph: netPh(), sel: G.sel, ul: maxUnlockedIdx() }); }
+  function beatPayload() {
+    const o = { n: myName(), ph: netPh(), sel: G.sel, ul: maxUnlockedIdx(), h: ON.host };
+    if (amHost()) o.ro = rosterList();
+    return o;
+  }
+  function hello(req) { netSend('hello', Object.assign(beatPayload(), { req: !!req })); }
   function netBeat() {
     if (!ON.ch) return;
-    netSend('hb', { n: myName(), role: ON.role, jt: ON.jt, ph: netPh(), sel: G.sel, ul: maxUnlockedIdx() });
-    if (ON.partner && Date.now() - ON.partner.t > 9000) partnerGone();
-  }
-  function resolveRoles(p) {
-    if (G.scene === 'play' && G.net && ON.role) return;
-    const mineFirst = ON.jt < p.jt || (ON.jt === p.jt && ON.me < p.id);
-    if (!p.role && !ON.role) ON.role = mineFirst ? 'host' : 'guest';
-    else if (!ON.role) ON.role = otherRole(p.role);
-    else if (p.role === ON.role && !mineFirst) ON.role = otherRole(p.role);
+    for (const P of Object.values(ON.peers)) if (!P.gone && Date.now() - P.t > LIVE_MS) peerGone(P.id);
+    electHost();
+    if (amHost()) hostSeatAll();
+    netSend('hb', beatPayload());
   }
   function onNet(ev, p) {
-    if (!p || p.id === ON.me) return;
+    if (!p || !p.id || p.id === ON.me) return;
     const now = Date.now();
     if (ev === 'full') { if (p.to === ON.me) { leaveRoom(); G.net = null; showOnline(); toast(t('cc_full')); const m = $('ccMsg'); if (m) m.textContent = t('cc_full'); } return; }
-    let P = ON.partner;
-    if (P && P.id !== p.id) {
-      if (now - P.t < 9000) { if (ev === 'hello') netSend('full', { to: p.id }); return; }   // a third player
-      partnerGone(true); P = null;
-    }
-    if (ev === 'bye') { if (P) partnerGone(); return; }
-    if (!P) {
-      P = ON.partner = { id: p.id, n: p.n || '…', role: null, t: now, ul: 0 };
-      toast(t('cc_joinedP', { p: P.n })); Snd.init(); Snd.play('pick');
-      RIN.jt = -1;
-    }
-    P.t = now; if (p.n) { P.n = String(p.n).slice(0, 16); if (G.coopLvl) G.pName = P.n; } if (p.ul !== undefined) P.ul = p.ul | 0;
+    if (ev === 'bye') { peerGone(p.id); return; }
+    let P = ON.peers[p.id];
+    if (!P) P = ON.peers[p.id] = { id: p.id, n: '…', jt: p.jt || now, t: now, ul: 0, ph: 'lobby' };
+    if (ev === 'hello' && p.req) P.full = false;
+    if (P.full) { if (ev === 'hello' && amHost()) netSend('full', { to: p.id }); return; }
+    if (P.gone && ev !== 'hello' && ev !== 'hb') return;   // stray message from someone who already left
+    P.gone = false; P.t = now; if (p.jt) P.jt = p.jt;
+    if (p.n) P.n = String(p.n).slice(0, 16); if (p.ul !== undefined) P.ul = p.ul | 0; if (p.ph) P.ph = p.ph;
     if (ev === 'hello' || ev === 'hb') {
-      if ('role' in p) P.role = p.role;
-      const before = ON.role; resolveRoles(p);
-      if (P.role === 'host' && ON.role === 'guest' && p.sel !== undefined && G.scene !== 'play') G.sel = p.sel | 0;
-      if (ev === 'hello' && p.req) hello(false); else if (before !== ON.role) hello(false);
-      if (ON.role === 'host' && p.ph !== 'play') bringPartnerIn();
-      if (ON.role === 'guest' && p.ph === 'lobby' && G.scene === 'play' && G.net) toLobby();
+      adoptHost(p.h);
+      if (!ON.host && p.ro) adoptHost(p.id);
+      if (ev === 'hello' && p.req) hello(false);
+      if (amHost()) hostSeatAll();
+      else if (p.id === ON.host) {
+        if (p.ro) applyRoster(p.ro, p.id);
+        if (p.sel !== undefined && G.scene !== 'play') G.sel = p.sel | 0;
+        if (p.ph === 'lobby' && G.scene === 'play' && G.net) toLobby();
+      }
+      electHost();
+      if (amHost() && p.ph !== 'play' && seatOf(p.id) !== undefined) bringIn(p.id);
       if (G.overlay === 'lobby') showLobby();
       return;
     }
+    if ((ev === 'loop' || ev === 'st' || ev === 'ro') && (!ON.host || !isLiveId(ON.host))) adoptHost(p.id);
     switch (ev) {
-      case 'roles': if (G.scene !== 'play') { ON.role = p.host === ON.me ? 'host' : 'guest'; P.role = otherRole(ON.role); if (G.overlay === 'lobby') showLobby(); } break;
-      case 'sel': if (ON.role !== 'host') { G.sel = p.l | 0; if (G.overlay === 'lobby') showLobby(); } break;
+      case 'ro': applyRoster(p.s, p.id); break;
+      case 'seat': if (amHost() && G.scene !== 'play') moveSeat(p.id); break;
+      case 'sel': if (!amHost() && p.id === ON.host) { G.sel = p.l | 0; if (G.overlay === 'lobby') showLobby(); } break;
       case 'loop': applyLoop(p); break;
       case 'st': applySt(p); break;
       case 'in': applyIn(p); break;
-      case 'req': handleReq(p.act); break;
+      case 'req': handleReq(p.act, p.id); break;
       case 'pause': netPause(!!p.on, P.n); break;
       case 'lobby': if (G.scene === 'play' && G.net) toLobby(); break;
       case 'need': if (isHost() && G.scene === 'play') sendLoop(); break;
+      case 'hint': onNetHint(p, P); break;
     }
   }
-  // the partner (re)appeared while the host is playing: bring them into this level
-  function bringPartnerIn() {
+  // a seated player is still in the lobby while the host plays: bring them into this level (now if no loop is under way, else next loop)
+  function bringIn(id) {
     if (!isHost() || G.scene !== 'play' || !G.w) return;
+    const seat = seatOf(id); if (seat === undefined) return;
     if (G.phase === 'done' || G.phase === 'over') { if (G.overlay === 'lost') { closeOverlay(); if (G.phase === 'done') showWin(true); else showLose(); } return; }   // they join at Next / Retry
-    if (G.overlay === 'lost') closeOverlay();
-    if (ON.partner) G.pName = ON.partner.n;
-    if (G.slots.length < 2) { G.slots = [0, 1]; toast(t('cc_rejoin')); beginLoop(); }
-    else sendLoop();
+    const now = performance.now(); if (now - ON.bringT < 700) return; ON.bringT = now;
+    const lost = G.overlay === 'lost', k = G.slots.indexOf(seat), inLoop = k >= 0 && !G.done[k];
+    if (lost) closeOverlay();
+    if (!inLoop && (lost || (G.phase === 'ready' && !G.overlay))) { toast(t('cc_rejoin', { p: nameOf(id) })); beginLoop(); }
+    else { if (!inLoop) toast(t('cc_joinNext', { p: nameOf(id) })); sendLoop(); }
   }
-  function partnerGone(silent) {
-    const P = ON.partner; if (!P) return; ON.partner = null;
-    if (!silent) toast(t('cc_leftP', { p: P.n }));
-    clearRemote();
-    if (G.scene === 'play' && G.net) { if (G.overlay !== 'lost') { clearInput(); showLost(); } }
+  function peerGone(id) {
+    const P = ON.peers[id]; if (!P || P.gone) return;
+    P.gone = true;
+    const seat = seatOf(id); if (seat === undefined && !P.seated) return;   // never got a seat (room full, or still arriving)
+    const wasHost = ON.host === id;
+    if (seat !== undefined) { delete ON.seats[id]; clearRemote(seat); }
+    if (wasHost) { ON.host = null; electHost(); }
+    toast(t('cc_leftP', { p: P.n }) + (wasHost && ON.host ? ' · ' + t('cc_newHost', { p: nameOf(ON.host) }) : ''));
+    if (amHost()) {
+      netSend('ro', { s: rosterList() });
+      if (G.scene === 'play' && G.net && G.w && !wasHost && seat !== undefined) {   // the loop goes on; their courier just stops where it is
+        const k = G.slots.indexOf(seat);
+        if (k >= 0 && (G.phase === 'ready' || G.phase === 'run')) markGone(k);
+      }
+    }
+    if (G.scene === 'play' && G.net) { if (!othersCount() && G.overlay !== 'lost') { clearInput(); showLost(); } }
     else if (G.overlay === 'lobby') showLobby();
   }
-  // partner gone: keep playing alone with every echo recorded so far (the guest takes over the simulation)
+  function markGone(k) {   // like ⏭ for a courier whose player left (before the loop starts: just set it up again without them)
+    if (G.phase === 'ready' && !G.overlay) { beginLoop(); return; }
+    G.done[k] = true;
+    if (G.phase !== 'run') return;
+    const base = G.loops.length;
+    if (G.slots.every((o, j) => G.done[j] || G.w.bots[base + j].dead)) { G.phase = 'ff'; G.acc = 0; setBanner('cc_ff', 'warn'); }
+    stDirty();
+  }
+  // everyone else left: keep playing alone with every echo recorded so far
   function continueSolo() {
-    if (isGuest()) { leaveRoom(); G.net = null; }
+    if (!isHost()) { leaveRoom(); G.net = null; }
+    if (G.myOwn < 0) G.myOwn = 0;
     G.slots = [G.myOwn];
     closeOverlay();
     if (G.phase === 'done') showWin(true);
     else if (G.phase === 'over') showLose();
     else beginLoop();
   }
-  function swapRoles() {
-    if (!ON.partner || !ON.role || G.scene === 'play') return;
-    ON.role = otherRole(ON.role); ON.partner.role = otherRole(ON.role);
-    netSend('roles', { host: ON.role === 'host' ? ON.me : ON.partner.id });
-    showLobby();
+  // 🎨: take the next colour (swapping with whoever has it)
+  function moveSeat(id) {
+    const cur = seatOf(id); if (cur === undefined) return;
+    const to = (cur + 1) % MAXP, holder = Object.keys(ON.seats).find(i => ON.seats[i] === to);
+    if (holder) ON.seats[holder] = cur;
+    ON.seats[id] = to;
+    netSend('ro', { s: rosterList() }); if (G.overlay === 'lobby') showLobby();
+  }
+  function changeSeat() {
+    if (G.scene === 'play' || mySeat() === undefined) return;
+    if (amHost()) moveSeat(ON.me); else netSend('seat', {});
   }
   function startOnline() {
-    if (ON.role !== 'host') return;
-    if (!ON.partner) { toast(t('cc_needPartner')); return; }
-    G.net = { host: true }; G.myOwn = 0; G.pName = ON.partner.n;
+    if (!amHost()) return;
+    if (!othersCount()) { toast(t('cc_needPartner')); return; }
+    G.net = { host: true }; G.myOwn = mySeat();
     startLevel(G.sel);
   }
   function toLobby() {
-    G.net = null; G.coopLvl = false; G.myOwn = 0; G.slots = [0];
+    G.net = null; G.coopLvl = false; G.slots = [0];
     G.scene = 'lobby'; G.L = null; G.lv = null; G.w = null;
-    tipEl.hidden = true; setBanner(null); clearInput();
+    tipEl.hidden = true; hintEl.hidden = true; setBanner(null); clearInput();
     if (!ON.code) { showMenu(); return; }
     showLobby(); layout();
   }
@@ -1857,14 +2335,16 @@
         me: G.w ? Object.assign({}, G.w.bots[me()]) : null, pkg: G.w ? Object.assign({}, G.w.pkg) : null,
         online: !!G.net, host: isHost(), coop: coopOn(), coopLvl: G.coopLvl, slots: G.slots.slice(), mySlot: mySlot(), echoes: G.loops.map(L => L.own),
         bots: G.w ? G.w.bots.map(b => ({ x: b.x, y: b.y, dead: b.dead, carry: b.carry })) : [], done: G.done.slice(), loopId: G.loopId,
-        room: ON.code, role: ON.role, partner: ON.partner ? ON.partner.n : null, pName: G.pName, banner: G.banner ? G.banner.key : null,
+        room: ON.code, role: ON.code ? (amHost() ? 'host' : 'guest') : null, roomHost: amHost(), hostName: ON.host ? nameOf(ON.host) : null, seat: mySeat(), myOwn: G.myOwn,
+        players: members().map(m => ({ name: nameOf(m.id), seat: m.seat, host: m.id === ON.host })), partner: othersCount() ? members().filter(m => m.id !== ON.me).map(m => nameOf(m.id)).join(',') : null,
+        banner: G.banner ? G.banner.key : null, hintStep: G.hintStep, hintOpen: !hintEl.hidden, hintBy: G.hintBy, hintTiles: (hintTiles() || []).length,
         canon: G.w ? G.w.bots.map(b => cXY(b.x, b.y)) : [],
       };
     },
     net: {
       create: () => joinRoom(newCode(), 'host'), join: (c) => joinRoom(c, null), start: (n) => { if (n) G.sel = n - 1; startOnline(); },
       sel: (n) => { G.sel = n - 1; netSend('sel', { l: G.sel }); if (G.overlay === 'lobby') showLobby(); },
-      leave: () => { leaveRoom(); G.net = null; showMenu(); }, swap: () => swapRoles(), solo: () => continueSolo(), room: () => ACTIONS.room(),
+      leave: () => { leaveRoom(); G.net = null; showMenu(); }, swap: () => changeSeat(), solo: () => continueSolo(), room: () => ACTIONS.room(),
       next: () => nextLevel(), retry: () => restartLevel(), canonDir: (d) => lD(d),
     },
     engine: E, levels: LEVELS,
@@ -1886,6 +2366,8 @@
     },
     tick(n) { for (let i = 0; i < (n || 1) && (G.phase === 'run' || G.phase === 'ff'); i++) doTick(); return this.state; },
     restartLoop, undoLoop, endLoop: endLoopNow, pause, resume,
+    netDebug: () => ({ me: ON.me, host: ON.host, jt: ON.jt, seats: Object.assign({}, ON.seats), peers: Object.values(ON.peers).map(P => [P.id, P.n, P.jt, Date.now() - P.t, !!P.gone, !!P.full]) }),
+    hint: () => { toggleHint(); return ChronoCourier.state; }, hintNext: () => { revealHint(); return ChronoCourier.state; }, hintText: () => hintEl.innerText,
     finish() { if (G.phase === 'done' && !G.overlay) showWin(); return this.state; },
     progress: () => JSON.parse(JSON.stringify(prog)),
     world: () => G.w,
