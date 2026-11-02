@@ -1,12 +1,72 @@
 // Mal3ab — shared game shell: local vs online mode, turns, names, status bar, result recording.
 // Usage: Shell.start({ title:'chess', newState(){...}, render(){...}, extraButtons:'<html>' })
 // Then use S.state, S.me, S.myTurn(), S.commit(), S.reset(), S.names
+addStrings({
+  sh_namesT: '👥 مين هيلعب؟', sh_namesQ: 'اكتبوا اسم كل واحد فيكم', sh_p1: 'اسم اللاعب الأول', sh_p2: 'اسم اللاعب التاني', sh_go: '▶ يلا نلعب',
+  sh_need: 'اكتبوا اسمين مختلفين', sh_who: '🏳️ مين اللي استسلم؟', sh_cancel: 'إلغاء', sh_rename: '✏️ الأسماء'
+}, {
+  sh_namesT: "👥 Who's Playing?", sh_namesQ: "Type each player's name", sh_p1: "Player 1's name", sh_p2: "Player 2's name", sh_go: "▶ Let's Play",
+  sh_need: 'Type two different names', sh_who: '🏳️ Who Resigned?', sh_cancel: 'Cancel', sh_rename: '✏️ Names'
+});
 window.Shell = {
+  // ---------- same device: both players' names (asked before the game starts, remembered for next time) ----------
+  localNames() { try { const n = JSON.parse(localStorage.getItem('mal3ab-local-names') || 'null'); if (n && n[0] && n[1]) return n; } catch (e) {} return null; },
+  _pop(inner) {
+    if (!document.getElementById('m3shCss')) {
+      const c = document.createElement('style'); c.id = 'm3shCss';
+      c.textContent = `.m3sh{position:fixed;inset:0;z-index:9000;background:rgba(5,8,20,.72);display:flex;align-items:center;justify-content:center;padding:16px}
+        .m3sh .box{width:min(420px,100%);background:var(--card,#1a1f35);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+        .m3sh h3{margin:0;text-align:center;color:var(--accent,#ffb703);font-size:22px}.m3sh p{margin:0;text-align:center;color:var(--muted,#9aa)}
+        .m3sh label{display:flex;flex-direction:column;gap:4px;font-weight:700}.m3sh label i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-inline-end:6px;vertical-align:middle}
+        .m3sh .row{display:flex;gap:8px}.m3sh .row .btn{flex:1}.m3sh .msg{color:#ff6b7a;text-align:center;min-height:1.2em}`;
+      document.head.appendChild(c);
+    }
+    const el = document.createElement('div'); el.className = 'm3sh'; el.innerHTML = `<div class="box" data-m3pop>${inner}</div>`;
+    document.body.appendChild(el); if (window.Mal3abPopButtons) try { Mal3abPopButtons(); } catch (e) {}
+    return el;
+  },
+  askNames(canCancel) {
+    return new Promise((res) => {
+      const old = Shell.localNames() || [Auth.name() || '', ''];
+      const esc = (v) => String(v || '').replace(/[&<>"]/g, '');
+      const el = Shell._pop(`<h3>${t('sh_namesT')}</h3><p>${t('sh_namesQ')}</p>
+        <label><span><i style="background:var(--p1,#ff5d73)"></i>${t('sh_p1')}</span><input class="text" id="shN1" maxlength="16" value="${esc(old[0])}" placeholder="${t('player', { n: 1 })}"></label>
+        <label><span><i style="background:var(--p2,#4cc9f0)"></i>${t('sh_p2')}</span><input class="text" id="shN2" maxlength="16" value="${esc(old[1])}" placeholder="${t('player', { n: 2 })}"></label>
+        <div class="msg" id="shMsg"></div>
+        <div class="row">${canCancel ? `<button class="btn secondary" id="shNo">${t('sh_cancel')}</button>` : ''}<button class="btn" id="shGo">${t('sh_go')}</button></div>`);
+      const a = el.querySelector('#shN1'), b = el.querySelector('#shN2');
+      (a.value ? b : a).focus();
+      const go = () => {
+        const n1 = a.value.trim(), n2 = b.value.trim();
+        if (!n1) { a.focus(); el.querySelector('#shMsg').textContent = t('sh_need'); return; }
+        if (!n2 || n1.toLowerCase() === n2.toLowerCase()) { b.focus(); el.querySelector('#shMsg').textContent = t('sh_need'); return; }
+        try { localStorage.setItem('mal3ab-local-names', JSON.stringify([n1, n2])); } catch (e) {}
+        el.remove(); res([n1, n2]);
+      };
+      el.querySelector('#shGo').onclick = go;
+      [a, b].forEach(x => x.onkeydown = (e) => { if (e.key === 'Enter') { if (x === a && !b.value.trim()) b.focus(); else go(); } });
+      if (canCancel) el.querySelector('#shNo').onclick = () => { el.remove(); res(null); };
+    });
+  },
+  // same device: which of the two players? (e.g. who pressed resign) → 1 | 2 | null
+  pickPlayer(title) {
+    return new Promise((res) => {
+      const S = window.S, esc = (v) => String(v || '').replace(/[&<>"]/g, '');
+      const el = Shell._pop(`<h3>${title}</h3>
+        <div class="row"><button class="btn" id="shP1" style="background:var(--p1,#ff5d73);color:#fff">${esc(S.name(1))}</button><button class="btn" id="shP2" style="background:var(--p2,#4cc9f0);color:#06202a">${esc(S.name(2))}</button></div>
+        <button class="btn secondary" id="shNo">${t('sh_cancel')}</button>`);
+      el.querySelector('#shP1').onclick = () => { el.remove(); res(1); };
+      el.querySelector('#shP2').onclick = () => { el.remove(); res(2); };
+      el.querySelector('#shNo').onclick = () => { el.remove(); res(null); };
+    });
+  },
   async start(opts) {
     await Auth.init();
     const q = new URLSearchParams(location.search);
     // opened from the games page with no mode chosen yet: pick online / vs bot / same device (and the clock) here
     if (!q.get('code') && !q.get('bot') && !q.get('local')) { Shell.startMenu(opts); return null; }
+    // same device opened straight from a link: ask the two names first
+    if (!q.get('code') && !q.get('bot') && !Shell.localNames()) await Shell.askNames(false);
     const S = {
       mode: q.get('bot') ? 'bot' : q.get('code') ? 'online' : 'local',
       bot: q.get('bot') || null,                 // easy | medium | hard (you are player 1, the computer is player 2)
@@ -51,7 +111,9 @@ window.Shell = {
       S.names = { 1: Auth.name() || t('player', { n: 1 }), 2: '🤖 ' + t('botName') + ' (' + t(S.bot) + ')' };
     } else {
       S.state = opts.newState();
-      S.names = { 1: t('player', { n: 1 }), 2: t('player', { n: 2 }) };
+      const n = Shell.localNames() || [t('player', { n: 1 }), t('player', { n: 2 })];
+      S.names = { 1: n[0], 2: n[1] };
+      S.rename = async () => { const r = await Shell.askNames(true); if (r) { S.names = { 1: r[0], 2: r[1] }; opts.render(); Shell.status(); } };
     }
 
     Shell.buildBar(opts);
@@ -93,7 +155,7 @@ window.Shell = {
         try { const room = await Net.join(c); location.href = `${room.game}.html?code=${room.code}&p=2`; } catch (e) { msg.textContent = e.message; } };
       $('smCode').onkeydown = (e) => { if (e.key === 'Enter') $('smJoin').click(); };
       if ($('smBot')) $('smBot').onclick = () => { save(); location.href = `${game}.html?bot=${$('smLvl').value}${clk()}`; };
-      $('smLocal').onclick = () => { save(); location.href = `${game}.html?local=1${clk()}`; };
+      $('smLocal').onclick = async () => { save(); const n = await Shell.askNames(true); if (n) location.href = `${game}.html?local=1${clk()}`; };
       window.Mal3abPrepareInvite = async () => { if (!named()) return null; save(); const code = await Net.create(game, {}); return { link: Net.inviteLink(code), go: () => { location.href = `${game}.html?code=${code}&p=1${clk()}`; } }; };
     };
     draw(); document.addEventListener('langchange', draw);
@@ -108,6 +170,7 @@ window.Shell = {
       <div class="title">${t(opts.title)}</div>
       <div class="room"></div>
       ${opts.extraButtons || ''}
+      ${window.S && S.mode === 'local' ? `<button class="btn small secondary" onclick="S.rename()">${t('sh_rename')}</button>` : ''}
       <button class="btn small secondary" data-mal3ab-chat title="Chat">💬</button>
       <a class="btn small secondary" href="${location.pathname.split('/').pop()}" title="${t('smChoose')}">☰</a>
       <button class="btn small" onclick="S.reset()">${t('newGame')}</button>

@@ -20,7 +20,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 <script src="../shared/i18n.js?v=1793401000"></script>
 <script src="../shared/net.js?v=1793404000"></script>
-<script src="../shared/shell.js?v=1793401000"></script>
+<script src="../shared/shell.js?v=1793406000"></script>
 </head>
 <body>
 <div class="chess-wrap">
@@ -128,9 +128,10 @@ function tryPremove() {
 function offerDraw() { const st = S.state; if (st.winner) return; st.drawOffer = S.mode === 'local' ? st.turn : S.me; S.commit(); }
 function acceptDraw() { const st = S.state; st.winner = 'draw'; st.reason = null; st.drawOffer = null; S.commit(); }
 function declineDraw() { S.state.drawOffer = null; S.commit(); }
-function resign() {
-  const st = S.state; if (st.winner) return;
-  const loser = S.mode === 'local' ? st.turn : S.me;
+async function resign() {
+  if (S.state.winner) return;
+  const loser = S.mode === 'local' ? await Shell.pickPlayer(t('sh_who')) : S.me;     // same device: ask which of the two gave up
+  const st = S.state; if (!loser || st.winner) return;
   st.winner = other(loser); st.reason = `${S.name(loser)} ${t('resigned')}`; S.commit();
 }
 
