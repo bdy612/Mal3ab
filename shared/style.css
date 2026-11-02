@@ -55,6 +55,7 @@ input {
 .card .clock { font-size: 14px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
 .card select { font-family: inherit; background: var(--card2); color: var(--text); border: 0; border-radius: 8px; padding: 4px 8px; }
 input.text { letter-spacing: 0; text-transform: none; width: 100%; text-align: start; font-size: 16px; }
+textarea.text { font-family: inherit; font-size: 16px; padding: 10px 14px; border-radius: 10px; border: 2px solid var(--card2); background: var(--card); color: var(--text); box-sizing: border-box; unicode-bidi: plaintext; }
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; z-index: 50; }
 .modal[hidden] { display: none; }
 .modal .box { background: var(--card); border-radius: 18px; padding: 24px; width: min(92vw, 380px); display: flex; flex-direction: column; gap: 10px; position: relative; }

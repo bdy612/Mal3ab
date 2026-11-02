@@ -4,11 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Admin — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793401000">
-<style>#reqs[hidden] { display: none; }</style>
+<link rel="stylesheet" href="shared/style.css?v=1793407000">
+<style>#reqs[hidden], #tagreqs[hidden], #fb[hidden] { display: none; }
+  .fbtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; } .fbtabs button.on { outline: 2px solid var(--accent); }
+  .fbi { padding: 10px; border-top: 1px solid #ffffff14; display: flex; flex-direction: column; gap: 6px; } .fbi.done { opacity: .6; }
+  .fbi .body { white-space: pre-wrap; word-break: break-word; } .fbi .meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; color: var(--muted); font-size: 13px; }
+  .tagbtn { border: 0; border-radius: 999px; padding: 2px 8px; font-size: 12px; cursor: pointer; background: #ffffff14; color: var(--text); } .tagbtn.on { background: var(--accent); color: #1a1200; font-weight: 700; }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793401000"></script>
-<script src="shared/net.js?v=1793404000"></script>
+<script src="shared/i18n.js?v=1793407000"></script>
+<script src="shared/net.js?v=1793407000"></script>
 </head>
 <body>
 <div class="topbar">
@@ -19,6 +24,8 @@
 </div>
 <div class="page" style="max-width:1100px">
   <div class="panel2" id="reqs" hidden></div>
+  <div class="panel2" id="tagreqs" hidden></div>
+  <div class="panel2" id="fb" hidden></div>
   <div class="panel2">
     <div class="row2"><h2 data-i18n="users"></h2><label style="display:flex;align-items:center;gap:6px;margin-inline-start:auto;cursor:pointer"><input type="checkbox" id="onlyOn" style="width:auto;margin:0"><span data-i18n="adm_onlyOn"></span></label><input class="text" id="q" data-i18n-ph="searchUsers" style="max-width:320px"></div>
     <div class="err" id="err"></div>
@@ -27,9 +34,15 @@
 </div>
 <script>
 addStrings({ adm_reqT: 'طلبات الأدمن', adm_approve: '✅ اقبل', adm_decline: '❌ ارفض', adm_noReason: 'من غير سبب', adm_owner: 'المالك', adm_status: 'الحالة',
-             adm_on: 'أونلاين دلوقتي', adm_off: 'مش أونلاين', adm_ago: 'آخر ظهور {t}', adm_onlyOn: 'الأونلاين بس', adm_nOn: '{n} أونلاين' },
+             adm_on: 'أونلاين دلوقتي', adm_off: 'مش أونلاين', adm_ago: 'آخر ظهور {t}', adm_onlyOn: 'الأونلاين بس', adm_nOn: '{n} أونلاين',
+             adm_tagReqT: 'طلبات التاجز الموثّقة', adm_proof: 'الإثبات', adm_fbT: 'البلاغات والاقتراحات', adm_reports: '🚩 البلاغات', adm_ideas: '💡 الاقتراحات', adm_openOnly: 'المفتوح بس',
+             adm_from: 'من', adm_about: 'عن', adm_note: 'رد للاعب (اختياري)', adm_saveNote: '💾 احفظ الرد', adm_by: 'اتعامل معاه: {p}', adm_tags: 'تاجز',
+             st_open: '⏳ جديد', st_seen: '👀 اتشاف', st_planned: '🛠️ هيتعمل', st_done: '✅ خلص', st_declined: '❌ مرفوض', adm_noFb: 'مفيش حاجة هنا', adm_msgUser: '💬 كلّمه' },
            { adm_reqT: 'Admin Requests', adm_approve: '✅ Approve', adm_decline: '❌ Decline', adm_noReason: 'No reason given', adm_owner: 'Owner', adm_status: 'Status',
-             adm_on: 'Online Now', adm_off: 'Offline', adm_ago: 'Last seen {t}', adm_onlyOn: 'Online Only', adm_nOn: '{n} online' });
+             adm_on: 'Online Now', adm_off: 'Offline', adm_ago: 'Last seen {t}', adm_onlyOn: 'Online Only', adm_nOn: '{n} online',
+             adm_tagReqT: 'Verified Tag Requests', adm_proof: 'Proof', adm_fbT: 'Reports & Ideas', adm_reports: '🚩 Reports', adm_ideas: '💡 Ideas', adm_openOnly: 'Open Only',
+             adm_from: 'From', adm_about: 'About', adm_note: 'Reply to the player (optional)', adm_saveNote: '💾 Save Reply', adm_by: 'Handled by {p}', adm_tags: 'Tags',
+             st_open: '⏳ New', st_seen: '👀 Seen', st_planned: '🛠️ Planned', st_done: '✅ Done', st_declined: '❌ Declined', adm_noFb: 'Nothing here', adm_msgUser: '💬 Message' });
 // online = the site is open: every open page pings the server every 30 s (net.js "touch"), so a ping in the last ~2 min means online
 const isOn = (u) => !!u.last_seen && Date.now() - new Date(u.last_seen).getTime() < 2 * 60 * 1000;
 function ago(d) {
@@ -51,6 +64,59 @@ async function loadReqs() {
       <button class="btn tiny" onclick="decide('${r.id}', true)">${t('adm_approve')}</button><button class="btn tiny secondary" onclick="decide('${r.id}', false)">${t('adm_decline')}</button></div>`).join('');
   } catch (e) { box.hidden = true; }
 }
+// ---------- verified tag requests ----------
+async function loadTagReqs() {
+  const box = document.getElementById('tagreqs');
+  try {
+    const { data, error } = await sb.rpc('admin_tag_requests', { p_token: Auth.token }); if (error) throw error;
+    box.hidden = !data || !data.length; if (box.hidden) return;
+    box.innerHTML = `<h2>🏷️ ${t('adm_tagReqT')} (${data.length})</h2>` + data.map(r => `<div class="row2" style="gap:10px;padding:8px 0;border-top:1px solid #ffffff14;flex-wrap:wrap">${avatarHtml(r, 34)}
+      <div style="flex:1;min-width:200px"><b>${esc(r.username)}</b> <small style="color:var(--muted)">#${r.public_id} · ${fmtDate(r.at)}</small> ${Mal3abTags([{ tag: r.tag }], true)}
+        <div dir="auto" style="color:var(--muted);word-break:break-all">${t('adm_proof')}: ${/^https?:\/\//.test(r.proof) ? `<a href="${esc(r.proof)}" target="_blank" rel="noopener noreferrer">${esc(r.proof)}</a>` : esc(r.proof)}</div></div>
+      <button class="btn tiny" onclick="tagDecide(${r.id}, true)">${t('adm_approve')}</button><button class="btn tiny secondary" onclick="tagDecide(${r.id}, false)">${t('adm_decline')}</button></div>`).join('');
+  } catch (e) { box.hidden = true; }
+}
+async function tagDecide(id, ok) {
+  try { const { error } = await sb.rpc('admin_tag_decide', { p_token: Auth.token, p_id: id, p_approve: ok }); if (error) throw error; await load(); }
+  catch (e) { document.getElementById('err').textContent = e.message; }
+}
+async function tagSet(uid, tag, on) {
+  try { const { error } = await sb.rpc('admin_tag_set', { p_token: Auth.token, p_target: uid, p_tag: tag, p_on: on }); if (error) throw error; USERS = await Admin.users(); draw(); }
+  catch (e) { document.getElementById('err').textContent = e.message; }
+}
+// ---------- reports + feature ideas ----------
+let FB = [], FBTAB = 'report', FBOPEN = true;
+async function loadFb() {
+  const box = document.getElementById('fb');
+  try { const { data, error } = await sb.rpc('admin_feedback', { p_token: Auth.token }); if (error) throw error; FB = data || []; box.hidden = false; drawFb(); }
+  catch (e) { box.hidden = true; }
+}
+function drawFb() {
+  const box = document.getElementById('fb'); if (box.hidden) return;
+  const isOpen = (f) => f.status === 'open' || f.status === 'seen';
+  const n = (k) => FB.filter(f => f.kind === k && isOpen(f)).length;
+  const list = FB.filter(f => f.kind === FBTAB && (!FBOPEN || isOpen(f) || f.status === 'planned'));
+  box.innerHTML = `<h2>📬 ${t('adm_fbT')}</h2>
+    <div class="fbtabs"><button class="btn tiny ${FBTAB === 'report' ? 'on' : 'secondary'}" onclick="FBTAB='report';drawFb()">${t('adm_reports')} (${n('report')})</button>
+      <button class="btn tiny ${FBTAB === 'feature' ? 'on' : 'secondary'}" onclick="FBTAB='feature';drawFb()">${t('adm_ideas')} (${n('feature')})</button>
+      <label style="display:flex;align-items:center;gap:6px;margin-inline-start:auto;cursor:pointer"><input type="checkbox" style="width:auto;margin:0" ${FBOPEN ? 'checked' : ''} onchange="FBOPEN=this.checked;drawFb()">${t('adm_openOnly')}</label></div>
+    ${list.length ? list.map(f => `<div class="fbi ${isOpen(f) || f.status === 'planned' ? '' : 'done'}">
+      <div class="meta"><span>${t('adm_from')}: <b style="color:var(--text)">${esc(f.from || '—')}</b> ${f.from_public_id ? '#' + f.from_public_id : ''}</span>
+        ${f.target ? `<span>· ${t('adm_about')}: <b style="color:#ff8a9a">${esc(f.target)}</b> #${f.target_public_id}</span>` : ''}
+        ${f.category ? `<span>· ${esc(f.category)}</span>` : ''}<span>· ${fmtDate(f.at)}</span>${f.handled_by ? `<span>· ${t('adm_by', { p: esc(f.handled_by) })}</span>` : ''}</div>
+      <div class="body" dir="auto">${esc(f.body)}</div>
+      <div class="row2" style="gap:6px;flex-wrap:wrap">
+        <select style="flex:none;min-width:0;width:auto" onchange="fbSet(${f.id}, this.value)">${['open', 'seen', 'planned', 'done', 'declined'].map(s => `<option value="${s}" ${s === f.status ? 'selected' : ''}>${t('st_' + s)}</option>`).join('')}</select>
+        <input class="text" id="note-${f.id}" placeholder="${t('adm_note')}" value="${esc(f.note || '')}" maxlength="500" style="flex:1;min-width:160px">
+        <button class="btn tiny secondary" onclick="fbSet(${f.id}, null)">${t('adm_saveNote')}</button>
+        ${f.from_id ? `<button class="btn tiny secondary" onclick="Chat && Chat.show('${f.from_id}')">${t('adm_msgUser')}</button>` : ''}</div></div>`).join('') : `<p style="color:var(--muted)">${t('adm_noFb')}</p>`}`;
+}
+async function fbSet(id, status) {
+  const f = FB.find(x => x.id === id); if (!f) return;
+  const note = (document.getElementById('note-' + id) || {}).value || null;
+  try { const { error } = await sb.rpc('admin_feedback_set', { p_token: Auth.token, p_id: id, p_status: status || f.status, p_note: note }); if (error) throw error; await loadFb(); }
+  catch (e) { document.getElementById('err').textContent = e.message; }
+}
 async function decide(id, ok) {
   try { const { error } = await sb.rpc('admin_request_decide', { p_token: Auth.token, p_target: id, p_approve: ok }); if (error) throw error; await load(); }
   catch (e) { document.getElementById('err').textContent = e.message; }
@@ -63,19 +129,22 @@ async function load() {
   const err = document.getElementById('err');
   if (!Auth.profile || !Auth.profile.is_admin) { document.getElementById('tbl').innerHTML = ''; err.textContent = Auth.profile ? t('adminsOnly') : t('loginFirst'); return; }
   try { USERS = await Admin.users(); err.textContent = ''; } catch (e) { err.textContent = e.message; return; }
-  draw(); loadReqs();
+  draw(); loadReqs(); loadTagReqs(); loadFb();
 }
 function draw() {
   const q = document.getElementById('q').value.trim().toLowerCase();
   const onlyOn = document.getElementById('onlyOn').checked;
-  const list = USERS.filter(u => (!q || u.username.toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q)) && (!onlyOn || isOn(u)))
+  const qn = q.replace('#', '');
+  const list = USERS.filter(u => (!q || u.username.toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q) || (qn && String(u.public_id || '').startsWith(qn))) && (!onlyOn || isOn(u)))
     .sort((a, b) => (b.is_owner - a.is_owner) || (isOn(b) - isOn(a)));
   document.getElementById('count').innerHTML = `${USERS.length} ${t('users')} · <span style="color:#80ed99">● ${t('adm_nOn', { n: USERS.filter(isOn).length })}</span>`;
   const me = Auth.user.id;
-  document.getElementById('tbl').innerHTML = `<tr><th></th><th>${t('username')}</th><th>${t('email')}</th><th>${t('stats')}</th><th>${t('joined')}</th><th>${t('adm_status')}</th><th></th></tr>` +
+  document.getElementById('tbl').innerHTML = `<tr><th></th><th>${t('username')}</th><th>${t('adm_tags')}</th><th>${t('email')}</th><th>${t('stats')}</th><th>${t('joined')}</th><th>${t('adm_status')}</th><th></th></tr>` +
     list.map(u => `<tr>
       <td>${avatarHtml(u, 34)}</td>
-      <td><b>${esc(u.username)}</b>${u.id === me ? ` <small>(${t('you')})</small>` : ''}${u.is_owner ? `<span class="badge admin" style="background:#ffb703;color:#1a1200">👑 ${t('adm_owner')}</span>` : u.is_admin ? `<span class="badge admin">${t('adminBadge')}</span>` : ''}${u.banned ? `<span class="badge banned" title="${esc(u.ban_reason)}">${t('bannedBadge')}: ${esc(u.ban_reason)}</span>` : ''}</td>
+      <td><b>${esc(u.username)}</b> <small style="color:var(--muted)">#${u.public_id || ''}</small>${u.id === me ? ` <small>(${t('you')})</small>` : ''}${u.is_owner ? `<span class="badge admin" style="background:#ffb703;color:#1a1200">👑 ${t('adm_owner')}</span>` : u.is_admin ? `<span class="badge admin">${t('adminBadge')}</span>` : ''}${u.banned ? `<span class="badge banned" title="${esc(u.ban_reason)}">${t('bannedBadge')}: ${esc(u.ban_reason)}</span>` : ''}</td>
+      <td><div>${Mal3abTags((u.tags || []).filter(x => !['owner', 'admin'].includes(x.tag)), true)}</div>
+        <div style="display:flex;gap:4px;margin-top:3px">${['famous', 'youtuber', 'vip'].map(tg => { const on = (u.tags || []).some(x => x.tag === tg); return `<button class="tagbtn ${on ? 'on' : ''}" title="${t('tag_' + tg)}" onclick="tagSet('${u.id}', '${tg}', ${!on})">${t('tag_' + tg).split(' ')[0]}</button>`; }).join('')}</div></td>
       <td>${esc(u.email || '—')}</td>
       <td>${u.wins ?? 0} / ${u.losses ?? 0} / ${u.draws ?? 0}</td>
       <td>${fmtDate(u.created_at)}</td>

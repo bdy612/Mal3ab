@@ -141,6 +141,46 @@
     inviteStatus: (id) => rpc('invite_status', { p_id: id }),
     voxelCodeOf: (id) => rpc('voxel_code_of', { p_friend: id })
   };
+  // ---------- players: IDs (#100001), search, tags, blocks, reports and feature ideas (all in the database) ----------
+  window.Players = {
+    find: (q) => rpc('find_players', { p_query: q }),
+    card: (id) => rpc('player_card', { p_id: id }),
+    block: (id, on) => rpc('block_set', { p_target: id, p_on: !!on }),
+    threads: () => rpc('chat_threads'),
+    report: (body, category, target) => rpc('feedback_send', { p_kind: 'report', p_body: body, p_category: category || null, p_target: target || null }),
+    idea: (body, category) => rpc('feedback_send', { p_kind: 'feature', p_body: body, p_category: category || null }),
+    mine: () => rpc('my_feedback'),
+    askTag: (tag, proof) => rpc('tag_request', { p_tag: tag, p_proof: proof })
+  };
+  // games can report a best score (or a best time with lowerBetter): #1 on any game earns the 🏆 Best tag
+  window.Mal3abBest = (game, score, lowerBetter) => { if (Auth.token && isFinite(score)) rpc('report_best', { p_game: game, p_score: score, p_lower_better: !!lowerBetter }).catch(() => {}); };
+  addStrings({
+    tag_owner: '👑 المالك', tag_admin: '🛡️ أدمن', tag_famous: '⭐ مشهور', tag_youtuber: '▶️ يوتيوبر', tag_vip: '💎 VIP', tag_big: '🔥 لاعب نشيط', tag_best: '🏆 الأفضل', tag_boards: 'ألعاب البورد',
+    tag_ownerD: 'صاحب ملعب', tag_adminD: 'من فريق الأدمن', tag_famousD: 'معروف على السوشيال ميديا (متأكد منه الأدمن)', tag_youtuberD: 'يوتيوبر (متأكد منه الأدمن)', tag_vipD: 'شخص معروف (متأكد منه الأدمن)',
+    tag_bigD: 'بيلعب كتير (10 أيام أو 100 ماتش)', tag_bestD: 'رقم 1 في لعبة: {g}',
+    err_wait: 'استنى لما يرد عليك الأول (5 رسايل بس لحد ما يرد)', err_blockedMe: 'اللاعب ده مش بيستقبل رسايل منك', err_iBlocked: 'إنت عامل بلوك للاعب ده', err_noPlayer: 'مفيش لاعب بالاسم أو الـ ID ده', err_slow: 'براحة شوية — جرب كمان دقيقة'
+  }, {
+    tag_owner: '👑 Owner', tag_admin: '🛡️ Admin', tag_famous: '⭐ Famous', tag_youtuber: '▶️ YouTuber', tag_vip: '💎 VIP', tag_big: '🔥 Big User', tag_best: '🏆 Best', tag_boards: 'Board games',
+    tag_ownerD: 'Owner of Mal3ab', tag_adminD: 'On the admin team', tag_famousD: 'Known on social media (checked by the admins)', tag_youtuberD: 'A YouTuber (checked by the admins)', tag_vipD: 'A well-known person (checked by the admins)',
+    tag_bigD: 'Plays a lot (10 days or 100 matches)', tag_bestD: 'Number 1 in: {g}',
+    err_wait: 'Wait for a reply first (only 5 messages until they answer)', err_blockedMe: "This player isn't taking messages from you", err_iBlocked: 'You blocked this player', err_noPlayer: 'No player with that name or ID', err_slow: 'Slow down a bit — try again in a minute'
+  });
+  const TAGC = { owner: ['#ffb703', '#1a1200'], admin: ['#8ea0ff', '#0b1033'], famous: ['#ff6fb5', '#2b0018'], youtuber: ['#ff3b3b', '#fff'], vip: ['#b17cff', '#16052e'], big: ['#ff8c42', '#2a1000'], best: ['#ffd166', '#2a1d00'] };
+  const gameName = (k) => k === 'boards' ? t('tag_boards') : (window.t && t(k) !== k ? t(k) : k);
+  // tags → little badges (title = what the tag means)
+  window.Mal3abTags = (tags, small) => (tags || []).map(x => {
+    const c = TAGC[x.tag]; if (!c) return '';
+    const games = (x.games || []).map(gameName), sep = window.getLang && getLang() === 'ar' ? '، ' : ', ';
+    const label = t('tag_' + x.tag) + (x.tag === 'best' && games.length ? ' · ' + games.slice(0, 2).join(sep) + (games.length > 2 ? ' +' + (games.length - 2) : '') : '');
+    const tip = x.tag === 'best' ? t('tag_bestD', { g: games.join(sep) }) : t('tag_' + x.tag + 'D');
+    return `<span class="m3tag" title="${tip.replace(/"/g, '')}" style="display:inline-flex;align-items:center;gap:3px;background:${c[0]};color:${c[1]};border-radius:999px;padding:${small ? '1px 7px' : '3px 10px'};font:800 ${small ? 11 : 12.5}px/1.4 system-ui,'Segoe UI',Tahoma,sans-serif;white-space:nowrap;margin:1px 2px;vertical-align:middle;unicode-bidi:isolate">${label}</span>`;
+  }).join('');
+  // server error → friendly text
+  window.Mal3abErr = (e) => {
+    const m = String((e && e.message) || e || '');
+    return /wait for a reply/.test(m) ? t('err_wait') : /not taking messages/.test(m) ? t('err_blockedMe') : /you blocked/.test(m) ? t('err_iBlocked')
+      : /no player with/.test(m) ? t('err_noPlayer') : /slow down/.test(m) ? t('err_slow') : m;
+  };
   const ROOT = () => location.href.replace(/games\/.*$/, '').replace(/[^/]*$/, '');
   window.Invites = {
     gameUrl(game, code, p, name) {

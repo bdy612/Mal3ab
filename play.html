@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ملعب — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793401000">
+<link rel="stylesheet" href="shared/style.css?v=1793407000">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793401000"></script>
-<script src="shared/net.js?v=1793404000"></script>
+<script src="shared/i18n.js?v=1793407000"></script>
+<script src="shared/net.js?v=1793407000"></script>
 <script src="shared/games.js?v=1793401000"></script>
 </head>
 <body>
@@ -295,12 +295,14 @@ async function drawFriends() {
   if (waiting) { b.innerHTML = `<p class="waiting">${t('waitingFor', { p: waiting.name })}</p><button class="btn secondary small" onclick="cancelWait()">${t('decline')}</button>`; return; }
   let d; try { d = await Friends.list(); } catch (e) { m.textContent = e.message; return; }
   const opts = FAST.map(g => `<option value="${g}">${t(g)}</option>`).join('');
+  const myId = Auth.profile && Auth.profile.public_id;
   b.innerHTML = `
+    ${myId ? `<p class="hint" style="margin:0 0 6px">🪪 ${getLang() === 'ar' ? 'الـ ID بتاعك' : 'Your ID'}: <b style="color:var(--accent);direction:ltr;unicode-bidi:isolate">#${myId}</b> · <a href="account.html" style="color:inherit">🔎 ${getLang() === 'ar' ? 'دوّر على لاعبين' : 'Find players'}</a></p>` : ''}
     <div class="frow add"><input id="fname" class="text" placeholder="${t('addFriend')}"><button class="btn small" onclick="addFriend()">${t('send')}</button></div>
     ${d.incoming.length ? `<h4>${t('requests')}</h4>` + d.incoming.map(r => `<div class="frow"><span>👤 ${r.username}</span>
         <button class="btn tiny" onclick="respondFriend(${r.req_id}, true)">✅ ${t('accept')}</button><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('') : ''}
     ${d.outgoing.map(r => `<div class="frow muted"><span>👤 ${r.username} · ${t('sent')}…</span><button class="btn tiny secondary" onclick="respondFriend(${r.req_id}, false)">✖</button></div>`).join('')}
-    ${d.friends.length ? d.friends.map(f => `<div class="frow"><span><i class="fdot ${f.online ? 'on' : ''}"></i> ${f.username} <small>${f.online ? t('isOnline') : t('isOffline')}</small></span>
+    ${d.friends.length ? d.friends.map(f => `<div class="frow"><span><i class="fdot ${f.online ? 'on' : ''}"></i> ${f.username} ${f.public_id ? `<small style="opacity:.55;direction:ltr;unicode-bidi:isolate">#${f.public_id}</small>` : ''} <small>${f.online ? t('isOnline') : t('isOffline')}</small></span>
         ${f.online ? `<select id="g-${f.id}">${opts}</select><button class="btn tiny" onclick="fastConnect('${f.id}', '${f.username.replace(/'/g, '')}')">${t('fastConnect')}</button>` : ''}
         <button class="btn tiny secondary" title="${t('remove')}" onclick="removeFriend('${f.id}')">🗑</button></div>`).join('') : `<p class="hint">${t('noFriends')}</p>`}`;
 }

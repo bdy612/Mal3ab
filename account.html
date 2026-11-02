@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Account — Mal3ab</title>
-<link rel="stylesheet" href="shared/style.css?v=1793401000">
+<link rel="stylesheet" href="shared/style.css?v=1793407000">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="shared/i18n.js?v=1793401000"></script>
-<script src="shared/net.js?v=1793404000"></script>
+<script src="shared/i18n.js?v=1793407000"></script>
+<script src="shared/net.js?v=1793407000"></script>
 </head>
 <body>
 <div class="topbar">
@@ -23,13 +23,35 @@ addStrings({
   acc_adminT: 'طلب إنك تبقى أدمن', acc_adminWhy: 'ليه عايز تبقى أدمن؟ (اختياري)', acc_adminSend: '📨 ابعت الطلب', acc_adminPending: '⏳ طلبك مستني رد الأدمن', acc_adminDeclined: '❌ طلبك اترفض — ممكن تبعت تاني',
   acc_adminApproved: '✅ طلبك اتقبل', acc_adminSent: 'الطلب اتبعت للأدمن', acc_delT: 'امسح حسابي', acc_delWarn: 'ده بيمسح حسابك وكل حاجة فيه نهائيًا: الأصحاب، الرسايل، الحفظ والإحصائيات. مش هتقدر ترجعه.',
   acc_delPw: 'اكتب الباسورد عشان تأكد', acc_delBtn: '🗑 امسح حسابي نهائيًا', acc_delSure: 'متأكد إنك عايز تمسح حسابك {p} نهائيًا؟', acc_delOwner: 'حساب المالك (Owner) ما ينفعش يتمسح', acc_deleted: 'حسابك اتمسح',
-  acc_notReady: 'الميزة دي لسه بتتجهز — جرب كمان شوية'
+  acc_notReady: 'الميزة دي لسه بتتجهز — جرب كمان شوية',
+  acc_idT: '🪪 الـ ID بتاعك', acc_idHint: 'الناس تقدر تدوّر عليك بالرقم ده وتضيفك أو تكلمك.', acc_copy: '📋 انسخ', acc_copied: '✓ اتنسخ', acc_tags: 'التاجز بتاعتك', acc_noTags: 'لسه مفيش تاجز — العب كتير هتاخد 🔥، وابقى رقم 1 في لعبة هتاخد 🏆',
+  acc_findT: '🔎 دوّر على لاعبين', acc_findPh: 'الـ ID (زي 100002) أو الاسم', acc_find: 'دوّر', acc_none: 'مفيش حد بالاسم أو الـ ID ده', acc_add: '➕ ضيفه', acc_friend: '✓ صاحبك', acc_sent: '⏳ اتبعت الطلب', acc_incoming: '✅ اقبل طلبه',
+  acc_msg: '💬 كلّمه', acc_report: '🚩 بلّغ', acc_you: 'ده إنت', acc_on: 'أونلاين', acc_off: 'مش أونلاين',
+  acc_tagT: '🏷️ تاج موثّق', acc_tagHint: 'لو إنت مشهور أو يوتيوبر أو شخص معروف، ابعت لينك يثبت ده — الأدمن هيراجعه.', acc_tagProof: 'لينك القناة / الحساب أو أي إثبات', acc_tagSend: '📨 ابعت للأدمن', acc_tagSent: 'اتبعت للأدمن — هيراجعوه',
+  acc_repT: '🚩 بلّغ عن مشكلة', acc_repCat: 'نوع البلاغ', acc_cat_player: 'لاعب بيضايق / بيغش', acc_cat_chat: 'رسايل وحشة', acc_cat_bug: 'مشكلة في لعبة أو الموقع', acc_cat_other: 'حاجة تانية',
+  acc_repWho: 'الـ ID بتاع اللاعب (لو البلاغ عن لاعب)', acc_repBody: 'احكي حصل إيه…', acc_repSend: '🚩 ابعت البلاغ', acc_repSent: 'البلاغ اتبعت للأدمن ✓',
+  acc_ideaT: '💡 اقترح حاجة جديدة', acc_ideaHint: 'عايز لعبة جديدة؟ ميزة؟ تعديل؟ اكتبه هنا وهيوصل للأدمن.', acc_ideaCat: 'عن إيه؟', acc_icat_game: 'لعبة جديدة', acc_icat_feature: 'ميزة جديدة', acc_icat_change: 'تعديل في لعبة', acc_icat_other: 'حاجة تانية',
+  acc_ideaBody: 'اكتب اقتراحك…', acc_ideaSend: '💡 ابعت الاقتراح', acc_ideaSent: 'الاقتراح اتبعت للأدمن ✓',
+  acc_mineT: '📬 اللي بعته', acc_mineNone: 'لسه ما بعتش حاجة', acc_st_open: '⏳ مستني', acc_st_seen: '👀 اتشاف', acc_st_planned: '🛠️ هيتعمل', acc_st_done: '✅ اتعمل', acc_st_declined: '❌ مش هيتعمل',
+  acc_st_pending: '⏳ مستني', acc_st_approved: '✅ اتقبل', acc_reply: 'رد الأدمن', acc_kind_report: '🚩 بلاغ', acc_kind_feature: '💡 اقتراح', acc_kind_tag: '🏷️ تاج'
 }, {
   acc_adminT: 'Request To Become An Admin', acc_adminWhy: 'Why do you want to be an admin? (optional)', acc_adminSend: '📨 Send Request', acc_adminPending: '⏳ Your request is waiting for an admin', acc_adminDeclined: '❌ Your request was declined — you can send a new one',
   acc_adminApproved: '✅ Your request was approved', acc_adminSent: 'Request sent to the admins', acc_delT: 'Delete My Account', acc_delWarn: 'This deletes your account and everything in it for good: friends, messages, saves and stats. It cannot be undone.',
   acc_delPw: 'Type your password to confirm', acc_delBtn: '🗑 Delete My Account Forever', acc_delSure: 'Are you sure you want to delete your account {p} for good?', acc_delOwner: 'The Owner account cannot be deleted', acc_deleted: 'Your account was deleted',
-  acc_notReady: 'This feature is still being set up — try again a bit later'
+  acc_notReady: 'This feature is still being set up — try again a bit later',
+  acc_idT: '🪪 Your ID', acc_idHint: 'People can search for you by this number to add you or message you.', acc_copy: '📋 Copy', acc_copied: '✓ Copied', acc_tags: 'Your tags', acc_noTags: 'No tags yet — play a lot to earn 🔥, be number 1 in a game to earn 🏆',
+  acc_findT: '🔎 Find Players', acc_findPh: 'ID (like 100002) or name', acc_find: 'Search', acc_none: 'Nobody with that name or ID', acc_add: '➕ Add', acc_friend: '✓ Friends', acc_sent: '⏳ Request sent', acc_incoming: '✅ Accept',
+  acc_msg: '💬 Message', acc_report: '🚩 Report', acc_you: "That's you", acc_on: 'online', acc_off: 'offline',
+  acc_tagT: '🏷️ Verified Tag', acc_tagHint: "If you're famous, a YouTuber or a well-known person, send a link that proves it — an admin will check it.", acc_tagProof: 'Link to your channel / account, or other proof', acc_tagSend: '📨 Send to the Admins', acc_tagSent: 'Sent to the admins — they will check it',
+  acc_repT: '🚩 Report a Problem', acc_repCat: 'What kind?', acc_cat_player: 'A player is annoying / cheating', acc_cat_chat: 'Bad messages', acc_cat_bug: 'A bug in a game or the site', acc_cat_other: 'Something else',
+  acc_repWho: "The player's ID (if it's about a player)", acc_repBody: 'Tell us what happened…', acc_repSend: '🚩 Send Report', acc_repSent: 'Report sent to the admins ✓',
+  acc_ideaT: '💡 Suggest a Feature', acc_ideaHint: 'Want a new game? A feature? A change? Write it here and it goes to the admins.', acc_ideaCat: 'About?', acc_icat_game: 'A new game', acc_icat_feature: 'A new feature', acc_icat_change: 'A change to a game', acc_icat_other: 'Something else',
+  acc_ideaBody: 'Write your idea…', acc_ideaSend: '💡 Send Idea', acc_ideaSent: 'Idea sent to the admins ✓',
+  acc_mineT: '📬 What I Sent', acc_mineNone: "You haven't sent anything yet", acc_st_open: '⏳ Waiting', acc_st_seen: '👀 Seen', acc_st_planned: '🛠️ Planned', acc_st_done: '✅ Done', acc_st_declined: '❌ Declined',
+  acc_st_pending: '⏳ Waiting', acc_st_approved: '✅ Approved', acc_reply: 'Admin reply', acc_kind_report: '🚩 Report', acc_kind_feature: '💡 Idea', acc_kind_tag: '🏷️ Tag'
 });
+const esc = (v) => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const opt = (v, label) => `<option value="${v}">${label}</option>`;
 const page = document.getElementById('page');
 const rpcErr = (e) => /Could not find the function|schema cache/i.test((e && e.message) || '') ? t('acc_notReady') : (e && e.message) || String(e);
 function msg(id, text, bad) { const el = document.getElementById(id); el.className = bad ? 'err' : 'ok'; el.textContent = text; }
@@ -40,6 +62,18 @@ function draw() {
   const p = Auth.profile;
   if (!p) { page.innerHTML = `<div class="panel2"><p>${t('loginFirst')}</p><a class="btn" href="play.html">${t('home')}</a></div>`; return; }
   page.innerHTML = `
+    <div class="panel2">
+      <h2>${t('acc_idT')}</h2>
+      <div class="row2" style="flex-wrap:wrap;gap:12px"><b style="font-size:30px;letter-spacing:1px;color:var(--accent);direction:ltr;unicode-bidi:isolate">#${p.public_id || '…'}</b>
+        <button class="btn small secondary" id="cpId" onclick="copyId()">${t('acc_copy')}</button></div>
+      <small style="color:var(--muted)">${t('acc_idHint')}</small>
+      <div style="margin-top:10px"><b>${t('acc_tags')}:</b> ${(p.tags || []).length ? Mal3abTags(p.tags) : `<small style="color:var(--muted)">${t('acc_noTags')}</small>`}</div>
+    </div>
+    <div class="panel2">
+      <h2>${t('acc_findT')}</h2>
+      <div class="row2"><input class="text" id="findQ" placeholder="${t('acc_findPh')}" maxlength="24" onkeydown="if(event.key==='Enter')findPlayers()"><button class="btn small" onclick="findPlayers()">${t('acc_find')}</button></div>
+      <div id="findRes" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div>
+    </div>
     <div class="panel2">
       <h2>${t('picture')}</h2>
       <div class="row2">${avatarHtml(p, 96)}
@@ -74,6 +108,34 @@ function draw() {
         <a class="btn small secondary" href="history.html" style="margin-inline-start:auto">${t('history')}</a>
         ${p.is_admin ? `<a class="btn small" href="admin.html">${t('admin')}</a>` : ''}</div>
     </div>
+    <div class="panel2" id="repBox">
+      <h2>${t('acc_repT')}</h2>
+      <div class="row2"><select id="repCat">${['player', 'chat', 'bug', 'other'].map(c => opt(c, t('acc_cat_' + c))).join('')}</select>
+        <input class="text" id="repWho" placeholder="${t('acc_repWho')}" maxlength="10" inputmode="numeric" style="flex:1;min-width:160px"></div>
+      <textarea class="text" id="repBody" maxlength="2000" rows="3" placeholder="${t('acc_repBody')}" style="width:100%;resize:vertical"></textarea>
+      <div class="row2"><button class="btn small" onclick="sendReport()">${t('acc_repSend')}</button></div>
+      <div id="m-rep"></div>
+    </div>
+    <div class="panel2">
+      <h2>${t('acc_ideaT')}</h2>
+      <small style="color:var(--muted)">${t('acc_ideaHint')}</small>
+      <div class="row2"><select id="ideaCat">${['game', 'feature', 'change', 'other'].map(c => opt(c, t('acc_icat_' + c))).join('')}</select></div>
+      <textarea class="text" id="ideaBody" maxlength="2000" rows="3" placeholder="${t('acc_ideaBody')}" style="width:100%;resize:vertical"></textarea>
+      <div class="row2"><button class="btn small" onclick="sendIdea()">${t('acc_ideaSend')}</button></div>
+      <div id="m-idea"></div>
+    </div>
+    <div class="panel2">
+      <h2>${t('acc_tagT')}</h2>
+      <small style="color:var(--muted)">${t('acc_tagHint')}</small>
+      <div class="row2"><select id="tagWhich">${['famous', 'youtuber', 'vip'].map(c => opt(c, t('tag_' + c))).join('')}</select>
+        <input class="text" id="tagProof" placeholder="${t('acc_tagProof')}" maxlength="500" style="flex:1;min-width:180px"></div>
+      <div class="row2"><button class="btn small" onclick="askTag()">${t('acc_tagSend')}</button></div>
+      <div id="m-tag"></div>
+    </div>
+    <div class="panel2">
+      <h2>${t('acc_mineT')}</h2>
+      <div id="mine" style="display:flex;flex-direction:column;gap:8px"><small style="color:var(--muted)">…</small></div>
+    </div>
     ${p.is_admin ? '' : `<div class="panel2">
       <h2>🛡️ ${t('acc_adminT')}</h2>
       <div id="adm-state" style="color:var(--muted)"></div>
@@ -89,11 +151,76 @@ function draw() {
       <div id="m-del"></div>
     </div>`;
   if (!p.is_admin) loadAdminReq();
+  loadMine();
+  const want = new URLSearchParams(location.search).get('report');   // ?report=<player ID> from the chat / search
+  if (want && /^\d+$/.test(want)) { document.getElementById('repWho').value = want; document.getElementById('repCat').value = 'player'; document.getElementById('repBox').scrollIntoView({ block: 'center' }); }
   document.getElementById('lang').onchange = async (e) => {
     try { await Auth.update({ lang: e.target.value }); setLang(e.target.value); } catch (err) { msg('m-lang', err.message, true); }
   };
 }
 
+function copyId() {
+  const b = document.getElementById('cpId'); navigator.clipboard.writeText(String(Auth.profile.public_id)).then(() => { b.textContent = t('acc_copied'); setTimeout(() => b.textContent = t('acc_copy'), 1400); }).catch(() => {});
+}
+// ---------- find players by ID or name ----------
+let FOUND = [];
+async function findPlayers() {
+  const q = document.getElementById('findQ').value.trim(), box = document.getElementById('findRes'); if (!q) return;
+  box.innerHTML = '<small style="color:var(--muted)">…</small>';
+  try { FOUND = await Players.find(q) || []; } catch (e) { box.innerHTML = `<div class="err">${esc(rpcErr(e))}</div>`; return; }
+  drawFound();
+}
+function drawFound() {
+  const box = document.getElementById('findRes'); if (!box) return;
+  if (!FOUND.length) { box.innerHTML = `<small style="color:var(--muted)">${t('acc_none')}</small>`; return; }
+  box.innerHTML = FOUND.map(u => `<div class="row2" style="gap:10px;padding:10px;background:var(--card2);border-radius:12px;flex-wrap:wrap">${avatarHtml(u, 40)}
+    <div style="flex:1;min-width:150px"><b dir="auto">${esc(u.username)}</b> <small style="color:var(--muted);direction:ltr;unicode-bidi:isolate">#${u.public_id}</small>
+      <small style="color:${u.online ? '#80ed99' : 'var(--muted)'}"> · ● ${t(u.online ? 'acc_on' : 'acc_off')}</small><div>${Mal3abTags(u.tags, true)}</div></div>
+    ${u.friend === 'me' ? `<small style="color:var(--muted)">${t('acc_you')}</small>` : `
+      ${u.friend === 'friend' ? `<span class="btn tiny secondary" style="pointer-events:none">${t('acc_friend')}</span>` : u.friend === 'sent' ? `<span class="btn tiny secondary" style="pointer-events:none">${t('acc_sent')}</span>`
+        : u.friend === 'incoming' ? `<a class="btn tiny" href="play.html">${t('acc_incoming')}</a>` : `<button class="btn tiny" onclick="addById(${u.public_id})">${t('acc_add')}</button>`}
+      <button class="btn tiny secondary" onclick="talkTo('${u.id}')">${t('acc_msg')}</button>
+      <button class="btn tiny secondary" onclick="reportId(${u.public_id})">${t('acc_report')}</button>`}</div>`).join('');
+}
+async function addById(pid) {
+  try { await Friends.request('#' + pid); const u = FOUND.find(x => x.public_id === pid); if (u) u.friend = 'sent'; drawFound(); }
+  catch (e) { document.getElementById('findRes').insertAdjacentHTML('afterbegin', `<div class="err">${esc(Mal3abErr(e))}</div>`); }
+}
+function talkTo(id) { const u = FOUND.find(x => x.id === id); if (window.Chat && Chat.showUser) Chat.showUser(u); }
+function reportId(pid) { document.getElementById('repWho').value = pid; document.getElementById('repCat').value = 'player'; document.getElementById('repBox').scrollIntoView({ behavior: 'smooth', block: 'center' }); document.getElementById('repBody').focus(); }
+// ---------- reports, ideas, verified tags ----------
+async function sendReport() {
+  const body = document.getElementById('repBody').value.trim(), who = document.getElementById('repWho').value.trim().replace('#', ''), cat = document.getElementById('repCat').value;
+  if (body.length < 3) { document.getElementById('repBody').focus(); return; }
+  try {
+    let target = null;
+    if (who) { const r = await Players.find('#' + who); if (!r || !r[0]) { msg('m-rep', t('err_noPlayer'), true); return; } target = r[0].id; }
+    await Players.report(body, cat, target);
+    document.getElementById('repBody').value = ''; document.getElementById('repWho').value = ''; msg('m-rep', t('acc_repSent')); loadMine();
+  } catch (e) { msg('m-rep', Mal3abErr(rpcErr(e)), true); }
+}
+async function sendIdea() {
+  const body = document.getElementById('ideaBody').value.trim(); if (body.length < 3) { document.getElementById('ideaBody').focus(); return; }
+  try { await Players.idea(body, document.getElementById('ideaCat').value); document.getElementById('ideaBody').value = ''; msg('m-idea', t('acc_ideaSent')); loadMine(); }
+  catch (e) { msg('m-idea', Mal3abErr(rpcErr(e)), true); }
+}
+async function askTag() {
+  const proof = document.getElementById('tagProof').value.trim(); if (proof.length < 3) { document.getElementById('tagProof').focus(); return; }
+  try { await Players.askTag(document.getElementById('tagWhich').value, proof); document.getElementById('tagProof').value = ''; msg('m-tag', t('acc_tagSent')); loadMine(); }
+  catch (e) { msg('m-tag', rpcErr(e), true); }
+}
+async function loadMine() {
+  const box = document.getElementById('mine'); if (!box) return;
+  let d; try { d = await Players.mine(); } catch (e) { box.innerHTML = `<small style="color:var(--muted)">${esc(rpcErr(e))}</small>`; return; }
+  const rows = [...(d.feedback || []).map(f => ({ ...f, k: f.kind })), ...(d.tag_requests || []).map(r => ({ ...r, k: 'tag', body: t('tag_' + r.tag) + ' — ' + r.proof }))]
+    .sort((a, b) => new Date(b.at) - new Date(a.at));
+  box.innerHTML = rows.length ? rows.map(r => `<div style="padding:10px;background:var(--card2);border-radius:12px">
+      <div class="row2" style="gap:8px;flex-wrap:wrap"><b>${t('acc_kind_' + r.k)}</b>${r.target ? `<small style="color:var(--muted)">→ ${esc(r.target)} #${r.target_public_id}</small>` : ''}
+        <small style="margin-inline-start:auto">${t('acc_st_' + r.status)}</small><small style="color:var(--muted)">${new Date(r.at).toLocaleDateString(getLang() === 'ar' ? 'ar-EG' : 'en-GB')}</small></div>
+      <div dir="auto" style="margin-top:4px;white-space:pre-wrap;word-break:break-word">${esc(r.body)}</div>
+      ${r.note ? `<div dir="auto" style="margin-top:6px;padding:6px 10px;border-inline-start:3px solid var(--accent);color:var(--muted)"><b>${t('acc_reply')}:</b> ${esc(r.note)}</div>` : ''}</div>`).join('')
+    : `<small style="color:var(--muted)">${t('acc_mineNone')}</small>`;
+}
 async function saveName() {
   try { await Auth.update({ username: document.getElementById('uname').value.trim() }); draw(); msg('m-name', t('saved')); }
   catch (e) { msg('m-name', e.message, true); }

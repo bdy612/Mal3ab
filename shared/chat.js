@@ -14,7 +14,10 @@
     g_groups: 'الجروبات', g_new: '➕ جروب جديد', g_name: 'اسم الجروب', g_pick: 'اختار الأصحاب اللي في الجروب', g_create: '✓ اعمل الجروب', g_members: 'الأعضاء', g_n: '{n} عضو',
     g_owner: 'صاحب الجروب', g_admin: 'أدمن', g_add: '➕ ضيف صاحب', g_remove: 'طلّعه', g_makeAdmin: 'اعمله أدمن', g_unAdmin: 'شيل الأدمن', g_rename: '✏️ غيّر الاسم', g_leave: '🚪 اخرج من الجروب',
     g_delete: '🗑 امسح الجروب', g_leaveQ: 'تخرج من الجروب {p}؟', g_deleteQ: 'تمسح الجروب {p} لكل الناس؟', g_call: 'مكالمة الجروب', g_callMsg: 'بدأ مكالمة الجروب — تعالوا', g_newMsg: '{p} بعت في {g}',
-    g_noFriends: 'كل أصحابك في الجروب بالفعل', g_notReady: 'الجروبات لسه بتتجهز — جرب كمان شوية', g_needName: 'اكتب اسم للجروب'
+    g_noFriends: 'كل أصحابك في الجروب بالفعل', g_notReady: 'الجروبات لسه بتتجهز — جرب كمان شوية', g_needName: 'اكتب اسم للجروب',
+    ch_find: '🔎 كلّم أي حد بالـ ID أو الاسم', ch_go: 'دوّر', ch_none: 'مفيش حد بالاسم أو الـ ID ده', ch_others: '💬 شاتات تانية', ch_notFriend: 'مش في أصحابك',
+    ch_more: 'خيارات', ch_add: '➕ ضيفه صاحب', ch_added: '⏳ اتبعت طلب الصداقة', ch_block: '🚫 بلوك', ch_unblock: '✅ شيل البلوك', ch_blocked: 'إنت عامل بلوك للاعب ده',
+    ch_report: '🚩 بلّغ عنه', ch_repQ: 'إيه اللي حصل؟ (البلاغ بيروح للأدمن)', ch_repSent: 'البلاغ اتبعت للأدمن ✓', ch_blockQ: 'تعمل بلوك لـ {p}؟ مش هيقدر يبعتلك رسايل.', ch_firstMsg: 'ده مش في أصحابك — تقدر تبعت 5 رسايل لحد ما يرد عليك.'
   }, {
     chat_title: '💬 Chat', chat_friends: 'Pick a friend to talk to', chat_noFriends: 'No friends yet — add them on the games page (👥 Friends)',
     chat_login: 'Log in to Mal3ab to chat with your friends', chat_type: 'Type a message…', chat_send: 'Send', chat_invite: '🎮 Invite to this game',
@@ -23,7 +26,10 @@
     g_groups: 'Groups', g_new: '➕ New Group', g_name: 'Group name', g_pick: 'Pick the friends in the group', g_create: '✓ Create Group', g_members: 'Members', g_n: '{n} members',
     g_owner: 'Owner', g_admin: 'Admin', g_add: '➕ Add a Friend', g_remove: 'Remove', g_makeAdmin: 'Make Admin', g_unAdmin: 'Remove Admin', g_rename: '✏️ Rename', g_leave: '🚪 Leave Group',
     g_delete: '🗑 Delete Group', g_leaveQ: 'Leave the group {p}?', g_deleteQ: 'Delete the group {p} for everyone?', g_call: 'Group call', g_callMsg: 'started a group call — join', g_newMsg: '{p} wrote in {g}',
-    g_noFriends: 'All your friends are already in the group', g_notReady: 'Groups are still being set up — try again a bit later', g_needName: 'Type a name for the group'
+    g_noFriends: 'All your friends are already in the group', g_notReady: 'Groups are still being set up — try again a bit later', g_needName: 'Type a name for the group',
+    ch_find: '🔎 Message anyone by ID or name', ch_go: 'Search', ch_none: 'Nobody with that name or ID', ch_others: '💬 Other Chats', ch_notFriend: 'not your friend',
+    ch_more: 'Options', ch_add: '➕ Add Friend', ch_added: '⏳ Friend request sent', ch_block: '🚫 Block', ch_unblock: '✅ Unblock', ch_blocked: 'You blocked this player',
+    ch_report: '🚩 Report', ch_repQ: 'What happened? (the report goes to the admins)', ch_repSent: 'Report sent to the admins ✓', ch_blockQ: "Block {p}? They won't be able to message you.", ch_firstMsg: "Not your friend — you can send 5 messages until they reply."
   });
   const css = document.createElement('style');
   css.textContent = `
@@ -73,7 +79,7 @@
   const esc = (s) => String(s).replace(/[<>&"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]));
   const linkify = (s) => esc(s).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1">$1</a>');
   const rpc = async (fn, args) => { const { data, error } = await sb.rpc(fn, Object.assign({ p_token: Auth.token }, args || {})); if (error) throw new Error(error.message); return data; };
-  const C = { open: false, friends: [], groups: [], gunread: {}, group: null, view: 'list', friend: null, msgs: [], lastId: 0, unread: {}, inbox: null, polls: [], el: null, seen: {} };
+  const C = { open: false, friends: [], others: [], found: null, groups: [], gunread: {}, group: null, view: 'list', friend: null, msgs: [], lastId: 0, unread: {}, inbox: null, polls: [], el: null, seen: {} };
   window.Chat = C;
 
   function panel() {
@@ -89,12 +95,15 @@
     if (document.pointerLockElement) document.exitPointerLock();
     panel().hidden = false; C.open = true;
     if (!Auth.token) { C.el.innerHTML = head(t('chat_title')) + `<div class="bd"><p class="muted">${t('chat_login')}</p></div>`; wire(); return; }
-    await Promise.all([loadFriends(), loadGroups()]);
-    const f = friendId && C.friends.find(x => x.id === friendId);
+    await Promise.all([loadFriends(), loadGroups(), loadOthers()]);
+    let f = friendId && (C.friends.find(x => x.id === friendId) || C.others.find(x => x.id === friendId));
+    if (friendId && !f) { try { f = await Players.card(friendId); } catch (e) {} }
     if (f) openConv(f); else if (C.friend) openConv(C.friend); else if (C.group) openGroup(C.groups.find(g => g.id === C.group.id) || C.group); else drawList();
   };
+  // open a chat with any player (friend or not), e.g. from a search result: { id, username, online, public_id }
+  C.showUser = async (u) => { if (!u || !u.id) return; if (Auth.user && u.id === Auth.user.id) return; await C.show(); openConv(u); };
   C.close = () => { if (C.el) C.el.hidden = true; C.open = false; };
-  const head = (title, back, kind) => `<div class="hd">${back ? `<button class="x" data-a="back">${t('chat_back')}</button>` : ''}<b>${title}</b>${kind === 'group' ? `<button class="x" data-a="gcall" title="${t('g_call')}">📞</button><button class="x" data-a="members" title="${t('g_members')}">👥</button>` : back && kind !== 'plain' ? `<button class="x" data-a="call" title="${t('chat_call')}">📞</button><button class="x" data-a="clear" title="${t('chat_clear')}">🗑</button>` : ''}<button class="x" data-a="close">✕</button></div>`;
+  const head = (title, back, kind) => `<div class="hd">${back ? `<button class="x" data-a="back">${t('chat_back')}</button>` : ''}<b>${title}</b>${kind === 'group' ? `<button class="x" data-a="gcall" title="${t('g_call')}">📞</button><button class="x" data-a="members" title="${t('g_members')}">👥</button>` : back && kind !== 'plain' ? `<button class="x" data-a="call" title="${t('chat_call')}">📞</button><button class="x" data-a="clear" title="${t('chat_clear')}">🗑</button>${kind === 'conv' ? `<button class="x" data-a="more" title="${t('ch_more')}">⋯</button>` : ''}` : ''}<button class="x" data-a="close">✕</button></div>`;
   function wire() {
     C.el.querySelectorAll('[data-a="close"]').forEach(b => b.onclick = C.close);
     C.el.querySelectorAll('[data-a="back"]').forEach(b => b.onclick = () => { if (C.view === 'members' && C.group) openGroup(C.group); else { C.friend = null; C.group = null; drawList(); } });
@@ -102,16 +111,38 @@
     C.el.querySelectorAll('[data-a="members"]').forEach(b => b.onclick = () => drawMembers(C.group));
     C.el.querySelectorAll('[data-a="clear"]').forEach(b => b.onclick = askClear);
     C.el.querySelectorAll('[data-a="call"]').forEach(b => b.onclick = startCall);
+    C.el.querySelectorAll('[data-a="more"]').forEach(b => b.onclick = convMenu);
   }
   async function loadFriends() { try { const d = await Friends.list(); C.friends = (d && d.friends) || []; } catch (e) {} }
-  function drawList() {
+  // chats with players who aren't friends (talked by ID)
+  async function loadOthers() { try { const list = await Players.threads() || []; C.others = list.filter(x => !x.friend && !C.friends.some(f => f.id === x.id)); } catch (e) {} }
+  const isFriend = (id) => C.friends.some(f => f.id === id);
+  async function findAny(q) {
+    q = String(q || '').trim(); if (!q) { C.found = null; drawList(); return; }
+    try { C.found = (await Players.find(q) || []).filter(u => u.friend !== 'me'); } catch (e) { C.found = []; }
+    drawList(q);
+  }
+  function drawList(q) {
+    // a background refresh must not wipe what's being typed in the search box
+    const prev = C.el && C.el.querySelector('#m3find'), typing = prev && document.activeElement === prev;
+    if (q == null && prev) q = prev.value;
     C.friend = null; C.group = null; C.view = 'list';
+    const tagsOf = (u) => window.Mal3abTags && u.tags ? Mal3abTags(u.tags, true) : '';
+    const found = C.found == null ? '' : C.found.length ? C.found.map(u => `<button class="fr" data-u="${u.id}"><i class="dot ${u.online ? 'on' : ''}"></i><span><b dir="auto">${esc(u.username)}</b> <small dir="ltr">#${u.public_id}</small><br>${tagsOf(u)}</span></button>`).join('')
+      : `<p class="muted" style="padding:6px">${t('ch_none')}</p>`;
+    const others = C.others.length ? `<p class="muted" style="padding:4px">${t('ch_others')}</p>` + C.others.map(u => `<button class="fr" data-u="${u.id}"><i class="dot ${u.online ? 'on' : ''}"></i><span><b dir="auto">${esc(u.username)}</b> <small dir="ltr">#${u.public_id}</small><br><small dir="auto">${esc(u.last_body || '')}</small></span>${C.unread[u.id] ? `<i class="n">${C.unread[u.id]}</i>` : ''}</button>`).join('') : '';
+    const search = `<div class="row"><input id="m3find" maxlength="24" placeholder="${t('ch_find')}" value="${esc(q || '')}"><button class="snd" id="m3findGo">${t('ch_go')}</button></div>${found}`;
     const list = [...C.friends].sort((a, b) => (C.unread[b.id] || 0) - (C.unread[a.id] || 0) || (b.online - a.online));
     const groups = C.groups.map(g => `<button class="fr" data-g="${g.id}"><i class="gav">👥</i><span><b dir="auto">${esc(g.name)}</b><br><small>${t('g_n', { n: (g.members || []).length })} · 🟢 ${(g.members || []).filter(m => m.online).length}</small></span>${g.unread ? `<i class="n">${g.unread}</i>` : ''}</button>`).join('');
-    C.el.innerHTML = head(t('chat_title')) + `<div class="bd"><p class="muted" style="padding:4px">👥 ${t('g_groups')}</p>${groups}${list.length ? `<button class="gbt" data-a="newgroup">${t('g_new')}</button>` : ''}${list.length ? `<p class="muted" style="padding:4px">${t('chat_friends')}</p>` + list.map(f =>
+    C.el.innerHTML = head(t('chat_title')) + `<div class="bd">${search}<p class="muted" style="padding:4px">👥 ${t('g_groups')}</p>${groups}${list.length ? `<button class="gbt" data-a="newgroup">${t('g_new')}</button>` : ''}${list.length ? `<p class="muted" style="padding:4px">${t('chat_friends')}</p>` + list.map(f =>
       `<button class="fr" data-f="${f.id}"><i class="dot ${f.online ? 'on' : ''}"></i><span><b dir="auto">${esc(f.username)}</b><br><small>${t(f.online ? 'chat_online' : 'chat_offline')}</small></span>${C.unread[f.id] ? `<i class="n">${C.unread[f.id]}</i>` : ''}</button>`).join('')
-      : `<p class="muted">${t('chat_noFriends')}</p>`}</div>`;
+      : `<p class="muted">${t('chat_noFriends')}</p>`}${others}</div>`;
     wire(); C.el.querySelectorAll('[data-f]').forEach(b => b.onclick = () => openConv(C.friends.find(f => f.id === b.dataset.f)));
+    C.el.querySelectorAll('[data-u]').forEach(b => b.onclick = () => openConv((C.found || []).find(u => u.id === b.dataset.u) || C.others.find(u => u.id === b.dataset.u)));
+    const fi = C.el.querySelector('#m3find');
+    C.el.querySelector('#m3findGo').onclick = () => findAny(fi.value);
+    fi.onkeydown = (e) => { if (e.key === 'Enter') findAny(fi.value); };
+    if (q && (typing || C.found)) setTimeout(() => { if (typing || document.activeElement === document.body) { fi.focus(); fi.setSelectionRange(fi.value.length, fi.value.length); } }, 0);
     C.el.querySelectorAll('[data-g]').forEach(b => b.onclick = () => openGroup(C.groups.find(g => String(g.id) === b.dataset.g)));
     C.el.querySelectorAll('[data-a="newgroup"]').forEach(b => b.onclick = drawNewGroup);
   }
@@ -181,11 +212,32 @@
   }
   async function openConv(f) {
     C.friend = f; C.group = null; C.view = 'conv'; C.msgs = []; C.lastId = 0; outCh(f.id);
-    C.el.innerHTML = head(`<i class="dot ${f.online ? 'on' : ''}" style="display:inline-block;margin-inline-end:6px"></i>${esc(f.username)}`, true) +
-      `<div class="bd" id="m3msgs"></div><div class="ft"><button class="iv" id="m3inv">${t('chat_invite')}</button>
+    const friend = isFriend(f.id);
+    C.el.innerHTML = head(`<i class="dot ${f.online ? 'on' : ''}" style="display:inline-block;margin-inline-end:6px"></i>${esc(f.username)}${f.public_id ? ` <small dir="ltr" style="color:#9aa3c7;font-weight:400">#${f.public_id}</small>` : ''}`, true, 'conv') +
+      `${friend ? '' : `<div class="m3cf" style="margin:8px 10px 0;background:#1a2235;border-color:#2c355c"><span dir="auto">${t('ch_firstMsg')}</span></div>`}<div class="bd" id="m3msgs"></div><div class="ft"><button class="iv" id="m3inv">${t('chat_invite')}</button>
        <div class="row"><input id="m3in" dir="auto" maxlength="1000" placeholder="${t('chat_type')}" autocomplete="off"><button class="snd" id="m3snd">${t('chat_send')}</button></div></div>`;
     wire(); wireInput();
-    await fetchNew(); delete C.unread[f.id]; badges(); setTimeout(() => C.el.querySelector('#m3in').focus(), 50);
+    await fetchNew(); delete C.unread[f.id]; badges(); setTimeout(() => { const i = C.el.querySelector('#m3in'); if (i) i.focus(); }, 50);
+  }
+  // ⋯ in a conversation: add friend / block / report
+  async function convMenu() {
+    const f = C.friend, box = C.el && C.el.querySelector('#m3msgs'); if (!f || !box) return;
+    const old = box.querySelector('.m3opt'); if (old) { old.remove(); return; }
+    let card = null; try { card = await Players.card(f.id); } catch (e) {}
+    const friend = isFriend(f.id), blocked = card && card.blocked;
+    box.insertAdjacentHTML('afterbegin', `<div class="m3cf m3opt" style="background:#1a2235;border-color:#2c355c">
+      ${card && card.tags && card.tags.length && window.Mal3abTags ? `<div style="justify-content:center;flex-wrap:wrap">${Mal3abTags(card.tags, true)}</div>` : ''}
+      <div>${friend || (card && card.friend !== 'none') ? '' : `<button class="n2" data-o="add">${t('ch_add')}</button>`}<button class="n2" data-o="block">${blocked ? t('ch_unblock') : t('ch_block')}</button><button class="y" data-o="report">${t('ch_report')}</button></div>
+      <span class="ost" dir="auto"></span></div>`);
+    box.scrollTop = 0;
+    const o = box.querySelector('.m3opt'), st = o.querySelector('.ost');
+    o.querySelectorAll('[data-o]').forEach(b => b.onclick = async () => {
+      try {
+        if (b.dataset.o === 'add') { await Friends.request(card && card.public_id ? '#' + card.public_id : f.username); st.textContent = t('ch_added'); b.remove(); }
+        if (b.dataset.o === 'block') { if (!blocked && !confirm(t('ch_blockQ', { p: f.username }))) return; await Players.block(f.id, !blocked); o.remove(); convMenu(); }
+        if (b.dataset.o === 'report') { const why = prompt(t('ch_repQ')); if (!why || why.trim().length < 3) return; await Players.report(why.trim(), 'chat', f.id); st.textContent = t('ch_repSent'); }
+      } catch (e) { st.textContent = window.Mal3abErr ? Mal3abErr(e) : e.message; }
+    });
   }
   function wireInput() {
     const inp = C.el.querySelector('#m3in');
@@ -279,7 +331,7 @@
     try {
       if (g) { await rpc('group_send', { p_group: g.id, p_body: text, p_kind: kind || 'text', p_meta: meta || null }); await fetchNew(); for (const id of others(g)) ping(id, { group: g.id, gname: g.name, name: (Auth.profile && Auth.profile.username) || '' }); return; }
       await rpc('chat_send', { p_to: f.id, p_body: text, p_kind: kind || 'text', p_meta: meta || null }); await fetchNew(); ping(f.id); }
-    catch (e) { const box = C.el.querySelector('#m3msgs'); if (box) box.insertAdjacentHTML('beforeend', `<p class="muted">${t('chat_err')}</p>`); }
+    catch (e) { const box = C.el.querySelector('#m3msgs'); const m = window.Mal3abErr ? Mal3abErr(e) : ''; if (box) { box.insertAdjacentHTML('beforeend', `<p class="muted">${esc(m && !/fetch|network/i.test(m) ? m : t('chat_err'))}</p>`); box.scrollTop = box.scrollHeight; } }
   }
   // instant delivery: a ping on the friend's inbox channel (the message itself stays in the database)
   const out = {};
@@ -300,7 +352,9 @@
       const u = await rpc('chat_unread') || {};
       for (const [id, n] of Object.entries(u)) if (n > (C.seen[id] || 0) && (!C.open || !C.friend || C.friend.id !== id)) {
         if (!C.friends.length) await loadFriends();
-        const f = C.friends.find(x => x.id === id); if (f && (fromPing || C.seen[id] !== undefined)) toast(f);
+        let f = C.friends.find(x => x.id === id) || C.others.find(x => x.id === id);
+        if (!f) { await loadOthers(); f = C.others.find(x => x.id === id); }
+        if (f && (fromPing || C.seen[id] !== undefined)) toast(f);
       }
       C.seen = Object.assign({}, u); C.unread = u;
       if (C.open && C.friend && u[C.friend.id]) await fetchNew();
