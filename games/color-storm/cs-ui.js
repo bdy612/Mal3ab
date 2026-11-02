@@ -748,7 +748,6 @@ let bestSent = false;
 const sendBestOnce = () => { if (bestSent) return; bestSent = true; CS.reportBest(); };
 if (window.Mal3abReady) setTimeout(sendBestOnce, 0);
 document.addEventListener('mal3abready', () => { sendBestOnce(); UI.renderAll(); if (UI.cur && ['menu', 'bots'].includes(UI.cur.name)) UI.refresh(); });
-document.addEventListener('pointerdown', () => { try { CS.audio.on && window.AudioContext && 0; } catch (e) {} }, { once: true });
 addEventListener('resize', resize);
 
 // main loop: particles, sky, hand momentum, turn timers

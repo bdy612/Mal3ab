@@ -65,11 +65,14 @@
     { href: 'games/cyber-pet/index.html', icon: '🐾', key: 'cyberpet', isNew: true, modes: ['solo', 'online'],
       ar: ['ربّي كائن ذكاء اصطناعي صغير.', 'أكّله والعب معاه ونضّف الباجز — وهو بيكبر ويتطور حسب ما بتراعيه.', 'فيه ميني جيمز بتتفتح لما يكبر.'],
       en: ['Raise a tiny AI pet.', 'Feed it, play with it and squash its bugs — it grows and evolves based on your care.', 'Mini-games unlock as it grows.'] },
+    { href: 'games/color-storm/index.html', icon: '🌪️', key: 'colorstorm', isNew: true, modes: ['online', 'bot', 'local'],
+      ar: ['طابق الكارت اللي في النص باللون أو الرقم.', 'كروت الأكشن: ❄ تجميد، 🔄 عكس، +2 و+4، 🌈 لون حر — و🌪 العاصفة بتلفّ الكروت على الكل، و☔ الشتا بتسحّب الكل كارت.', 'لما يفضل معاك كارتين دوس «آخر كارت!» وإلا ممكن يمسكوك وتسحب 2.', 'أول واحد يخلّص كروته يكسب الجولة ويأخد نقط اللي في إيد الباقيين.'],
+      en: ['Match the middle card by colour or number.', 'Action cards: ❄ Freeze, 🔄 Whirl, +2 and +4, 🌈 Rainbow — plus 🌪 Storm passes every hand along and ☔ Downpour makes everyone draw.', 'With 2 cards left press "Last card!" or you can be caught and draw 2.', 'Empty your hand first to win the round and score the cards left in the others\' hands.'] },
   ];
   // the key a game page announces itself under (games/<folder>/… or games/<file>.html)
   const liveKey = (href) => { const m = href.match(/games\/([^/]+)\//) || href.match(/games\/([^/.]+)\.html/); return m ? m[1] : ''; };
   for (const g of G) g.live = liveKey(g.href);
   window.MAL3AB_GAMES = G;
-  window.MAL3AB_READY = ['chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];
+  window.MAL3AB_READY = ['colorstorm', 'chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];
   window.Mal3abLiveKey = liveKey;
 })();
