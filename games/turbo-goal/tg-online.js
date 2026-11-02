@@ -532,12 +532,18 @@
   TGO.relabel = () => { if (G.overlay === 'alone') showAlone(); };
 
   // ------------------------------------------------------------------ lobby UI (drawn into the menu screen)
-  let lobbyTm = 0;
+  let lobbyTm = 0, lobbySig = '';
+  const lobbyState = () => JSON.stringify([ON.code, ON.ready, ON.host, ON.me, ON.cfg, ON.inMatch, !!(G.online && G.W), members().map(id => [id, ON.seats[id], nameOf(id)]), getLang(), ON.msg]);
   function lobbyRefresh(force) {
     if (G.screen !== 'online' || $('menu').hidden) return;
-    clearTimeout(lobbyTm); lobbyTm = setTimeout(() => { if (G.screen === 'online' && !$('menu').hidden) TGO.renderMenu($('menu')); }, force ? 0 : 60);
+    clearTimeout(lobbyTm); lobbyTm = setTimeout(() => {
+      if (G.screen !== 'online' || $('menu').hidden) return;
+      const sig = lobbyState(); if (!force && sig === lobbySig) return;
+      TGO.renderMenu($('menu'));
+    }, force ? 0 : 60);
   }
   TGO.renderMenu = (m) => {
+    lobbySig = lobbyState();
     const back = `<button class="btn sec" id="oBack">${t('tg_back')}</button>`;
     if (!ON.code) {
       const nm = myName();

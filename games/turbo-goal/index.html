@@ -49,6 +49,7 @@
   th { color: var(--muted); font-weight: 600; font-size: 12px; } td.nm { text-align: start; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
   tr.t0 td.nm { color: #8fc0ff; } tr.t1 td.nm { color: #ffc08a; } tr.me td { font-weight: 800; } tr.mvp td.nm::after { content: ' ⭐'; }
   .tablewrap { overflow-x: auto; }
+  @media (max-width: 520px) { table { font-size: 12px; } td, th { padding: 5px 3px; } th { font-size: 10px; } td.nm { max-width: 92px; } .panel { padding: 16px 12px; } }
   .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
   .stat { background: var(--card2); border-radius: 12px; padding: 10px; } .stat b { display: block; font-size: 24px; color: var(--accent); } .stat span { color: var(--muted); font-size: 12px; }
   .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: start; }
@@ -120,7 +121,7 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793407000"></script>
+<script src="../../shared/i18n.js?v=1793410000"></script>
 <script src="../../shared/net.js?v=1793407000"></script>
 <script src="../../shared/vendor/three.min.js?v=1793404000"></script>
 </head>

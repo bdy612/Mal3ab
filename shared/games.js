@@ -68,11 +68,14 @@
     { href: 'games/color-storm/index.html', icon: '🌪️', key: 'colorstorm', isNew: true, modes: ['online', 'bot', 'local'],
       ar: ['طابق الكارت اللي في النص باللون أو الرقم.', 'كروت الأكشن: ❄ تجميد، 🔄 عكس، +2 و+4، 🌈 لون حر — و🌪 العاصفة بتلفّ الكروت على الكل، و☔ الشتا بتسحّب الكل كارت.', 'لما يفضل معاك كارتين دوس «آخر كارت!» وإلا ممكن يمسكوك وتسحب 2.', 'أول واحد يخلّص كروته يكسب الجولة ويأخد نقط اللي في إيد الباقيين.'],
       en: ['Match the middle card by colour or number.', 'Action cards: ❄ Freeze, 🔄 Whirl, +2 and +4, 🌈 Rainbow — plus 🌪 Storm passes every hand along and ☔ Downpour makes everyone draw.', 'With 2 cards left press "Last card!" or you can be caught and draw 2.', 'Empty your hand first to win the round and score the cards left in the others\' hands.'] },
+    { href: 'games/turbo-goal/index.html', icon: '🏎️', key: 'turbogoal', isNew: true, modes: ['online', 'bot', 'local'],
+      ar: ['سوق عربيتك وشوط الكورة العملاقة في جون الخصم.', 'W/S بنزين، A/D لف، Space نط (مرتين = شقلبة)، Shift تيربو، Ctrl انزلاق.', 'تقدر تطلع على الحيطان والسقف وتطير بالتيربو.', 'لو خبطت حد وانت في أقصى سرعة بتفجّره!'],
+      en: ['Drive your rocket car and smash the giant ball into the other goal.', 'W/S throttle, A/D steer, Space jump (twice = flip), Shift boost, Ctrl powerslide.', 'Drive up walls and across the ceiling, and fly with boost.', 'Hit someone at supersonic speed to demolish them!'] },
   ];
   // the key a game page announces itself under (games/<folder>/… or games/<file>.html)
   const liveKey = (href) => { const m = href.match(/games\/([^/]+)\//) || href.match(/games\/([^/.]+)\.html/); return m ? m[1] : ''; };
   for (const g of G) g.live = liveKey(g.href);
   window.MAL3AB_GAMES = G;
-  window.MAL3AB_READY = ['colorstorm', 'chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];
+  window.MAL3AB_READY = ['turbogoal', 'colorstorm', 'chronocourier', 'alchemybarista', 'shadoweclipse', 'echoesdeep', 'deckdungeons', 'pixelalchemist', 'neoncourier', 'gridlockhacker', 'gravitychef', 'echoesspire', 'cyberpet', 'glitchhopper'];
   window.Mal3abLiveKey = liveKey;
 })();

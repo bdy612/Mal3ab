@@ -1139,14 +1139,12 @@
     ball(x, y, z, vx, vy, vz) { const b = G.W.ball; b.pos.set(x, y, z); b.vel.set(vx || 0, vy || 0, vz || 0); b.pp.copy(b.pos); },
     setClock(s) { G.clock = s; },
     skip: skipReplay, toMenu, state() { return { mode: G.mode, phase: G.phase, score: G.score.slice(), clock: G.clock, ot: G.ot, cars: G.W ? G.W.cars.map(c => ({ cid: c.cid, team: c.team, kind: c.kind, name: carLabel(c), pos: c.pos.toArray().map(v => +v.toFixed(2)), boost: Math.round(c.boost), dead: c.dead, st: c.st })) : [], ball: G.W ? G.W.ball.pos.toArray().map(v => +v.toFixed(2)) : null, overlay: G.overlay, fps: G.fps }; },
-    stats: () => STATS, settings: () => SET, keys: KEYS,
+    stats: () => STATS, settings: () => SET, keys: KEYS, info: () => ({ calls: renderer.info.render.calls, tris: renderer.info.render.triangles, geos: renderer.info.memory.geometries, tex: renderer.info.memory.textures, pr: renderer.getPixelRatio() }),
   };
 
   resize();
   requestAnimationFrame(frame);
   // boot: the menu over a bots match, or straight into a room from an invite link
-  setTimeout(() => {
-    if (TGO.boot && TGO.boot()) return;
-    renderMenu('main');
-  }, 0);
+  const boot = () => { if (TGO.boot && TGO.boot()) return; renderMenu('main'); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true }); else setTimeout(boot, 0);
 })();

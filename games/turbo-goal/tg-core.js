@@ -509,6 +509,20 @@
       if (ai.mode === 'kick') boost = D.boost > 0.2 || Math.random() < 0.5;
     }
     if (Math.abs(ang) > 1.55 && speed > 22 && c.grounded) I.slide = true;
+    // too fast to make the turn to the target: ease off (or brake) until the turning circle fits, instead of orbiting it
+    const bdx0 = b.x - c.pos.x, bdz0 = b.z - c.pos.z, bd0 = Math.hypot(bdx0, b.y - c.pos.y, bdz0);
+    const bAng0 = Math.atan2(bdx0 * left.x + bdz0 * left.z, bdx0 * fwd.x + bdz0 * fwd.z);
+    const close = attackish && bd0 < 16 && Math.abs(bAng0) < 0.75 && b.y - c.pos.y < 3.5;
+    if (close) {   // final approach: drive through the ball (aimed at its far side), full speed
+      const a2 = dist > 3 ? ang : bAng0;
+      steer = clamp(-a2 * 2.6, -1, 1); thr = 1; I.slide = false;
+      if (speed < C.MAXV - 4 && c.boost > 0 && Math.random() < D.boost) boost = true;
+    }
+    if (!close && c.grounded && Math.abs(ang) > 0.2 && dist > 0.5) {
+      const need = dist / (2 * Math.sin(Math.min(Math.abs(ang), 1.5)));
+      let fit = C.MAXV; while (fit > 6 && 1 / curvature(fit) > need) fit -= 3;
+      if (speed > fit + 2) { thr = speed > fit + 9 ? -1 : 0; boost = false; if (Math.abs(ang) > 1.1 && speed > 18) I.slide = true; }
+    }
     // stuck against something: back off for a moment
     if (c.grounded && speed < 3 && thr > 0.5) ai.stuck += dt; else ai.stuck = Math.max(0, ai.stuck - dt);
     if (ai.stuck > 1.2) { ai.rev = 0.7; ai.stuck = 0; }
