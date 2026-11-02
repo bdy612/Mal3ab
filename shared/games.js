@@ -47,7 +47,7 @@
     { href: 'games/deck-of-dungeons/index.html', icon: '🃏', key: 'deckdungeons', isNew: true, modes: ['solo', 'online'],
       ar: ['ابني الدانجون بتاعك بالكروت: أوض وفخاخ ووحوش.', 'الأبطال بيهجموا عشان يسرقوا الكنز — وقّفهم!', 'اكسب كروت جديدة وقدرات بين كل موجة.'],
       en: ['Build your dungeon from cards: rooms, traps and monsters.', 'Heroes raid it to steal your loot — stop them!', 'Earn new cards and relics between waves.'] },
-    { href: 'games/pixel-alchemist/index.html', icon: '🧪', key: 'pixelalchemist', isNew: true, modes: ['solo'],
+    { href: 'games/pixel-alchemist/index.html', icon: '🧪', key: 'pixelalchemist', isNew: true, modes: ['solo', 'coop'],
       ar: ['صيدلية سحرية على قطر ماشي.', 'اخلط العناصر عشان تعمل تفاعلات متسلسلة وتخلص الطلبات.', 'طوّر عربيتك واختار طريقك على الخريطة.'],
       en: ['A magic apothecary on a moving train.', 'Mix elements to set off chain reactions and fill orders.', 'Upgrade your cart and choose your route on the map.'] },
     { href: 'games/neon-courier/index.html', icon: '🛰️', key: 'neoncourier', isNew: true, modes: ['solo', 'race'],

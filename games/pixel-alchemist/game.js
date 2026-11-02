@@ -10,7 +10,17 @@
     pa_title: 'خيميائي البكسل', pa_sub: 'ريمكس', pa_full: 'خيميائي البكسل: ريمكس',
     pa_tag: 'محل جرعات سحرية جوّه قطر ماشي — المنظر بيتغير برّه، والمكوّنات كمان!',
     pa_hello: 'أهلاً بيك في القطر يا {n}!',
-    pa_journey: 'الرحلة', pa_journey_d: '١٢ محطة وزباين وطلبات وحكاية',
+    pa_journey: 'الرحلة', pa_journey_d: '٢٠ محطة وزباين وطلبات وحكاية',
+    pa_st13: 'معدية الضباب', pa_st14: 'ممر النار والتلج', pa_st15: 'وادي الزوابع', pa_st16: 'حفلة السحرة',
+    pa_st17: 'مناجم الحجارة', pa_st18: 'الخط السريع', pa_st19: 'دوامة الرعد', pa_st20: 'آخر الدنيا',
+    pa_story13: 'الضباب غطّى كل حاجة، والزباين بيطلبوا جرعات أقوى من الأول.',
+    pa_story14: 'القطر بيرقص بين البراكين والتلج… والمكوّنات بتتقلب كل شوية!',
+    pa_story15: 'زوابع وتراب ورعد. الطلبات المزدوجة كترت — جهّز إزازتين في نفس الوقت.',
+    pa_story16: 'السحرة عاملين حفلة في العربية الأولى، وكلهم عايزين جرعات أسطورية!',
+    pa_story17: 'المناجم بترمي حجارة في القدرة من أول دقيقة. الفراغ هو صاحبك هنا.',
+    pa_story18: 'أسرع قطر على الخط! الزباين مستعجلين والمناظر بتجري.',
+    pa_story19: 'السما بتلف حوالين القطر، والقدرة بتسخن أسرع من أي وقت.',
+    pa_story20: 'المحطة الأخيرة بجد: كل المناطق في رحلة واحدة. ده الامتحان الأخير لأعظم خيميائي.',
     pa_endless: 'رحلة مالهاش آخر', pa_endless_d: 'اكسب المطلوب في كل محطة وشوف هتوصل لحد فين',
     pa_upgrades: 'التطويرات', pa_howto: 'إزاي تلعب', pa_sound: 'الأصوات', pa_music: 'المزيكا',
     pa_back: 'رجوع', pa_bank: 'الخزنة', pa_map: 'خريطة الرحلة', pa_station: 'محطة {n}',
@@ -74,7 +84,17 @@
     pa_title: 'Pixel Alchemist', pa_sub: 'Remixed', pa_full: 'Pixel Alchemist: Remixed',
     pa_tag: 'A magic potion shop inside a moving train — the view changes outside, and so do your ingredients!',
     pa_hello: 'Welcome aboard, {n}!',
-    pa_journey: 'Journey', pa_journey_d: '12 stations, passengers, orders and a story',
+    pa_journey: 'Journey', pa_journey_d: '20 stations, passengers, orders and a story',
+    pa_st13: 'Mistwood Crossing', pa_st14: 'Fire and Frost Pass', pa_st15: 'Dust Storm Gulch', pa_st16: 'Wizard Gala',
+    pa_st17: 'Slag Mines', pa_st18: 'Express Line', pa_st19: 'Thunder Spiral', pa_st20: 'World\'s End',
+    pa_story13: 'Fog covers everything, and the passengers want stronger brews than ever.',
+    pa_story14: 'The train zigzags between volcanoes and glaciers… and the ingredients flip every few seconds!',
+    pa_story15: 'Dust, wind and thunder. Double orders are everywhere — have two bottles ready at once.',
+    pa_story16: 'The wizards are throwing a gala up front, and every one of them wants a legendary brew!',
+    pa_story17: 'The mines dump slag into the cauldron from the very first minute. The Void is your best friend here.',
+    pa_story18: 'The fastest train on the line! Passengers are in a hurry and the scenery flies by.',
+    pa_story19: 'The sky spins around the train, and the cauldron heats up faster than ever.',
+    pa_story20: 'The true last stop: every land on a single ride. The final test of the greatest alchemist.',
     pa_endless: 'Endless ride', pa_endless_d: 'Hit every station quota and see how far you get',
     pa_upgrades: 'Upgrades', pa_howto: 'How to play', pa_sound: 'Sounds', pa_music: 'Music',
     pa_back: 'Back', pa_bank: 'Savings', pa_map: 'Route map', pa_station: 'Station {n}',
@@ -172,7 +192,18 @@
     LV({ biomes: ['aurora', 'crystal', 'meadow', 'storm'], time: 180, goal: 270, tiers: [2, 3, 3, 4], spawn: [6, 9], pat: 1.0, multi: 0.3, legend: 0.12, slag: 2, heat: 1.1, luck: 0.1 }),
     LV({ biomes: ['marsh', 'storm', 'desert', 'tundra', 'crystal'], time: 180, goal: 280, tiers: [2, 3, 3], spawn: [5, 8], pat: 1.0, multi: 0.3, legend: 0.12, slag: 3, debris: 3, heat: 1.15, luck: 0.12 }),
     LV({ biomes: ['volcanic', 'tundra', 'storm', 'marsh', 'crystal', 'desert', 'aurora', 'meadow'], time: 200, goal: 300, tiers: [2, 3, 3, 4], spawn: [5, 8], pat: 0.95, multi: 0.35, legend: 0.15, slag: 3, debris: 3, heat: 1.15, fast: true, luck: 0.12 }),
+    // the extended line: stations 13-20 (bot-checked; each is won by the built-in autoplayer in most runs)
+    LV({ biomes: ['crystal', 'marsh', 'aurora', 'storm'], time: 180, goal: 320, tiers: [2, 3, 3], spawn: [5, 8], pat: 0.95, multi: 0.35, legend: 0.12, slag: 2, debris: 3, heat: 1.15, luck: 0.12 }),
+    LV({ biomes: ['volcanic', 'tundra'], time: 180, goal: 335, tiers: [2, 3, 3, 4], spawn: [5, 8], pat: 0.95, multi: 0.35, legend: 0.12, slag: 2, debris: 3, heat: 1.2, fast: true, luck: 0.12 }),
+    LV({ biomes: ['storm', 'desert', 'marsh', 'meadow'], time: 190, goal: 350, tiers: [2, 3, 3, 4], spawn: [5, 7.5], pat: 0.95, multi: 0.4, legend: 0.12, slag: 3, debris: 3, heat: 1.15, luck: 0.12 }),
+    LV({ biomes: ['aurora', 'crystal', 'marsh'], time: 200, goal: 355, tiers: [3, 3, 4], spawn: [5.5, 8], pat: 1.0, multi: 0.3, legend: 0.25, slag: 3, debris: 3, heat: 1.2, luck: 0.14 }),
+    LV({ biomes: ['desert', 'volcanic', 'marsh', 'storm'], time: 190, goal: 380, tiers: [2, 3, 3, 4], spawn: [5, 7.5], pat: 0.95, multi: 0.35, legend: 0.15, slag: 6, debris: 4, heat: 1.2, luck: 0.12 }),
+    LV({ biomes: ['meadow', 'storm', 'tundra', 'desert', 'volcanic'], time: 180, goal: 395, tiers: [2, 3, 3, 4], spawn: [4, 6.5], pat: 0.85, multi: 0.4, legend: 0.12, slag: 3, debris: 3, heat: 1.2, fast: true, luck: 0.14 }),
+    LV({ biomes: ['marsh', 'volcanic', 'aurora', 'tundra', 'storm'], time: 200, goal: 425, tiers: [2, 3, 3, 4], spawn: [4.5, 7], pat: 0.9, multi: 0.4, legend: 0.18, slag: 4, debris: 4, heat: 1.3, fast: true, luck: 0.14 }),
+    LV({ biomes: ['volcanic', 'tundra', 'storm', 'marsh', 'crystal', 'desert', 'aurora', 'meadow'], time: 220, goal: 470, tiers: [3, 3, 4, 4], spawn: [4.5, 7], pat: 0.9, multi: 0.4, legend: 0.2, slag: 4, debris: 4, heat: 1.3, fast: true, luck: 0.15 }),
   ];
+  // saves from the 12-station journey: open the next station for everyone who already won the last one they had
+  { let hi = 0; for (const k in S.lv) if (S.lv[k] && S.lv[k].stars > 0) hi = Math.max(hi, +k || 0); const u = Math.min(LEVELS.length, hi + 1); if (u > S.unlocked) { S.unlocked = u; save(); } }
   const endlessCfg = (k) => LV({
     biomes: A.BIOME_IDS, time: Infinity, goal: 0,
     tiers: k < 1 ? [1, 1, 2] : k < 3 ? [1, 2, 2, 3] : k < 5 ? [2, 2, 3] : k < 8 ? [2, 3, 3] : [2, 3, 3, 4],
@@ -181,6 +212,13 @@
   });
   const quotaFor = (k) => 55 + 25 * k;
   const SEG_LEN = 80;
+  // online co-op: more alchemists = more passengers, a higher target and one extra seat at the counter
+  const coopF = (np) => 1 + 0.35 * (Math.max(1, np || 1) - 1);
+  function coopCfg(cfg, np) {
+    if (!np || np <= 1) return cfg;
+    return Object.assign({}, cfg, { goal: Math.round(cfg.goal * coopF(np)), maxO: Math.min(3, cfg.maxO + 1), spawn: cfg.spawn.map((v) => v / (1 + 0.3 * (np - 1))) });
+  }
+  function quotaOf(k, np) { return Math.round(quotaFor(k) * coopF(np)); }
 
   // =====================================================================
   // helpers
@@ -406,12 +444,13 @@
   }
   function sceneUpdate(dt) {
     scene.dist += dt * 46;
+    const follow = isGuest();   // online guests: the host's snapshots decide the route
     if (scene.tunnel > 0) {
-      scene.tunnel -= dt;
-      if (!scene.switched && scene.tunnel < TUN / 2) { scene.cur = scene.next; scene.next = nextBiome(); scene.bT = biomeDur(); scene.switched = true; scene.wx = []; }
+      scene.tunnel = Math.max(0, scene.tunnel - dt);
+      if (!follow && !scene.switched && scene.tunnel < TUN / 2) { scene.cur = scene.next; scene.next = nextBiome(); scene.bT = biomeDur(); scene.switched = true; scene.wx = []; }
     } else {
-      scene.bT -= dt;
-      if (scene.bT <= 0) { scene.tunnel = TUN; scene.switched = false; if (state === 'play') AU.play('tunnel'); }
+      scene.bT = follow ? Math.max(0, scene.bT - dt) : scene.bT - dt;
+      if (!follow && scene.bT <= 0) { scene.tunnel = TUN; scene.switched = false; if (state === 'play') AU.play('tunnel'); }
     }
     // weather particles (window-local coordinates)
     const W = LY.win; if (!W) return;
@@ -446,18 +485,19 @@
   let fx = { parts: [], ghosts: [], rings: [], zaps: [], floats: [], flights: [], shake: 0, flash: 0, flashC: '#fff' };
   let clock = 0;
 
-  function newRun(mode, li) {
-    const cfg = mode === 'endless' ? endlessCfg(0) : LEVELS[li];
-    const n = S.up.grand ? 6 : 5, hearts = 3 + S.up.hearts;
+  function newRun(mode, li, net) {   // net = { np, hearts } for an online co-op trip (the host's numbers)
+    const np = net ? net.np : 1;
+    const cfg = coopCfg(mode === 'endless' ? endlessCfg(0) : LEVELS[li], np);
+    const n = S.up.grand ? 6 : 5, hearts = net ? net.hearts : 3 + S.up.hearts;
     G = {
-      mode, li, cfg, n, board: grid(n), t: 0, coins: 0, hearts, maxHearts: hearts, inst: 0, instShow: 0,
+      mode, li, cfg, n, board: grid(n), t: 0, coins: 0, hearts, maxHearts: hearts, inst: 0, instShow: 0, online: !!net, np,
       shelf: Array(5 + S.up.shelf).fill(null), sel: -1, rack: Array(3 + S.up.rack).fill(null), rackSel: -1, rackSelT: 0,
       orders: [], orderT: 0.6, oid: 1, streak: 0, harvestT: 0, wisp: null, wispT: rand(10, 16),
       cascade: null, over: false, overT: -1, overReason: '', warnT: 0, rockT: 0, bump: 0,
       cur: { x: Math.floor(n / 2), y: Math.floor(n / 2), show: false }, hover: null, drag: null,
       stats: { served: 0, missed: 0, booms: 0, maxChain: 0, legend: 0, drops: 0, merges: 0, spills: 0, ev: {}, sold: 0 },
-      seg: mode === 'endless' ? { k: 0, t: 0, coins: 0, quota: quotaFor(0) } : null,
-      tut: mode === 'level' && li === 0 && !S.tut ? 0 : -1,
+      seg: mode === 'endless' ? { k: 0, t: 0, coins: 0, quota: quotaOf(0, np) } : null,
+      tut: !net && mode === 'level' && li === 0 && !S.tut ? 0 : -1,
     };
     fx = { parts: [], ghosts: [], rings: [], zaps: [], floats: [], flights: [], shake: 0, flash: 0, flashC: '#fff' };
     sceneSet(cfg.biomes, cfg.fast, mode === 'endless', false);
@@ -489,8 +529,14 @@
     if (v > 0) v *= (1 - 0.12 * S.up.cool) * (G.cfg.heat || 1);
     G.inst = Math.max(0, G.inst + v);
   }
-  function addCoins(v, x, y) {
+  function teamCoins(v, who) {   // the till (the host's, online); who = the alchemist to credit in the crew stats
     if (!v) return; v = Math.round(v); G.coins += v; if (G.seg) G.seg.coins += v;
+    if (G.online && who) pstat(who).coins += v;
+  }
+  function addCoins(v) {
+    if (!v) return; v = Math.round(v);
+    if (isGuest()) { netSend('coin', { v, k: NET.k }); return; }   // online guests pay into the host's till
+    teamCoins(v, G.online ? NET.me : null);
   }
 
   // ---------- harvesting ----------
@@ -550,9 +596,8 @@
     const p = G.board[y] && G.board[y][x]; if (!p || p.el === 'S') return false;
     const c = cellCenter(x, y), o = orderFor(p.el, p.tier);
     if (o) {
-      const item = o.items.find(i => !i.done && i.el === p.el && i.tier === p.tier); item.done = true; item.pending = true;
-      const tp = orderItemPos(o, o.items.indexOf(item));
-      fx.flights.push({ kind: 'bottle', el: p.el, tier: p.tier, x0: c[0], y0: c[1], x1: tp[0], y1: tp[1], t: 0, dur: 0.45, done: () => { item.pending = false; checkOrder(o); } });
+      const item = o.items.find(i => !i.done && i.el === p.el && i.tier === p.tier);
+      claimItem(o, item, c[0], c[1], 0.45);
     } else {
       const ri = G.rack.findIndex(r => !r);
       if (ri < 0) { floatText(t('pa_rackfull'), c[0], c[1] - 6, '#ff8a8a'); AU.play('err'); p.flash = 0.6; return false; }
@@ -573,15 +618,29 @@
       const rs = LY.rack[i]; floatText(t('pa_sold') + ' +' + v, rs.x + rs.w / 2, rs.y - 2, '#ffd75e'); AU.play('sell');
     } else { G.rackSel = i; G.rackSelT = 2.2; const rs = LY.rack[i]; floatText(t('pa_sellq'), rs.x + rs.w / 2, rs.y - 2, '#ffffff', 1.4); AU.play('click'); }
   }
-  function checkOrder(o) {
+  // a bottle flies to an order: solo and the online host mark it at once; an online guest asks the host first
+  function claimItem(o, item, x0, y0, dur) {
+    const idx = o.items.indexOf(item); item.done = true; item.pending = true;
+    if (isGuest()) { item.by = NET.me; NET.claims[o.id + ':' + idx] = { t: Date.now(), el: item.el, tier: item.tier }; netSend('fill', { oid: o.id, i: idx, el: item.el, tier: item.tier, k: NET.k }); }
+    else if (G.online) item.by = NET.me;
+    const tp = orderItemPos(o, idx);
+    fx.flights.push({ kind: 'bottle', el: item.el, tier: item.tier, x0, y0, x1: tp[0], y1: tp[1], t: 0, dur, done: () => { item.pending = false; if (!isGuest()) { if (G.online) o.by = NET.me; checkOrder(o); } } });
+  }
+  function checkOrder(o) {   // solo / online host only
     if (o.state === 'done' || o.state === 'leave') return;
     if (!o.items.every(i => i.done && !i.pending)) return;
     o.state = 'done'; o.anim = 0; o.mood = 'h';
     G.streak++; G.stats.served++; if (o.legend) G.stats.legend++;
     const quick = o.pat / o.max > 0.5, mult = 1 + 0.1 * Math.min(G.streak - 1, 5);
     const v = Math.round(o.reward * (quick ? 1.25 : 1) * mult);
-    addCoins(v);
+    teamCoins(v, null);
     const r = LY.orders[o.slot];
+    if (G.online) {   // each bottle's share of the reward goes to whoever brought it
+      const base = o.items.reduce((s, i) => s + VALUE[i.tier], 0) || 1;
+      for (const it of o.items) { const s = pstat(it.by || NET.me); s.bot++; s.coins += Math.round(v * VALUE[it.tier] / base); }
+      o.paid = v; o.by = o.by || NET.me;
+      if (o.by !== NET.me) floatText(pname(o.by), r.x + r.w / 2, r.y + 30, pcolOf(o.by), 1.2);
+    }
     floatText('+' + v, r.x + r.w / 2, r.y + 4, '#ffd75e', 1.3, 8);
     if (quick) floatText(t('pa_tip'), r.x + r.w / 2, r.y + 14, '#80ed99', 1.1);
     if (G.streak >= 2) floatText(t('pa_streak', { n: G.streak }), r.x + r.w / 2, r.y + 22, '#ffb703', 1.1);
@@ -608,6 +667,17 @@
     G.orders.push({ id: G.oid++, slot, items, reward, pat, max: pat, state: 'enter', anim: 0, mood: 'n', type, seed, legend });
   }
   function updateOrders(dt) {
+    if (isGuest()) guestOrders(dt); else hostOrders(dt);
+    // the rack hands bottles to whoever wants them
+    for (let i = 0; i < G.rack.length; i++) {
+      const r = G.rack[i]; if (!r || r.arriving) continue;
+      const o = orderFor(r.el, r.tier); if (!o) continue;
+      const item = o.items.find(it => !it.done && it.el === r.el && it.tier === r.tier), rs = LY.rack[i];
+      claimItem(o, item, rs.x + rs.w / 2, rs.y + rs.h / 2, 0.5);
+      G.rack[i] = null; if (G.rackSel === i) G.rackSel = -1; AU.play('bottle');
+    }
+  }
+  function hostOrders(dt) {
     for (let i = G.orders.length - 1; i >= 0; i--) {
       const o = G.orders[i]; o.anim += dt;
       if (o.state === 'enter' && o.anim > 0.45) o.state = 'wait';
@@ -626,15 +696,6 @@
     G.orderT -= dt;
     if (active === 0) G.orderT = Math.min(G.orderT, 2.5);
     if (G.orderT <= 0 && G.orders.length < G.cfg.maxO) { spawnOrder(); G.orderT = rand(G.cfg.spawn[0], G.cfg.spawn[1]); }
-    // the rack hands bottles to whoever wants them
-    for (let i = 0; i < G.rack.length; i++) {
-      const r = G.rack[i]; if (!r || r.arriving) continue;
-      const o = orderFor(r.el, r.tier); if (!o) continue;
-      const item = o.items.find(it => !it.done && it.el === r.el && it.tier === r.tier); item.done = true; item.pending = true;
-      const rs = LY.rack[i], tp = orderItemPos(o, o.items.indexOf(item));
-      fx.flights.push({ kind: 'bottle', el: r.el, tier: r.tier, x0: rs.x + rs.w / 2, y0: rs.y + rs.h / 2, x1: tp[0], y1: tp[1], t: 0, dur: 0.5, done: () => { item.pending = false; checkOrder(o); } });
-      G.rack[i] = null; if (G.rackSel === i) G.rackSel = -1; AU.play('bottle');
-    }
   }
 
   // ---------- cascade (one reaction per step, animated) ----------
@@ -716,9 +777,12 @@
     fx.rings.push({ x: P.x + P.w / 2, y: P.y + P.h / 2, r: 4, vr: 220, life: 0.5, max: 0.5, c: '#ffe08a' });
     fx.flash = 1; fx.flashC = '#ffe6c0'; shake(10); AU.play('boom');
     floatText(t('pa_boom'), P.x + P.w / 2, P.y + P.h / 2 - 6, '#ff5d3a', 1.8, 14);
-    G.hearts--; G.stats.booms++; G.inst = 35; G.cascade = null; G.streak = 0;
+    G.stats.booms++; G.inst = 35; G.cascade = null; G.streak = 0;
     for (let i = 0; i < G.cfg.debris; i++) dropSlag(false);
-    if (G.hearts <= 0) { G.overT = 1.6; G.overReason = 'blown'; }
+    if (isGuest()) { netSend('boom', { k: NET.k }); return; }   // the team's hearts live on the host
+    G.hearts--;
+    if (G.online) { pstat(NET.me).booms++; netSend('fx', { f: 'boom', who: NET.me, k: NET.k }); }
+    if (G.hearts <= 0 && G.overT < 0) { G.overT = 1.6; G.overReason = 'blown'; }
   }
 
   // ---------- per-frame game update ----------
@@ -744,23 +808,30 @@
     if (G.inst >= 75) { G.warnT -= dt; if (G.warnT <= 0) { AU.play('alarm'); G.warnT = 1; if (G.inst >= 85) floatText(t('pa_warn'), LY.pot.x + LY.pot.w / 2, LY.pot.y - 2, '#ff6a5a', 0.9); } } else G.warnT = 0;
     // train clack
     G.rockT -= dt; if (G.rockT <= 0) { G.rockT = 1.15; G.bump = 0.09; } if (G.bump > 0) G.bump -= dt;
-    // journey end / stations
-    if (G.mode === 'level') { if (G.t >= G.cfg.time && !G.cascade) finish(); }
+    // journey end / stations (online, only the host decides)
+    if (isGuest()) { /* the host's snapshots carry the clock */ }
+    else if (G.mode === 'level') { if (G.t >= G.cfg.time && !G.cascade) finish(); }
     else {
       G.seg.t += dt;
       if (G.seg.t >= SEG_LEN && !G.cascade) {
-        const ok = G.seg.coins >= G.seg.quota, P = LY.pot;
-        if (ok) { const b = 20 + 10 * G.seg.k; addCoins(b); floatText(t('pa_e_passed') + ' +' + b, P.x + P.w / 2, P.y + P.h / 2, '#80ed99', 2, 10); AU.play('win'); }
-        else { G.hearts--; floatText(t('pa_e_missed'), P.x + P.w / 2, P.y + P.h / 2, '#ff8a8a', 2.2, 8); AU.play('lose'); shake(4); }
-        G.seg.k++; G.seg.t = 0; G.seg.coins = 0; G.seg.quota = quotaFor(G.seg.k); G.cfg = endlessCfg(G.seg.k); scene.fast = G.cfg.fast;
+        const ok = G.seg.coins >= G.seg.quota, b = 20 + 10 * G.seg.k;
+        if (ok) teamCoins(b, null); else G.hearts--;
+        stationFx(ok, b); if (G.online) netSend('fx', { f: 'stn', ok, b, k: NET.k });
+        G.seg.k++; G.seg.t = 0; G.seg.coins = 0; G.seg.quota = quotaOf(G.seg.k, G.np); G.cfg = coopCfg(endlessCfg(G.seg.k), G.np); scene.fast = G.cfg.fast;
         if (G.hearts <= 0) { G.overT = 1.2; G.overReason = 'quota'; }
       }
     }
+  }
+  function stationFx(ok, b) {
+    const P = LY.pot;
+    if (ok) { floatText(t('pa_e_passed') + ' +' + b, P.x + P.w / 2, P.y + P.h / 2, '#80ed99', 2, 10); AU.play('win'); }
+    else { floatText(t('pa_e_missed'), P.x + P.w / 2, P.y + P.h / 2, '#ff8a8a', 2.2, 8); AU.play('lose'); shake(4); }
   }
 
   // ---------- finishing ----------
   function finish() {
     if (G.over) return; G.over = true;
+    if (G.online) { onlineFinish(); return; }   // online trips never touch the solo save
     const res = { mode: G.mode, li: G.li, coins: G.coins, stats: G.stats };
     if (G.mode === 'level') {
       const L = G.cfg, win = G.hearts > 0 && G.coins >= L.goal;
@@ -1075,6 +1146,7 @@
         const ix = b.x + 4 + i * 18, iy = b.y + 3;
         D(essSpr(it.el, it.tier), ix, iy, it.done ? 0.35 : 1);
         if (it.done) D(icon('check'), ix + 9, iy + 9);
+        if (it.done && it.by && G.online) { R(ix - 1, iy - 1, 5, 5, '#05060c'); R(ix, iy, 3, 3, pcolOf(it.by)); }   // who brought it
       });
       const fr = clamp(o.pat / o.max, 0, 1), barC = fr > 0.5 ? '#5fd35f' : fr > 0.25 ? '#ffd21f' : (Math.floor(clock * 5) % 2 ? '#ff4d4d' : '#ff9a8a');
       R(b.x + 3, b.y + b.h - 5, b.w - 6, 3, o.legend ? '#120c14' : '#c8b8a0'); R(b.x + 3, b.y + b.h - 5, Math.round((b.w - 6) * fr), 3, barC);
@@ -1348,6 +1420,7 @@
     burst(w.x, w.y, 24, [A.PAL[w.el].l, '#ffffff', A.PAL[w.el].glow], 60, 0.8, 0); floatText(t('pa_wispgot'), w.x, w.y - 8, A.PAL[w.el].l, 1.2);
   }
   addEventListener('keydown', (e) => {
+    if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;   // typing a name or a room code
     if (e.repeat && !/^Arrow/.test(e.key)) return;
     AU.init();
     const k = e.key;
@@ -1368,7 +1441,7 @@
     if (k === 'x' || k === 'X' || k === 'Delete' || k === 'Backspace') { if (G.sel >= 0) discard(G.sel); return; }
     if (k === 'q' || k === 'e') { const dir = k === 'e' ? 1 : -1, len = G.shelf.length; for (let i = 1; i <= len; i++) { const j = ((G.sel < 0 ? (dir > 0 ? -1 : 0) : G.sel) + dir * i + len * 2) % len; if (G.shelf[j] && !G.shelf[j].arriving) { G.sel = j; AU.play('pick'); break; } } G.cur.show = true; }
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'play') pause(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'play' && !(G && G.online)) pause(); });
 
   // =====================================================================
   // screens (HTML)
@@ -1377,7 +1450,7 @@
   const screens = ['s-title', 's-map', 's-shop', 's-how'];
   function show(id) {
     screens.forEach(s => $(s).hidden = s !== id);
-    $('modal').hidden = true; modalBack = null;
+    $('modal').hidden = true; modalBack = null; NET.view = null;
     state = { 's-title': 'title', 's-map': 'map', 's-shop': 'shop', 's-how': 'how' }[id] || state;
     if (id === 's-title') renderTitle(); if (id === 's-map') renderMap(); if (id === 's-shop') renderShop(); if (id === 's-how') renderHow();
     updHint();
@@ -1498,7 +1571,9 @@
   function startLevel(i) { closeModal(); hideScreens(); newRun('level', i); state = 'play'; AU.init(); updHint(); }
   function startEndless() { closeModal(); hideScreens(); newRun('endless', 0); state = 'play'; AU.init(); updHint(); }
   function pause() {
-    if (state !== 'play') return; state = 'paused'; AU.play('click'); if (G) G.drag = null;
+    if (state !== 'play') return;
+    if (G && G.online) { onlinePause(); return; }   // online the train keeps going: a menu, not a pause
+    state = 'paused'; AU.play('click'); if (G) G.drag = null;
     const title = G.mode === 'level' ? t('pa_station', { n: G.li + 1 }) + ' — ' + t('pa_st' + (G.li + 1)) : t('pa_endless');
     modal(`<div class="panel pausebox"><h2>⏸ ${t('pa_paused')}</h2><div class="kick">${title}</div>
       <button class="btn" id="pResume">▶ ${t('pa_resume')}</button>
@@ -1513,8 +1588,9 @@
     $('pSnd').onclick = toggleSnd; $('pMus').onclick = toggleMus; $('pLang').onclick = toggleLang;
     $('pLeave').onclick = () => { AU.play('click'); const m = G.mode; G = null; show(m === 'level' ? 's-map' : 's-title'); };
   }
-  function resume() { if (state !== 'paused') return; closeModal(); state = 'play'; AU.play('click'); updHint(); }
+  function resume() { if (state !== 'paused') return; if (NET.view === 'alone') NET.solo = true; NET.view = null; closeModal(); state = 'play'; AU.play('click'); updHint(); }
   function showResult(res) {
+    if (res.online) { onlineResult(res); return; }
     lastResult = res; state = 'result'; updHint();
     let h;
     if (res.mode === 'level') {
@@ -1561,6 +1637,7 @@
   function wire() {
     $('bJourney').onclick = () => { AU.init(); AU.play('click'); show('s-map'); };
     $('bEndless').onclick = () => { AU.init(); AU.play('click'); endlessCard(); };
+    $('bOnline').onclick = () => { AU.init(); AU.play('click'); if (NET.on) enterLobby(); else onlineMenu(); };
     $('bShop').onclick = () => { AU.init(); AU.play('click'); shopReturn = 's-title'; show('s-shop'); };
     $('bHow').onclick = () => { AU.init(); AU.play('click'); howReturn = 's-title'; show('s-how'); };
     $('mapBack').onclick = () => { AU.play('click'); show('s-title'); };
@@ -1585,9 +1662,13 @@
     if (!$('s-map').hidden) renderMap();
     if (!$('s-shop').hidden) renderShop();
     if (!$('s-how').hidden) renderHow();
-    if (state === 'paused') { closeModal(); state = 'play'; pause(); }
+    if (NET.view === 'menu') onlineMenu();
+    else if (NET.view === 'lobby') { NET.lastHtml = ''; renderLobby(); }
+    else if (NET.view === 'alone') showAlone();
+    else if (state === 'paused') { closeModal(); state = 'play'; pause(); }
     else if (state === 'result' && lastResult) showResult(lastResult);
     else if (!$('modal').hidden && $('lcGo')) closeModal();
+    if ($('crew')) $('crew').dataset.h = '';
   });
   document.addEventListener('mal3abready', () => { if (state === 'title') renderTitle(); });
 
@@ -1597,10 +1678,12 @@
   let lastT = performance.now(), manual = false;
   function update(dt) {
     clock += dt;
-    if (state === 'paused') return;
+    const live = !!(G && G.online && NET.on && inRun().length > 1);   // online with a crew: the train never stops
+    if (state === 'paused' && !live) return;
     sceneUpdate(dt);
-    if (state === 'play' && G && !G.over) gameUpdate(dt);
+    if ((state === 'play' || state === 'paused') && G && !G.over) gameUpdate(dt);
     fxUpdate(dt);
+    if (G && G.online) netTick(dt);
     if (state === 'play' && G && G.tut >= 0) updHint();
   }
   function frame(now) {
@@ -1610,6 +1693,493 @@
     requestAnimationFrame(frame);
   }
   addEventListener('resize', () => { resize(); if (state === 'title') renderTitle(); updHint(); });
+
+  // =====================================================================
+  // online co-op: up to 4 alchemists on one train (Supabase Realtime broadcast, room "pixel-alchemist-CODE")
+  // The host (the room's creator, then the next in join order) is the conductor: it runs the passengers and
+  // their orders, the scenery / route, the clock, the team's hearts and the shared till, and sends snapshots
+  // ~10×/s. Everyone mixes on their own cauldron, shelf and rack (with their own cart upgrades) and sends
+  // "this bottle is for order X" (fill), coins and explosions (boom) to the host. Route = a vote in the lobby.
+  // =====================================================================
+  addStrings({
+    pa_on_coop: 'أونلاين مع صحابك', pa_on_menu_d: 'لحد ٤ خيميائيين على نفس القطر',
+    pa_on_info: 'لحد ٤ لاعيبة راكبين نفس القطر: نفس الزباين ونفس الخزنة. كل واحد بيخلط على قدرته، وأي حد يقدر يخدم أي طلب. الكمسري (صاحب الأوضة) هو اللي بيمشّي القطر.',
+    pa_on_create: 'اعمل أوضة', pa_on_join: 'ادخل', pa_on_or: 'أو ادخل بكود', pa_on_codeph: 'الكود', pa_on_name: 'اسمك',
+    pa_on_codehint: 'اكتب كود من ٤ حروف أو أكتر', pa_on_full: 'الأوضة مليانة (٤ لاعيبة)', pa_on_nonet: 'مفيش اتصال بالنت',
+    pa_on_nosave: 'رحلات الأونلاين مابتغيرش حفظ رحلتك لوحدك (الخزنة والنجوم والتطويرات)، بس تطويرات عربيتك بتشتغل على قدرتك.',
+    pa_on_room: 'الأوضة', pa_on_copy: 'انسخ لينك الدعوة', pa_on_copied: 'اتنسخ!', pa_on_crew: 'الطاقم', pa_on_you: 'إنت',
+    pa_on_r_host: 'الكمسري', pa_on_r_alch: 'خيميائي', pa_on_r_wait: 'هيركب في المحطة الجاية',
+    pa_on_vote: 'صوّتوا على المحطة', pa_on_vote_d: 'دوس على محطة عشان تصوّت لها. الكمسري بيطلع على اللي عليها أصوات أكتر.',
+    pa_on_start: 'اطلع: {s}', pa_on_need: 'مستنيين خيميائي تاني على الأقل…', pa_on_waitstart: 'مستنيين الكمسري يطلّع القطر…',
+    pa_on_inprog: 'القطر ماشي دلوقتي — هتركب في المحطة الجاية.', pa_on_connecting: 'بيتصل…',
+    pa_on_leave: 'اخرج من الأوضة', pa_on_toroom: 'ارجعوا للأوضة', pa_on_joined: '{n} ركب القطر', pa_on_left: '{n} نزل من القطر',
+    pa_on_newhost: '{n} بقى الكمسري 👑', pa_on_youhost: 'إنت الكمسري دلوقتي 👑', pa_on_boom: 'قدرة {n} فرقعت! 💥', pa_on_late: 'حد سبقك!',
+    pa_on_alone_t: 'كل اللي معاك نزلوا', pa_on_alone_d: 'إنت الخيميائي الوحيد اللي فاضل في القطر.', pa_on_solo: 'كمّل لوحدك', pa_on_tomenu: 'ارجع للقايمة',
+    pa_on_waithost: 'مستنيين الكمسري يختار المحطة الجاية…', pa_on_nopause: 'القطر مابيقفش في الأونلاين', pa_on_menu_t: 'القايمة',
+    pa_on_anon: 'خيميائي', pa_on_back: 'رجعت للقطر!', pa_on_gone: 'نزل',
+  }, {
+    pa_on_coop: 'Online Co-op', pa_on_menu_d: 'Up to 4 alchemists on one train',
+    pa_on_info: 'Up to 4 alchemists ride the same train: the same passengers and one shared till. Everyone mixes on their own cauldron and anyone can serve any order. The conductor (the room\'s host) drives the train.',
+    pa_on_create: 'Create Room', pa_on_join: 'Join', pa_on_or: 'Or Join with a Code', pa_on_codeph: 'Code', pa_on_name: 'Your Name',
+    pa_on_codehint: 'Type a code of 4 letters or more.', pa_on_full: 'That room is full (4 players).', pa_on_nonet: 'No connection.',
+    pa_on_nosave: 'Online trips never change your solo save (savings, stars and upgrades), but your cart upgrades still work on your own cauldron.',
+    pa_on_room: 'Room', pa_on_copy: 'Copy Invite Link', pa_on_copied: 'Copied!', pa_on_crew: 'Crew', pa_on_you: 'You',
+    pa_on_r_host: 'Conductor', pa_on_r_alch: 'Alchemist', pa_on_r_wait: 'Boards at the Next Stop',
+    pa_on_vote: 'Vote for the Route', pa_on_vote_d: 'Tap a station to vote for it. The conductor departs for the one with the most votes.',
+    pa_on_start: 'Depart: {s}', pa_on_need: 'Waiting for at least one more alchemist…', pa_on_waitstart: 'Waiting for the conductor to depart…',
+    pa_on_inprog: 'The train is on the move — you will board at the next stop.', pa_on_connecting: 'Connecting…',
+    pa_on_leave: 'Leave Room', pa_on_toroom: 'Back to Room', pa_on_joined: '{n} hopped on', pa_on_left: '{n} got off the train',
+    pa_on_newhost: '{n} is the conductor now 👑', pa_on_youhost: 'You are the conductor now 👑', pa_on_boom: '{n}\'s cauldron blew up! 💥', pa_on_late: 'Someone beat you to it!',
+    pa_on_alone_t: 'Everyone Else Got Off', pa_on_alone_d: 'You are the only alchemist left on the train.', pa_on_solo: 'Continue Solo', pa_on_tomenu: 'Back to Menu',
+    pa_on_waithost: 'Waiting for the conductor to pick the next stop…', pa_on_nopause: 'The train never stops online.', pa_on_menu_t: 'Menu',
+    pa_on_anon: 'Alchemist', pa_on_back: 'Back on board!', pa_on_gone: 'Left',
+  });
+  const MAXP = 4, PCOL = ['#ffb703', '#4cc9f0', '#ff6b9a', '#80ed99'];
+  const OST = { enter: 0, wait: 1, done: 2, leave: 3 }, OSTN = ['enter', 'wait', 'done', 'leave'];
+  const NET_EVENTS = ['hello', 'hb', 'ros', 'bye', 'full', 'vote', 'go', 'st', 'me', 'fill', 'rej', 'coin', 'boom', 'fx', 'end', 'lobby'];
+  const NET = { ch: null, on: false, code: '', me: '', ready: false, host: '', ros: [], hostSeen: 0, joinAt: 0, k: 0, ph: 'lobby', vote: null,
+    claims: {}, ps: {}, crew: [], view: null, lastHtml: '', snapT: 0, meT: 0, crewT: 0, lastInst: -1, lastCh: -1, lastRes: null, solo: false, hb: null };
+  const NAME_KEY = 'pixel-alchemist-name';   // the name typed for online play (not part of the solo save)
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const typedName = () => { try { return (localStorage.getItem(NAME_KEY) || '').trim(); } catch (e) { return ''; } };
+  const myName = () => (typedName() || (window.Auth && Auth.name && Auth.name()) || t('pa_on_anon')).slice(0, 20);
+  const newCode = () => { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 5; i++) s += A[Math.floor(Math.random() * A.length)]; return s; };
+  const baseLink = () => location.href.split('?')[0].split('#')[0];
+  const inviteLink = (c) => baseLink() + '?room=' + c;
+  const isHost = () => NET.on && NET.host === NET.me;
+  const isGuest = () => !!(G && G.online && NET.on && NET.host !== NET.me);
+  const rosOf = (id) => NET.ros.find((r) => r.id === id);
+  const inRun = () => NET.ros.filter((r) => !r.w);
+  const pname = (id) => { if (id === NET.me) return myName(); const r = rosOf(id) || NET.ps[id]; return r ? r.n : '…'; };
+  const pcolOf = (id) => { const r = rosOf(id) || NET.ps[id]; return PCOL[(r ? r.c : 0) % PCOL.length]; };
+  const validVote = (v) => v === 'E' || (typeof v === 'number' && v >= 0 && v < LEVELS.length) ? v : null;
+  const r2 = (v) => Math.round(v * 100) / 100;
+  function pstat(id) {
+    let s = NET.ps[id];
+    if (!s) { const r = rosOf(id); s = NET.ps[id] = { id, n: r ? r.n : pname(id), c: r ? r.c : 0, coins: 0, bot: 0, booms: 0, ch: 0, inst: 0 }; }
+    return s;
+  }
+  async function canGoOnline() { if (window.Mal3abVersion && !(await Mal3abVersion.ok())) return false; return true; }
+  function netSend(ev, p) { if (!NET.ch || !NET.ready) return; try { NET.ch.send({ type: 'broadcast', event: ev, payload: Object.assign({ id: NET.me }, p || {}) }); } catch (e) {} }
+  function toast(msg) {
+    const box = $('toasts'); if (!box) return;
+    const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; box.appendChild(d);
+    while (box.children.length > 3) box.firstChild.remove();
+    setTimeout(() => d.remove(), 2800);
+  }
+  function copyLink(btn) {
+    const link = inviteLink(NET.code), done = () => { if (!btn) return; btn.textContent = '✅ ' + t('pa_on_copied'); setTimeout(() => { if (btn.isConnected) btn.textContent = '🔗 ' + t('pa_on_copy'); }, 1400); };
+    try { if (navigator.clipboard) navigator.clipboard.writeText(link).then(done, done); else done(); } catch (e) { done(); }
+  }
+
+  // ---------- room ----------
+  function joinRoom(code, create) {
+    code = String(code || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+    if (code.length < 4) return false;
+    if (!window.sb) { toast(t('pa_on_nonet')); return false; }
+    leaveRoom(true);
+    let id = ''; try { id = sessionStorage.getItem('pixel-alchemist-id-' + code) || ''; } catch (e) {}
+    if (!id) { id = Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('pixel-alchemist-id-' + code, id); } catch (e) {} }
+    Object.assign(NET, { on: true, code, me: id, ready: false, host: create ? id : '', vote: null, hostSeen: Date.now(), joinAt: Date.now(), k: 0, ph: 'lobby',
+      ros: create ? [{ id, n: myName(), c: 0, ul: S.unlocked, v: null, w: 0 }] : [], claims: {}, ps: {}, crew: [], lastRes: null, solo: false });
+    const ch = sb.channel('pixel-alchemist-' + code, { config: { broadcast: { self: false, ack: false } } });
+    for (const ev of NET_EVENTS) ch.on('broadcast', { event: ev }, ({ payload }) => { try { onNet(ev, payload); } catch (e) { console.warn(e); } });
+    ch.subscribe((st) => { if (st === 'SUBSCRIBED' && NET.ch === ch) { NET.ready = true; NET.joinAt = Date.now(); hello(true); sendRos(); NET.lastHtml = ''; renderLobby(); } });
+    NET.ch = ch;
+    try { history.replaceState(null, '', location.pathname + '?room=' + code); } catch (e) {}
+    clearInterval(NET.hb); NET.hb = setInterval(netBeat, 2000);
+    enterLobby();
+    return true;
+  }
+  function leaveRoom(quiet) {
+    if (NET.ch) { netSend('bye', {}); const ch = NET.ch; setTimeout(() => { try { sb.removeChannel(ch); } catch (e) {} }, 150); }
+    clearInterval(NET.hb); Object.assign(NET, { ch: null, on: false, ready: false, code: '', host: '', ros: [], view: null, claims: {}, crew: [] });
+    if (!quiet) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+    crewUpd();
+  }
+  function hello(req, ev) { netSend(ev || 'hello', { n: myName(), ul: S.unlocked, v: NET.vote, req: !!req, ph: G && G.online ? 'play' : 'lobby' }); }
+  function sendRos() {
+    if (!isHost()) return;
+    const me = rosOf(NET.me); if (me) { me.n = myName(); me.ul = S.unlocked; me.v = NET.vote; }
+    netSend('ros', { ph: NET.ph, k: NET.k, list: NET.ros.map((r) => ({ id: r.id, n: r.n, c: r.c, ul: r.ul, v: r.v, w: r.w ? 1 : 0 })), res: NET.ph === 'result' ? NET.lastRes : null });
+  }
+  function netBeat() {
+    if (!NET.ch || !NET.ready) return;
+    const now = Date.now();
+    if (isHost()) {
+      for (const r of NET.ros.slice()) if (r.id !== NET.me && now - (r.t || 0) > 9000) dropPlayer(r);
+      sendRos();
+    } else {
+      hello(false, 'hb');
+      if (NET.host && now - NET.hostSeen > 9000) hostGone();
+      else if (!NET.host && now - NET.joinAt > 3000) becomeHost(true);   // nobody answered: the room is empty, it's mine
+    }
+  }
+  function onNet(ev, p) {
+    if (!p || !p.id || p.id === NET.me) return;
+    if (ev === 'full') { if (p.to === NET.me) { leaveRoom(); G = null; show('s-title'); onlineMenu(t('pa_on_full')); } return; }
+    if (p.id === NET.host) NET.hostSeen = Date.now();
+    if (isHost()) { const r = rosOf(p.id); if (r) r.t = Date.now(); }
+    switch (ev) {
+      case 'hello': case 'hb': onHello(ev, p); return;
+      case 'ros': onRos(p); return;
+      case 'bye': onBye(p); return;
+      case 'vote': if (isHost()) { const r = rosOf(p.id); if (r) { r.v = validVote(p.v); sendRos(); renderLobby(); } } return;
+      case 'go': onGo(p); return;
+      case 'lobby': if (p.id === NET.host && G && G.online) toLobby(); return;
+    }
+    if (p.k !== NET.k) return;   // left over from an earlier trip
+    switch (ev) {
+      case 'st': if (p.id === NET.host && G && G.online && !G.over) applySnap(p); return;
+      case 'me': if (isHost()) { const s = pstat(p.id); s.inst = clamp(+p.inst || 0, 0, 100); s.ch = Math.max(s.ch, p.ch | 0); } return;
+      case 'fill': if (isHost()) hostFill(p); return;
+      case 'rej': if (p.to === NET.me) { const key = p.oid + ':' + p.i, c = NET.claims[key]; if (c) { delete NET.claims[key]; refund(c); } } return;
+      case 'coin': if (isHost() && G && G.online && !G.over) { const v = clamp(Math.round(+p.v || 0), 0, 400); if (v) teamCoins(v, p.id); } return;
+      case 'boom': if (isHost() && G && G.online && !G.over) hostBoom(p.id); return;
+      case 'fx': if (p.id === NET.host && G && G.online && !G.over) { if (p.f === 'boom') boomNote(p.who); else if (p.f === 'stn') stationFx(!!p.ok, p.b | 0); } return;
+      case 'end': if (p.id === NET.host) gotEnd(p.res); return;
+    }
+  }
+  function onHello(ev, p) {
+    if (!isHost()) return;
+    let r = rosOf(p.id), changed = false;
+    if (!r) {
+      if (NET.ros.length >= MAXP) { netSend('full', { to: p.id }); return; }
+      const used = new Set(NET.ros.map((x) => x.c)); let c = 0; while (used.has(c)) c++;
+      r = { id: p.id, n: '…', c, ul: 1, v: null, w: NET.ph === 'play' ? 1 : 0, t: Date.now(), goT: 0 };   // mid-trip: boards at the next stop
+      NET.ros.push(r); changed = true; toast(t('pa_on_joined', { n: String(p.n || '…').slice(0, 20) })); AU.play('served');
+    }
+    const n = String(p.n || r.n).slice(0, 20), ul = clamp(p.ul | 0, 1, LEVELS.length), v = validVote(p.v);
+    if (n !== r.n || ul !== r.ul || v !== r.v) { r.n = n; r.ul = ul; r.v = v; changed = true; }
+    r.t = Date.now();
+    // back after a reload (same id from sessionStorage): hop straight back on the moving train
+    if (NET.ph === 'play' && G && G.online && !G.over && !r.w && p.ph !== 'play' && Date.now() - (r.goT || 0) > 3000) { r.goT = Date.now(); sendGo(p.id); sendSnap(); }
+    if (changed || ev === 'hello') sendRos();
+    if (changed) renderLobby();
+  }
+  function onRos(p) {
+    if (isHost()) {
+      // two conductors (e.g. after a network hiccup): the smaller id keeps the train
+      if (p.id < NET.me) { NET.host = p.id; hello(true); } else { sendRos(); return; }
+    } else if (NET.host && p.id !== NET.host && Date.now() - NET.hostSeen < 9000 && p.id > NET.host) return;
+    const was = NET.host, before = NET.ros;
+    NET.host = p.id; NET.hostSeen = Date.now();
+    NET.ros = (p.list || []).slice(0, MAXP).map((r) => ({ id: String(r.id), n: String(r.n || '…').slice(0, 20), c: (r.c | 0) % MAXP, ul: (r.ul | 0) || 1, v: validVote(r.v), w: r.w ? 1 : 0 }));
+    if (!rosOf(NET.me)) hello(true);   // the conductor hasn't counted me yet
+    if (before.length) {
+      for (const r of before) if (r.id !== NET.me && !rosOf(r.id)) toast(t('pa_on_left', { n: r.n }));
+      for (const r of NET.ros) if (r.id !== NET.me && !before.some((x) => x.id === r.id)) toast(t('pa_on_joined', { n: r.n }));
+    }
+    if (was && was !== p.id) { toast(t('pa_on_newhost', { n: pname(p.id) })); if (NET.view === 'result' && lastResult) onlineResult(lastResult); }
+    NET.ph = p.ph || 'lobby';
+    if (G && G.online) {
+      if (NET.ph === 'result' && p.res && !G.over) gotEnd(p.res);
+      else if (NET.ph === 'lobby') toLobby();
+    }
+    checkAlone(); renderLobby();
+  }
+  function onBye(p) {
+    if (p.id === NET.host) { hostGone(); return; }
+    if (isHost()) { const r = rosOf(p.id); if (r) dropPlayer(r); }
+  }
+  function dropPlayer(r) { NET.ros = NET.ros.filter((x) => x !== r); toast(t('pa_on_left', { n: r.n })); sendRos(); renderLobby(); checkAlone(); }
+  function hostGone() {   // the conductor left: the next alchemist in join order takes over
+    const old = NET.host, oldName = pname(old);
+    NET.ros = NET.ros.filter((r) => r.id !== old);
+    if (!rosOf(NET.me)) { const used = new Set(NET.ros.map((x) => x.c)); let c = 0; while (used.has(c)) c++; NET.ros.push({ id: NET.me, n: myName(), c, ul: S.unlocked, v: NET.vote, w: G && G.online ? 0 : 1 }); }
+    toast(t('pa_on_left', { n: oldName }));
+    const next = (inRun()[0] || NET.ros[0]).id;   // someone on the moving train, if a trip is on
+    NET.host = next; NET.hostSeen = Date.now();
+    if (next === NET.me) becomeHost(false); else toast(t('pa_on_newhost', { n: pname(next) }));
+    if (NET.view === 'result' && lastResult) onlineResult(lastResult);
+    checkAlone(); renderLobby();
+  }
+  function becomeHost(empty) {
+    NET.host = NET.me;
+    if (empty || !NET.ros.length) NET.ros = [{ id: NET.me, n: myName(), c: 0, ul: S.unlocked, v: NET.vote, w: 0 }];
+    const now = Date.now(); NET.ros.forEach((r) => { r.t = now; r.goT = 0; });
+    if (!empty) toast(t('pa_on_youhost'));
+    if (G && G.online && !G.over) {   // take over the train from the last snapshot
+      NET.ph = 'play'; G.orderT = Math.min(G.orderT, 2);
+      for (const key in NET.claims) { const [oid, i] = key.split(':').map(Number), o = G.orders.find((x) => x.id === oid); if (o && o.items[i]) { o.items[i].done = true; o.items[i].by = NET.me; } }
+      NET.claims = {};
+      for (const o of G.orders) { o.items.forEach((i) => { i.pending = false; }); if (o.state === 'wait' || o.state === 'enter') checkOrder(o); }
+      if (G.hearts <= 0 && G.overT < 0) { G.overT = 0.6; G.overReason = 'blown'; }
+    } else NET.ph = G && G.online ? 'result' : 'lobby';
+    sendRos(); renderLobby();
+  }
+  function checkAlone() {   // the last other alchemist got off mid-trip
+    const alone = !!(NET.on && G && G.online && !G.over && inRun().length <= 1);
+    if (alone && !NET.solo && NET.view !== 'alone') showAlone();
+    else if (!alone && NET.view === 'alone') { NET.view = null; closeModal(); state = 'play'; }
+  }
+  function showAlone() {
+    NET.view = 'alone'; state = 'paused'; if (G) G.drag = null; crewUpd();
+    modal(`<div class="panel pausebox"><h2>🚉 ${t('pa_on_alone_t')}</h2><p class="story">${t('pa_on_alone_d')}</p>
+      <button class="btn" id="aSolo">▶ ${t('pa_on_solo')}</button>
+      <button class="btn sec" id="aCopy">🔗 ${t('pa_on_copy')}</button>
+      <div class="row"><button class="btn sec" id="aMenu">🏠 ${t('pa_on_tomenu')}</button></div></div>`, null);
+    $('aSolo').onclick = () => { AU.play('click'); NET.solo = true; NET.view = null; closeModal(); state = 'play'; };
+    $('aCopy').onclick = () => copyLink($('aCopy'));
+    $('aMenu').onclick = () => { AU.play('click'); leaveRoom(); G = null; show('s-title'); };
+  }
+
+  // ---------- lobby ----------
+  function onlineMenu(msg) {
+    NET.view = 'menu';
+    const nm = typedName() || (window.Auth && Auth.name && Auth.name()) || '';
+    modal(`<div class="panel lvcard online"><div class="kick">🌐</div><h2>${t('pa_on_coop')}</h2>
+      <p class="story">${t('pa_on_info')}</p>
+      <label class="lbl" for="oName">${t('pa_on_name')}</label><input id="oName" class="nmin" maxlength="20" autocomplete="off" spellcheck="false" dir="auto" value="${esc(nm)}" placeholder="${t('pa_on_anon')}">
+      <button class="btn" id="oCreate">➕ ${t('pa_on_create')}</button>
+      <div class="lbl">${t('pa_on_or')}</div>
+      <div class="row"><input id="oCode" class="codein" maxlength="6" autocomplete="off" spellcheck="false" dir="ltr" placeholder="${t('pa_on_codeph')}"><button class="btn" id="oJoin">${t('pa_on_join')}</button></div>
+      <div class="omsg" id="oMsg">${esc(msg || '')}</div>
+      <small class="note">${t('pa_on_nosave')}</small>
+      <div class="row"><button class="btn sec" id="oBack">${t('pa_back')}</button></div></div>`, () => { NET.view = null; closeModal(); });
+    const keepName = () => { const v = $('oName').value.trim().slice(0, 20); try { if (v) localStorage.setItem(NAME_KEY, v); else localStorage.removeItem(NAME_KEY); } catch (e) {} };
+    $('oCode').oninput = () => { $('oCode').value = $('oCode').value.toUpperCase().replace(/[^A-Z0-9]/g, ''); };
+    $('oCode').onkeydown = (e) => { if (e.key === 'Enter') $('oJoin').click(); };
+    $('oCreate').onclick = async () => { AU.play('click'); keepName(); if (!(await canGoOnline())) return; joinRoom(newCode(), true); };
+    $('oJoin').onclick = async () => {
+      AU.play('click'); keepName(); const c = $('oCode').value.trim();
+      if (c.length < 4) { $('oMsg').textContent = t('pa_on_codehint'); return; }
+      if (!(await canGoOnline())) return; joinRoom(c, false);
+    };
+    $('oBack').onclick = () => { AU.play('click'); NET.view = null; closeModal(); };
+  }
+  function enterLobby() { if (!G || !G.online) { G = null; show('s-title'); } NET.view = 'lobby'; NET.lastHtml = ''; renderLobby(); crewUpd(); }
+  function toLobby() { G = null; lastResult = null; show('s-title'); NET.view = 'lobby'; NET.lastHtml = ''; renderLobby(); crewUpd(); }
+  function hostToLobby() { NET.ph = 'lobby'; NET.lastRes = null; NET.ros.forEach((r) => { r.w = 0; }); netSend('lobby', {}); sendRos(); toLobby(); }
+  const stationName = (v) => v === 'E' ? '♾️ ' + t('pa_endless') : t('pa_station', { n: v + 1 }) + ' · ' + t('pa_st' + (v + 1));
+  function maxStation() { let m = S.unlocked; for (const r of NET.ros) m = Math.max(m, r.ul || 1); return clamp(m, 1, LEVELS.length); }
+  function voteWinner() {   // most votes; a tie goes the conductor's way, then the earliest station
+    const tally = new Map(); for (const r of NET.ros) if (r.v !== null && r.v !== undefined && (r.v === 'E' || r.v < maxStation())) tally.set(r.v, (tally.get(r.v) || 0) + 1);
+    if (!tally.size) return 0;
+    const best = Math.max(...tally.values()), top = [...tally.keys()].filter((v) => tally.get(v) === best), hv = (rosOf(NET.host) || {}).v;
+    if (top.includes(hv)) return hv;
+    return top.sort((a, b) => (a === 'E' ? 99 : a) - (b === 'E' ? 99 : b))[0];
+  }
+  function renderLobby() {
+    if (NET.view !== 'lobby') return;
+    const host = isHost(), list = NET.ros.length ? NET.ros : [{ id: NET.me, n: myName(), c: 0, v: NET.vote, w: 0 }];
+    const me = list.find((r) => r.id === NET.me), waiting = me && me.w && NET.ph !== 'lobby';
+    const rows = list.map((r) => `<div class="prow"><i class="pdot" style="background:${PCOL[r.c % 4]}"></i><b dir="auto">${esc(r.id === NET.me ? myName() : r.n)}</b>${r.id === NET.host ? '<span>👑</span>' : ''}
+      <small>${r.id === NET.me ? t('pa_on_you') + ' · ' : ''}${t(r.w && NET.ph !== 'lobby' ? 'pa_on_r_wait' : r.id === NET.host ? 'pa_on_r_host' : 'pa_on_r_alch')}</small>
+      <span class="pv">${r.v === 'E' ? '♾️' : r.v !== null && r.v !== undefined ? '🚉 ' + (r.v + 1) : ''}</span></div>`).join('');
+    const mx = maxStation(), win = voteWinner(), opts = [];
+    for (let i = 0; i < mx; i++) opts.push(i); opts.push('E');
+    const votes = opts.map((v) => `<button class="vb${NET.vote === v ? ' on' : ''}${win === v ? ' win' : ''}" data-v="${v}"><span class="vn">${v === 'E' ? '♾️' : v + 1}</span><span class="vt">${v === 'E' ? t('pa_endless') : t('pa_st' + (v + 1))}</span><span class="dots">${list.filter((r) => r.v === v).map((r) => `<i style="background:${PCOL[r.c % 4]}"></i>`).join('')}</span></button>`).join('');
+    const enough = list.length >= 2;
+    const h = `<div class="panel lvcard online"><div class="kick">🌐 ${t('pa_on_coop')}</div>
+      <h2>${t('pa_on_room')} <span class="code" dir="ltr">${esc(NET.code)}</span></h2>
+      <button class="btn sec" id="oCopy">🔗 ${t('pa_on_copy')}</button>
+      <div class="lbl">${t('pa_on_crew')} (${list.length}/${MAXP})</div><div class="crewl">${rows}</div>
+      ${!NET.ready ? `<p class="kick">${t('pa_on_connecting')}</p>` : waiting ? `<p class="kick">🚂 ${t('pa_on_inprog')}</p>` : ''}
+      <div class="lbl">${t('pa_on_vote')}</div><small class="note">${t('pa_on_vote_d')}</small><div class="votes">${votes}</div>
+      ${host ? `<button class="btn" id="oStart" ${enough && NET.ready ? '' : 'disabled'}>🚂 ${t('pa_on_start', { s: stationName(win) })}</button>${enough ? '' : `<p class="kick">${t('pa_on_need')}</p>`}`
+        : `<p class="kick">${t('pa_on_waitstart')}</p>`}
+      <div class="row"><button class="btn sec" id="oLeave">🚪 ${t('pa_on_leave')}</button></div></div>`;
+    if (h === NET.lastHtml && !$('modal').hidden) return;   // nothing changed: keep the scroll position
+    NET.lastHtml = h; modal(h, null);
+    $('oCopy').onclick = () => copyLink($('oCopy'));
+    $('mbox').querySelectorAll('.vb').forEach((b) => b.onclick = () => {
+      AU.init(); AU.play('click'); const v = b.dataset.v === 'E' ? 'E' : +b.dataset.v;
+      NET.vote = NET.vote === v ? null : v; const r = rosOf(NET.me); if (r) r.v = NET.vote;
+      netSend('vote', { v: NET.vote }); sendRos(); renderLobby();
+    });
+    const st = $('oStart'); if (st) st.onclick = () => { AU.init(); AU.play('click'); const w = voteWinner(); hostStart(w === 'E' ? 'endless' : 'level', w === 'E' ? 0 : w); };
+    $('oLeave').onclick = () => { AU.play('click'); leaveRoom(); G = null; show('s-title'); };
+  }
+
+  // ---------- trips ----------
+  const sceneSnap = () => [scene.cur, scene.next, r2(scene.bT), r2(scene.tunnel), scene.switched ? 1 : 0];
+  function applyScene(sc) {
+    const [cur, next, bT, tun, sw] = sc; if (!A.BIOMES[cur] || !A.BIOMES[next]) return;
+    if (tun > 0 && scene.tunnel <= 0 && state === 'play') AU.play('tunnel');
+    if (cur !== scene.cur) { scene.cur = cur; scene.wx = []; }
+    scene.next = next; scene.bT = +bT || 0; scene.tunnel = +tun || 0; scene.switched = !!sw;
+  }
+  function startRun(mode, li, net) { closeModal(); hideScreens(); NET.view = null; NET.lastHtml = ''; lastResult = null; newRun(mode, li, net); state = 'play'; AU.init(); updHint(); crewUpd(); }
+  function hostStart(mode, li) {
+    if (!isHost()) return;
+    const now = Date.now(); NET.ros.forEach((r) => { r.w = 0; r.goT = now; });
+    const np = clamp(NET.ros.length, 1, MAXP);
+    NET.k++; NET.ph = 'play'; NET.ps = {}; NET.claims = {}; NET.lastRes = null; NET.solo = false;
+    startRun(mode, li, { np, hearts: 3 + S.up.hearts + (np - 1) });   // the conductor's armour, plus a heart per extra alchemist
+    sendGo(''); sendRos(); sendSnap();
+  }
+  function sendGo(to) {
+    if (!G || !G.online) return;
+    netSend('go', { k: NET.k, mode: G.mode, li: G.li, np: G.np, hearts: G.maxHearts, ids: inRun().map((r) => r.id), to: to || '', mid: to ? 1 : 0, sc: sceneSnap() });
+  }
+  function onGo(p) {
+    if (NET.host && p.id !== NET.host) return;
+    if (p.to ? p.to !== NET.me : !(p.ids || []).includes(NET.me)) return;
+    if (G && G.online && !G.over && NET.k === p.k) return;   // already on this trip
+    NET.host = p.id; NET.hostSeen = Date.now(); NET.k = p.k; NET.ph = 'play'; NET.claims = {}; NET.ps = {}; NET.solo = false; NET.lastRes = null;
+    startRun(p.mode === 'endless' ? 'endless' : 'level', clamp(p.li | 0, 0, LEVELS.length - 1), { np: clamp(p.np | 0, 1, MAXP), hearts: clamp(p.hearts | 0, 1, 12) });
+    if (p.sc) applyScene(p.sc);
+    if (p.mid) toast(t('pa_on_back'));
+  }
+  function refreshMe() { const s = pstat(NET.me); s.inst = G.inst; s.ch = Math.max(s.ch, G.stats.maxChain); }
+  function sendSnap() {
+    if (!G || !G.online) return;
+    refreshMe();
+    netSend('st', { k: NET.k,
+      o: G.orders.map((o) => [o.id, o.slot, o.items.map((i) => [i.el, i.tier, i.done ? 1 : 0, i.by || '']), o.reward, r2(o.pat), r2(o.max), OST[o.state], r2(o.anim), o.type, o.seed, o.legend ? 1 : 0, o.paid || 0, o.by || '']),
+      c: G.coins, h: G.hearts, mh: G.maxHearts, t: r2(G.t), sk: G.streak, sv: G.stats.served,
+      sg: G.seg ? [G.seg.k, r2(G.seg.t), G.seg.coins, G.seg.quota] : null, sc: sceneSnap(),
+      cr: inRun().map((r) => { const s = pstat(r.id); return [r.id, Math.round(s.inst), s.coins, s.bot, s.booms, s.ch]; }) });
+  }
+  function applySnap(p) {   // a guest mirrors the host's train
+    const prev = new Map(G.orders.map((o) => [o.id, o]));
+    G.orders = (p.o || []).map((a) => {
+      const [id, slot, items, reward, pat, max, sc, anim, type, seed, legend, paid, by] = a, st = OSTN[sc] || 'wait';
+      const o = { id, slot: clamp(slot | 0, 0, 2), reward, pat, max: max || 1, state: st, anim, type, seed, legend: !!legend, paid, by,
+        items: items.map(([el, tier, d, b], i) => { const cl = NET.claims[id + ':' + i]; if (d && cl) cl.seen = true; return { el, tier, done: !!d || !!cl, by: b || (cl ? NET.me : ''), pending: false }; }) };
+      o.mood = st === 'done' ? 'h' : st === 'leave' ? 'a' : pat / o.max < 0.3 ? 'a' : 'n';
+      const q = prev.get(id); if (q && q.state !== st && (st === 'done' || st === 'leave')) orderFx(o);
+      G.oid = Math.max(G.oid, id + 1);
+      return o;
+    });
+    G.coins = p.c; G.hearts = p.h; G.maxHearts = p.mh; G.t = p.t; G.streak = p.sk; G.stats.served = p.sv;
+    if (p.sg && G.seg) {
+      if (p.sg[0] !== G.seg.k) { G.cfg = coopCfg(endlessCfg(p.sg[0]), G.np); scene.fast = G.cfg.fast; }
+      G.seg.k = p.sg[0]; G.seg.t = p.sg[1]; G.seg.coins = p.sg[2]; G.seg.quota = p.sg[3];
+    }
+    if (p.sc) applyScene(p.sc);
+    NET.crew = p.cr || [];
+    for (const c of NET.crew) { const s = pstat(c[0]); if (c[0] !== NET.me) { s.inst = c[1]; s.ch = c[5]; } s.coins = c[2]; s.bot = c[3]; s.booms = c[4]; }
+  }
+  function orderFx(o) {   // an order finished on the host's train, as seen from a guest's seat
+    const r = LY.orders[o.slot]; if (!r) return;
+    if (o.state === 'done') {
+      floatText('+' + (o.paid || o.reward), r.x + r.w / 2, r.y + 4, '#ffd75e', 1.3, 8);
+      if (o.by && o.by !== NET.me) floatText(pname(o.by), r.x + r.w / 2, r.y + 30, pcolOf(o.by), 1.2);
+      for (let k = 0; k < 6; k++) fx.flights.push({ kind: 'coin', x0: r.x + 10 + Math.random() * 20, y0: r.y + 12, x1: LY.coinPos[0], y1: LY.coinPos[1], t: -k * 0.06, dur: 0.55 });
+      AU.play(o.legend ? 'legend' : 'served'); setTimeout(() => AU.play('coin'), 350);
+    } else { AU.play('fail'); floatText(t('pa_missed'), r.x + r.w / 2, r.y + 8, '#ff8a8a', 1.3); }
+  }
+  function guestOrders(dt) {   // between snapshots: keep the passengers moving smoothly
+    for (const o of G.orders) {
+      o.anim += dt;
+      if (o.state === 'enter' && o.anim > 0.45) o.state = 'wait';
+      if (o.state === 'wait' || o.state === 'enter') { o.pat = Math.max(0, o.pat - dt); o.mood = o.pat / o.max < 0.3 ? 'a' : 'n'; }
+    }
+    const now = Date.now();
+    for (const key in NET.claims) { const c = NET.claims[key]; if (now - c.t > 3500) { delete NET.claims[key]; if (!c.seen) refund(c); } }
+  }
+  function hostFill(p) {
+    if (!G || !G.online || G.over) return;
+    const o = G.orders.find((x) => x.id === p.oid), it = o && (o.state === 'wait' || o.state === 'enter') ? o.items[p.i | 0] : null;
+    if (!it || it.done || it.el !== p.el || it.tier !== p.tier) { netSend('rej', { to: p.id, oid: p.oid, i: p.i, k: NET.k }); return; }
+    it.done = true; it.by = p.id; o.by = p.id; checkOrder(o); NET.snapT = 0;
+  }
+  function refund(c) {   // somebody else served that passenger first: the bottle comes back
+    if (!G || G.over) return;
+    const ri = G.rack.findIndex((r) => !r);
+    if (ri >= 0) { G.rack[ri] = { el: c.el, tier: c.tier, arriving: false }; const rs = LY.rack[ri]; floatText(t('pa_on_late'), rs.x + rs.w / 2, rs.y - 2, '#ffb703', 1.4); }
+    else { addCoins(SELL[c.tier]); const P = LY.pot; floatText(t('pa_on_late') + ' +' + SELL[c.tier], P.x + P.w / 2, P.y + 8, '#ffb703', 1.4); }
+    AU.play('err');
+  }
+  function hostBoom(id) {
+    if (G.overT >= 0) return;
+    G.hearts--; G.streak = 0; G.stats.booms++; pstat(id).booms++;
+    netSend('fx', { f: 'boom', who: id, k: NET.k }); boomNote(id);
+    if (G.hearts <= 0) { G.overT = 1.6; G.overReason = 'blown'; }
+  }
+  function boomNote(id) { if (id !== NET.me) { toast(t('pa_on_boom', { n: pname(id) })); shake(3); AU.play('fail'); } }
+  function onlineFinish() {   // host: the trip is over for everyone
+    const lvl = G.mode === 'level', L = G.cfg, win = lvl && G.hearts > 0 && G.coins >= L.goal;
+    const stars = !win ? 0 : G.coins >= L.goal * 2 ? 3 : G.coins >= L.goal * 1.5 ? 2 : 1;
+    refreshMe();
+    const ids = [...new Set([...inRun().map((r) => r.id), ...Object.keys(NET.ps)])];
+    const pl = ids.map((id) => { const s = pstat(id), r = rosOf(id); return { id, n: pname(id), c: (r || s).c || 0, coins: s.coins, bot: s.bot, booms: s.booms, gone: !r }; });
+    const res = { online: 1, mode: G.mode, li: G.li, coins: G.coins, goal: lvl ? L.goal : 0, win, stars, blown: G.hearts <= 0, stations: G.seg ? G.seg.k : 0,
+      served: G.stats.served, chain: Math.max(0, ...ids.map((id) => pstat(id).ch)), pl };
+    NET.ph = 'result'; NET.lastRes = res;
+    netSend('end', { res, k: NET.k }); sendRos();
+    AU.play(win ? 'win' : 'lose');
+    setTimeout(() => { if (G && G.online && G.over) showResult(res); }, 650);
+  }
+  function gotEnd(res) {   // guest: the conductor says the trip is over
+    if (!G || !G.online || G.over || !res) return;
+    G.over = true; NET.ph = 'result'; NET.lastRes = res; crewUpd();
+    AU.play(res.win ? 'win' : 'lose');
+    setTimeout(() => { if (G && G.online && G.over) showResult(res); }, 650);
+  }
+  function onlineResult(res) {
+    lastResult = res; state = 'result'; NET.view = 'result'; updHint(); crewUpd();
+    const host = isHost(), lvl = res.mode === 'level', id = res.li + 1, last = id === LEVELS.length, next = res.win && lvl && !last;
+    const stars = lvl ? [0, 1, 2].map((k) => `<span class="bigstar ${k < res.stars ? 'on' : ''}" style="animation-delay:${0.15 + k * 0.25}s">${img(icon(k < res.stars ? 'star' : 'star0'), 5)}</span>`).join('') : '';
+    const rows = (res.pl || []).slice().sort((a, b) => b.coins - a.coins).map((p) => `<div class="prow"><i class="pdot" style="background:${PCOL[(p.c | 0) % 4]}"></i><b dir="auto">${esc(p.id === NET.me ? myName() : p.n)}</b>${p.id === NET.host ? '<span>👑</span>' : ''}
+      <small>${p.id === NET.me ? t('pa_on_you') : p.gone ? t('pa_on_gone') : ''}</small><span class="pv">🧪 ${p.bot | 0} · ${coinImg(2)} ${p.coins | 0}${p.booms ? ' · 💥' + p.booms : ''}</span></div>`).join('');
+    const title = lvl ? (res.win ? '🎉 ' + t('pa_win') : res.blown ? '💥 ' + t('pa_blown') : '🚉 ' + t('pa_lose')) : '🚉 ' + t('pa_e_over');
+    modal(`<div class="panel result online ${res.win ? 'win' : 'lose'}"><div class="kick">🌐 ${t('pa_on_coop')} · ${lvl ? t('pa_station', { n: id }) + ' — ' + t('pa_st' + id) : t('pa_endless')}</div>
+      <h2>${title}</h2>${lvl ? `<div class="stars">${stars}</div>` : ''}
+      <div class="big">${coinImg(4)} <b>${res.coins}</b>${lvl ? ` <small>/ ${res.goal}</small>` : ''}</div>
+      <div class="stats">${lvl ? '' : `<span>${t('pa_e_stations')}: <b>${res.stations}</b></span>`}<span>${t('pa_served')}: <b>${res.served}</b></span><span>${t('pa_chainmax')}: <b>×${res.chain}</b></span></div>
+      ${res.win && last ? `<p class="story">${t('pa_finale')}</p>` : ''}
+      <div class="crewl">${rows}</div>
+      ${host ? `<div class="row">${next ? `<button class="btn" id="rNext">🚂 ${t('pa_next_st')}</button>` : ''}<button class="btn ${next ? 'sec' : ''}" id="rRetry">🔄 ${t('pa_retry')}</button></div>
+        <div class="row"><button class="btn sec" id="rRoom">🚉 ${t('pa_on_toroom')}</button></div>`
+        : `<p class="kick">${t('pa_on_waithost')}</p><div class="row"><button class="btn sec" id="rLeave">🚪 ${t('pa_on_leave')}</button></div>`}
+      <small class="note">${t('pa_on_nosave')}</small></div>`, null);
+    const nx = $('rNext'); if (nx) nx.onclick = () => { AU.play('click'); hostStart('level', res.li + 1); };
+    const rt = $('rRetry'); if (rt) rt.onclick = () => { AU.play('click'); hostStart(res.mode, res.li); };
+    const rr = $('rRoom'); if (rr) rr.onclick = () => { AU.play('click'); hostToLobby(); };
+    const rl = $('rLeave'); if (rl) rl.onclick = () => { AU.play('click'); leaveRoom(); G = null; show('s-title'); };
+  }
+  function onlinePause() {
+    state = 'paused'; AU.play('click'); if (G) G.drag = null; NET.view = 'pause'; crewUpd();
+    modal(`<div class="panel pausebox"><h2>☰ ${t('pa_on_menu_t')}</h2><div class="kick">🌐 ${t('pa_on_room')} <span dir="ltr">${esc(NET.code)}</span> · ${t('pa_on_nopause')}</div>
+      <button class="btn" id="pResume">▶ ${t('pa_resume')}</button>
+      <button class="btn sec" id="pCopy">🔗 ${t('pa_on_copy')}</button>
+      <button class="btn sec" id="pHow">❓ ${t('pa_howto')}</button>
+      <div class="row"><button class="tb tg-snd" id="pSnd"></button><button class="tb tg-mus" id="pMus"></button><button class="tb tg-lang" id="pLang"></button></div>
+      ${isHost() ? `<div class="row"><button class="btn sec" id="pRoom">🚉 ${t('pa_on_toroom')}</button></div>` : ''}
+      <div class="row"><button class="btn sec" id="pLeave">🚪 ${t('pa_on_leave')}</button></div></div>`, resume);
+    refreshToggles(); updHint();
+    $('pResume').onclick = resume; $('pCopy').onclick = () => copyLink($('pCopy'));
+    $('pHow').onclick = () => { AU.play('click'); howReturn = 'pause'; $('modal').hidden = true; $('s-how').hidden = false; renderHow(); };
+    $('pSnd').onclick = toggleSnd; $('pMus').onclick = toggleMus; $('pLang').onclick = toggleLang;
+    const pr = $('pRoom'); if (pr) pr.onclick = () => { AU.play('click'); hostToLobby(); };
+    $('pLeave').onclick = () => { AU.play('click'); leaveRoom(); G = null; show('s-title'); };
+  }
+  function netTick(dt) {
+    if (!NET.on || !G) return;
+    if (!G.over) {
+      if (isHost()) { NET.snapT -= dt; if (NET.snapT <= 0) { NET.snapT = 0.1; sendSnap(); } }
+      else {
+        NET.meT -= dt;
+        if (NET.meT <= 0) { NET.meT = 0.5; const inst = Math.round(G.inst); if (inst !== NET.lastInst || G.stats.maxChain !== NET.lastCh) { NET.lastInst = inst; NET.lastCh = G.stats.maxChain; netSend('me', { inst, ch: G.stats.maxChain, k: NET.k }); } }
+      }
+    }
+    NET.crewT -= dt; if (NET.crewT <= 0) { NET.crewT = 0.25; crewUpd(); }
+  }
+  function crewUpd() {   // name tags with each alchemist's colour and cauldron heat, over the window
+    const el = $('crew'); if (!el) return;
+    if (!(G && G.online && NET.on && !G.over && (state === 'play' || state === 'paused'))) { if (!el.hidden) { el.hidden = true; el.dataset.h = ''; } return; }
+    const list = isHost() ? inRun().map((r) => [r.id, r.id === NET.me ? G.inst : pstat(r.id).inst]) : (NET.crew || []).map((c) => [c[0], c[0] === NET.me ? G.inst : c[1]]);
+    if (!list.some((c) => c[0] === NET.me)) list.unshift([NET.me, G.inst]);
+    const h = list.map(([id, inst]) => { const v = clamp(Math.round(inst), 0, 100), col = v < 50 ? '#5fd35f' : v < 75 ? '#ffd21f' : '#ff4d4d';
+      return `<div class="cm${id === NET.me ? ' me' : ''}"><i style="background:${pcolOf(id)}"></i><b dir="auto">${esc(id === NET.me ? t('pa_on_you') : pname(id))}</b>${id === NET.host ? '<span>👑</span>' : ''}<u><s style="width:${v}%;background:${col}"></s></u></div>`; }).join('');
+    if (el.dataset.h !== h) { el.dataset.h = h; el.innerHTML = h; }
+    const W = LY.win, s = LY.px / DPR; el.style.top = Math.round((W.y + 12) * s) + 'px'; el.style.left = Math.round((W.x + 10) * s) + 'px';
+    el.hidden = false;
+  }
+  // the host keeps the train running (at a slower tick) while its tab is in the background
+  setInterval(() => {
+    if (!document.hidden || !G || !G.online || !isHost() || G.over) return;
+    const now = performance.now(); let el = Math.min(2, (now - lastT) / 1000); lastT = now;
+    while (el > 0.001) { const d = Math.min(0.05, el); update(d); el -= d; }
+  }, 500);
+  addEventListener('pagehide', () => { if (NET.ch) netSend('bye', {}); });
+  document.addEventListener('mal3ab-outdated', () => { if (NET.on) leaveRoom(true); });
+  window.Mal3abShareLink = () => (NET.on && NET.code ? inviteLink(NET.code) : baseLink());
+  window.Mal3abPrepareInvite = async () => { if (!NET.on) { if (!(await canGoOnline())) return baseLink(); joinRoom(newCode(), true); } return inviteLink(NET.code); };
+  window.Mal3abLiveInfo = () => ({ players: NET.on ? Math.max(1, NET.ros.length) : 1, max: MAXP });
 
   // =====================================================================
   // test / automation API
@@ -1679,9 +2249,21 @@
     reset() { S = defSave(); save(); },
     cellCenterPx(x, y) { const c = cellCenter(x, y); return [c[0] * LY.px / DPR, c[1] * LY.px / DPR]; },
     slotCenterPx(i) { const s = LY.slots[i]; return [(s.x + s.w / 2) * LY.px / DPR, (s.y + s.h / 2) * LY.px / DPR]; },
+    online: {
+      get net() { return NET; }, isHost, isGuest, join: joinRoom, leave: leaveRoom, start: hostStart, toLobby: hostToLobby, menu: onlineMenu,
+      vote(v) { NET.vote = validVote(v); const r = rosOf(NET.me); if (r) r.v = NET.vote; netSend('vote', { v: NET.vote }); sendRos(); renderLobby(); },
+      boom: () => explode(), winner: voteWinner,
+    },
   };
 
   // boot
   wire(); resize(); show('s-title');
   requestAnimationFrame(frame);
+  // an invite link (?room=CODE) joins that train
+  const roomParam = new URLSearchParams(location.search).get('room');
+  if (roomParam) {
+    let tried = false;
+    const go = async () => { if (tried || NET.on) return; tried = true; if (!(await canGoOnline())) return; joinRoom(roomParam, false); };
+    if (window.Mal3abReady) go(); else { document.addEventListener('mal3abready', go, { once: true }); setTimeout(go, 4000); }
+  }
 })();

@@ -117,6 +117,36 @@
     max-width: calc(100vw - 24px); text-align: center; box-shadow: 0 4px 0 #05060c; animation: bob 1.2s ease-in-out infinite; }
   @keyframes bob { 50% { margin-top: -4px; } }
 
+  /* online co-op */
+  .menu .btn.net { background: #2bb3a0; color: #04201c; box-shadow: 0 4px 0 #136b5e, 0 6px 14px rgba(0, 0, 0, .35), inset 0 2px 0 rgba(255, 255, 255, .3); }
+  .online .code { color: #fff; letter-spacing: 3px; background: #0f1220; padding: 2px 8px; border-radius: 6px; }
+  .crewl { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .prow { display: flex; align-items: center; gap: 8px; background: #0f1220; border-radius: 6px; padding: 7px 10px; text-align: start; min-width: 0; }
+  .prow .pdot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #000; flex: none; }
+  .prow b { max-width: 42%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .prow small { color: var(--muted); flex: 1; min-width: 0; font-weight: 700; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .prow .pv { flex: none; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 3px; }
+  .votes { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; max-height: 230px; overflow-y: auto; }
+  .vb { display: flex; align-items: center; gap: 6px; background: #1c2138; color: var(--text); border: 2px solid #05060c; border-radius: 6px; padding: 6px 8px; font: inherit; font-weight: 700; font-size: 13px; cursor: pointer; text-align: start; min-width: 0; }
+  .vb .vn { width: 24px; height: 24px; flex: none; border-radius: 50%; background: #3a3f5a; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 12px; }
+  .vb .vt { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vb .dots { display: flex; gap: 2px; flex: none; } .vb .dots i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid #000; }
+  .vb.on { border-color: var(--accent); } .vb.win .vn { background: var(--accent); color: #1a1200; }
+  .codein, .nmin { flex: 1; min-width: 0; width: 100%; background: #0f1220; color: #fff; border: 2px solid #2c3458; border-radius: 8px; padding: 10px 12px; font: inherit; font-size: 16px; font-weight: 800; user-select: text; -webkit-user-select: text; }
+  .codein { letter-spacing: 3px; text-transform: uppercase; font-size: 18px; }
+  .omsg { color: #ff9a8a; font-weight: 700; min-height: 1em; font-size: 13.5px; }
+  .note { color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+  .result.online .crewl { margin-top: 2px; }
+  #crew { position: fixed; z-index: 14; pointer-events: none; display: flex; flex-direction: column; gap: 3px; direction: ltr; }
+  #crew .cm { display: flex; align-items: center; gap: 5px; background: rgba(10, 8, 16, .74); border-radius: 5px; padding: 2px 6px 2px 4px; font-size: 11.5px; font-weight: 800; color: #fff; max-width: 150px; }
+  #crew .cm.me { box-shadow: inset 0 0 0 1px rgba(255, 183, 3, .6); }
+  #crew .cm i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid #000; flex: none; }
+  #crew .cm b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 78px; }
+  #crew .cm u { display: inline-block; width: 26px; height: 4px; background: #2c3458; border-radius: 2px; overflow: hidden; flex: none; }
+  #crew .cm u s { display: block; height: 100%; }
+  #toasts { position: fixed; left: 50%; top: calc(26px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 60; display: flex; flex-direction: column; gap: 6px; align-items: center; pointer-events: none; width: max-content; max-width: calc(100vw - 32px); }
+  .toast { background: rgba(15, 18, 32, .94); color: #fff; border: 2px solid var(--accent); border-radius: 8px; padding: 7px 12px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 0 #05060c; animation: pop .3s; text-align: center; }
+
   @media (max-width: 520px) {
     .bar { padding: 8px; gap: 6px; } .tb { padding: 6px 9px; font-size: 13px; }
     .brand span.nm { display: none; }
@@ -126,12 +156,14 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="../../shared/i18n.js?v=1793401000"></script>
-<script src="../../shared/net.js?v=1793401000"></script>
+<script src="../../shared/i18n.js?v=1793403000"></script>
+<script src="../../shared/net.js?v=1793404000"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div id="hint" hidden></div>
+<div id="crew" hidden></div>
+<div id="toasts"></div>
 
 <section id="s-title" class="screen">
   <div class="bar">
@@ -150,6 +182,7 @@
     <div class="menu">
       <button class="btn big" id="bJourney"><span class="ic">🚂</span><span><b data-i18n="pa_journey"></b><small data-i18n="pa_journey_d"></small></span></button>
       <button class="btn big alt" id="bEndless"><span class="ic">♾️</span><span><b data-i18n="pa_endless"></b><small data-i18n="pa_endless_d"></small></span></button>
+      <button class="btn big net" id="bOnline"><span class="ic">🌐</span><span><b data-i18n="pa_on_coop"></b><small data-i18n="pa_on_menu_d"></small></span></button>
       <div class="row2"><button class="btn sec" id="bShop">🛠 <span data-i18n="pa_upgrades"></span></button><button class="btn sec" id="bHow">❓ <span data-i18n="pa_howto"></span></button></div>
     </div>
     <div class="foot">
@@ -177,9 +210,9 @@
 
 <div id="modal" class="modal" hidden><div class="box" id="mbox"></div></div>
 
-<script src="art.js?v=1793401000"></script>
-<script src="game.js?v=1793401000"></script>
-<script src="../../shared/cloud.js?v=1793401000" data-game="pixel-alchemist" data-keys="pixel-alchemist-*"></script>
+<script src="art.js?v=1793405000"></script>
+<script src="game.js?v=1793405000"></script>
+<script src="../../shared/cloud.js?v=1793404000" data-game="pixel-alchemist" data-keys="pixel-alchemist-*"></script>
 <script>
   document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
 </script>
