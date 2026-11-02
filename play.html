@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="shared/style.css?v=1793401000">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="shared/i18n.js?v=1793401000"></script>
-<script src="shared/net.js?v=1793401000"></script>
+<script src="shared/net.js?v=1793404000"></script>
 <script src="shared/games.js?v=1793401000"></script>
 </head>
 <body>
@@ -284,7 +284,9 @@ async function joinRoom(code) {
 }
 // ---------- friends + fast connect ----------
 const fmodal = document.getElementById('fmodal');
-const FAST = ['chess', 'pitch', 'connect4', 'tictactoe', 'turfrush', 'voxel', 'voxelstrike', 'bricks'];
+const FAST_OWN = ['chess', 'pitch', 'connect4', 'tictactoe', 'turfrush', 'voxel', 'voxelstrike', 'bricks'];   // these have their own invite flow below
+// every game that can be played online with a friend (the rest open the game, make a room there and send the invite from it)
+const FAST = [...FAST_OWN, ...(window.MAL3AB_GAMES || []).filter(g => !FAST_OWN.includes(g.key) && g.modes.some(m => ['online', 'coop', 'race'].includes(m))).map(g => g.key)];
 let fTimer = null, waiting = null;
 function openFriends() { fmodal.hidden = false; drawFriends(); clearInterval(fTimer); fTimer = setInterval(() => { if (!fmodal.hidden && !waiting) drawFriends(); else if (fmodal.hidden) clearInterval(fTimer); }, 10000); }
 async function drawFriends() {
@@ -317,6 +319,11 @@ async function fastConnect(id, name) {
   const game = document.getElementById('g-' + id).value, m = document.getElementById('fmsg');
   try {
     let voxel = null;
+    if (!FAST_OWN.includes(game)) {
+      const g = (window.MAL3AB_GAMES || []).find(x => x.key === game); if (!g) return;
+      location.href = `${g.href}?m3invite=${encodeURIComponent(id)}&m3name=${encodeURIComponent(name)}&m3game=${encodeURIComponent(game)}`;
+      return;
+    }
     if (game === 'voxel') {
       const vd = await voxelData();
       if (!vd.code || !vd.worlds.length) { m.textContent = t('voxelFirst'); return; }

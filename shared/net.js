@@ -144,6 +144,7 @@
   const ROOT = () => location.href.replace(/games\/.*$/, '').replace(/[^/]*$/, '');
   window.Invites = {
     gameUrl(game, code, p, name) {
+      if (Invites.isLink(code)) return ROOT() + code;   // games with their own rooms: the inviter's room link (relative to the site)
       if (game === 'turfrush') return `${ROOT()}games/turf-rush.html?join=${code}`;
       if (game === 'pitch') return `${ROOT()}games/pitch-legends/index.html?pvp=${code}`;
       if (game === 'voxelstrike') return `${ROOT()}games/voxel-strike/index.html?room=${code}`;
@@ -151,6 +152,7 @@
       if (game === 'voxel') return `${ROOT()}games/voxel/index.html?joinFriend=${encodeURIComponent(code)}&fname=${encodeURIComponent(name || '')}`;
       return `${ROOT()}games/${game}.html?code=${code}&p=${p}`;
     },
+    isLink: (code) => /^games\/[a-z0-9\/-]+\.html\?[\w=&%.-]+$/i.test(String(code || '')),
     _shown: new Set(),
     listen() {
       if (Invites._timer) return;
@@ -164,6 +166,7 @@
       const el = document.createElement('div');
       el.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:99999;background:#1a1f35;color:#eef0ff;border:2px solid #ffb703;border-radius:14px;padding:14px 16px;font:700 15px Segoe UI,Tahoma,Arial,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.5);max-width:320px';
       const names = { chess: t('chess'), connect4: t('connect4'), tictactoe: t('tictactoe'), turfrush: t('turfrush'), voxel: t('voxel'), pitch: t('pitch'), voxelstrike: t('voxelstrike'), bricks: t('bricks') };
+      if (!names[inv.game] && /^[a-z0-9]+$/.test(inv.game || '') && t(inv.game) !== inv.game) names[inv.game] = t(inv.game);
       el.innerHTML = `⚡ <b style="color:#ffb703">${inv.from}</b> ${t('invitesYou')} <b>${names[inv.game] || inv.game}</b>
         <div style="display:flex;gap:8px;margin-top:10px">
           <button style="flex:1;background:#80ed99;color:#062b12;border:0;border-radius:8px;padding:8px;font-weight:700;cursor:pointer">✅ ${t('accept')}</button>
@@ -173,7 +176,7 @@
         try {
           if (!(await Ver.ok())) { el.remove(); return; }
           await rpc('respond_invite', { p_id: inv.id, p_accept: true });
-          if (!['turfrush', 'voxel', 'pitch', 'voxelstrike', 'bricks'].includes(inv.game)) await Net.join(inv.code);   // these games use their own rooms
+          if (!Invites.isLink(inv.code) && !['turfrush', 'voxel', 'pitch', 'voxelstrike', 'bricks'].includes(inv.game)) await Net.join(inv.code);   // these games use their own rooms
           location.href = Invites.gameUrl(inv.game, inv.code, 2, inv.from);
         } catch (e) { el.textContent = e.message; setTimeout(() => el.remove(), 3000); }
       };
@@ -370,6 +373,101 @@
         const emit = () => cb(Object.values(c.presenceState()).map(a => a[0]).filter(r => r && r.link));
         c.on('presence', { event: 'sync' }, emit).subscribe(); return () => { try { sb.removeChannel(c); } catch (e) {} }; }
     };
+  })();
+  // ⏪ continued games: left an online room by accident (closed the tab / app) → 120 s to jump back in;
+  // left on purpose (🏠, leaving the room) or already knocked out (Mal3abLiveInfo().out) → 60 s. Every Mal3ab page shows the offer.
+  (function rejoin() {
+    const LS = 'mal3ab-rejoin', ROOM = /[?&](room|code|join|joinFriend)=/, onGame = /\/games\//.test(location.pathname);
+    const read = () => { try { return JSON.parse(localStorage.getItem(LS) || 'null'); } catch (e) { return null; } };
+    const write = (v) => { try { v ? localStorage.setItem(LS, JSON.stringify(v)) : localStorage.removeItem(LS); } catch (e) {} };
+    const limit = (r) => (r.meant || r.out ? 60 : 120) * 1000;
+    // coming back through the offer: give the game its old per-room ids (sessionStorage) so it takes back the same seat
+    if (/[?&]m3rejoin=1/.test(location.search)) {
+      const r = read();
+      if (r && r.ss && r.path === location.pathname) for (const k in r.ss) { try { sessionStorage.setItem(k, r.ss[k]); } catch (e) {} }
+      write(null);
+      try { history.replaceState(history.state, '', location.href.replace(/([?&])m3rejoin=1&?/, '$1').replace(/[?&]$/, '')); } catch (e) {}
+    }
+    let cur = null, meant = false;
+    if (onGame) {
+      const snap = () => { const o = {}; let n = 0; try { for (let i = 0; i < sessionStorage.length; i++) { const k = sessionStorage.key(i), v = sessionStorage.getItem(k); if (v && v.length < 400 && (n += v.length) < 6000) o[k] = v; } } catch (e) {} return o; };
+      const tick = () => {
+        let link = ''; try { const r = window.Mal3abShareLink && window.Mal3abShareLink(); link = typeof r === 'string' ? r : (r && r.link) || ''; } catch (e) {}
+        let info = {}; try { info = (window.Mal3abLiveInfo && window.Mal3abLiveInfo()) || {}; } catch (e) {}
+        if (link && ROOM.test(link)) {
+          cur = { link, path: location.pathname, title: (document.title || '').replace(/\s*[—|-]\s*(Mal3ab|ملعب).*$/i, '').trim(), out: !!info.out, ss: snap(), t: Date.now() };
+          write(cur); meant = false;
+        } else if (cur) { write(Object.assign({}, cur, { left: Date.now(), meant: true })); cur = null; }   // left the room but stayed on the page
+      };
+      setTimeout(tick, 2500); setInterval(tick, 2500);
+      // a click on 🏠 / back to the hub = leaving on purpose
+      document.addEventListener('click', (e) => { const a = e.target && e.target.closest && e.target.closest('[data-mal3ab-home],[data-m3home],a[href*="play.html"],a[href*="index.html"]'); if (a) meant = true; }, true);
+      addEventListener('pagehide', () => { if (cur) write(Object.assign({}, cur, { left: Date.now(), meant: meant || cur.out })); });
+    }
+    // the offer
+    let box = null, timer = 0;
+    const L = (ar, en) => (window.getLang && getLang() === 'ar' ? ar : en);
+    function show() {
+      const r = read(); clearTimeout(timer);
+      const left = r && r.link ? (r.left || (Date.now() - r.t > 9000 ? r.t : 0)) : 0;      // no "left" stamp but silent for 9 s = the app was killed
+      const here = cur && r && cur.link === r.link;
+      const remain = left ? limit(r) - (Date.now() - left) : 0;
+      if (!r || !left || here || remain <= 0) { if (box) box.remove(); box = null; if (r && left && remain <= 0) write(null); if (r && !left) timer = setTimeout(show, 3000); return; }
+      if (!box) {
+        box = document.createElement('div'); box.className = 'm3rejoin';
+        const css = document.createElement('style');
+        css.textContent = `.m3rejoin{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:99999;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;
+          background:rgba(15,18,32,.96);color:#eef0ff;border:2px solid #ffb703;border-radius:16px;padding:10px 14px;font:600 15px/1.3 system-ui,'Segoe UI',Tahoma,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:calc(100vw - 24px)}
+          .m3rejoin b{color:#ffb703;unicode-bidi:plaintext}.m3rejoin a,.m3rejoin button{font:700 14px/1 inherit;border-radius:10px;padding:9px 14px;cursor:pointer;border:0;text-decoration:none}
+          .m3rejoin a{background:#ffb703;color:#111}.m3rejoin button{background:rgba(255,255,255,.12);color:#eef0ff}.m3rejoin .s{font-variant-numeric:tabular-nums;opacity:.8}`;
+        box.appendChild(css); box.appendChild(document.createElement('span'));
+        const go = document.createElement('a'); go.href = r.link + (r.link.includes('?') ? '&' : '?') + 'm3rejoin=1'; box.appendChild(go);
+        const x = document.createElement('button'); x.type = 'button'; x.textContent = '✕'; x.onclick = () => { write(null); box.remove(); box = null; }; box.appendChild(x);
+        (document.body || document.documentElement).appendChild(box);
+      }
+      const s = Math.ceil(remain / 1000);
+      box.children[1].innerHTML = L('⏪ كنت بتلعب <b></b> — ترجع؟ ', '⏪ You were playing <b></b> — jump back in? ') + `<span class="s">${s}${L(' ث', 's')}</span>`;
+      box.children[1].querySelector('b').textContent = r.title || L('لعبة أونلاين', 'an online game');
+      box.children[2].textContent = L('▶ ارجع', '▶ Rejoin');
+      timer = setTimeout(show, 1000);
+    }
+    const start = () => setTimeout(show, 600);
+    document.body ? start() : document.addEventListener('DOMContentLoaded', start);
+    addEventListener('storage', (e) => { if (e.key === LS) show(); });
+    window.Mal3abRejoin = { clear() { write(null); cur = null; if (box) { box.remove(); box = null; } }, peek: read };
+  })();
+  // ⚡ fast connect from the hub for games with their own rooms: the hub opens the game with ?m3invite=<friend>,
+  // the game makes its room (Mal3abPrepareInvite) and the invite carries that room's link
+  (function fastInvite() {
+    const q = new URLSearchParams(location.search), to = q.get('m3invite'); if (!to) return;
+    const fname = q.get('m3name') || '', game = q.get('m3game') || '';
+    try { const u = new URL(location.href); ['m3invite', 'm3name', 'm3game'].forEach(k => u.searchParams.delete(k)); history.replaceState(history.state, '', u.pathname + u.search + u.hash); } catch (e) {}
+    const L = (ar, en) => (window.getLang && getLang() === 'ar' ? ar : en);
+    let el = null;
+    const say = (html, ms) => {
+      if (!el) { el = document.createElement('div'); el.style.cssText = 'position:fixed;left:50%;top:max(12px,env(safe-area-inset-top));transform:translateX(-50%);z-index:99999;background:rgba(15,18,32,.96);color:#eef0ff;border:2px solid #ffb703;border-radius:14px;padding:10px 14px;font:600 15px/1.35 system-ui,Segoe UI,Tahoma,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:calc(100vw - 24px);display:flex;gap:10px;align-items:center'; (document.body || document.documentElement).appendChild(el); }
+      el.innerHTML = html; if (ms) setTimeout(() => { if (el) { el.remove(); el = null; } }, ms);
+    };
+    const nm = () => `<b style="color:#ffb703;unicode-bidi:plaintext">${String(fname).replace(/[&<>"]/g, '')}</b>`;
+    const wait = (ok, ms) => new Promise(res => { const t0 = Date.now(); (function w() { if (ok()) return res(true); if (Date.now() - t0 > ms) return res(false); setTimeout(w, 300); })(); });
+    (async () => {
+      say(L('⏳ بيجهّز الأوضة…', '⏳ Making the room…'));
+      await wait(() => document.readyState === 'complete' && window.Auth && Auth.token && typeof window.Mal3abPrepareInvite === 'function', 15000);
+      await new Promise(r => setTimeout(r, 900));      // let the game finish starting
+      let link = ''; try { const r = await window.Mal3abPrepareInvite(); link = typeof r === 'string' ? r : (r && r.link) || ''; } catch (e) {}
+      const rel = link.replace(/^.*?\/(games\/)/, '$1');
+      if (!Invites.isLink(rel)) { say(L('مقدرناش نعمل أوضة — اعزمه من جوه اللعبة', "Couldn't make a room — invite them from inside the game"), 5000); return; }
+      let id; try { id = await Friends.invite(to, game, rel); } catch (e) { say(String(e.message || e), 5000); return; }
+      let done = false;
+      say(`⏳ ${L('مستني', 'Waiting for')} ${nm()}${L(' يقبل…', ' to accept…')}<button style="background:rgba(255,255,255,.12);color:#eef0ff;border:0;border-radius:9px;padding:6px 10px;cursor:pointer;font:inherit">✕</button>`);
+      el.querySelector('button').onclick = () => { done = true; if (el) { el.remove(); el = null; } };
+      while (!done) {
+        await new Promise(r => setTimeout(r, 2500)); if (done) break;
+        let st = ''; try { st = await Friends.inviteStatus(id); } catch (e) {}
+        if (st === 'accepted') { done = true; say(`✅ ${nm()} ${L('قبل — جاي دلوقتي', 'accepted — on the way')}`, 4000); }
+        else if (st === 'declined') { done = true; say(`✖ ${nm()} ${L('رفض العزومة', 'declined')}`, 5000); }
+      }
+    })();
   })();
   // Channel Connect (friend chat) on every page that has net.js
   if (NET_SRC && !window.Chat && !document.querySelector('script[data-m3chat]')) {
