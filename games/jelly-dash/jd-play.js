@@ -34,7 +34,7 @@ function makePlan(n, len, r) {
 // humans first (their colour if free), bots fill the rest of the field
 function buildField(humans, total, diff, r) {
   const used = new Set(), field = [];
-  for (const h of humans) { let c = h.c | 0; if (used.has(c)) { c = 0; while (used.has(c) && c < COLORS.length) c++; } used.add(c); field.push({ id: h.id, n: h.n, c, k: h.k | 0, b: 0, sd: 0, out: -1 }); }
+  for (const h of humans) { let c = (h.c | 0) % 12; while (used.has(c) && used.size < 12) c = (c + 1) % 12; used.add(c); field.push({ id: h.id, n: h.n, c, k: h.k | 0, b: 0, sd: 0, out: -1 }); }
   const free = shuffle(COLORS.map((_, i) => i).filter(i => !used.has(i)), r), names = shuffle([...Array(14).keys()], r);
   for (let i = 0; field.length < total; i++) field.push({ id: 'b' + i + '_' + ((r() * 1e6) | 0).toString(36), n: '~' + names[i % 14], c: free[i % free.length] | 0, k: (r() * COSTUMES.length) | 0, b: 1, sd: 0, out: -1, lv: diff });
   return field;
@@ -319,7 +319,7 @@ function remoteStep(j, dt) {
   for (let i = b.length - 1; i >= 0; i--) if (b[i].ts <= rt) { a = b[i]; c = b[i + 1] || null; break; }
   let x, y, z, yaw;
   if (c) { const k = clamp((rt - a.ts) / Math.max(0.001, c.ts - a.ts), 0, 1); x = lerp(a.x, c.x, k); y = lerp(a.y, c.y, k); z = lerp(a.z, c.z, k); yaw = a.yaw + angDiff(a.yaw, c.yaw) * k; }
-  else { const e = clamp(rt - a.ts, 0, 0.25); x = a.x + a.vx * e; y = a.y + a.vy * e - 13 * e * e; z = a.z + a.vz * e; yaw = a.yaw; }
+  else { const e = clamp(rt - a.ts, 0, 0.25); x = a.x + a.vx * e; y = a.g ? a.y : a.y + a.vy * e - 13 * e * e; z = a.z + a.vz * e; yaw = a.yaw; }
   const was = j.grounded;
   if (Math.hypot(x - j.pos.x, z - j.pos.z) > 6) j.pos.set(x, y, z);
   else j.pos.set(lerp(j.pos.x, x, damp(25, dt)), lerp(j.pos.y, y, damp(25, dt)), lerp(j.pos.z, z, damp(25, dt)));

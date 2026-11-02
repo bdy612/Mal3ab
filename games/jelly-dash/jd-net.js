@@ -181,8 +181,9 @@ NET.endButtons = (add) => {
 NET.renderLobby = () => {
   if ($('lobby').hidden) return;
   setText($('lbCode'), NET.code || '----');
-  const list = NET.code ? everyone() : [], host = NET.host;
-  $('lbList').innerHTML = list.map(p => `<div class="pl"><i style="background:${hexs(COLORS[p.c % 12])}"></i><span>${esc(p.n)}</span>${p.id === host ? '👑' : ''}${p.id === NET.me ? `<small>${esc(t('jd_youTag'))}</small>` : ''}</div>`).join('')
+  const list = NET.code ? everyone() : [], host = NET.host, used = new Set(), colOf = {};
+  for (const q of list) { let c = q.c % 12; while (used.has(c) && used.size < 12) c = (c + 1) % 12; used.add(c); colOf[q.id] = c; }   // same colours the show will give out
+  $('lbList').innerHTML = list.map(p => `<div class="pl"><i style="background:${hexs(COLORS[colOf[p.id]])}"></i><span>${esc(p.n)}</span>${p.id === host ? '👑' : ''}${p.id === NET.me ? `<small>${esc(t('jd_youTag'))}</small>` : ''}</div>`).join('')
     + (list.length ? `<div class="pl bot"><i style="background:linear-gradient(135deg,#ff5d8f,#4cc9f0)"></i><span>${esc(t('jd_botsFill', { n: Math.max(0, Math.max(list.length, NET.cfg.field) - list.length) }))}</span>🤖</div>` : '');
   const H = NET.isHost(), c = NET.cfg, n = list.length;
   if (H) {
