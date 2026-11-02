@@ -341,10 +341,12 @@ CS.botThink = (G, s) => { const p = G.seats[s], B = BRAIN[p.kind === 'bot' ? p.b
 const KEY = 'color-storm-';
 CS.load = (k, d) => { try { const v = JSON.parse(localStorage.getItem(KEY + k)); return v == null ? d : v; } catch (e) { return d; } };
 CS.save = (k, v) => { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch (e) {} };
-const ST0 = { rounds: 0, rwins: 0, matches: 0, mwins: 0, cards: 0, best: 0, catches: 0, caught: 0, storms: 0, streak: 0, bestStreak: 0, hard: 0 };
+const ST0 = { rounds: 0, rwins: 0, matches: 0, mwins: 0, cards: 0, best: 0, catches: 0, caught: 0, storms: 0, streak: 0, bestStreak: 0, hard: 0, botWins: 0 };
 CS.stats = Object.assign({}, ST0, CS.load('stats', {}));
 CS.stat = (k, d) => { CS.stats[k] = (CS.stats[k] || 0) + (d == null ? 1 : d); CS.save('stats', CS.stats); };
 CS.statMax = (k, v) => { if (v > (CS.stats[k] || 0)) { CS.stats[k] = v; CS.save('stats', CS.stats); } };
+// 🏆 Best tag on the site: matches won against bots (online wins are not counted)
+CS.reportBest = () => { try { if (window.Mal3abBest) Mal3abBest('colorstorm', CS.stats.botWins || 0); } catch (e) {} };
 CS.resetStats = () => { CS.stats = Object.assign({}, ST0); CS.save('stats', CS.stats); };
 
 // ---------------------------------------------------------------- sound (WebAudio synth)

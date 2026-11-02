@@ -31,7 +31,7 @@
 
   /* opponents */
   #opps { display: flex; justify-content: center; align-items: stretch; gap: 6px; padding: 4px 8px 2px; position: relative; min-height: 104px; flex-wrap: nowrap; }
-  #opps .flow { position: absolute; left: 10%; right: 10%; top: 50%; height: 2px; background: repeating-linear-gradient(90deg, rgba(255, 183, 3, .35) 0 8px, transparent 8px 18px); background-size: 36px 2px; animation: flow 1.2s linear infinite; z-index: -1; }
+  #opps .flow { position: absolute; left: 10%; right: 10%; bottom: -3px; height: 2px; background: repeating-linear-gradient(90deg, rgba(255, 183, 3, .35) 0 8px, transparent 8px 18px); background-size: 36px 2px; animation: flow 1.2s linear infinite; z-index: -1; }
   #opps .flow.rev { animation-direction: reverse; }
   @keyframes flow { to { background-position: 36px 0; } }
   .opp { position: relative; flex: 1 1 0; max-width: 128px; min-width: 0; background: rgba(26, 31, 53, .82); border: 2px solid rgba(255, 255, 255, .07); border-radius: 16px; padding: 6px 4px 5px; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: border-color .2s, box-shadow .2s, transform .2s; }
@@ -90,9 +90,9 @@
   #lastBtn.done { background: var(--ok); box-shadow: 0 3px 0 #2f8a4a; }
   @keyframes hot { to { transform: scale(1.08); box-shadow: 0 0 22px #ffb703, 0 3px 0 #a35a00; } }
   #drawBtn, #passBtn { white-space: nowrap; }
-  #hand { position: relative; height: calc(var(--cw) * 1.48 + 34px); overflow: hidden; touch-action: none; cursor: grab; }
+  #hand { position: relative; height: calc(var(--cw) * 1.48 + 46px); overflow: hidden; touch-action: none; cursor: grab; }
   #hand .track { position: absolute; left: 0; top: 0; height: 100%; }
-  #hand .card { position: absolute; bottom: 8px; transform-origin: 50% 140%; transition: transform .18s, filter .18s, left .25s; }
+  #hand .card { position: absolute; bottom: 22px; transform-origin: 50% 140%; transition: transform .18s, filter .18s, left .25s; }
   #hand .card.ok { cursor: pointer; }
   #hand .card.no { filter: brightness(.55) saturate(.6); }
   #hand .card.sel { outline: 3px solid #fff; outline-offset: 2px; }
@@ -101,7 +101,7 @@
   #hand .card.new::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 3px var(--accent), 0 0 16px var(--accent); animation: fadeOut 1.6s forwards; }
   @keyframes fadeOut { to { opacity: 0; } }
   #hand.hidden .track { filter: blur(14px) brightness(.4); }
-  #handHint { position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; font-size: 11px; color: var(--muted); pointer-events: none; }
+  #handHint { position: absolute; left: 0; right: 0; bottom: 2px; z-index: 70; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 8px; text-align: center; font-size: 11px; color: var(--muted); pointer-events: none; }
   #scrollL, #scrollR { position: absolute; top: 40%; z-index: 60; width: 26px; height: 46px; border: 0; border-radius: 10px; background: rgba(15, 18, 32, .75); color: var(--text); font-size: 16px; cursor: pointer; }
   #scrollL { left: 4px; } #scrollR { right: 4px; }
 
@@ -190,7 +190,8 @@
 
   @media (min-width: 700px) and (min-height: 620px) { #opps { gap: 10px; min-height: 118px; } .opp { max-width: 150px; } .opp .av { width: 44px; height: 44px; } .opp .nm { font-size: 13.5px; } #top .logo { font-size: 20px; } }
   @media (max-height: 560px) { #opps { min-height: 84px; } .opp .fan { display: none; } .opp .av { width: 30px; height: 30px; font-size: 14px; } .hero .fanlogo { display: none; } }
-  @media (max-width: 380px) { #top .logo small { display: none; } #bar .mi small { display: none; } }
+  @media (max-width: 480px) { #top .logo small { display: none; } }
+  @media (max-width: 380px) { #bar .mi small { display: none; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="../../shared/i18n.js?v=1793407000"></script>

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Jelly Dash — Mal3ab</title>
+<style>
+  :root { --bg: #0f1220; --card: #1a1f35; --card2: #232a48; --text: #eef0ff; --muted: #9aa3c7; --accent: #ffb703; --red: #ff5d73; --ok: #7be495; --pink: #ff6fb1; --sky: #5cc8ff; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0f1220; color: var(--text); font-family: 'Segoe UI', Tahoma, Arial, sans-serif; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  [hidden] { display: none !important; }
+  #c { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; touch-action: none; outline: none; }
+  button { font-family: inherit; }
+  .btn { background: var(--accent); color: #1a1200; border: 0; border-radius: 14px; padding: 11px 18px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 #b37f00; transition: transform .08s, filter .15s; }
+  .btn:hover { filter: brightness(1.07); } .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #b37f00; }
+  .btn.sec { background: var(--card2); color: var(--text); box-shadow: 0 4px 0 #12162a; } .btn.sec:active { box-shadow: 0 2px 0 #12162a; }
+  .btn.pink { background: var(--pink); color: #2a0016; box-shadow: 0 4px 0 #b3407a; }
+  .btn.small { padding: 7px 12px; font-size: 14px; border-radius: 11px; } .btn[disabled] { opacity: .45; cursor: default; filter: none; }
+  .ib { background: rgba(15, 18, 32, .82); color: var(--text); border: 2px solid rgba(255, 255, 255, .12); border-radius: 12px; height: 40px; min-width: 40px; padding: 0 10px; font-size: 17px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+  .ib:hover { border-color: var(--accent); }
+  select, input { font-family: inherit; font-size: 15px; background: var(--card2); color: var(--text); border: 2px solid transparent; border-radius: 10px; padding: 8px 10px; }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  input.code { text-transform: uppercase; letter-spacing: 4px; text-align: center; font-weight: 800; width: 130px; }
+
+  #topbar { position: fixed; top: max(10px, env(safe-area-inset-top)); left: max(10px, env(safe-area-inset-left)); right: max(10px, env(safe-area-inset-right)); display: flex; gap: 8px; z-index: 40; pointer-events: none; }
+  #topbar > * { pointer-events: auto; } #topbar .sp { flex: 1; pointer-events: none; }
+
+  .screen { position: fixed; inset: 0; display: flex; align-items: flex-start; justify-content: center; padding: 64px 16px 18px; z-index: 30; overflow: auto; }
+  .screen > .wrap, .screen > .panel { margin: auto; }
+  .dim { background: rgba(10, 12, 26, .58); }
+  .wrap { width: min(1040px, 100%); display: flex; flex-direction: column; gap: 16px; }
+  .logo { font-weight: 900; font-size: clamp(40px, 8vw, 78px); line-height: .95; letter-spacing: 1px; margin: 0; text-shadow: 0 5px 0 rgba(60, 10, 60, .35); }
+  .logo span { display: inline-block; animation: bob 2.2s ease-in-out infinite; }
+  .logo .l1 { color: #ff6fb1; } .logo .l2 { color: #ffd23f; animation-delay: .15s; } .logo .l3 { color: #5cc8ff; animation-delay: .3s; } .logo .l4 { color: #7be495; animation-delay: .45s; }
+  @keyframes bob { 0%, 100% { transform: translateY(0) scale(1, 1); } 45% { transform: translateY(-6px) scale(.97, 1.04); } 60% { transform: translateY(0) scale(1.05, .95); } }
+  .tag { color: #fff; font-size: 16px; margin-top: 8px; text-shadow: 0 2px 4px rgba(0, 0, 0, .6); max-width: 560px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .card { background: rgba(26, 31, 53, .92); border: 2px solid rgba(255, 255, 255, .07); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 9px; backdrop-filter: blur(4px); }
+  .card .ic { font-size: 34px; line-height: 1; } .card h2 { margin: 0; font-size: 21px; } .card p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; flex: 1; }
+  .card .row select { flex: 1; min-width: 0; padding: 6px 6px; font-size: 13px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; } .row.c { justify-content: center; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .crownbar { display: inline-flex; gap: 10px; align-items: center; background: rgba(15, 18, 32, .78); padding: 8px 14px; border-radius: 14px; font-weight: 800; }
+  .crownbar b { color: var(--accent); }
+
+  .panel { background: rgba(26, 31, 53, .97); border: 2px solid rgba(255, 255, 255, .08); border-radius: 22px; padding: 20px; width: min(460px, 100%); display: flex; flex-direction: column; gap: 11px; box-shadow: 0 24px 70px rgba(0, 0, 0, .45); }
+  .panel.wide { width: min(640px, 100%); }
+  .panel h2 { margin: 0; color: var(--accent); font-size: 25px; text-align: center; } .panel p { margin: 0; color: var(--muted); line-height: 1.55; }
+  .panel label { display: flex; flex-direction: column; gap: 4px; color: var(--muted); font-size: 14px; }
+  .panel .msg { color: var(--red); min-height: 18px; font-size: 13px; text-align: center; }
+  .sw { width: 38px; height: 38px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, .2); cursor: pointer; padding: 0; background: var(--c); box-shadow: inset 0 -6px 0 rgba(0, 0, 0, .15), inset 0 5px 6px rgba(255, 255, 255, .4); }
+  .sw.on { border-color: #fff; box-shadow: 0 0 0 3px var(--accent), inset 0 -6px 0 rgba(0, 0, 0, .15); }
+  .cosg { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+  .cos { background: var(--card2); border: 2px solid transparent; border-radius: 14px; padding: 8px 4px; cursor: pointer; color: var(--text); display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; }
+  .cos b { font-size: 24px; } .cos small { color: var(--muted); font-weight: 600; font-size: 10.5px; text-align: center; line-height: 1.3; }
+  .cos.on { border-color: var(--accent); } .cos.lock { opacity: .55; cursor: default; }
+  #custom { align-items: flex-end; } #custom .panel { margin: auto auto 0; }
+  .help { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; text-align: start; }
+  .help div { background: rgba(0, 0, 0, .2); border-radius: 14px; padding: 10px 12px; font-size: 13.5px; line-height: 1.7; color: #d6dbf5; }
+  .help h3 { margin: 0 0 4px; font-size: 15px; color: var(--accent); }
+  kbd { background: #2e3660; border-radius: 6px; padding: 1px 6px; font: 700 12px inherit; border-bottom: 2px solid #12162a; color: #fff; }
+  .stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+  .stat div { background: var(--card2); border-radius: 14px; padding: 10px; text-align: center; } .stat b { display: block; font-size: 26px; color: var(--accent); } .stat span { color: var(--muted); font-size: 12.5px; }
+  .plist { display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow: auto; }
+  .pl { display: flex; align-items: center; gap: 10px; background: var(--card2); border-radius: 12px; padding: 8px 12px; font-weight: 700; }
+  .pl i { width: 18px; height: 18px; border-radius: 50%; flex: none; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .2); } .pl span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .pl small { color: var(--muted); font-weight: 600; }
+  .pl.bot { opacity: .7; font-weight: 600; }
+  .big { font-size: 30px; letter-spacing: 6px; color: var(--accent); font-weight: 900; text-align: center; }
+  .rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .rcard { background: var(--card2); border: 2px solid transparent; border-radius: 16px; padding: 10px; cursor: pointer; color: var(--text); text-align: center; display: flex; flex-direction: column; gap: 3px; align-items: center; }
+  .rcard b { font-size: 30px; } .rcard span { font-weight: 800; font-size: 14px; } .rcard small { color: var(--muted); font-size: 11.5px; } .rcard:hover { border-color: var(--accent); }
+  .kind { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 11.5px; font-weight: 800; color: #1a1200; background: var(--sky); }
+  .kind.surv { background: #ff9f5c; } .kind.tail { background: #ff6fb1; } .kind.final, .kind.frace, .kind.fsurv { background: var(--accent); }
+
+  /* HUD */
+  #hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; text-shadow: 0 2px 3px rgba(0, 0, 0, .55); }
+  #hTop { position: absolute; top: max(10px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; background: rgba(15, 18, 32, .72); border-radius: 16px; padding: 6px 14px; font-weight: 800; white-space: nowrap; max-width: calc(100vw - 120px); }
+  #hTop .rn { color: #fff; } #hTop .tm { color: var(--accent); min-width: 48px; text-align: center; font-variant-numeric: tabular-nums; } #hTop .ct { color: var(--ok); }
+  #hBtns { position: absolute; top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right)); display: flex; gap: 6px; pointer-events: auto; }
+  .vp { position: absolute; overflow: hidden; }
+  .vp .who { position: absolute; left: 10px; bottom: 10px; background: rgba(15, 18, 32, .7); padding: 5px 12px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 7px; }
+  .vp .who i { width: 12px; height: 12px; border-radius: 50%; }
+  .vp .st { position: absolute; left: 50%; top: 58px; transform: translateX(-50%); font-weight: 800; font-size: 16px; white-space: nowrap; color: #fff; background: rgba(15, 18, 32, .5); padding: 4px 12px; border-radius: 12px; }
+  .vp .st:empty { display: none; }
+  .vp .big2 { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); font-weight: 900; font-size: clamp(38px, 9vw, 96px); color: #fff; letter-spacing: 2px; white-space: nowrap; -webkit-text-stroke: 3px rgba(40, 10, 60, .55); }
+  .vp .big2.pop { animation: pop .5s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes pop { 0% { transform: translate(-50%, -50%) scale(.3); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+  .stamp { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%) rotate(-6deg); font-weight: 900; font-size: clamp(34px, 7.5vw, 78px); padding: 8px 28px; border-radius: 22px; border: 6px solid currentColor; background: rgba(15, 18, 32, .55); white-space: nowrap; animation: stamp .55s cubic-bezier(.2, 1.5, .4, 1); text-shadow: none; }
+  .stamp.ok { color: #7be495; } .stamp.no { color: #ff6b81; } .stamp.win { color: #ffd23f; }
+  @keyframes stamp { 0% { transform: translate(-50%, -50%) rotate(-6deg) scale(2.4); opacity: 0; } 100% { transform: translate(-50%, -50%) rotate(-6deg) scale(1); opacity: 1; } }
+  #spec { position: absolute; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); display: flex; gap: 8px; align-items: center; background: rgba(15, 18, 32, .8); border-radius: 16px; padding: 6px 8px; pointer-events: auto; font-weight: 800; white-space: nowrap; }
+  #spec span { padding: 0 6px; } #spec small { color: var(--muted); font-weight: 600; }
+  #toast { position: fixed; left: 50%; top: 64px; transform: translateX(-50%); background: rgba(15, 18, 32, .92); border: 2px solid rgba(255, 183, 3, .5); padding: 8px 16px; border-radius: 14px; z-index: 60; font-weight: 700; pointer-events: none; transition: opacity .3s; max-width: calc(100vw - 24px); text-align: center; }
+  #intro { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; pointer-events: none; padding: 16px; }
+  #intro .ic { width: min(480px, 100%); background: linear-gradient(160deg, rgba(40, 30, 80, .96), rgba(26, 31, 53, .96)); border: 3px solid rgba(255, 255, 255, .15); border-radius: 26px; padding: 22px; text-align: center; box-shadow: 0 30px 80px rgba(0, 0, 0, .5); animation: card .6s cubic-bezier(.2, 1.4, .4, 1); }
+  #intro .ic .em { font-size: 64px; line-height: 1; display: block; animation: bob 1.6s ease-in-out infinite; }
+  #intro h1 { margin: 6px 0 4px; font-size: clamp(28px, 6vw, 42px); color: #fff; } #intro p { margin: 6px 0; color: #cfd5f5; line-height: 1.55; } #intro .q { color: var(--accent); font-weight: 900; font-size: 18px; }
+  #intro .rn { color: var(--muted); font-weight: 700; font-size: 13px; letter-spacing: 1px; }
+  @keyframes card { 0% { transform: translateY(40px) scale(.8); opacity: 0; } 100% { transform: none; opacity: 1; } }
+  #res .chips2 { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .jc { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 99px; background: var(--card2); font-weight: 700; font-size: 13.5px; }
+  .jc i { width: 12px; height: 12px; border-radius: 50%; } .jc.ok { background: rgba(123, 228, 149, .18); } .jc.no { opacity: .55; text-decoration: line-through; } .jc.me { outline: 2px solid var(--accent); }
+  #end .crownbig { font-size: 74px; text-align: center; animation: bob 1.6s ease-in-out infinite; line-height: 1; }
+
+  /* touch controls */
+  #touch { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
+  #touch > * { pointer-events: auto; touch-action: none; }
+  #stick { position: absolute; left: max(18px, env(safe-area-inset-left)); bottom: max(22px, env(safe-area-inset-bottom)); width: 140px; height: 140px; border-radius: 50%; background: rgba(255, 255, 255, .13); border: 3px solid rgba(255, 255, 255, .32); }
+  #knob { position: absolute; left: 50%; top: 50%; width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%; background: rgba(255, 255, 255, .55); box-shadow: 0 3px 8px rgba(0, 0, 0, .3); }
+  .tb { position: absolute; border-radius: 50%; background: rgba(20, 16, 40, .45); border: 3px solid rgba(255, 255, 255, .4); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-direction: column; font-size: 12px; gap: 1px; }
+  .tb b { font-size: 24px; line-height: 1; } .tb.held { background: rgba(255, 183, 3, .6); border-color: var(--accent); }
+  #bJump { width: 88px; height: 88px; right: max(22px, env(safe-area-inset-right)); bottom: max(28px, env(safe-area-inset-bottom)); }
+  #bDive { width: 66px; height: 66px; right: calc(max(22px, env(safe-area-inset-right)) + 100px); bottom: max(24px, env(safe-area-inset-bottom)); }
+  #bGrab { width: 66px; height: 66px; right: calc(max(22px, env(safe-area-inset-right)) + 14px); bottom: calc(max(28px, env(safe-area-inset-bottom)) + 100px); }
+  .ar .panel, .ar .card p, .ar .card h2, .ar .tag, .ar .help, .ar #intro .ic, .ar #spec, .ar #toast, .ar .vp .st { direction: rtl; }
+  @media (max-width: 640px) {
+    .screen { padding: 60px 10px 12px; } .card { padding: 13px; } .card .ic { font-size: 28px; } .card h2 { font-size: 18px; } .logo { font-size: 46px; }
+    #hTop { font-size: 13px; padding: 5px 10px; top: max(56px, env(safe-area-inset-top)); max-width: calc(100vw - 20px); } .vp .st { top: 98px; font-size: 14px; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../../shared/i18n.js?v=1793407000"></script>
+<script src="../../shared/net.js?v=1793407000"></script>
+<script src="../../shared/vendor/three.min.js"></script>
+</head>
+<body>
+<canvas id="c" tabindex="0"></canvas>
+
+<div id="topbar">
+  <button class="ib" data-mal3ab-home title="Home" type="button">🏠</button>
+  <button class="ib" data-mal3ab-chat title="Chat" type="button">💬</button>
+  <button class="ib langbtn" id="langBtn" type="button">English</button>
+  <button class="ib" id="sndBtn" type="button" title="Sound">🔊</button>
+  <div class="sp"></div>
+  <div class="crownbar" id="crownBar">👑 <b id="crownN">0</b></div>
+</div>
+
+<!-- main menu -->
+<div id="menu" class="screen">
+  <div class="wrap">
+    <div>
+      <h1 class="logo" id="logo"></h1>
+      <div class="tag" data-i18n="jd_tag"></div>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="ic">🏃</div><h2 data-i18n="jd_solo"></h2><p data-i18n="jd_soloD"></p>
+        <div class="row"><select id="sDiff"></select><select id="sLen"></select><select id="sField"></select></div>
+        <button class="btn" id="bSolo" data-i18n="jd_play"></button></div>
+      <div class="card"><div class="ic">👯</div><h2 data-i18n="jd_duo"></h2><p data-i18n="jd_duoD"></p>
+        <button class="btn sec" id="bDuo" data-i18n="jd_setup"></button></div>
+      <div class="card"><div class="ic">🌐</div><h2 data-i18n="jd_online"></h2><p data-i18n="jd_onlineD"></p>
+        <button class="btn pink" id="bOnline" data-i18n="jd_goOnline"></button></div>
+      <div class="card"><div class="ic">🎯</div><h2 data-i18n="jd_prac"></h2><p data-i18n="jd_pracD"></p>
+        <button class="btn sec" id="bPrac" data-i18n="jd_pickRound"></button></div>
+    </div>
+    <div class="row c">
+      <button class="btn sec" id="bCustom" data-i18n="jd_custom"></button>
+      <button class="btn sec" id="bHow" data-i18n="jd_how"></button>
+      <button class="btn sec" id="bStats" data-i18n="jd_stats"></button>
+    </div>
+  </div>
+</div>
+
+<div id="custom" class="screen" hidden>
+  <div class="panel wide" data-m3pop>
+    <h2 data-i18n="jd_custom"></h2>
+    <div class="row c" id="swatches"></div>
+    <div class="cosg" id="costumes"></div>
+    <div class="row c"><button class="btn" id="bCustomOk" data-i18n="jd_done"></button></div>
+  </div>
+</div>
+
+<div id="how" class="screen dim" hidden>
+  <div class="panel wide" data-m3pop>
+    <h2 data-i18n="jd_how"></h2>
+    <div class="help" id="howBody"></div>
+    <div class="row c"><button class="btn" id="bHowOk" data-i18n="jd_gotIt"></button></div>
+  </div>
+</div>
+
+<div id="stats" class="screen dim" hidden>
+  <div class="panel wide" data-m3pop>
+    <h2 data-i18n="jd_stats"></h2>
+    <div class="stat" id="statBody"></div>
+    <p id="bestBody" style="text-align:center;font-size:13px"></p>
+    <div class="row c"><button class="btn" id="bStatsOk" data-i18n="jd_back"></button></div>
+  </div>
+</div>
+
+<div id="prac" class="screen dim" hidden>
+  <div class="panel wide" data-m3pop>
+    <h2 data-i18n="jd_prac"></h2>
+    <p data-i18n="jd_pracP" style="text-align:center"></p>
+    <div class="row c"><select id="pDiff"></select></div>
+    <div class="rgrid" id="pracList"></div>
+    <div class="row c"><button class="btn sec" id="bPracBack" data-i18n="jd_back"></button></div>
+  </div>
+</div>
+
+<div id="duo" class="screen dim" hidden>
+  <div class="panel" data-m3pop>
+    <h2 data-i18n="jd_duo"></h2>
+    <label><span data-i18n="jd_p1name"></span><input id="n1" maxlength="16"></label>
+    <label><span data-i18n="jd_p2name"></span><input id="n2" maxlength="16"></label>
+    <div><div style="color:var(--muted);font-size:14px;margin-bottom:6px" data-i18n="jd_p2col"></div><div class="row" id="duoCols"></div></div>
+    <div class="row"><select id="dDiff" style="flex:1"></select><select id="dLen" style="flex:1"></select></div>
+    <p style="font-size:13px" id="duoKeys"></p>
+    <div class="msg" id="duoMsg"></div>
+    <div class="row c"><button class="btn sec" id="bDuoBack" data-i18n="jd_back"></button><button class="btn" id="bDuoGo" data-i18n="jd_start"></button></div>
+  </div>
+</div>
+
+<div id="online" class="screen dim" hidden>
+  <div class="panel" data-m3pop>
+    <h2 data-i18n="jd_online"></h2>
+    <p style="text-align:center" data-i18n="jd_onlineP"></p>
+    <label><span data-i18n="jd_yourName"></span><input id="onName" maxlength="16"></label>
+    <button class="btn pink" id="bCreate" data-i18n="jd_create"></button>
+    <div class="row"><input class="code" id="onCode" maxlength="6" placeholder="ABCD" style="flex:1"><button class="btn" id="bJoin" data-i18n="jd_join"></button></div>
+    <div class="msg" id="onMsg"></div>
+    <div class="row c"><button class="btn sec" id="bOnBack" data-i18n="jd_back"></button></div>
+  </div>
+</div>
+
+<div id="lobby" class="screen dim" hidden>
+  <div class="panel" data-m3pop>
+    <h2 data-i18n="jd_lobby"></h2>
+    <div class="big" id="lbCode">----</div>
+    <div class="row c"><button class="btn sec small" id="bCopy" data-i18n="jd_copy"></button></div>
+    <div class="plist" id="lbList"></div>
+    <div id="lbSet" class="row"></div>
+    <p id="lbNote" style="text-align:center;font-size:13px"></p>
+    <div class="row c"><button class="btn sec" id="bLeave" data-i18n="jd_leave"></button><button class="btn" id="bLbStart" data-i18n="jd_startShow"></button></div>
+  </div>
+</div>
+
+<div id="pause" class="screen dim" hidden>
+  <div class="panel" data-m3pop>
+    <h2 data-i18n="jd_paused"></h2>
+    <p id="pauseNote" style="text-align:center;font-size:13px"></p>
+    <button class="btn" id="bResume" data-i18n="jd_resume"></button>
+    <label><span data-i18n="jd_sens"></span><input type="range" id="sens" min="0.3" max="2.5" step="0.1" style="accent-color:var(--accent);padding:0"></label>
+    <div class="row"><button class="btn sec small" id="bMus" style="flex:1"></button><button class="btn sec small" id="bQual" style="flex:1"></button></div>
+    <button class="btn sec" id="bPHow" data-i18n="jd_how"></button>
+    <button class="btn sec" id="bQuit" data-i18n="jd_quit"></button>
+  </div>
+</div>
+
+<div id="intro" hidden><div class="ic"><span class="em" id="inEm"></span><div class="rn" id="inRn"></div><h1 id="inName"></h1><span class="kind" id="inKind"></span><p id="inDesc"></p><div class="q" id="inQ"></div></div></div>
+
+<div id="res" class="screen dim" hidden>
+  <div class="panel wide" data-m3pop>
+    <h2 id="resT"></h2>
+    <p id="resP" style="text-align:center"></p>
+    <div class="chips2" id="resList"></div>
+    <p id="resNext" style="text-align:center;font-size:13px"></p>
+    <div class="row c" id="resBtns"></div>
+  </div>
+</div>
+
+<div id="end" class="screen dim" hidden>
+  <div class="panel" data-m3pop>
+    <div class="crownbig" id="endEm">👑</div>
+    <h2 id="endT"></h2>
+    <p id="endP" style="text-align:center"></p>
+    <div class="row c" id="endBtns"></div>
+  </div>
+</div>
+
+<div id="hud" hidden>
+  <div id="hTop"><span id="hIc"></span><span class="rn" id="hName"></span><span class="tm" id="hTime"></span><span class="ct" id="hCount"></span></div>
+  <div id="hBtns"><button class="ib" id="bPause" type="button" title="Pause">⏸</button></div>
+  <div id="vps"></div>
+  <div id="spec" hidden><button class="ib" id="bSpPrev" type="button">◀</button><span><small data-i18n="jd_watching"></small> <b id="spName"></b></span><button class="ib" id="bSpNext" type="button">▶</button><button class="btn sec small" id="bSpLeave" data-i18n="jd_leaveShow"></button></div>
+</div>
+
+<div id="touch" hidden>
+  <div id="stick"><div id="knob"></div></div>
+  <div class="tb" id="bGrab"><b>✋</b><span data-i18n="jd_grab"></span></div>
+  <div class="tb" id="bDive"><b>🐬</b><span data-i18n="jd_dive"></span></div>
+  <div class="tb" id="bJump"><b>⤒</b><span data-i18n="jd_jump"></span></div>
+</div>
+<div id="toast" hidden></div>
+
+<script src="jd-strings.js?v=1793404000"></script>
+<script src="jd-core.js?v=1793404000"></script>
+<script src="jd-courses.js?v=1793404000"></script>
+<script src="jd-ai.js?v=1793404000"></script>
+<script src="jd-play.js?v=1793404000"></script>
+<script src="jd-net.js?v=1793404000"></script>
+<script src="../../shared/cloud.js?v=1793407000" data-game="jelly-dash" data-keys="jelly-dash-*"></script>
+<script>
+  document.querySelectorAll('[data-mal3ab-home]').forEach(h => { if (!h.onclick) h.onclick = () => location.href = '../../play.html'; });
+</script>
+</body>
+</html>

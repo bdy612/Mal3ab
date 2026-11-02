@@ -193,7 +193,7 @@ const HOSTNET = {
 function sendViews(evs) {
   const G = CT.G; if (!G || !ON.host) return;
   const q = ON.seq; ON.lastSent = Date.now();
-  G.seats.forEach((p, i) => { if (p.kind === 'human' && p.id !== ON.me && !p.away && present(p.id)) send('st', { to: p.id, v: E.view(G, i), ev: evs ? E.viewEvents(evs, i) : [], q }); });
+  G.seats.forEach((p, i) => { if (p.kind === 'human' && p.id !== ON.me && present(p.id)) send('st', { to: p.id, v: E.view(G, i), ev: evs ? E.viewEvents(evs, i) : [], q }); });
   for (const p of ON.peers.values()) if (!G.seats.some((s) => s.id === p.id)) send('st', { to: p.id, v: E.view(G, -1), ev: evs ? E.viewEvents(evs, -1) : [], q });
 }
 function startMatch() {
@@ -232,12 +232,16 @@ function hostAct(p) {
 
 // ---------------------------------------------------------------- client side
 ON.sendAct = (a) => { send('act', { a }); };
+ON.dbg = { st: 0, used: 0, why: '' };
 function onState(p) {
-  if (p.to !== ON.me || ON.host) return;
-  if (p.id !== hostId() && !p.hs) return;
+  if (p.to !== ON.me) return;
+  ON.dbg.st++;
+  if (ON.host) { ON.dbg.why = 'host'; return; }
+  if (p.id !== hostId() && !p.hs) { ON.dbg.why = 'not host ' + p.id; return; }
   const v = p.v; if (!v || !Array.isArray(v.s)) return;
   const fresh = p.q > ON.lastQ, sig = JSON.stringify(Object.assign({}, v, { dl: 0 }));
-  if (!fresh && sig === ON.lastSig) return;
+  if (!fresh && sig === ON.lastSig) { ON.dbg.why = 'same q=' + p.q + ' last=' + ON.lastQ; return; }
+  ON.dbg.used++;
   ON.lastQ = Math.max(ON.lastQ, p.q); ON.lastSig = sig;
   const entering = !ON.client;
   ON.client = true; ON.playing = true; UI.mode = 'online'; ON.lastV = v;

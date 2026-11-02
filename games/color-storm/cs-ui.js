@@ -212,10 +212,11 @@ UI.renderAll = () => { renderTop(); renderOpps(); renderTable(); renderBar(); re
 const HS = { x: 0, max: 0, vx: 0, step: 0 };
 function layoutHand() {
   const hand = $('hand'); if (!hand) return; const tr = hand.querySelector('.track'), W = hand.clientWidth, cw = UI.cw, els = [...tr.children], n = els.length;
-  let step = n > 1 ? (W - cw - 24) / (n - 1) : 0; step = Math.max(cw * 0.42, Math.min(cw * 0.74, step));
-  const total = cw + step * (n - 1), fits = total <= W - 16, off = fits ? (W - total) / 2 : 12;
-  HS.max = fits ? 0 : total + 24 - W; HS.x = Math.max(0, Math.min(HS.max, HS.x)); HS.step = step; HS.fits = fits;
-  tr.style.width = (fits ? W : total + 24) + 'px';
+  const pad = Math.max(22, cw * 0.36);
+  let step = n > 1 ? (W - cw - pad * 2) / (n - 1) : 0; step = Math.max(cw * 0.42, Math.min(cw * 0.74, step));
+  const total = cw + step * (n - 1), fits = total <= W - pad * 2 + 1, off = fits ? (W - total) / 2 : pad;
+  HS.max = fits ? 0 : total + pad * 2 - W; HS.x = Math.max(0, Math.min(HS.max, HS.x)); HS.step = step; HS.fits = fits;
+  tr.style.width = (fits ? W : total + pad * 2) + 'px';
   els.forEach((el, i) => { el._x = off + i * step; el.style.left = el._x + 'px'; el.style.zIndex = i + 1; });
   $('scrollL').hidden = $('scrollR').hidden = fits || matchMedia('(pointer: coarse)').matches;
   positionHand();
@@ -227,7 +228,7 @@ function positionHand() {
     if (el.classList.contains('drag')) continue;
     const cx = el._x + cw / 2 - HS.x, u = Math.max(-1.3, Math.min(1.3, (cx - W / 2) / Math.max(200, W / 2)));
     const lift = el.classList.contains('sel') ? -24 : el.classList.contains('ok') ? -14 : 0;
-    el.style.transform = `translateY(${u * u * 14 + lift}px) rotate(${u * 13}deg)`;
+    el.style.transform = `translateY(${u * u * 12 + lift}px) rotate(${u * 9}deg)`;
   }
 }
 function scrollToCard(id) {
@@ -405,7 +406,7 @@ function trackStats(evs, v) {
       CS.stat('rounds'); if (e.w === v.me) { CS.stat('rwins'); CS.statMax('best', e.pts); }
       if (e.match) {
         CS.stat('matches');
-        if (e.w === v.me) { CS.stat('mwins'); CS.stat('streak'); CS.statMax('bestStreak', CS.stats.streak); if (UI.mode === 'bots' && v.s.some((p) => p.b && p.br === 'hard')) CS.stat('hard'); }
+        if (e.w === v.me) { CS.stat('mwins'); CS.stat('streak'); CS.statMax('bestStreak', CS.stats.streak); if (UI.mode === 'bots') { if (v.s.some((p) => p.b && p.br === 'hard')) CS.stat('hard'); CS.stat('botWins'); CS.reportBest(); } }
         else { CS.stats.streak = 0; CS.save('stats', CS.stats); }
       }
     }
@@ -620,7 +621,7 @@ function standings(v, withHands) {
   const L = v.last, order = v.s.map((p, i) => i).sort((a, b) => v.s[b].sc - v.s[a].sc), tg = v.ru.target || 0;
   return `<div class="plist">${order.map((i) => {
     const p = v.s[i], win = L && L.w === i, pct = tg ? Math.min(100, p.sc / tg * 100) : 0;
-    return `<div class="pl${win ? ' win' : ''}" style="--pc:${SEATC[i % 6]}"><div class="av">${p.b ? '🤖' : esc(initial(UI.dn(p)))}</div><div class="grow"><b>${esc(UI.dn(p))}${i === v.me ? ' · ' + esc(t('cs_you')) : ''}</b>
+    return `<div class="pl${win ? ' win' : ''}" style="--pc:${SEATC[i % 6]}"><div class="av">${p.b ? '🤖' : esc(initial(UI.dn(p)))}</div><div class="grow"><b>${esc(UI.dn(p))}${i === v.me && UI.dn(p) !== t('cs_you') ? ' · ' + esc(t('cs_you')) : ''}</b>
       ${L ? `<small>${win ? esc(t('cs_pts', { n: L.pts })) : esc(t('cs_handPts', { n: L.each[i] }))}</small>` : ''}
       ${tg ? `<div class="bar2"><i style="width:${pct}%"></i></div>` : ''}
       ${withHands && L && L.hands[i] && L.hands[i].length ? `<div class="mhand">${L.hands[i].slice(0, 16).map((id) => CS.cardHTML(id)).join('')}</div>` : ''}</div>
@@ -743,7 +744,10 @@ document.addEventListener('keydown', (e) => {
   else if (k === 'Tab') { e.preventDefault(); }
 });
 document.addEventListener('langchange', () => { UI.renderAll(); UI.refresh(); });
-document.addEventListener('mal3abready', () => { UI.renderAll(); if (UI.cur && ['menu', 'bots'].includes(UI.cur.name)) UI.refresh(); });
+let bestSent = false;
+const sendBestOnce = () => { if (bestSent) return; bestSent = true; CS.reportBest(); };
+if (window.Mal3abReady) setTimeout(sendBestOnce, 0);
+document.addEventListener('mal3abready', () => { sendBestOnce(); UI.renderAll(); if (UI.cur && ['menu', 'bots'].includes(UI.cur.name)) UI.refresh(); });
 document.addEventListener('pointerdown', () => { try { CS.audio.on && window.AudioContext && 0; } catch (e) {} }, { once: true });
 addEventListener('resize', resize);
 
