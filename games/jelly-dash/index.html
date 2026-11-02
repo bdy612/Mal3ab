@@ -37,7 +37,7 @@
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
   .card { background: rgba(26, 31, 53, .92); border: 2px solid rgba(255, 255, 255, .07); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 9px; backdrop-filter: blur(4px); }
   .card .ic { font-size: 34px; line-height: 1; } .card h2 { margin: 0; font-size: 21px; } .card p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; flex: 1; }
-  .card .row select { flex: 1; min-width: 0; padding: 6px 6px; font-size: 13px; }
+  .card .row select { flex: 1 1 40%; min-width: 0; padding: 6px 6px; font-size: 13px; } .card .row select:first-child { flex-basis: 100%; }
   .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; } .row.c { justify-content: center; }
   .chips { display: flex; gap: 8px; flex-wrap: wrap; }
   .crownbar { display: inline-flex; gap: 10px; align-items: center; background: rgba(15, 18, 32, .78); padding: 8px 14px; border-radius: 14px; font-weight: 800; }
@@ -54,7 +54,8 @@
   .cos { background: var(--card2); border: 2px solid transparent; border-radius: 14px; padding: 8px 4px; cursor: pointer; color: var(--text); display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; }
   .cos b { font-size: 24px; } .cos small { color: var(--muted); font-weight: 600; font-size: 10.5px; text-align: center; line-height: 1.3; }
   .cos.on { border-color: var(--accent); } .cos.lock { opacity: .55; cursor: default; }
-  #custom { align-items: flex-end; } #custom .panel { margin: auto auto 0; }
+  #custom, #end { align-items: flex-end; } #custom .panel, #end .panel { margin: auto auto 0; }
+  #end.dim { background: linear-gradient(180deg, rgba(10, 12, 26, 0) 30%, rgba(10, 12, 26, .55)); }
   .help { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; text-align: start; }
   .help div { background: rgba(0, 0, 0, .2); border-radius: 14px; padding: 10px 12px; font-size: 13.5px; line-height: 1.7; color: #d6dbf5; }
   .help h3 { margin: 0 0 4px; font-size: 15px; color: var(--accent); }
@@ -100,7 +101,7 @@
   #res .chips2 { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
   .jc { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 99px; background: var(--card2); font-weight: 700; font-size: 13.5px; }
   .jc i { width: 12px; height: 12px; border-radius: 50%; } .jc.ok { background: rgba(123, 228, 149, .18); } .jc.no { opacity: .55; text-decoration: line-through; } .jc.me { outline: 2px solid var(--accent); }
-  #end .crownbig { font-size: 74px; text-align: center; animation: bob 1.6s ease-in-out infinite; line-height: 1; }
+  #end .crownbig { font-size: 54px; text-align: center; animation: bob 1.6s ease-in-out infinite; line-height: 1; margin-top: -44px; }
 
   /* touch controls */
   #touch { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
@@ -269,7 +270,7 @@
 
 <div id="hud" hidden>
   <div id="hTop"><span id="hIc"></span><span class="rn" id="hName"></span><span class="tm" id="hTime"></span><span class="ct" id="hCount"></span></div>
-  <div id="hBtns"><button class="ib" id="bPause" type="button" title="Pause">⏸</button></div>
+  <div id="hBtns"><button class="ib" id="bPause" type="button" title="Pause" style="font-size:13px;letter-spacing:-2px">❚❚</button></div>
   <div id="vps"></div>
   <div id="spec" hidden><button class="ib" id="bSpPrev" type="button">◀</button><span><small data-i18n="jd_watching"></small> <b id="spName"></b></span><button class="ib" id="bSpNext" type="button">▶</button><button class="btn sec small" id="bSpLeave" data-i18n="jd_leaveShow"></button></div>
 </div>

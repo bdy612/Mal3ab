@@ -154,8 +154,8 @@ function patTex(pat, c1, c2) {
   let t;
   if (pat === 'tile') t = canvasTex(128, 128, (g) => {
     g.fillStyle = A; g.fillRect(0, 0, 128, 128);
-    g.fillStyle = 'rgba(255,255,255,.16)'; g.fillRect(6, 6, 116, 116);
-    g.strokeStyle = Bc; g.globalAlpha = 0.55; g.lineWidth = 5; g.strokeRect(3, 3, 122, 122);
+    g.fillStyle = 'rgba(255,255,255,.10)'; g.fillRect(8, 8, 112, 112);
+    g.strokeStyle = Bc; g.globalAlpha = 0.42; g.lineWidth = 4; g.strokeRect(3, 3, 122, 122);
     g.globalAlpha = 0.18; g.fillStyle = Bc; for (let i = 0; i < 3; i++) { g.beginPath(); g.arc(30 + i * 34, 30 + (i % 2) * 60, 7, 0, TAU); g.fill(); }
   });
   else if (pat === 'stripe') t = canvasTex(64, 64, (g) => {
@@ -215,8 +215,8 @@ function dressScene(scene, seed, focus) {
   const sky = new THREE.Mesh(skyGeo, skyMat); sky.renderOrder = -10; sky.frustumCulled = false; scene.add(sky); scene.userData.sky = sky;
   const sea = new THREE.Mesh(new THREE.PlaneGeometry(1400, 1400), new THREE.MeshLambertMaterial({ map: (() => { const t = patTex('dots', 0xff9fd2, 0xffc7e6); t.repeat.set(160, 160); return t; })() }));
   sea.rotation.x = -Math.PI / 2; sea.position.y = -46; scene.add(sea);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xffb8dc, 0.82));
-  const sun = new THREE.DirectionalLight(0xffffff, 0.78); sun.position.set(18, 40, -10); sun.castShadow = true;
+  scene.add(new THREE.HemisphereLight(0xfff4fb, 0xd98ab8, 0.72));
+  const sun = new THREE.DirectionalLight(0xfff6e8, 0.72); sun.position.set(18, 40, -10); sun.castShadow = true;
   const sm = SET.q ? 2048 : 1024; sun.shadow.mapSize.set(sm, sm);
   const sc = sun.shadow.camera; sc.left = -34; sc.right = 34; sc.top = 34; sc.bottom = -34; sc.near = 1; sc.far = 140; sun.shadow.bias = -0.0008; sun.shadow.normalBias = 0.03;
   scene.add(sun); scene.add(sun.target); scene.userData.sun = sun;
@@ -310,7 +310,7 @@ function tagSprite(name, col) {
   g.fillStyle = hexs(col); g.beginPath(); g.arc(x0 + 16, 32, 7, 0, TAU); g.fill();
   g.fillStyle = '#fff'; g.fillText(name, 128 + 6, 33, 200);
   const t = new THREE.CanvasTexture(c); const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true }));
-  s.scale.set(2.4, 0.6, 1); s.renderOrder = 20; return s;
+  s.scale.set(1.9, 0.475, 1); s.renderOrder = 20; return s;
 }
 
 // ------------------------------------------------------------------ the world: colliders + course builder

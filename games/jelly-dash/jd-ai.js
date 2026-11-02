@@ -49,20 +49,24 @@ function botStep(j, dt, T, ents) {
     const A = W.arena; a.re -= tick;
     let need = a.re <= 0 || Math.hypot(a.tx - j.pos.x, a.tz - j.pos.z) < 0.9;
     if (W.ai === 'tiles') {
+      // stand still until my tile starts to shake, then hop to the safest tile next door
       const under = j.gObj && j.gObj.tile >= 0 ? W.tiles[j.gObj.tile] : null, tgt = a.ti >= 0 ? W.tiles[a.ti] : null;
-      if (!tgt || tgt.st !== 0 || (under && under.st !== 0 && Math.hypot(a.tx - j.pos.x, a.tz - j.pos.z) < 1.5) || Math.abs(tgt.y - j.pos.y) > 1.5) need = true;
-      if (need && j.grounded) {
+      const bad = !tgt || tgt.st !== 0 || Math.abs(tgt.y - j.pos.y) > 1.5, dT = tgt ? Math.hypot(tgt.x - j.pos.x, tgt.z - j.pos.z) : 99;
+      if (j.grounded && (bad || (dT < 0.6 && under && under.st !== 0) || (dT < 0.6 && !under))) {
+        const wild = Math.random() < L.err * 2;
         let best = -1, bs = -1e9;
-        for (let k = 0; k < 18; k++) {
-          const i = (Math.random() * W.tiles.length) | 0, t = W.tiles[i];
-          if (t.st !== 0 || Math.abs(t.y - j.pos.y) > 1.2 || Math.hypot(t.x - A.x, t.z - A.z) > A.r - 2.2) continue;
-          const d = Math.hypot(t.x - j.pos.x, t.z - j.pos.z); if (d < 1.4 || d > 6) continue;
-          const sc = -Math.abs(d - 2.6) - Math.hypot(t.x - A.x, t.z - A.z) * 0.15 + Math.random() * 1.5;
+        for (let i = 0; i < W.tiles.length; i++) {
+          const t = W.tiles[i]; if (t.st !== 0 || Math.abs(t.y - j.pos.y) > 1.2 || t === under) continue;
+          const d = Math.hypot(t.x - j.pos.x, t.z - j.pos.z); if (d < 1.2 || d > (wild ? 5 : 2.05)) continue;
+          if (Math.hypot(t.x - A.x, t.z - A.z) > A.r - 1.5) continue;
+          let nb = 0; for (const o of W.tiles) if (o.st === 0 && o.layer === t.layer && Math.abs(o.x - t.x) < 1.9 && Math.abs(o.z - t.z) < 1.9) nb++;
+          const sc = nb * 0.8 - d * 0.4 - Math.hypot(t.x - A.x, t.z - A.z) * 0.12 + Math.random() * (wild ? 4 : 1);
           if (sc > bs) { bs = sc; best = i; }
         }
-        if (best >= 0) { a.ti = best; a.tx = W.tiles[best].x; a.tz = W.tiles[best].z; a.re = 1.5 + Math.random() * 2; }
+        if (best >= 0) { a.ti = best; a.tx = W.tiles[best].x; a.tz = W.tiles[best].z; }
       }
-      mag = 0.5 + a.slack * 0.15;
+      const t2 = a.ti >= 0 ? W.tiles[a.ti] : null, d2 = t2 ? Math.hypot(t2.x - j.pos.x, t2.z - j.pos.z) : 0;
+      mag = !t2 ? 0.3 : d2 < 0.35 ? 0 : clamp(d2 / 1.2, 0.35, 0.6);
     } else {
       if (need) { const an = Math.random() * TAU, rr = 2 + Math.random() * A.r * 0.33; a.tx = A.x + Math.cos(an) * rr; a.tz = A.z + Math.sin(an) * rr; a.re = 1.5 + Math.random() * 2.5; }
       mag = 0.4 + a.slack * 0.25;
@@ -111,7 +115,7 @@ function botStep(j, dt, T, ents) {
       let land = 0;
       for (const d of [2.2, 3, 3.8, 4.6]) { const gy = groundY(j.pos.x + dx * d, j.pos.z + dz * d, j.pos.y + 1.7, T + 0.15 + d / Math.max(4, sp)); if (gy > j.pos.y - 3.5 && gy > tY - 4) { land = d; break; } }
       if (land || a.wait > 2.4) {
-        if (Math.random() > L.err * 0.6) { inp.jump = true; mag = 1; a.boost = 0.8; a.wait = 0; if (W.ai === 'path' && (land >= 3.8 || !land) && Math.random() < L.dive) a.diveAt = 0.26; }
+        if (Math.random() > L.err * 0.6) { inp.jump = true; mag = 1; a.boost = W.ai === 'tiles' ? 0.45 : 0.8; a.wait = 0; if (W.ai === 'path' && (land >= 3.8 || !land) && Math.random() < L.dive) a.diveAt = 0.26; }
       } else if (W.ai === 'tiles') { a.ti = -1; a.re = 0; dx = -dx; dz = -dz; mag = 0.4; }   // never stand still on crumbling tiles
       else { mag = 0; a.wait += tick; }
     } else {

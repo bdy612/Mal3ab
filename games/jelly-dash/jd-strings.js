@@ -52,7 +52,7 @@ addStrings({
   jd_botsFill: 'بوتات هتكمّل العدد: {n}', jd_copied: 'اتنسخ اللينك! ابعته لصحابك', jd_newShow: 'عرض جديد', jd_toLobby: 'للأوضة'
 }, {
   jd_title: 'Jelly Dash', jd_tag: 'Wobbly jellies race through wild knockout rounds — only qualifiers move on, and the last one standing wins the crown 👑',
-  jd_solo: 'Solo show', jd_soloD: '3 to 5 rounds against bots. Qualify all the way to the final and win the crown.',
+  jd_solo: 'Solo show', jd_soloD: 'Play 3 to 5 rounds against bots. Qualify all the way to the final and win the crown.',
   jd_duo: 'Two players', jd_duoD: 'Split screen on one computer — you and a friend against the bots.',
   jd_online: 'Online', jd_onlineD: 'Up to 8 players in one room; bots fill the rest of the field.',
   jd_prac: 'Practice', jd_pracD: 'Play any round on its own and beat your best time.', jd_pracP: 'Pick a round:',

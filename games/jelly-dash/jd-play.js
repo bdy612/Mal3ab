@@ -247,6 +247,7 @@ HOOK.respawn = (j) => {
 };
 HOOK.tile = (i, j) => {
   const tl = W.tiles[i]; if (!tl || tl.st !== 0) return;
+  const dx = j.pos.x - tl.x, dz = j.pos.z - tl.z; if (dx * dx + dz * dz > 0.6) return;   // only the tile under the middle of the jelly
   tl.st = 1; tl.tt = W.T;
   if (G.type === 'online') NET.tile(i, W.T);
   if (nearCam(j) < 14) Snd.play('tile', 0.6);
@@ -580,14 +581,14 @@ const MENU = (() => {
       const m = j.mm; m.hop -= dt;
       if (j !== ms.mine && j !== ms.win) { m.a += dt * m.sp; j.pos.x = Math.cos(m.a) * m.r; j.pos.z = Math.sin(m.a) * m.r; j.yaw = -m.a + Math.PI; j.vel.set(-Math.sin(m.a) * m.sp * m.r, m.vy, Math.cos(m.a) * m.sp * m.r); }
       else { j.yaw = ms.mode === 'custom' ? Math.sin(t * 0.7) * 0.9 : Math.sin(t * 0.5) * 0.35; j.vel.set(0, m.vy, 0); }
-      if (m.hop <= 0 && j.grounded) { m.vy = 5 + Math.random() * 3; j.grounded = false; j.sqv += 4; m.hop = 1 + Math.random() * 2.2; if (ms.mode === 'end' && j === ms.win) { m.vy = 7; m.hop = 0.9; PART.emit(0, 3, 2.2, 30, CONFETTI, { spd: 6, life: 1.4, size: 0.2, square: true }); } }
+      if (m.hop <= 0 && j.grounded) { m.vy = 5 + Math.random() * 3; j.grounded = false; j.sqv += 4; m.hop = 1 + Math.random() * 2.2; if (ms.mode === 'end' && j === ms.win) { m.vy = 7; m.hop = 0.9; PART.emit(0, 3, 2.2, 26, CONFETTI, { spd: 6, life: 1.4, size: 0.1, square: true }); } }
       const base = (j === ms.mine || j === ms.win) ? 0.5 : 0;
       if (!j.grounded) { m.vy -= 22 * dt; j.pos.y += m.vy * dt; if (j.pos.y <= base) { j.pos.y = base; j.grounded = true; j.sqv -= Math.min(6, -m.vy * 0.4); m.vy = 0; } }
       animJelly(j, dt, t);
     }
     const w = innerWidth, h = innerHeight; cam.aspect = w / h; cam.fov = w < h ? 62 : 50; cam.updateProjectionMatrix();
     if (ms.mode === 'custom') { cam.position.set(Math.sin(t * 0.2) * 0.6, 1.9, 2.2 + 4.6); cam.lookAt(0, w < h ? 0.4 : 0.7, 2.2); }
-    else if (ms.mode === 'end') { cam.position.set(Math.sin(t * 0.3) * 2, 2.6, 2.2 + 6.5); cam.lookAt(0, 1.3, 2.2); }
+    else if (ms.mode === 'end') { cam.position.set(Math.sin(t * 0.3) * 1.5, 2.2, 2.2 + 6.2); cam.lookAt(0, w < h ? -0.6 : 0.2, 2.2); }
     else { const a = t * 0.08; cam.position.set(Math.sin(a) * 14, 5.2, Math.cos(a) * 14); cam.lookAt(0, w < h ? 2.6 : 0.6, 0); }
   };
   ms.render = () => { scene.userData.sky.position.copy(cam.position); PART.mat.uniforms.scale.value = innerHeight * 0.9 * renderer.getPixelRatio(); renderer.shadowMap.autoUpdate = true; renderer.setViewport(0, 0, innerWidth, innerHeight); renderer.render(scene, cam); };
@@ -654,7 +655,7 @@ function renderMenu() {
   if (!$('prac').hidden) renderPrac();
   if (!$('duo').hidden) renderDuo();
   if (!$('pause').hidden) renderPause();
-  if (!$('lobby').hidden && window.NET) NET.renderLobby();
+  if (!$('lobby').hidden && (typeof NET !== 'undefined')) NET.renderLobby();
 }
 function renderCustom() {
   $('swatches').innerHTML = COLORS.map((c, i) => `<button class="sw${LOOK.c === i ? ' on' : ''}" style="--c:${hexs(c)}" data-c="${i}" title="${esc(t('jd_c_' + COLOR_KEYS[i]))}"></button>`).join('');
@@ -866,7 +867,7 @@ function onEnd() {
     if (mineWin) Snd.play('crown');
   }
   show('end');
-  if (MENU.mode === 'end') for (let i = 0; i < 3; i++) PART.emit(0, 3, 2.2, 40, CONFETTI, { spd: 7, life: 1.6, size: 0.22, square: true });
+  if (MENU.mode === 'end') for (let i = 0; i < 3; i++) PART.emit(0, 3, 2.2, 40, CONFETTI, { spd: 7, life: 1.6, size: 0.11, square: true });
 }
 
 // ------------------------------------------------------------------ quality + resize
@@ -890,7 +891,7 @@ function frame(ts) {
   if (adaptT > 2 && !document.hidden) { adaptT = 0; if (G.ftAvg > 21 && QUAL.pr > QUAL.floor) { QUAL.pr = Math.max(QUAL.floor, QUAL.pr - 0.15); resize(); } else if (G.ftAvg < 14 && QUAL.pr < (QUAL.max || 1.6) - 0.01) { QUAL.pr = Math.min(QUAL.max || 1.6, QUAL.pr + 0.1); resize(); } }
   if (!G.paused) G.clock += dt;
   if (G.round && !G.round.fake && S && W.scene && !G.paused) { try { roundFrame(dt); } catch (e) { console.error(e); } }
-  else if (G.type === 'online' && window.NET) NET.tick(dt);
+  else if (G.type === 'online' && (typeof NET !== 'undefined')) NET.tick(dt);
   if (G.menuOn || !W.scene) { MENU.update(dt); PART.update(dt); MENU.render(); }
   else renderWorld();
   clearPress();
@@ -917,7 +918,7 @@ window.JellyDash = {
     return { type: G.type, screen: G.screen, ph: S && S.ph, ri: S ? S.ri : -1, round: S && S.plan[S.ri], plan: S && S.plan.slice(), T: +W.T.toFixed(2), serial: S && S.serial, ents: G.ents.length,
       alive: S ? S.ord.filter(id => !S.o.includes(id)).length : 0, q: S ? S.q.slice() : [], o: S ? S.o.slice() : [], qn: S && S.qn, win: S && S.win, tails: S && S.tails.slice(), fps: Math.round(G.fps), pr: QUAL.pr,
       me: me ? { id: me.id, x: +me.pos.x.toFixed(2), y: +me.pos.y.toFixed(2), z: +me.pos.z.toFixed(2), st: me.st, out: me.out, fin: me.fin, cp: me.cp, kind: me.kind, grounded: me.grounded, tail: me.tail } : null,
-      kinds: G.ents.map(j => j.kind).join(''), field: S ? S.field.length : 0, out: S ? S.field.filter(f => f.out >= 0).length : 0, net: window.NET ? NET.info() : null };
+      kinds: G.ents.map(j => j.kind).join(''), field: S ? S.field.length : 0, out: S ? S.field.filter(f => f.out >= 0).length : 0, net: (typeof NET !== 'undefined') ? NET.info() : null };
   },
   show: () => S, ents: () => G.ents, W, G, ROUND, STATS,
   startSolo(o) { o = o || {}; SET.diff = o.diff == null ? 1 : o.diff; SET.len = o.len || 4; SET.field = o.field || 12; startLocal('solo'); return this.state; },
@@ -930,6 +931,13 @@ window.JellyDash = {
   endRound() { if (S && amHost() && S.ph === 'play') hostEndRound(); },
   nextPhase() { if (S && amHost() && S.ph === 'res') S.tEnd = now() - RES - 1; },
   eliminateMe() { const j = this.me(); if (j && !j.out) report('out', j.id); },
+  winRound() {   // test helper: make the player win this round whatever its kind
+    const j = this.me(); if (!j || !S || S.ph !== 'play') return;
+    const k = ROUND[S.plan[S.ri]].kind;
+    if (k === 'race' || k === 'frace') return this.finishMe();
+    if (k === 'tail') { if (!S.tails.includes(j.id)) { S.tails[0] = j.id; showChanged(); } return hostEndRound(); }
+    for (const id of S.ord) if (id !== j.id && !S.o.includes(id) && (k === 'fsurv' || S.ord.length - S.o.length > S.qn)) hostEv({ k: 'out', id, r: S.serial });
+  },
   finishMe() { const j = this.me(); if (j && !j.sentFin) { j.sentFin = true; j.finT = W.T; markFin(j); report('fin', j.id, { t: W.T }); } },
   fastForward(sec) { if (!S || G.type === 'online') return; const step = 1 / 30; for (let i = 0; i < sec / step; i++) { G.clock += step; roundFrame(step); if (S.ph !== 'play') break; } return this.state; },
   backToMenu, togglePause, spectateStep

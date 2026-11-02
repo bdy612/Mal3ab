@@ -214,8 +214,9 @@ window.Mal3abPrepareInvite = async () => {
 };
 window.Mal3abLiveInfo = () => {
   if (!NET.code) return {};
-  const f = S && fieldOf(NET.me);
-  return { players: 1 + NET.peers.size, max: MAXH, hidden: false, out: !!(S && S.ph !== 'pre' && (!f || f.out >= 0)) };
+  const f = S && fieldOf(NET.me), me = NET.me;
+  const out = !!(S && S.ph !== 'pre' && (!f || f.out >= 0 || (S.ord.includes(me) && S.o.includes(me)) || (S.ph === 'res' && S.ord.includes(me) && !S.q.includes(me))));
+  return { players: 1 + NET.peers.size, max: MAXH, hidden: false, out };
 };
 
 boot();

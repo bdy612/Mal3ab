@@ -82,7 +82,7 @@ function makeBuilder(scene, seed) {
       im.castShadow = true; im.receiveShadow = true; scene.add(im);
       const dum = new THREE.Object3D();
       list.forEach(([x, z], k) => {
-        const i = W.tiles.length, c = newCol(1, x, top - 0.4, z, R * 0.9, 0.4, R * 0.9, {});
+        const i = W.tiles.length, c = newCol(1, x, top - 0.4, z, R * 0.985, 0.4, R * 0.985, {});
         c.tile = i;
         const cl = col.clone().offsetHSL(0, 0, ((k * 7) % 5 - 2) * 0.025);
         W.tiles.push({ x, y: top, z, st: 0, tt: 0, c, im, ii: k, col: cl, fy: 0, fall: o.fall || W.fallDelay, auto: Infinity, layer: o.layer || 0 });
@@ -239,8 +239,9 @@ const JD_ROUNDS = (() => {
 
   // 5 — Crumble Cake: three layers of falling tiles (survival)
   const tileBuild = (fin) => (B) => {
+    const fall = fin ? 0.95 : 1.1;
     B.set({ killY: -24, view: 0, ai: 'tiles', arena: { x: 0, z: 0, r: 12 }, auto: { start: fin ? 30 : 40, span: fin ? 75 : 90 } });
-    [[0, CC.pink], [-7, CC.mint], [-14, CC.lemon]].forEach(([y, c], li) => B.hexes(B.hexDisk(0, 0, 11.8 + li * 0.7, 0.9), y, { c, R: 0.9, fall: 0.95, layer: li }));
+    [[0, CC.pink], [-7, CC.mint], [-14, CC.lemon]].forEach(([y, c], li) => B.hexes(B.hexDisk(0, 0, 11.8 + li * 0.7, 0.9), y, { c, R: 0.9, fall, layer: li }));
     B.ring(0, 0, 0, 3.5, 9.5);
     for (let i = 0; i < 9; i++) { const a = i / 9 * TAU; B.sweet(['cupcake', 'lolly', 'donut'][i % 3], Math.cos(a) * 30, -10 + (i % 3) * 6, Math.sin(a) * 30, 2.8, a); }
   };
