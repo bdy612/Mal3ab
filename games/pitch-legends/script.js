@@ -95,12 +95,13 @@ const Store = {
       const base = this.fresh();
       this.state = raw ? deepMerge(base, JSON.parse(raw)) : base;
     } catch { this.state = this.fresh(); }
+    if (this.state.stats.botWins == null) this.state.stats.botWins = this.state.stats.wins;   // 🏆 Best: wins vs the bot only
     Challenges.ensure();
     Lineup.validate();
     return this.state;
   },
   save() { try { localStorage.setItem(this.KEY, JSON.stringify(this.state)); } catch { /* storage unavailable */ } },
-  reset() { this.state = this.fresh(); Challenges.ensure(); Lineup.validate(); this.save(); },
+  reset() { this.state = this.fresh(); this.state.stats.botWins = 0; Challenges.ensure(); Lineup.validate(); this.save(); },
 };
 function deepMerge(base, extra) {
   const out = { ...base };
@@ -726,7 +727,9 @@ const Game = {
     else { s.stats.losses++; s.stats.streak = 0; tokens = 10; lines.push('Consolation: +10 🪙'); }
     if (h) { tokens += h * 5; lines.push(`${h} goal${h > 1 ? 's' : ''}: +${h * 5} 🪙`); }
     s.tokens += tokens;
+    if (won && !(window.PVP && PVP.live)) s.stats.botWins = (s.stats.botWins || 0) + 1;
     Store.save(); UI.refreshHud(true);
+    if (window.Mal3abBest) Mal3abBest('pitch', s.stats.botWins || 0);
     this.say(`Full time: ${h}–${aw}.`);
     this.render();
     UI.resultModal(won, drew, lines, this.score, this.stats, this.aiName);
@@ -1173,4 +1176,6 @@ const UI = {
 /* ---------------- Boot ---------------- */
 Store.load();
 UI.init();
+{ const best = () => { if (window.Mal3abBest) Mal3abBest('pitch', Store.state.stats.botWins || 0); };
+  if (window.Mal3abReady) best(); else document.addEventListener('mal3abready', best, { once: true }); }
 window.PitchLegends = { Store, Game, Gacha, Upgrades, Challenges, Lineup, Stats, UI, CATALOG, FIELD };
