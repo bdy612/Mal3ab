@@ -3,7 +3,7 @@
 
 const BOTLV = [
   { spd: 0.8, react: 0.22, err: 0.3, wait: 0.45, dive: 0.1 },     // easy
-  { spd: 0.9, react: 0.13, err: 0.13, wait: 0.8, dive: 0.45 },    // normal
+  { spd: 0.87, react: 0.15, err: 0.16, wait: 0.8, dive: 0.45 },   // normal
   { spd: 0.975, react: 0.075, err: 0.045, wait: 0.95, dive: 0.85 } // hard
 ];
 function botInit(j, lvl, r) {
@@ -24,6 +24,8 @@ function botStep(j, dt, T, ents) {
   const L = BOTLV[j.lvl] || BOTLV[1];
   inp.jump = false; inp.dive = false;
   if (a.diveAt > 0) { a.diveAt -= dt; if (a.diveAt <= 0 && !j.grounded && j.st === 0) inp.dive = true; }
+  if (a.jumpIn > 0) { a.jumpIn -= dt; if (a.jumpIn <= 0 && j.st === 0) inp.jump = true; }
+  if (a.boost > 0) { a.boost -= dt; const m = Math.hypot(inp.x, inp.z); if (m > 0.05 && m < 1) { inp.x /= m; inp.z /= m; } }   // keep full speed through a gap jump
   // stuck: wants to move but isn't
   const hs = Math.hypot(j.vel.x, j.vel.z);
   if (j.st === 0 && j.grounded && Math.hypot(inp.x, inp.z) > 0.5 && hs < 1.1) a.stuck += dt; else a.stuck = Math.max(0, a.stuck - dt * 2);
@@ -37,8 +39,8 @@ function botStep(j, dt, T, ents) {
     while (a.pi < P.length - 1) {
       const nd = P[a.pi], nx = P[a.pi + 1], ndx = nodeX(nd, a), nnx = nodeX(nx, a);
       let dx = nnx - ndx, dz = nx.z - nd.z; const dl = Math.hypot(dx, dz) || 1; dx /= dl; dz /= dl;
-      const px = j.pos.x - nnx, pz = j.pos.z - nx.z;
-      if (px * dx + pz * dz > -0.45 && j.pos.y > nx.y - 2.5) { a.pi++; a.lat = (Math.random() - 0.5) * 1.6; a.wait = 0; } else break;
+      const px = j.pos.x - (nnx + a.lat * nx.w), pz = j.pos.z - nx.z;
+      if ((px * dx + pz * dz > -0.45 || px * px + pz * pz < 1.2) && j.pos.y > nx.y - 2.5) { a.pi++; a.lat = (Math.random() - 0.5) * 1.6; a.wait = 0; } else break;
     }
     const ti = Math.min(a.pi + 1, P.length - 1), tn = P[ti];
     tx = nodeX(tn, a) + a.lat * tn.w; tz = tn.z; tY = tn.y;
@@ -53,17 +55,17 @@ function botStep(j, dt, T, ents) {
         let best = -1, bs = -1e9;
         for (let k = 0; k < 18; k++) {
           const i = (Math.random() * W.tiles.length) | 0, t = W.tiles[i];
-          if (t.st !== 0 || Math.abs(t.y - j.pos.y) > 1.2) continue;
-          const d = Math.hypot(t.x - j.pos.x, t.z - j.pos.z); if (d < 1.6 || d > 8) continue;
-          const sc = -Math.abs(d - 3.5) - Math.hypot(t.x - A.x, t.z - A.z) * 0.15 + Math.random() * 1.5;
+          if (t.st !== 0 || Math.abs(t.y - j.pos.y) > 1.2 || Math.hypot(t.x - A.x, t.z - A.z) > A.r - 2.2) continue;
+          const d = Math.hypot(t.x - j.pos.x, t.z - j.pos.z); if (d < 1.4 || d > 6) continue;
+          const sc = -Math.abs(d - 2.6) - Math.hypot(t.x - A.x, t.z - A.z) * 0.15 + Math.random() * 1.5;
           if (sc > bs) { bs = sc; best = i; }
         }
         if (best >= 0) { a.ti = best; a.tx = W.tiles[best].x; a.tz = W.tiles[best].z; a.re = 1.5 + Math.random() * 2; }
       }
-      mag = 0.85;
+      mag = 0.5 + a.slack * 0.15;
     } else {
-      if (need) { const an = Math.random() * TAU, rr = Math.sqrt(Math.random()) * A.r * 0.6; a.tx = A.x + Math.cos(an) * rr; a.tz = A.z + Math.sin(an) * rr; a.re = 1.5 + Math.random() * 2.5; }
-      mag = 0.55 + a.slack * 0.3;
+      if (need) { const an = Math.random() * TAU, rr = 2 + Math.random() * A.r * 0.33; a.tx = A.x + Math.cos(an) * rr; a.tz = A.z + Math.sin(an) * rr; a.re = 1.5 + Math.random() * 2.5; }
+      mag = 0.4 + a.slack * 0.25;
       if (Math.hypot(j.pos.x - A.x, j.pos.z - A.z) > A.r - 2.5) { a.tx = A.x; a.tz = A.z; mag = 1; }
     }
     tx = a.tx; tz = a.tz;
@@ -82,38 +84,42 @@ function botStep(j, dt, T, ents) {
     }
   }
   let dx = tx - j.pos.x, dz = tz - j.pos.z; const dl = Math.hypot(dx, dz);
-  if (dl < 0.3) { inp.x = inp.z = 0; return inp; }
-  dx /= dl; dz /= dl;
+  if (dl < 0.3) { mag = 0; dx = Math.sin(j.yaw); dz = Math.cos(j.yaw); if (W.ai === 'tiles') a.re = 0; }
+  else { dx /= dl; dz /= dl; }
   // danger: a bar or puncher about to reach me
-  const sp = PHYS.run * j.spd, tau = 0.17 + L.react * 0.5;
-  const fx = j.pos.x + dx * sp * tau, fz = j.pos.z + dz * sp * tau;
-  if (j.grounded) {
-    const low = dangerAt(fx, j.pos.y + 0.55, fz, 0.65, T + tau) || dangerAt(j.pos.x, j.pos.y + 0.55, j.pos.z, 0.6, T + tau * 0.8);
+  const sp = PHYS.run * j.spd;
+  if (j.grounded || j.coyote > 0) {
+    // look ahead over the next ~half second (until my next think) for a sweeping bar at my feet
+    let low = null, lowT = 0, fx = j.pos.x, fz = j.pos.z;
+    const vx = (j.vel.x + dx * sp * mag) * 0.5, vz = (j.vel.z + dz * sp * mag) * 0.5;
+    for (const tt of [0.12, 0.24, 0.36, 0.48]) { if (tt > tick + 0.3) break; const px = j.pos.x + vx * tt, pz = j.pos.z + vz * tt; const c = dangerAt(px, j.pos.y + 0.55, pz, 0.62, T + tt); if (c) { low = c; lowT = tt; fx = px; fz = pz; break; } }
     if (low) {
-      const high = dangerAt(fx, j.pos.y + 2.1, fz, 0.5, T + tau + 0.15);
-      if (!high) { if (Math.random() > L.err) inp.jump = true; }
+      const high = dangerAt(fx, j.pos.y + 2.1, fz, 0.5, T + lowT + 0.15);
+      if (!high) { if (Math.random() > L.err) { const d = Math.max(0, lowT - 0.3 + (Math.random() - 0.5) * L.err * 0.3); if (d < 0.02) inp.jump = true; else a.jumpIn = d; } }
       else if (Math.random() < L.wait) {
         if (dangerAt(j.pos.x, j.pos.y + 1, j.pos.z, 0.7, T + 0.35)) { dx = -dx; dz = -dz; mag = 0.8; } else mag = 0;
       }
     } else if (W.ai === 'path' && Math.random() < L.wait) {
-      // a puncher that would hit me a bit further along: hold back
-      const f2x = j.pos.x + dx * 2.2, f2z = j.pos.z + dz * 2.2;
-      if (dangerAt(f2x, j.pos.y + 1.1, f2z, 0.8, T + 0.45) && dangerAt(f2x, j.pos.y + 2.2, f2z, 0.6, T + 0.45)) mag = 0;
+      // a puncher that will be in my way while I pass it: hold back (unless standing still is worse)
+      let block = false;
+      for (const d of [1.2, 2.4, 3.6]) { const px = j.pos.x + dx * d, pz = j.pos.z + dz * d, tt = T + d / sp + 0.12; if (dangerAt(px, j.pos.y + 1.1, pz, 0.75, tt) && dangerAt(px, j.pos.y + 2, pz, 0.6, tt)) { block = true; break; } }
+      if (block && !dangerAt(j.pos.x, j.pos.y + 1, j.pos.z, 0.8, T + 0.3)) mag = 0;
     }
     // gaps and steps
-    const g1 = groundY(j.pos.x + dx * 1.05, j.pos.z + dz * 1.05, j.pos.y + 0.6);
+    const g1 = Math.min(groundY(j.pos.x + dx * 0.62, j.pos.z + dz * 0.62, j.pos.y + 0.6), groundY(j.pos.x + dx * 1.1, j.pos.z + dz * 1.1, j.pos.y + 0.6));
     if (g1 < j.pos.y - 1.3 && mag > 0) {
       let land = 0;
-      for (const d of [2.2, 3, 3.8, 4.6]) { const gy = groundY(j.pos.x + dx * d, j.pos.z + dz * d, j.pos.y + 1.7); if (gy > j.pos.y - 3.5 && gy > tY - 4) { land = d; break; } }
+      for (const d of [2.2, 3, 3.8, 4.6]) { const gy = groundY(j.pos.x + dx * d, j.pos.z + dz * d, j.pos.y + 1.7, T + 0.15 + d / Math.max(4, sp)); if (gy > j.pos.y - 3.5 && gy > tY - 4) { land = d; break; } }
       if (land || a.wait > 2.4) {
-        if (Math.random() > L.err * 0.6) { inp.jump = true; a.wait = 0; if ((land >= 3.8 || !land) && Math.random() < L.dive) a.diveAt = 0.26; }
-      } else { mag = 0; a.wait += tick; }
+        if (Math.random() > L.err * 0.6) { inp.jump = true; mag = 1; a.boost = 0.8; a.wait = 0; if (W.ai === 'path' && (land >= 3.8 || !land) && Math.random() < L.dive) a.diveAt = 0.26; }
+      } else if (W.ai === 'tiles') { a.ti = -1; a.re = 0; dx = -dx; dz = -dz; mag = 0.4; }   // never stand still on crumbling tiles
+      else { mag = 0; a.wait += tick; }
     } else {
       const g0 = groundY(j.pos.x + dx * 0.85, j.pos.z + dz * 0.85, j.pos.y + 2.2);
       if (g0 > j.pos.y + 0.32) inp.jump = true;
     }
     if (a.stuck > 0.45) { inp.jump = true; if (a.stuck > 2.4) { a.lat = (Math.random() - 0.5) * 1.8; a.stuck = 0; a.lane = 1 - a.lane; } }
-    if (Math.random() < 0.012) inp.jump = true;
+    if (W.ai !== 'tiles' && Math.random() < 0.012) inp.jump = true;
   }
   inp.x = dx * mag; inp.z = dz * mag;
   return inp;

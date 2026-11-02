@@ -112,7 +112,12 @@
   #touch .boostb { width: 84px; height: 84px; right: calc(124px + env(safe-area-inset-right)); bottom: 26px; background: rgba(255, 122, 26, .3); }
   #touch .slide { width: 62px; height: 62px; right: calc(40px + env(safe-area-inset-right)); bottom: 140px; }
   #touch .camb { width: 52px; height: 52px; right: calc(118px + env(safe-area-inset-right)); bottom: 124px; font-size: 12px; }
-  @media (pointer: coarse) { .boost { right: auto; left: calc(50% - 46px); bottom: 10px; width: 92px; height: 92px; } .boost b { font-size: 24px; } .pv .cam, .pv .sup { right: auto; left: calc(50% + 54px); } .pv .tagme { display: none; } #feed { top: 60px; font-size: 12px; } }
+  @media (pointer: coarse) {
+    .boost { right: calc(10px + env(safe-area-inset-right)); top: max(62px, calc(env(safe-area-inset-top) + 54px)); bottom: auto; width: 74px; height: 74px; } .boost b { font-size: 20px; }
+    .pv .cam { right: calc(10px + env(safe-area-inset-right)); top: max(142px, calc(env(safe-area-inset-top) + 134px)); bottom: auto; font-size: 11px; }
+    .pv .sup { right: calc(10px + env(safe-area-inset-right)); top: max(170px, calc(env(safe-area-inset-top) + 162px)); bottom: auto; }
+    .pv .tagme { display: none; } #feed { top: 62px; right: auto; left: 10px; align-items: flex-start; font-size: 12px; max-width: 60vw; }
+  }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="../../shared/i18n.js?v=1793407000"></script>

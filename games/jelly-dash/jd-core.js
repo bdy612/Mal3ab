@@ -395,10 +395,11 @@ function sphHit(c, px, py, pz, r) {
   return true;
 }
 // highest walkable top under (x, z) that is not above yMax — bots use it to see gaps and steps
-function groundY(x, z, yMax) {
+function groundY(x, z, yMax, T) {
   let best = -1e9;
-  for (const c of W.cols) {
+  for (let c of W.cols) {
     if (!c.on || c.hit || c.nobot) continue;
+    if (T != null && c.fn) { TMPG.type = c.type; TMPG.hx = c.hx; TMPG.hy = c.hy; TMPG.hz = c.hz; TMPG.br = c.br; poseAt(c, T, TMPG); c = TMPG; }   // where a moving platform will be
     const dx = x - c.c[0], dz = z - c.c[2]; if (dx * dx + dz * dz > c.br * c.br + 1) continue;
     let top;
     if (c.type === 1) { if (dx * dx + dz * dz > c.hx * c.hx) continue; top = c.c[1] + c.hy; }
@@ -412,6 +413,7 @@ function groundY(x, z, yMax) {
   }
   return best;
 }
+const TMPG = { type: 0, hx: 0, hy: 0, hz: 0, br: 0, c: [0, 0, 0], ax: [1, 0, 0], ay: [0, 1, 0], az: [0, 0, 1] };
 const TMPC = { type: 0, hx: 0, hy: 0, hz: 0, c: [0, 0, 0], ax: [1, 0, 0], ay: [0, 1, 0], az: [0, 0, 1] };
 function dangerAt(x, y, z, r, T) {   // would a moving obstacle be at this point at time T?
   for (const c of W.hits) {
@@ -484,7 +486,6 @@ function freeJelly(j) { if (j.m && j.m.root.parent) j.m.root.parent.remove(j.m.r
 function setJellyPos(j, x, y, z, yaw) { j.pos.set(x, y, z); j.vel.set(0, 0, 0); j.yaw = yaw || 0; j.st = 0; j.grounded = false; }
 
 function collideJelly(j) {
-  j.grounded = false; j.gObj = null;
   for (let it = 0; it < 2; it++) for (let s = 0; s < 2; s++) {
     const off = SPH[s][0], r = SPH[s][1];
     for (let i = 0; i < W.cols.length; i++) {
@@ -503,17 +504,27 @@ function collideJelly(j) {
         j.vel.x += nx * c.bump; j.vel.z += nz * c.bump; j.vel.y = Math.max(j.vel.y, 4 + ny * c.bump * 0.5);
         if (j.knockCD <= 0) { j.knockCD = 0.25; if (HOOK.knock) HOOK.knock(j, 'boing'); }
       }
-      if (c.hit && j.knockCD <= 0 && j.inv <= 0 && !j.fin) {
+      if (c.hit && ny < 0.45 && j.knockCD <= 0 && j.inv <= 0 && !j.fin) {   // landing on top of a bar just rides it
         const v = pointVel(c, px, py, pz), sp = Math.hypot(v.x, v.y, v.z);
         if (sp > 2.4) knock(j, v.x, v.y, v.z, nx, ny, nz, sp);
       }
     }
   }
 }
+// resting exactly on a surface: look a hair below the feet so standing still still counts as standing
+function groundProbe(j) {
+  const px = j.pos.x, py = j.pos.y + 0.5 - 0.06, pz = j.pos.z;
+  for (let i = 0; i < W.cols.length; i++) {
+    const c = W.cols[i]; if (!c.on || c.hit) continue;
+    const dx = px - c.c[0], dy = py - c.c[1], dz = pz - c.c[2], rr = c.br + 0.5;
+    if (dx * dx + dy * dy + dz * dz > rr * rr) continue;
+    if (sphHit(c, px, py, pz, 0.5) && HIT.ny > 0.55) { j.grounded = true; j.gObj = c; return; }
+  }
+}
 function knock(j, vx, vy, vz, nx, ny, nz, sp) {
   const k = 1.15; let hx = vx * k + nx * 3, hz = vz * k + nz * 3; const hm = Math.hypot(hx, hz), cap = 15; if (hm > cap) { hx *= cap / hm; hz *= cap / hm; }
   j.vel.x = hx; j.vel.z = hz; j.vel.y = Math.max(5 + Math.min(4, sp * 0.25), vy + 4 + Math.max(0, ny) * 3);
-  j.st = 2; j.stT = 0; j.knockCD = 0.55; j.grounded = false; j.spinV = (Math.random() < 0.5 ? -1 : 1) * (7 + Math.random() * 5); j.grabbing = false; j.grabT = null;
+  j.st = 2; j.stT = 0; j.knockCD = 1.9; j.grounded = false; j.spinV = (Math.random() < 0.5 ? -1 : 1) * (7 + Math.random() * 5); j.grabbing = false; j.grabT = null;
   if (HOOK.knock) HOOK.knock(j, 'bonk');
 }
 // one step of a jelly that this device simulates (the player, or a bot)
@@ -547,11 +558,13 @@ function simJelly(j, inp, dt) {
     if (hs > 0) { const k = Math.max(0, hs - fr) / hs; j.vel.x *= k; j.vel.z *= k; }
   }
   if (j.st === 1) { if (j.grounded && j.stT > 0.1) { j.st = 3; j.stT = 0; j.getup = 0.3; } }
-  else if (j.st === 2) { if ((j.grounded && j.stT > 0.95) || j.stT > 3.2) { j.st = 3; j.stT = 0; j.getup = 0.38; } }
+  else if (j.st === 2) { if ((j.grounded && j.stT > 0.75) || j.stT > 3.2) { j.st = 3; j.stT = 0; j.getup = 0.38; } }
   else if (j.st === 3) { if (j.stT > j.getup) j.st = 0; }
   j.vel.y = Math.max(j.vel.y - PHYS.grav * dt, -PHYS.maxFall);
   const vy0 = j.vel.y, wasG = j.grounded, n = dt > 1 / 100 ? 2 : 1, h = dt / n;
+  j.grounded = false; j.gObj = null;
   for (let k = 0; k < n; k++) { j.pos.x += j.vel.x * h; j.pos.y += j.vel.y * h; j.pos.z += j.vel.z * h; collideJelly(j); }
+  if (!j.grounded && j.vel.y < 1) groundProbe(j);
   if (!wasG && j.grounded && vy0 < -5) { j.sqv -= Math.min(7, -vy0 * 0.35); if (HOOK.land) HOOK.land(j, -vy0); }
   if (j.pos.y < W.killY && HOOK.fall) HOOK.fall(j);
 }

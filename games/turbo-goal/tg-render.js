@@ -147,7 +147,8 @@
       if (uvFull) uv.setXY(i, (x + A.HW) / (2 * A.HW), 1 - (z + A.HL) / (2 * A.HL)); else uv.setXY(i, x / 4, z / 4);
     }
     g.computeVertexNormals();
-    if (y > 1) g.index && g.index.array.reverse();
+    if (y < 1) { g.index.array.reverse(); g.index.needsUpdate = true; }
+    g.computeVertexNormals();
     return g;
   }
 
@@ -315,7 +316,8 @@
     const hl = new THREE.MeshBasicMaterial({ color: 0xfff6d8 }), tl = new THREE.MeshBasicMaterial({ color: 0xff2a3a });
     for (const sx of [-1, 1]) {
       const h = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.12, 0.05), hl); h.position.set(sx * 0.72, -0.02, D.body[2][0] + 0.02); g.add(h);
-      const tt = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.12, 0.05), tl); tt.position.set(sx * 0.75, 0.18, D.body[0][0] - 0.02); g.add(tt);
+      const tt = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.17, 0.06), tl); tt.position.set(sx * 0.72, 0.14, D.body[0][0] - 0.04); g.add(tt);
+      const dif = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.18, 0.08), darkMat); dif.position.set(sx * 0.62, -0.2, D.body[0][0] - 0.03); g.add(dif);
     }
     // wheels: front ones on pivots so they can steer
     const wheels = [], pivots = [], rimMat = new THREE.MeshStandardMaterial({ color: acc, metalness: 0.6, roughness: 0.3, flatShading: true });
@@ -327,7 +329,7 @@
       wheels.push(w); if (front) pivots.push(pv);
     }
     // boost nozzle + flame
-    const noz = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 0.3, 8), darkMat); noz.rotation.x = Math.PI / 2; noz.position.set(0, 0.05, D.body[0][0] - 0.1); g.add(noz);
+    const noz = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.27, 0.3, 8), new THREE.MeshStandardMaterial({ color: 0x3a3f4c, metalness: 0.8, roughness: 0.3 })); noz.rotation.x = Math.PI / 2; noz.position.set(0, 0.05, D.body[0][0] - 0.1); g.add(noz);
     const tc = TRAILS[(o.trail | 0) % TRAILS.length];
     const flameMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(tc[0], tc[1], tc[2]), transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide });
     const flame = new THREE.Mesh(flameG, flameMat); flame.position.copy(noz.position); flame.position.z -= 0.12; g.add(flame);
@@ -350,7 +352,7 @@
 
   // ------------------------------------------------------------------ ball
   function makeBallMesh() {
-    const geo = new THREE.IcosahedronGeometry(R, 2).toNonIndexed();
+    const geo = new THREE.IcosahedronGeometry(R, 2);
     const base = new THREE.IcosahedronGeometry(1, 0), bp = base.attributes.position, verts = [];
     for (let i = 0; i < bp.count; i++) { const v = new THREE.Vector3().fromBufferAttribute(bp, i).normalize(); if (!verts.some(u => u.distanceTo(v) < 1e-3)) verts.push(v); }
     const p = geo.attributes.position, col = [], v = new THREE.Vector3(), cen = new THREE.Vector3();

@@ -120,7 +120,6 @@
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas, antialias: SET.quality === 'high' && !touchMode, powerPreference: 'high-performance' }); }
   catch (e) { document.body.innerHTML = '<div style="padding:40px;text-align:center;font:18px sans-serif;color:#fff">' + t('tg_noWebgl') + '</div>'; return; }
-  renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.autoClear = false;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x070914);
@@ -214,7 +213,7 @@
   window.TGI = {};   // filled at the end; tg-online.js uses it
 
   function botName(i) { return '🤖 ' + t('tg_bn' + (i % 10)); }
-  function carLabel(c) { return c.kind === 'bot' && !c.owner ? botName(c.bi | 0) : c.name; }
+  function carLabel(c) { return !c.owner && c.kind !== 'human' ? botName(c.bi | 0) : c.name; }
   function bodyInit(o) { o.pp = new V3().copy(o.pos); o.pq = new Q4().copy(o.q); o.rp = new V3().copy(o.pos); o.rq = new Q4().copy(o.q); o.off = new V3(); }
   function snapBodies() {
     const W = G.W; if (!W) return;
@@ -867,7 +866,7 @@
     }
     G.attractT += dt * 0.06;
     const W = G.W, b = W ? W.ball.rp : _al.set(0, 0, 0), a = G.attractT;
-    const want = _ac.set(Math.sin(a) * 95, 46, Math.cos(a) * 120);
+    const want = _ac.set(Math.sin(a) * 52, 24, Math.cos(a) * 74);
     cam.position.lerp(want, 1 - Math.exp(-dt * 0.8));
     _al.lerp(b, 1 - Math.exp(-dt * 2)); cam.up.set(0, 1, 0); cam.lookAt(_al); cam.userData.fovT = 60;
   }
@@ -1129,7 +1128,7 @@
     G, T, get SET() { return SET; }, AU, PS, cams, scene, LS, get GAR() { return GAR; }, get STATS() { return STATS; },
     newMatch, startKickoff, go, onGoal, scoreGoal, endMatch, applyDemo, demoFx, registerTouch, touchFx, snapBodies, bodyInit, showOverlay, hideOverlay, toast, feed, banner,
     renderMenu, toMenu, myName, carLabel, botName, botCars, withIds, startOvertime, skipReplay, endReplay, updateScore, buildHud, boardTable, langBtn, bindLang, seg, bindSeg, lenOpts, esc,
-    isLocal, distVol, showResults, ballMesh, startAttract,
+    isLocal, distVol, showResults, ballMesh, startAttract, startReplay,
   });
   window.TurboGoal = {
     G, get W() { return G.W; },

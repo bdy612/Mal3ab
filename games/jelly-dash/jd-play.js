@@ -135,7 +135,7 @@ function teardownWorld() {
   G.ents = []; G.byId.clear();
   if (W.scene) { for (const g of W.geos) g.dispose(); for (const m of W.hexMs) { if (m.material) m.material.dispose(); } }
   Object.assign(W, { scene: null, sun: null, cols: [], dyn: [], hits: [], tiles: [], hexMs: [], cps: [], spawn: null, finish: null, path: [], killY: -14, view: 0, def: null,
-    slime: null, slimeM: null, crown: null, T: 0, ai: 'path', arena: null, geos: [], anim: [], auto: null, fallDelay: 0.7, slimeY: -99 });
+    slime: null, slimeM: null, crown: null, T: 0, ai: 'path', arena: null, geos: [], anim: [], auto: null, fallDelay: 0.7, slimeY: -99, regrow: 0 });
   PART.clear();
 }
 function buildWorld(def, seed) {
@@ -290,12 +290,15 @@ function updateTiles(T, dt) {
       TMPO.position.set(tl.x, tl.y - 0.4 - tl.fy, tl.z); TMPO.rotation.set(tl.fy * 0.08, 0, tl.fy * 0.05); TMPO.scale.setScalar(sc); TMPO.updateMatrix();
       tl.im.setMatrixAt(tl.ii, TMPO.matrix); dirty.add(tl.im);
       if (sc <= 0.001) tl.st = 3;
+    } else if (tl.st === 3 && W.regrow && T >= tl.tt + tl.fall + W.regrow) {   // race tiles grow back
+      tl.st = 0; tl.c.on = true; tl.back = T; TMPO.position.set(tl.x, tl.y - 0.4, tl.z); TMPO.rotation.set(0, 0, 0); TMPO.scale.setScalar(1); TMPO.updateMatrix();
+      tl.im.setMatrixAt(tl.ii, TMPO.matrix); tl.im.setColorAt(tl.ii, tl.col); dirty.add(tl.im);
     }
   }
   for (const im of dirty) { im.instanceMatrix.needsUpdate = true; if (im.instanceColor) im.instanceColor.needsUpdate = true; }
 }
 function applyTile(i, tt) {
-  const tl = W.tiles[i]; if (!tl || !isFinite(tt)) return;
+  const tl = W.tiles[i]; if (!tl || !isFinite(tt) || (tl.back && tt < tl.back)) return;
   if (tl.st === 0) { tl.st = 1; tl.tt = tt; } else if (tl.st === 1 && tt < tl.tt) tl.tt = tt;
 }
 function updateWorldExtras(T, dt) {
