@@ -729,7 +729,7 @@ const Game = {
     s.tokens += tokens;
     if (won && !(window.PVP && PVP.live)) s.stats.botWins = (s.stats.botWins || 0) + 1;
     Store.save(); UI.refreshHud(true);
-    if (window.Mal3abBest) Mal3abBest('pitch', s.stats.botWins || 0);
+    if (window.Mal3abBest && s.stats.botWins > 0) Mal3abBest('pitch', s.stats.botWins);
     this.say(`Full time: ${h}–${aw}.`);
     this.render();
     UI.resultModal(won, drew, lines, this.score, this.stats, this.aiName);
@@ -1176,6 +1176,6 @@ const UI = {
 /* ---------------- Boot ---------------- */
 Store.load();
 UI.init();
-{ const best = () => { if (window.Mal3abBest) Mal3abBest('pitch', Store.state.stats.botWins || 0); };
+{ const best = () => { if (window.Mal3abBest && Store.state.stats.botWins > 0) Mal3abBest('pitch', Store.state.stats.botWins); };
   if (window.Mal3abReady) best(); else document.addEventListener('mal3abready', best, { once: true }); }
 window.PitchLegends = { Store, Game, Gacha, Upgrades, Challenges, Lineup, Stats, UI, CATALOG, FIELD };

@@ -479,6 +479,7 @@ function frame(now) {
 
 // ---------------------------------------------------------------- boot
 loadProfile();
+if (window.Mal3abReady) esReportBest(); else document.addEventListener('mal3abready', esReportBest, { once: true });
 ESAudio.setMuted(G.settings.mute);
 menuScene(); refreshMenu();
 if (window.applyLang) applyLang();

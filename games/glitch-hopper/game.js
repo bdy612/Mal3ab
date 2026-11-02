@@ -204,6 +204,8 @@ let sets = Object.assign({ sfx: true, music: true, hinted: false }, lsGet(SETS, 
 const saveProg = () => lsSet(SAVE, prog), saveSets = () => lsSet(SETS, sets);
 const starsOf = (lv) => (prog.lv[lv.id] && prog.lv[lv.id].s) || [false, false, false];
 const totalStars = () => LV.reduce((a, lv) => a + starsOf(lv).filter(Boolean).length, 0);
+const reportBest = () => { const n = totalStars(); if (window.Mal3abBest && n > 0) Mal3abBest('glitchhopper', n); };   // 🏆 Best: total stars (single-player levels)
+if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
 
 // ------------------------------------------------------------------ glitch look
 const GC = { none: '#39ff88', flip: '#b98cff', rev: '#ff4f7a', ghost: '#a9bcff', ice: '#7df9ff', shift: '#ffb703', freeze: '#a8f3ff' };
@@ -567,7 +569,7 @@ function finishWin() {
   const isBest = old.best == null || s.time < old.best;
   prog.lv[lv.id] = { s: old.s.map((v, i) => v || got[i]), best: isBest ? +s.time.toFixed(2) : old.best };
   prog.unlocked = Math.max(prog.unlocked || 1, Math.min(LV.length, cur.li + 2));
-  saveProg();
+  saveProg(); reportBest();
   cur.result = { got, isBest, best: prog.lv[lv.id].best, time: s.time, deaths: s.deaths };
   const tok = ++endTok;
   setTimeout(() => { if (tok === endTok && cur) { setMode('win'); renderScreen(); } }, 750);

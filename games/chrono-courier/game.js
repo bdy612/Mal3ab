@@ -369,6 +369,8 @@
   const starsOf = (id) => prog.stars[id] | 0;
   const unlocked = (i) => i === 0 || starsOf(LEVELS[i - 1].id) > 0 || starsOf(LEVELS[i].id) > 0;
   const totalStars = () => LEVELS.reduce((a, L) => a + starsOf(L.id), 0);
+  const reportBest = () => { const n = totalStars(); if (window.Mal3abBest && n > 0) Mal3abBest('chronocourier', n); };   // 🏆 Best: total solo stars (co-op stars don't count)
+  if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
   // online co-op results are kept apart from the solo stars (two couriers make levels easier)
   const COOP_KEY = 'chrono-courier-coop', NAME_KEY = 'chrono-courier-name';
   const coop = readJSON(COOP_KEY, {}); coop.stars = coop.stars || {}; coop.loops = coop.loops || {};
@@ -984,7 +986,7 @@
     G.newBest = !!prevLoops && used < prevLoops;
     P.stars[L.id] = Math.max(P.stars[L.id] | 0, st);
     P.loops[L.id] = prevLoops ? Math.min(prevLoops, used) : used;
-    if (G.coopLvl) saveCoop(); else saveProg();
+    if (G.coopLvl) saveCoop(); else { saveProg(); reportBest(); }
     setBanner(null);
     if (!G.scripted) { G.shake = Math.max(G.shake, 6); G.flash = 0.6; }
   }

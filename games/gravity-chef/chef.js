@@ -292,6 +292,9 @@
   const persist = () => { try { localStorage.setItem(SKEY, JSON.stringify(SAVE)); } catch (e) {} };
   const unlocked = (i) => i === 0 || (SAVE.stars[i] || 0) > 0;   // level index i opens once level number i (the previous one) has a star
   const totalStars = () => LEVELS.reduce((a, lv) => a + (SAVE.stars[lv.n] || 0), 0);
+  // 🏆 Best: the sum of the solo best score of every shift (co-op scores never go into SAVE.best)
+  const reportBest = () => { if (window.Mal3abBest) { const n = LEVELS.reduce((a, lv) => a + (+SAVE.best[lv.n] || 0), 0); if (n > 0) Mal3abBest('gravitychef', n); } };
+  if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
 
   // online state (the room logic lives in the ONLINE section further down)
   const NET = { on: false, ch: null, code: '', ready: false, me: '', jt: 0, host: '', ep: 0, peers: new Map(), roster: null, cols: {}, sel: 0, ph: 'lobby', hb: 0,
@@ -1994,7 +1997,7 @@
     const prevBest = SAVE.best[lv.n] || 0, newBest = !online && sc > prevBest;   // co-op scores don't count as solo bests
     if (newBest) SAVE.best[lv.n] = sc;
     if (stars > (SAVE.stars[lv.n] || 0) && !G.watch) SAVE.stars[lv.n] = stars;
-    persist();
+    persist(); if (newBest) reportBest();
     G.result = { win, why, stars, newBest, best: Math.max(sc, prevBest) };
     if (online) {
       NET.ph = 'result';

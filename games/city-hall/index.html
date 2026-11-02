@@ -308,7 +308,7 @@ function simulate(){
   events(st);
   // 11. milestones
   const nt = tierOf(pop);
-  if(nt>S.tier && S.approval>=40){S.tier=nt; S.money+=TIERS[nt].grant; toast(`🏙️ Milestone: ${TIERS[nt].name}! Grant $${fmt(TIERS[nt].grant)}. Unlocked: ${TIERS[nt].unlock}`); alert_('good',`Reached ${TIERS[nt].name}`);}
+  if(nt>S.tier && S.approval>=40){S.tier=nt; S.money+=TIERS[nt].grant; setTimeout(reportBest,0); toast(`🏙️ Milestone: ${TIERS[nt].name}! Grant $${fmt(TIERS[nt].grant)}. Unlocked: ${TIERS[nt].unlock}`); alert_('good',`Reached ${TIERS[nt].name}`);}
   else if(nt>S.tier) S.advisorOverride=`Population qualifies for ${TIERS[nt].name}, but approval must be ≥ 40% first.`;
   if(S.money<-5000 && !S.bankrupt){S.bankrupt=12; S.approval-=20; toast('💸 Bankruptcy. The state froze building for 12 months and approval fell 20 points.'); alert_('bad','Bankruptcy: building frozen');}
   if(S.bankrupt){S.bankrupt--; if(S.money<0) S.money+=Math.min(-S.money,800); if(!S.bankrupt) toast('State control ended. Building is allowed again.');}
@@ -529,18 +529,21 @@ function showTip(sx,sy,x,y){const tip=document.getElementById('tip'); if(!inb(x,
 
 // ───────────────────────── Save / load / loop ─────────────────────────
 // in an online room the shared city goes to its own slot (cityhall-online); the single-player save is never touched
-function saveGame(){if(window.CHO&&CHO.live()) return CHO.save(); try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));toast('City saved.');}catch(e){toast('Could not save (browser storage blocked).');}}
+// 🏆 Best: the single-player city's population (never an online room's city)
+function reportBest(){if(window.Mal3abBest&&!(window.CHO&&CHO.on())&&S&&S.stats&&S.stats.pop>0) Mal3abBest('cityhall',Math.round(S.stats.pop));}
+function saveGame(){if(window.CHO&&CHO.live()) return CHO.save(); try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));toast('City saved.');reportBest();}catch(e){toast('Could not save (browser storage blocked).');}}
 function loadGame(){try{const s=localStorage.getItem('cityhall-save'); if(!s) return false; S=JSON.parse(s); S.stats={}; return true;}catch(e){return false;}}
 function newGame(){if(window.CHO&&CHO.live()&&!CHO.newCity()) return; S=newState(); closeModals(); goTo(Math.floor(N/2),Math.floor(N/2)); simulate(); buildBar(); updateHUD(); toast('New city founded. Build roads from City Hall and zone homes.'); if(window.CHO) CHO.afterNewCity();}
 if(!loadGame()) S=newState();
 goTo(Math.floor(N/2),Math.floor(N/2)); G.cam.z=1.15;
 simulate(); buildBar(); updateHUD(); setSpeed(1);
 if(!localStorage.getItem('cityhall-save')&&!/[?&]room=/.test(location.search)) setTimeout(openHelp,400);
+if(window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready',reportBest,{once:true});
 let last=performance.now();
 // online: only the host runs the monthly tick (guests get the city from the host); nobody ticks while in the lobby
 function loop(now){const dt=now-last; last=now; if(G.speed&&(!window.CHO||CHO.canSim())){G.acc+=dt*G.speed; const per=2500; while(G.acc>=per){G.acc-=per; G.inSim=true; try{simulate();}finally{G.inSim=false;} buildBar(); updateHUD(); if(window.CHO) CHO.afterTick();}} draw(); requestAnimationFrame(loop);}
 requestAnimationFrame(loop);
-setInterval(()=>{ if(window.CHO&&CHO.on()){CHO.autosave();return;} if(S.month%12===0 && S.month>0) {/* autosave yearly */ try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));}catch(e){} } },30000);
+setInterval(()=>{ if(window.CHO&&CHO.on()){CHO.autosave();return;} if(S.month%12===0 && S.month>0) {/* autosave yearly */ try{localStorage.setItem('cityhall-save',JSON.stringify({...S,stats:{}}));reportBest();}catch(e){} } },30000);
 </script>
 <script src="online.js?v=1793403000"></script>
 

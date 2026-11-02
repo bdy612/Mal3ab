@@ -211,6 +211,9 @@ const SET = Object.assign({ music: true, sfx: true, ghost: true }, lsGet(K_SET, 
 // levels added after a save was made: finishing the old last level unlocks the first new one
 for (const k in SAVE.best) if (SAVE.best[k] > 0) SAVE.unlocked = Math.max(SAVE.unlocked || 1, Math.min(LEVELS.length, (k | 0) + 2));
 const saveGame = () => lsSet(K_SAVE, SAVE);
+// 🏆 Best: total medals over all levels (3 per level: bronze 1, silver 2, gold 3)
+const ncReportBest = () => { const n = Object.values(SAVE.medal || {}).reduce((a, v) => a + (v | 0), 0); if (window.Mal3abBest && n > 0) Mal3abBest('neoncourier', n); };
+if (window.Mal3abReady) ncReportBest(); else document.addEventListener('mal3abready', ncReportBest, { once: true });
 const saveSet = () => lsSet(K_SET, SET);
 
 // ---------------------------------------------------------------- audio (all synthesized)
@@ -655,7 +658,7 @@ function deliver() {
   SAVE.medal[i] = Math.max(SAVE.medal[i] || 0, medal);
   if (P.flawless) SAVE.flaw[i] = true;
   SAVE.unlocked = Math.max(SAVE.unlocked || 1, Math.min(LEVELS.length, i + 2));
-  saveGame();
+  saveGame(); if (!RACE.on) ncReportBest();
   P.hook = null;
   ring(L.term.x, L.term.y, '#39ff88', 140, 0.8, 5); ring(L.term.x, L.term.y, '#b8ffd6', 80, 0.6, 2); burst(L.term.x, L.term.y, 60, '#39ff88', 380, 4);
   AU.sfx('deliver'); if (medal) setTimeout(() => AU.sfx('medal'), 450); shake(4);

@@ -39,8 +39,12 @@ const rangeOf = (r) => ROLES[r.role].range * (r.rangeM || 1);
 function loadProfile() {
   G.profile = Object.assign({ best: null, runs: 0, wins: 0, kills: 0, ascMax: 0, codex: [], seen: [], tut: 0 }, lsGet(KEY_PROFILE, {}));
   G.settings = Object.assign({ mute: false }, lsGet(KEY_SETTINGS, {}));
+  if (G.profile.soloBest == null) G.profile.soloBest = (G.profile.best && +G.profile.best.score) || 0;
 }
 const saveProfile = () => lsSet(KEY_PROFILE, G.profile);
+// 🏆 Best: best SOLO run score (online runs also go into profile.best, so solo is kept apart; seeded once from older saves)
+const esSoloScore = () => { if (!G.online) G.profile.soloBest = Math.max(G.profile.soloBest || 0, G.score || 0); };
+const esReportBest = () => { if (window.Mal3abBest && G.profile && G.profile.soloBest > 0) Mal3abBest('echoesspire', G.profile.soloBest); };
 const saveSettings = () => lsSet(KEY_SETTINGS, G.settings);
 
 // ---------------------------------------------------------------- harmony analysis
@@ -592,7 +596,7 @@ function waveCleared() {
   ESAudio.sfx('clear'); ESAudio.musicLevel(0.8);
   ui('banner', t('es_cleared'), '+' + bonus + ' ◆');
   ui('phase');
-  if (G.act <= FINAL_ACT) G.profile.best = bestOf(G.profile.best, runSummary());
+  if (G.act <= FINAL_ACT) { G.profile.best = bestOf(G.profile.best, runSummary()); esSoloScore(); }
   G.later.push({ t: G.t + 1.6, fn: () => {
     if (G.phase !== 'cleared') return;
     if (boss && G.act === FINAL_ACT) victory();
@@ -656,7 +660,7 @@ function advanceAct() {
 function victory() {
   G.phase = 'won';
   const P = G.profile; P.wins++; P.ascMax = Math.max(P.ascMax, Math.min(10, G.asc + 1));
-  P.best = bestOf(P.best, Object.assign(runSummary(), { won: true })); saveProfile();
+  P.best = bestOf(P.best, Object.assign(runSummary(), { won: true })); esSoloScore(); saveProfile(); if (!G.online) esReportBest();
   ESAudio.sfx('victory'); G.flash = 0.8; G.flashCol = '255,240,200';
   for (let i = 0; i < 80; i++) burst(0, -60, NOTES[i % 5].rgb, 1, 260);
   if (!G.online) lsDel(KEY_RUN);
@@ -670,7 +674,7 @@ function goEndless() {
 }
 function lose() {
   G.phase = 'over';
-  const P = G.profile; P.best = bestOf(P.best, runSummary()); P.kills += G.kills; saveProfile();
+  const P = G.profile; P.best = bestOf(P.best, runSummary()); P.kills += G.kills; esSoloScore(); saveProfile(); if (!G.online) esReportBest();
   if (!G.online) lsDel(KEY_RUN);
   ESAudio.sfx('defeat'); ESAudio.musicLevel(0.5);
   for (let i = 0; i < 70; i++) G.parts.push({ x: (Math.random() - 0.5) * 30, y: -Math.random() * 110, vx: (Math.random() - 0.5) * 260, vy: -Math.random() * 200, life: 0, max: 1.4 + Math.random(), rgb: '210,220,255', s: 3 + Math.random() * 3, k: 'shard' });

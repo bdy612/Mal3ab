@@ -316,6 +316,9 @@
   }
   let save = loadSave();
   function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
+  // 🏆 Best: total stars over all solo days (online days never touch the solo save)
+  function reportBest() { const n = Object.values(save.stars || {}).reduce((a, v) => a + (+v || 0), 0); if (window.Mal3abBest && n > 0) Mal3abBest('alchemybarista', n); }
+  if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
   // online co-op state (the café of a room has its own coins + decor, so the solo save is never touched)
   const NET = { on: false, ch: null, code: '', ready: false, me: '', jt: 0, name: '', peers: {}, hostId: '', roster: [], room: { md: 1, co: 0, dc: {}, d: 1 }, D: null, seenEv: -1, focus: '', claimT: 0, joinedAt: 0, lastSnap: 0, msg: '' };
   let decorOverride = null;   // shop previews draw one decor item at a time
@@ -1389,7 +1392,7 @@
     const stars = win ? (S.hearts >= maxH * 0.9 ? 3 : S.hearts >= (S.cfg.goal + maxH) / 2 ? 2 : 1) : 0;
     if (win) { save.maxDay = Math.max(save.maxDay, d + 1); save.best[d] = Math.max(save.best[d] || 0, S.hearts); save.stars[d] = Math.max(save.stars[d] || 0, stars); Snd.play('win'); }
     else Snd.play('lose');
-    persist();
+    persist(); if (win) reportBest();
     S.lastResult = { win, why, d, hearts: S.hearts, goal: S.cfg.goal, maxH, tips: S.tipsToday, perfects: S.perfects, stars };
     setTimeout(() => { if (S.screen === 'end') showOverlay('end'); }, 450);
     if (win) for (let i = 0; i < 4; i++) setTimeout(() => burst(rand(L.W * 0.2, L.W * 0.8), rand(L.H * 0.2, L.H * 0.5), 24, { type: 'spark2', cols: ['#ffd25a', '#ff9ab8', '#9fe6ff', '#b5e48c'], sp0: 60, sp1: 260 }), i * 220);

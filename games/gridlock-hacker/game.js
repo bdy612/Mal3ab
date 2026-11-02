@@ -170,6 +170,9 @@
   try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (s && typeof s === 'object') Object.assign(SAVE, s); } catch (e) {}
   if (!SAVE.endless) SAVE.endless = { stage: 0, score: 0 };
   function writeSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) {} }
+  // 🏆 Best: best solo endless-run score (online race/co-op never write it)
+  function reportBest() { if (window.Mal3abBest && SAVE.endless && SAVE.endless.score > 0) Mal3abBest('gridlockhacker', SAVE.endless.score); }
+  if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
 
   // ───────────────────────── audio ─────────────────────────
   const AU = {
@@ -802,7 +805,7 @@
       G.result = { win: true, time: G.time, trace: G.trace, gain, bonus, stage: r.stage, score: r.score };
       if (r.stage > (SAVE.endless.stage || 0)) SAVE.endless.stage = r.stage;
       if (r.score > (SAVE.endless.score || 0)) SAVE.endless.score = r.score;
-      writeSave();
+      writeSave(); reportBest();
     } else if (netMode()) {
       G.result = { win: true, time: G.time, trace: G.trace };
       if (G.mode === 'race' && R.stage >= R.n && R.fin == null) {

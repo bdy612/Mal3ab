@@ -176,6 +176,9 @@
   }
   function save() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) {} }
   loadSave();
+  // 🏆 Best: best solo endless-ride score in coins (online trips never touch the solo save)
+  function reportBest() { if (window.Mal3abBest && S.endless && S.endless.best > 0) Mal3abBest('pixelalchemist', S.endless.best); }
+  if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
 
   // 12 stations
   const LV = (o) => Object.assign({ els: 'HCEV', biomes: ['meadow'], time: 150, goal: 100, tiers: [1, 2], maxO: 3, spawn: [8, 12], pat: 1, multi: 0, legend: 0, slag: 0, debris: 2, intro: [], heat: 1, fast: false, wisp: true }, o);
@@ -847,7 +850,7 @@
       S.endless.best = Math.max(S.endless.best, G.coins); S.endless.stations = Math.max(S.endless.stations, G.seg.k);
       res.bank = Math.floor(G.coins * 0.5); res.win = false;
     }
-    S.bank += res.bank; save();
+    S.bank += res.bank; save(); if (G.mode !== 'level') reportBest();
     AU.play(res.win ? 'win' : 'lose');
     setTimeout(() => showResult(res), 650);
   }

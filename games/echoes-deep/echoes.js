@@ -109,6 +109,10 @@ const SAVE_KEY = 'echoes-deep-save', SET_KEY = 'echoes-deep-settings';
 const SAVE = Object.assign({ unlocked: 1, best: {}, deepest: 0 }, lsGet(SAVE_KEY, {}));
 const SET = Object.assign({ mute: false }, lsGet(SET_KEY, {}));
 const saveProgress = () => lsSet(SAVE_KEY, SAVE);
+// 🏆 Best: total artifacts (stars) from SOLO dives; online results also land in SAVE.best, so solo bests are kept apart (seeded once from older saves)
+if (!SAVE.solo || typeof SAVE.solo !== 'object') { SAVE.solo = {}; for (const k in SAVE.best) SAVE.solo[k] = (SAVE.best[k] && SAVE.best[k].stars) | 0; }
+const reportBest = () => { const n = Object.values(SAVE.solo).reduce((a, v) => a + (v | 0), 0); if (window.Mal3abBest && n > 0) Mal3abBest('echoesdeep', n); };
+if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
 
 // ---------------------------------------------------------------- constants
 const C = 32, CHC = 8, CH_M = 24, NLVL = 12, SUB_R = 13, RING_V = 950;
@@ -735,8 +739,10 @@ function recordResult(R) {
     b.stars = Math.max(b.stars, R.arts); b.time = b.time ? Math.min(b.time, R.time) : R.time;
     SAVE.best[R.lvl] = b; SAVE.unlocked = Math.max(SAVE.unlocked, Math.min(NLVL, R.lvl + 1));
     if (R.lvl === NLVL) SAVE.done = true;
+    if (G.mode === 'solo') SAVE.solo[R.lvl] = Math.max(SAVE.solo[R.lvl] | 0, R.arts | 0);
   }
   saveProgress();
+  if (R.win && G.mode === 'solo') reportBest();
 }
 function shake(v) { G.shake = Math.max(G.shake, v); }
 function flash(c, a) { G.flashC = c; G.flash = Math.max(G.flash, a); }

@@ -19,6 +19,8 @@ let meta = Object.assign({ dreadMax: 0, runs: 0, wins: 0, kills: 0, best: null, 
 const settings = Object.assign({ sound: true, music: true, speed: 1 }, lsGet(KEY_SET, {}));
 AU.on = settings.sound; AU.music = settings.music; S.speed = settings.speed;
 const saveMeta = () => lsSet(KEY_META, meta), saveSet = () => lsSet(KEY_SET, settings);
+// 🏆 Best: the best campaign run score (online matches never reach finishRun)
+const ddReportBest = () => { if (window.Mal3abBest && meta.best && meta.best.score > 0) Mal3abBest('deckdungeons', meta.best.score); };
 let menuDread = meta.dreadMax, uidN = 1, curScreen = null, playerName = '';
 
 const roman = (n) => ['I', 'II', 'III', 'IV'][n - 1] || n;
@@ -450,7 +452,7 @@ function finishRun(won) {
   let newBest = false, unlocked = 0;
   if (!meta.best || score > meta.best.score) { meta.best = { score, act: run.act, wave: run.wave, dread: run.dread, won, kills: run.stats.kills, loot: Math.round(run.vault) }; newBest = true; }
   if (won) { meta.wins++; meta.bestDread = Math.max(meta.bestDread == null ? -1 : meta.bestDread, run.dread); const nd = Math.min(DD.MAX_DREAD, run.dread + 1); if (nd > meta.dreadMax) { meta.dreadMax = nd; unlocked = nd; menuDread = nd; } }
-  saveMeta();
+  saveMeta(); ddReportBest();
   run.result = { won, score, newBest, unlocked, cleared };
   S.mode = 'over'; show(endScreen);
 }
@@ -667,6 +669,7 @@ document.addEventListener('langchange', () => {
 });
 const onReady = () => { try { playerName = (window.Auth && Auth.name && Auth.name()) || ''; } catch (e) { playerName = ''; } if (curScreen && curScreen.fn === menuScreen) show(menuScreen); };
 document.addEventListener('mal3abready', onReady); if (window.Mal3abReady) onReady();
+if (window.Mal3abReady) ddReportBest(); else document.addEventListener('mal3abready', ddReportBest, { once: true });
 
 // ---------------------------------------------------------------- main loop
 const STEP = 1 / 60; let last = performance.now(), acc = 0;

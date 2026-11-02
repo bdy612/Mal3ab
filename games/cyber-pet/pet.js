@@ -437,6 +437,8 @@
   }
   let S = null, dirty = false, saveT = 0;
   function saveNow() { if (!S) return; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} dirty = false; saveT = 0; }
+  // 🏆 Best: the pet's total XP (keeps growing after the final form); before Continue is pressed S is null, so read the save
+  function reportBest() { const sv = S || loadSave(); if (window.Mal3abBest && sv && sv.stage >= 1 && sv.xp >= 1) Mal3abBest('cyberpet', Math.floor(sv.xp)); }
   const markDirty = () => { dirty = true; };
   const settings = (() => { try { return Object.assign({ sound: true }, JSON.parse(localStorage.getItem(KEY_SET) || '{}')); } catch (e) { return { sound: true }; } })();
   const saveSettings = () => { try { localStorage.setItem(KEY_SET, JSON.stringify(settings)); } catch (e) {} };
@@ -1325,7 +1327,7 @@
     return out;
   }
   function showEvoModal(info) {
-    const un = stageUnlocks(S.stage); saveNow();
+    const un = stageUnlocks(S.stage); saveNow(); reportBest();
     openModal('evo', T('cp_evo_t'), `<div class="stack center"><div class="evo-big"><canvas id="evoCv" width="360" height="300"></canvas></div>
       <div style="font-size:18px;font-weight:800">${esc(SR('cp_evo_msg', { n: S.name, f: T('cp_f_' + S.form) }))}</div><div class="muted">${esc(SR('cp_fd_' + S.form))}</div>
       ${un.length ? `<div class="sec-h">${T('cp_evo_new')}</div><div class="row" style="justify-content:center">${un.map(u => `<span class="pill gold">${esc(u)}</span>`).join('')}</div>` : ''}
@@ -1626,7 +1628,7 @@
     const r = G.reward(sc, medal); let coins = Math.round((r.coins || 0) * (S.stage >= 4 ? 1.25 : 1)); if (favGame() === MG.id) r.fx.happy = (r.fx.happy || 0) + 3;
     addSt(r.fx); if (r.care) addCare(r.care); addXP(r.xp || 0); S.coins += coins;
     MG.res = { sc, medal, nb, coins, xp: Math.round(r.xp || 0), fx: r.fx };
-    Snd.sfx(medal ? 'win' : 'lose'); checkAch(); saveNow();
+    Snd.sfx(medal ? 'win' : 'lose'); checkAch(); saveNow(); reportBest();
     setTimeout(() => { if (scene === 'game' && MG.state === 'over') showResult(); }, 800);
   }
   function showResult() {
@@ -1776,7 +1778,7 @@
     if (scene === 'title') renderTitle(); if (S && scene === 'hub') { renderHub(); if (!$('#tray').hidden) renderTray(); }
     $('#evoGo').textContent = T('cp_evo_go'); rerenderModal(); hudKey = ''; if (scene === 'game') updMgHud(); if (NET.relang) NET.relang();
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { saveNow(); if (!MG.battle) pauseGame(); } });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { saveNow(); reportBest(); if (!MG.battle) pauseGame(); } });
   window.addEventListener('pagehide', saveNow);
   window.addEventListener('resize', resize);
 
@@ -1832,6 +1834,7 @@
     resize(); applyThemeVars(); $('#evoGo').textContent = T('cp_evo_go');
     const sv = loadSave(); if (sv) { S = null; } setScene('title');
     requestAnimationFrame(frame);
+    if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
   }
   const CP = window.CyberPet = {
     _: Object.assign(API, { GAMES, GAME_ORDER, addStr: (ar, en) => { Object.assign(AR, ar); Object.assign(EN, en); addStrings(ar, en); }, NET,

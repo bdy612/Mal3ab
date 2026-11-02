@@ -1163,7 +1163,7 @@
     const prev = PROG.b[i] || {}, newBest = !prev.t || time < prev.t;
     PROG.b[i] = { d: 1, g: prev.g || ghost ? 1 : 0, f: prev.f || fast ? 1 : 0, t: Math.round(Math.min(prev.t || 1e9, time) * 10) / 10 };
     PROG.u = clamp(Math.max(PROG.u, i + 2), 1, LEVELS.length);
-    saveProg();
+    saveProg(); reportBest();
     G.result = { time, ghost, fast, newBest: newBest && !!prev.t, best: PROG.b[i].t };
     Snd.win(); G.flash = 0.4; G.flashCol = '255,220,140';
     puff(L.exit.x, L.exit.y, 50, '120,255,190', 3, 1.2, 0.09, true);
@@ -1180,6 +1180,8 @@
   }
   function starsOf(i) { const b = PROG.b[i]; return b ? (b.d ? 1 : 0) + (b.g ? 1 : 0) + (b.f ? 1 : 0) : 0; }
   function totalStars() { let n = 0; for (let i = 0; i < LEVELS.length; i++) n += starsOf(i); return n; }
+  function reportBest() { const n = totalStars(); if (window.Mal3abBest && n > 0) Mal3abBest('shadoweclipse', n); }   // 🏆 Best: total solo stars (online escapes never touch PROG)
+  if (window.Mal3abReady) reportBest(); else document.addEventListener('mal3abready', reportBest, { once: true });
 
   // ------------------------------------------------------------------ canvas & camera
   const cvs = $('c'), ctx = cvs.getContext('2d');
